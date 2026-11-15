@@ -1,3 +1,7 @@
 # ResearchTrace handoff
 
-Implementation in progress. Environment inspected; empty source tree, existing task pack retained. Schema and API contract established in packages/contracts/API.md. No model availability or acceptance result claimed yet.
+First live milestone is running on http://127.0.0.1:18970 and server LAN http://10.184.17.163:18970 (not a verified public URL). Login with RT_ACCESS_CODE / distinct RT_ADMIN_CODE from ignored .env. Own user services researchtrace-api / researchtrace-worker, restart via systemctl --user restart researchtrace-api researchtrace-worker. ./scripts/dev.sh installs/starts only these own units. Other services/proxies were not modified.
+
+Verified: two Flash Lite credential probes, actual768-dimensional embedding, newly uploaded Transformer v7 fifteen pages parsed and densely indexed, real Hydrogen answer with located exact quotes. Saved evidence in evidence/live_qa_result.json. Renamed v7/v1 linked from content; old citations stay originalversion. Full eight-page BitNet translation120/120 nonemptysourceblocks through20 actual FlashLite batches. Shared project limits count keys together; paid routes absent; Hydrogen initialglobalbudget4, currently1used at this milestone (re-read ledger for current usage).
+
+Six feature classes have real implementations. Final acceptance still running; do not interpret this intermediate milestone as all PASS. Production frontend built and first1440/1280 library screenshots inspected. Citation/rotation, Mermaid, new CSV and Future Work browser checks continue. Official scan/textbook, publicHTTPS, full50-question quality/baseline benchmark and formalcontestvideo/PDF have not been completed. See evolving docs/TEST_REPORT.md for finalcase-levelresults.

@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = Path(os.environ.get('RT_DATA_DIR', ROOT / 'data')).resolve()
-DATA.mkdir(parents=True, exist_ok=True)
+DATA.mkdir(parents=True, exist_ok=True, mode=0o700)
 
 def uid():
     return uuid.uuid4().hex

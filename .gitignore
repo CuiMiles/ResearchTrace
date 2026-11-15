@@ -9,6 +9,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .ruff_cache/
+.tools/
 ResearchTrace_Codex_Task_Pack.zip
 evals/files/
 evidence/private/

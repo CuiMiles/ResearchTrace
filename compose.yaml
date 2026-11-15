@@ -1,0 +1,36 @@
+services:
+  api:
+    profiles: [lite]
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    env_file: .env
+    environment:
+      RT_HOST: 0.0.0.0
+      RT_DATA_DIR: /app/data
+      GEMINI_PROXY: ${GEMINI_CONTAINER_PROXY:-}
+      RT_PUBLIC_PROXY: ${PUBLIC_CONTAINER_PROXY:-}
+    ports: ["127.0.0.1:18970:18970"]
+    volumes: ["./data:/app/data"]
+    mem_limit: 512m
+    cpus: 0.7
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:18970/healthz', timeout=3)"]
+      interval: 30s
+  worker:
+    profiles: [lite]
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    command: [python, -m, services.worker.main]
+    env_file: .env
+    environment:
+      RT_DATA_DIR: /app/data
+      GEMINI_PROXY: ${GEMINI_CONTAINER_PROXY:-}
+      RT_PUBLIC_PROXY: ${PUBLIC_CONTAINER_PROXY:-}
+      MPLCONFIGDIR: /app/data/matplotlib
+    volumes: ["./data:/app/data"]
+    mem_limit: 896m
+    cpus: 1.0
+    restart: unless-stopped

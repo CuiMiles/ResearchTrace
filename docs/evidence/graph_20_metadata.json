@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "nodes": 20,
+  "edges": 71,
+  "scope": "当前工作区已导入作品的局部引用图；仅使用真实参考文献/已核验 Crossref 引用条目。PageRank 是当前集合相对中心性，断连节点不代表论文质量低。",
+  "computed_at": 1794736842.5257535,
+  "source_manifest": "evals/manifest.json",
+  "graph_input": "evals/files/graph_metadata.json",
+  "graph_output": "evals/files/graph_snapshot.json",
+  "limitation": "Metadata and deposited references only. 20-paper fulltext and browser interaction not established by this computation."
+}

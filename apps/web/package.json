@@ -1,0 +1,30 @@
+{
+  "name": "researchtrace-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/vendor-mermaid.mjs && vite --host 127.0.0.1 --port 18971",
+    "build": "node scripts/vendor-mermaid.mjs && tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "pdfjs-dist": "4.10.38",
+    "lucide-react": "0.468.0",
+    "mermaid": "11.17.2",
+    "dompurify": "3.4.18",
+    "react-markdown": "9.0.3",
+    "remark-gfm": "4.0.1",
+    "remark-math": "6.0.0",
+    "rehype-katex": "7.0.1",
+    "katex": "0.16.22"
+  },
+  "devDependencies": {
+    "vite": "6.4.6",
+    "typescript": "5.7.3",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5"
+  }
+}
