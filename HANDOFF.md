@@ -78,3 +78,7 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 64项验收仍为46PASS/18BLOCKED。剩余阻塞：WSL NVML不能提供进程显存、官方扫描/教材原件缺失、独立质量真值与另行明确的模型评测预算、公网HTTPS/评审登录、正式视频/PDF及提交材料。133项自动测试不代表全部赛事验收通过。
 
 三条可复现本地路径：新PDF导入（关闭dense）→MinerU CPU快照→搜索与原文高亮；两页MinerU取消/恢复→核对旧快照；新CSV绘图与导出，并演示损坏PDF拒绝。脚本和原始证据均保留。
+
+## 2026-11-16 指定教材来源补查
+
+已找到赛题明确点名的 `UnderstandingDeepLearning_02_09_26_C.pdf`：作者项目 `udlbook/udlbook` 的 v5.0.3 Release。按远端中转下载至 `evals/files/contest/UnderstandingDeepLearning_02_09_26_C.pdf`，实测541页；SHA256与GitHub资产公布值一致（证据 `evidence/ubuntu24/contest-textbook-source.json`）。因此此前“教材未取得”的历史记录不再代表当前文件状态。当前只完成来源/完整性核验，尚未执行该书解析验收；没有将官方资料包副本与作者文件做字节比较。扫描件 `1706.03762v1_img.pdf` 的公开官方附件仍未找到。

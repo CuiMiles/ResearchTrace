@@ -1,0 +1,11 @@
+{
+  "source": "https://github.com/udlbook/udlbook/releases/download/v5.0.3/UnderstandingDeepLearning_02_09_26_C.pdf",
+  "release": "v5.0.3",
+  "local_file": "evals/files/contest/UnderstandingDeepLearning_02_09_26_C.pdf",
+  "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+  "release_sha256_verified": true,
+  "page_count": 541,
+  "downloaded_at": 1794762040.0211112,
+  "committee_bundle_verified": false,
+  "note": "Author-published original with exact contest filename; not extracted from committee material bundle."
+}

@@ -265,11 +265,25 @@
       "derived": false,
       "license": "arXiv local private evaluation only, full text not redistributed",
       "note": "Real later fulltext evidence for Future Work test"
+    },
+    {
+      "file": "evals/files/contest/UnderstandingDeepLearning_02_09_26_C.pdf",
+      "group": "D3-author-original",
+      "source": "https://github.com/udlbook/udlbook/releases/download/v5.0.3/UnderstandingDeepLearning_02_09_26_C.pdf",
+      "license": "Author-published textbook; retain source license; private local evaluation, not committed as PDF",
+      "prepared_at": 1794762040.0211112,
+      "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+      "bytes": 22344992,
+      "page_count": 541,
+      "official_original": true,
+      "derived": false,
+      "committee_bundle_verified": false,
+      "note": "Exact filename named by contest; SHA256 matches author GitHub release asset. Parsing acceptance not yet run."
     }
   ],
   "download_errors": [],
   "official_scan": "BLOCKED: official original not supplied",
-  "official_long_book": "BLOCKED: official original not supplied",
+  "official_long_book": "NOT RUN: exact contest-named author original downloaded; SHA256 verified, 541 pages; committee bundle copy not yet verified",
   "fulltext_20_paper_corpus": "NOT RUN: metadata corpus does not prove a 20-paper fulltext test",
   "command": "scripts/prepare_evals.py --download --graph-corpus"
 }
