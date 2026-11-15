@@ -1,0 +1,17 @@
+{
+  "engine": "paddleocr_vl",
+  "device": "cpu",
+  "model_requests": 0,
+  "input_file": ".tools/parse-fixtures/scan-bilingual.pdf",
+  "input_sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
+  "version_id": "220e534860384f8ab23ad0962dbce527",
+  "run_id": "36abd195cecf4958926cffa1a6aa210c",
+  "parse_id": "8d88fc65ecfa4948a1229f8c79f5185a",
+  "elapsed_seconds": 18.164560685981996,
+  "run_status": "failed",
+  "error": "paddleocr_vl unavailable; broker HTTP 503: paddleocr_vl failed; private diagnostics 0c49f89f8ca0422aba72ad2995144cb7",
+  "result": null,
+  "status": "FAIL",
+  "prior_blocks_unchanged": true,
+  "quota_unchanged": true
+}

@@ -12,7 +12,7 @@ from browser_runtime import launch_chromium
 result=json.loads(Path(sys.argv[1]).read_text());base=os.getenv('RT_BROWSER_URL','http://127.0.0.1:18980')
 assert result['status']=='PASS'
 vid=result['version_id'];cookie=json.loads((ROOT/'data/smoke-session.json').read_text())['cookie'];engine=result['engine']
-out=ROOT/'evidence/ubuntu24/browser';out.mkdir(exist_ok=True,parents=True)
+out=Path(os.getenv('RT_BROWSER_OUT_DIR',str(ROOT/'evidence/ubuntu24/browser')));out.mkdir(exist_ok=True,parents=True)
 report={'engine':engine,'version_id':vid,'parse_id':result['parse_id'],'mutations':[],'errors':[],'status':'NOT RUN'}
 try:
  with sync_playwright() as p:

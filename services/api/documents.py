@@ -382,6 +382,20 @@ def _suppress_repeating_margins(workspace, version_id, page_count, parse_id=None
     return removed
 
 
+
+def _stop_parse_if_needed(conn, workspace, version_id, parse_id, run_id, legacy):
+    """Caller holds the writer transaction, so delete/cancel cannot race publication."""
+    state = conn.execute('SELECT r.status,v.deleted FROM runs r JOIN versions v ON v.id=? WHERE r.id=? AND r.workspace=? AND v.workspace=?',
+                         (version_id,run_id,workspace,workspace)).fetchone()
+    if state and not state['deleted'] and state['status'] != 'cancelled':
+        return False
+    conn.execute("UPDATE parses SET status='cancelled' WHERE id=?", (parse_id,))
+    conn.execute("UPDATE runs SET status='cancelled',updated=? WHERE id=?", (time.time(),run_id))
+    if legacy:
+        conn.execute("UPDATE versions SET status='partial' WHERE id=? AND deleted=0",(version_id,))
+    return True
+
+
 def parse_document(run):
     payload = json.loads(run["payload"]) if isinstance(run["payload"], str) else run["payload"]
     version_id = payload["version_id"]
@@ -411,13 +425,14 @@ def parse_document(run):
             title, identity, label, metadata = _identity(pdf, pdf.pages[0])
             _apply_identity(version, title, identity, label, metadata)
         for page_index in range(len(pdf.pages)):
-            if cancelled(run["id"]):
-                execute("UPDATE parses SET status='partial' WHERE id=?", (parse_id,))
-                if legacy:
-                    execute("UPDATE versions SET status='partial' WHERE id=?", (version_id,))
-                return {"version_id": version_id, "status": "cancelled", "parsed_pages": page_index}
+            with db() as conn:
+                conn.execute('BEGIN IMMEDIATE')
+                if _stop_parse_if_needed(conn,workspace,version_id,parse_id,run['id'],legacy):
+                    saved=conn.execute('SELECT parsed_pages FROM parses WHERE id=?',(parse_id,)).fetchone()[0]
+                    return {"version_id":version_id,"parse_id":parse_id,"status":"cancelled","parsed_pages":saved}
+
             existing_page = one("SELECT status FROM pages WHERE version_id=? AND page_index=?", (version_id,page_index)) if legacy else one("SELECT status FROM parse_pages WHERE parse_id=? AND page_index=?", (parse_id,page_index))
-            if existing_page and existing_page['status'] in ('ready','ocr','ocr_review_required'):
+            if existing_page:
                 continue
             if legacy and one("SELECT e.id FROM evidence e JOIN blocks b ON b.id=e.block_id WHERE e.workspace=? AND e.version_id=? AND b.page_index=? LIMIT 1", (workspace, version_id, page_index)):
                 raise ValueError("该页已有历史引用，禁止覆盖其块标识和位置；请使用独立解析修订快照")
@@ -476,7 +491,11 @@ def parse_document(run):
             if len(bottom_words) == 1:
                 label = bottom_words[0]["text"]
             with db() as conn:
-                # Completed pages are immutable even before a model cites them.
+                conn.execute('BEGIN IMMEDIATE')
+                if _stop_parse_if_needed(conn,workspace,version_id,parse_id,run['id'],legacy):
+                    saved=conn.execute('SELECT parsed_pages FROM parses WHERE id=?',(parse_id,)).fetchone()[0]
+                    return {"version_id":version_id,"parse_id":parse_id,"status":"cancelled","parsed_pages":saved}
+                # All committed pages, including failed/empty ones, are immutable.
                 old = conn.execute("SELECT b.id FROM blocks b LEFT JOIN block_parses m ON m.block_id=b.id WHERE b.version_id=? AND b.page_index=? AND COALESCE(m.parse_id,b.version_id)=?", (version_id,page_index,parse_id)).fetchall()
                 if old:
                     raise ValueError('解析页已持久化；不能覆盖已有块，请创建新快照')
@@ -496,6 +515,9 @@ def parse_document(run):
                         conn.execute("INSERT INTO block_fts(id,text) VALUES(?,?)", (block["id"], index_text))
                 committed_pages = conn.execute("SELECT count(*) FROM pages WHERE version_id=?", (version_id,)).fetchone()[0] if legacy else conn.execute("SELECT count(*) FROM parse_pages WHERE parse_id=?",(parse_id,)).fetchone()[0]
                 safe_provenance = {k:provenance[k] for k in ('engine','version','models','device') if k in provenance}
+                prior=json.loads(conn.execute('SELECT provenance FROM parses WHERE id=?',(parse_id,)).fetchone()[0])
+                if prior and prior != safe_provenance:
+                    raise ValueError('解析器版本、模型或设备已变化；请创建新快照，已有页面保持不变')
                 conn.execute("UPDATE parses SET parsed_pages=?,provenance=? WHERE id=?",(committed_pages,_json(safe_provenance),parse_id))
                 if legacy:
                     conn.execute("UPDATE versions SET parsed_pages=?,page_count=? WHERE id=?", (committed_pages, len(pdf.pages), version_id))
@@ -504,18 +526,26 @@ def parse_document(run):
             page.close()
             if page is not original_page:
                 original_page.close()
+    with db() as conn:
+        conn.execute('BEGIN IMMEDIATE')
+        if _stop_parse_if_needed(conn,workspace,version_id,parse_id,run['id'],legacy):
+            saved=conn.execute('SELECT parsed_pages FROM parses WHERE id=?',(parse_id,)).fetchone()[0]
+            return {"version_id":version_id,"parse_id":parse_id,"status":"cancelled","parsed_pages":saved}
     margins = _suppress_repeating_margins(workspace,version_id,version['page_count'],parse_id)
     ref_count = _references(workspace,version_id,parse_id)
     parsed_blocks = snapshot_blocks(workspace,version_id,parse_id)
     headings = [b for b in parsed_blocks if b['type']=='heading']
-    current_meta = json.loads(one("SELECT metadata FROM versions WHERE id=?", (version_id,))["metadata"])
     outline = [{"title":h['text'],"page_index":h['page_index'],"block_id":h['id']} for h in headings]
     pages = rows('SELECT page_index,status FROM pages WHERE version_id=?',(version_id,)) if legacy else rows('SELECT page_index,status FROM parse_pages WHERE parse_id=?',(parse_id,))
     failures = [p for p in pages if p['status'] not in ('ready','ocr','ocr_review_required')]
     status = 'partial' if failures else 'ready'
     with db() as conn:
+        conn.execute('BEGIN IMMEDIATE')
+        if _stop_parse_if_needed(conn,workspace,version_id,parse_id,run['id'],legacy):
+            return {"version_id":version_id,"parse_id":parse_id,"status":"cancelled","parsed_pages":len(pages)}
+        current_meta=json.loads(conn.execute('SELECT metadata FROM versions WHERE id=?',(version_id,)).fetchone()[0])
         conn.execute('UPDATE parses SET status=? WHERE id=?',(status,parse_id))
-        if status=='ready' and not cancelled(run['id']):
+        if status=='ready':
             conn.execute('INSERT OR REPLACE INTO active_parses VALUES(?,?)',(version_id,parse_id))
             if not current_meta.get('outline_manual') or not legacy:
                 current_meta['outline']=outline

@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "provider_calls": 0,
+  "engine": "mineru",
+  "device": "cpu",
+  "derived_fixture": true,
+  "official_original": false,
+  "input_sha256": "69131fb613e9e743efe80c1d45682a14c09f2be5c79e94180160d5d63b4a5e00",
+  "version_id": "951ad592ca7b4b00a95b91f313000e0a",
+  "run_id": "0ee9f52141da46b8802e47c180810ed5",
+  "parse_id": "48766715e82b4938b21274d37a5ba0fd",
+  "immediate_resume_http": 409,
+  "old_blocks_hash_before": "b39c79796322f44642fde389761d7dbb83194b9430a45df65a46da30b75ca8b9",
+  "old_blocks_hash_after": "b39c79796322f44642fde389761d7dbb83194b9430a45df65a46da30b75ca8b9",
+  "checkpoint_blocks": 6,
+  "final_blocks": 12,
+  "parsed_pages": 2,
+  "final_result": {
+    "version_id": "951ad592ca7b4b00a95b91f313000e0a",
+    "parse_id": "48766715e82b4938b21274d37a5ba0fd",
+    "status": "ready",
+    "parsed_pages": 2,
+    "references": 0,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 0
+  },
+  "monitors": [
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 14.014,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 9.011,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": "Parser cancelled",
+      "elapsed": 1.754,
+      "returncode": -15
+    }
+  ],
+  "elapsed_seconds": 28.42455085401889,
+  "quota_unchanged": true
+}

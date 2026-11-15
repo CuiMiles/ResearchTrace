@@ -1,0 +1,31 @@
+/home/cui/projects/competition/传智杯2026/.tools/paddle-env/lib/python3.12/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+WARNING: OMP_NUM_THREADS set to 2, not 1. The computation speed will not be optimized if you use data parallel. It will fail if this PaddlePaddle binary is compiled with OpenBlas since OpenBlas does not support multi-threads.
+PLEASE USE OMP_NUM_THREADS WISELY.
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/services/parsing/runner.py", line 587, in <module>
+    print(json.dumps(boxes, ensure_ascii=False, allow_nan=False))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type ndarray is not JSON serializable
+
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/services/parsing/runner.py", line 605, in <module>
+    result = paddle_vl_page(input_path, output_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/parsing/runner.py", line 486, in paddle_vl_page
+    boxes = validate_vl_boxes(run_paddle_stage('--layout-v3', input_path, Path(output_path).parent, deadline), width, height)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/parsing/runner.py", line 451, in run_paddle_stage
+    raise ValueError('VL helper failed; see private runner diagnostics')
+ValueError: VL helper failed; see private runner diagnostics

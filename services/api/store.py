@@ -94,3 +94,27 @@ def artifact(workspace, run_id, kind, title, payload):
     aid=uid()
     execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?)',(aid,workspace,run_id,kind,title,json.dumps(payload,ensure_ascii=False),time.time()))
     return aid
+
+
+@contextmanager
+def run_execution_lock(run_id):
+    """Cross-process ownership released by the OS on worker crash.
+
+    Both worker claim and API resume acquire this only while holding the SQLite
+    writer transaction. Non-blocking acquisition avoids lock-order deadlocks.
+    """
+    import fcntl
+    import hashlib
+    folder=DATA/'run_locks'
+    folder.mkdir(parents=True,exist_ok=True,mode=0o700)
+    filename=hashlib.sha256(str(run_id).encode()).hexdigest()+'.lock'
+    with (folder/filename).open('a+') as handle:
+        try:
+            fcntl.flock(handle.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+        except BlockingIOError:
+            yield False
+            return
+        try:
+            yield True
+        finally:
+            fcntl.flock(handle.fileno(),fcntl.LOCK_UN)

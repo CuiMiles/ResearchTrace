@@ -124,3 +124,9 @@ Tests use synthetic files and telemetry plus real **test-owned** process groups.
 They never invoke model providers or download assets. Passing these tests verifies
 guards/contracts, not OCR quality, CUDA availability, or actual model readiness.
 Live CPU/GPU parse status belongs in the main agent's evidence report.
+
+## 2026-11-16 recovery hardening
+
+VL helper interpreters inherit a fixed credential-free offline allowlist, use bounded private files for table payloads, and stay inside the broker-owned session. Region/token/table-expansion limits fail visibly rather than silently dropping evidence. Geometry and exact engine/version/device are validated before accepting output. Local model roots and nested symlinks cannot escape their provisioned tree. Local trusted model processor files are loaded offline; this is not a sandbox for arbitrary downloaded code.
+
+A real layout result originally retained unused NumPy fields and failed JSON serialization; the failure is preserved in `evidence/ubuntu24/paddleocr-vl-20261116-layout-failure.*`. Only consumed JSON-safe fields are now emitted. Subsequent VL CPU product/browser recheck passed on the bilingual fixture (156.58s,6blocks; see dated evidence), while independent fixture tests cover figures-only cleanup and helper resource limits. Those figures are observations under concurrent unit testing, not a quality score or speed benchmark. GPU remains blocked by WSL NVML accounting; guards were retained.

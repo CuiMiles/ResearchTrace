@@ -106,13 +106,25 @@ def queue(workspace,kind,payload,idempotency):
         c.execute('BEGIN IMMEDIATE')
         existing=c.execute('SELECT id,kind,status,payload FROM runs WHERE workspace=? AND idempotency=?',(workspace,idempotency)).fetchone()
         if existing:
-            if existing['kind']!=kind or json.loads(existing['payload'])!=payload:
+            prior=json.loads(existing['payload'])
+            if kind=='translate' and 'parse_id' not in payload and prior.get('parse_id'):
+                payload={**payload,'parse_id':prior['parse_id']}
+            if existing['kind']!=kind or prior!=payload:
                 raise ValueError('幂等键已用于不同请求')
             return {'id':existing['id'],'run_id':existing['id'],'status':existing['status'],'reused':True}
         pending=c.execute("SELECT COUNT(*) FROM runs WHERE workspace=? AND status IN ('queued','running')",(workspace,)).fetchone()[0]
         total=c.execute("SELECT COUNT(*) FROM runs WHERE status IN ('queued','running')").fetchone()[0]
         if pending>=6 or total>=30:
             raise ValueError('队列已满；请等待或取消已有任务')
+        if kind=='translate':
+            v=c.execute('SELECT id FROM versions WHERE id=? AND workspace=? AND deleted=0',(payload['version_id'],workspace)).fetchone()
+            if not v:
+                raise ValueError('翻译文档不存在或无权限')
+            active=c.execute('SELECT parse_id FROM active_parses WHERE version_id=?',(payload['version_id'],)).fetchone()
+            parse_id=payload.get('parse_id') or (active['parse_id'] if active else payload['version_id'])
+            if not c.execute('SELECT id FROM parses WHERE id=? AND version_id=? AND workspace=?',(parse_id,payload['version_id'],workspace)).fetchone() and parse_id!=payload['version_id']:
+                raise ValueError('解析快照不存在或无权限')
+            payload={**payload,'parse_id':parse_id}
         rid=uid();now=time.time()
         c.execute('INSERT INTO runs(id,workspace,kind,status,payload,idempotency,created,updated) VALUES(?,?,?,?,?,?,?,?)',(rid,workspace,kind,'queued',json.dumps(payload,ensure_ascii=False),idempotency,now,now))
     event(rid,'queued',{'kind':kind,'message':'任务已持久化，等待单 worker 执行'})
@@ -181,14 +193,25 @@ def qa(run):
 
 def translate(run):
     p=run['payload'];rid=run['id'];w=run['workspace'];vid=p['version_id']
-    blocks=rows("SELECT * FROM current_blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer','figure') ORDER BY page_index,reading_order",(w,vid))
+    from .snapshots import selected_parse, snapshot_blocks
+    saved=json.loads(one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'] or '{}')
+    parse_id=p.get('parse_id') or saved.get('translation_parse_id') or selected_parse(w,vid)['id']
+    selected_parse(w,vid,parse_id)
+    checkpoint(run,{'translation_parse_id':parse_id})
+    blocks=[b for b in snapshot_blocks(w,vid,parse_id) if b['text'].strip() and b['type'] not in ('header','footer','figure')]
     if p.get('block_ids'):
-        wanted=set(p['block_ids']);blocks=[b for b in blocks if b['id'] in wanted]
+        wanted=set(p['block_ids'])
+        if not wanted.issubset({b['id'] for b in blocks}):
+            raise ValueError('所选段落不属于此解析快照或不可翻译')
+        blocks=[b for b in blocks if b['id'] in wanted]
+    cached_ids={b['block_id'] for b in rows('SELECT block_id FROM translations WHERE workspace=? AND version_id=?',(w,vid))}
+    def covered():
+        return sum(b['id'] in cached_ids for b in blocks)
     translated=0
     for i in range(0,len(blocks),6):
         if cancelled(rid):
             return {'translated':translated,'total':len(blocks)}
-        batch=[b for b in blocks[i:i+6] if not one('SELECT block_id FROM translations WHERE workspace=? AND block_id=?',(w,b['id']))]
+        batch=[b for b in blocks[i:i+6] if b['id'] not in cached_ids]
         if not batch:
             continue
         data=[{'block_id':b['id'],'text':b['text']} for b in batch]
@@ -199,9 +222,10 @@ def translate(run):
             raise ValueError('翻译返回缺段、重段或空段，已保留此前完成段，可恢复补译')
         for t in output:
             execute('INSERT OR REPLACE INTO translations VALUES(?,?,?,?,?,?)',(t['block_id'],w,vid,t['text'],response['model'],time.time()))
+            cached_ids.add(t['block_id'])
         translated+=len(output)
-        event(rid,'translation_progress',{'completed':one('SELECT COUNT(*) n FROM translations WHERE workspace=? AND version_id=?',(w,vid))['n'],'total':len(blocks),'model':response['model']})
-    return {'translated':one('SELECT COUNT(*) n FROM translations WHERE workspace=? AND version_id=?',(w,vid))['n'],'total':len(blocks),'version_id':vid,'model':models.BATCH}
+        event(rid,'translation_progress',{'completed':covered(),'total':len(blocks),'parse_id':parse_id,'model':response['model']})
+    return {'translated':covered(),'total':len(blocks),'version_id':vid,'parse_id':parse_id,'model':models.BATCH}
 
 def audit(run):
     from .research import search_papers
@@ -248,40 +272,45 @@ def audit(run):
     return result
 
 def work_once():
-    with db() as c:
-        c.execute('BEGIN IMMEDIATE')
-        row=c.execute("SELECT * FROM runs WHERE status='queued' ORDER BY created LIMIT 1").fetchone()
-        if not row:
-            return False
-        run=dict(row)
-        c.execute("UPDATE runs SET status='running',updated=? WHERE id=?",(time.time(),run['id']))
-    run['payload']=json.loads(run['payload']);rid=run['id']
-    event(rid,'started',{'kind':run['kind']})
-    try:
-        if run['kind'] in ('parse','parse_document','reparse'):
-            from .documents import parse_document
-            result=parse_document(run)
-        elif run['kind'] in ('qa','agent','writing'):
-            result=qa(run)
-        elif run['kind']=='translate':
-            result=translate(run)
-        elif run['kind']=='audit':
-            result=audit(run)
-        else:
-            raise ValueError('不支持的任务类型')
-        if not cancelled(rid):
-            final='partial' if run['kind'] in ('parse','parse_document','reparse') and result.get('status')=='partial' else 'completed'
-            execute("UPDATE runs SET status=?,result=?,updated=? WHERE id=?",(final,json.dumps(result,ensure_ascii=False),time.time(),rid))
-            event(rid,final,{'result_saved':True})
-    except Exception as e:
-        if not cancelled(rid):
-            # Only controlled exceptions shown; never upstream request repr or credentials.
-            safe=str(e)[:350] if isinstance(e,(models.ModelError,ValueError)) else f'{type(e).__name__}: 任务执行异常，请查看本地审计记录'
-            execute("UPDATE runs SET status='failed',error=?,updated=? WHERE id=?",(safe,time.time(),rid))
-            event(rid,'failed',{'error':safe})
+    from contextlib import ExitStack
+    with ExitStack() as execution:
+        with db() as c:
+            c.execute('BEGIN IMMEDIATE')
+            row=c.execute("SELECT * FROM runs WHERE status='queued' ORDER BY created LIMIT 1").fetchone()
+            if not row:
+                return False
+            from .store import run_execution_lock
+            if not execution.enter_context(run_execution_lock(row['id'])):
+                return False
+            run=dict(row)
+            c.execute("UPDATE runs SET status='running',updated=? WHERE id=?",(time.time(),run['id']))
+        run['payload']=json.loads(run['payload']);rid=run['id']
+        event(rid,'started',{'kind':run['kind']})
+        try:
             if run['kind'] in ('parse','parse_document','reparse'):
-                execute("UPDATE parses SET status='failed',error=? WHERE id=?",(safe,run['payload'].get('parse_id',run['payload']['version_id'])))
-    return True
+                from .documents import parse_document
+                result=parse_document(run)
+            elif run['kind'] in ('qa','agent','writing'):
+                result=qa(run)
+            elif run['kind']=='translate':
+                result=translate(run)
+            elif run['kind']=='audit':
+                result=audit(run)
+            else:
+                raise ValueError('不支持的任务类型')
+            if not cancelled(rid):
+                final='partial' if run['kind'] in ('parse','parse_document','reparse') and result.get('status')=='partial' else 'completed'
+                execute("UPDATE runs SET status=?,result=?,updated=? WHERE id=?",(final,json.dumps(result,ensure_ascii=False),time.time(),rid))
+                event(rid,final,{'result_saved':True})
+        except Exception as e:
+            if not cancelled(rid):
+                # Only controlled exceptions shown; never upstream request repr or credentials.
+                safe=str(e)[:350] if isinstance(e,(models.ModelError,ValueError)) else f'{type(e).__name__}: 任务执行异常，请查看本地审计记录'
+                execute("UPDATE runs SET status='failed',error=?,updated=? WHERE id=?",(safe,time.time(),rid))
+                event(rid,'failed',{'error':safe})
+                if run['kind'] in ('parse','parse_document','reparse'):
+                    execute("UPDATE parses SET status='failed',error=? WHERE id=?",(safe,run['payload'].get('parse_id',run['payload']['version_id'])))
+        return True
 
 def export_note(payload,title,fmt):
     lines=['# '+title,'',payload.get('answer','')]

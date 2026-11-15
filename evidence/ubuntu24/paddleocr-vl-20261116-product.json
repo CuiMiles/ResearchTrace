@@ -1,0 +1,240 @@
+{
+  "engine": "paddleocr_vl",
+  "device": "cpu",
+  "model_requests": 0,
+  "input_file": ".tools/parse-fixtures/scan-bilingual.pdf",
+  "input_sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
+  "version_id": "220e534860384f8ab23ad0962dbce527",
+  "run_id": "904497a06bbd4a619a85c932dc0631b9",
+  "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+  "elapsed_seconds": 156.58168537000893,
+  "run_status": "completed",
+  "error": null,
+  "result": {
+    "version_id": "220e534860384f8ab23ad0962dbce527",
+    "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+    "status": "ready",
+    "parsed_pages": 1,
+    "references": 0,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 0
+  },
+  "status": "PASS",
+  "blocks": [
+    {
+      "id": "2221b0e73d4e4aa79e2755b8177d8d50:0:0",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.04742857142857143,
+        0.096,
+        0.48342857142857143,
+        0.1352
+      ],
+      "type": "paragraph",
+      "reading_order": 0,
+      "text": "ResearchTrace OCR validation 7189",
+      "source": "paddleocr_vl",
+      "quality": "structured_review_required",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.826103687286377,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region",
+        "parser_version": "v1.6",
+        "device": "cpu",
+        "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+        "models": [
+          "PP-DocLayoutV3",
+          "PaddleOCR-VL-1.6-0.9B"
+        ]
+      },
+      "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50"
+    },
+    {
+      "id": "2221b0e73d4e4aa79e2755b8177d8d50:0:1",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.045142857142857144,
+        0.2152,
+        0.44742857142857145,
+        0.2576
+      ],
+      "type": "paragraph",
+      "reading_order": 1,
+      "text": "科研证据链：物理页码与原文坐标。",
+      "source": "paddleocr_vl",
+      "quality": "structured_review_required",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8403603434562683,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region",
+        "parser_version": "v1.6",
+        "device": "cpu",
+        "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+        "models": [
+          "PP-DocLayoutV3",
+          "PaddleOCR-VL-1.6-0.9B"
+        ]
+      },
+      "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50"
+    },
+    {
+      "id": "2221b0e73d4e4aa79e2755b8177d8d50:0:2",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.045714285714285714,
+        0.3352,
+        0.5651428571428572,
+        0.3776
+      ],
+      "type": "paragraph",
+      "reading_order": 2,
+      "text": "实验记录共有12、18、24条，最大值为24。",
+      "source": "paddleocr_vl",
+      "quality": "structured_review_required",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8449268937110901,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region",
+        "parser_version": "v1.6",
+        "device": "cpu",
+        "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+        "models": [
+          "PP-DocLayoutV3",
+          "PaddleOCR-VL-1.6-0.9B"
+        ]
+      },
+      "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50"
+    },
+    {
+      "id": "2221b0e73d4e4aa79e2755b8177d8d50:0:3",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.046857142857142854,
+        0.4552,
+        0.6485714285714286,
+        0.4984
+      ],
+      "type": "paragraph",
+      "reading_order": 3,
+      "text": "English text: reliable citations remain immutable.",
+      "source": "paddleocr_vl",
+      "quality": "structured_review_required",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8267019987106323,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region",
+        "parser_version": "v1.6",
+        "device": "cpu",
+        "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+        "models": [
+          "PP-DocLayoutV3",
+          "PaddleOCR-VL-1.6-0.9B"
+        ]
+      },
+      "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50"
+    },
+    {
+      "id": "2221b0e73d4e4aa79e2755b8177d8d50:0:4",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.046285714285714284,
+        0.5744,
+        0.34,
+        0.6184
+      ],
+      "type": "paragraph",
+      "reading_order": 4,
+      "text": "Table: A 12 | B 18 | C 24",
+      "source": "paddleocr_vl",
+      "quality": "structured_review_required",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8157733678817749,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region",
+        "parser_version": "v1.6",
+        "device": "cpu",
+        "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+        "models": [
+          "PP-DocLayoutV3",
+          "PaddleOCR-VL-1.6-0.9B"
+        ]
+      },
+      "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50"
+    },
+    {
+      "id": "2221b0e73d4e4aa79e2755b8177d8d50:0:5",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.04742857142857143,
+        0.6952,
+        0.304,
+        0.7384
+      ],
+      "type": "paragraph",
+      "reading_order": 5,
+      "text": "Equation: $E = mc^2$",
+      "source": "paddleocr_vl",
+      "quality": "structured_review_required",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8082839250564575,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region",
+        "parser_version": "v1.6",
+        "device": "cpu",
+        "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50",
+        "models": [
+          "PP-DocLayoutV3",
+          "PaddleOCR-VL-1.6-0.9B"
+        ]
+      },
+      "parse_id": "2221b0e73d4e4aa79e2755b8177d8d50"
+    }
+  ],
+  "query": "7189",
+  "located_block": "2221b0e73d4e4aa79e2755b8177d8d50:0:0",
+  "page_index": 0,
+  "bbox": [
+    0.04742857142857143,
+    0.096,
+    0.48342857142857143,
+    0.1352
+  ],
+  "prior_blocks_unchanged": true,
+  "quota_unchanged": true
+}

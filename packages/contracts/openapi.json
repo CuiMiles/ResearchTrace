@@ -909,6 +909,22 @@
               "default": "md",
               "title": "Format"
             }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
+            }
           }
         ],
         "responses": {
@@ -1841,6 +1857,16 @@
             "additionalProperties": true,
             "type": "object",
             "title": "Paper"
+          },
+          "index_dense": {
+            "type": "boolean",
+            "title": "Index Dense",
+            "default": true
+          },
+          "metadata_only": {
+            "type": "boolean",
+            "title": "Metadata Only",
+            "default": false
           }
         },
         "type": "object",
@@ -2066,6 +2092,17 @@
           "version_id": {
             "type": "string",
             "title": "Version Id"
+          },
+          "parse_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parse Id"
           },
           "block_ids": {
             "anyOf": [

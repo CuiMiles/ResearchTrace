@@ -22,7 +22,9 @@ if __package__ in (None, ''):
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from services.parsing.guard import choose_gpu, gpu_snapshot, own_gpu_usage, stop_session
-from services.parsing.validation import MAX_BYTES, MAX_RESULT_BYTES
+from services.parsing.offline import OFFLINE_ENV
+from services.parsing.runner import PINS, read_json
+from services.parsing.validation import MAX_BYTES, MAX_RESULT_BYTES, validate_result
 
 ROOT = Path(__file__).resolve().parents[2]
 PRIVATE = ROOT / 'data/parsing'
@@ -65,9 +67,7 @@ def runner_env(engine, directory):
         'HOME': str(directory), 'TMPDIR': str(directory), 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
         'PYTHONNOUSERSITE': '1', 'PYTHONUNBUFFERED': '1',
         'OPENBLAS_NUM_THREADS': '1', 'OMP_NUM_THREADS': '2', 'MKL_NUM_THREADS': '2',
-        'PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK': 'True', 'HF_HUB_OFFLINE': '1',
-        'TRANSFORMERS_OFFLINE': '1', 'HF_HUB_DISABLE_TELEMETRY': '1',
-        'DO_NOT_TRACK': '1', 'YOLO_OFFLINE': 'true',
+        **OFFLINE_ENV,
         'MINERU_MODEL_BASE_DIR': os.getenv('RT_MINERU_MODELS', str(ROOT / '.tools/models/mineru-4.2')),
         'MINERU_MODEL_SOURCE': 'local', 'MINERU_MODEL_SMALL_BACKEND': 'torch',
         'MINERU_MODEL_VLM_ENGINE': 'llama-cpp', 'MINERU_DEVICE_MODE': 'cpu',
@@ -77,6 +77,7 @@ def runner_env(engine, directory):
         'RT_PADDLE_VL_MODELS': os.getenv('RT_PADDLE_VL_MODELS', str(ROOT / '.tools/models/paddle-vl')),
         'HF_HOME': str(directory / 'hf'), 'MODELSCOPE_CACHE': str(directory / 'modelscope'),
         'PADDLE_PDX_CACHE_HOME': str(directory / 'paddle'), 'CUDA_VISIBLE_DEVICES': '',
+        'RT_PARSER_TIMEOUT_SECONDS': str(limits()[2]),
     }
     # NVIDIA's WSL CUDA driver location is not part of the normal Linux loader
     # search path. It is fixed, not an inherited arbitrary old Intel runtime.
@@ -163,9 +164,8 @@ def execute(engine, directory, *, input_path=None, device='cpu', cancel_event=No
     if input_path:
         if not output_path.is_file() or output_path.stat().st_size > MAX_RESULT_BYTES:
             raise ValueError('Parser output missing or exceeds bounds')
-        result = json.loads(output_path.read_text())
-        if result.get('engine') != engine or not result.get('version'):
-            raise ValueError('Parser provenance missing')
+        result = read_json(output_path)
+        validate_result(result, engine, PINS[engine], 'cuda' if device == 'gpu' else 'cpu')
         result['monitor'] = monitor
         return result
     # Preflight's last stdout line is protocol; native chatter is stderr.

@@ -129,6 +129,7 @@ def _arxiv(query: str, limit: int) -> list[dict]:
     url = 'https://export.arxiv.org/api/query?' + urllib.parse.urlencode(params)
     with source_window('arxiv'):
         fetched = fetch_public(url, 5 * 1024 * 1024)
+    provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time()}
     root = ET.fromstring(fetched['content'])
     result = []
     for entry in root.findall('a:entry', _NS):
@@ -139,6 +140,8 @@ def _arxiv(query: str, limit: int) -> list[dict]:
         license_url = entry.find('ar:license', _NS)
         doi = _text(entry, 'ar:doi')
         result.append({'identity': 'arxiv:' + re.sub(r'v\d+$', '', aid), 'title': _text(entry, 'a:title'), 'authors': [_text(a, 'a:name') for a in entry.findall('a:author', _NS)], 'year': int(_text(entry, 'a:published')[:4] or 0), 'published': _text(entry, 'a:published'), 'updated': _text(entry, 'a:updated'), 'arxiv_id': aid, 'doi': doi or None, 'url': 'https://arxiv.org/abs/' + aid, 'pdf_url': 'https://arxiv.org/pdf/' + aid, 'source': 'arxiv', 'abstract': _text(entry, 'a:summary'), 'license': license_url.text if license_url is not None else '许可需在来源页面核对', 'metadata_verified': True, 'metadata_source_url': url, 'reason': 'arXiv 实时元数据候选；标题相近不等于同一研究问题'})
+    for item in result:
+        item.update(provenance)
     return result
 
 
@@ -147,6 +150,7 @@ def _crossref(query: str, limit: int) -> list[dict]:
     url = 'https://api.crossref.org/works/' + urllib.parse.quote(doi.group(1), safe='') if doi else 'https://api.crossref.org/works?' + urllib.parse.urlencode({'query.bibliographic': query, 'rows': min(60, limit * 3), 'filter': 'has-references:true'})
     with source_window('crossref'):
         fetched = fetch_public(url, 8 * 1024 * 1024)
+    provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time()}
     data = json.loads(fetched['content'])['message']
     entries = data.get('items', []) if not doi else [data]
     result = []
@@ -160,6 +164,8 @@ def _crossref(query: str, limit: int) -> list[dict]:
         links = [x.get('URL', '') for x in item.get('link', []) if x.get('content-type') == 'application/pdf']
         refs = item.get('reference', [])
         result.append({'identity': 'doi:' + ident.lower(), 'title': ' '.join(item.get('title', ['无标题'])), 'authors': [' '.join(filter(None, [a.get('given'), a.get('family')])) for a in item.get('author', [])], 'year': date[0] if date else 0, 'doi': ident, 'url': item.get('URL', 'https://doi.org/' + ident), 'pdf_url': links[0] if links else None, 'source': 'crossref', 'abstract': re.sub('<[^>]+>', '', item.get('abstract', '')), 'license': [x.get('URL') for x in item.get('license', [])], 'references': refs, 'metadata_verified': True, 'metadata_source_url': url, 'reason': 'Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证'})
+    for item in result:
+        item.update(provenance)
     return result[:limit]
 
 
@@ -186,7 +192,7 @@ def _rank(workspace: str, query: str, result: list[dict]) -> list[dict]:
     return sorted(ranked, key=lambda x: x['recommendation_score'], reverse=True)
 
 
-def search_papers(workspace: str, query: str, sources=None, limit=10) -> dict:
+def search_papers(workspace: str, query: str, sources=None, limit=10, *, fresh=False, cancel_check=None) -> dict:
     query = query.strip()
     if not query or len(query) > 1000:
         raise ValueError('查询长度应为 1–1000 字符')
@@ -196,12 +202,15 @@ def search_papers(workspace: str, query: str, sources=None, limit=10) -> dict:
         raise ValueError('不支持的数据源')
     key = hashlib.sha256(json.dumps(['scholarly-v2', query, sorted(sources), limit], ensure_ascii=False).encode()).hexdigest()
     cached = store.one('SELECT * FROM search_cache WHERE key=?', (key,))
-    if cached and time.time() - cached['created'] < 1800:
+    if not fresh and cached and time.time() - cached['created'] < 1800:
         payload = json.loads(cached['payload'])
         payload['cached'] = True
     else:
         payload = {'results': [], 'errors': [], 'cached': False, 'searched_at': time.time(), 'query': query, 'sources': sources}
         for source in sources:
+            if cancel_check and cancel_check():
+                payload['errors'].append({'source': source, 'error': '检查已取消；未请求此来源'})
+                break
             try:
                 payload['results'].extend((_arxiv if source == 'arxiv' else _crossref)(query, limit))
             except (ValueError, OSError, ET.ParseError, KeyError, TypeError, json.JSONDecodeError) as exc:
@@ -238,20 +247,24 @@ def _verified_paper(paper: dict) -> dict:
     return match
 
 
-def import_paper(workspace: str, paper: dict) -> dict:
+def import_paper(workspace: str, paper: dict, *, index_dense=True, metadata_only=False) -> dict:
     paper = _verified_paper(paper)
-    existing = store.one('SELECT * FROM works WHERE workspace=? AND identity=?', (workspace, paper['identity']))
-    work_id = existing['id'] if existing else store.uid()
-    if not existing:
-        store.execute('INSERT INTO works VALUES(?,?,?,?,?)', (work_id, workspace, paper['title'], paper['identity'], json.dumps(paper, ensure_ascii=False)))
+    with store.db() as c:
+        c.execute('BEGIN IMMEDIATE')
+        existing = c.execute('SELECT * FROM works WHERE workspace=? AND identity=?', (workspace, paper['identity'])).fetchone()
+        work_id = existing['id'] if existing else store.uid()
+        if not existing:
+            c.execute('INSERT INTO works VALUES(?,?,?,?,?)', (work_id, workspace, paper['title'], paper['identity'], json.dumps(paper, ensure_ascii=False)))
     result = {'work_id': work_id, 'paper': paper, 'metadata_only': True, 'fulltext_status': '未提供可访问全文链接'}
-    if paper.get('pdf_url'):
+    if metadata_only:
+        result['fulltext_status'] = '已按请求仅导入来源核验元数据；未下载 PDF、未提交解析或密集索引'
+    elif paper.get('pdf_url'):
         try:
             response = fetch_public(paper['pdf_url'])
             if not response['content'].lstrip().startswith(b'%PDF-'):
                 raise ValueError('来源未返回 PDF；仅保留已核验元数据')
             from .documents import upload_document
-            uploaded = upload_document(workspace, (paper.get('arxiv_id') or 'paper') + '.pdf', response['content'])
+            uploaded = upload_document(workspace, (paper.get('arxiv_id') or 'paper') + '.pdf', response['content'], index_dense=index_dense)
             version_id = uploaded['document']['id']
             previous = uploaded['document'].get('work_id')
             store.execute('UPDATE versions SET work_id=? WHERE id=? AND workspace=?', (work_id, version_id, workspace))
@@ -333,22 +346,108 @@ def build_graph(workspace: str) -> dict:
     return {'nodes': [{'id': w['id'], 'title': w['title'], 'identity': w['identity'], 'rank': ranks.get(w['id'], 0), 'indegree': graph.in_degree(w['id']), 'versions': [v['id'] for v in store.rows('SELECT id FROM versions WHERE workspace=? AND work_id=? AND deleted=0', (workspace, w['id']))]} for w in works], 'edges': edges, 'scope': '当前工作区已导入作品的局部引用图；仅使用真实参考文献/已核验 Crossref 引用条目。PageRank 是当前集合相对中心性，断连节点不代表论文质量低。', 'computed_at': time.time(), 'algorithm': {'name': 'PageRank', 'damping': .85, 'iterations_max': 150}}
 
 
-def check_watch(workspace: str, watch_id: str) -> dict:
-    watch = store.one('SELECT * FROM watches WHERE id=? AND workspace=?', (watch_id, workspace))
-    if not watch:
+@contextlib.contextmanager
+def _watch_lock(workspace, watch_id):
+    # OS releases this lock on crash; no expiring lease can overlap a slow fetch.
+    directory = store.DATA / 'watch_locks'
+    directory.mkdir(exist_ok=True)
+    name = hashlib.sha256((workspace + ':' + watch_id).encode()).hexdigest()
+    with (directory / (name + '.lock')).open('a+') as handle:
+        try:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            yield False
+            return
+        try:
+            yield True
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+def _recover_watch(workspace, watch_id):
+    """Caller holds the watch lock: any running record is an abandoned attempt."""
+    now = time.time()
+    with store.db() as c:
+        c.execute('BEGIN IMMEDIATE')
+        abandoned = c.execute("SELECT id FROM runs WHERE workspace=? AND kind='watch' AND status='running' AND json_extract(payload,'$.watch_id')=?", (workspace, watch_id)).fetchall()
+        for run in abandoned:
+            detail = '追踪检查进程中断；未提交不完整结果，按下次计划或手动重试'
+            c.execute("UPDATE runs SET status='failed',error=?,updated=? WHERE id=?", (detail, now, run['id']))
+            c.execute('INSERT INTO steps(run_id,event,data,created) VALUES(?,?,?,?)', (run['id'], 'recovered', json.dumps({'error': detail}), now))
+    return len(abandoned)
+
+
+def recover_watch_checks():
+    """Recover dead API/worker attempts without interfering with active checks."""
+    recovered = 0
+    for run in store.rows("SELECT DISTINCT workspace,json_extract(payload,'$.watch_id') AS watch_id FROM runs WHERE kind='watch' AND status='running'"):
+        if run['watch_id']:
+            with _watch_lock(run['workspace'], run['watch_id']) as acquired:
+                if acquired:
+                    recovered += _recover_watch(run['workspace'], run['watch_id'])
+    return recovered
+
+
+def check_watch(workspace: str, watch_id: str, *, scheduled=False) -> dict:
+    if not store.one('SELECT id FROM watches WHERE id=? AND workspace=?', (watch_id, workspace)):
         raise ValueError('追踪查询不存在或无权限')
-    run_id, now = store.uid(), time.time()
-    store.execute('INSERT INTO runs(id,workspace,kind,status,payload,created,updated) VALUES(?,?,?,?,?,?,?)', (run_id, workspace, 'watch', 'running', json.dumps({'watch_id': watch_id, 'query': watch['query']}), now, now))
-    store.event(run_id, 'search_papers', {'query': watch['query'], 'sources': ['arxiv', 'crossref'], 'triggered_at': now})
-    result = search_papers(workspace, watch['query'])
-    previous = json.loads(watch['result'])
-    old_ids = {x['identity'] for x in (previous.get('results', []) if isinstance(previous, dict) else previous)}
-    result['new_identities'] = [x['identity'] for x in result['results'] if x['identity'] not in old_ids]
-    result['run_id'] = run_id
-    # No duplicate automatic imports: discovery stays metadata until explicitly selected.
-    success = bool(result['results']) or not result['errors']
-    store.execute('UPDATE watches SET last_checked=?,next_check=?,result=? WHERE id=? AND workspace=?', (now if success else watch['last_checked'], now + max(1, watch['interval_hours']) * 3600, json.dumps(result, ensure_ascii=False), watch_id, workspace))
-    status = 'partial' if result['errors'] and result['results'] else 'failed' if result['errors'] else 'completed'
-    store.execute('UPDATE runs SET status=?,result=?,updated=? WHERE id=?', (status, json.dumps(result, ensure_ascii=False), time.time(), run_id))
-    store.event(run_id, status, {'new_count': len(result['new_identities']), 'errors': result['errors']})
-    return result
+    with _watch_lock(workspace, watch_id) as acquired, contextlib.ExitStack() as execution:
+        if not acquired:
+            running = store.one("SELECT id FROM runs WHERE workspace=? AND kind='watch' AND status='running' AND json_extract(payload,'$.watch_id')=? ORDER BY created DESC LIMIT 1", (workspace, watch_id))
+            return {'status': 'running', 'overlap': True, 'run_id': running['id'] if running else None, 'results': [], 'errors': []}
+        _recover_watch(workspace, watch_id)
+        run_id, now = store.uid(), time.time()
+        # Coordinate with the API resume guard as well as the per-watch lock.
+        # Acquire before publishing the run ID, and retain through cancellation.
+        if not execution.enter_context(store.run_execution_lock(run_id)):
+            raise RuntimeError('追踪运行锁不可用')
+        # Claim and advance the schedule in one transaction before external I/O.
+        # Even a crash or network failure cannot cause a tight automatic retry loop.
+        with store.db() as c:
+            c.execute('BEGIN IMMEDIATE')
+            row = c.execute('SELECT * FROM watches WHERE id=? AND workspace=?', (watch_id, workspace)).fetchone()
+            if not row:
+                raise ValueError('追踪查询不存在或无权限')
+            watch = dict(row)
+            if scheduled and (not watch['enabled'] or watch['next_check'] is None or watch['next_check'] > now):
+                return {'status': 'skipped', 'reason': 'disabled_or_not_due', 'results': [], 'errors': []}
+            next_check = now + max(1, watch['interval_hours']) * 3600
+            c.execute('UPDATE watches SET next_check=? WHERE id=? AND workspace=?', (next_check, watch_id, workspace))
+            c.execute('INSERT INTO runs(id,workspace,kind,status,payload,created,updated) VALUES(?,?,?,?,?,?,?)', (run_id, workspace, 'watch', 'running', json.dumps({'watch_id': watch_id, 'query': watch['query'], 'trigger': 'scheduled' if scheduled else 'manual'}), now, now))
+            c.execute('INSERT INTO steps(run_id,event,data,created) VALUES(?,?,?,?)', (run_id, 'search_papers', json.dumps({'query': watch['query'], 'sources': ['arxiv', 'crossref'], 'triggered_at': now, 'trigger': 'scheduled' if scheduled else 'manual'}), now))
+        try:
+            # Scheduled/manual checks must observe current sources, not a cached search.
+            result = search_papers(workspace, watch['query'], fresh=True, cancel_check=lambda: store.cancelled(run_id))
+        except Exception as exc:
+            # Do not expose upstream exception strings which might contain credentials.
+            result = {'results': [], 'errors': [{'source': 'discovery', 'error': '追踪检查异常：' + type(exc).__name__}], 'cached': False, 'searched_at': now}
+        previous = json.loads(watch['result'] or '[]')
+        old_ids = set(previous.get('seen_identities', [x['identity'] for x in previous.get('results', [])])) if isinstance(previous, dict) else {x['identity'] for x in previous}
+        result['new_identities'] = [x['identity'] for x in result['results'] if x['identity'] not in old_ids]
+        result['seen_identities'] = sorted(old_ids | {x['identity'] for x in result['results']})
+        result.update(run_id=run_id, trigger='scheduled' if scheduled else 'manual', last_attempt=now)
+        success = bool(result['results']) or not result['errors']
+        status = 'partial' if result['errors'] and result['results'] else 'failed' if result['errors'] else 'completed'
+        result['status'] = status
+        finished = time.time()
+        encoded = json.dumps(result, ensure_ascii=False)
+        # Publish the baseline, terminal run, and terminal event atomically.
+        with store.db() as c:
+            c.execute('BEGIN IMMEDIATE')
+            current = c.execute('SELECT status FROM runs WHERE id=?', (run_id,)).fetchone()
+            if current['status'] == 'cancelled':
+                c.execute('INSERT INTO steps(run_id,event,data,created) VALUES(?,?,?,?)', (run_id, 'cancelled', json.dumps({'discarded_results': True}), finished))
+                return {'run_id': run_id, 'status': 'cancelled', 'results': [], 'errors': [], 'new_identities': []}
+            c.execute('UPDATE watches SET last_checked=?,result=? WHERE id=? AND workspace=?', (finished if success else watch['last_checked'], encoded, watch_id, workspace))
+            c.execute('UPDATE runs SET status=?,result=?,error=?,updated=? WHERE id=?', (status, encoded, '公开来源未全部成功；见结果 errors' if result['errors'] else None, finished, run_id))
+            c.execute('INSERT INTO steps(run_id,event,data,created) VALUES(?,?,?,?)', (run_id, status, json.dumps({'new_count': len(result['new_identities']), 'errors': result['errors']}), finished))
+        return result
+
+
+def check_due_watches(*, limit=1):
+    """One bounded fair batch per scheduler tick; disabled watches never fetch."""
+    recover_watch_checks()
+    results = []
+    for watch in store.rows('SELECT id,workspace FROM watches WHERE enabled=1 AND next_check<=? ORDER BY next_check,id LIMIT ?', (time.time(), max(1, min(int(limit), 10)))):
+        results.append(check_watch(watch['workspace'], watch['id'], scheduled=True))
+    return results

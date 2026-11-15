@@ -38,3 +38,15 @@ def test_admin_acceptance_requires_admin_and_serves_safe_evidence(tmp_path, monk
 
         for blocked in ('.env', '../.env', 'data/researchtrace.sqlite', 'services/api/app.py', 'evidence/private/secret.json'):
             assert c.get('/api/v1/admin/evidence-file', params={'path': blocked}).status_code == 404
+
+
+def test_evidence_symlink_outside_checkout_is_not_a_server_error(tmp_path,monkeypatch):
+    from services.api import acceptance_report
+    checkout=tmp_path/'checkout';evidence=checkout/'evidence';evidence.mkdir(parents=True)
+    private=tmp_path/'outside.json';private.write_text('{"private":"fixture"}')
+    (evidence/'escape.json').symlink_to(private)
+    monkeypatch.setattr(acceptance_report,'ROOT',checkout)
+    monkeypatch.setattr(acceptance_report,'ALLOWED_ROOTS',(evidence,))
+    with _make_client(tmp_path,monkeypatch) as c:
+        c.post('/api/v1/auth/login',json={'code':'admin-only-code'}).raise_for_status()
+        assert c.get('/api/v1/admin/evidence-file',params={'path':'evidence/escape.json'}).status_code==404

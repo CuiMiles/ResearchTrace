@@ -57,3 +57,24 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 - **PaddleOCR-VL-1.6 (`paddleocr_vl`)**: Offline models (`PP-DocLayoutV3` + `PaddleOCR-VL-1.6-0.9B`, 34 files in `evidence/ubuntu24/paddle-vl-model-manifest.json`) integrated across broker, API, worker, and `ParseControls.tsx`. Uses two-stage CPU isolation (`PP-DocLayoutV3` in `.tools/paddle-env` -> `PaddleOCR-VL-1.6-0.9B` `bfloat16` in `.tools/mineru-env`) so peak memory stays ~2.4 GiB under `MemoryMax=5G`. Live bilingual CPU parse (`132.67s`, `evidence/ubuntu24/paddleocr-vl-cpu-product.json`) + Chromium highlight audit (`evidence/ubuntu24/browser/paddleocr_vl-reader.json`) PASS.
 - **Admin Dashboard & Verification**: Updated `services/api/acceptance_report.py`, `evidence/ubuntu24/acceptance.json`, `docs/TEST_REPORT.md`, `docs/DECISIONS.md`, `docs/KNOWN_LIMITATIONS.md`, and `services/parsing/README.md`. Re-ran `./scripts/test.sh` (99 passed + Vite 168 build files), Playwright admin dashboard check, and verified SQLite `quota` unchanged (`0` new provider calls).
 
+
+## 2026-11-16 后续修复（最新）
+
+保留用户提交 `ba83619` 的 MinerU 4.2.2 / PaddleOCR-VL-1.6，以及 `b2d3d17` 的管理看板。本轮开始时工作区干净。三个项目服务继续运行于 **http://127.0.0.1:18980**，启动/停止仍使用 `./scripts/dev.sh` / `./scripts/stop.sh`。本轮没有大型下载、全局代理或系统库变更，没有新增供应商请求。
+
+实际完成：
+- 页面写入和发布在 SQLite 写事务内检查取消/删除；最后一页返回的结果不会越过取消或删除重新进入索引。恢复跳过所有已提交页面，包括低质量/空输出；质量修复需创建新快照。解析器版本、模型或设备改变时拒绝混合续跑，原块保持不变。
+- 每个任务持有独立 OS 执行锁。取消任务尚在释放资源时，恢复返回 HTTP409，避免重复执行。真实 MinerU CPU 两页测试用时28.42秒：第一页6块保存后取消第二页，监控记录只终止本项目会话；释放后恢复至12块/2页，第一页和旧快照哈希不变。证据：`evidence/ubuntu24/parser-recovery-20261116.json`。
+- 翻译任务在排队时固定 parse_id；相同幂等键在活动快照切换后仍对应原任务。进度仅统计该快照的段落，历史导出使用 `/translations/{vid}/export?parse_id=...`。本轮翻译测试使用明确的 fixture，不增加实时译文质量结论。
+- VL 子进程使用凭据隔离的离线环境和有界私有文件传递，限制输出、超时、区域数、token数及表格扩张，验证几何、模型路径和 Stage1 版本。一次真实布局 JSON 失败的日志已保留；修复未使用的 NumPy 字段后，真实 VL CPU 产品复测通过：156.58秒/6块、runner峰值RSS2470152KiB；中文文字层、FTS和PDF高亮浏览器复核通过。此时单测并行运行，耗时不作为独立性能比较。
+- 追踪检查新增跨进程去重锁、异常恢复、请求前推进 next_check、新鲜搜索和取消/禁用保护。普通任务恢复接口不会把 watch 加入解析队列，追踪重试使用“立即检查”。检索入库增加 metadata_only / index_dense 选项。
+- arXiv/Crossref 各最多2次真实检查；当前 DNS 返回198.18.2.3/198.18.2.4，被 SSRF 拒绝，来源正文未抓取。E01/E03仍为BLOCKED，受控定时在线验收为NOT RUN；没有放宽防护或冒用缓存。测试追踪已关闭，原有追踪未改变。证据见 `discovery-20261116-*`。
+- 管理端证据符号链接逃逸返回404；已按安装包补充 MinerU4.2.2 许可证和第三方说明，未继续套用2.7.6的许可证。
+
+验证：完整自动测试 **133 passed**，1条依赖弃用警告；Ruff通过；TypeScript/Vite构建通过，发布168个文件；OpenAPI已更新；管理看板与VL阅读器浏览器检查通过。源码和证据扫描未发现私有凭据值。日期为20261116的新日志保留在 `evidence/ubuntu24/`。
+
+账本仍为 Hydrogen4次（输入65537/输出23309 tokens）、Flash Lite22次（输入15068/输出14624）、embedding56次尝试（输入214761，含失败和未知项）。没有重置账本或增加Hydrogen额度。
+
+64项验收仍为46PASS/18BLOCKED。剩余阻塞：WSL NVML不能提供进程显存、官方扫描/教材原件缺失、独立质量真值与另行明确的模型评测预算、公网HTTPS/评审登录、正式视频/PDF及提交材料。133项自动测试不代表全部赛事验收通过。
+
+三条可复现本地路径：新PDF导入（关闭dense）→MinerU CPU快照→搜索与原文高亮；两页MinerU取消/恢复→核对旧快照；新CSV绘图与导出，并演示损坏PDF拒绝。脚本和原始证据均保留。

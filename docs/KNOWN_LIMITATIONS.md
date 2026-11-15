@@ -17,3 +17,12 @@
 ## 4. Deployment & External Competition Materials
 - **Deployment**: The active runtime runs locally as user `systemd` services (`researchtrace-api`, `researchtrace-worker`, `researchtrace-parser`) on `http://127.0.0.1:18980`. Public HTTPS ingress, remote Docker daemon, and public cloud deployment are outside the local WSL2 environment and remain to be provisioned manually if required.
 - **Competition Packaging**: Non-code competition submission materials (recorded demo video, final PDF packaging/deck) are external deliverables generated after review-window verification.
+
+## 5. Current scholarly-source DNS route (2026-11-16)
+- Fresh bounded HTTP checks resolve `export.arxiv.org` and `api.crossref.org` to `198.18.2.3` / `198.18.2.4` on this host, which are not global public addresses. The existing SSRF policy correctly rejects them before outbound source content is fetched. Local HTTP200 means the application reported source errors, not that scholarly search succeeded.
+- E01/E03 remain **BLOCKED**; the controlled scheduled online acceptance step is **NOT RUN** after the per-source ceiling was reached. Do not allow nonpublic addresses, disable DNS pinning, or use old cached results as fresh evidence. The source/proxy DNS path must supply real public addresses before source verification can pass; no other application's proxy configuration was changed.
+- Watch overlap/recovery/cancellation and fresh-cache behavior have isolated tests. Newly created live-test watches are disabled and preexisting watches are unchanged. See `evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/result.json`.
+
+## 6. Immutable partial revisions and translation scope
+- Already committed low-quality/empty parser output is retained on resume. A partial snapshot can complete its unprocessed pages but cannot repair existing page contents in place; create a new revision for quality repair or a changed parser/model/device.
+- Translation jobs now pin the selected parse revision at queue reservation. Their progress counts and historical exports refer to that revision. These scheduling/export properties have fixture tests; they do not add a new live translation-quality claim or restore the exhausted Hydrogen budget.

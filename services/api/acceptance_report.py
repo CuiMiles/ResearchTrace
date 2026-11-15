@@ -79,6 +79,16 @@ _MODULE_SPECS = [
         'case_ids': ['B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B09', 'B10', 'B11', 'B12', 'B13'],
         'tests': [
             {
+                'name': 'MinerU 两页真实取消/恢复与旧快照保护（2026-11-16）',
+                'case_refs': ['B08', 'B11', 'F09'],
+                'status': 'PASS',
+                'summary': '第一页保存后取消第二页；资源尚未释放时恢复返回409。释放后从checkpoint续跑至两页，第一页6个块与旧快照哈希不变，供应商账本未增加。',
+                'api_steps': ['POST /api/v1/documents?index_dense=false', 'POST /api/v1/documents/{vid}/parses', 'POST /api/v1/runs/{rid}/cancel', 'POST /api/v1/runs/{rid}/resume (409 then200)', 'GET /api/v1/documents/{vid}/search?parse_id=...'],
+                'result_files': ['evidence/ubuntu24/parser-recovery-20261116.json', 'evidence/ubuntu24/task-ownership-20261116.log'],
+                'screenshots': [],
+            },
+
+            {
                 'name': 'MinerU 4.2.2 CPU 架构/表格/公式解析 + 浏览器高亮',
                 'case_refs': ['B02'],
                 'status': 'PASS',
@@ -282,14 +292,14 @@ _MODULE_SPECS = [
                 'name': '检索面板视口检查、外部失败降级与反馈调权单测',
                 'case_refs': ['E02', 'E04'],
                 'status': 'PASS',
-                'summary': '可控单测/集成验证外部限流与失败降级、用户赞/踩反馈调权逻辑；在线 arXiv/Crossref 历史抓取保留于 live_watch.json，Ubuntu 24 未重新联网抓外网（E01/E03 标 BLOCKED）。',
+                'summary': '追踪并发去重、崩溃恢复、取消与禁用保护已通过测试。2026-11-16 已尝试真实 HTTP 检查，但 arXiv/Crossref DNS 返回198.18.*非公网地址，被 SSRF 防护阻断；E01/E03 仍为 BLOCKED，未用历史结果替代。',
                 'api_steps': [
                     'POST /api/v1/search',
                     'POST /api/v1/search/import',
                     'POST /api/v1/feedback',
                     'POST /api/v1/watch-queries & /{id}/check',
                 ],
-                'result_files': ['apps/web/validation/ubuntu24-browser/browser-check.json', 'evidence/live_watch.json'],
+                'result_files': ['apps/web/validation/ubuntu24-browser/browser-check.json', 'evidence/live_watch.json', 'evidence/ubuntu24/discovery-20261116-verification.json', 'evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/result.json', 'evidence/ubuntu24/discovery-20261116-tests.log'],
                 'screenshots': [],
             },
         ],
@@ -384,7 +394,9 @@ def resolve_evidence_file(rel_path: str) -> Path | None:
         return None
     if candidate.suffix.lower() not in ALLOWED_EXTENSIONS:
         return None
-    if 'private' in candidate.relative_to(ROOT).parts:
+    if not candidate.is_relative_to(ROOT.resolve()):
+        return None
+    if 'private' in candidate.relative_to(ROOT.resolve()).parts:
         return None
     for base in ALLOWED_ROOTS:
         resolved_base = base.resolve()

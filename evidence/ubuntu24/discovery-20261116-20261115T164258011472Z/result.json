@@ -1,0 +1,165 @@
+{
+  "started_at": 1794760978.0116599,
+  "base_url": "http://127.0.0.1:18980",
+  "transport": "public HTTP",
+  "E01": {
+    "status": "BLOCKED",
+    "sources": [
+      {
+        "source": "arxiv",
+        "query": "1512.03385",
+        "cached": false,
+        "errors": [
+          {
+            "source": "arxiv",
+            "error": "内网、回环、链路本地和云元数据地址被禁止"
+          }
+        ],
+        "candidate_count": 0,
+        "status": "BLOCKED"
+      },
+      {
+        "source": "crossref",
+        "query": "Deep Residual Learning for Image Recognition",
+        "cached": false,
+        "errors": [
+          {
+            "source": "crossref",
+            "error": "内网、回环、链路本地和云元数据地址被禁止"
+          }
+        ],
+        "candidate_count": 0,
+        "status": "BLOCKED"
+      }
+    ]
+  },
+  "E03": {
+    "status": "BLOCKED",
+    "immediate": {
+      "results": [],
+      "errors": [
+        {
+          "source": "arxiv",
+          "error": "内网、回环、链路本地和云元数据地址被禁止"
+        },
+        {
+          "source": "crossref",
+          "error": "内网、回环、链路本地和云元数据地址被禁止"
+        }
+      ],
+      "cached": false,
+      "searched_at": 1794760978.2656891,
+      "query": "Deep Residual Learning for Image Recognition",
+      "sources": [
+        "arxiv",
+        "crossref"
+      ],
+      "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+      "new_identities": [],
+      "seen_identities": [],
+      "run_id": "1aff7feb7fb9449b904dd4d757f6944f",
+      "trigger": "manual",
+      "last_attempt": 1794760978.2579453,
+      "status": "failed"
+    },
+    "reason": "External failure and/or explicit per-source operation ceiling; controlled scheduler live check NOT RUN"
+  },
+  "source_operation_ceiling": 2,
+  "source_operations": {
+    "arxiv": 2,
+    "crossref": 2
+  },
+  "provider_calls": 0,
+  "command": ".venv/bin/python scripts/validate_discovery_live.py",
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/healthz",
+      "started_at": 1794760978.0547338,
+      "finished_at": 1794760978.0597653,
+      "http_status": 200,
+      "response_sha256": "e04e8fa03c77efcafdbd6ecaa931a8f1a7aa7b3278cf45fc10ccaaca7718aa78",
+      "raw_response": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/01-http-response.json"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/search",
+      "started_at": 1794760978.1075332,
+      "finished_at": 1794760978.2295349,
+      "http_status": 200,
+      "response_sha256": "73911e440cacf71f1cd5101933c92aee84665f29f2dafe972dc920a289207824",
+      "raw_response": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/02-http-response.json"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/search",
+      "started_at": 1794760978.229683,
+      "finished_at": 1794760978.2410939,
+      "http_status": 200,
+      "response_sha256": "e87da0bf2e6a3fbda545e8f37e8843bccd14b947f57776d6abbafd9339835eec",
+      "raw_response": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/03-http-response.json"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/watch-queries",
+      "started_at": 1794760978.2412486,
+      "finished_at": 1794760978.2531946,
+      "http_status": 200,
+      "response_sha256": "5bf9fd14cbe18dfe91afd522a6af3dc2769965f36fe7c2e6667c1b7fe2d8458e",
+      "raw_response": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/04-http-response.json"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/watch-queries/3f5facbb43194ae3a7af24e235e86b1a/check",
+      "started_at": 1794760978.2533114,
+      "finished_at": 1794760981.3463588,
+      "http_status": 200,
+      "response_sha256": "5f016979abe124299169368e3cab2b858ee14538ec948c8028170b96b68c975a",
+      "raw_response": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/05-http-response.json"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/watch-queries/3f5facbb43194ae3a7af24e235e86b1a",
+      "started_at": 1794760981.351796,
+      "finished_at": 1794760981.3561203,
+      "http_status": 200,
+      "response_sha256": "5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146",
+      "raw_response": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/06-http-response.json"
+    }
+  ],
+  "created_watches": [
+    "3f5facbb43194ae3a7af24e235e86b1a"
+  ],
+  "scope": "new authenticated workspace only",
+  "quota_before": {
+    "quota_sha256": "86c9493fd413fbf2da041261799c14ba70935c1a699499b10a866f0ac2c299eb",
+    "quota_counts": {
+      "gemini-embedding-001": 56,
+      "gemini-4-hydrogen": 4,
+      "gemini-3.5-flash-lite": 22
+    }
+  },
+  "workspace": "6f187238b31e414d95c07972d6eaa452",
+  "http_import_flags": true,
+  "workspace_counts": {
+    "works": 0,
+    "versions": 0,
+    "embeddings": 0
+  },
+  "watch_steps": "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/watch-steps.json",
+  "disabled_watches": [
+    "3f5facbb43194ae3a7af24e235e86b1a"
+  ],
+  "quota_after": {
+    "quota_sha256": "86c9493fd413fbf2da041261799c14ba70935c1a699499b10a866f0ac2c299eb",
+    "quota_counts": {
+      "gemini-embedding-001": 56,
+      "gemini-4-hydrogen": 4,
+      "gemini-3.5-flash-lite": 22
+    }
+  },
+  "quota_unchanged": true,
+  "preexisting_watches_unchanged": true,
+  "all_created_watches_disabled": true,
+  "finished_at": 1794760981.357332
+}

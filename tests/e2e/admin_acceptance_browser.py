@@ -1,6 +1,7 @@
 """Verify the Admin Acceptance & Screenshot Dashboard on live http://127.0.0.1:18980."""
 import json
 import os
+import re
 from pathlib import Path
 import sys
 from dotenv import dotenv_values
@@ -11,7 +12,7 @@ sys.path.insert(0, str(ROOT / 'apps/web/scripts'))
 from browser_runtime import launch_chromium
 
 BASE = os.getenv('RT_BROWSER_URL', 'http://127.0.0.1:18980').rstrip('/')
-OUT = ROOT / 'evidence/ubuntu24/browser'
+OUT = Path(os.getenv('RT_BROWSER_OUT_DIR',str(ROOT / 'evidence/ubuntu24/browser')))
 OUT.mkdir(parents=True, exist_ok=True)
 ENV = dotenv_values(ROOT / '.env')
 
@@ -58,7 +59,7 @@ with sync_playwright() as p:
             page.get_by_role('button', name='关闭截图预览').click()
 
             # Check filter and 1280 viewport
-            page.get_by_role('button', name='BLOCKED (18)').click()
+            page.get_by_role('button', name=re.compile(r'^BLOCKED \(\d+\)$')).click()
             page.locator('.acceptance-table tbody tr').first.wait_for()
             page.get_by_role('button', name='全部 (64)').click()
             page.set_viewport_size({'width': 1280, 'height': 800})
@@ -94,6 +95,6 @@ with sync_playwright() as p:
         browser.close()
 
 report['status'] = 'PASS' if not report['errors'] and all(c['status'] == 'PASS' for c in report['checks']) else 'FAIL'
-(ROOT / 'evidence/ubuntu24/admin-acceptance-browser.json').write_text(json.dumps(report, ensure_ascii=False, indent=2))
+Path(os.getenv('RT_BROWSER_REPORT',str(ROOT / 'evidence/ubuntu24/admin-acceptance-browser.json'))).write_text(json.dumps(report, ensure_ascii=False, indent=2))
 print(json.dumps(report, ensure_ascii=False, indent=2))
 sys.exit(0 if report['status'] == 'PASS' else 1)

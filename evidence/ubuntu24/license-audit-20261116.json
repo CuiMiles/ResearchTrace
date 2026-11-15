@@ -1,0 +1,8 @@
+{
+  "distribution": "mineru",
+  "version": "4.2.2",
+  "license_expression": "LicenseRef-MinerU-Open-Source-License",
+  "source": "mineru-4.2.2.dist-info/licenses/LICENSE.md",
+  "sha256": "2d9aeb5d15159329a20dd804f251c64860ba954fbd26ec02f802220e6d71cf5c",
+  "copy": "docs/licenses/MinerU-4.2.2-LICENSE.md"
+}

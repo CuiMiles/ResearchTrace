@@ -21,11 +21,11 @@ ResearchTrace integrates third-party tools and algorithms; their inclusion does 
 | Playwright Python | 1.65.2 | Apache-2.0; browser testing only. Chromium has its own full bundled notices and is not an application server dependency. |
 | React / React DOM | 18.3.1 | MIT; respective npm LICENSE files |
 | PDF.js (`pdfjs-dist`) | 4.10.38 | Apache-2.0; npm LICENSE/NOTICE and bundled resources |
-| Mermaid | 11.12.0 | MIT; npm LICENSE |
-| DOMPurify | 3.2.7 | MPL-2.0 OR Apache-2.0; npm LICENSE files |
+| Mermaid | 11.17.2 | MIT; npm LICENSE |
+| DOMPurify | 3.4.18 | MPL-2.0 OR Apache-2.0; npm LICENSE files |
 | KaTeX | 0.16.22 | MIT; npm LICENSE and bundled font notices |
 | Lucide React icons | 0.468.0 | ISC; npm LICENSE |
-| Vite | 5.4.21 | MIT; npm LICENSE; build tooling |
+| Vite | 6.4.6 | MIT; npm LICENSE; build tooling |
 | TypeScript | 5.7.3 | Apache-2.0; npm LICENSE; build tooling |
 
 SQLite is used through Python's standard library. BM25/FTS5, cosine similarity, reciprocal-rank fusion and PageRank are established retrieval/graph methods. Their use is attributed in the architecture and algorithm labels; ResearchTrace does not claim to invent them. Additional transitive packages retain their own metadata/licenses in the installed distributions and npm packages. Audit the complete lockfiles and distribution contents before an external binary release.
@@ -40,3 +40,10 @@ The lite image installs Debian Tesseract English OCR and Droid fallback fonts. T
 - Gemini is accessed as an external service under the operator's authorized credentials and applicable terms. No model weights or API keys are redistributed. The model name, local usage and limits are recorded separately from software license attribution.
 
 The repository currently contains notices and integration source, not a grant of rights to redistribute third-party papers or private uploaded materials. A formal competition package should include this inventory and the corresponding dependency/data notices appropriate to what is actually shipped.
+
+## Optional local parsers (Ubuntu24, 2026-11-16)
+
+- **MinerU4.2.2**: installed distribution declares `LicenseRef-MinerU-Open-Source-License`. Its bundled license is copied verbatim to [MinerU4.2.2 license](docs/licenses/MinerU-4.2.2-LICENSE.md) with SHA256 in `evidence/ubuntu24/license-audit-20261116.json`. It applies Apache2.0 with additional commercial-threshold and online-service attribution terms; it is not the old2.7.6 AGPL license or unmodified Apache2.0. ResearchTrace identifies MinerU in its parser selector and this documentation. Official [upstream license](https://github.com/opendatalab/MinerU/blob/master/LICENSE.md). Preserve the release's bundled text when distributing.
+- **PaddleOCR3.7.0 / PaddlePaddle3.2.2**: Apache2.0; explicitly named PP-OCRv5 mobile detection/recognition weights remain in private model directories, with provenance/hashes in `evidence/paddle_model_manifest.json`.
+- **PaddleOCR-VL-1.6**: the official [model repository license](https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/blob/main/LICENSE) declares Apache2.0. Local two-stage PP-DocLayoutV3 and Torch-based recognition retains those model identities; it is not a newly trained ResearchTrace model. Model manifests record the actual downloaded files.
+- Torch, Transformers, Safetensors, CUDA runtime wheels, and parser transitive packages keep their bundled notices under the separate parser environments. `requirements-paddle.lock` and `requirements-mineru.lock` record the actual optional environments. The lite API does not require these large environments. Model distribution and all transitive notices must follow the actual assets included in a release; source integration alone does not redistribute weights.

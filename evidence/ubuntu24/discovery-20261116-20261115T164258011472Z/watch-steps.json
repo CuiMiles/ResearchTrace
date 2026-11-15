@@ -1,0 +1,14 @@
+[
+  [
+    "1aff7feb7fb9449b904dd4d757f6944f",
+    "search_papers",
+    "{\"query\": \"Deep Residual Learning for Image Recognition\", \"sources\": [\"arxiv\", \"crossref\"], \"triggered_at\": 1794760978.2579453, \"trigger\": \"manual\"}",
+    1794760978.2579453
+  ],
+  [
+    "1aff7feb7fb9449b904dd4d757f6944f",
+    "failed",
+    "{\"new_count\": 0, \"errors\": [{\"source\": \"arxiv\", \"error\": \"\\u5185\\u7f51\\u3001\\u56de\\u73af\\u3001\\u94fe\\u8def\\u672c\\u5730\\u548c\\u4e91\\u5143\\u6570\\u636e\\u5730\\u5740\\u88ab\\u7981\\u6b62\"}, {\"source\": \"crossref\", \"error\": \"\\u5185\\u7f51\\u3001\\u56de\\u73af\\u3001\\u94fe\\u8def\\u672c\\u5730\\u548c\\u4e91\\u5143\\u6570\\u636e\\u5730\\u5740\\u88ab\\u7981\\u6b62\"}]}",
+    1794760981.3384109
+  ]
+]

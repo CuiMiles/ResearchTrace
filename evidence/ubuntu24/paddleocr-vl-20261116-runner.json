@@ -1,0 +1,131 @@
+{
+  "engine": "paddleocr_vl",
+  "version": "v1.6",
+  "models": [
+    "PP-DocLayoutV3",
+    "PaddleOCR-VL-1.6-0.9B"
+  ],
+  "device": "cpu",
+  "backend": "bfloat16-transformers",
+  "width": 1750,
+  "height": 1250,
+  "blocks": [
+    {
+      "bbox": [
+        0.04742857142857143,
+        0.096,
+        0.48342857142857143,
+        0.1352
+      ],
+      "type": "paragraph",
+      "text": "ResearchTrace OCR validation 7189",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.826103687286377,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.045142857142857144,
+        0.2152,
+        0.44742857142857145,
+        0.2576
+      ],
+      "type": "paragraph",
+      "text": "科研证据链：物理页码与原文坐标。",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8403603434562683,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.045714285714285714,
+        0.3352,
+        0.5651428571428572,
+        0.3776
+      ],
+      "type": "paragraph",
+      "text": "实验记录共有12、18、24条，最大值为24。",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8449268937110901,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.046857142857142854,
+        0.4552,
+        0.6485714285714286,
+        0.4984
+      ],
+      "type": "paragraph",
+      "text": "English text: reliable citations remain immutable.",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8267019987106323,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.046285714285714284,
+        0.5744,
+        0.34,
+        0.6184
+      ],
+      "type": "paragraph",
+      "text": "Table: A 12 | B 18 | C 24",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8157733678817749,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.04742857142857143,
+        0.6952,
+        0.304,
+        0.7384
+      ],
+      "type": "paragraph",
+      "text": "Equation: $E = mc^2$",
+      "metadata": {
+        "vl_label": "text",
+        "layout_score": 0.8082839250564575,
+        "layout_fallback": false,
+        "layout_parser_version": "3.7.0",
+        "pipeline_version": "v1.6",
+        "dtype": "bfloat16",
+        "reconstruction": "PaddleOCR-VL-1.6 structured output; verify against original region"
+      }
+    }
+  ],
+  "elapsed_seconds": 154.97949857905041,
+  "total_seconds": 154.99864658905426,
+  "peak_rss_kib": 2470152
+}

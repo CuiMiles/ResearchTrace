@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 load_dotenv(Path(__file__).resolve().parents[2] / '.env')
-from services.api.store import db, migrate, rows
+from services.api.store import db, migrate
 from services.api.jobs import work_once
 
 stopping=False
@@ -31,19 +31,21 @@ def main():
         # Explicit recovery is needed instead of silently submitting it twice.
         c.execute("UPDATE runs SET status='partial',error='上游请求状态未知；配额已保留计账。请检查账目后手动恢复。' WHERE status='running' AND id IN (SELECT run_id FROM quota WHERE status='reserved')")
         c.execute("UPDATE quota SET status='unknown' WHERE status='reserved'")
-        c.execute("UPDATE runs SET status='queued' WHERE status='running'")
+        c.execute("UPDATE runs SET status='queued' WHERE status='running' AND kind!='watch'")
+    from services.api.research import check_due_watches, recover_watch_checks
+    recover_watch_checks()
     signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
     last_watch=0
     while not stopping:
+        # Scheduling must also run while the durable document/model queue is busy.
+        # A bounded batch and persisted next_check prevent failure retry storms.
+        if time.monotonic()-last_watch>30:
+            last_watch=time.monotonic()
+            try:
+                check_due_watches(limit=1)
+            except Exception as exc:
+                print('watch scheduler error: '+type(exc).__name__,flush=True)
         if not work_once():
-            if time.time()-last_watch>30:
-                last_watch=time.time()
-                from services.api.research import check_watch
-                for w in rows('SELECT * FROM watches WHERE enabled=1 AND next_check<=?',(time.time(),)):
-                    try:
-                        check_watch(w['workspace'],w['id'])
-                    except Exception:
-                        pass
             time.sleep(.7)
 
 if __name__=='__main__':

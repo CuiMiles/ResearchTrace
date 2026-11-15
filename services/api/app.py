@@ -322,13 +322,14 @@ def agent(p:Question,s=Depends(session)):
 
 class Translation(BaseModel):
     version_id:str
+    parse_id:str|None=None
     block_ids:list[str]|None=Field(default=None,max_length=100)
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/translations')
 def translation(p:Translation,s=Depends(session)):
     version(p.version_id,s['workspace'])
-    return queue(s['workspace'],'translate',p.model_dump(exclude={'idempotency_key'}),p.idempotency_key)
+    return queue(s['workspace'],'translate',p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
 
 @app.get('/api/v1/translations/{vid}')
 def translations(vid:str,s=Depends(session)):
@@ -336,9 +337,11 @@ def translations(vid:str,s=Depends(session)):
     return rows('SELECT block_id,text,model FROM translations WHERE workspace=? AND version_id=?',(s['workspace'],vid))
 
 @app.get('/api/v1/translations/{vid}/export')
-def translation_export(vid:str,format:str='md',s=Depends(session)):
+def translation_export(vid:str,format:str='md',parse_id:str|None=None,s=Depends(session)):
     v=version(vid,s['workspace'])
-    bs=rows('SELECT b.text source,t.text,t.model,b.page_index FROM current_blocks b LEFT JOIN translations t ON t.block_id=b.id AND t.workspace=b.workspace WHERE b.version_id=? AND b.workspace=? ORDER BY b.page_index,b.reading_order',(vid,s['workspace']))
+    from .snapshots import selected_parse
+    revision=selected_parse(s['workspace'],vid,parse_id)
+    bs=rows('SELECT b.text source,t.text,t.model,b.page_index FROM blocks b LEFT JOIN block_parses bp ON bp.block_id=b.id LEFT JOIN translations t ON t.block_id=b.id AND t.workspace=b.workspace WHERE b.version_id=? AND b.workspace=? AND COALESCE(bp.parse_id,b.version_id)=? ORDER BY b.page_index,b.reading_order',(vid,s['workspace'],revision['id']))
     text='# '+v['title']+'\n\n'
     for b in bs:
         text+=f"\n原文 p.{b['page_index']+1}\n\n{b['source']}\n\n译文（{b['model'] or '未完成'}）\n\n{b['text'] or '[尚未翻译]'}\n\n"
@@ -394,10 +397,20 @@ def cancel(rid:str,s=Depends(session)):
 @app.post('/api/v1/runs/{rid}/resume')
 def resume(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
+    if r['kind']=='watch':
+        raise HTTPException(409,'追踪检查请通过“立即检查”重试；不会将追踪任务加入解析队列')
     if r['status'] in ('cancelled','failed','partial'):
-        execute("UPDATE runs SET status='queued',error=NULL,updated=? WHERE id=?",(time.time(),rid))
-        if r['kind'] in ('parse','parse_document','reparse'):
-            execute("UPDATE parses SET status='queued',error=NULL WHERE id=?",(r['payload'].get('parse_id',r['payload']['version_id']),))
+        from .store import run_execution_lock
+        with db() as c:
+            c.execute('BEGIN IMMEDIATE')
+            with run_execution_lock(rid) as acquired:
+                if not acquired:
+                    raise HTTPException(409,'任务正在释放资源，请稍后恢复；不会重复启动解析或模型请求')
+                current=c.execute('SELECT status FROM runs WHERE id=? AND workspace=?',(rid,s['workspace'])).fetchone()
+                if current['status'] in ('cancelled','failed','partial'):
+                    c.execute("UPDATE runs SET status='queued',error=NULL,updated=? WHERE id=?",(time.time(),rid))
+                    if r['kind'] in ('parse','parse_document','reparse'):
+                        c.execute("UPDATE parses SET status='queued',error=NULL WHERE id=?",(r['payload'].get('parse_id',r['payload']['version_id']),))
     return run_get(rid,s['workspace'])
 
 class Search(BaseModel):
@@ -412,11 +425,13 @@ async def search(p:Search,s=Depends(session)):
 
 class Import(BaseModel):
     paper:dict
+    index_dense:bool=True
+    metadata_only:bool=False
 
 @app.post('/api/v1/search/import')
 async def import_paper(p:Import,s=Depends(session)):
     from .research import import_paper
-    return await asyncio.to_thread(import_paper,s['workspace'],p.paper)
+    return await asyncio.to_thread(import_paper,s['workspace'],p.paper,index_dense=p.index_dense,metadata_only=p.metadata_only)
 
 class Feedback(BaseModel):
     identity:str=Field(max_length=500)

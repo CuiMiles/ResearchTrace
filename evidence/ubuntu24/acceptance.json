@@ -88,17 +88,22 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md A05",
-    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "observed": "Current automatic regression133passed; Ruff andfrontendtypecheck/build PASS; OpenAPI re-exported. One upstream TestClient deprecation warning remains.",
     "evidence_paths": [
       "evidence/ubuntu24/regression.log",
       "evidence/ubuntu24/backend-check.log",
       "evidence/ubuntu24/frontend-build.log",
-      "packages/contracts/openapi.json"
+      "packages/contracts/openapi.json",
+      "evidence/ubuntu24/regression-20261116.log",
+      "evidence/ubuntu24/backend-check-20261116.log",
+      "evidence/ubuntu24/frontend-build-20261116.log"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "A06",
@@ -175,18 +180,22 @@
     "model_id_and_provider": "No new provider requests; local PaddleOCR 3.7.0 and PaddleOCR-VL-1.6 CPU parsers validated",
     "command_or_browser_steps": "scripts/validate_parser_live.py --engine paddleocr / paddleocr_vl --device cpu --file .tools/parse-fixtures/scan-bilingual.pdf; tests/e2e/parser_browser.py; pytest tests/unit tests/integration",
     "expected": "ACCEPTANCE.md B03",
-    "observed": "Derived bilingual scan passed PaddleOCR 3.7.0 (8.69s) and PaddleOCR-VL-1.6 (132.67s) product/browser tests with prior snapshots & quota unchanged; official scan original is unavailable, so the complete official-input case remains blocked.",
+    "observed": "Derived bilingual scan passed PaddleOCR3.7.0, MinerU4.2.2 and PaddleOCR-VL1.6 CPU product/browser tests. VL continuation recheck156.58s/6blocks, oldanchorsandquotaunchanged. Official scanned original remains unavailable; overall case stays BLOCKED.",
     "evidence_paths": [
       "evidence/ubuntu24/paddleocr-cpu-product.json",
       "evidence/ubuntu24/paddle-vl-model-manifest.json",
       "evidence/ubuntu24/paddleocr-vl-cpu-product.json",
       "evidence/ubuntu24/browser/paddleocr_vl-reader.json",
-      "evidence/ubuntu24/regression.log"
+      "evidence/ubuntu24/regression.log",
+      "evidence/ubuntu24/paddleocr-vl-20261116-product.json",
+      "evidence/ubuntu24/browser-20261116/paddleocr_vl-reader.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_base_commit": "ba83619",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B04",
@@ -276,16 +285,20 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md B08",
-    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "observed": "New recovery regressions and real MinerU two-page cancellation/resume retain old text/bbox hashes. Translation queue/export pin the parse revision; no model requests in these checks.",
     "evidence_paths": [
       "evidence/ubuntu24/live-native-snapshots.json",
       "evidence/ubuntu24/paddleocr-cpu-product.json",
-      "evidence/ubuntu24/reader-snapshots-browser.json"
+      "evidence/ubuntu24/reader-snapshots-browser.json",
+      "evidence/ubuntu24/parser-recovery-20261116.json",
+      "evidence/ubuntu24/snapshot-scoping-20261116.log"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "B09",
@@ -336,15 +349,19 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md B11",
-    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "observed": "Real MinerU4.2.2 CPU two-page cancel/resume PASS: checkpoint6blocks retained ->12blocks; completed2pages; immediate resume409 until cleanup. Low-quality checkpoint and parser-provenance-change fixtures also verified.",
     "evidence_paths": [
       "evidence/ubuntu24/document-acceptance.json",
-      "tests/unit/test_parse_snapshots.py"
+      "tests/unit/test_parse_snapshots.py",
+      "evidence/ubuntu24/parser-recovery-20261116.json",
+      "evidence/ubuntu24/task-ownership-20261116.log"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "B12",
@@ -692,7 +709,9 @@
     "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
     "evidence_paths": [
       "evidence/ubuntu24/browser/acceptance.json",
-      "evidence/ubuntu24/reader-snapshots-browser.json"
+      "evidence/ubuntu24/reader-snapshots-browser.json",
+      "evidence/ubuntu24/admin-browser-20261116.json",
+      "evidence/ubuntu24/browser-20261116/paddleocr_vl-reader.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
@@ -728,14 +747,18 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md E01",
-    "observed": "Historical arXiv/Crossref requests preserved. Fresh uncached dual-source online import has not been revalidated on Ubuntu24.",
+    "observed": "Fresh bounded HTTP arXiv/Crossref checks attempted2026-11-16. System DNS returned198.18.* nonpublic addresses, rejected by existing SSRF guard before source content. Real metadata import is still BLOCKED; no source bytes fetched.",
     "evidence_paths": [
-      "evidence/ubuntu24/regression.log"
+      "evidence/ubuntu24/regression.log",
+      "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/result.json",
+      "evidence/ubuntu24/discovery-20261116-verification.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "E02",
@@ -767,14 +790,18 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md E03",
-    "observed": "Controlled fixture watch/dedup tests passed and old live logs retained; a new scheduled online check has not been performed.",
+    "observed": "Manual live watch check attempted and honestly failed on nonpublic DNS; scheduled-source acceptance NOT RUN after the2-operation/source ceiling. Concurrency, crash recovery, disable/cancel, fresh cache, scheduler fairness fixtures PASS; testwatchdisabled,preexistingwatchesunchanged.",
     "evidence_paths": [
-      "evidence/ubuntu24/regression.log"
+      "evidence/ubuntu24/regression.log",
+      "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/result.json",
+      "evidence/ubuntu24/discovery-20261116-tests.log"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "E04",
@@ -1144,16 +1171,20 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md F09",
-    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "observed": "Real parser cancellation terminates only owned session; a per-run execution lock rejects early resume409 until cleanup. Fixture checks cover last-page cancel/delete, immutable low-quality checkpoints and pinned translation scope.",
     "evidence_paths": [
       "tests/unit/test_parser_guard.py",
       "tests/unit/test_parse_snapshots.py",
-      "evidence/ubuntu24/document-acceptance.json"
+      "evidence/ubuntu24/document-acceptance.json",
+      "evidence/ubuntu24/parser-recovery-20261116.json",
+      "evidence/ubuntu24/task-ownership-20261116.log"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "F10",
@@ -1184,16 +1215,21 @@
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
     "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
     "expected": "ACCEPTANCE.md F11",
-    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "observed": "Source/evidence secret scan matched no private credentials; parser/helper env allowlists and private-stage payload tests pass. Admin evidence symlink escapes return404 instead of raising500.",
     "evidence_paths": [
       "evidence/ubuntu24/secret-scan.json",
       "tests/integration/test_api_security.py",
-      "tests/unit/test_parser_guard.py"
+      "tests/unit/test_parser_guard.py",
+      "evidence/ubuntu24/secret-scan-20261116.json",
+      "evidence/ubuntu24/admin-paths-20261116.log",
+      "tests/unit/test_parser_upgrade.py"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "continuation_base_commit": "ba83619"
   },
   {
     "case_id": "F12",

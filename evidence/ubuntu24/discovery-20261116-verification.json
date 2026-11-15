@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "command": ".venv/bin/python scripts/validate_discovery_live.py",
+  "raw_http_response_hashes_verified": {
+    "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/01-http-response.json": true,
+    "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/02-http-response.json": true,
+    "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/03-http-response.json": true,
+    "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/04-http-response.json": true,
+    "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/05-http-response.json": true,
+    "evidence/ubuntu24/discovery-20261116-20261115T164258011472Z/06-http-response.json": true
+  },
+  "raw_source_sha256": null,
+  "raw_source_status": "BLOCKED: source URL validation rejected DNS addresses before source response bytes were fetched",
+  "targeted_tests": {
+    "status": "PASS",
+    "command": ".venv/bin/python -m pytest tests/unit/test_watch_recovery.py tests/unit/test_research_charts.py -q",
+    "result": "28 passed",
+    "log": "evidence/ubuntu24/discovery-20261116-tests.log"
+  },
+  "lint_log": "evidence/ubuntu24/discovery-20261116-checks.log"
+}

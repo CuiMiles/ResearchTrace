@@ -6,7 +6,7 @@
 
 ## 本轮实测
 
-- 自动回归 `./scripts/test.sh` 当前 **99 passed**（`evidence/ubuntu24/regression.log`）；单独重复运行的子集不累计相加。
+- 自动回归 `./scripts/test.sh` 当前 **133 passed**（`evidence/ubuntu24/regression.log`）；单独重复运行的子集不累计相加。
 - 前端 `tsc --noEmit` / `vite build` 通过（发布 168 个构建文件），后端 `ruff` 与 `packages/contracts/openapi.json` 导出通过。
 - 无密钥隔离 API/worker 真实启动、上传、解析、阅读、搜索和 CSV 绘图通过。
 - PaddleOCR 3.7.0 / PaddlePaddle 3.2.2 真实双语 CPU 识别：PNG 7.82 秒、峰值 RSS 968368 KiB；产品单页快照 8.69 秒，中文文字层、FTS 与 PDF 坐标高亮通过。
@@ -61,9 +61,9 @@
 | D05 | 可见 UI 状态 | PASS | All 9 Chromium UI state checks PASS (loading, partial, 500, 401, empty, 429, parse-failed; reader-extra-20261115T143101401610Z.json). |
 | D06 | 浏览器视觉检查 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
 | D07 | 真实 streaming | BLOCKED | Actual persistent SSE tool events/reconnect are implemented and tested; new live provider streaming not executed. |
-| E01 | 标题/ID 检索入库 | BLOCKED | Historical arXiv/Crossref requests preserved. Fresh uncached dual-source online import has not been revalidated on Ubuntu24. |
+| E01 | 标题/ID 检索入库 | BLOCKED | Fresh bounded HTTP arXiv/Crossref checks attempted2026-11-16. System DNS returned198.18.* nonpublic addresses, rejected by existing SSRF guard before source content. Real metadata import is still BLOCKED; no source bytes fetched. |
 | E02 | 限流与网络失败 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
-| E03 | 追踪查询 | BLOCKED | Controlled fixture watch/dedup tests passed and old live logs retained; a new scheduled online check has not been performed. |
+| E03 | 追踪查询 | BLOCKED | Manual live watch check attempted and honestly failed on nonpublic DNS; scheduled-source acceptance NOT RUN after the2-operation/source ceiling. Concurrency, crash recovery, disable/cancel, fresh cache, scheduler fairness fixtures PASS; testwatchdisabled,preexistingwatchesunchanged. |
 | E04 | 推荐反馈 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
 | E05 | 真实引用边 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
 | E06 | 20 篇级图谱 | PASS | 29-node / 72-edge real graph rendered & recomputed cleanly in Chromium browser with inspector & 1440/1280 no-overflow check (mineru-graph-browser.json). |
@@ -106,3 +106,17 @@
 `./scripts/test.sh` 为自动测试入口；为保留旧证据，本轮日志主要写入 `evidence/ubuntu24/`。`scripts/validate_parser_live.py`只做真实本地解析、不调用模型；`scripts/validate_no_key_live.py`只启动和清理自身测试进程。所有仍有预算阻塞的live项保持BLOCKED。不要再次运行live smoke或关闭RT_SMOKE_MODE来制造通过。
 
 解析错误、预检失败、未完成GPU测试等原始记录均保留；后续真实MinerU结果会继续追加，不把预检当推理成功。
+
+## 2026-11-16 继续开发与回归
+
+保留用户最新提交 `ba83619` 的 MinerU4.2.2 / PaddleOCR-VL-1.6 和管理看板。修复最后一页取消/删除仍可能写回、低质量页面恢复时覆盖冲突、混合解析器版本续跑、翻译排队后原文快照漂移和跨快照译文计数。取消执行的资源释放与恢复之间用OS文件锁协调，409是等待释放而非启动新进程。管理员证据符号链接逃逸被阻断为404。
+
+真实 MinerU4.2.2 CPU 两页恢复：28.42秒，第一页6块保持不变，取消第二页的本项目会话后恢复完成12块/2页；旧快照文本与bbox哈希一致。日志和监控：`evidence/ubuntu24/parser-recovery-20261116.json`。这不增加官方长教材/GPU验收结论。
+
+追踪检查加入跨进程锁、崩溃恢复、失败后推进next_check、取消/禁用保护与强制新鲜搜索。真实检索在当前DNS路由被SSRF防护阻断，E01/E03保持BLOCKED；没有修改其他服务代理或放宽非公网地址限制。每来源最多2次操作，未抓到的来源正文没有伪造hash。
+
+新增解析边界测试区分fixture与真实推理；完整自动回归133passed（单独子集不累计）。当前VL增强校验曾暴露NumPy版面JSON序列化问题，失败日志保留于 `paddleocr-vl-20261116-layout-failure.*`，修复后真实复测结果单独追加。所有本轮供应商调用0；Hydrogen4/Flash22/embedding56账本保留。
+
+VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，156.58秒/6块、runner峰值RSS2470152KiB，期间完整单测并行执行，因此不作为独立性能比较；文字、FTS与PDF坐标浏览器复核 **PASS**，见 `paddleocr-vl-20261116-product.json`、`paddleocr-vl-20261116-runner.json`、`browser-20261116/paddleocr_vl-reader.json`。管理看板浏览器复核也通过（`admin-browser-20261116.json`），状态筛选支持动态数量，未把E01/E03阻塞标为成功。
+
+截至本次交付，64项总状态仍为46PASS/18BLOCKED。新修复的局部恢复用例不另计为官方验收新增通过项；官方原件、独立质量评测、公网评审入口和WSL GPU限制保持各自阻塞。

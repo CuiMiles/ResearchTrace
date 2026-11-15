@@ -1,0 +1,204 @@
+FFF.                                                                     [100%]
+=================================== FAILURES ===================================
+_______ test_interruption_after_failed_page_can_resume_without_rewriting _______
+
+source = '258f546f244f472f98ad6c42d1ebce3f'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7077842bd3a0>
+
+    def test_interruption_after_failed_page_can_resume_without_rewriting(source, monkeypatch):
+        q, run = queue(source, 'empty-page-checkpoint')
+        def first(path, index, engine, **kwargs):
+            if index == 1:
+                raise ValueError('Fixture interruption after committed low-quality page')
+            return response('')
+        monkeypatch.setattr(enhanced_parsing, 'external_page', first)
+        with pytest.raises(ValueError, match='interruption'):
+            documents.parse_document(run)
+        before = snapshots.snapshot_blocks('w', source, q['parse_id'])
+        page_before = store.one('SELECT * FROM parse_pages WHERE parse_id=? AND page_index=0', (q['parse_id'],))
+        calls = []
+        def resume(path, index, engine, **kwargs):
+            calls.append(index); return response('Resumed page evidence')
+        monkeypatch.setattr(enhanced_parsing, 'external_page', resume)
+>       result = documents.parse_document(run)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_snapshot_recovery_boundaries.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+run = {'id': 'c6b03595558a42d386618d774ff2d2f5', 'workspace': 'w', 'kind': 'reparse', 'status': 'queued', ...}
+
+    def parse_document(run):
+        payload = json.loads(run["payload"]) if isinstance(run["payload"], str) else run["payload"]
+        version_id = payload["version_id"]
+        workspace = run["workspace"]
+        version = one("SELECT * FROM versions WHERE id=? AND workspace=? AND deleted=0", (version_id, workspace))
+        if not version:
+            raise ValueError("文档不存在或已删除")
+        if version["parsed_pages"] == 0 and one("SELECT id FROM evidence WHERE workspace=? AND version_id=? LIMIT 1", (workspace, version_id)):
+            raise ValueError("该解析快照已有历史引用，不能覆盖重建；请创建独立解析修订快照")
+        from .snapshots import selected_parse, snapshot_blocks
+        parse_id = payload.get('parse_id', version_id)
+        revision = selected_parse(workspace, version_id, parse_id)
+        engine = payload.get('engine', 'native')
+        legacy = parse_id == version_id
+        if revision['status'] == 'ready' and revision['parsed_pages'] == revision['page_count']:
+            if legacy:
+                execute("UPDATE versions SET status='ready' WHERE id=?",(version_id,))
+            return {'version_id':version_id,'parse_id':parse_id,'status':'ready','parsed_pages':revision['parsed_pages'],'reused':True}
+        execute("UPDATE parses SET status='parsing',error=NULL WHERE id=?", (parse_id,))
+        if legacy:
+            execute("UPDATE versions SET status='parsing' WHERE id=?", (version_id,))
+        event(run["id"], "parse_started", {"tool": "parse_document", "version_id": version_id, "checkpoint_pages": version["parsed_pages"]})
+        with pdfplumber.open(version["path"]) as pdf:
+            if len(pdf.pages) > MAX_PAGES:
+                raise ValueError("PDF 页数超出限制")
+            if legacy and version["parsed_pages"] == 0:
+                title, identity, label, metadata = _identity(pdf, pdf.pages[0])
+                _apply_identity(version, title, identity, label, metadata)
+            for page_index in range(len(pdf.pages)):
+                if cancelled(run["id"]):
+                    execute("UPDATE parses SET status='partial' WHERE id=?", (parse_id,))
+                    if legacy:
+                        execute("UPDATE versions SET status='partial' WHERE id=?", (version_id,))
+                    return {"version_id": version_id, "status": "cancelled", "parsed_pages": page_index}
+                existing_page = one("SELECT status FROM pages WHERE version_id=? AND page_index=?", (version_id,page_index)) if legacy else one("SELECT status FROM parse_pages WHERE parse_id=? AND page_index=?", (parse_id,page_index))
+                if existing_page and existing_page['status'] in ('ready','ocr','ocr_review_required'):
+                    continue
+                if legacy and one("SELECT e.id FROM evidence e JOIN blocks b ON b.id=e.block_id WHERE e.workspace=? AND e.version_id=? AND b.page_index=? LIMIT 1", (workspace, version_id, page_index)):
+                    raise ValueError("该页已有历史引用，禁止覆盖其块标识和位置；请使用独立解析修订快照")
+                original_page = pdf.pages[page_index]
+                page = original_page.crop(original_page.cropbox) if original_page.cropbox != original_page.mediabox else original_page
+                width, height = float(page.width), float(page.height)
+                origin_x, origin_y = page.bbox[:2]
+                words = page.extract_words(extra_attrs=["size"], use_text_flow=False, x_tolerance=1.1, y_tolerance=2.5)
+                rotated_text = page.rotation in (90, 270) and words and sum(not w.get("upright", True) for w in words) > len(words) * .65
+                if rotated_text:
+                    words = page.extract_words(line_dir_rotated="rtl" if page.rotation == 90 else "ltr", char_dir_rotated="ttb" if page.rotation == 90 else "btt")
+                words = [{**w, "x0": w["x0"] - origin_x, "x1": w["x1"] - origin_x, "top": w["top"] - origin_y, "bottom": w["bottom"] - origin_y} for w in words]
+                native_text = " ".join(w["text"] for w in words)
+                quality, source = "native", "pdfplumber"
+                provenance = {'engine':'native','version':PARSER_VERSION,'device':'cpu'}
+                if engine in ('paddleocr','paddleocr_vl','mineru'):
+                    from .enhanced_parsing import external_page, paddle_words, mineru_blocks
+                    provenance = external_page(version['path'],page_index,engine,device=payload.get('device','cpu'),run_id=run['id'])
+                    if engine == 'paddleocr':
+                        words, quality = paddle_words(provenance,width,height)
+                        blocks = _make_blocks(words,width,height,version_id,page_index,engine,quality)
+                    else:
+                        blocks = mineru_blocks(provenance,version_id,page_index)
+                        quality = 'ocr_review_required'
+                    source = engine
+                else:
+                    if len(re.sub(r"\s", "", native_text)) < 25:
+                        words, quality = _ocr_words(version["path"], page_index)
+                        source = "tesseract" if words else "none"
+                    blocks = _make_rotated_blocks(words, width, height, version_id, page_index, page.rotation) if rotated_text and source == "pdfplumber" else _make_blocks(words, width, height, version_id, page_index, source, quality)
+                for i,block in enumerate(blocks):
+                    block['id'] = f'{parse_id}:{page_index}:{i}'
+                    block['metadata'].update(parse_id=parse_id,parser_version=provenance.get('version'),models=provenance.get('models',[]),device=provenance.get('device','cpu'))
+                # Retain image/table source regions even if reconstruction is unavailable.
+                for image in (page.images if engine == 'native' else []):
+                    bbox = [max(0, (image["x0"] - origin_x) / width), max(0, (image["top"] - origin_y) / height), min(1, (image["x1"] - origin_x) / width), min(1, (image["bottom"] - origin_y) / height)]
+                    if (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]) < .005:
+                        continue
+                    blocks.append({"id": f"{parse_id}:{page_index}:{len(blocks)}", "version_id": version_id, "page_index": page_index, "bbox": bbox, "type": "figure", "reading_order": len(blocks), "text": "", "source": "pdfplumber_region", "quality": "source_region_only", "metadata": {"reconstruction": "原图区域；无可靠结构化重建"}})
+                try:
+                    tables = page.find_tables() if engine == 'native' else []
+                    for table in tables[:20]:
+                        cells = table.extract()
+                        text = "\n".join(" | ".join(c or "" for c in row) for row in cells)
+                        if len(text.strip()) > 15:
+                            blocks.append({"id": f"{parse_id}:{page_index}:{len(blocks)}", "version_id": version_id, "page_index": page_index, "bbox": [(table.bbox[0] - origin_x) / width, (table.bbox[1] - origin_y) / height, (table.bbox[2] - origin_x) / width, (table.bbox[3] - origin_y) / height], "type": "table", "reading_order": len(blocks), "text": text, "source": "pdfplumber_table", "quality": "table_review_required", "metadata": {"cells": cells, "reconstruction": "需与原图核对"}})
+                except (ValueError, TypeError):
+                    pass
+                text = "\n".join(b["text"] for b in blocks if b["text"])
+                status = "ready" if quality == "native" else quality
+                if not text.strip():
+                    status = "ocr_unavailable" if quality == "ocr_unavailable" else "empty_or_failed"
+                # Printed page number is evidence-based; physical index always remains separate.
+                label = None
+                bottom_words = [w for w in words if w["top"] > height * .9 and re.fullmatch(r"\d{1,5}|[ivxlcdm]{1,8}", w["text"], re.I)]
+                if len(bottom_words) == 1:
+                    label = bottom_words[0]["text"]
+                with db() as conn:
+                    # Completed pages are immutable even before a model cites them.
+                    old = conn.execute("SELECT b.id FROM blocks b LEFT JOIN block_parses m ON m.block_id=b.id WHERE b.version_id=? AND b.page_index=? AND COALESCE(m.parse_id,b.version_id)=?", (version_id,page_index,parse_id)).fetchall()
+                    if old:
+>                       raise ValueError('解析页已持久化；不能覆盖已有块，请创建新快照')
+E                       ValueError: 解析页已持久化；不能覆盖已有块，请创建新快照
+
+services/api/documents.py:482: ValueError
+_______ test_last_page_cancellation_or_deletion_never_publishes[cancel] ________
+
+source = 'ece496fe653d403ea7d98ac1e2ec414d'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x707785a65c10>
+action = 'cancel'
+
+    @pytest.mark.parametrize('action', ['cancel', 'delete'])
+    def test_last_page_cancellation_or_deletion_never_publishes(source, monkeypatch, action):
+        q, run = queue(source, 'last-page-' + action)
+        def parse(path, index, engine, **kwargs):
+            if index == 1:
+                if action == 'delete':
+                    store.execute('UPDATE versions SET deleted=1 WHERE id=?', (source,))
+                    store.execute('DELETE FROM block_fts WHERE id IN (SELECT id FROM blocks WHERE version_id=?)', (source,))
+                store.execute("UPDATE runs SET status='cancelled' WHERE id=?", (q['id'],))
+            return response('Unpublished new revision')
+        monkeypatch.setattr(enhanced_parsing, 'external_page', parse)
+        result = documents.parse_document(run)
+>       assert result['status'] == 'cancelled'
+E       AssertionError: assert 'ready' == 'cancelled'
+E         
+E         - cancelled
+E         + ready
+
+tests/unit/test_snapshot_recovery_boundaries.py:72: AssertionError
+_______ test_last_page_cancellation_or_deletion_never_publishes[delete] ________
+
+source = 'ecd17cc255964d53b5a1d93421400175'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x707785a67e30>
+action = 'delete'
+
+    @pytest.mark.parametrize('action', ['cancel', 'delete'])
+    def test_last_page_cancellation_or_deletion_never_publishes(source, monkeypatch, action):
+        q, run = queue(source, 'last-page-' + action)
+        def parse(path, index, engine, **kwargs):
+            if index == 1:
+                if action == 'delete':
+                    store.execute('UPDATE versions SET deleted=1 WHERE id=?', (source,))
+                    store.execute('DELETE FROM block_fts WHERE id IN (SELECT id FROM blocks WHERE version_id=?)', (source,))
+                store.execute("UPDATE runs SET status='cancelled' WHERE id=?", (q['id'],))
+            return response('Unpublished new revision')
+        monkeypatch.setattr(enhanced_parsing, 'external_page', parse)
+>       result = documents.parse_document(run)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/test_snapshot_recovery_boundaries.py:71: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+services/api/documents.py:507: in parse_document
+    margins = _suppress_repeating_margins(workspace,version_id,version['page_count'],parse_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api/documents.py:362: in _suppress_repeating_margins
+    for block in snapshot_blocks(workspace, version_id, parse_id or version_id):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api/snapshots.py:61: in snapshot_blocks
+    p=selected_parse(workspace,version_id,parse_id)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+workspace = 'w', version_id = 'ecd17cc255964d53b5a1d93421400175'
+parse_id = 'dc87edd03f234c4f94d5928fe5832361'
+
+    def selected_parse(workspace,version_id,parse_id=None):
+        v=one('SELECT * FROM versions WHERE workspace=? AND id=? AND deleted=0',(workspace,version_id))
+        if not v:
+>           raise ValueError('文档不存在或无权限')
+E           ValueError: 文档不存在或无权限
+
+services/api/snapshots.py:18: ValueError
+=========================== short test summary info ============================
+FAILED tests/unit/test_snapshot_recovery_boundaries.py::test_interruption_after_failed_page_can_resume_without_rewriting
+FAILED tests/unit/test_snapshot_recovery_boundaries.py::test_last_page_cancellation_or_deletion_never_publishes[cancel]
+FAILED tests/unit/test_snapshot_recovery_boundaries.py::test_last_page_cancellation_or_deletion_never_publishes[delete]
+3 failed, 1 passed in 1.07s
