@@ -36,6 +36,7 @@ POST /charts multipart `file`, `spec` JSON `{kind:'line'|'bar'|'radar'|'3d',x?:s
 GET /artifacts → Artifact[]. GET /artifacts/{id} → Artifact. GET /artifacts/{id}/export?format=md|html|bib.
 GET /admin/providers → redacted configuration + local usage; admin only.
 GET /admin/acceptance → summary counts, 6-module test matrix with API chains and screenshots, and 64 acceptance items; admin only.
+GET /admin/workflow → `{dataset,steps,updated_at,test_execution_started,published_at,load_error,guard_notice,ledger}`; admin only. Ten numbered steps include inputs/actions/outputs/API routes/dependencies and real execution records. Each run has status, actual file hashes, job IDs, results and allowlisted evidence/screenshot URLs. No inference is triggered by viewing or polling. A failed history can reference a successful retest of the same file through `resolved_by`; its original FAIL remains visible. Missing/unreadable records never infer PASS.
 GET /admin/evidence-file?path=... → allowlisted evidence JSON/log/PNG/SVG file stream with path-traversal protection; admin only.
 
 Internal modules: `store.py` owns schema/helpers `db,one,rows,execute,uid,event,cancelled,artifact,DATA`. Functions synchronous, worker runs outside async API loop.

@@ -82,3 +82,11 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 ## 2026-11-16 指定教材来源补查
 
 已找到赛题明确点名的 `UnderstandingDeepLearning_02_09_26_C.pdf`：作者项目 `udlbook/udlbook` 的 v5.0.3 Release。按远端中转下载至 `evals/files/contest/UnderstandingDeepLearning_02_09_26_C.pdf`，实测541页；SHA256与GitHub资产公布值一致（证据 `evidence/ubuntu24/contest-textbook-source.json`）。因此此前“教材未取得”的历史记录不再代表当前文件状态。当前只完成来源/完整性核验，尚未执行该书解析验收；没有将官方资料包副本与作者文件做字节比较。扫描件 `1706.03762v1_img.pdf` 的公开官方附件仍未找到。
+
+## 2026-11-16 用户资料包与处理流程阶段
+
+用户提供 `科研小助手.rar`，原包保留并加入忽略；SHA256 `a87f17843197b011b1694293a65b63514cef8a1dc72c4b465f6bbd3fc5cfc819`。已安全解压到 `evals/files/user-dataset-a87f17843197/`，39份测试PDF共1986页，加7页题目说明共40文件/1993页；包括 v1/v7、完整15页扫描版与541页教材。教材哈希与作者 Release 完全相同。
+
+按用户要求，先在管理员“验收与截图”顶部发布十步可点击流程，再执行这批资料测试。`evidence/competition-dataset/browser-before.json` 证明流程发布时 test_execution_started=false，十个节点点击、5秒保留选中刷新和桌面/390px无溢出均通过。实际记录来自 `/api/v1/admin/workflow`，证据沿用管理员白名单文件接口。前端子任务因工具额度停止，主 agent 接续已落盘内容，没有伪造其完成报告。
+
+本阶段提交时资料测试仍在继续；当前真实进度由 `evidence/competition-dataset/workflow.json` 提供，最终结果见后续交接段。不要把本阶段提交当作全部验收通过。Hydrogen4/FlashLite22/embedding56账本仍保留，没有新增供应商请求。

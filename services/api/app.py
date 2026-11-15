@@ -548,6 +548,11 @@ def admin_acceptance(s=Depends(admin)):
     from .acceptance_report import build_acceptance_report
     return build_acceptance_report()
 
+@app.get('/api/v1/admin/workflow')
+def admin_workflow(s=Depends(admin)):
+    from .workflow_report import build_workflow_report
+    return build_workflow_report()
+
 @app.get('/api/v1/admin/evidence-file')
 def admin_evidence_file(path:str=Query(...,min_length=1),s=Depends(admin)):
     from .acceptance_report import MEDIA_TYPES, resolve_evidence_file

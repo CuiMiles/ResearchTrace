@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { CheckCircle2, Eye, FileText, Image, RefreshCw, ShieldCheck, X } from './icons';
 import { api, errorMessage } from './api';
 import { Badge, Busy, Empty, ErrorBox } from './ui';
+import { AdminWorkflow } from './AdminWorkflow';
 
 interface EvidenceLink {
   path: string;
@@ -160,6 +161,8 @@ export function AdminAcceptancePage({ role }: { role: string }) {
           刷新验收数据
         </button>
       </div>
+
+      <AdminWorkflow role={role} />
 
       {error && <ErrorBox error={error} onClose={() => setError('')} />}
 

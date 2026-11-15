@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "phase": "before",
+  "checks": [
+    {
+      "label": "40-file manifest visible",
+      "status": "PASS"
+    },
+    {
+      "label": "ten real backend step definitions",
+      "status": "PASS"
+    },
+    {
+      "label": "workflow published BEFORE dataset tests",
+      "status": "PASS"
+    },
+    {
+      "label": "remaining steps honestly not run",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 1: 解压与核对输入",
+      "status": "PASS"
+    },
+    {
+      "label": "step 1 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 1 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 2: 上传与版本识别",
+      "status": "PASS"
+    },
+    {
+      "label": "step 2 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 2 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 3: 逐页解析与 OCR",
+      "status": "PASS"
+    },
+    {
+      "label": "step 3 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 3 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 4: 快照保护与索引",
+      "status": "PASS"
+    },
+    {
+      "label": "step 4 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 4 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 5: 阅读与原文定位",
+      "status": "PASS"
+    },
+    {
+      "label": "step 5 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 5 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 6: 问答、比较与翻译",
+      "status": "PASS"
+    },
+    {
+      "label": "step 6 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 6 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 7: 检索、追踪与推荐",
+      "status": "PASS"
+    },
+    {
+      "label": "step 7 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 7 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 8: 引用图谱与综述",
+      "status": "PASS"
+    },
+    {
+      "label": "step 8 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 8 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 9: 写作、绘图与导出",
+      "status": "PASS"
+    },
+    {
+      "label": "step 9 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 9 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "click step 10: 取消恢复与安全验收",
+      "status": "PASS"
+    },
+    {
+      "label": "step 10 contains action guidance",
+      "status": "PASS"
+    },
+    {
+      "label": "step 10 shows only its runs",
+      "status": "PASS"
+    },
+    {
+      "label": "poll preserves selected step",
+      "status": "PASS"
+    },
+    {
+      "label": "desktop no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "mobile no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "node clicks never submit tests",
+      "status": "PASS"
+    },
+    {
+      "label": "no browser exceptions",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "mutations": [],
+  "provider_calls": 0,
+  "observed_at": "2026-11-15T17:28:01.198259+00:00"
+}

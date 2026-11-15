@@ -1653,6 +1653,22 @@
         }
       }
     },
+    "/api/v1/admin/workflow": {
+      "get": {
+        "summary": "Admin Workflow",
+        "operationId": "admin_workflow_api_v1_admin_workflow_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/evidence-file": {
       "get": {
         "summary": "Admin Evidence File",
