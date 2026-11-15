@@ -4,7 +4,7 @@
   "checks": [
     {
       "case": "admin_acceptance_dashboard",
-      "loaded_screenshots": 25,
+      "loaded_screenshots": 29,
       "status": "PASS"
     },
     {

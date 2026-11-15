@@ -49,7 +49,7 @@ models.py exports `generate(system,prompt,run_id,core=True)->dict {text,model,us
 Ubuntu 24 parser revisions (2026-11-15):
 - `POST /documents?index_dense=false` imports without spending embedding quota; default remains true.
 - `GET /documents/{vid}/parses` returns `{id,version_id,engine,device,status,parsed_pages,page_count,error,created,active,provenance}[]`.
-- `POST /documents/{vid}/parses {engine:native|paddleocr|mineru,device:cpu|gpu,idempotency_key}` returns `{id:run_id,run_id,parse_id,status}`. GPU is supported only for MinerU; server applies live resource guards.
+- `POST /documents/{vid}/parses {engine:native|paddleocr|paddleocr_vl|mineru,device:cpu|gpu,idempotency_key}` returns `{id:run_id,run_id,parse_id,status}`. GPU is supported only for MinerU; server applies live resource guards.
 - Pages, blocks, search and references accept optional `parse_id`. Omission reads the active revision. Full successful parsing publishes a new current revision atomically; partial/failed revisions do not displace it.
 - Existing versions, source bytes, block IDs, text, bbox, translations, embeddings and historic evidence stay unchanged. Native legacy revisions use the existing version ID as parse ID. New blocks keep the original version ID, and use the independent parse ID in their opaque block ID.
 - Returned blocks and run evidence contain `parse_id`, including legacy stored run evidence enriched by its immutable block identity. Queries and bibliography graph use current revisions; old reader routes remain available within the same workspace.

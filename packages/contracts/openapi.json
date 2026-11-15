@@ -1912,7 +1912,7 @@
         "properties": {
           "engine": {
             "type": "string",
-            "pattern": "^(native|paddleocr|mineru)$",
+            "pattern": "^(native|paddleocr|paddleocr_vl|mineru)$",
             "title": "Engine"
           },
           "device": {

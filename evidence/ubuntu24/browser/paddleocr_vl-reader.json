@@ -1,0 +1,17 @@
+{
+  "engine": "paddleocr_vl",
+  "version_id": "220e534860384f8ab23ad0962dbce527",
+  "parse_id": "7eab929850014a3b9c44c1a11373159b",
+  "mutations": [],
+  "errors": [],
+  "status": "PASS",
+  "checks": [
+    "real active parser text",
+    "CJK text for Paddle",
+    "search to exact source page",
+    "normalized bbox highlight",
+    "one lazily rendered canvas",
+    "no browser exceptions",
+    "no mutating requests"
+  ]
+}

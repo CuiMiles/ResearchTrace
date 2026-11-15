@@ -6,11 +6,12 @@
 
 ## 本轮实测
 
-- 自动回归 `./scripts/test.sh` 当前 **97 passed**（`evidence/ubuntu24/regression.log`）；单独重复运行的子集不累计相加。
+- 自动回归 `./scripts/test.sh` 当前 **99 passed**（`evidence/ubuntu24/regression.log`）；单独重复运行的子集不累计相加。
 - 前端 `tsc --noEmit` / `vite build` 通过（发布 168 个构建文件），后端 `ruff` 与 `packages/contracts/openapi.json` 导出通过。
 - 无密钥隔离 API/worker 真实启动、上传、解析、阅读、搜索和 CSV 绘图通过。
 - PaddleOCR 3.7.0 / PaddlePaddle 3.2.2 真实双语 CPU 识别：PNG 7.82 秒、峰值 RSS 968368 KiB；产品单页快照 8.69 秒，中文文字层、FTS 与 PDF 坐标高亮通过。
-- MinerU 2.7.6 真实 CPU 结构/公式/表格解析通过并保留旧快照与账本不变：`equation.pdf`（8 blocks，69.81s，`evidence/ubuntu24/mineru-cpu-equation.json`）、`table.pdf`（13 blocks，含完整 HTML BLEU Table 2，94.89s，`evidence/ubuntu24/mineru-cpu-table.json`）、`formula-page4.pdf`（12 blocks，含 LaTeX Attention 公式，103.38s，`evidence/ubuntu24/mineru-cpu-formula.json`）；浏览器公式/表格黄色 PDF 坐标高亮通过（`evidence/ubuntu24/mineru-graph-browser.json`）。
+- **PaddleOCR-VL-1.6**（两阶段隔离：`PP-DocLayoutV3` -> PyTorch `bfloat16` `PaddleOCR-VL-1.6-0.9B`，34 文件清单 `evidence/ubuntu24/paddle-vl-model-manifest.json`）真实 CPU 双语解析 `scan-bilingual.pdf` 通过：132.67 秒（`evidence/ubuntu24/paddleocr-vl-cpu-product.json`），Chromium 浏览器文字层/FTS/黄色坐标高亮通过（`evidence/ubuntu24/browser/paddleocr_vl-reader.json`）。
+- **MinerU 4.2.2**（`mineru[torch]==4.2.2`，19 文件清单 `evidence/ubuntu24/mineru-422-model-manifest.json`）真实 CPU 结构/公式/表格/双语解析通过并保留旧快照与账本不变：`equation.pdf`（14.29s，`evidence/ubuntu24/mineru-cpu-equation.json`）、`table.pdf`（含完整 HTML BLEU Table 2，15.82s，`evidence/ubuntu24/mineru-cpu-table.json`）、`formula-page4.pdf`（含 LaTeX Attention 公式，23.73s，`evidence/ubuntu24/mineru-cpu-formula.json`）、`scan-bilingual.pdf`（9.20s，`evidence/ubuntu24/mineru-cpu-product.json`）；浏览器公式/表格/双语黄色 PDF 坐标高亮通过（`evidence/ubuntu24/mineru-graph-browser.json`、`evidence/ubuntu24/browser/mineru-reader.json`）。
 - MinerU GPU 模式在 WSL2 按 fail-closed 显存保护实测阻塞：`/usr/lib/wsl/lib/nvidia-smi` 可见 8188 MiB RTX 4060 Ti，但 WSL2 NVML `--query-compute-apps` 进程显存恒为 `[N/A]`，监控终止本项目会话并返回 HTTP 503 `GPU accounting unavailable; stopping this job conservatively (WSL/NVML)`（`evidence/ubuntu24/mineru-gpu-monitor.json`）。
 - 浏览器补充矩阵在 `http://127.0.0.1:18980` 全部通过（0 报错、0 越权写操作）：D02 正文与文献往返、D03 双向段落同步、D05 全状态矩阵（loading/partial/500/401/empty/429/parse-failed，`apps/web/validation/reader-extra-20261115T143101401610Z.json`），以及 E06 20+ 篇真实图谱交互与重算（29 节点/72 边，1440/1280 无溢出，`evidence/ubuntu24/mineru-graph-browser.json`）及 E08 确定性 `md`/`html`/`bib` 导出。
 - 原生 Transformer v7/v1、BERT、派生扫描件通过；541页自编夹具在30页强制中断后恢复，末页可检索，恢复进程RSS109364KiB。官方扫描原件/指定教材仍不可用。
@@ -31,8 +32,8 @@
 | A05 | 清洁构建 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
 | A06 | 本地与公网分开 | BLOCKED | Local18980 is verified; public HTTPS and reviewer login from outside are not provisioned or tested. |
 | B01 | 双栏阅读顺序 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
-| B02 | 公式与表格 | PASS | MinerU 2.7.6 CPU layout/formula/table extraction & browser highlight PASS (mineru-cpu-equation.json, mineru-cpu-table.json, mineru-cpu-formula.json, mineru-graph-browser.json); MinerU GPU explicitly BLOCKED on WSL2 NVML [N/A] (mineru-gpu-monitor.json). |
-| B03 | 扫描件新输入 | BLOCKED | Derived bilingual scan passed PaddleOCR product/browser tests; official scan original is unavailable, so the complete official-input case remains blocked. |
+| B02 | 公式与表格 | PASS | MinerU 4.2.2 CPU layout/formula/table/bilingual extraction & browser highlight PASS (mineru-cpu-equation.json 14.29s, mineru-cpu-table.json 15.82s, mineru-cpu-formula.json 23.73s, mineru-cpu-product.json 9.20s, mineru-graph-browser.json); MinerU GPU explicitly BLOCKED on WSL2 NVML [N/A] (mineru-gpu-product.json). |
+| B03 | 扫描件新输入 | BLOCKED | Derived bilingual scan passed PaddleOCR 3.7.0 (8.69s) and PaddleOCR-VL-1.6 (132.67s) product/browser tests; official scan original is unavailable, so the complete official-input case remains blocked. |
 | B04 | 同一文件重复上传 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
 | B05 | 改名后的版本识别 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |
 | B06 | 相似但不同论文 | PASS | Executed local checks listed in evidence_paths; unit fixtures are not live provider proof. |

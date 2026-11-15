@@ -5,14 +5,14 @@
   "input_file": ".tools/parse-fixtures/scan-bilingual.pdf",
   "input_sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
   "version_id": "220e534860384f8ab23ad0962dbce527",
-  "run_id": "ea6b1cea0d864a07a774ed6fb7bad153",
-  "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
-  "elapsed_seconds": 46.46487012197031,
+  "run_id": "004724bae2e948abb027b8ebd530bb32",
+  "parse_id": "9b1e2a004914449483c77aa17525d833",
+  "elapsed_seconds": 9.198179455997888,
   "run_status": "completed",
   "error": null,
   "result": {
     "version_id": "220e534860384f8ab23ad0962dbce527",
-    "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
+    "parse_id": "9b1e2a004914449483c77aa17525d833",
     "status": "ready",
     "parsed_pages": 1,
     "references": 0,
@@ -22,248 +22,236 @@
   "status": "PASS",
   "blocks": [
     {
-      "id": "fca78cbb9ec84898b7dccc3c823d6e15:0:0",
-      "workspace": "181a93915777439094b0e90c620f829f",
-      "version_id": "220e534860384f8ab23ad0962dbce527",
-      "page_index": 0,
-      "bbox": [
-        0.048,
-        0.092,
-        0.484,
-        0.136
-      ],
-      "type": "heading",
-      "reading_order": 0,
-      "text": "ResearchTrace OCR validation 7189 ",
-      "source": "mineru",
-      "quality": "structured_review_required",
-      "metadata": {
-        "mineru_type": "text",
-        "text_level": 1,
-        "reconstruction": "MinerU structured output; verify against original region",
-        "parser_version": "2.7.6",
-        "device": "cpu",
-        "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
-        "models": [
-          "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
-          "models/MFD/YOLO/yolo_v8_ft.pt",
-          "models/TabRec/SlanetPlus/slanet-plus.onnx",
-          "models/TabRec/UnetStructure/unet.onnx",
-          "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
-          "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
-          "models/MFR/unimernet_hf_small_2503"
-        ]
-      },
-      "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15"
-    },
-    {
-      "id": "fca78cbb9ec84898b7dccc3c823d6e15:0:1",
-      "workspace": "181a93915777439094b0e90c620f829f",
-      "version_id": "220e534860384f8ab23ad0962dbce527",
-      "page_index": 0,
-      "bbox": [
-        0.047,
-        0.21,
-        0.447,
-        0.258
-      ],
-      "type": "paragraph",
-      "reading_order": 1,
-      "text": "科研证据链：物理页码与原文坐标。",
-      "source": "mineru",
-      "quality": "structured_review_required",
-      "metadata": {
-        "mineru_type": "text",
-        "text_level": null,
-        "reconstruction": "MinerU structured output; verify against original region",
-        "parser_version": "2.7.6",
-        "device": "cpu",
-        "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
-        "models": [
-          "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
-          "models/MFD/YOLO/yolo_v8_ft.pt",
-          "models/TabRec/SlanetPlus/slanet-plus.onnx",
-          "models/TabRec/UnetStructure/unet.onnx",
-          "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
-          "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
-          "models/MFR/unimernet_hf_small_2503"
-        ]
-      },
-      "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15"
-    },
-    {
-      "id": "fca78cbb9ec84898b7dccc3c823d6e15:0:2",
+      "id": "9b1e2a004914449483c77aa17525d833:0:0",
       "workspace": "181a93915777439094b0e90c620f829f",
       "version_id": "220e534860384f8ab23ad0962dbce527",
       "page_index": 0,
       "bbox": [
         0.045,
-        0.33,
-        0.565,
-        0.378
+        0.094,
+        0.485,
+        0.138
+      ],
+      "type": "paragraph",
+      "reading_order": 0,
+      "text": "ResearchTrace OCR validation 7189",
+      "source": "mineru",
+      "quality": "structured_review_required",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region",
+        "parser_version": "4.2.2",
+        "device": "cpu",
+        "parse_id": "9b1e2a004914449483c77aa17525d833",
+        "models": [
+          "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "MinerU-4_models_torch/OCR/paddleocr",
+          "MinerU-4_models_torch/Table/slanet-plus.onnx",
+          "MinerU-4_models_torch/Table/unet.onnx",
+          "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
+        ]
+      },
+      "parse_id": "9b1e2a004914449483c77aa17525d833"
+    },
+    {
+      "id": "9b1e2a004914449483c77aa17525d833:0:1",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.043,
+        0.213,
+        0.448,
+        0.258
+      ],
+      "type": "paragraph",
+      "reading_order": 1,
+      "text": "科研证据链:物理页码与原文坐标。",
+      "source": "mineru",
+      "quality": "structured_review_required",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region",
+        "parser_version": "4.2.2",
+        "device": "cpu",
+        "parse_id": "9b1e2a004914449483c77aa17525d833",
+        "models": [
+          "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "MinerU-4_models_torch/OCR/paddleocr",
+          "MinerU-4_models_torch/Table/slanet-plus.onnx",
+          "MinerU-4_models_torch/Table/unet.onnx",
+          "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
+        ]
+      },
+      "parse_id": "9b1e2a004914449483c77aa17525d833"
+    },
+    {
+      "id": "9b1e2a004914449483c77aa17525d833:0:2",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.044,
+        0.334,
+        0.566,
+        0.379
       ],
       "type": "paragraph",
       "reading_order": 2,
-      "text": "实验记录共有 12、18、24 条，最大值为 24。",
+      "text": "实验记录共有12、18、24 条，最大值为24。",
       "source": "mineru",
       "quality": "structured_review_required",
       "metadata": {
         "mineru_type": "text",
         "text_level": null,
         "reconstruction": "MinerU structured output; verify against original region",
-        "parser_version": "2.7.6",
+        "parser_version": "4.2.2",
         "device": "cpu",
-        "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
+        "parse_id": "9b1e2a004914449483c77aa17525d833",
         "models": [
-          "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
-          "models/MFD/YOLO/yolo_v8_ft.pt",
-          "models/TabRec/SlanetPlus/slanet-plus.onnx",
-          "models/TabRec/UnetStructure/unet.onnx",
-          "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
-          "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
-          "models/MFR/unimernet_hf_small_2503"
+          "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "MinerU-4_models_torch/OCR/paddleocr",
+          "MinerU-4_models_torch/Table/slanet-plus.onnx",
+          "MinerU-4_models_torch/Table/unet.onnx",
+          "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
         ]
       },
-      "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15"
+      "parse_id": "9b1e2a004914449483c77aa17525d833"
     },
     {
-      "id": "fca78cbb9ec84898b7dccc3c823d6e15:0:3",
+      "id": "9b1e2a004914449483c77aa17525d833:0:3",
       "workspace": "181a93915777439094b0e90c620f829f",
       "version_id": "220e534860384f8ab23ad0962dbce527",
       "page_index": 0,
       "bbox": [
-        0.05,
-        0.452,
-        0.647,
-        0.498
+        0.045,
+        0.454,
+        0.648,
+        0.5
       ],
       "type": "paragraph",
       "reading_order": 3,
-      "text": "English text: reliable citations remain immutable. ",
+      "text": "English text: reliable citations remain immutable.",
       "source": "mineru",
       "quality": "structured_review_required",
       "metadata": {
         "mineru_type": "text",
         "text_level": null,
         "reconstruction": "MinerU structured output; verify against original region",
-        "parser_version": "2.7.6",
+        "parser_version": "4.2.2",
         "device": "cpu",
-        "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
+        "parse_id": "9b1e2a004914449483c77aa17525d833",
         "models": [
-          "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
-          "models/MFD/YOLO/yolo_v8_ft.pt",
-          "models/TabRec/SlanetPlus/slanet-plus.onnx",
-          "models/TabRec/UnetStructure/unet.onnx",
-          "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
-          "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
-          "models/MFR/unimernet_hf_small_2503"
+          "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "MinerU-4_models_torch/OCR/paddleocr",
+          "MinerU-4_models_torch/Table/slanet-plus.onnx",
+          "MinerU-4_models_torch/Table/unet.onnx",
+          "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
         ]
       },
-      "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15"
+      "parse_id": "9b1e2a004914449483c77aa17525d833"
     },
     {
-      "id": "fca78cbb9ec84898b7dccc3c823d6e15:0:4",
+      "id": "9b1e2a004914449483c77aa17525d833:0:4",
       "workspace": "181a93915777439094b0e90c620f829f",
       "version_id": "220e534860384f8ab23ad0962dbce527",
       "page_index": 0,
       "bbox": [
-        0.047,
-        0.57,
-        0.34,
+        0.045,
+        0.573,
+        0.341,
         0.618
       ],
       "type": "paragraph",
       "reading_order": 4,
-      "text": "Table: A 12 |B 18 |C 24 ",
+      "text": "Table: A 12 | B 18 | C 24",
       "source": "mineru",
       "quality": "structured_review_required",
       "metadata": {
         "mineru_type": "text",
         "text_level": null,
         "reconstruction": "MinerU structured output; verify against original region",
-        "parser_version": "2.7.6",
+        "parser_version": "4.2.2",
         "device": "cpu",
-        "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
+        "parse_id": "9b1e2a004914449483c77aa17525d833",
         "models": [
-          "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
-          "models/MFD/YOLO/yolo_v8_ft.pt",
-          "models/TabRec/SlanetPlus/slanet-plus.onnx",
-          "models/TabRec/UnetStructure/unet.onnx",
-          "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
-          "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
-          "models/MFR/unimernet_hf_small_2503"
+          "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "MinerU-4_models_torch/OCR/paddleocr",
+          "MinerU-4_models_torch/Table/slanet-plus.onnx",
+          "MinerU-4_models_torch/Table/unet.onnx",
+          "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
         ]
       },
-      "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15"
+      "parse_id": "9b1e2a004914449483c77aa17525d833"
     },
     {
-      "id": "fca78cbb9ec84898b7dccc3c823d6e15:0:5",
+      "id": "9b1e2a004914449483c77aa17525d833:0:5",
       "workspace": "181a93915777439094b0e90c620f829f",
       "version_id": "220e534860384f8ab23ad0962dbce527",
       "page_index": 0,
       "bbox": [
-        0.047,
+        0.045,
         0.694,
-        0.302,
-        0.738
+        0.305,
+        0.739
       ],
       "type": "paragraph",
       "reading_order": 5,
-      "text": "Equation: E = m c^2 ",
+      "text": "Equation: E = m c^2",
       "source": "mineru",
       "quality": "structured_review_required",
       "metadata": {
         "mineru_type": "text",
         "text_level": null,
         "reconstruction": "MinerU structured output; verify against original region",
-        "parser_version": "2.7.6",
+        "parser_version": "4.2.2",
         "device": "cpu",
-        "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15",
+        "parse_id": "9b1e2a004914449483c77aa17525d833",
         "models": [
-          "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
-          "models/MFD/YOLO/yolo_v8_ft.pt",
-          "models/TabRec/SlanetPlus/slanet-plus.onnx",
-          "models/TabRec/UnetStructure/unet.onnx",
-          "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
-          "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
-          "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
-          "models/MFR/unimernet_hf_small_2503"
+          "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+          "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+          "MinerU-4_models_torch/OCR/paddleocr",
+          "MinerU-4_models_torch/Table/slanet-plus.onnx",
+          "MinerU-4_models_torch/Table/unet.onnx",
+          "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+          "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
         ]
       },
-      "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15"
+      "parse_id": "9b1e2a004914449483c77aa17525d833"
     }
   ],
   "query": "7189",
-  "located_block": "fca78cbb9ec84898b7dccc3c823d6e15:0:0",
+  "located_block": "9b1e2a004914449483c77aa17525d833:0:0",
   "page_index": 0,
   "bbox": [
-    0.048,
-    0.092,
-    0.484,
-    0.136
+    0.045,
+    0.094,
+    0.485,
+    0.138
   ],
   "prior_blocks_unchanged": true,
   "quota_unchanged": true

@@ -34,7 +34,7 @@ def list_parses(workspace,version_id):
 
 def queue_parse(workspace,version_id,engine,device,idempotency):
     selected_parse(workspace,version_id)
-    if engine not in ('native','paddleocr','mineru') or device not in ('cpu','gpu') or engine!='mineru' and device!='cpu':
+    if engine not in ('native','paddleocr','paddleocr_vl','mineru') or device not in ('cpu','gpu') or engine!='mineru' and device!='cpu':
         raise ValueError('不支持的解析器或设备组合')
     if not idempotency or len(idempotency)>200:
         raise ValueError('需要有效幂等键')

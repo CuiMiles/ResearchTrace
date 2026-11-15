@@ -433,7 +433,7 @@ def parse_document(run):
             native_text = " ".join(w["text"] for w in words)
             quality, source = "native", "pdfplumber"
             provenance = {'engine':'native','version':PARSER_VERSION,'device':'cpu'}
-            if engine in ('paddleocr','mineru'):
+            if engine in ('paddleocr','paddleocr_vl','mineru'):
                 from .enhanced_parsing import external_page, paddle_words, mineru_blocks
                 provenance = external_page(version['path'],page_index,engine,device=payload.get('device','cpu'),run_id=run['id'])
                 if engine == 'paddleocr':

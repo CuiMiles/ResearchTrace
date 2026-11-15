@@ -123,18 +123,20 @@ def test_mineru_contract_preserves_table_equation_order():
     content = [
         {'type': 'table', 'bbox': [10, 20, 900, 500], 'table_caption': ['caption'], 'table_body': '<table></table>', 'table_footnote': ['footnote'], 'page_idx': 0},
         {'type': 'equation', 'bbox': [10, 600, 500, 700], 'text': 'x^2'},
+        {'type': 'list', 'bbox': [10, 750, 500, 820], 'list_items': ['item a', 'item b']},
     ]
-    middle = {'pdf_info': [{'page_size': [612, 792]}]}
-    blocks, size = runner.normalize_mineru(content, middle)
+    page_size = [612, 792]
+    blocks, size = runner.normalize_mineru(content, page_size)
     assert size == [612, 792]
     assert blocks[0]['type'] == 'table'
     assert blocks[0]['bbox'] == [.01, .02, .9, .5]
     assert blocks[0]['text'] == 'caption\n<table></table>\nfootnote'
     assert blocks[1]['text'] == 'x^2'
+    assert blocks[2]['text'] == 'item a\nitem b'
     with pytest.raises(ValueError, match='geometry'):
-        runner.normalize_mineru([{'text': 'unlocatable'}], middle)
+        runner.normalize_mineru([{'text': 'unlocatable'}], page_size)
     with pytest.raises(ValueError, match='unexpected page'):
-        runner.normalize_mineru([dict(content[0], page_idx=1)], middle)
+        runner.normalize_mineru([dict(content[0], page_idx=1)], page_size)
 
 
 def test_environment_secrets_and_library_paths_not_inherited(tmp_path, monkeypatch):
@@ -164,8 +166,25 @@ def test_request_rejects_wrong_device_large_body_and_input(tmp_path, monkeypatch
     monkeypatch.setattr(server, 'PRIVATE', tmp_path)
     with TestClient(server.app) as client:
         assert client.post('/parse/paddleocr?device=gpu', files={'file': ('x.png', png_bytes())}).status_code == 422
+        assert client.post('/parse/paddleocr_vl?device=gpu', files={'file': ('x.png', png_bytes())}).status_code == 422
         assert client.post('/parse/mineru', files={'file': ('x.pdf', b'bad')}).status_code == 422
         assert client.post('/parse/mineru', content=b'', headers={'content-length': str(30 * 1024 * 1024)}).status_code == 413
+
+
+def test_paddleocr_vl_model_and_validation_contract(tmp_path, monkeypatch):
+    image = tmp_path / 'page.png'
+    image.write_bytes(png_bytes())
+    assert validation.validate_input('paddleocr_vl', image) == [20, 20]
+    models_root = tmp_path / 'vl-models'
+    monkeypatch.setenv('RT_PADDLE_VL_MODELS', str(models_root))
+    with pytest.raises(ValueError, match='PP-DocLayoutV3'):
+        runner.check_models('paddleocr_vl')
+    layout = models_root / runner.VL_LAYOUT_MODEL
+    layout.mkdir(parents=True)
+    for name in ('inference.json', 'inference.pdiparams', 'inference.yml'):
+        (layout / name).write_bytes(b'ok')
+    with pytest.raises(ValueError, match='PaddleOCR-VL-1.6'):
+        runner.check_models('paddleocr_vl')
 
 
 def test_streamed_body_bound_without_content_length():
@@ -188,8 +207,8 @@ def test_streamed_body_bound_without_content_length():
 
 
 def test_fixed_api_pin_refuses_new_major_before_import(monkeypatch):
-    monkeypatch.setattr(runner.importlib.metadata, 'version', lambda engine: '4.2.2')
-    with pytest.raises(ValueError, match='2.7.6'):
+    monkeypatch.setattr(runner.importlib.metadata, 'version', lambda engine: '5.0.0')
+    with pytest.raises(ValueError, match='4.2.2'):
         runner.check_models('mineru')
 
 

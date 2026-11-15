@@ -186,7 +186,7 @@ def pdf(vid:str,s=Depends(session)):
     return FileResponse(path,media_type='application/pdf',filename=vid+'.pdf',content_disposition_type='inline')
 
 class ParseRequest(BaseModel):
-    engine:str=Field(pattern='^(native|paddleocr|mineru)$')
+    engine:str=Field(pattern='^(native|paddleocr|paddleocr_vl|mineru)$')
     device:str=Field(default='cpu',pattern='^(cpu|gpu)$')
     idempotency_key:str=Field(min_length=1,max_length=200)
 

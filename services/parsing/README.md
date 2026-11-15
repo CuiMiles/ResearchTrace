@@ -5,26 +5,24 @@ broker. Installation, remote model relay, public API snapshots, and ingestion
 integration belong to the main application owner. Never download weights from a
 parse request or inherit provider credentials.
 
-## Version decision and official sources (2026-11-15)
+## Version decision and official sources (2026-11-16)
 
 - **PaddleOCR 3.7.0**, explicitly `PP-OCRv5_mobile_det` and
-  `PP-OCRv5_mobile_rec`, CPU only in this runner. The new default is PP-OCRv6;
-  selecting local model names and directories prevents an accidental model switch.
+  `PP-OCRv5_mobile_rec`, CPU only in this runner.
   [Tagged API](https://github.com/PaddlePaddle/PaddleOCR/blob/v3.7.0/paddleocr/_pipelines/ocr.py),
   [Apache 2.0 license](https://github.com/PaddlePaddle/PaddleOCR/blob/v3.7.0/LICENSE).
-- **MinerU 2.7.6 pipeline**, supporting both CPU and guarded CUDA. This is a
-  deliberate API pin, not a claim that 2.7.6 is the newest release. The tagged
-  package supports Python >=3.10,<3.14 (including Ubuntu 24's Python 3.12), and
-  its pipeline extra requires Torch >=2.6,<3. The new 4.2.2 release has a different
-  CLI/API and no `mineru.cli.common.do_parse`; it cannot be substituted silently.
-  [Tagged dependencies](https://github.com/opendatalab/MinerU/blob/mineru-2.7.6-released/pyproject.toml),
-  [tagged do_parse API](https://github.com/opendatalab/MinerU/blob/mineru-2.7.6-released/mineru/cli/common.py),
-  [current releases](https://github.com/opendatalab/MinerU/releases).
-- The **2.7.6 tag is AGPL-3.0**, not the new 4.x license. Preserve the pinned
-  release's notices and handle its applicable source availability obligations
-  when distributing or offering the service. Model assets and transitive
-  dependencies retain their own licenses; installing the package does not audit
-  their licenses. [Pinned license](https://github.com/opendatalab/MinerU/blob/mineru-2.7.6-released/LICENSE.md).
+- **PaddleOCR-VL-1.6 (`paddleocr_vl`)**, CPU only, running as two memory-isolated
+  stages to stay well under the service 5 GiB cgroup cap: Stage 1 runs
+  `PP-DocLayoutV3` inside `.tools/paddle-env` and exits (~1 GiB RSS); Stage 2 runs
+  `PaddleOCR-VL-1.6-0.9B` in `torch.bfloat16` (`trust_remote_code=False`,
+  `use_cache=True`) inside `.tools/mineru-env` (~2.4 GiB peak RSS).
+- **MinerU 4.2.2 pipeline**, supporting both CPU and guarded CUDA via
+  `mineru.backend.analyze.doc_analyze(..., effort='medium')` +
+  `mineru.render.render_content_list`, provisioned locally with
+  `MinerU-4_models_torch` (and optional `MinerU2.5-Pro-2605-1.2B-GGUF`) under
+  `MINERU_MODEL_BASE_DIR` and `MINERU_MODEL_SOURCE=local`. Remote VLM server URLs
+  are explicitly rejected by preflight/runner validation.
+  [Current releases](https://github.com/opendatalab/MinerU/releases).
 
 These sources establish APIs and packaging constraints, not successful execution
 on any particular CUDA driver. Main-agent live evidence must establish that.
@@ -44,25 +42,21 @@ load `.env`; export the relevant configuration through the service manager.
 | Variable | Default / meaning |
 | --- | --- |
 | `RT_PADDLE_PYTHON` | `.tools/paddle-env/bin/python` |
+| `RT_PADDLE_VL_PYTHON` | `.tools/mineru-env/bin/python` |
 | `RT_MINERU_PYTHON` | `.tools/mineru-env/bin/python` |
 | `RT_PADDLE_MODELS` | `.tools/models/paddle` with both named PP-OCRv5 models |
-| `RT_MINERU_CONFIG` | `.tools/models/mineru.json`; fallback `MINERU_TOOLS_CONFIG_JSON` also accepted |
+| `RT_PADDLE_VL_MODELS` | `.tools/models/paddle-vl` (`PP-DocLayoutV3` + `PaddleOCR-VL-1.6`) |
+| `RT_MINERU_MODELS` | `.tools/models/mineru-4.2` (`MinerU-4_models_torch` + optional `MinerU2.5-Pro-2605-1.2B-GGUF`) |
 | `RT_GPU_RESERVE_MIB` | 2048 minimum; lower supplied values clamp to 2048 |
 | `RT_GPU_MAX_MIB` | 2048 per job, includes GPU usage of descendant processes |
 | `RT_PARSER_TIMEOUT_SECONDS` | 300; valid 1..900 |
 
 Use absolute custom paths. Paddle model folders must contain nonempty
-`inference.json`, `inference.pdiparams`, and `inference.yml`. MinerU configuration
-must contain **only** this local structure (no LLM/provider entries):
+`inference.json`, `inference.pdiparams`, and `inference.yml`. MinerU 4.2.2
+uses `MINERU_MODEL_BASE_DIR` (populated offline) and `MINERU_MODEL_SOURCE=local`
+with `MINERU_MODEL_SMALL_BACKEND=torch`; no remote VLM URL/provider env is allowed.
 
-```json
-{"models-dir": {"pipeline": "/absolute/provisioned/PDF-Extract-Kit-1.0"}}
-```
-
-MinerU preflight checks the installed version's declared model files, Unimernet
-configuration/weights, and the OCR `ch`/`ch_lite` models selected by its packaged
-configuration. These files must be supplied through the user-required remote
-relay. The runner uses local model source, offline Hugging Face settings, and a
+The runner uses local model source, offline Hugging Face settings, and a
 Python socket egress denial policy. This is **not an OS sandbox** for native code.
 Dynamic linker paths and keys from the parent are not inherited; the fixed WSL
 CUDA driver directory is included when present. No old-host Intel preload patch
@@ -74,8 +68,9 @@ is applied.
 load all models or prove successful inference. `last_runs` records actual parse
 outcomes separately. A successful preflight cannot count as a live test.
 
-`POST /parse/paddleocr?device=cpu` accepts one PNG; `POST /parse/mineru?device=cpu`
-or `device=gpu` accepts exactly one PDF page. Files are limited to 20 MiB, images
+`POST /parse/paddleocr?device=cpu` and `POST /parse/paddleocr_vl?device=cpu`
+accept one PNG; `POST /parse/mineru?device=cpu` or `device=gpu` accepts exactly
+one PDF page. Files are limited to 20 MiB, images
 to 16 million pixels and 8192 pixels per side. PDF page dimensions must also fit
 those bounds at 200 DPI. Multipart requests have a separate 21 MiB streamed cap.
 Outputs, block counts, diagnostic logs, and execution time have limits. Logs and

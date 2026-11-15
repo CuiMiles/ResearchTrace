@@ -5,13 +5,13 @@
     {
       "id": "B02-mineru-formula",
       "version_id": "1440252dd5d249c198d6335143d9e2b6",
-      "parse_id": "2b0232877a244809af1ca61e7320b37d",
+      "parse_id": "33a4763306bc4ec7b3bd490b92c6886d",
       "status": "PASS"
     },
     {
       "id": "B02-mineru-table",
       "version_id": "961a28b4f92d4c439acf9d66ffb88f1e",
-      "parse_id": "bda7b6f27b274b3eb9edd2b65d111a4e",
+      "parse_id": "f0c435f0f7d44c60a6db35cabdf25494",
       "status": "PASS"
     },
     {

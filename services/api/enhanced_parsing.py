@@ -10,7 +10,7 @@ import pypdfium2 as pdfium
 from .store import ROOT
 
 def external_page(pdf_path,page_index,engine,device='cpu',run_id=None):
-    if engine not in ('paddleocr','mineru'):
+    if engine not in ('paddleocr','paddleocr_vl','mineru'):
         raise ValueError('Unknown parser engine')
     socket=Path(os.getenv('RT_PARSER_SOCKET',ROOT/'data/parsing/parser.sock'))
     if not socket.exists():
@@ -18,7 +18,7 @@ def external_page(pdf_path,page_index,engine,device='cpu',run_id=None):
     doc=pdfium.PdfDocument(str(pdf_path))
     try:
         buffer=io.BytesIO()
-        if engine=='paddleocr':
+        if engine in ('paddleocr','paddleocr_vl'):
             page=doc[page_index];scale=min(2.5,2400/max(page.get_size()))
             bitmap=page.render(scale=scale)
             image=bitmap.to_pil()
@@ -114,11 +114,12 @@ def paddle_words(result,width,height):
 
 def mineru_blocks(result,version_id,page_index):
     blocks=[]
+    source=result.get('engine','mineru')
     for i,item in enumerate(result['blocks']):
         kind=item.get('type','paragraph')
         metadata={**item.get('metadata',{}),'parser_version':result['version'],'device':result['device']}
         if metadata.get('text_level'):
             kind='heading'
         blocks.append({'id':f'{version_id}:{page_index}:{i}','version_id':version_id,'page_index':page_index,'bbox':item['bbox'],'type':kind,
-            'reading_order':i,'text':item['text'],'source':'mineru','quality':'structured_review_required','metadata':metadata})
+            'reading_order':i,'text':item['text'],'source':source,'quality':'structured_review_required','metadata':metadata})
     return blocks

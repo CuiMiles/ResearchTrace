@@ -29,7 +29,7 @@ try:
   page.get_by_label('选择解析快照',exact=True).select_option(result['parse_id'])
   page.get_by_role('button',name='中英对照',exact=True).click()
   page.locator('.parallel-column').first.get_by_text('7189',exact=False).first.wait_for()
-  if engine=='paddleocr':page.locator('.parallel-column').first.get_by_text('科研证据链',exact=False).first.wait_for()
+  if engine in ('paddleocr','paddleocr_vl'):page.locator('.parallel-column').first.get_by_text('科研证据链',exact=False).first.wait_for()
   assert not page.evaluate('document.documentElement.scrollWidth>innerWidth')
   page.screenshot(path=str(out/f'{engine}-text-layer.png'),full_page=True)
   page.get_by_role('button',name='搜索原文',exact=True).click();page.get_by_label('原文搜索',exact=True).fill('7189')

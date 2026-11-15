@@ -33,7 +33,7 @@ export function useParseSnapshots(versionId?:string) {
 }
 
 export function ParseControls({versionId,snapshots,selected,onSelect,error,loading,reload,onSubmitted}:{versionId:string;snapshots:ParseSnapshot[];selected:string;onSelect:(id:string)=>void;error:string;loading:boolean;reload:()=>void;onSubmitted:(runId:string)=>void}) {
- const [engine,setEngine]=useState<'native'|'paddleocr'|'mineru'>('native');
+ const [engine,setEngine]=useState<'native'|'paddleocr'|'paddleocr_vl'|'mineru'>('native');
  const [device,setDevice]=useState<'cpu'|'gpu'>('cpu');
  const [submitting,setSubmitting]=useState(false);
  const [submitError,setSubmitError]=useState('');
@@ -67,7 +67,7 @@ export function ParseControls({versionId,snapshots,selected,onSelect,error,loadi
   <button className="text-button" disabled={loading} onClick={reload}>{loading?<Busy>刷新快照</Busy>:'刷新快照'}</button>
   {error&&<ErrorBox error={`解析快照暂不可用：${error}`}/>}
   <p className="muted">重新解析会保留旧快照和已有引用。引擎能否运行由任务实际结果确认。</p>
-  <div className="parse-options"><label>解析引擎<select aria-label="解析引擎" value={engine} disabled={submitting} onChange={e=>{setEngine(e.target.value as typeof engine);if(e.target.value!=='mineru')setDevice('cpu')}}><option value="native">原生解析</option><option value="paddleocr">PaddleOCR · 文字识别</option><option value="mineru">MinerU · 版面结构</option></select></label><label>设备<select aria-label="解析设备" value={device} disabled={submitting} onChange={e=>setDevice(e.target.value as typeof device)}><option value="cpu">CPU</option><option value="gpu" disabled={engine!=='mineru'}>GPU · MinerU</option></select></label></div>
+  <div className="parse-options"><label>解析引擎<select aria-label="解析引擎" value={engine} disabled={submitting} onChange={e=>{setEngine(e.target.value as typeof engine);if(e.target.value!=='mineru')setDevice('cpu')}}><option value="native">原生解析</option><option value="paddleocr">PaddleOCR · 文字识别</option><option value="paddleocr_vl">PaddleOCR-VL-1.6 · 文档大模型</option><option value="mineru">MinerU · 版面结构</option></select></label><label>设备<select aria-label="解析设备" value={device} disabled={submitting} onChange={e=>setDevice(e.target.value as typeof device)}><option value="cpu">CPU</option><option value="gpu" disabled={engine!=='mineru'}>GPU · MinerU</option></select></label></div>
   {device==='gpu'&&<p className="muted">GPU 需服务端配置与资源检查；提交不代表已分配显存。</p>}
   <button className="small-button" disabled={submitting||Boolean(error)||loading||snapshots.some(s=>parseInProgress(s.status))} onClick={()=>void submit()}>{submitting?<Busy>提交中</Busy>:submitError?'重试同一解析请求':'创建解析快照'}</button>
   {snapshots.some(s=>parseInProgress(s.status))&&<p className="muted">已有解析任务进行中，列表会自动刷新。</p>}

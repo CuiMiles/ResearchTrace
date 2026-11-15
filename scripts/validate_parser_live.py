@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 import httpx
 from services.api import store
-p=argparse.ArgumentParser();p.add_argument('--engine',choices=['paddleocr','mineru'],required=True);p.add_argument('--device',choices=['cpu','gpu'],default='cpu');p.add_argument('--file',required=True);p.add_argument('--query',default='7189');p.add_argument('--base',default='http://127.0.0.1:18980');p.add_argument('--out',default=None);args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--engine',choices=['paddleocr','paddleocr_vl','mineru'],required=True);p.add_argument('--device',choices=['cpu','gpu'],default='cpu');p.add_argument('--file',required=True);p.add_argument('--query',default='7189');p.add_argument('--base',default='http://127.0.0.1:18980');p.add_argument('--out',default=None);args=p.parse_args()
 report={'engine':args.engine,'device':args.device,'model_requests':0,'input_file':args.file,'input_sha256':hashlib.sha256(Path(args.file).read_bytes()).hexdigest()}
 report_path=Path(args.out) if args.out else ROOT/f'evidence/ubuntu24/{args.engine}-{args.device}-product.json'
 quota_before=store.rows('SELECT model,count(*) n FROM quota GROUP BY model')

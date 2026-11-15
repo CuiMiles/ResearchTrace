@@ -70,12 +70,12 @@ dist-next/assets/KaTeX_Main-Regular-ypZvNtVU.ttf              53.58 kB
 dist-next/assets/KaTeX_AMS-Regular-DRggAlZN.ttf               63.63 kB
 dist-next/assets/pdf.worker.min-yatZIOMy.mjs               1,375.84 kB
 dist-next/assets/index-DTkz1xfT.css                           83.08 kB │ gzip:  20.11 kB
-dist-next/assets/Diagram-Bcmx7A2c.js                          32.79 kB │ gzip:  13.25 kB
-dist-next/assets/index-o4nOpSqK.js                         1,035.87 kB │ gzip: 310.54 kB
+dist-next/assets/Diagram-C8doM747.js                          32.79 kB │ gzip:  13.25 kB
+dist-next/assets/index-BJi3q_fs.js                         1,035.95 kB │ gzip: 310.57 kB
 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 2.20s
+✓ built in 2.19s
 Published 168 build files; index replaced last, existing hashed assets retained.

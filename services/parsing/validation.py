@@ -16,9 +16,9 @@ def validate_input(engine, path):
         raise ValueError('Input must be a bounded local file (20 MiB maximum)')
     with path.open('rb') as stream:
         signature = stream.read(8)
-    if engine == 'paddleocr':
+    if engine in ('paddleocr', 'paddleocr_vl'):
         if signature != b'\x89PNG\r\n\x1a\n':
-            raise ValueError('PaddleOCR expects a single PNG page')
+            raise ValueError(f'{engine} expects a single PNG page')
         from PIL import Image
         with warnings.catch_warnings():
             warnings.simplefilter('error', Image.DecompressionBombWarning)

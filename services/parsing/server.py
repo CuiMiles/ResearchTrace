@@ -35,8 +35,14 @@ REQUEST_ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9_-]{0,95}\Z')
 
 
 def interpreter_for(engine):
-    default = ROOT / '.tools' / ('paddle-env' if engine == 'paddleocr' else 'mineru-env') / 'bin/python'
-    return Path(os.getenv('RT_PADDLE_PYTHON' if engine == 'paddleocr' else 'RT_MINERU_PYTHON', str(default))).absolute()
+    if engine == 'paddleocr':
+        default = ROOT / '.tools/paddle-env/bin/python'
+        return Path(os.getenv('RT_PADDLE_PYTHON', str(default))).absolute()
+    if engine == 'paddleocr_vl':
+        default = ROOT / '.tools/mineru-env/bin/python'
+        return Path(os.getenv('RT_PADDLE_VL_PYTHON', str(default))).absolute()
+    default = ROOT / '.tools/mineru-env/bin/python'
+    return Path(os.getenv('RT_MINERU_PYTHON', str(default))).absolute()
 
 
 def limits():
@@ -62,10 +68,13 @@ def runner_env(engine, directory):
         'PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK': 'True', 'HF_HUB_OFFLINE': '1',
         'TRANSFORMERS_OFFLINE': '1', 'HF_HUB_DISABLE_TELEMETRY': '1',
         'DO_NOT_TRACK': '1', 'YOLO_OFFLINE': 'true',
-        'MINERU_MODEL_SOURCE': 'local', 'MINERU_DEVICE_MODE': 'cpu',
+        'MINERU_MODEL_BASE_DIR': os.getenv('RT_MINERU_MODELS', str(ROOT / '.tools/models/mineru-4.2')),
+        'MINERU_MODEL_SOURCE': 'local', 'MINERU_MODEL_SMALL_BACKEND': 'torch',
+        'MINERU_MODEL_VLM_ENGINE': 'llama-cpp', 'MINERU_DEVICE_MODE': 'cpu',
         'MINERU_MIN_BATCH_INFERENCE_SIZE': '1', 'MINERU_TABLE_MAX_TIME': '120',
+        'RT_PADDLE_PYTHON': str(interpreter_for('paddleocr')),
         'RT_PADDLE_MODELS': os.getenv('RT_PADDLE_MODELS', str(ROOT / '.tools/models/paddle')),
-        'MINERU_TOOLS_CONFIG_JSON': os.getenv('RT_MINERU_CONFIG', os.getenv('MINERU_TOOLS_CONFIG_JSON', str(ROOT / '.tools/models/mineru.json'))),
+        'RT_PADDLE_VL_MODELS': os.getenv('RT_PADDLE_VL_MODELS', str(ROOT / '.tools/models/paddle-vl')),
         'HF_HOME': str(directory / 'hf'), 'MODELSCOPE_CACHE': str(directory / 'modelscope'),
         'PADDLE_PDX_CACHE_HOME': str(directory / 'paddle'), 'CUDA_VISIBLE_DEVICES': '',
     }
@@ -77,10 +86,10 @@ def runner_env(engine, directory):
 
 
 def execute(engine, directory, *, input_path=None, device='cpu', cancel_event=None):
-    if engine not in ('paddleocr', 'mineru') or device not in ('cpu', 'gpu'):
+    if engine not in ('paddleocr', 'paddleocr_vl', 'mineru') or device not in ('cpu', 'gpu'):
         raise ValueError('Unsupported parser or device')
-    if engine == 'paddleocr' and device != 'cpu':
-        raise ValueError('PaddleOCR runner supports CPU only; GPU is MinerU pipeline')
+    if engine in ('paddleocr', 'paddleocr_vl') and device != 'cpu':
+        raise ValueError(f'{engine} runner supports CPU only; GPU is MinerU pipeline')
     interpreter = interpreter_for(engine)
     if not interpreter.is_file():
         raise ValueError(f'{engine} environment unavailable')
@@ -196,7 +205,7 @@ async def readiness():
         return JSONResponse(status_code=503, content={'ready': False, 'detail': 'Parser busy'})
     libraries = {}
     async with lock:
-        for engine in ('paddleocr', 'mineru'):
+        for engine in ('paddleocr', 'paddleocr_vl', 'mineru'):
             cancel = threading.Event()
             task = asyncio.create_task(asyncio.to_thread(execute, engine, new_directory(), cancel_event=cancel))
             try:
@@ -235,7 +244,7 @@ async def parse(engine: str, request: Request, file: UploadFile = File(...),
                 device: str = 'cpu', request_id: str | None = None):
     try:
         identifier = validated_request_id(request_id) if request_id is not None else uuid.uuid4().hex
-        if engine not in ('paddleocr', 'mineru') or device not in ('cpu', 'gpu') or (engine == 'paddleocr' and device == 'gpu'):
+        if engine not in ('paddleocr', 'paddleocr_vl', 'mineru') or device not in ('cpu', 'gpu') or (engine in ('paddleocr', 'paddleocr_vl') and device == 'gpu'):
             raise HTTPException(422, 'Unsupported parser or device')
         if identifier in active_requests:
             raise HTTPException(409, 'Parser request ID already active')

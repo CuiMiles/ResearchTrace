@@ -64,7 +64,7 @@ class FetchDocument(StrictModel):
 
 class ParseDocument(StrictModel):
     version_id: SafeID
-    engine: Literal['native', 'paddleocr', 'mineru'] = 'native'
+    engine: Literal['native', 'paddleocr', 'paddleocr_vl', 'mineru'] = 'native'
     device: Literal['cpu', 'gpu'] = 'cpu'
 
 
