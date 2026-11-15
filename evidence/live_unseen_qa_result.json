@@ -1,0 +1,1160 @@
+{
+  "id": "3c8055fcd0d448dc9842e83686d02d8b",
+  "workspace": "181a93915777439094b0e90c620f829f",
+  "kind": "qa",
+  "status": "completed",
+  "payload": "{\"question\": \"In this BERT paper, what percentage of WordPiece tokens are chosen for masking, and what is done with those selected tokens (MASK/random/unchanged proportions)? Also, what are the authors blood types? If blood types are absent, explicitly mark missing evidence. Use only this PDF.\", \"version_ids\": [\"2ff38c08ff444fc789230d0fe59c2002\"]}",
+  "result": {
+    "answer": "根据提供的论文《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》（v2，arxiv:1810.04805）证据：\n\n1. WordPiece 词元掩码比例：在所有实验中，模型在每个序列中随机选择 15% 的 WordPiece 词元进行掩码（在 WordPiece 分词之后以 15% 的均匀掩码率应用，且不对部分词片做特殊处理）。\n2. 被选中词元的处理方式与比例：训练数据生成器随机选择 15% 的词元位置用于预测；若第 i 个词元被选中，则按以下比例替换：\n   - 80% 的概率替换为 [MASK] 词元；\n   - 10% 的概率替换为随机词元；\n   - 10% 的概率保持第 i 个词元不变。\n3. 作者血型信息：缺证据。所提供的 PDF 证据片段中未包含任何关于作者血型的信息。",
+    "claims": [
+      {
+        "text": "在 BERT（v2，arxiv:1810.04805）的所有实验中，每个序列随机掩码 15% 的 WordPiece 词元。",
+        "type": "source_fact",
+        "evidence": [
+          {
+            "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:5",
+            "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+            "page_index": 3,
+            "bbox": [
+              0.5161908089692848,
+              0.07746174155768579,
+              0.8828660107244373,
+              0.5410461765788873
+            ],
+            "quote": "In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random.",
+            "status": "located_semantics_pending"
+          }
+        ]
+      },
+      {
+        "text": "语言模型掩码在 WordPiece 分词之后以 15% 的均匀掩码率应用，且不对部分词片（partial word pieces）作特殊处理。",
+        "type": "source_fact",
+        "evidence": [
+          {
+            "block_id": "2ff38c08ff444fc789230d0fe59c2002:12:14",
+            "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+            "page_index": 12,
+            "bbox": [
+              0.12095229775767873,
+              0.6164426491584412,
+              0.4876213265779238,
+              0.9090526857427932
+            ],
+            "quote": "The LM masking is applied after WordPiece tokenization with a uni- form masking rate of 15%, and no special consid- eration given to partial word pieces.",
+            "status": "located_semantics_pending"
+          }
+        ]
+      },
+      {
+        "text": "训练数据生成器随机选择 15% 的词元位置进行预测；当第 i 个词元被选中时，80% 的时间替换为 [MASK] 词元，10% 的时间替换为随机词元，10% 的时间保持第 i 个词元不变。",
+        "type": "source_fact",
+        "evidence": [
+          {
+            "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:5",
+            "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+            "page_index": 3,
+            "bbox": [
+              0.5161908089692848,
+              0.07746174155768579,
+              0.8828660107244373,
+              0.5410461765788873
+            ],
+            "quote": "The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time.",
+            "status": "located_semantics_pending"
+          }
+        ]
+      },
+      {
+        "text": "关于论文作者的血型，给定 PDF 证据中未提及，缺证据。",
+        "type": "insufficient",
+        "evidence": []
+      }
+    ],
+    "model": "gemini-4-hydrogen",
+    "usage": {
+      "promptTokenCount": 6022,
+      "candidatesTokenCount": 696,
+      "totalTokenCount": 7886,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 6022
+        }
+      ],
+      "candidatesTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 696
+        }
+      ],
+      "thoughtsTokenCount": 1168,
+      "serviceTier": "standard"
+    },
+    "retrieval": {
+      "blocks": [
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:3:5",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 3,
+          "bbox": [
+            0.5161908089692848,
+            0.07746174155768579,
+            0.8828660107244373,
+            0.5410461765788873
+          ],
+          "type": "paragraph",
+          "reading_order": 5,
+          "text": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T will be used to predict the original token with i cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7494001984596252,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:0:8",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 0,
+          "bbox": [
+            0.5161908089692848,
+            0.7833468765515681,
+            0.8828598377895297,
+            0.9090526857427927
+          ],
+          "type": "paragraph",
+          "reading_order": 8,
+          "text": "Encoder Representations from Transformers. BERT alleviates the previously mentioned unidi- rectionality constraint by using a “masked lan- guage model” (MLM) pre-training objective, in- spired by the Cloze task (Taylor, 1953). The masked language model randomly masks some of the tokens from the input, and the objective is to predict the original vocabulary id of the masked",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7415988445281982,
+          "rrf_score": 0.031754032258064516
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:14",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.12095229775767866,
+            0.6703658026583045,
+            0.48762132657792356,
+            0.9090526857427931
+          ],
+          "type": "paragraph",
+          "reading_order": 14,
+          "text": "We introduce BERT and its detailed implementa- tion in this section. There are two steps in our framework: pre-training and fine-tuning . Dur- ing pre-training, the model is trained on unlabeled data over different pre-training tasks. For fine- tuning, the BERT model is first initialized with the pre-trained parameters, and all of the param- eters are fine-tuned using labeled data from the downstream tasks. Each downstream task has sep- arate fine-tuned models, even though they are ini- tialized with the same pre-trained parameters. The question-answering example in Figure 1 will serve as a running example for this section. A distinctive feature of BERT is its unified ar- chitecture across different tasks. There is mini-",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7103474140167236,
+          "rrf_score": 0.02964426877470356
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:1:0",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 1,
+          "bbox": [
+            0.1209522977576788,
+            0.07746174155768566,
+            0.4876213265779237,
+            0.21917039708275396
+          ],
+          "type": "paragraph",
+          "reading_order": 0,
+          "text": "word based only on its context. Unlike left-to- right language model pre-training, the MLM ob- jective enables the representation to fuse the left and the right context, which allows us to pre- train a deep bidirectional Transformer. In addi- tion to the masked language model, we also use a “next sentence prediction” task that jointly pre- trains text-pair representations. The contributions of our paper are as follows:",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.715065598487854,
+          "rrf_score": 0.028782894736842105
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:0:7",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 0,
+          "bbox": [
+            0.5161908089692848,
+            0.26719317915642204,
+            0.8828603318460679,
+            0.7803018988228863
+          ],
+          "type": "paragraph",
+          "reading_order": 7,
+          "text": "There are two existing strategies for apply- ing pre-trained language representations to down- stream tasks: feature-based and fine-tuning. The feature-based approach, such as ELMo (Peters et al., 2018a), uses task-specific architectures that include the pre-trained representations as addi- tional features. The fine-tuning approach, such as the Generative Pre-trained Transformer (OpenAI GPT) (Radford et al., 2018), introduces minimal task-specific parameters, and is trained on the downstream tasks by simply fine-tuning all pre- trained parameters. The two approaches share the same objective function during pre-training, where they use unidirectional language models to learn general language representations. We argue that current techniques restrict the power of the pre-trained representations, espe- cially for the fine-tuning approaches. The ma- jor limitation is that standard language models are unidirectional, and this limits the choice of archi- tectures that can be used during pre-training. For example, in OpenAI GPT, the authors use a left-to- right architecture, where every token can only at- tend to previous tokens in the self-attention layers of the Transformer (Vaswani et al., 2017). Such re- strictions are sub-optimal for sentence-level tasks, and could be very harmful when applying fine- tuning based approaches to token-level tasks such as question answering, where it is crucial to incor- porate context from both directions. In this paper, we improve the fine-tuning based approaches by proposing BERT: Bidirectional",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7009909749031067,
+          "rrf_score": 0.027417840375586856
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:24",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.48080218251701723,
+            0.30740514984142814,
+            0.882863352461715,
+            0.36184052738481287
+          ],
+          "type": "paragraph",
+          "reading_order": 24,
+          "text": "for BERT. Apart from output layers, the same architec- same pre-trained model parameters are used to initialize all parameters are fine-tuned. [CLS] is a special [SEP] is a special separator token (e.g. separating ques-",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.703904926776886,
+          "rrf_score": 0.02638888888888889
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:1:1",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 1,
+          "bbox": [
+            0.12449687203918855,
+            0.23054349808169688,
+            0.48762115858862115,
+            0.37225215360676517
+          ],
+          "type": "paragraph",
+          "reading_order": 1,
+          "text": "• We demonstrate the importance of bidirectional pre-training for language representations. Un- like Radford et al. (2018), which uses unidirec- tional language models for pre-training, BERT uses masked language models to enable pre- trained deep bidirectional representations. This is also in contrast to Peters et al. (2018a), which uses a shallow concatenation of independently trained left-to-right and right-to-left LMs.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7127400636672974,
+          "rrf_score": 0.02625418060200669
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:3:0",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 3,
+          "bbox": [
+            0.12095229775767873,
+            0.07737103647744951,
+            0.4876275047204993,
+            0.5584023632541061
+          ],
+          "type": "paragraph",
+          "reading_order": 0,
+          "text": "Input/Output Representations To make BERT handle a variety of down-stream tasks, our input representation is able to unambiguously represent both a single sentence and a pair of sentences (e.g., (cid:104) Question, Answer (cid:105)) in one token sequence. Throughout this work, a “sentence” can be an arbi- trary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the in- put token sequence to BERT, which may be a sin- gle sentence or two sentences packed together. We use WordPiece embeddings (Wu et al., 2016) with a 30,000 token vocabulary. The first token of every sequence is always a special clas- sification token ( [CLS] ). The final hidden state corresponding to this token is used as the ag- gregate sequence representation for classification tasks. Sentence pairs are packed together into a single sequence. We differentiate the sentences in two ways. First, we separate them with a special token ( [SEP] ). Second, we add a learned embed- ding to every token indicating whether it belongs to sentence A or sentence B . As shown in Figure 1, we denote input embedding as E, the final hidden vector of the special [CLS] token as C ∈ R H , and the final hidden vector for the i th input token as T ∈ R H . i For a given token, its input representation is constructed by summing the corresponding token, segment, and position embeddings. A visualiza- tion of this construction can be seen in Figure 2.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7326850295066833,
+          "rrf_score": 0.025974025974025976
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:4:4",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 4,
+          "bbox": [
+            0.1209522977576788,
+            0.21878668424616038,
+            0.8828633524617145,
+            0.24482048913753587
+          ],
+          "type": "caption",
+          "reading_order": 4,
+          "text": "Figure 2: BERT input representation. The input embeddings are the sum of the token embeddings, the segmenta- tion embeddings and the position embeddings.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7023332715034485,
+          "rrf_score": 0.024039829302987197
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:1:3",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 1,
+          "bbox": [
+            0.12449687203918858,
+            0.5074145857534825,
+            0.48762115858862115,
+            0.5686542964045177
+          ],
+          "type": "paragraph",
+          "reading_order": 3,
+          "text": "• BERT advances the state of the art for eleven NLP tasks. The code and pre-trained mod- els are available at https://github.com/ google-research/bert .",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.6862607002258301,
+          "rrf_score": 0.023159303882195448
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:3:2",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 3,
+          "bbox": [
+            0.12095229775767873,
+            0.5962349779662418,
+            0.48762132657792356,
+            0.6896617914454374
+          ],
+          "type": "paragraph",
+          "reading_order": 2,
+          "text": "Unlike Peters et al. (2018a) and Radford et al. (2018), we do not use traditional left-to-right or right-to-left language models to pre-train BERT. Instead, we pre-train BERT using two unsuper- vised tasks, described in this section. This step is presented in the left part of Figure 1.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7077349424362183,
+          "rrf_score": 0.02303921568627451
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:26",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.5161908089692848,
+            0.4477947260330922,
+            0.8828655880633522,
+            0.8325498171970208
+          ],
+          "type": "paragraph",
+          "reading_order": 26,
+          "text": "Model Architecture BERT’s model architec- ture is a multi-layer bidirectional Transformer en- coder based on the original implementation de- scribed in Vaswani et al. (2017) and released in the tensor2tensor library. 1 Because the use of Transformers has become common and our im- plementation is almost identical to the original, we will omit an exhaustive background descrip- tion of the model architecture and refer readers to Vaswani et al. (2017) as well as excellent guides such as “The Annotated Transformer.” 2 In this work, we denote the number of layers (i.e., Transformer blocks) as L, the hidden size as H, and the number of self-attention heads as A. 3 We primarily report results on two model sizes: BERT (L=12, H=768, A=12, Total Param- BASE eters=110M) and BERT (L=24, H=1024, LARGE A=16, Total Parameters=340M). BERT was chosen to have the same model BASE size as OpenAI GPT for comparison purposes. Critically, however, the BERT Transformer uses bidirectional self-attention, while the GPT Trans- former uses constrained self-attention where every token can only attend to context to its left. 4",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.7065392732620239,
+          "rrf_score": 0.022967329894374847
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:4:8",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 4,
+          "bbox": [
+            0.1209522977576788,
+            0.5900025723075458,
+            0.4876237239532586,
+            0.9090526857427927
+          ],
+          "type": "paragraph",
+          "reading_order": 8,
+          "text": "Fine-tuning is straightforward since the self- attention mechanism in the Transformer al- lows BERT to model many downstream tasks— whether they involve single text or text pairs—by swapping out the appropriate inputs and outputs. For applications involving text pairs, a common pattern is to independently encode text pairs be- fore applying bidirectional cross attention, such as Parikh et al. (2016); Seo et al. (2017). BERT instead uses the self-attention mechanism to unify these two stages, as encoding a concatenated text pair with self-attention effectively includes bidi- rectional cross attention between two sentences. For each task, we simply plug in the task- specific inputs and outputs into BERT and fine- tune all the parameters end-to-end. At the in- put, sentence A and sentence B from pre-training are analogous to (1) sentence pairs in paraphras- ing, (2) hypothesis-premise pairs in entailment, (3) question-passage pairs in question answering, and",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.686958372592926,
+          "rrf_score": 0.020967051775780916
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:4:5",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 4,
+          "bbox": [
+            0.1209522977576788,
+            0.27305023886731056,
+            0.48762132657792356,
+            0.36647705234650596
+          ],
+          "type": "paragraph",
+          "reading_order": 5,
+          "text": "The NSP task is closely related to representation- learning objectives used in Jernite et al. (2017) and Logeswaran and Lee (2018). However, in prior work, only sentence embeddings are transferred to down-stream tasks, where BERT transfers all pa- rameters to initialize end-task model parameters.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.6676377058029175,
+          "rrf_score": 0.020512820512820516
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:3:6",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 3,
+          "bbox": [
+            0.5161908089692846,
+            0.559298604211951,
+            0.8828614417513895,
+            0.8620346667616903
+          ],
+          "type": "paragraph",
+          "reading_order": 6,
+          "text": "Task #2: Next Sentence Prediction (NSP) Many important downstream tasks such as Ques- tion Answering (QA) and Natural Language Infer- ence (NLI) are based on understanding the rela- tionship between two sentences, which is not di- rectly captured by language modeling. In order to train a model that understands sentence rela- tionships, we pre-train for a binarized next sen- tence prediction task that can be trivially gener- ated from any monolingual corpus. Specifically, when choosing the sentences A and B for each pre- training example, 50% of the time B is the actual next sentence that follows A (labeled as IsNext ), and 50% of the time it is a random sentence from the corpus (labeled as NotNext ). As we show in Figure 1, C is used for next sentence predic- tion (NSP). 5 Despite its simplicity, we demon- strate in Section 5.1 that pre-training towards this task is very beneficial to both QA and NLI. 6",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.6655697822570801,
+          "rrf_score": 0.01968125960061444
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:4:13",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 4,
+          "bbox": [
+            0.516190808969285,
+            0.6125874705721643,
+            0.8828661081582326,
+            0.8508586223853468
+          ],
+          "type": "paragraph",
+          "reading_order": 13,
+          "text": "The General Language Understanding Evaluation (GLUE) benchmark (Wang et al., 2018a) is a col- lection of diverse natural language understanding tasks. Detailed descriptions of GLUE datasets are included in Appendix B.1. To fine-tune on GLUE, we represent the input sequence (for single sentence or sentence pairs) as described in Section 3, and use the final hid- den vector C ∈ R H corresponding to the first input token ([CLS]) as the aggregate representa- tion. The only new parameters introduced during fine-tuning are classification layer weights W ∈ R K×H , where K is the number of labels. We com- pute a standard classification loss with C and W , i.e., log(softmax(CW T )).",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.6617234945297241,
+          "rrf_score": 0.01959097859327217
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:9",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.12095229775767866,
+            0.30740514984142814,
+            0.5343674954138923,
+            0.37604071980900133
+          ],
+          "type": "caption",
+          "reading_order": 9,
+          "text": "Figure 1: Overall pre-training and fine-tuning procedures tures are used in both pre-training and fine-tuning. The models for different down-stream tasks. During fine-tuning, symbol added in front of every input example, and tions/answers).",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "dense_score": 0.6510364413261414,
+          "rrf_score": 0.018403361344537815
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:12:14",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 12,
+          "bbox": [
+            0.12095229775767873,
+            0.6164426491584412,
+            0.4876213265779238,
+            0.9090526857427932
+          ],
+          "type": "paragraph",
+          "reading_order": 14,
+          "text": "A.2 Pre-training Procedure To generate each training input sequence, we sam- ple two spans of text from the corpus, which we refer to as “sentences” even though they are typ- ically much longer than single sentences (but can be shorter also). The first sentence receives the A embedding and the second receives the B embed- ding. 50% of the time B is the actual next sentence that follows A and 50% of the time it is a random sentence, which is done for the “next sentence pre- diction” task. They are sampled such that the com- bined length is ≤ 512 tokens. The LM masking is applied after WordPiece tokenization with a uni- form masking rate of 15%, and no special consid- eration given to partial word pieces. We train with batch size of 256 sequences (256 sequences * 512 tokens = 128,000 tokens/batch) for 1,000,000 steps, which is approximately 40",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "sparse_score": -29.283836499161648,
+          "rrf_score": 0.016129032258064516
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:15:7",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 15,
+          "bbox": [
+            0.1209522977576788,
+            0.5613432462673265,
+            0.4876213265779238,
+            0.6547700597465219
+          ],
+          "type": "paragraph",
+          "reading_order": 7,
+          "text": "In Section 3.1, we mention that BERT uses a mixed strategy for masking the target tokens when pre-training with the masked language model (MLM) objective. The following is an ablation study to evaluate the effect of different masking strategies.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "sparse_score": -25.076352773898687,
+          "rrf_score": 0.015873015873015872
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:11:21",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 11,
+          "bbox": [
+            0.5161908089692849,
+            0.3511395810616577,
+            0.8828598377895298,
+            0.44465709962108935
+          ],
+          "type": "paragraph",
+          "reading_order": 21,
+          "text": "Masked LM and the Masking Procedure As- suming the unlabeled sentence is my dog is hairy , and during the random masking procedure we chose the 4-th token (which corresponding to hairy ), our masking procedure can be further il- lustrated by",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "sparse_score": -18.936629939578758,
+          "rrf_score": 0.015384615384615385
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:3:4",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 3,
+          "bbox": [
+            0.1209522977576788,
+            0.8742369459193006,
+            0.4876209946310622,
+            0.9085542557816342
+          ],
+          "type": "paragraph",
+          "reading_order": 4,
+          "text": "former is often referred to as a “Transformer encoder” while the left-context-only version is referred to as a “Transformer decoder” since it can be used for text generation.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "neighbor_context": true
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:13",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.12095229775767866,
+            0.6434206806114813,
+            0.20496139874612773,
+            0.6576211105963962
+          ],
+          "type": "heading",
+          "reading_order": 13,
+          "text": "3 BERT",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "neighbor_context": true
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:15",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.5093438317493143,
+            0.08669423370550586,
+            0.8436275413898491,
+            0.09982984105062859
+          ],
+          "type": "paragraph",
+          "reading_order": 15,
+          "text": "MNLI NER SQuAD Start/End Span",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "neighbor_context": true
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:0:6",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 0,
+          "bbox": [
+            0.12095229775767873,
+            0.686875085343691,
+            0.4876213265779237,
+            0.9090526857427932
+          ],
+          "type": "paragraph",
+          "reading_order": 6,
+          "text": "Language model pre-training has been shown to be effective for improving many natural language processing tasks (Dai and Le, 2015; Peters et al., 2018a; Radford et al., 2018; Howard and Ruder, 2018). These include sentence-level tasks such as natural language inference (Bowman et al., 2015; Williams et al., 2018) and paraphrasing (Dolan and Brockett, 2005), which aim to predict the re- lationships between sentences by analyzing them holistically, as well as token-level tasks such as named entity recognition and question answering, where models are required to produce fine-grained output at the token level (Tjong Kim Sang and De Meulder, 2003; Rajpurkar et al., 2016).",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "neighbor_context": true
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:23",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.6537640877051014,
+            0.27328558102909944,
+            0.7525816665800423,
+            0.2864787539560024
+          ],
+          "type": "paragraph",
+          "reading_order": 23,
+          "text": "Fine-Tuning",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "neighbor_context": true
+        },
+        {
+          "id": "2ff38c08ff444fc789230d0fe59c2002:2:25",
+          "version_id": "2ff38c08ff444fc789230d0fe59c2002",
+          "page_index": 2,
+          "bbox": [
+            0.5161908089692848,
+            0.4042704695387759,
+            0.8828598377895297,
+            0.4333218895580183
+          ],
+          "type": "paragraph",
+          "reading_order": 25,
+          "text": "mal difference between the pre-trained architec- ture and the final downstream architecture.",
+          "source": "pdfplumber",
+          "quality": "native",
+          "metadata": {
+            "citation_markers": [],
+            "layout": "two_column"
+          },
+          "neighbor_context": true
+        }
+      ],
+      "sparse": [
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:5",
+          "score": -32.21078229776013
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:12:14",
+          "score": -29.283836499161648
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:15:7",
+          "score": -25.076352773898687
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:8",
+          "score": -19.09286059137862
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:21",
+          "score": -18.936629939578758
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:5:2",
+          "score": -18.74087850189526
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:25",
+          "score": -17.229977641168475
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:15:18",
+          "score": -16.83861022702182
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:14",
+          "score": -16.697927157133428
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:7:8",
+          "score": -16.564825469566028
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:7",
+          "score": -15.374479239294903
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:13:12",
+          "score": -14.933386583909815
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:14:17",
+          "score": -14.814015644300987
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:8:2",
+          "score": -14.648950798632388
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:5:4",
+          "score": -14.506160937108499
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:0",
+          "score": -14.30924797802072
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:13:8",
+          "score": -14.219825979411015
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:5:1",
+          "score": -14.108059228545443
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:13",
+          "score": -14.04590519055644
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:24",
+          "score": -13.968415227986368
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:8:12",
+          "score": -13.849878594916404
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:7:6",
+          "score": -13.750406140712908
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:13:2",
+          "score": -13.662620079914133
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:8:14",
+          "score": -13.600316219464487
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:12:13",
+          "score": -13.286643346589013
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:8:13",
+          "score": -13.097875141493457
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:12:7",
+          "score": -12.94896892749907
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:18",
+          "score": -12.80894539199345
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:6:11",
+          "score": -12.805735468040297
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:3",
+          "score": -12.78403500911081
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:15:6",
+          "score": -12.72523218195523
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:1",
+          "score": -12.50882564839162
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:6:13",
+          "score": -12.172489779886456
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:6:10",
+          "score": -11.713905015824256
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:4",
+          "score": -11.53463386257603
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:15:17",
+          "score": -11.396198808385005
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:6:8",
+          "score": -11.34512055305728
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:12:19",
+          "score": -11.269098494230343
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:0",
+          "score": -10.956418777452447
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:14:34",
+          "score": -10.94086014238291
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:22",
+          "score": -10.9211020359247
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:14:36",
+          "score": -10.772386366093004
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:14:38",
+          "score": -10.77186438636683
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:14",
+          "score": -10.764553230493988
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:5",
+          "score": -10.645679349406535
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:23",
+          "score": -10.25504256084555
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:15:15",
+          "score": -10.16784391796569
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:11:15",
+          "score": -10.019556484507543
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:13",
+          "score": -9.973806830611231
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:12:15",
+          "score": -9.973166508875037
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:13:4",
+          "score": -9.845590229475661
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:6",
+          "score": -9.785561356737793
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:13:7",
+          "score": -9.549006529537515
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:8",
+          "score": -9.44955767671834
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:13:13",
+          "score": -9.446940964413365
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:7:5",
+          "score": -9.391434848274232
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:8:10",
+          "score": -9.238440540724506
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:26",
+          "score": -9.19092331299888
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:9",
+          "score": -8.934594270131505
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:2",
+          "score": -8.787693005355226
+        }
+      ],
+      "dense": [
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:5",
+          "score": 0.7494001984596252
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:8",
+          "score": 0.7415988445281982
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:0",
+          "score": 0.7326850295066833
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:0",
+          "score": 0.715065598487854
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:1",
+          "score": 0.7127400636672974
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:14",
+          "score": 0.7103474140167236
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:34",
+          "score": 0.7094167470932007
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:2",
+          "score": 0.7077349424362183
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:26",
+          "score": 0.7065392732620239
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:4",
+          "score": 0.7060926556587219
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:0",
+          "score": 0.7053045630455017
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:24",
+          "score": 0.703904926776886
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:2",
+          "score": 0.7023757696151733
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:4",
+          "score": 0.7023332715034485
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:7",
+          "score": 0.7009909749031067
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:6",
+          "score": 0.6956532597541809
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:6",
+          "score": 0.6942979693412781
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:7",
+          "score": 0.6933794021606445
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:3",
+          "score": 0.6929715871810913
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:35",
+          "score": 0.6910457611083984
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:9",
+          "score": 0.6898233890533447
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:8",
+          "score": 0.686958372592926
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:3",
+          "score": 0.6862607002258301
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:9",
+          "score": 0.6855889558792114
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:14",
+          "score": 0.6813112497329712
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:1",
+          "score": 0.6800978183746338
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:2",
+          "score": 0.6777673959732056
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:6",
+          "score": 0.6746460795402527
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:11",
+          "score": 0.6745951175689697
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:7",
+          "score": 0.6713445782661438
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:5",
+          "score": 0.6676377058029175
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:16",
+          "score": 0.6671432256698608
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:6",
+          "score": 0.6655697822570801
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:4",
+          "score": 0.6650639176368713
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:19",
+          "score": 0.6650639176368713
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:13",
+          "score": 0.6617234945297241
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:8",
+          "score": 0.6600735187530518
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:25",
+          "score": 0.6559808254241943
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:28",
+          "score": 0.6533693075180054
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:9",
+          "score": 0.6510364413261414
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:15",
+          "score": 0.6505062580108643
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:8",
+          "score": 0.6504026055335999
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:21",
+          "score": 0.6498322486877441
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:22",
+          "score": 0.6428765058517456
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:1",
+          "score": 0.6419378519058228
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:10",
+          "score": 0.6414952874183655
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:11",
+          "score": 0.6413895487785339
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:7",
+          "score": 0.6413505673408508
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:29",
+          "score": 0.6391416788101196
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:1:5",
+          "score": 0.6386168003082275
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:0",
+          "score": 0.6367911100387573
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:4:3",
+          "score": 0.6365429759025574
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:0:1",
+          "score": 0.6364325284957886
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:30",
+          "score": 0.6359410881996155
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:3:8",
+          "score": 0.6350566744804382
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:15",
+          "score": 0.6307427287101746
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:5",
+          "score": 0.627144455909729
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:20",
+          "score": 0.627144455909729
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:7",
+          "score": 0.6245391964912415
+        },
+        {
+          "block_id": "2ff38c08ff444fc789230d0fe59c2002:2:2",
+          "score": 0.6195025444030762
+        }
+      ],
+      "mode": "hybrid",
+      "notice": "FTS5 与真实 embedding 余弦候选经 RRF 合并；覆盖率见版本详情",
+      "version_ids": [
+        "2ff38c08ff444fc789230d0fe59c2002"
+      ],
+      "method": "FTS5_BM25+cosine+RRF"
+    },
+    "artifact_id": "2e5f0f6454fb4f388b71876927347e98"
+  },
+  "error": null,
+  "checkpoint": "{\"retrieval\": {\"blocks\": [{\"id\": \"2ff38c08ff444fc789230d0fe59c2002:3:5\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 3, \"bbox\": [0.5161908089692848, 0.07746174155768579, 0.8828660107244373, 0.5410461765788873], \"type\": \"paragraph\", \"reading_order\": 5, \"text\": \"In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T will be used to predict the original token with i cross entropy loss. We compare variations of this procedure in Appendix C.2.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7494001984596252, \"rrf_score\": 0.03278688524590164}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:0:8\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 0, \"bbox\": [0.5161908089692848, 0.7833468765515681, 0.8828598377895297, 0.9090526857427927], \"type\": \"paragraph\", \"reading_order\": 8, \"text\": \"Encoder Representations from Transformers. BERT alleviates the previously mentioned unidi- rectionality constraint by using a “masked lan- guage model” (MLM) pre-training objective, in- spired by the Cloze task (Taylor, 1953). The masked language model randomly masks some of the tokens from the input, and the objective is to predict the original vocabulary id of the masked\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7415988445281982, \"rrf_score\": 0.031754032258064516}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:14\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.12095229775767866, 0.6703658026583045, 0.48762132657792356, 0.9090526857427931], \"type\": \"paragraph\", \"reading_order\": 14, \"text\": \"We introduce BERT and its detailed implementa- tion in this section. There are two steps in our framework: pre-training and fine-tuning . Dur- ing pre-training, the model is trained on unlabeled data over different pre-training tasks. For fine- tuning, the BERT model is first initialized with the pre-trained parameters, and all of the param- eters are fine-tuned using labeled data from the downstream tasks. Each downstream task has sep- arate fine-tuned models, even though they are ini- tialized with the same pre-trained parameters. The question-answering example in Figure 1 will serve as a running example for this section. A distinctive feature of BERT is its unified ar- chitecture across different tasks. There is mini-\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7103474140167236, \"rrf_score\": 0.02964426877470356}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:1:0\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 1, \"bbox\": [0.1209522977576788, 0.07746174155768566, 0.4876213265779237, 0.21917039708275396], \"type\": \"paragraph\", \"reading_order\": 0, \"text\": \"word based only on its context. Unlike left-to- right language model pre-training, the MLM ob- jective enables the representation to fuse the left and the right context, which allows us to pre- train a deep bidirectional Transformer. In addi- tion to the masked language model, we also use a “next sentence prediction” task that jointly pre- trains text-pair representations. The contributions of our paper are as follows:\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.715065598487854, \"rrf_score\": 0.028782894736842105}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:0:7\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 0, \"bbox\": [0.5161908089692848, 0.26719317915642204, 0.8828603318460679, 0.7803018988228863], \"type\": \"paragraph\", \"reading_order\": 7, \"text\": \"There are two existing strategies for apply- ing pre-trained language representations to down- stream tasks: feature-based and fine-tuning. The feature-based approach, such as ELMo (Peters et al., 2018a), uses task-specific architectures that include the pre-trained representations as addi- tional features. The fine-tuning approach, such as the Generative Pre-trained Transformer (OpenAI GPT) (Radford et al., 2018), introduces minimal task-specific parameters, and is trained on the downstream tasks by simply fine-tuning all pre- trained parameters. The two approaches share the same objective function during pre-training, where they use unidirectional language models to learn general language representations. We argue that current techniques restrict the power of the pre-trained representations, espe- cially for the fine-tuning approaches. The ma- jor limitation is that standard language models are unidirectional, and this limits the choice of archi- tectures that can be used during pre-training. For example, in OpenAI GPT, the authors use a left-to- right architecture, where every token can only at- tend to previous tokens in the self-attention layers of the Transformer (Vaswani et al., 2017). Such re- strictions are sub-optimal for sentence-level tasks, and could be very harmful when applying fine- tuning based approaches to token-level tasks such as question answering, where it is crucial to incor- porate context from both directions. In this paper, we improve the fine-tuning based approaches by proposing BERT: Bidirectional\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7009909749031067, \"rrf_score\": 0.027417840375586856}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:24\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.48080218251701723, 0.30740514984142814, 0.882863352461715, 0.36184052738481287], \"type\": \"paragraph\", \"reading_order\": 24, \"text\": \"for BERT. Apart from output layers, the same architec- same pre-trained model parameters are used to initialize all parameters are fine-tuned. [CLS] is a special [SEP] is a special separator token (e.g. separating ques-\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.703904926776886, \"rrf_score\": 0.02638888888888889}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:1:1\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 1, \"bbox\": [0.12449687203918855, 0.23054349808169688, 0.48762115858862115, 0.37225215360676517], \"type\": \"paragraph\", \"reading_order\": 1, \"text\": \"• We demonstrate the importance of bidirectional pre-training for language representations. Un- like Radford et al. (2018), which uses unidirec- tional language models for pre-training, BERT uses masked language models to enable pre- trained deep bidirectional representations. This is also in contrast to Peters et al. (2018a), which uses a shallow concatenation of independently trained left-to-right and right-to-left LMs.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7127400636672974, \"rrf_score\": 0.02625418060200669}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:3:0\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 3, \"bbox\": [0.12095229775767873, 0.07737103647744951, 0.4876275047204993, 0.5584023632541061], \"type\": \"paragraph\", \"reading_order\": 0, \"text\": \"Input/Output Representations To make BERT handle a variety of down-stream tasks, our input representation is able to unambiguously represent both a single sentence and a pair of sentences (e.g., (cid:104) Question, Answer (cid:105)) in one token sequence. Throughout this work, a “sentence” can be an arbi- trary span of contiguous text, rather than an actual linguistic sentence. A “sequence” refers to the in- put token sequence to BERT, which may be a sin- gle sentence or two sentences packed together. We use WordPiece embeddings (Wu et al., 2016) with a 30,000 token vocabulary. The first token of every sequence is always a special clas- sification token ( [CLS] ). The final hidden state corresponding to this token is used as the ag- gregate sequence representation for classification tasks. Sentence pairs are packed together into a single sequence. We differentiate the sentences in two ways. First, we separate them with a special token ( [SEP] ). Second, we add a learned embed- ding to every token indicating whether it belongs to sentence A or sentence B . As shown in Figure 1, we denote input embedding as E, the final hidden vector of the special [CLS] token as C ∈ R H , and the final hidden vector for the i th input token as T ∈ R H . i For a given token, its input representation is constructed by summing the corresponding token, segment, and position embeddings. A visualiza- tion of this construction can be seen in Figure 2.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7326850295066833, \"rrf_score\": 0.025974025974025976}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:4:4\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 4, \"bbox\": [0.1209522977576788, 0.21878668424616038, 0.8828633524617145, 0.24482048913753587], \"type\": \"caption\", \"reading_order\": 4, \"text\": \"Figure 2: BERT input representation. The input embeddings are the sum of the token embeddings, the segmenta- tion embeddings and the position embeddings.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7023332715034485, \"rrf_score\": 0.024039829302987197}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:1:3\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 1, \"bbox\": [0.12449687203918858, 0.5074145857534825, 0.48762115858862115, 0.5686542964045177], \"type\": \"paragraph\", \"reading_order\": 3, \"text\": \"• BERT advances the state of the art for eleven NLP tasks. The code and pre-trained mod- els are available at https://github.com/ google-research/bert .\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.6862607002258301, \"rrf_score\": 0.023159303882195448}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:3:2\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 3, \"bbox\": [0.12095229775767873, 0.5962349779662418, 0.48762132657792356, 0.6896617914454374], \"type\": \"paragraph\", \"reading_order\": 2, \"text\": \"Unlike Peters et al. (2018a) and Radford et al. (2018), we do not use traditional left-to-right or right-to-left language models to pre-train BERT. Instead, we pre-train BERT using two unsuper- vised tasks, described in this section. This step is presented in the left part of Figure 1.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7077349424362183, \"rrf_score\": 0.02303921568627451}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:26\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.5161908089692848, 0.4477947260330922, 0.8828655880633522, 0.8325498171970208], \"type\": \"paragraph\", \"reading_order\": 26, \"text\": \"Model Architecture BERT’s model architec- ture is a multi-layer bidirectional Transformer en- coder based on the original implementation de- scribed in Vaswani et al. (2017) and released in the tensor2tensor library. 1 Because the use of Transformers has become common and our im- plementation is almost identical to the original, we will omit an exhaustive background descrip- tion of the model architecture and refer readers to Vaswani et al. (2017) as well as excellent guides such as “The Annotated Transformer.” 2 In this work, we denote the number of layers (i.e., Transformer blocks) as L, the hidden size as H, and the number of self-attention heads as A. 3 We primarily report results on two model sizes: BERT (L=12, H=768, A=12, Total Param- BASE eters=110M) and BERT (L=24, H=1024, LARGE A=16, Total Parameters=340M). BERT was chosen to have the same model BASE size as OpenAI GPT for comparison purposes. Critically, however, the BERT Transformer uses bidirectional self-attention, while the GPT Trans- former uses constrained self-attention where every token can only attend to context to its left. 4\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.7065392732620239, \"rrf_score\": 0.022967329894374847}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:4:8\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 4, \"bbox\": [0.1209522977576788, 0.5900025723075458, 0.4876237239532586, 0.9090526857427927], \"type\": \"paragraph\", \"reading_order\": 8, \"text\": \"Fine-tuning is straightforward since the self- attention mechanism in the Transformer al- lows BERT to model many downstream tasks— whether they involve single text or text pairs—by swapping out the appropriate inputs and outputs. For applications involving text pairs, a common pattern is to independently encode text pairs be- fore applying bidirectional cross attention, such as Parikh et al. (2016); Seo et al. (2017). BERT instead uses the self-attention mechanism to unify these two stages, as encoding a concatenated text pair with self-attention effectively includes bidi- rectional cross attention between two sentences. For each task, we simply plug in the task- specific inputs and outputs into BERT and fine- tune all the parameters end-to-end. At the in- put, sentence A and sentence B from pre-training are analogous to (1) sentence pairs in paraphras- ing, (2) hypothesis-premise pairs in entailment, (3) question-passage pairs in question answering, and\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.686958372592926, \"rrf_score\": 0.020967051775780916}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:4:5\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 4, \"bbox\": [0.1209522977576788, 0.27305023886731056, 0.48762132657792356, 0.36647705234650596], \"type\": \"paragraph\", \"reading_order\": 5, \"text\": \"The NSP task is closely related to representation- learning objectives used in Jernite et al. (2017) and Logeswaran and Lee (2018). However, in prior work, only sentence embeddings are transferred to down-stream tasks, where BERT transfers all pa- rameters to initialize end-task model parameters.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.6676377058029175, \"rrf_score\": 0.020512820512820516}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:3:6\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 3, \"bbox\": [0.5161908089692846, 0.559298604211951, 0.8828614417513895, 0.8620346667616903], \"type\": \"paragraph\", \"reading_order\": 6, \"text\": \"Task #2: Next Sentence Prediction (NSP) Many important downstream tasks such as Ques- tion Answering (QA) and Natural Language Infer- ence (NLI) are based on understanding the rela- tionship between two sentences, which is not di- rectly captured by language modeling. In order to train a model that understands sentence rela- tionships, we pre-train for a binarized next sen- tence prediction task that can be trivially gener- ated from any monolingual corpus. Specifically, when choosing the sentences A and B for each pre- training example, 50% of the time B is the actual next sentence that follows A (labeled as IsNext ), and 50% of the time it is a random sentence from the corpus (labeled as NotNext ). As we show in Figure 1, C is used for next sentence predic- tion (NSP). 5 Despite its simplicity, we demon- strate in Section 5.1 that pre-training towards this task is very beneficial to both QA and NLI. 6\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.6655697822570801, \"rrf_score\": 0.01968125960061444}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:4:13\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 4, \"bbox\": [0.516190808969285, 0.6125874705721643, 0.8828661081582326, 0.8508586223853468], \"type\": \"paragraph\", \"reading_order\": 13, \"text\": \"The General Language Understanding Evaluation (GLUE) benchmark (Wang et al., 2018a) is a col- lection of diverse natural language understanding tasks. Detailed descriptions of GLUE datasets are included in Appendix B.1. To fine-tune on GLUE, we represent the input sequence (for single sentence or sentence pairs) as described in Section 3, and use the final hid- den vector C ∈ R H corresponding to the first input token ([CLS]) as the aggregate representa- tion. The only new parameters introduced during fine-tuning are classification layer weights W ∈ R K×H , where K is the number of labels. We com- pute a standard classification loss with C and W , i.e., log(softmax(CW T )).\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.6617234945297241, \"rrf_score\": 0.01959097859327217}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:9\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.12095229775767866, 0.30740514984142814, 0.5343674954138923, 0.37604071980900133], \"type\": \"caption\", \"reading_order\": 9, \"text\": \"Figure 1: Overall pre-training and fine-tuning procedures tures are used in both pre-training and fine-tuning. The models for different down-stream tasks. During fine-tuning, symbol added in front of every input example, and tions/answers).\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"dense_score\": 0.6510364413261414, \"rrf_score\": 0.018403361344537815}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:12:14\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 12, \"bbox\": [0.12095229775767873, 0.6164426491584412, 0.4876213265779238, 0.9090526857427932], \"type\": \"paragraph\", \"reading_order\": 14, \"text\": \"A.2 Pre-training Procedure To generate each training input sequence, we sam- ple two spans of text from the corpus, which we refer to as “sentences” even though they are typ- ically much longer than single sentences (but can be shorter also). The first sentence receives the A embedding and the second receives the B embed- ding. 50% of the time B is the actual next sentence that follows A and 50% of the time it is a random sentence, which is done for the “next sentence pre- diction” task. They are sampled such that the com- bined length is ≤ 512 tokens. The LM masking is applied after WordPiece tokenization with a uni- form masking rate of 15%, and no special consid- eration given to partial word pieces. We train with batch size of 256 sequences (256 sequences * 512 tokens = 128,000 tokens/batch) for 1,000,000 steps, which is approximately 40\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"sparse_score\": -29.283836499161648, \"rrf_score\": 0.016129032258064516}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:15:7\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 15, \"bbox\": [0.1209522977576788, 0.5613432462673265, 0.4876213265779238, 0.6547700597465219], \"type\": \"paragraph\", \"reading_order\": 7, \"text\": \"In Section 3.1, we mention that BERT uses a mixed strategy for masking the target tokens when pre-training with the masked language model (MLM) objective. The following is an ablation study to evaluate the effect of different masking strategies.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"sparse_score\": -25.076352773898687, \"rrf_score\": 0.015873015873015872}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:11:21\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 11, \"bbox\": [0.5161908089692849, 0.3511395810616577, 0.8828598377895298, 0.44465709962108935], \"type\": \"paragraph\", \"reading_order\": 21, \"text\": \"Masked LM and the Masking Procedure As- suming the unlabeled sentence is my dog is hairy , and during the random masking procedure we chose the 4-th token (which corresponding to hairy ), our masking procedure can be further il- lustrated by\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"sparse_score\": -18.936629939578758, \"rrf_score\": 0.015384615384615385}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:3:4\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 3, \"bbox\": [0.1209522977576788, 0.8742369459193006, 0.4876209946310622, 0.9085542557816342], \"type\": \"paragraph\", \"reading_order\": 4, \"text\": \"former is often referred to as a “Transformer encoder” while the left-context-only version is referred to as a “Transformer decoder” since it can be used for text generation.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"neighbor_context\": true}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:13\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.12095229775767866, 0.6434206806114813, 0.20496139874612773, 0.6576211105963962], \"type\": \"heading\", \"reading_order\": 13, \"text\": \"3 BERT\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"neighbor_context\": true}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:15\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.5093438317493143, 0.08669423370550586, 0.8436275413898491, 0.09982984105062859], \"type\": \"paragraph\", \"reading_order\": 15, \"text\": \"MNLI NER SQuAD Start/End Span\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"neighbor_context\": true}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:0:6\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 0, \"bbox\": [0.12095229775767873, 0.686875085343691, 0.4876213265779237, 0.9090526857427932], \"type\": \"paragraph\", \"reading_order\": 6, \"text\": \"Language model pre-training has been shown to be effective for improving many natural language processing tasks (Dai and Le, 2015; Peters et al., 2018a; Radford et al., 2018; Howard and Ruder, 2018). These include sentence-level tasks such as natural language inference (Bowman et al., 2015; Williams et al., 2018) and paraphrasing (Dolan and Brockett, 2005), which aim to predict the re- lationships between sentences by analyzing them holistically, as well as token-level tasks such as named entity recognition and question answering, where models are required to produce fine-grained output at the token level (Tjong Kim Sang and De Meulder, 2003; Rajpurkar et al., 2016).\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"neighbor_context\": true}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:23\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.6537640877051014, 0.27328558102909944, 0.7525816665800423, 0.2864787539560024], \"type\": \"paragraph\", \"reading_order\": 23, \"text\": \"Fine-Tuning\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"neighbor_context\": true}, {\"id\": \"2ff38c08ff444fc789230d0fe59c2002:2:25\", \"version_id\": \"2ff38c08ff444fc789230d0fe59c2002\", \"page_index\": 2, \"bbox\": [0.5161908089692848, 0.4042704695387759, 0.8828598377895297, 0.4333218895580183], \"type\": \"paragraph\", \"reading_order\": 25, \"text\": \"mal difference between the pre-trained architec- ture and the final downstream architecture.\", \"source\": \"pdfplumber\", \"quality\": \"native\", \"metadata\": {\"citation_markers\": [], \"layout\": \"two_column\"}, \"neighbor_context\": true}], \"sparse\": [{\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:5\", \"score\": -32.21078229776013}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:12:14\", \"score\": -29.283836499161648}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:15:7\", \"score\": -25.076352773898687}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:8\", \"score\": -19.09286059137862}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:21\", \"score\": -18.936629939578758}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:5:2\", \"score\": -18.74087850189526}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:25\", \"score\": -17.229977641168475}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:15:18\", \"score\": -16.83861022702182}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:14\", \"score\": -16.697927157133428}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:7:8\", \"score\": -16.564825469566028}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:7\", \"score\": -15.374479239294903}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:13:12\", \"score\": -14.933386583909815}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:14:17\", \"score\": -14.814015644300987}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:8:2\", \"score\": -14.648950798632388}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:5:4\", \"score\": -14.506160937108499}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:0\", \"score\": -14.30924797802072}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:13:8\", \"score\": -14.219825979411015}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:5:1\", \"score\": -14.108059228545443}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:13\", \"score\": -14.04590519055644}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:24\", \"score\": -13.968415227986368}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:8:12\", \"score\": -13.849878594916404}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:7:6\", \"score\": -13.750406140712908}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:13:2\", \"score\": -13.662620079914133}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:8:14\", \"score\": -13.600316219464487}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:12:13\", \"score\": -13.286643346589013}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:8:13\", \"score\": -13.097875141493457}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:12:7\", \"score\": -12.94896892749907}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:18\", \"score\": -12.80894539199345}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:6:11\", \"score\": -12.805735468040297}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:3\", \"score\": -12.78403500911081}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:15:6\", \"score\": -12.72523218195523}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:1\", \"score\": -12.50882564839162}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:6:13\", \"score\": -12.172489779886456}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:6:10\", \"score\": -11.713905015824256}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:4\", \"score\": -11.53463386257603}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:15:17\", \"score\": -11.396198808385005}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:6:8\", \"score\": -11.34512055305728}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:12:19\", \"score\": -11.269098494230343}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:0\", \"score\": -10.956418777452447}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:14:34\", \"score\": -10.94086014238291}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:22\", \"score\": -10.9211020359247}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:14:36\", \"score\": -10.772386366093004}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:14:38\", \"score\": -10.77186438636683}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:14\", \"score\": -10.764553230493988}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:5\", \"score\": -10.645679349406535}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:23\", \"score\": -10.25504256084555}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:15:15\", \"score\": -10.16784391796569}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:11:15\", \"score\": -10.019556484507543}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:13\", \"score\": -9.973806830611231}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:12:15\", \"score\": -9.973166508875037}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:13:4\", \"score\": -9.845590229475661}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:6\", \"score\": -9.785561356737793}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:13:7\", \"score\": -9.549006529537515}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:8\", \"score\": -9.44955767671834}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:13:13\", \"score\": -9.446940964413365}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:7:5\", \"score\": -9.391434848274232}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:8:10\", \"score\": -9.238440540724506}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:26\", \"score\": -9.19092331299888}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:9\", \"score\": -8.934594270131505}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:2\", \"score\": -8.787693005355226}], \"dense\": [{\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:5\", \"score\": 0.7494001984596252}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:8\", \"score\": 0.7415988445281982}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:0\", \"score\": 0.7326850295066833}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:0\", \"score\": 0.715065598487854}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:1\", \"score\": 0.7127400636672974}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:14\", \"score\": 0.7103474140167236}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:34\", \"score\": 0.7094167470932007}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:2\", \"score\": 0.7077349424362183}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:26\", \"score\": 0.7065392732620239}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:4\", \"score\": 0.7060926556587219}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:0\", \"score\": 0.7053045630455017}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:24\", \"score\": 0.703904926776886}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:2\", \"score\": 0.7023757696151733}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:4\", \"score\": 0.7023332715034485}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:7\", \"score\": 0.7009909749031067}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:6\", \"score\": 0.6956532597541809}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:6\", \"score\": 0.6942979693412781}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:7\", \"score\": 0.6933794021606445}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:3\", \"score\": 0.6929715871810913}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:35\", \"score\": 0.6910457611083984}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:9\", \"score\": 0.6898233890533447}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:8\", \"score\": 0.686958372592926}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:3\", \"score\": 0.6862607002258301}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:9\", \"score\": 0.6855889558792114}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:14\", \"score\": 0.6813112497329712}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:1\", \"score\": 0.6800978183746338}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:2\", \"score\": 0.6777673959732056}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:6\", \"score\": 0.6746460795402527}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:11\", \"score\": 0.6745951175689697}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:7\", \"score\": 0.6713445782661438}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:5\", \"score\": 0.6676377058029175}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:16\", \"score\": 0.6671432256698608}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:6\", \"score\": 0.6655697822570801}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:4\", \"score\": 0.6650639176368713}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:19\", \"score\": 0.6650639176368713}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:13\", \"score\": 0.6617234945297241}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:8\", \"score\": 0.6600735187530518}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:25\", \"score\": 0.6559808254241943}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:28\", \"score\": 0.6533693075180054}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:9\", \"score\": 0.6510364413261414}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:15\", \"score\": 0.6505062580108643}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:8\", \"score\": 0.6504026055335999}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:21\", \"score\": 0.6498322486877441}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:22\", \"score\": 0.6428765058517456}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:1\", \"score\": 0.6419378519058228}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:10\", \"score\": 0.6414952874183655}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:11\", \"score\": 0.6413895487785339}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:7\", \"score\": 0.6413505673408508}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:29\", \"score\": 0.6391416788101196}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:1:5\", \"score\": 0.6386168003082275}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:0\", \"score\": 0.6367911100387573}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:4:3\", \"score\": 0.6365429759025574}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:0:1\", \"score\": 0.6364325284957886}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:30\", \"score\": 0.6359410881996155}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:3:8\", \"score\": 0.6350566744804382}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:15\", \"score\": 0.6307427287101746}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:5\", \"score\": 0.627144455909729}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:20\", \"score\": 0.627144455909729}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:7\", \"score\": 0.6245391964912415}, {\"block_id\": \"2ff38c08ff444fc789230d0fe59c2002:2:2\", \"score\": 0.6195025444030762}], \"mode\": \"hybrid\", \"notice\": \"FTS5 与真实 embedding 余弦候选经 RRF 合并；覆盖率见版本详情\", \"version_ids\": [\"2ff38c08ff444fc789230d0fe59c2002\"], \"method\": \"FTS5_BM25+cosine+RRF\"}, \"model_response\": {\"text\": \"{\\\"answer\\\":\\\"根据提供的论文《BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding》（v2，arxiv:1810.04805）证据：\\\\n\\\\n1. WordPiece 词元掩码比例：在所有实验中，模型在每个序列中随机选择 15% 的 WordPiece 词元进行掩码（在 WordPiece 分词之后以 15% 的均匀掩码率应用，且不对部分词片做特殊处理）。\\\\n2. 被选中词元的处理方式与比例：训练数据生成器随机选择 15% 的词元位置用于预测；若第 i 个词元被选中，则按以下比例替换：\\\\n   - 80% 的概率替换为 [MASK] 词元；\\\\n   - 10% 的概率替换为随机词元；\\\\n   - 10% 的概率保持第 i 个词元不变。\\\\n3. 作者血型信息：缺证据。所提供的 PDF 证据片段中未包含任何关于作者血型的信息。\\\",\\\"claims\\\":[{\\\"text\\\":\\\"在 BERT（v2，arxiv:1810.04805）的所有实验中，每个序列随机掩码 15% 的 WordPiece 词元。\\\",\\\"type\\\":\\\"source_fact\\\",\\\"evidence\\\":[{\\\"block_id\\\":\\\"2ff38c08ff444fc789230d0fe59c2002:3:5\\\",\\\"quote\\\":\\\"In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random.\\\"}]},{\\\"text\\\":\\\"语言模型掩码在 WordPiece 分词之后以 15% 的均匀掩码率应用，且不对部分词片（partial word pieces）作特殊处理。\\\",\\\"type\\\":\\\"source_fact\\\",\\\"evidence\\\":[{\\\"block_id\\\":\\\"2ff38c08ff444fc789230d0fe59c2002:12:14\\\",\\\"quote\\\":\\\"The LM masking is applied after WordPiece tokenization with a uni- form masking rate of 15%, and no special consid- eration given to partial word pieces.\\\"}]},{\\\"text\\\":\\\"训练数据生成器随机选择 15% 的词元位置进行预测；当第 i 个词元被选中时，80% 的时间替换为 [MASK] 词元，10% 的时间替换为随机词元，10% 的时间保持第 i 个词元不变。\\\",\\\"type\\\":\\\"source_fact\\\",\\\"evidence\\\":[{\\\"block_id\\\":\\\"2ff38c08ff444fc789230d0fe59c2002:3:5\\\",\\\"quote\\\":\\\"The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time.\\\"}]},{\\\"text\\\":\\\"关于论文作者的血型，给定 PDF 证据中未提及，缺证据。\\\",\\\"type\\\":\\\"insufficient\\\",\\\"evidence\\\":[]}]}\", \"model\": \"gemini-4-hydrogen\", \"requested_model\": \"gemini-4-hydrogen\", \"usage\": {\"promptTokenCount\": 6022, \"candidatesTokenCount\": 696, \"totalTokenCount\": 7886, \"promptTokensDetails\": [{\"modality\": \"TEXT\", \"tokenCount\": 6022}], \"candidatesTokensDetails\": [{\"modality\": \"TEXT\", \"tokenCount\": 696}], \"thoughtsTokenCount\": 1168, \"serviceTier\": \"standard\"}, \"project\": \"gemini-shared\"}}",
+  "idempotency": "live-unseen-bert-fact-and-absent-20261115",
+  "created": 1794738429.3529685,
+  "updated": 1794738489.5343792
+}

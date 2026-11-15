@@ -36,7 +36,7 @@ def _decode(row):
     return row
 
 
-def upload_document(workspace, filename, content):
+def upload_document(workspace, filename, content, index_dense=True):
     if not isinstance(content, bytes) or not content.startswith(b"%PDF-"):
         raise ValueError("只支持具有有效 PDF 文件头的文件")
     if len(content) > MAX_BYTES:
@@ -89,7 +89,10 @@ def upload_document(workspace, filename, content):
             work_id = uid()
             conn.execute("INSERT INTO works(id,workspace,title,metadata) VALUES(?,?,?,?)", (work_id, workspace, title, _json({"identity_status": "pending_parse"})))
             conn.execute("INSERT INTO versions(id,workspace,work_id,title,filename,sha256,path,page_count,created) VALUES(?,?,?,?,?,?,?,?,?)", (version_id, workspace, work_id, title, filename, digest, str(path), page_count, now))
-        conn.execute("INSERT INTO runs(id,workspace,kind,status,payload,created,updated) VALUES(?,?,?,?,?,?,?)", (run_id, workspace, "parse", "queued", _json({"version_id": version_id}), now, now))
+        payload = {"version_id": version_id}
+        if not index_dense:
+            payload['index_dense'] = False
+        conn.execute("INSERT INTO runs(id,workspace,kind,status,payload,created,updated) VALUES(?,?,?,?,?,?,?)", (run_id, workspace, "parse", "queued", _json(payload), now, now))
     event(run_id, "queued", {"tool": "parse_document", "version_id": version_id, "page_count": page_count})
     return {"document": _decode(one("SELECT * FROM versions WHERE id=?", (version_id,))), "run_id": run_id, "duplicate": False}
 
@@ -278,8 +281,9 @@ def _ocr_words(pdf_path, page_index):
     image.save(buffer, format="PNG")
     env = dict(os.environ)
     bundled = Path(binary).resolve().parents[1]
-    if (bundled / "share" / "tesseract-ocr" / "4.00" / "tessdata").exists():
-        env["TESSDATA_PREFIX"] = str(bundled / "share" / "tesseract-ocr" / "4.00" / "tessdata")
+    tessdata = next(iter(sorted((bundled / "share" / "tesseract-ocr").glob("*/tessdata"))), None)
+    if tessdata:
+        env["TESSDATA_PREFIX"] = str(tessdata)
         env["LD_LIBRARY_PATH"] = str(bundled / "lib" / "x86_64-linux-gnu") + ":" + env.get("LD_LIBRARY_PATH", "")
     env["OMP_THREAD_LIMIT"] = "1"
     try:
@@ -309,9 +313,11 @@ def _ocr_words(pdf_path, page_index):
         doc.close()
 
 
-def _references(workspace, version_id):
+def _references(workspace, version_id, parse_id=None):
     """Persist actual bibliography entries with source blocks; no invented metadata."""
-    blocks = rows("SELECT * FROM blocks WHERE workspace=? AND version_id=? ORDER BY page_index,reading_order", (workspace, version_id))
+    from .snapshots import snapshot_blocks
+    parse_id = parse_id or version_id
+    blocks = snapshot_blocks(workspace, version_id, parse_id)
     in_refs = False
     entries = []
     current = None
@@ -340,19 +346,22 @@ def _references(workspace, version_id):
     if current:
         entries.append(current)
     with db() as conn:
-        conn.execute("DELETE FROM refs WHERE workspace=? AND version_id=?", (workspace, version_id))
+        conn.execute("DELETE FROM refs WHERE workspace=? AND version_id=? AND COALESCE(json_extract(metadata,'$.parse_id'),version_id)=?", (workspace, version_id, parse_id))
         for idx, entry in enumerate(entries):
             arxiv = re.search(r"(?:arXiv:|arxiv.org/(?:abs|pdf)/)\s*(\d{4}\.\d{4,5})", entry["text"], re.I)
             doi = re.search(r"10\.\d{4,9}/[-._;()/:A-Z0-9]+", entry["text"], re.I)
             identity = "arxiv:" + arxiv.group(1) if arxiv else "doi:" + doi.group(0).rstrip(".,;").lower() if doi else None
-            conn.execute("INSERT INTO refs VALUES(?,?,?,?,?,?,?,?,?)", (f"{version_id}:ref:{idx}", workspace, version_id, entry["block_id"], entry["page_index"], entry["marker"], entry["text"], identity, _json({"block_ids": entry["block_ids"], "match_status": "raw_bibliography"})))
+            conn.execute("INSERT INTO refs VALUES(?,?,?,?,?,?,?,?,?)", (f"{parse_id}:ref:{idx}", workspace, version_id, entry["block_id"], entry["page_index"], entry["marker"], entry["text"], identity, _json({"block_ids": entry["block_ids"], "match_status": "raw_bibliography", "parse_id": parse_id})))
     return len(entries)
 
 
-def _suppress_repeating_margins(workspace, version_id, page_count):
+def _suppress_repeating_margins(workspace, version_id, page_count, parse_id=None):
     candidates = []
     occurrences = {}
-    for block in rows("SELECT id,page_index,bbox,text,metadata FROM blocks WHERE workspace=? AND version_id=? AND length(text)<140 AND length(text)>0", (workspace, version_id)):
+    from .snapshots import snapshot_blocks
+    for block in snapshot_blocks(workspace, version_id, parse_id or version_id):
+        if not 0 < len(block['text']) < 140:
+            continue
         box = json.loads(block["bbox"])
         if box[1] > .08 and box[3] < .92:
             continue
@@ -382,21 +391,35 @@ def parse_document(run):
         raise ValueError("文档不存在或已删除")
     if version["parsed_pages"] == 0 and one("SELECT id FROM evidence WHERE workspace=? AND version_id=? LIMIT 1", (workspace, version_id)):
         raise ValueError("该解析快照已有历史引用，不能覆盖重建；请创建独立解析修订快照")
-    execute("UPDATE versions SET status='parsing' WHERE id=?", (version_id,))
+    from .snapshots import selected_parse, snapshot_blocks
+    parse_id = payload.get('parse_id', version_id)
+    revision = selected_parse(workspace, version_id, parse_id)
+    engine = payload.get('engine', 'native')
+    legacy = parse_id == version_id
+    if revision['status'] == 'ready' and revision['parsed_pages'] == revision['page_count']:
+        if legacy:
+            execute("UPDATE versions SET status='ready' WHERE id=?",(version_id,))
+        return {'version_id':version_id,'parse_id':parse_id,'status':'ready','parsed_pages':revision['parsed_pages'],'reused':True}
+    execute("UPDATE parses SET status='parsing',error=NULL WHERE id=?", (parse_id,))
+    if legacy:
+        execute("UPDATE versions SET status='parsing' WHERE id=?", (version_id,))
     event(run["id"], "parse_started", {"tool": "parse_document", "version_id": version_id, "checkpoint_pages": version["parsed_pages"]})
     with pdfplumber.open(version["path"]) as pdf:
         if len(pdf.pages) > MAX_PAGES:
             raise ValueError("PDF 页数超出限制")
-        if version["parsed_pages"] == 0:
+        if legacy and version["parsed_pages"] == 0:
             title, identity, label, metadata = _identity(pdf, pdf.pages[0])
             _apply_identity(version, title, identity, label, metadata)
         for page_index in range(len(pdf.pages)):
             if cancelled(run["id"]):
-                execute("UPDATE versions SET status='partial' WHERE id=?", (version_id,))
+                execute("UPDATE parses SET status='partial' WHERE id=?", (parse_id,))
+                if legacy:
+                    execute("UPDATE versions SET status='partial' WHERE id=?", (version_id,))
                 return {"version_id": version_id, "status": "cancelled", "parsed_pages": page_index}
-            if one("SELECT status FROM pages WHERE version_id=? AND page_index=? AND status IN ('ready','ocr','ocr_review_required')", (version_id, page_index)):
+            existing_page = one("SELECT status FROM pages WHERE version_id=? AND page_index=?", (version_id,page_index)) if legacy else one("SELECT status FROM parse_pages WHERE parse_id=? AND page_index=?", (parse_id,page_index))
+            if existing_page and existing_page['status'] in ('ready','ocr','ocr_review_required'):
                 continue
-            if one("SELECT e.id FROM evidence e JOIN blocks b ON b.id=e.block_id WHERE e.workspace=? AND e.version_id=? AND b.page_index=? LIMIT 1", (workspace, version_id, page_index)):
+            if legacy and one("SELECT e.id FROM evidence e JOIN blocks b ON b.id=e.block_id WHERE e.workspace=? AND e.version_id=? AND b.page_index=? LIMIT 1", (workspace, version_id, page_index)):
                 raise ValueError("该页已有历史引用，禁止覆盖其块标识和位置；请使用独立解析修订快照")
             original_page = pdf.pages[page_index]
             page = original_page.crop(original_page.cropbox) if original_page.cropbox != original_page.mediabox else original_page
@@ -409,23 +432,38 @@ def parse_document(run):
             words = [{**w, "x0": w["x0"] - origin_x, "x1": w["x1"] - origin_x, "top": w["top"] - origin_y, "bottom": w["bottom"] - origin_y} for w in words]
             native_text = " ".join(w["text"] for w in words)
             quality, source = "native", "pdfplumber"
-            if len(re.sub(r"\s", "", native_text)) < 25:
-                words, quality = _ocr_words(version["path"], page_index)
-                source = "tesseract" if words else "none"
-            blocks = _make_rotated_blocks(words, width, height, version_id, page_index, page.rotation) if rotated_text and source == "pdfplumber" else _make_blocks(words, width, height, version_id, page_index, source, quality)
+            provenance = {'engine':'native','version':PARSER_VERSION,'device':'cpu'}
+            if engine in ('paddleocr','mineru'):
+                from .enhanced_parsing import external_page, paddle_words, mineru_blocks
+                provenance = external_page(version['path'],page_index,engine,device=payload.get('device','cpu'),run_id=run['id'])
+                if engine == 'paddleocr':
+                    words, quality = paddle_words(provenance,width,height)
+                    blocks = _make_blocks(words,width,height,version_id,page_index,engine,quality)
+                else:
+                    blocks = mineru_blocks(provenance,version_id,page_index)
+                    quality = 'ocr_review_required'
+                source = engine
+            else:
+                if len(re.sub(r"\s", "", native_text)) < 25:
+                    words, quality = _ocr_words(version["path"], page_index)
+                    source = "tesseract" if words else "none"
+                blocks = _make_rotated_blocks(words, width, height, version_id, page_index, page.rotation) if rotated_text and source == "pdfplumber" else _make_blocks(words, width, height, version_id, page_index, source, quality)
+            for i,block in enumerate(blocks):
+                block['id'] = f'{parse_id}:{page_index}:{i}'
+                block['metadata'].update(parse_id=parse_id,parser_version=provenance.get('version'),models=provenance.get('models',[]),device=provenance.get('device','cpu'))
             # Retain image/table source regions even if reconstruction is unavailable.
-            for image in page.images:
+            for image in (page.images if engine == 'native' else []):
                 bbox = [max(0, (image["x0"] - origin_x) / width), max(0, (image["top"] - origin_y) / height), min(1, (image["x1"] - origin_x) / width), min(1, (image["bottom"] - origin_y) / height)]
                 if (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]) < .005:
                     continue
-                blocks.append({"id": f"{version_id}:{page_index}:{len(blocks)}", "version_id": version_id, "page_index": page_index, "bbox": bbox, "type": "figure", "reading_order": len(blocks), "text": "", "source": "pdfplumber_region", "quality": "source_region_only", "metadata": {"reconstruction": "原图区域；无可靠结构化重建"}})
+                blocks.append({"id": f"{parse_id}:{page_index}:{len(blocks)}", "version_id": version_id, "page_index": page_index, "bbox": bbox, "type": "figure", "reading_order": len(blocks), "text": "", "source": "pdfplumber_region", "quality": "source_region_only", "metadata": {"reconstruction": "原图区域；无可靠结构化重建"}})
             try:
-                tables = page.find_tables()
+                tables = page.find_tables() if engine == 'native' else []
                 for table in tables[:20]:
                     cells = table.extract()
                     text = "\n".join(" | ".join(c or "" for c in row) for row in cells)
                     if len(text.strip()) > 15:
-                        blocks.append({"id": f"{version_id}:{page_index}:{len(blocks)}", "version_id": version_id, "page_index": page_index, "bbox": [(table.bbox[0] - origin_x) / width, (table.bbox[1] - origin_y) / height, (table.bbox[2] - origin_x) / width, (table.bbox[3] - origin_y) / height], "type": "table", "reading_order": len(blocks), "text": text, "source": "pdfplumber_table", "quality": "table_review_required", "metadata": {"cells": cells, "reconstruction": "需与原图核对"}})
+                        blocks.append({"id": f"{parse_id}:{page_index}:{len(blocks)}", "version_id": version_id, "page_index": page_index, "bbox": [(table.bbox[0] - origin_x) / width, (table.bbox[1] - origin_y) / height, (table.bbox[2] - origin_x) / width, (table.bbox[3] - origin_y) / height], "type": "table", "reading_order": len(blocks), "text": text, "source": "pdfplumber_table", "quality": "table_review_required", "metadata": {"cells": cells, "reconstruction": "需与原图核对"}})
             except (ValueError, TypeError):
                 pass
             text = "\n".join(b["text"] for b in blocks if b["text"])
@@ -438,38 +476,55 @@ def parse_document(run):
             if len(bottom_words) == 1:
                 label = bottom_words[0]["text"]
             with db() as conn:
-                old = conn.execute("SELECT id FROM blocks WHERE version_id=? AND page_index=?", (version_id, page_index)).fetchall()
-                for b in old:
-                    conn.execute("DELETE FROM block_fts WHERE id=?", (b["id"],))
-                    conn.execute("DELETE FROM embeddings WHERE block_id=?", (b["id"],))
-                conn.execute("DELETE FROM blocks WHERE version_id=? AND page_index=?", (version_id, page_index))
-                conn.execute("INSERT OR REPLACE INTO pages VALUES(?,?,?,?,?,?,?,?)", (version_id, page_index, label, width, height, int(page.rotation or 0), status, text))
+                # Completed pages are immutable even before a model cites them.
+                old = conn.execute("SELECT b.id FROM blocks b LEFT JOIN block_parses m ON m.block_id=b.id WHERE b.version_id=? AND b.page_index=? AND COALESCE(m.parse_id,b.version_id)=?", (version_id,page_index,parse_id)).fetchall()
+                if old:
+                    raise ValueError('解析页已持久化；不能覆盖已有块，请创建新快照')
+                if legacy:
+                    conn.execute("INSERT OR REPLACE INTO pages VALUES(?,?,?,?,?,?,?,?)", (version_id, page_index, label, width, height, int(page.rotation or 0), status, text))
+                else:
+                    conn.execute("INSERT INTO parse_pages VALUES(?,?,?,?,?,?,?,?,?)", (parse_id,version_id,page_index,label,width,height,int(page.rotation or 0),status,text))
                 for block in blocks:
                     conn.execute("INSERT INTO blocks VALUES(?,?,?,?,?,?,?,?,?,?,?)", (block["id"], workspace, version_id, page_index, _json(block["bbox"]), block["type"], block["reading_order"], block["text"], block["source"], block["quality"], _json(block["metadata"])))
+                    if not legacy:
+                        conn.execute("INSERT INTO block_parses VALUES(?,?)",(block["id"],parse_id))
                     if block["text"]:
                         index_text = block["text"]
                         symbols = re.sub(r"([βγδε])\s+(\d+)", r"\1\2", index_text)
                         if symbols != index_text:
                             index_text += "\n" + symbols
                         conn.execute("INSERT INTO block_fts(id,text) VALUES(?,?)", (block["id"], index_text))
-                committed_pages = conn.execute("SELECT count(*) FROM pages WHERE version_id=?", (version_id,)).fetchone()[0]
-                conn.execute("UPDATE versions SET parsed_pages=?,page_count=? WHERE id=?", (committed_pages, len(pdf.pages), version_id))
+                committed_pages = conn.execute("SELECT count(*) FROM pages WHERE version_id=?", (version_id,)).fetchone()[0] if legacy else conn.execute("SELECT count(*) FROM parse_pages WHERE parse_id=?",(parse_id,)).fetchone()[0]
+                safe_provenance = {k:provenance[k] for k in ('engine','version','models','device') if k in provenance}
+                conn.execute("UPDATE parses SET parsed_pages=?,provenance=? WHERE id=?",(committed_pages,_json(safe_provenance),parse_id))
+                if legacy:
+                    conn.execute("UPDATE versions SET parsed_pages=?,page_count=? WHERE id=?", (committed_pages, len(pdf.pages), version_id))
                 conn.execute("UPDATE runs SET checkpoint=?,updated=? WHERE id=?", (_json({"parsed_pages": committed_pages}), time.time(), run["id"]))
             event(run["id"], "page_indexed", {"tool": "parse_document", "page_index": page_index, "parsed_pages": committed_pages, "page_count": len(pdf.pages), "blocks": len(blocks), "quality": quality, "source": source})
             page.close()
             if page is not original_page:
                 original_page.close()
-    margins = _suppress_repeating_margins(workspace, version_id, version["page_count"])
-    ref_count = _references(workspace, version_id)
-    headings = rows("SELECT id,text,page_index FROM blocks WHERE workspace=? AND version_id=? AND type='heading' ORDER BY page_index,reading_order", (workspace, version_id))
+    margins = _suppress_repeating_margins(workspace,version_id,version['page_count'],parse_id)
+    ref_count = _references(workspace,version_id,parse_id)
+    parsed_blocks = snapshot_blocks(workspace,version_id,parse_id)
+    headings = [b for b in parsed_blocks if b['type']=='heading']
     current_meta = json.loads(one("SELECT metadata FROM versions WHERE id=?", (version_id,))["metadata"])
-    current_meta["outline"] = [{"title": h["text"], "page_index": h["page_index"], "block_id": h["id"]} for h in headings]
-    execute("UPDATE versions SET metadata=? WHERE id=?", (_json(current_meta), version_id))
-    failures = rows("SELECT page_index,status FROM pages WHERE version_id=? AND status NOT IN ('ready','ocr','ocr_review_required')", (version_id,))
-    status = "partial" if failures else "ready"
-    execute("UPDATE versions SET status=? WHERE id=?", (status, version_id))
-    result = {"version_id": version_id, "status": status, "parsed_pages": one("SELECT parsed_pages FROM versions WHERE id=?", (version_id,))["parsed_pages"], "references": ref_count, "failed_pages": failures, "suppressed_margin_blocks": margins}
-    if not cancelled(run["id"]):
+    outline = [{"title":h['text'],"page_index":h['page_index'],"block_id":h['id']} for h in headings]
+    pages = rows('SELECT page_index,status FROM pages WHERE version_id=?',(version_id,)) if legacy else rows('SELECT page_index,status FROM parse_pages WHERE parse_id=?',(parse_id,))
+    failures = [p for p in pages if p['status'] not in ('ready','ocr','ocr_review_required')]
+    status = 'partial' if failures else 'ready'
+    with db() as conn:
+        conn.execute('UPDATE parses SET status=? WHERE id=?',(status,parse_id))
+        if status=='ready' and not cancelled(run['id']):
+            conn.execute('INSERT OR REPLACE INTO active_parses VALUES(?,?)',(version_id,parse_id))
+            if not current_meta.get('outline_manual') or not legacy:
+                current_meta['outline']=outline
+            current_meta['active_parse_id']=parse_id
+            conn.execute('UPDATE versions SET status=?,parsed_pages=?,dense_pages=?,metadata=? WHERE id=?',(status,len(pages),version['dense_pages'] if legacy else 0,_json(current_meta),version_id))
+        elif legacy:
+            conn.execute('UPDATE versions SET status=? WHERE id=?',(status,version_id))
+    result = {'version_id':version_id,'parse_id':parse_id,'status':status,'parsed_pages':len(pages),'references':ref_count,'failed_pages':failures,'suppressed_margin_blocks':margins}
+    if legacy and payload.get('index_dense',True) and not cancelled(run["id"]):
         try:
             from .retrieval import index_dense
             result["dense_index"] = index_dense(workspace, version_id, run["id"])
@@ -484,8 +539,8 @@ def compare_versions(workspace, left, right):
     versions = [one("SELECT * FROM versions WHERE workspace=? AND id=? AND deleted=0", (workspace, v)) for v in (left, right)]
     if not all(versions):
         raise ValueError("版本不存在或不属于当前工作区")
-    a = [_decode(b) for b in rows("SELECT * FROM blocks WHERE workspace=? AND version_id=? AND type NOT IN ('figure') ORDER BY page_index,reading_order", (workspace, left))]
-    b = [_decode(x) for x in rows("SELECT * FROM blocks WHERE workspace=? AND version_id=? AND type NOT IN ('figure') ORDER BY page_index,reading_order", (workspace, right))]
+    a = [_decode(b) for b in rows("SELECT * FROM current_blocks WHERE workspace=? AND version_id=? AND type NOT IN ('figure') ORDER BY page_index,reading_order", (workspace, left))]
+    b = [_decode(x) for x in rows("SELECT * FROM current_blocks WHERE workspace=? AND version_id=? AND type NOT IN ('figure') ORDER BY page_index,reading_order", (workspace, right))]
     matcher = difflib.SequenceMatcher(None, [_normalized(x["text"]) for x in a], [_normalized(x["text"]) for x in b], autojunk=False)
     changes = []
     counts = {"added": 0, "deleted": 0, "modified": 0, "unchanged": 0}

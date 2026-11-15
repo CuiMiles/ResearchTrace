@@ -4,7 +4,10 @@ from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 units=Path.home()/'.config/systemd/user'
 units.mkdir(parents=True,exist_ok=True)
-for name,module,memory,cpu in [('api','services.api.serve','512M','70%'),('worker','services.worker.main','896M','100%')]:
+units_to_install=[('api','services.api.serve','512M','70%'),('worker','services.worker.main','896M','100%')]
+if (root/'.tools/paddle-env/bin/python').exists() or (root/'.tools/mineru-env/bin/python').exists():
+    units_to_install.append(('parser','services.parsing.server','5G','200%'))
+for name,module,memory,cpu in units_to_install:
     path=units/f'researchtrace-{name}.service'
     expected=f'WorkingDirectory={root}'
     if path.exists() and expected not in path.read_text():
@@ -32,5 +35,5 @@ UMask=0077
 WantedBy=default.target
 ''')
 subprocess.run(['systemctl','--user','daemon-reload'],check=True)
-subprocess.run(['systemctl','--user','enable','--now','researchtrace-api.service','researchtrace-worker.service'],check=True)
-print('ResearchTrace user services installed and started (API512M + worker896M limits).')
+subprocess.run(['systemctl','--user','enable','--now',*[f'researchtrace-{name}.service' for name,_,_,_ in units_to_install]],check=True)
+print('ResearchTrace user services installed and started: '+', '.join(name+' '+memory for name,_,memory,_ in units_to_install)+'. Parser is optional; enhanced inference is outside lite memory target.')

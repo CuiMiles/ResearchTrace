@@ -1,9 +1,10 @@
 export type Json = Record<string, unknown>;
 export interface Session { workspace: string; role: string; }
 export interface Version { id:string; work_id:string; title:string; filename:string; sha256:string; status:string; page_count:number; parsed_pages:number; dense_pages:number; label:string; metadata:Json; created:number; duplicate?:boolean }
-export interface Block { id:string; version_id:string; page_index:number; bbox:number[]; type:string; reading_order:number; text:string; source:string; quality:string; metadata:Json }
+export interface ParseSnapshot { id:string; engine:string; device?:string; status:string; active?:boolean|number; parsed_pages?:number; page_count?:number; created?:number; error?:string|null }
+export interface Block { parse_id?:string; id:string; version_id:string; page_index:number; bbox:number[]; type:string; reading_order:number; text:string; source:string; quality:string; metadata:Json }
 export interface Page { page_index:number; label?:string; width:number; height:number; rotation:number; blocks:Block[] }
-export interface Evidence { block_id:string; version_id:string; page_index:number; bbox:number[]; quote:string; status:string }
+export interface Evidence { parse_id?:string; block_id:string; version_id:string; page_index:number; bbox:number[]; quote:string; status:string }
 export interface Claim { text:string; type:string; evidence:Evidence[] }
 export interface Run { id:string; kind:string; status:string; payload:Json; result:Result|null; error:string|null; created:number; updated:number; steps?:Step[] }
 export interface Step { id:number; event:string; data:Json; created:number }

@@ -286,7 +286,7 @@ def build_graph(workspace: str) -> dict:
             if identity:
                 by_identity[normalize_identity(identity)] = work['id']
     edges = []
-    refs = store.rows('SELECT r.*,v.work_id FROM refs r JOIN versions v ON v.id=r.version_id WHERE r.workspace=? AND v.deleted=0', (workspace,))
+    refs = store.rows("SELECT r.*,v.work_id FROM refs r JOIN versions v ON v.id=r.version_id LEFT JOIN active_parses a ON a.version_id=v.id WHERE r.workspace=? AND v.deleted=0 AND COALESCE(json_extract(r.metadata,'$.parse_id'),r.version_id)=COALESCE(a.parse_id,r.version_id)", (workspace,))
     known_sources = {w['id'] for w in works}
     for ref in refs:
         if ref['work_id'] not in known_sources:

@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "http_status": 200,
+  "elapsed": 7.818504369002767,
+  "response": {
+    "engine": "paddleocr",
+    "version": "3.7.0",
+    "models": [
+      "PP-OCRv5_mobile_det",
+      "PP-OCRv5_mobile_rec"
+    ],
+    "device": "cpu",
+    "width": 1400,
+    "height": 1000,
+    "lines": [
+      {
+        "text": "ResearchTrace OCR validation 7189",
+        "confidence": 0.9973782896995544,
+        "bbox": [
+          0.04857142857142857,
+          0.092,
+          0.4828571428571429,
+          0.135
+        ]
+      },
+      {
+        "text": "科研证据链：物理页码与原文坐标。",
+        "confidence": 0.9993718862533569,
+        "bbox": [
+          0.04857142857142857,
+          0.215,
+          0.445,
+          0.256
+        ]
+      },
+      {
+        "text": "实验记录共有 12、18、24 条，最大值为 24。",
+        "confidence": 0.9499709010124207,
+        "bbox": [
+          0.04928571428571429,
+          0.335,
+          0.5628571428571428,
+          0.376
+        ]
+      },
+      {
+        "text": "English text: reliable citations remain immutable.",
+        "confidence": 0.9979724287986755,
+        "bbox": [
+          0.04928571428571429,
+          0.451,
+          0.6485714285714286,
+          0.499
+        ]
+      },
+      {
+        "text": "Table: A 12 | B 18 |C 24",
+        "confidence": 0.948941171169281,
+        "bbox": [
+          0.04857142857142857,
+          0.571,
+          0.33785714285714286,
+          0.618
+        ]
+      },
+      {
+        "text": "Equation: E = m c^2",
+        "confidence": 0.9413430094718933,
+        "bbox": [
+          0.04857142857142857,
+          0.69,
+          0.3028571428571429,
+          0.741
+        ]
+      }
+    ],
+    "elapsed_seconds": 5.330197903967928,
+    "total_seconds": 7.194476348988246,
+    "peak_rss_kib": 968368,
+    "monitor": {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 7.76,
+      "returncode": 0
+    },
+    "request_id": "paddle-first-live"
+  }
+}

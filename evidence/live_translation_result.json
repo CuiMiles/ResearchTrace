@@ -1,0 +1,21 @@
+{
+  "id": "76cc8a8c0f9147cf9f61abb711f3968e",
+  "workspace": "181a93915777439094b0e90c620f829f",
+  "kind": "translate",
+  "status": "completed",
+  "payload": {
+    "version_id": "dfdbd6cf14a04c769770840a9fcb1c6f",
+    "block_ids": null
+  },
+  "result": {
+    "translated": 120,
+    "total": 120,
+    "version_id": "dfdbd6cf14a04c769770840a9fcb1c6f",
+    "model": "gemini-3.5-flash-lite"
+  },
+  "error": null,
+  "checkpoint": "{}",
+  "idempotency": "live-full-bitnet-translation-20261115",
+  "created": 1794737564.650607,
+  "updated": 1794737757.1244972
+}

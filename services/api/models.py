@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 import httpx
 from dotenv import load_dotenv
 
+from . import store
 from .store import ROOT, db, event, one, rows, uid
 
 load_dotenv(ROOT / '.env', override=False)
@@ -59,8 +60,10 @@ def reserve(project,model,tokens,run_id,now=None):
         if model == CORE:
             # Global smoke budget persists across process restart; no automatic budget reset.
             total=c.execute('SELECT COUNT(*) FROM quota WHERE model=?',(CORE,)).fetchone()[0]
-            if total>=int(os.getenv('HYDROGEN_SMOKE_LIMIT','4')):
+            if os.getenv('RT_SMOKE_MODE','true')=='true' and total>=int(os.getenv('HYDROGEN_SMOKE_LIMIT','4')):
                 raise ModelError('Hydrogen 显式冒烟预算已用尽；管理员需配置后续预算')
+            if os.getenv('RT_SMOKE_MODE','true')!='true' and daily>=int(os.getenv('HYDROGEN_RUNTIME_SOFT_RPD','16')):
+                raise ModelError('Hydrogen 常规项目日软预算已用尽；保留关键演示额度，不自动继续')
             if run_id and run:
                 used=c.execute('SELECT COUNT(*) FROM quota q JOIN runs r ON r.id=q.run_id WHERE q.model=? AND r.workspace=? AND q.day=?',(CORE,run['workspace'],quota_day(now))).fetchone()[0]
                 if used>=int(os.getenv('HYDROGEN_SESSION_LIMIT','2')):
@@ -129,6 +132,11 @@ def request(model,method,body,run_id,estimate):
             raise ModelError(f'{model} {detail}；请求已记账，无自动付费兜底')
         result=response.json()
         usage=result.get('usageMetadata',{})
+        trace_dir=store.DATA/'traces';trace_dir.mkdir(exist_ok=True,mode=0o700)
+        trace_path=trace_dir/(qid+'.json')
+        trace_path.write_text(json.dumps({'model_requested':model,'quota_id':qid,'received_at':time.time(),'response':result},ensure_ascii=False))
+        trace_path.chmod(0o600)
+        result['_quota_id']=qid
         status='ok'
         return result,project
     except httpx.HTTPError:
@@ -147,11 +155,14 @@ def generate(system,prompt,run_id,core=True):
     model=CORE if core else BATCH
     text_bytes=len((system+prompt).encode())
     payload={'systemInstruction':{'parts':[{'text':system}]},'contents':[{'role':'user','parts':[{'text':prompt}]}],
-             'generationConfig':{'responseMimeType':'application/json','maxOutputTokens':8192}}
+             'generationConfig':{'responseMimeType':'application/json','maxOutputTokens':16384 if core else 8192}}
     data,project=request(model,'generateContent',payload,run_id,text_bytes+1024)
     candidates=data.get('candidates',[])
     if not candidates or candidates[0].get('finishReason')!='STOP':
-        raise ModelError('模型输出未完整结束；未发布为完成结果')
+        reason=candidates[0].get('finishReason','EMPTY') if candidates else 'EMPTY'
+        with db() as c:
+            c.execute("UPDATE quota SET status='failed_output' WHERE id=?",(data.get('_quota_id'),))
+        raise ModelError(f'模型输出未完整结束（{reason}）；未发布为完成结果')
     text=''.join(p.get('text','') for p in candidates[0].get('content',{}).get('parts',[]) if not p.get('thought'))
     if not text:
         raise ModelError('模型未返回可用内容')
@@ -174,4 +185,5 @@ def provider_report():
     return {'configured':bool(projects),'paid_fallback':False,'reset_at':reset_at(),'remaining_balance':'未知；下列是本应用本地账目，其他业务用量未知',
         'projects':projects,'models':[{'model':m,'rpm':limits(m)[0],'tpm':limits(m)[1],'rpd':limits(m)[2]} for m in (CORE,BATCH,EMBED)],
         'status':rows('SELECT * FROM provider_state'),'usage':rows('SELECT project,model,day,COUNT(*) calls,SUM(input_tokens) input_tokens,SUM(output_tokens) output_tokens FROM quota GROUP BY project,model,day'),
-        'hydrogen_total_used':one('SELECT COUNT(*) n FROM quota WHERE model=?',(CORE,))['n'],'hydrogen_budget':int(os.getenv('HYDROGEN_SMOKE_LIMIT','4'))}
+        'hydrogen_total_used':one('SELECT COUNT(*) n FROM quota WHERE model=?',(CORE,))['n'],'hydrogen_budget':int(os.getenv('HYDROGEN_SMOKE_LIMIT','4')),
+        'mode':'smoke' if os.getenv('RT_SMOKE_MODE','true')=='true' else 'interactive','runtime_soft_rpd':int(os.getenv('HYDROGEN_RUNTIME_SOFT_RPD','16'))}

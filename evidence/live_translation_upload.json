@@ -1,0 +1,29 @@
+{
+  "documents": [
+    {
+      "id": "dfdbd6cf14a04c769770840a9fcb1c6f",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "work_id": "0268630d3fde4c7e94f8955a21535bfd",
+      "title": "fresh-bitnet-for-translation",
+      "filename": "fresh-bitnet-for-translation.pdf",
+      "sha256": "bcd625e89f95c39dc9143af4174978fcf2467eb9659d86f8da448d7d9366c332",
+      "status": "queued",
+      "page_count": 8,
+      "parsed_pages": 0,
+      "dense_pages": 0,
+      "label": "版本待确认",
+      "identity": null,
+      "metadata": {},
+      "created": 1794737564.336681,
+      "deleted": 0,
+      "duplicate": false
+    }
+  ],
+  "runs": [
+    {
+      "id": "275042aa8534445fbb0447c8ac6f906b",
+      "run_id": "275042aa8534445fbb0447c8ac6f906b",
+      "status": "queued"
+    }
+  ]
+}

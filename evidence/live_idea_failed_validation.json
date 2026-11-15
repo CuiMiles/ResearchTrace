@@ -1,0 +1,78 @@
+{
+  "run_id": "bd0c01a69a664b40b577e46637b5fc9c",
+  "status": "failed",
+  "error": "模型返回不存在或原文不匹配的引用；结果已拦截",
+  "model": "gemini-4-hydrogen",
+  "usage": {
+    "promptTokenCount": 27473,
+    "candidatesTokenCount": 1760,
+    "totalTokenCount": 35223,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 27473
+      }
+    ],
+    "candidatesTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 1760
+      }
+    ],
+    "thoughtsTokenCount": 5990,
+    "serviceTier": "standard"
+  },
+  "model_output": {
+    "answer": "基于当前已导入全文证据，2017年原建议仅获部分覆盖，不能证明其全部条件已实现，亦不宣称相关问题已彻底解决（语义支持待人工复核）。逐项核查如下：1）局部受限注意力处理长输入：状态为【后续文献已有直接相关证据】（就文本长输入而言；对照原建议全部条件则【只覆盖部分问题或条件】）。原建议源于 Attention Is All You Need（v7, arXiv:1706.03762, 2017-06）。后续文献 Longformer（v2, arXiv:2004.05150, 2020-04）提出了与序列长度线性缩放的局部滑动窗口注意力，并结合空洞滑动窗口及任务驱动全局注意力，在自回归字符级语言建模（text8、enwik8，处理长达 32K 字符）、文档级分类/问答/共指消解及长文档 seq2seq 摘要（LED，arXiv 数据集）中处理数千 token 或更长文档。条件差异在于：Longformer 仅针对文本/字符长序列，且并非单纯局部注意力，而是局部窗口与全局/空洞注意力的组合。2）图像、音频、视频等非文本模态的大输入与大输出：状态为【当前检索范围内未发现足够证据】。已导入全文仅含 2017 年原论文与 2020 年 Longformer 片段（库内 2018 年 BERT 与 2024 年 1-bit LLMs 无检索片段），未见任何图像、音频或视频实验证据。3）减少顺序生成：状态为【当前检索范围内未发现足够证据】。Longformer 仅报告自回归语言建模及 LED seq2seq 生成，未涉及非自回归或降低生成顺序性的证据。排除理由与下一步：实时元数据候选中，1006.3049（2010）与 1301.2195（2013）为早于 2017 年的图论论文予以排除；其余文本长文档或医疗/视频代理候选（如 2211.00974、2605.06924 等）未导入全文，不能仅凭标题或摘要判断。下一步应检索并导入针对图像/音频/视频的局部受限注意力及非自回归生成论文全文继续核查。【有来源的研究笔记】源文1（2017-06, arXiv:1706.03762, 251813e62c6a4391824b5f7494cebb5b:9:3）提出多模态扩展、局部受限注意力及减少顺序生成目标；源文2（2020-04, arXiv:2004.05150, 8c545f6f8c6c4300be0773a6c9b97917:0:5, 1:0, 1:1）提供长文本局部窗口+全局注意力证据。非文本模态与减少顺序生成目前缺全文证据予以保留（注：本分析器无系统写入权限，请人工保存上述笔记）。",
+    "claims": [
+      {
+        "text": "源文事实：2017年6月《Attention Is All You Need》（v7, arXiv:1706.03762）原建议明确提出三项目标：将Transformer扩展至文本以外的输入输出模态（图像、音频、视频）、研究局部受限注意力机制以高效处理大输入和大输出，以及减少生成的顺序性。",
+        "type": "source_fact",
+        "evidence": [
+          {
+            "block_id": "251813e62c6a4391824b5f7494cebb5b:9:3",
+            "quote": "We plan to extend the Transformer to problems involving input and output modalities other than text and to investigate local, restricted attention mechanisms to efficiently handle large inputs and outputs such as images, audio and video. Making generation less sequential is another research goals of ours."
+          }
+        ]
+      },
+      {
+        "text": "局部受限注意力处理长文本输入——状态：后续文献已有直接相关证据（整体对照原建议则只覆盖部分问题或条件）。2020年4月Longformer（v2, arXiv:2004.05150）提出与序列长度线性缩放的局部窗口注意力与全局注意力组合，以及空洞滑动窗口模式，处理数千token或长达32K字符的文档，并在text8、enwik8及arXiv长文档摘要（LED）中报告了结果。",
+        "type": "source_fact",
+        "evidence": [
+          {
+            "block_id": "8c545f6f8c6c4300be0773a6c9b97917:0:5",
+            "quote": "To address this limitation, we introduce the Longformer with an attention mechanism that scales linearly with sequence length, making it easy to process documents of thousands of tokens or longer. Longformer’s attention mechanism is a drop-in replacement for the standard self-attention and combines a local windowed attention with a task motivated global attention."
+          },
+          {
+            "block_id": "8c545f6f8c6c4300be0773a6c9b97917:1:0",
+            "quote": "We first evaluate Longformer on autoregressive character-level language modeling using a com- bination of windowed and a new dilated attention pattern, allowing the model to process sequences of up to 32K characters on modern GPUs. We achieve state-of-the-art results on text8 and enwik8 benchmark datasets, demonstrating the effective- ness of Longformer in long document modeling."
+          }
+        ]
+      },
+      {
+        "text": "条件差异与整体覆盖状态——状态：只覆盖部分问题或条件。Longformer的局部受限注意力验证仅限于自然语言与字符级文本任务（分类、QA、共指消解及文本摘要LED），且依赖局部窗口与全局/空洞注意力的结合，未涉及图像、音频、视频模态及非顺序生成，因而不能证明原建议全部条件已被覆盖。",
+        "type": "inference",
+        "evidence": [
+          {
+            "block_id": "8c545f6f8c6c4300be0773a6c9b97917:1:1",
+            "quote": "After pretraining, we apply it to downstream language tasks through finetuning and demonstrate that Longformer consistently outper- forms RoBERTa on a wide range of document-level natural language tasks including text classification, QA, and coreference resolution, achieving state-of- the-art results on two of these datasets."
+          },
+          {
+            "block_id": "8c545f6f8c6c4300be0773a6c9b97917:0:5",
+            "quote": "We finally introduce the Longformer-Encoder-Decoder (LED), a Long- former variant for supporting long document generative sequence-to-sequence tasks, and demonstrate its effectiveness on the arXiv sum- marization dataset."
+          }
+        ]
+      },
+      {
+        "text": "图像、音频、视频模态及减少顺序生成——状态：当前检索范围内未发现足够证据。已导入全文证据中未包含多模态大输入输出或非顺序生成的实验；同库2018年BERT与2024年1-bit LLMs无检索片段；元数据候选中2010/2013年图论论文早于2017年已排除，其余候选未导入全文，不能凭标题或摘要判断。",
+        "type": "insufficient",
+        "evidence": []
+      },
+      {
+        "text": "研究建议与下一步：保留非文本模态局部受限注意力与减少顺序生成为未验证缺口，下一步检索并导入针对视觉/音频/视频局部注意力及非自回归生成的后续全文；语义支持待人工复核，并由人工将上述有来源的研究笔记保存归档。",
+        "type": "suggestion",
+        "evidence": []
+      }
+    ]
+  }
+}

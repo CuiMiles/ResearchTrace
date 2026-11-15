@@ -32,3 +32,7 @@ Lucide icons import specific modules to keep the icon catalog out of the build.
 Browser checks should cover 1440×900, 1280×800 and a narrow mobile viewport, and
 should inspect real PDF highlighting, model output provenance, chart downloads,
 Mermaid update/export, explicit errors and persistent run history.
+
+Production builds stage under `dist-next/`. The publisher copies assets and local
+vendor chunks atomically, retains older hashed assets for already open tabs, and
+renames `index.html` last. It never empties the running `dist/` directory.

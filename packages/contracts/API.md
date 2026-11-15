@@ -41,3 +41,14 @@ retrieval.py exports `retrieve(workspace,version_ids,question,limit=16)->dict {b
 research.py exports `search_papers(workspace,query,sources=None,limit=10)->dict`, `import_paper(workspace,paper)->dict`, `build_graph(workspace)->dict`, `check_watch(workspace,watch_id)->dict`.
 charts.py exports `create_chart(workspace,filename,content,spec)->dict`, `artifact_file(workspace,artifact_id,name)->Path`.
 models.py exports `generate(system,prompt,run_id,core=True)->dict {text,model,usage,project}` and `embed(texts,run_id,task='RETRIEVAL_DOCUMENT')->dict {vectors,model,dimension}`. Raises safe ModelError; no secret messages.
+
+
+Ubuntu 24 parser revisions (2026-11-15):
+- `POST /documents?index_dense=false` imports without spending embedding quota; default remains true.
+- `GET /documents/{vid}/parses` returns `{id,version_id,engine,device,status,parsed_pages,page_count,error,created,active,provenance}[]`.
+- `POST /documents/{vid}/parses {engine:native|paddleocr|mineru,device:cpu|gpu,idempotency_key}` returns `{id:run_id,run_id,parse_id,status}`. GPU is supported only for MinerU; server applies live resource guards.
+- Pages, blocks, search and references accept optional `parse_id`. Omission reads the active revision. Full successful parsing publishes a new current revision atomically; partial/failed revisions do not displace it.
+- Existing versions, source bytes, block IDs, text, bbox, translations, embeddings and historic evidence stay unchanged. Native legacy revisions use the existing version ID as parse ID. New blocks keep the original version ID, and use the independent parse ID in their opaque block ID.
+- Returned blocks and run evidence contain `parse_id`, including legacy stored run evidence enriched by its immutable block identity. Queries and bibliography graph use current revisions; old reader routes remain available within the same workspace.
+- Reparse does not automatically spend embedding quota. Coverage resets honestly to zero for the new active revision; old vectors remain bound to old block IDs.
+- Enhanced workers are optional, Unix-socket only, no model credentials inherited. Broker health is liveness; offline preflight is not proof of inference.

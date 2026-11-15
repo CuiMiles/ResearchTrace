@@ -1,0 +1,50 @@
+[
+  {
+    "credential_slot": 1,
+    "project_group": "gemini-shared",
+    "status": "PASS",
+    "actual_model": "gemini-3.5-flash-lite",
+    "finish": [
+      "STOP"
+    ],
+    "text": [
+      "OK"
+    ],
+    "usage": {
+      "promptTokenCount": 5,
+      "candidatesTokenCount": 1,
+      "totalTokenCount": 6,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 5
+        }
+      ],
+      "serviceTier": "standard"
+    }
+  },
+  {
+    "credential_slot": 2,
+    "project_group": "gemini-shared",
+    "status": "PASS",
+    "actual_model": "gemini-3.5-flash-lite",
+    "finish": [
+      "STOP"
+    ],
+    "text": [
+      "OK"
+    ],
+    "usage": {
+      "promptTokenCount": 5,
+      "candidatesTokenCount": 1,
+      "totalTokenCount": 6,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 5
+        }
+      ],
+      "serviceTier": "standard"
+    }
+  }
+]

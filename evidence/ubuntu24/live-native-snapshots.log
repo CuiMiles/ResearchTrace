@@ -1,0 +1,72 @@
+{
+  "base": "http://127.0.0.1:18980",
+  "cases": [
+    {
+      "case": "native immutable revision via HTTP",
+      "status": "PASS",
+      "version_id": "dfdbd6cf14a04c769770840a9fcb1c6f",
+      "source_sha256": "bcd625e89f95c39dc9143af4174978fcf2467eb9659d86f8da448d7d9366c332",
+      "old_parse": "dfdbd6cf14a04c769770840a9fcb1c6f",
+      "new_parse": "a3090586252b4bddbaad4a2b4e105bf0",
+      "old_blocks_hash_before": "d3cf2644bfc788e571c3bcecd7d4692d338803b023d007ad8503eb126b407b95",
+      "old_blocks_hash_after": "d3cf2644bfc788e571c3bcecd7d4692d338803b023d007ad8503eb126b407b95",
+      "old_block_count": 127,
+      "run_id": "07d8dec1a7a4433694cd3b444d2490da"
+    },
+    {
+      "case": "new self-authored PDF import search source location without dense spend",
+      "status": "PASS",
+      "source_sha256": "e3bca036356dc787075b8fd54b2c355e227dabea726da9eee7a682f5670f9ae7",
+      "official_original": false,
+      "version_id": "cc590ee5f7ea4ec4ab0c1c2595c5b0f7",
+      "located_block": "cc590ee5f7ea4ec4ab0c1c2595c5b0f7:0:2",
+      "physical_page_index": 0
+    },
+    {
+      "case": "new damaged input",
+      "status": "PASS",
+      "observed_http_status": 422
+    }
+  ],
+  "model_requests": 0,
+  "quota_before": [
+    {
+      "model": "gemini-3.5-flash-lite",
+      "n": 22,
+      "input_tokens": 15068,
+      "output_tokens": 14624
+    },
+    {
+      "model": "gemini-4-hydrogen",
+      "n": 4,
+      "input_tokens": 65537,
+      "output_tokens": 23309
+    },
+    {
+      "model": "gemini-embedding-001",
+      "n": 56,
+      "input_tokens": 214761,
+      "output_tokens": 0
+    }
+  ],
+  "quota_after": [
+    {
+      "model": "gemini-3.5-flash-lite",
+      "n": 22,
+      "input_tokens": 15068,
+      "output_tokens": 14624
+    },
+    {
+      "model": "gemini-4-hydrogen",
+      "n": 4,
+      "input_tokens": 65537,
+      "output_tokens": 23309
+    },
+    {
+      "model": "gemini-embedding-001",
+      "n": 56,
+      "input_tokens": 214761,
+      "output_tokens": 0
+    }
+  ]
+}

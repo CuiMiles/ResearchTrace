@@ -1,0 +1,24 @@
+{
+  "ready": false,
+  "readiness_level": "offline_preflight",
+  "inference_verified": false,
+  "libraries": {
+    "paddleocr": {
+      "version": "3.7.0",
+      "models": [
+        "PP-OCRv5_mobile_det",
+        "PP-OCRv5_mobile_rec"
+      ],
+      "runtime_version": "3.2.2",
+      "preflight_ok": true,
+      "inference_verified": false,
+      "detail": "Imports and local files checked; inference has not run in this process"
+    },
+    "mineru": {
+      "preflight_ok": false,
+      "inference_verified": false,
+      "detail": "mineru failed; private diagnostics 6ffb980b48504f238bc5075ed3ad00a1"
+    }
+  },
+  "last_runs": {}
+}

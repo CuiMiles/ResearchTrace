@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/vendor-mermaid.mjs && vite --host 127.0.0.1 --port 18971",
-    "build": "node scripts/vendor-mermaid.mjs && tsc --noEmit && vite build",
+    "build": "node scripts/vendor-mermaid.mjs && tsc --noEmit && vite build --outDir dist-next && node scripts/publish-build.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

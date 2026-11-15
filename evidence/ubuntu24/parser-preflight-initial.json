@@ -1,0 +1,18 @@
+{
+  "ready": false,
+  "readiness_level": "offline_preflight",
+  "inference_verified": false,
+  "libraries": {
+    "paddleocr": {
+      "preflight_ok": false,
+      "inference_verified": false,
+      "detail": "paddleocr failed; private diagnostics 4538a223752c48b78f4f080d398b3ad5"
+    },
+    "mineru": {
+      "preflight_ok": false,
+      "inference_verified": false,
+      "detail": "mineru failed; private diagnostics f85a173d49f44a379ae16a9b21aebfad"
+    }
+  },
+  "last_runs": {}
+}

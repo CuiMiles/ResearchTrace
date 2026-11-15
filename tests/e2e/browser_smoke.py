@@ -5,7 +5,7 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'evidence/browser'
+OUT=Path(os.getenv('RT_BROWSER_OUT',str(ROOT/'evidence/browser')))
 OUT.mkdir(parents=True,exist_ok=True)
 base=os.getenv('RT_BROWSER_URL','http://127.0.0.1:18970')
 s=json.loads((ROOT/'data/smoke-session.json').read_text())

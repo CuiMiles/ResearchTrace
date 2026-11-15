@@ -1,0 +1,27 @@
+{
+  "environment": "Ubuntu24.04.5 WSL2 Python3.12.3",
+  "source": "node01:/home/CuiMinghao/projects/Competition/chuanzhiCup",
+  "sqlite_integrity": "ok",
+  "quota": [
+    [
+      "gemini-3.5-flash-lite",
+      22,
+      15068,
+      14624
+    ],
+    [
+      "gemini-4-hydrogen",
+      4,
+      65537,
+      23309
+    ],
+    [
+      "gemini-embedding-001",
+      56,
+      214761,
+      0
+    ]
+  ],
+  "port": 18980,
+  "hydrogen_new_calls": 0
+}

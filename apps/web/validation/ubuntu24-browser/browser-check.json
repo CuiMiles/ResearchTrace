@@ -1,0 +1,42 @@
+{
+  "base_url": "http://127.0.0.1:18980",
+  "checks": [
+    {
+      "case": "library_1440",
+      "horizontal_overflow": false
+    },
+    {
+      "case": "版本与比较",
+      "horizontal_overflow": false
+    },
+    {
+      "case": "检索与追踪",
+      "horizontal_overflow": false
+    },
+    {
+      "case": "研究建议核查",
+      "horizontal_overflow": false
+    },
+    {
+      "case": "写作与绘图",
+      "horizontal_overflow": false
+    },
+    {
+      "case": "mermaid_default",
+      "labels": "研究问题\n检索与原文证据\n版本与条件核对\n结论与研究笔记\n原文定位核验"
+    },
+    {
+      "case": "mermaid_edit",
+      "visible": true
+    },
+    {
+      "case": "mermaid_script_rejection",
+      "message": "结构图不允许脚本、链接、HTML 图片或覆盖安全设置的指令。"
+    },
+    {
+      "case": "library_1280",
+      "horizontal_overflow": false
+    }
+  ],
+  "errors": []
+}

@@ -56,6 +56,20 @@ def migrate():
         CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY,applied REAL NOT NULL);
         ''')
         c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(1,?)',(time.time(),))
+        # A document's bytes and its parser revisions have independent identities.
+        # Existing block IDs remain the legacy revision; migration never rewrites them.
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS parses(id TEXT PRIMARY KEY,version_id TEXT NOT NULL,workspace TEXT NOT NULL,engine TEXT NOT NULL,device TEXT NOT NULL,status TEXT NOT NULL,parsed_pages INTEGER DEFAULT 0,page_count INTEGER NOT NULL,error TEXT,created REAL NOT NULL,provenance TEXT DEFAULT '{}');
+        CREATE TABLE IF NOT EXISTS active_parses(version_id TEXT PRIMARY KEY,parse_id TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS block_parses(block_id TEXT PRIMARY KEY,parse_id TEXT NOT NULL);
+        CREATE INDEX IF NOT EXISTS block_parse_lookup ON block_parses(parse_id);
+        CREATE TABLE IF NOT EXISTS parse_pages(parse_id TEXT NOT NULL,version_id TEXT NOT NULL,page_index INTEGER NOT NULL,label TEXT,width REAL,height REAL,rotation INTEGER,status TEXT,text TEXT,PRIMARY KEY(parse_id,page_index));
+        CREATE VIEW IF NOT EXISTS current_blocks AS SELECT b.*,COALESCE(bp.parse_id,b.version_id) AS parse_id FROM blocks b LEFT JOIN block_parses bp ON bp.block_id=b.id LEFT JOIN active_parses a ON a.version_id=b.version_id WHERE COALESCE(bp.parse_id,b.version_id)=COALESCE(a.parse_id,b.version_id);
+        CREATE VIEW IF NOT EXISTS current_pages AS SELECT p.*,p.version_id AS parse_id FROM pages p LEFT JOIN active_parses a ON a.version_id=p.version_id WHERE COALESCE(a.parse_id,p.version_id)=p.version_id UNION ALL SELECT p.version_id,p.page_index,p.label,p.width,p.height,p.rotation,p.status,p.text,p.parse_id FROM parse_pages p JOIN active_parses a ON a.parse_id=p.parse_id;
+        ''')
+        c.execute("INSERT OR IGNORE INTO parses(id,version_id,workspace,engine,device,status,parsed_pages,page_count,created) SELECT id,id,workspace,'native','cpu',status,parsed_pages,page_count,created FROM versions")
+        c.execute('INSERT OR IGNORE INTO active_parses SELECT id,id FROM versions')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(2,?)',(time.time(),))
 
 def one(sql, params=()):
     with db() as c:

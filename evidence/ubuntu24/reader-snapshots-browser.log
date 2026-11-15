@@ -1,0 +1,56 @@
+{
+  "base_url": "http://127.0.0.1:18980",
+  "checks": [
+    {
+      "case": "snapshot options match authenticated API",
+      "status": "PASS"
+    },
+    {
+      "case": "engine and device controls exist",
+      "status": "PASS"
+    },
+    {
+      "case": "GPU requires server resource checks",
+      "status": "PASS"
+    },
+    {
+      "case": "explicit snapshot survives refresh",
+      "status": "PASS"
+    },
+    {
+      "case": "historical model submission disabled",
+      "status": "PASS"
+    },
+    {
+      "case": "historical outline editing disabled",
+      "status": "PASS"
+    },
+    {
+      "case": "search scopes selected snapshot",
+      "status": "PASS"
+    },
+    {
+      "case": "desktop has no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile snapshot selector visible",
+      "status": "PASS"
+    },
+    {
+      "case": "mobile has no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "case": "no mutating API requests",
+      "status": "PASS"
+    },
+    {
+      "case": "no browser exceptions",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "model_requests": 0,
+  "status": "PASS"
+}

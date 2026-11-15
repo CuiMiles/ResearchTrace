@@ -1,7 +1,9 @@
 """Bounded durable tool state machine; a single worker owns upstream requests."""
 import html
 import json
+import re
 import time
+import unicodedata
 
 from pydantic import BaseModel, Field
 
@@ -26,6 +28,34 @@ class Answer(BaseModel):
 def normalized(s):
     return ''.join(s.split()).casefold()
 
+def canonical_quote(s):
+    """PDF ligatures and line-end hyphens only; retain source character offsets."""
+    removed=set()
+    for match in re.finditer(r'(?<=[A-Za-z])-\s+(?=[A-Za-z])',s):
+        removed.update(range(match.start(),match.end()))
+    text=[];offsets=[]
+    for i,char in enumerate(s):
+        if i in removed:
+            continue
+        for c in unicodedata.normalize('NFKC',char).casefold().translate(str.maketrans({'’':"'",'‘':"'",'“':'"','”':'"'})):
+            if not c.isspace():
+                text.append(c);offsets.append(i)
+    return ''.join(text),offsets
+
+def repair_quote(citation,blocks,preferred):
+    needle,_=canonical_quote(citation.quote)
+    if len(needle)<32:
+        return None
+    candidates=[preferred] if preferred else blocks
+    matches=[]
+    for b in candidates:
+        haystack,offsets=canonical_quote(b['text'])
+        if haystack.count(needle)==1:
+            start=haystack.index(needle)
+            raw=b['text'][offsets[start]:offsets[start+len(needle)-1]+1]
+            matches.append((b,raw))
+    return matches[0] if len(matches)==1 else None
+
 def source_context(workspace,version_ids):
     context=[]
     for vid in version_ids:
@@ -47,16 +77,23 @@ def validate_answer(data,blocks):
     answer=Answer.model_validate(data)
     lookup={b['id']:b for b in blocks}
     validated=[]
+    repairs=0
     for claim in answer.claims:
         if claim.type not in ('source_fact','inference','suggestion','insufficient'):
             raise ValueError('未知主张类型')
         citations=[]
         for citation in claim.evidence:
             b=lookup.get(citation.block_id)
+            repair=None
             if not b or normalized(citation.quote) not in normalized(b['text']):
-                raise ValueError('模型返回不存在或原文不匹配的引用；结果已拦截')
+                match=repair_quote(citation,blocks,b) if repairs<2 else None
+                if not match:
+                    raise ValueError('模型返回不存在或原文不匹配的引用；结果已拦截')
+                b,raw=match
+                repair='pdf_layout_normalization' if citation.block_id==b['id'] else 'unique_exact_quote_relocation'
+                citation.quote=raw;repairs+=1
             bbox=b['bbox'] if isinstance(b['bbox'],list) else json.loads(b['bbox'])
-            citations.append({'block_id':b['id'],'version_id':b['version_id'],'page_index':b['page_index'],'bbox':bbox,'quote':citation.quote,'status':'located_semantics_pending'})
+            citations.append({'block_id':b['id'],'version_id':b['version_id'],'page_index':b['page_index'],'bbox':bbox,'parse_id':b.get('parse_id',b['version_id']),'quote':citation.quote,'status':'located_semantics_pending',**({'repair':repair} if repair else {})})
         if claim.type=='source_fact' and not citations:
             raise ValueError('事实主张缺少可定位证据；结果已拦截')
         validated.append({'text':claim.text,'type':claim.type,'evidence':citations})
@@ -119,7 +156,7 @@ def qa(run):
 
 def translate(run):
     p=run['payload'];rid=run['id'];w=run['workspace'];vid=p['version_id']
-    blocks=rows("SELECT * FROM blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer','figure') ORDER BY page_index,reading_order",(w,vid))
+    blocks=rows("SELECT * FROM current_blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer','figure') ORDER BY page_index,reading_order",(w,vid))
     if p.get('block_ids'):
         wanted=set(p['block_ids']);blocks=[b for b in blocks if b['id'] in wanted]
     translated=0
@@ -172,9 +209,11 @@ def audit(run):
         from .retrieval import retrieve
         vids=later
         ret=retrieve(w,vids,p['question'],limit=14)
-        evidence=[block]+ret.get('blocks',[])
+        evidence=snapshot.get('audit_evidence') or [block]+ret.get('blocks',[])
+        snapshot['audit_evidence']=evidence
+        checkpoint(run,snapshot)
         if 'model_response' not in snapshot:
-            prompt=json.dumps({'old_suggestion':block,'source_versions':[old_context]+[c for c in all_context if c['id'] in later],'excluded_by_time':excluded,'question':p['question'],'later_candidates_metadata_only':candidates,'available_fulltext_evidence':evidence,'requirements':'逐项核对发表年份、任务、限制条件。状态逐项只允许后续文献已有直接相关证据/只覆盖部分问题或条件/当前检索范围内未发现足够证据/尚未完成检索无法判断。不能仅凭候选标题判断。解释所选证据对应何种任务、哪些条件不相同。列排除理由和下一步。不宣称已彻底解决。'},ensure_ascii=False)
+            prompt=json.dumps({'old_suggestion':block,'source_versions':[old_context]+[c for c in all_context if c['id'] in later],'excluded_by_time':excluded,'question':p['question'],'later_candidates_metadata_only':candidates,'available_fulltext_evidence':evidence,'requirements':'逐项核对发表年份、任务、限制条件。状态逐项只允许后续文献已有直接相关证据/只覆盖部分问题或条件/当前检索范围内未发现足够证据/尚未完成检索无法判断。不能仅凭候选标题判断。解释所选证据对应何种任务、哪些条件不相同。列排除理由和下一步。不宣称已彻底解决。最多6条主张，answer不超过1200中文汉字，每条引用1-2个最关键片段；证据不足条目可无引文。'},ensure_ascii=False)
             snapshot['model_response']=models.generate(SYSTEM,prompt,rid,core=True);checkpoint(run,snapshot)
         r=snapshot['model_response'];result=validate_answer(json.loads(r['text']),evidence)
         result.update(model=r['model'],usage=r['usage'],query=p['question'],searched_at=search.get('searched_at'),search=search)
@@ -194,7 +233,7 @@ def work_once():
     run['payload']=json.loads(run['payload']);rid=run['id']
     event(rid,'started',{'kind':run['kind']})
     try:
-        if run['kind'] in ('parse','parse_document'):
+        if run['kind'] in ('parse','parse_document','reparse'):
             from .documents import parse_document
             result=parse_document(run)
         elif run['kind'] in ('qa','agent','writing'):
@@ -206,14 +245,17 @@ def work_once():
         else:
             raise ValueError('不支持的任务类型')
         if not cancelled(rid):
-            execute("UPDATE runs SET status='completed',result=?,updated=? WHERE id=?",(json.dumps(result,ensure_ascii=False),time.time(),rid))
-            event(rid,'completed',{'result_saved':True})
+            final='partial' if run['kind'] in ('parse','parse_document','reparse') and result.get('status')=='partial' else 'completed'
+            execute("UPDATE runs SET status=?,result=?,updated=? WHERE id=?",(final,json.dumps(result,ensure_ascii=False),time.time(),rid))
+            event(rid,final,{'result_saved':True})
     except Exception as e:
         if not cancelled(rid):
             # Only controlled exceptions shown; never upstream request repr or credentials.
             safe=str(e)[:350] if isinstance(e,(models.ModelError,ValueError)) else f'{type(e).__name__}: 任务执行异常，请查看本地审计记录'
             execute("UPDATE runs SET status='failed',error=?,updated=? WHERE id=?",(safe,time.time(),rid))
             event(rid,'failed',{'error':safe})
+            if run['kind'] in ('parse','parse_document','reparse'):
+                execute("UPDATE parses SET status='failed',error=? WHERE id=?",(safe,run['payload'].get('parse_id',run['payload']['version_id'])))
     return True
 
 def export_note(payload,title,fmt):

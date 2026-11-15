@@ -122,32 +122,30 @@
       }
     },
     "/api/v1/documents": {
-      "get": {
-        "summary": "Documents",
-        "operationId": "documents_api_v1_documents_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      },
       "post": {
         "summary": "Upload",
         "operationId": "upload_api_v1_documents_post",
+        "parameters": [
+          {
+            "name": "index_dense",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Index Dense"
+            }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/Body_upload_api_v1_documents_post"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -165,6 +163,20 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Documents",
+        "operationId": "documents_api_v1_documents_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           }
@@ -245,6 +257,88 @@
         }
       }
     },
+    "/api/v1/documents/{vid}/parses": {
+      "get": {
+        "summary": "Parses",
+        "operationId": "parses_api_v1_documents__vid__parses_get",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Reparse",
+        "operationId": "reparse_api_v1_documents__vid__parses_post",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/documents/{vid}/pages/{page_index}": {
       "get": {
         "summary": "Page",
@@ -266,6 +360,22 @@
             "schema": {
               "type": "integer",
               "title": "Page Index"
+            }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
             }
           }
         ],
@@ -340,6 +450,22 @@
               ],
               "title": "Page Index"
             }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
+            }
           }
         ],
         "responses": {
@@ -376,6 +502,22 @@
             "schema": {
               "type": "string",
               "title": "Vid"
+            }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
             }
           }
         ],
@@ -424,6 +566,22 @@
               "maxLength": 500,
               "default": "",
               "title": "Q"
+            }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
             }
           }
         ],
@@ -1648,6 +1806,65 @@
         ],
         "title": "Login"
       },
+      "OutlineEntry": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Title"
+          },
+          "page_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Page Index"
+          },
+          "block_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Block Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "page_index"
+        ],
+        "title": "OutlineEntry"
+      },
+      "ParseRequest": {
+        "properties": {
+          "engine": {
+            "type": "string",
+            "pattern": "^(native|paddleocr|mineru)$",
+            "title": "Engine"
+          },
+          "device": {
+            "type": "string",
+            "pattern": "^(cpu|gpu)$",
+            "title": "Device",
+            "default": "cpu"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "engine",
+          "idempotency_key"
+        ],
+        "title": "ParseRequest"
+      },
       "PatchDoc": {
         "properties": {
           "title": {
@@ -1686,6 +1903,21 @@
               }
             ],
             "title": "Work Id"
+          },
+          "outline": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/OutlineEntry"
+                },
+                "type": "array",
+                "maxItems": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outline"
           }
         },
         "type": "object",

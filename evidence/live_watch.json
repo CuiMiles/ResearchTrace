@@ -1,0 +1,2980 @@
+{
+  "watch": {
+    "id": "59c4599ac8034bbf82050822d5886269",
+    "workspace": "181a93915777439094b0e90c620f829f",
+    "query": "local window attention Longformer",
+    "enabled": 0,
+    "interval_hours": 24.0,
+    "last_checked": null,
+    "next_check": 1794824993.7532418,
+    "result": "[]"
+  },
+  "immediate": {
+    "results": [
+      {
+        "identity": "arxiv:2004.05150",
+        "title": "Longformer: The Long-Document Transformer",
+        "authors": [
+          "Iz Beltagy",
+          "Matthew E. Peters",
+          "Arman Cohan"
+        ],
+        "year": 2020,
+        "published": "2020-04-10T17:54:09Z",
+        "updated": "2020-12-02T17:52:35Z",
+        "arxiv_id": "2004.05150v2",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2004.05150v2",
+        "pdf_url": "https://arxiv.org/pdf/2004.05150v2",
+        "source": "arxiv",
+        "abstract": "Transformer-based models are unable to process long sequences due to their self-attention operation, which scales quadratically with the sequence length. To address this limitation, we introduce the Longformer with an attention mechanism that scales linearly with sequence length, making it easy to process documents of thousands of tokens or longer. Longformer's attention mechanism is a drop-in replacement for the standard self-attention and combines a local windowed attention with a task motivated global attention. Following prior work on long-sequence transformers, we evaluate Longformer on character-level language modeling and achieve state-of-the-art results on text8 and enwik8. In contrast to most prior work, we also pretrain Longformer and finetune it on a variety of downstream tasks. Our pretrained Longformer consistently outperforms RoBERTa on long document tasks and sets new state-of-the-art results on WikiHop and TriviaQA. We finally introduce the Longformer-Encoder-Decoder (LED), a Longformer variant for supporting long document generative sequence-to-sequence tasks, and demonstrate its effectiveness on the arXiv summarization dataset.",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 17，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 1.6,
+        "feedback": 0
+      },
+      {
+        "identity": "arxiv:2609.08574",
+        "title": "Do New Attention Mechanisms Actually Fix Attention Sinks at Million-Token Context?",
+        "authors": [
+          "Sara Rizwan",
+          "Samaanah Abdus Salam",
+          "Mohammed Mudassir Uddin"
+        ],
+        "year": 2026,
+        "published": "2026-09-08T11:10:11Z",
+        "updated": "2026-09-18T12:15:13Z",
+        "arxiv_id": "2609.08574v2",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2609.08574v2",
+        "pdf_url": "https://arxiv.org/pdf/2609.08574v2",
+        "source": "arxiv",
+        "abstract": "Long context language models now advertise windows of one million tokens, but two habits limit how much of that window is used. Attention heads with nothing useful to read still spend their budget on the first token, which is called the attention sink, and where a fact sits in the context changes whether the model finds it. Gated attention cut first token attention from 46.7 percent to 4.8 percent at NeurIPS 2025, and Kimi K3 pairs that idea with Kimi Delta Attention and Attention Residuals behind a one million token window, eight times past the range where these diagnostics have been reported. This paper asks whether the fix survives that jump. We build SinkProbe, a suite that measures sink mass, massive activation, position resolved recall and the recency gap, and apply it to four small models that differ only in how they mix tokens and depth. Three results follow. The training objective produces the sink, not the architecture. Gating did not reproduce its published effect at our scale. Sink mass, activations and position bias moved independently. Code, data and the measurement protocol are released at https://github.com/sararizwan7/Attention-Mechanisms-in-1M-Context-Window",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 12，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 1.0,
+        "feedback": 0,
+        "code_clues": [
+          "https://github.com/sararizwan7/Attention-Mechanisms-in-1M-Context-Window"
+        ]
+      },
+      {
+        "identity": "arxiv:2101.00272",
+        "title": "Locality of the windowed local density of states",
+        "authors": [
+          "Terry A. Loring",
+          "Jianfeng Lu",
+          "Alexander B. Watson"
+        ],
+        "year": 2021,
+        "published": "2021-01-01T17:17:49Z",
+        "updated": "2021-04-14T19:30:37Z",
+        "arxiv_id": "2101.00272v2",
+        "doi": "10.11128/arep.17.a17209",
+        "url": "https://arxiv.org/abs/2101.00272v2",
+        "pdf_url": "https://arxiv.org/pdf/2101.00272v2",
+        "source": "arxiv",
+        "abstract": "We introduce a generalization of local density of states which is \"windowed\" with respect to position and energy, called the windowed local density of states (wLDOS). This definition generalizes the usual LDOS in the sense that the usual LDOS is recovered in the limit where the position window captures individual sites and the energy window is a delta distribution. We prove that the wLDOS is local in the sense that it can be computed up to arbitrarily small error using spatial truncations of the system Hamiltonian. Using this result we prove that the wLDOS is well-defined and computable for infinite systems satisfying some natural assumptions. We finally present numerical computations of the wLDOS at the edge and in the bulk of a \"Fibonacci SSH model\", a one-dimensional non-periodic model with topological edge states.",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 7，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.8333333333333333,
+        "feedback": 0
+      },
+      {
+        "identity": "arxiv:2601.20332",
+        "title": "Window-Diffusion: Accelerating Diffusion Language Model Inference with Windowed Token Pruning and Caching",
+        "authors": [
+          "Fengrui Zuo",
+          "Zhiwei Ke",
+          "Yiming Liu",
+          "Wenqi Lou",
+          "Chao Wang",
+          "Xuehai Zhou"
+        ],
+        "year": 2026,
+        "published": "2026-01-28T07:49:20Z",
+        "updated": "2026-09-15T03:06:05Z",
+        "arxiv_id": "2601.20332v3",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2601.20332v3",
+        "pdf_url": "https://arxiv.org/pdf/2601.20332v3",
+        "source": "arxiv",
+        "abstract": "Diffusion language models (DLMs) generate text through iterative denoising, but inference requires full-sequence attention at every iteration, resulting in substantial redundant computation on masked tokens. Block-wise diffusion can reduce this cost, yet it typically relies on retraining and constrained update orders, limiting its direct applicability to pretrained DLMs. Our token-level analysis reveals pronounced structural locality in DLM inference. Decoding is driven by a small set of prefix-localized active tokens; the influence of distant undecoded context diminishes rapidly, and decoded tokens exhibit stage-wise temporal stability, enabling reuse of intermediate representations except for a brief post-decode transient. Motivated by these observations, we propose \\textbf{\\placeholder}\\footnote{The source code is available at https://github.com/vhicrgit/Window-Diffusion.}, a window-based token pruning and caching method for inference. We maintain a local computation window that slides rightward as denoising progresses, and partition undecoded tokens into: (i) \\textit{active tokens} that are computed online, (ii) \\textit{buffer tokens} whose KV states are cached and periodically refreshed, and (iii) \\textit{far-field tokens} that are pruned outside the window. Computation is restricted to active and buffer tokens within the window, while far-field tokens are omitted at each stage. Experiments on LLaDA and Dream show that, under matched compute budgets, our method achieves up to $99\\times$ inference speedup while largely preserving generation performance.",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 18，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.7666666666666666,
+        "feedback": 0,
+        "code_clues": [
+          "https://github.com/vhicrgit/Window-Diffusion."
+        ]
+      },
+      {
+        "identity": "arxiv:2506.15545",
+        "title": "RATTENTION: Towards the Minimal Sliding Window Size in Local-Global Attention Models",
+        "authors": [
+          "Bailin Wang",
+          "Chang Lan",
+          "Chong Wang",
+          "Ruoming Pang"
+        ],
+        "year": 2025,
+        "published": "2025-06-18T15:18:07Z",
+        "updated": "2025-11-17T16:40:02Z",
+        "arxiv_id": "2506.15545v2",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2506.15545v2",
+        "pdf_url": "https://arxiv.org/pdf/2506.15545v2",
+        "source": "arxiv",
+        "abstract": "Local-global attention models have recently emerged as compelling alternatives to standard Transformers, promising improvements in both training and inference efficiency. However, the crucial choice of window size presents a Pareto tradeoff: larger windows maintain performance akin to full attention but offer minimal efficiency gains in short-context scenarios, while smaller windows can lead to performance degradation. Current models, such as Gemma2 and Mistral, adopt conservative window sizes (e.g., 4096 out of an 8192 pretraining length) to preserve performance. This work investigates strategies to shift this Pareto frontier, enabling local-global models to achieve efficiency gains even in short-context regimes. Our core motivation is to address the intrinsic limitation of local attention -- its complete disregard for tokens outside the defined window. We explore RATTENTION, a variant of local attention integrated with a specialized linear attention mechanism designed to capture information from these out-of-window tokens. Pretraining experiments at the 3B and 12B scales demonstrate that RATTENTION achieves a superior Pareto tradeoff between performance and efficiency. As a sweet spot, RATTENTION with a window size of just 512 consistently matches the performance of full-attention models across diverse settings. Furthermore, the recurrent nature inherent in the linear attention component of RATTENTION contributes to enhanced long-context performance, as validated on the RULER benchmark. Crucially, these improvements do not compromise training efficiency; thanks to a specialized kernel implementation and the reduced window size, RATTENTION maintains training speeds comparable to existing state-of-the-art approaches. We open-sourced our Pallas kernels along with model codes to facilitate further research effort.",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 13，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.7428571428571429,
+        "feedback": 0
+      },
+      {
+        "identity": "arxiv:2306.00561",
+        "title": "Masked Autoencoders with Multi-Window Local-Global Attention Are Better Audio Learners",
+        "authors": [
+          "Sarthak Yadav",
+          "Sergios Theodoridis",
+          "Lars Kai Hansen",
+          "Zheng-Hua Tan"
+        ],
+        "year": 2023,
+        "published": "2023-06-01T11:20:59Z",
+        "updated": "2023-10-01T21:53:36Z",
+        "arxiv_id": "2306.00561v2",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2306.00561v2",
+        "pdf_url": "https://arxiv.org/pdf/2306.00561v2",
+        "source": "arxiv",
+        "abstract": "In this work, we propose a Multi-Window Masked Autoencoder (MW-MAE) fitted with a novel Multi-Window Multi-Head Attention (MW-MHA) module that facilitates the modelling of local-global interactions in every decoder transformer block through attention heads of several distinct local and global windows. Empirical results on ten downstream audio tasks show that MW-MAEs consistently outperform standard MAEs in overall performance and learn better general-purpose audio representations, along with demonstrating considerably better scaling characteristics. Investigating attention distances and entropies reveals that MW-MAE encoders learn heads with broader local and global attention. Analyzing attention head feature representations through Projection Weighted Canonical Correlation Analysis (PWCCA) shows that attention heads with the same window sizes across the decoder layers of the MW-MAE learn correlated feature representations which enables each block to independently capture local and global information, leading to a decoupled decoder feature hierarchy. Code for feature extraction and downstream experiments along with pre-trained models will be released publically.",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 15，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.711111111111111,
+        "feedback": 0
+      },
+      {
+        "identity": "arxiv:2303.15105",
+        "title": "Vision Transformer with Quadrangle Attention",
+        "authors": [
+          "Qiming Zhang",
+          "Jing Zhang",
+          "Yufei Xu",
+          "Dacheng Tao"
+        ],
+        "year": 2023,
+        "published": "2023-03-27T11:13:50Z",
+        "updated": "2023-03-27T11:13:50Z",
+        "arxiv_id": "2303.15105v1",
+        "doi": null,
+        "url": "https://arxiv.org/abs/2303.15105v1",
+        "pdf_url": "https://arxiv.org/pdf/2303.15105v1",
+        "source": "arxiv",
+        "abstract": "Window-based attention has become a popular choice in vision transformers due to its superior performance, lower computational complexity, and less memory footprint. However, the design of hand-crafted windows, which is data-agnostic, constrains the flexibility of transformers to adapt to objects of varying sizes, shapes, and orientations. To address this issue, we propose a novel quadrangle attention (QA) method that extends the window-based attention to a general quadrangle formulation. Our method employs an end-to-end learnable quadrangle regression module that predicts a transformation matrix to transform default windows into target quadrangles for token sampling and attention calculation, enabling the network to model various targets with different shapes and orientations and capture rich context information. We integrate QA into plain and hierarchical vision transformers to create a new architecture named QFormer, which offers minor code modifications and negligible extra computational cost. Extensive experiments on public benchmarks demonstrate that QFormer outperforms existing representative vision transformers on various vision tasks, including classification, object detection, semantic segmentation, and pose estimation. The code will be made publicly available at \\href{https://github.com/ViTAE-Transformer/QFormer}{QFormer}.",
+        "license": "许可需在来源页面核对",
+        "metadata_verified": true,
+        "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+        "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 15，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.7,
+        "feedback": 0,
+        "code_clues": [
+          "https://github.com/ViTAE-Transformer/QFormer"
+        ]
+      },
+      {
+        "identity": "doi:10.3390/s23073424",
+        "title": "Facial Expression Recognition Using Local Sliding Window Attention",
+        "authors": [
+          "Shuang Qiu",
+          "Guangzhe Zhao",
+          "Xiao Li",
+          "Xueping Wang"
+        ],
+        "year": 2023,
+        "doi": "10.3390/s23073424",
+        "url": "https://doi.org/10.3390/s23073424",
+        "pdf_url": null,
+        "source": "crossref",
+        "abstract": "There are problems associated with facial expression recognition (FER), such as facial occlusion and head pose variations. These two problems lead to incomplete facial information in images, making feature extraction extremely difficult. Most current methods use prior knowledge or fixed-size patches to perform local cropping, thereby enhancing the ability to acquire fine-grained features. However, the former requires extra data processing work and is prone to errors; the latter destroys the integrity of local features. In this paper, we propose a local Sliding Window Attention Network (SWA-Net) for FER. Specifically, we propose a sliding window strategy for feature-level cropping, which preserves the integrity of local features and does not require complex preprocessing. Moreover, the local feature enhancement module mines fine-grained features with intraclass semantics through a multiscale depth network. The adaptive local feature selection module is introduced to prompt the model to find more essential local features. Extensive experiments demonstrate that our SWA-Net model achieves a comparable performance to that of state-of-the-art methods with scores of 90.03% on RAF-DB, 89.22% on FERPlus, 63.97% on AffectNet.",
+        "license": [
+          "https://creativecommons.org/licenses/by/4.0/"
+        ],
+        "references": [
+          {
+            "key": "ref_1",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Chowdary, M.K., Nguyen, T.N., and Hemanth, D.J. (2021). Deep learning-based facial emotion recognition for human–computer interaction applications. Neural Comput. Appl., 1–18.",
+            "DOI": "10.1007/s00521-021-06012-8"
+          },
+          {
+            "key": "ref_2",
+            "doi-asserted-by": "crossref",
+            "first-page": "4501",
+            "DOI": "10.1016/j.ijleo.2015.08.185",
+            "article-title": "Driver fatigue recognition based on facial expression analysis using local binary patterns",
+            "volume": "126",
+            "author": "Zhang",
+            "year": "2015",
+            "journal-title": "Optik"
+          },
+          {
+            "key": "ref_3",
+            "doi-asserted-by": "crossref",
+            "first-page": "5619",
+            "DOI": "10.1109/TII.2022.3141400",
+            "article-title": "Impact of deep learning approaches on facial expression recognition in healthcare industries",
+            "volume": "18",
+            "author": "Bisogni",
+            "year": "2022",
+            "journal-title": "IEEE Trans. Ind. Inform."
+          },
+          {
+            "key": "ref_4",
+            "unstructured": "Ruiz-Garcia, A., Webb, N., Palade, V., Eastwood, M., and Elshaw, M. Deep learning for real time facial expression recognition in social robots. Proceedings of the International Conference on Neural Information Processing (ICONIP)."
+          },
+          {
+            "key": "ref_5",
+            "doi-asserted-by": "crossref",
+            "first-page": "2058",
+            "DOI": "10.1109/TAFFC.2022.3208309",
+            "article-title": "FLEPNet: Feature Level Ensemble Parallel Network for Facial Expression Recognition",
+            "volume": "13",
+            "author": "Karnati",
+            "year": "2022",
+            "journal-title": "IEEE Trans. Affect. Comput."
+          },
+          {
+            "key": "ref_6",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Ruan, D., Yan, Y., Lai, S., Chai, Z., Shen, C., and Wang, H. (2021, January 19–25). Feature Decomposition and Reconstruction Learning for Effective Facial Expression Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Virtual.",
+            "DOI": "10.1109/CVPR46437.2021.00757"
+          },
+          {
+            "key": "ref_7",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Lucey, P., Cohn, J.F., Kanade, T., Saragih, J., Ambadar, Z., and Matthews, I. (2010, January 13–18). The Extended Cohn-Kanade Dataset (CK+): A complete dataset for action unit and emotion-specified expression. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), San Francisco, CA, USA.",
+            "DOI": "10.1109/CVPRW.2010.5543262"
+          },
+          {
+            "key": "ref_8",
+            "unstructured": "Pantic, M., Valstar, M., Rademaker, R., and Maat, L. (2005, January 6–9). Web-based database for facial expression analysis. Proceedings of the IEEE International Conference on Multimedia and Expo (ICME), Amsterdam, The Netherlands."
+          },
+          {
+            "key": "ref_9",
+            "unstructured": "Lyons, M., Akamatsu, S., Kamachi, M., and Gyoba, J. (1998, January 14–16). Coding facial expressions with Gabor wavelets. Proceedings of the IEEE International Conference on Automatic Face and Gesture Recognition (FG), Nara, Japan."
+          },
+          {
+            "key": "ref_10",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Goodfellow, I.J., Erhan, D., Carrier, P.L., Courville, A., Mirza, M., Hamner, B., Cukierski, W., Tang, Y., Thaler, D., and Lee, D.H. (2013, January 3–7). Challenges in representation learning: A report on three machine learning contests. Proceedings of the International Conference on Neural Information Processing (ICONIP), Daegu, Republic of Korea.",
+            "DOI": "10.1007/978-3-642-42051-1_16"
+          },
+          {
+            "key": "ref_11",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Li, S., Deng, W., and Du, J. (2017, January 21–26). Reliable Crowdsourcing and Deep Locality-Preserving Learning for Expression Recognition in the Wild. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA.",
+            "DOI": "10.1109/CVPR.2017.277"
+          },
+          {
+            "key": "ref_12",
+            "doi-asserted-by": "crossref",
+            "first-page": "18",
+            "DOI": "10.1109/TAFFC.2017.2740923",
+            "article-title": "AffectNet: A Database for Facial Expression, Valence, and Arousal Computing in the Wild",
+            "volume": "10",
+            "author": "Mollahosseini",
+            "year": "2019",
+            "journal-title": "IEEE Trans. Affect. Comput."
+          },
+          {
+            "key": "ref_13",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Zhang, Y., Wang, C., Ling, X., and Deng, W. (2022, January 23–27). Learn from all: Erasing attention consistency for noisy label facial expression recognition. Proceedings of the European Conference on Computer Vision (ECCV), Tel Aviv, Israel.",
+            "DOI": "10.1007/978-3-031-19809-0_24"
+          },
+          {
+            "key": "ref_14",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Xue, F., Wang, Q., and Guo, G. (2021, January 11–17). TransFER: Learning Relation-aware Facial Expression Representations with Transformers. Proceedings of the IEEE International Conference on Computer Vision (ICCV), Virtual Event.",
+            "DOI": "10.1109/ICCV48922.2021.00358"
+          },
+          {
+            "key": "ref_15",
+            "doi-asserted-by": "crossref",
+            "first-page": "3190",
+            "DOI": "10.1109/TCSVT.2021.3103782",
+            "article-title": "Self-Supervised Exclusive-Inclusive Interactive Learning for Multi-Label Facial Expression Recognition in the Wild",
+            "volume": "32",
+            "author": "Li",
+            "year": "2022",
+            "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+          },
+          {
+            "key": "ref_16",
+            "doi-asserted-by": "crossref",
+            "first-page": "6253",
+            "DOI": "10.1109/TCSVT.2022.3165321",
+            "article-title": "Adaptive Multilayer Perceptual Attention Network for Facial Expression Recognition",
+            "volume": "32",
+            "author": "Liu",
+            "year": "2022",
+            "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+          },
+          {
+            "key": "ref_17",
+            "doi-asserted-by": "crossref",
+            "first-page": "4057",
+            "DOI": "10.1109/TIP.2019.2956143",
+            "article-title": "Region Attention Networks for Pose and Occlusion Robust Facial Expression Recognition",
+            "volume": "29",
+            "author": "Wang",
+            "year": "2020",
+            "journal-title": "IEEE Trans. Image Process."
+          },
+          {
+            "key": "ref_18",
+            "doi-asserted-by": "crossref",
+            "first-page": "2439",
+            "DOI": "10.1109/TIP.2018.2886767",
+            "article-title": "Occlusion Aware Facial Expression Recognition Using CNN With Attention Mechanism",
+            "volume": "28",
+            "author": "Li",
+            "year": "2019",
+            "journal-title": "IEEE Trans. Image Process."
+          },
+          {
+            "key": "ref_19",
+            "doi-asserted-by": "crossref",
+            "first-page": "6544",
+            "DOI": "10.1109/TIP.2021.3093397",
+            "article-title": "Learning Deep Global Multi-Scale and Local Attention Features for Facial Expression Recognition in the Wild",
+            "volume": "30",
+            "author": "Zhao",
+            "year": "2021",
+            "journal-title": "IEEE Trans. Image Process."
+          },
+          {
+            "key": "ref_20",
+            "doi-asserted-by": "crossref",
+            "first-page": "3812",
+            "DOI": "10.1093/nar/gkg509",
+            "article-title": "SIFT: Predicting amino acid changes that affect protein function",
+            "volume": "31",
+            "author": "Ng",
+            "year": "2003",
+            "journal-title": "Nucleic Acids Res."
+          },
+          {
+            "key": "ref_21",
+            "unstructured": "Dalal, N., and Triggs, B. (2005, January 20–26). Histograms of oriented gradients for human detection. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), San Diego, CA, USA."
+          },
+          {
+            "key": "ref_22",
+            "doi-asserted-by": "crossref",
+            "first-page": "467",
+            "DOI": "10.1109/TIP.2002.999679",
+            "article-title": "Gabor feature based classification using the enhanced fisher linear discriminant model for face recognition",
+            "volume": "11",
+            "author": "Liu",
+            "year": "2002",
+            "journal-title": "IEEE Trans. Image Process."
+          },
+          {
+            "key": "ref_23",
+            "unstructured": "Fasel, B. (2002, January 11–15). Robust face analysis using convolutional neural networks. Proceedings of the 2002 International Conference on Pattern Recognition, Quebec City, QC, Canada."
+          },
+          {
+            "key": "ref_24",
+            "unstructured": "Tang, Y. (2013). Deep learning using linear support vector machines. arXiv."
+          },
+          {
+            "key": "ref_25",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Kahou, S.E., Pal, C., Bouthillier, X., Froumenty, P., Gülçehre, Ç., Memisevic, R., Vincent, P., Courville, A., Bengio, Y., and Ferrari, R.C. (2013, January 9–13). Combining modality specific deep neural networks for emotion recognition in video. Proceedings of the 15th ACM International Conference on Multimodal Interaction (ICMI), Sydney, Australia.",
+            "DOI": "10.1145/2522848.2531745"
+          },
+          {
+            "key": "ref_26",
+            "doi-asserted-by": "crossref",
+            "first-page": "1195",
+            "DOI": "10.1109/TAFFC.2020.2981446",
+            "article-title": "Deep facial expression recognition: A survey",
+            "volume": "13",
+            "author": "Li",
+            "year": "2020",
+            "journal-title": "IEEE Trans. Affect. Comput."
+          },
+          {
+            "key": "ref_27",
+            "first-page": "17616",
+            "article-title": "Relative Uncertainty Learning for Facial Expression Recognition",
+            "volume": "34",
+            "author": "Zhang",
+            "year": "2021",
+            "journal-title": "Adv. Neural Inf. Process. Syst."
+          },
+          {
+            "key": "ref_28",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Zou, X., Yan, Y., Xue, J.H., Chen, S., and Wang, H. (2022, January 23–27). Learn-to-Decompose: Cascaded Decomposition Network for Cross-Domain Few-Shot Facial Expression Recognition. Proceedings of the European Conference on Computer Vision (ECCV), Tel Aviv, Israel.",
+            "DOI": "10.1007/978-3-031-19800-7_40"
+          },
+          {
+            "key": "ref_29",
+            "doi-asserted-by": "crossref",
+            "first-page": "1057",
+            "DOI": "10.1109/TAFFC.2020.2988264",
+            "article-title": "Facial expression recognition with deeply-supervised attention network",
+            "volume": "13",
+            "author": "Fan",
+            "year": "2020",
+            "journal-title": "IEEE Trans. Affect. Comput."
+          },
+          {
+            "key": "ref_30",
+            "doi-asserted-by": "crossref",
+            "first-page": "1868",
+            "DOI": "10.1109/TAFFC.2022.3197761",
+            "article-title": "Disentangling Identity and Pose for Facial Expression Recognition",
+            "volume": "13",
+            "author": "Jiang",
+            "year": "2022",
+            "journal-title": "IEEE Trans. Affect. Comput."
+          },
+          {
+            "key": "ref_31",
+            "first-page": "1320",
+            "article-title": "MAFONN-EP: A minimal angular feature oriented neural network based emotion prediction system in image processing",
+            "volume": "34",
+            "author": "Krithika",
+            "year": "2022",
+            "journal-title": "J. King Saud-Univ.-Comput. Inf. Sci."
+          },
+          {
+            "key": "ref_32",
+            "doi-asserted-by": "crossref",
+            "unstructured": "He, K., Zhang, X., Ren, S., and Sun, J. (2016, January 27–30). Deep residual learning for image recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA.",
+            "DOI": "10.1109/CVPR.2016.90"
+          },
+          {
+            "key": "ref_33",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Woo, S., Park, J., Lee, J.Y., and Kweon, I.S. (2018, January 8–14). Cbam: Convolutional block attention module. Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany.",
+            "DOI": "10.1007/978-3-030-01234-2_1"
+          },
+          {
+            "key": "ref_34",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Wen, Y., Zhang, K., Li, Z., and Qiao, Y. (2016, January 11–14). A discriminative feature learning approach for deep face recognition. Proceedings of the European Conference on Computer Vision (ECCV), Amsterdam, The Netherlands.",
+            "DOI": "10.1007/978-3-319-46478-7_31"
+          },
+          {
+            "key": "ref_35",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Emery, A.E., Muntoni, F., and Quinlivan, R. (2015). Duchenne Muscular Dystrophy, Oxford Monographs on Medical Genetics.",
+            "DOI": "10.1093/med/9780199681488.001.0001"
+          },
+          {
+            "key": "ref_36",
+            "doi-asserted-by": "crossref",
+            "first-page": "325",
+            "DOI": "10.1109/TAFFC.2017.2731763",
+            "article-title": "Automatic analysis of facial actions: A survey",
+            "volume": "10",
+            "author": "Martinez",
+            "year": "2017",
+            "journal-title": "IEEE Trans. Affect. Comput."
+          },
+          {
+            "key": "ref_37",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Barsoum, E., Zhang, C., Ferrer, C.C., and Zhang, Z. (2016, January 12–16). Training deep networks for facial expression recognition with crowd-sourced label distribution. Proceedings of the 18th ACM International Conference on Multimodal Interaction (ICMI), Tokyo, Japan.",
+            "DOI": "10.1145/2993148.2993165"
+          },
+          {
+            "key": "ref_38",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Guo, Y., Zhang, L., Hu, Y., He, X., and Gao, J. (2016, January 27–30). Ms-celeb-1m: A dataset and benchmark for large-scale face recognition. Proceedings of the European Conference on Computer Vision (ECCV), Las Vegas, NV, USA.",
+            "DOI": "10.1007/978-3-319-46487-9_6"
+          },
+          {
+            "key": "ref_39",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Zeng, J., Shan, S., and Chen, X. (2018, January 8–14). Facial expression recognition with inconsistently annotated datasets. Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany.",
+            "DOI": "10.1007/978-3-030-01261-8_14"
+          },
+          {
+            "key": "ref_40",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Wang, K., Peng, X., Yang, J., Lu, S., and Qiao, Y. (2020, January 14–19). Suppressing uncertainties for large-scale facial expression recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA, USA.",
+            "DOI": "10.1109/CVPR42600.2020.00693"
+          },
+          {
+            "key": "ref_41",
+            "doi-asserted-by": "crossref",
+            "unstructured": "She, J., Hu, Y., Shi, H., Wang, J., Shen, Q., and Mei, T. (2021, January 19–25). Dive into ambiguity: Latent distribution mining and pairwise uncertainty estimation for facial expression recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Virtual.",
+            "DOI": "10.1109/CVPR46437.2021.00618"
+          },
+          {
+            "key": "ref_42",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Ma, F., Sun, B., and Li, S. (2021). Facial Expression Recognition with Visual Transformers and Attentional Selective Fusion. IEEE Trans. Affect. Comput., 1–13.",
+            "DOI": "10.1109/TAFFC.2021.3122146"
+          },
+          {
+            "key": "ref_43",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Zeng, D., Lin, Z., Yan, X., Liu, Y., Wang, F., and Tang, B. (2022, January 19–24). Face2Exp: Combating Data Biases for Facial Expression Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA.",
+            "DOI": "10.1109/CVPR52688.2022.01965"
+          },
+          {
+            "key": "ref_44",
+            "doi-asserted-by": "crossref",
+            "first-page": "108737",
+            "DOI": "10.1016/j.patcog.2022.108737",
+            "article-title": "Improving the Facial Expression Recognition and Its Interpretability via Generating Expression Pattern-map",
+            "volume": "129",
+            "author": "Zhang",
+            "year": "2022",
+            "journal-title": "Pattern Recognit."
+          },
+          {
+            "key": "ref_45",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Parkhi, O.M., Vedaldi, A., and Zisserman, A. (2015, January 7–10). Deep face recognition. Proceedings of the British Machine Vision Conference 2015, Swansea, UK.",
+            "DOI": "10.5244/C.29.41"
+          },
+          {
+            "key": "ref_46",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Arnaud, E., Dapogny, A., and Bailly, K. (2022). Thin: Throwable information networks and application for facial expression recognition in the wild. IEEE Trans. Affect. Comput.",
+            "DOI": "10.1109/TAFFC.2022.3144439"
+          },
+          {
+            "key": "ref_47",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Fan, X., Deng, Z., Wang, K., Peng, X., and Qiao, Y. (2020, January 25–28). Learning discriminative representation for facial expression recognition from uncertainties. Proceedings of the IEEE International Conference on Image Processing (ICIP), Virtual.",
+            "DOI": "10.1109/ICIP40778.2020.9190643"
+          },
+          {
+            "key": "ref_48",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Farzaneh, A.H., and Qi, X. (2020, January 13–19). Discriminant distribution-agnostic loss for facial expression recognition in the wild. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Seattle, WA, USA.",
+            "DOI": "10.1109/CVPRW50498.2020.00211"
+          },
+          {
+            "key": "ref_49",
+            "doi-asserted-by": "crossref",
+            "first-page": "3178",
+            "DOI": "10.1109/TCSVT.2021.3103760",
+            "article-title": "Learning informative and discriminative features for facial expression recognition in the wild",
+            "volume": "32",
+            "author": "Li",
+            "year": "2021",
+            "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+          },
+          {
+            "key": "ref_50",
+            "doi-asserted-by": "crossref",
+            "first-page": "690",
+            "DOI": "10.1109/TCSVT.2021.3063052",
+            "article-title": "Triplet loss with multistage outlier suppression and class-pair margins for facial expression recognition",
+            "volume": "32",
+            "author": "Xie",
+            "year": "2021",
+            "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+          },
+          {
+            "key": "ref_51",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Hayale, W., Negi, P.S., and Mahoor, M. (2021). Deep Siamese neural networks for facial expression recognition in the wild. IEEE Trans. Affect. Comput.",
+            "DOI": "10.1109/TAFFC.2021.3077248"
+          },
+          {
+            "key": "ref_52",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Selvaraju, R.R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., and Batra, D. (2017, January 22–29). Grad-cam: Visual explanations from deep networks via gradient-based localization. Proceedings of the IEEE International Conference on Computer Vision (ICCV), Venice, Italy.",
+            "DOI": "10.1109/ICCV.2017.74"
+          }
+        ],
+        "metadata_verified": true,
+        "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+        "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 14，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.6909090909090909,
+        "feedback": 0
+      },
+      {
+        "identity": "doi:10.1109/access.2026.3698126",
+        "title": "Photovoltaic Scenario Generation via Multimodal Fusion and Local Window Attention",
+        "authors": [
+          "Zhipeng Kang",
+          "Jianbo Shang",
+          "Rui Zhu",
+          "Xiaojing Zhu"
+        ],
+        "year": 2026,
+        "doi": "10.1109/access.2026.3698126",
+        "url": "https://doi.org/10.1109/access.2026.3698126",
+        "pdf_url": null,
+        "source": "crossref",
+        "abstract": "",
+        "license": [
+          "https://creativecommons.org/licenses/by/4.0/legalcode"
+        ],
+        "references": [
+          {
+            "key": "ref1",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TPWRS.2017.2690297"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2024.123182"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jweia.2017.11.023"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2019.03.112"
+          },
+          {
+            "key": "ref5",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2018.06.095"
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TSTE.2013.2256807"
+          },
+          {
+            "key": "ref7",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TPWRS.2022.3170992"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2015.10.052"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2024.122971"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TSG.2018.2884323"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2020.114823"
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1002/we.284"
+          },
+          {
+            "key": "ref13",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.3390/en16134905"
+          },
+          {
+            "key": "ref14",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ACCESS.2018.2875936"
+          },
+          {
+            "key": "ref15",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TPWRS.2018.2794541"
+          },
+          {
+            "key": "ref16",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.est.2020.102081"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.ijepes.2019.105388"
+          },
+          {
+            "key": "ref18",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/CISS.2018.8362314"
+          },
+          {
+            "key": "ref19",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.renene.2025.122903"
+          },
+          {
+            "key": "ref20",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.egyai.2025.100540"
+          },
+          {
+            "key": "ref21",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.energy.2026.140314"
+          },
+          {
+            "key": "ref22",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2022.120300"
+          },
+          {
+            "key": "ref23",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TSTE.2023.3258929"
+          },
+          {
+            "key": "ref24",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.energy.2018.11.075"
+          },
+          {
+            "key": "ref25",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TII.2021.3098259"
+          },
+          {
+            "key": "ref26",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2024.122905"
+          },
+          {
+            "key": "ref27",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.renene.2021.12.110"
+          },
+          {
+            "key": "ref28",
+            "first-page": "1",
+            "article-title": "Generative adversarial nets",
+            "volume-title": "Proc. Adv. Neural Inf. Process. Syst.",
+            "volume": "27",
+            "author": "Goodfellow"
+          },
+          {
+            "key": "ref29",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/TPWRS.2023.3277698"
+          },
+          {
+            "key": "ref30",
+            "article-title": "Wasserstein GAN",
+            "author": "Arjovsky",
+            "year": "2017",
+            "journal-title": "arXiv:1701.07875"
+          },
+          {
+            "key": "ref31",
+            "first-page": "5769",
+            "article-title": "Improved training of Wasserstein GANs",
+            "volume-title": "Proc. Adv. Neural Inf. Process. Syst.",
+            "volume": "30",
+            "author": "Gulrajani"
+          },
+          {
+            "key": "ref32",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICCV48922.2021.00986"
+          },
+          {
+            "key": "ref33",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.renene.2025.122824"
+          },
+          {
+            "key": "ref34",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.48550/ARXIV.1706.03762"
+          },
+          {
+            "key": "ref35",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.apenergy.2011.11.004"
+          },
+          {
+            "key": "ref36",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.jhydrol.2015.01.024"
+          },
+          {
+            "key": "ref37",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/tip.2003.819861"
+          },
+          {
+            "key": "ref38",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.eswa.2012.01.039"
+          }
+        ],
+        "metadata_verified": true,
+        "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+        "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 3，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.6833333333333333,
+        "feedback": 0
+      },
+      {
+        "identity": "doi:10.1109/icip61757.2026.11630422",
+        "title": "Window-Based Linear Attention for Unified Local-to-Global Context in Image Super-Resolution",
+        "authors": [
+          "Nai-Jen Hsueh",
+          "Wen-Jiin Tsai"
+        ],
+        "year": 2026,
+        "doi": "10.1109/icip61757.2026.11630422",
+        "url": "https://doi.org/10.1109/icip61757.2026.11630422",
+        "pdf_url": null,
+        "source": "crossref",
+        "abstract": "",
+        "license": [
+          "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+          "https://doi.org/10.15223/policy-029",
+          "https://doi.org/10.15223/policy-037"
+        ],
+        "references": [
+          {
+            "key": "ref1",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICCVW54120.2021.00210"
+          },
+          {
+            "key": "ref2",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICCV48922.2021.00986"
+          },
+          {
+            "key": "ref3",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/CVPR52729.2023.02142"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/CVPR52729.2023.01753"
+          },
+          {
+            "key": "ref5",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/CVPRW63382.2024.00629"
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/CVPRW63382.2024.00618"
+          },
+          {
+            "key": "ref7",
+            "article-title": "Transformers are rnns: Fast autoregressive transformers with linear attention",
+            "volume-title": "International Conference on Machine Learning",
+            "author": "Katharopoulos"
+          },
+          {
+            "key": "ref8",
+            "first-page": "3531",
+            "article-title": "Efficient attention: Attention with linear complexities",
+            "volume-title": "Proceedings of the IEEE/CVF winter conference on applications of computer vision",
+            "author": "Shen"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICCV51070.2023.00548"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/CVPR52734.2025.02353"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.24963/ijcai.2023/121"
+          },
+          {
+            "key": "ref12",
+            "article-title": "Mamba: Linear-time sequence modeling with selective state spaces",
+            "author": "Gu",
+            "year": "2024"
+          },
+          {
+            "key": "ref13",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1007/978-3-030-01234-2_18",
+            "article-title": "Image super-resolution using very deep residual channel attention networks",
+            "volume-title": "European Conference on Computer Vision",
+            "author": "Zhang"
+          },
+          {
+            "key": "ref14",
+            "first-page": "11057",
+            "article-title": "Second-order attention network for single image super-resolution",
+            "volume-title": "2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+            "author": "Dai"
+          },
+          {
+            "key": "ref15",
+            "doi-asserted-by": "crossref",
+            "first-page": "C1",
+            "DOI": "10.1007/978-3-030-58610-2_47",
+            "article-title": "Correction to: Single image super-resolution via a holistic attention network",
+            "volume-title": "Computer Vision – ECCV 2020",
+            "volume": "12357",
+            "author": "Niu",
+            "year": "2020"
+          },
+          {
+            "key": "ref16",
+            "first-page": "12294",
+            "article-title": "Pre-trained image processing transformer",
+            "volume-title": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+            "author": "Chen"
+          },
+          {
+            "key": "ref17",
+            "article-title": "BasicSR: Open source image and video restoration toolbox",
+            "author": "Wang",
+            "year": "2022"
+          },
+          {
+            "key": "ref18",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1007/978-3-031-72649-1_13"
+          }
+        ],
+        "metadata_verified": true,
+        "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+        "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 3，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+        "recommendation_score": 0.6625,
+        "feedback": 0
+      }
+    ],
+    "errors": [],
+    "cached": false,
+    "searched_at": 1794738596.2942488,
+    "query": "local window attention Longformer",
+    "sources": [
+      "arxiv",
+      "crossref"
+    ],
+    "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+    "new_identities": [
+      "arxiv:2004.05150",
+      "arxiv:2609.08574",
+      "arxiv:2101.00272",
+      "arxiv:2601.20332",
+      "arxiv:2506.15545",
+      "arxiv:2306.00561",
+      "arxiv:2303.15105",
+      "doi:10.3390/s23073424",
+      "doi:10.1109/access.2026.3698126",
+      "doi:10.1109/icip61757.2026.11630422"
+    ],
+    "run_id": "63bd5b09a88c46b1b2dfa6736c1e2517"
+  },
+  "scheduled_runs": [
+    {
+      "id": "63bd5b09a88c46b1b2dfa6736c1e2517",
+      "status": "completed",
+      "result": {
+        "results": [
+          {
+            "identity": "arxiv:2004.05150",
+            "title": "Longformer: The Long-Document Transformer",
+            "authors": [
+              "Iz Beltagy",
+              "Matthew E. Peters",
+              "Arman Cohan"
+            ],
+            "year": 2020,
+            "published": "2020-04-10T17:54:09Z",
+            "updated": "2020-12-02T17:52:35Z",
+            "arxiv_id": "2004.05150v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2004.05150v2",
+            "pdf_url": "https://arxiv.org/pdf/2004.05150v2",
+            "source": "arxiv",
+            "abstract": "Transformer-based models are unable to process long sequences due to their self-attention operation, which scales quadratically with the sequence length. To address this limitation, we introduce the Longformer with an attention mechanism that scales linearly with sequence length, making it easy to process documents of thousands of tokens or longer. Longformer's attention mechanism is a drop-in replacement for the standard self-attention and combines a local windowed attention with a task motivated global attention. Following prior work on long-sequence transformers, we evaluate Longformer on character-level language modeling and achieve state-of-the-art results on text8 and enwik8. In contrast to most prior work, we also pretrain Longformer and finetune it on a variety of downstream tasks. Our pretrained Longformer consistently outperforms RoBERTa on long document tasks and sets new state-of-the-art results on WikiHop and TriviaQA. We finally introduce the Longformer-Encoder-Decoder (LED), a Longformer variant for supporting long document generative sequence-to-sequence tasks, and demonstrate its effectiveness on the arXiv summarization dataset.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 17，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 1.6,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2609.08574",
+            "title": "Do New Attention Mechanisms Actually Fix Attention Sinks at Million-Token Context?",
+            "authors": [
+              "Sara Rizwan",
+              "Samaanah Abdus Salam",
+              "Mohammed Mudassir Uddin"
+            ],
+            "year": 2026,
+            "published": "2026-09-08T11:10:11Z",
+            "updated": "2026-09-18T12:15:13Z",
+            "arxiv_id": "2609.08574v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2609.08574v2",
+            "pdf_url": "https://arxiv.org/pdf/2609.08574v2",
+            "source": "arxiv",
+            "abstract": "Long context language models now advertise windows of one million tokens, but two habits limit how much of that window is used. Attention heads with nothing useful to read still spend their budget on the first token, which is called the attention sink, and where a fact sits in the context changes whether the model finds it. Gated attention cut first token attention from 46.7 percent to 4.8 percent at NeurIPS 2025, and Kimi K3 pairs that idea with Kimi Delta Attention and Attention Residuals behind a one million token window, eight times past the range where these diagnostics have been reported. This paper asks whether the fix survives that jump. We build SinkProbe, a suite that measures sink mass, massive activation, position resolved recall and the recency gap, and apply it to four small models that differ only in how they mix tokens and depth. Three results follow. The training objective produces the sink, not the architecture. Gating did not reproduce its published effect at our scale. Sink mass, activations and position bias moved independently. Code, data and the measurement protocol are released at https://github.com/sararizwan7/Attention-Mechanisms-in-1M-Context-Window",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 12，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 1.0,
+            "feedback": 0,
+            "code_clues": [
+              "https://github.com/sararizwan7/Attention-Mechanisms-in-1M-Context-Window"
+            ]
+          },
+          {
+            "identity": "arxiv:2101.00272",
+            "title": "Locality of the windowed local density of states",
+            "authors": [
+              "Terry A. Loring",
+              "Jianfeng Lu",
+              "Alexander B. Watson"
+            ],
+            "year": 2021,
+            "published": "2021-01-01T17:17:49Z",
+            "updated": "2021-04-14T19:30:37Z",
+            "arxiv_id": "2101.00272v2",
+            "doi": "10.11128/arep.17.a17209",
+            "url": "https://arxiv.org/abs/2101.00272v2",
+            "pdf_url": "https://arxiv.org/pdf/2101.00272v2",
+            "source": "arxiv",
+            "abstract": "We introduce a generalization of local density of states which is \"windowed\" with respect to position and energy, called the windowed local density of states (wLDOS). This definition generalizes the usual LDOS in the sense that the usual LDOS is recovered in the limit where the position window captures individual sites and the energy window is a delta distribution. We prove that the wLDOS is local in the sense that it can be computed up to arbitrarily small error using spatial truncations of the system Hamiltonian. Using this result we prove that the wLDOS is well-defined and computable for infinite systems satisfying some natural assumptions. We finally present numerical computations of the wLDOS at the edge and in the bulk of a \"Fibonacci SSH model\", a one-dimensional non-periodic model with topological edge states.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 7，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.8333333333333333,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2601.20332",
+            "title": "Window-Diffusion: Accelerating Diffusion Language Model Inference with Windowed Token Pruning and Caching",
+            "authors": [
+              "Fengrui Zuo",
+              "Zhiwei Ke",
+              "Yiming Liu",
+              "Wenqi Lou",
+              "Chao Wang",
+              "Xuehai Zhou"
+            ],
+            "year": 2026,
+            "published": "2026-01-28T07:49:20Z",
+            "updated": "2026-09-15T03:06:05Z",
+            "arxiv_id": "2601.20332v3",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2601.20332v3",
+            "pdf_url": "https://arxiv.org/pdf/2601.20332v3",
+            "source": "arxiv",
+            "abstract": "Diffusion language models (DLMs) generate text through iterative denoising, but inference requires full-sequence attention at every iteration, resulting in substantial redundant computation on masked tokens. Block-wise diffusion can reduce this cost, yet it typically relies on retraining and constrained update orders, limiting its direct applicability to pretrained DLMs. Our token-level analysis reveals pronounced structural locality in DLM inference. Decoding is driven by a small set of prefix-localized active tokens; the influence of distant undecoded context diminishes rapidly, and decoded tokens exhibit stage-wise temporal stability, enabling reuse of intermediate representations except for a brief post-decode transient. Motivated by these observations, we propose \\textbf{\\placeholder}\\footnote{The source code is available at https://github.com/vhicrgit/Window-Diffusion.}, a window-based token pruning and caching method for inference. We maintain a local computation window that slides rightward as denoising progresses, and partition undecoded tokens into: (i) \\textit{active tokens} that are computed online, (ii) \\textit{buffer tokens} whose KV states are cached and periodically refreshed, and (iii) \\textit{far-field tokens} that are pruned outside the window. Computation is restricted to active and buffer tokens within the window, while far-field tokens are omitted at each stage. Experiments on LLaDA and Dream show that, under matched compute budgets, our method achieves up to $99\\times$ inference speedup while largely preserving generation performance.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 18，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.7666666666666666,
+            "feedback": 0,
+            "code_clues": [
+              "https://github.com/vhicrgit/Window-Diffusion."
+            ]
+          },
+          {
+            "identity": "arxiv:2506.15545",
+            "title": "RATTENTION: Towards the Minimal Sliding Window Size in Local-Global Attention Models",
+            "authors": [
+              "Bailin Wang",
+              "Chang Lan",
+              "Chong Wang",
+              "Ruoming Pang"
+            ],
+            "year": 2025,
+            "published": "2025-06-18T15:18:07Z",
+            "updated": "2025-11-17T16:40:02Z",
+            "arxiv_id": "2506.15545v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2506.15545v2",
+            "pdf_url": "https://arxiv.org/pdf/2506.15545v2",
+            "source": "arxiv",
+            "abstract": "Local-global attention models have recently emerged as compelling alternatives to standard Transformers, promising improvements in both training and inference efficiency. However, the crucial choice of window size presents a Pareto tradeoff: larger windows maintain performance akin to full attention but offer minimal efficiency gains in short-context scenarios, while smaller windows can lead to performance degradation. Current models, such as Gemma2 and Mistral, adopt conservative window sizes (e.g., 4096 out of an 8192 pretraining length) to preserve performance. This work investigates strategies to shift this Pareto frontier, enabling local-global models to achieve efficiency gains even in short-context regimes. Our core motivation is to address the intrinsic limitation of local attention -- its complete disregard for tokens outside the defined window. We explore RATTENTION, a variant of local attention integrated with a specialized linear attention mechanism designed to capture information from these out-of-window tokens. Pretraining experiments at the 3B and 12B scales demonstrate that RATTENTION achieves a superior Pareto tradeoff between performance and efficiency. As a sweet spot, RATTENTION with a window size of just 512 consistently matches the performance of full-attention models across diverse settings. Furthermore, the recurrent nature inherent in the linear attention component of RATTENTION contributes to enhanced long-context performance, as validated on the RULER benchmark. Crucially, these improvements do not compromise training efficiency; thanks to a specialized kernel implementation and the reduced window size, RATTENTION maintains training speeds comparable to existing state-of-the-art approaches. We open-sourced our Pallas kernels along with model codes to facilitate further research effort.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 13，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.7428571428571429,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2306.00561",
+            "title": "Masked Autoencoders with Multi-Window Local-Global Attention Are Better Audio Learners",
+            "authors": [
+              "Sarthak Yadav",
+              "Sergios Theodoridis",
+              "Lars Kai Hansen",
+              "Zheng-Hua Tan"
+            ],
+            "year": 2023,
+            "published": "2023-06-01T11:20:59Z",
+            "updated": "2023-10-01T21:53:36Z",
+            "arxiv_id": "2306.00561v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2306.00561v2",
+            "pdf_url": "https://arxiv.org/pdf/2306.00561v2",
+            "source": "arxiv",
+            "abstract": "In this work, we propose a Multi-Window Masked Autoencoder (MW-MAE) fitted with a novel Multi-Window Multi-Head Attention (MW-MHA) module that facilitates the modelling of local-global interactions in every decoder transformer block through attention heads of several distinct local and global windows. Empirical results on ten downstream audio tasks show that MW-MAEs consistently outperform standard MAEs in overall performance and learn better general-purpose audio representations, along with demonstrating considerably better scaling characteristics. Investigating attention distances and entropies reveals that MW-MAE encoders learn heads with broader local and global attention. Analyzing attention head feature representations through Projection Weighted Canonical Correlation Analysis (PWCCA) shows that attention heads with the same window sizes across the decoder layers of the MW-MAE learn correlated feature representations which enables each block to independently capture local and global information, leading to a decoupled decoder feature hierarchy. Code for feature extraction and downstream experiments along with pre-trained models will be released publically.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 15，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.711111111111111,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2303.15105",
+            "title": "Vision Transformer with Quadrangle Attention",
+            "authors": [
+              "Qiming Zhang",
+              "Jing Zhang",
+              "Yufei Xu",
+              "Dacheng Tao"
+            ],
+            "year": 2023,
+            "published": "2023-03-27T11:13:50Z",
+            "updated": "2023-03-27T11:13:50Z",
+            "arxiv_id": "2303.15105v1",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2303.15105v1",
+            "pdf_url": "https://arxiv.org/pdf/2303.15105v1",
+            "source": "arxiv",
+            "abstract": "Window-based attention has become a popular choice in vision transformers due to its superior performance, lower computational complexity, and less memory footprint. However, the design of hand-crafted windows, which is data-agnostic, constrains the flexibility of transformers to adapt to objects of varying sizes, shapes, and orientations. To address this issue, we propose a novel quadrangle attention (QA) method that extends the window-based attention to a general quadrangle formulation. Our method employs an end-to-end learnable quadrangle regression module that predicts a transformation matrix to transform default windows into target quadrangles for token sampling and attention calculation, enabling the network to model various targets with different shapes and orientations and capture rich context information. We integrate QA into plain and hierarchical vision transformers to create a new architecture named QFormer, which offers minor code modifications and negligible extra computational cost. Extensive experiments on public benchmarks demonstrate that QFormer outperforms existing representative vision transformers on various vision tasks, including classification, object detection, semantic segmentation, and pose estimation. The code will be made publicly available at \\href{https://github.com/ViTAE-Transformer/QFormer}{QFormer}.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 15，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.7,
+            "feedback": 0,
+            "code_clues": [
+              "https://github.com/ViTAE-Transformer/QFormer"
+            ]
+          },
+          {
+            "identity": "doi:10.3390/s23073424",
+            "title": "Facial Expression Recognition Using Local Sliding Window Attention",
+            "authors": [
+              "Shuang Qiu",
+              "Guangzhe Zhao",
+              "Xiao Li",
+              "Xueping Wang"
+            ],
+            "year": 2023,
+            "doi": "10.3390/s23073424",
+            "url": "https://doi.org/10.3390/s23073424",
+            "pdf_url": null,
+            "source": "crossref",
+            "abstract": "There are problems associated with facial expression recognition (FER), such as facial occlusion and head pose variations. These two problems lead to incomplete facial information in images, making feature extraction extremely difficult. Most current methods use prior knowledge or fixed-size patches to perform local cropping, thereby enhancing the ability to acquire fine-grained features. However, the former requires extra data processing work and is prone to errors; the latter destroys the integrity of local features. In this paper, we propose a local Sliding Window Attention Network (SWA-Net) for FER. Specifically, we propose a sliding window strategy for feature-level cropping, which preserves the integrity of local features and does not require complex preprocessing. Moreover, the local feature enhancement module mines fine-grained features with intraclass semantics through a multiscale depth network. The adaptive local feature selection module is introduced to prompt the model to find more essential local features. Extensive experiments demonstrate that our SWA-Net model achieves a comparable performance to that of state-of-the-art methods with scores of 90.03% on RAF-DB, 89.22% on FERPlus, 63.97% on AffectNet.",
+            "license": [
+              "https://creativecommons.org/licenses/by/4.0/"
+            ],
+            "references": [
+              {
+                "key": "ref_1",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Chowdary, M.K., Nguyen, T.N., and Hemanth, D.J. (2021). Deep learning-based facial emotion recognition for human–computer interaction applications. Neural Comput. Appl., 1–18.",
+                "DOI": "10.1007/s00521-021-06012-8"
+              },
+              {
+                "key": "ref_2",
+                "doi-asserted-by": "crossref",
+                "first-page": "4501",
+                "DOI": "10.1016/j.ijleo.2015.08.185",
+                "article-title": "Driver fatigue recognition based on facial expression analysis using local binary patterns",
+                "volume": "126",
+                "author": "Zhang",
+                "year": "2015",
+                "journal-title": "Optik"
+              },
+              {
+                "key": "ref_3",
+                "doi-asserted-by": "crossref",
+                "first-page": "5619",
+                "DOI": "10.1109/TII.2022.3141400",
+                "article-title": "Impact of deep learning approaches on facial expression recognition in healthcare industries",
+                "volume": "18",
+                "author": "Bisogni",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Ind. Inform."
+              },
+              {
+                "key": "ref_4",
+                "unstructured": "Ruiz-Garcia, A., Webb, N., Palade, V., Eastwood, M., and Elshaw, M. Deep learning for real time facial expression recognition in social robots. Proceedings of the International Conference on Neural Information Processing (ICONIP)."
+              },
+              {
+                "key": "ref_5",
+                "doi-asserted-by": "crossref",
+                "first-page": "2058",
+                "DOI": "10.1109/TAFFC.2022.3208309",
+                "article-title": "FLEPNet: Feature Level Ensemble Parallel Network for Facial Expression Recognition",
+                "volume": "13",
+                "author": "Karnati",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_6",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Ruan, D., Yan, Y., Lai, S., Chai, Z., Shen, C., and Wang, H. (2021, January 19–25). Feature Decomposition and Reconstruction Learning for Effective Facial Expression Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Virtual.",
+                "DOI": "10.1109/CVPR46437.2021.00757"
+              },
+              {
+                "key": "ref_7",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Lucey, P., Cohn, J.F., Kanade, T., Saragih, J., Ambadar, Z., and Matthews, I. (2010, January 13–18). The Extended Cohn-Kanade Dataset (CK+): A complete dataset for action unit and emotion-specified expression. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), San Francisco, CA, USA.",
+                "DOI": "10.1109/CVPRW.2010.5543262"
+              },
+              {
+                "key": "ref_8",
+                "unstructured": "Pantic, M., Valstar, M., Rademaker, R., and Maat, L. (2005, January 6–9). Web-based database for facial expression analysis. Proceedings of the IEEE International Conference on Multimedia and Expo (ICME), Amsterdam, The Netherlands."
+              },
+              {
+                "key": "ref_9",
+                "unstructured": "Lyons, M., Akamatsu, S., Kamachi, M., and Gyoba, J. (1998, January 14–16). Coding facial expressions with Gabor wavelets. Proceedings of the IEEE International Conference on Automatic Face and Gesture Recognition (FG), Nara, Japan."
+              },
+              {
+                "key": "ref_10",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Goodfellow, I.J., Erhan, D., Carrier, P.L., Courville, A., Mirza, M., Hamner, B., Cukierski, W., Tang, Y., Thaler, D., and Lee, D.H. (2013, January 3–7). Challenges in representation learning: A report on three machine learning contests. Proceedings of the International Conference on Neural Information Processing (ICONIP), Daegu, Republic of Korea.",
+                "DOI": "10.1007/978-3-642-42051-1_16"
+              },
+              {
+                "key": "ref_11",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Li, S., Deng, W., and Du, J. (2017, January 21–26). Reliable Crowdsourcing and Deep Locality-Preserving Learning for Expression Recognition in the Wild. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA.",
+                "DOI": "10.1109/CVPR.2017.277"
+              },
+              {
+                "key": "ref_12",
+                "doi-asserted-by": "crossref",
+                "first-page": "18",
+                "DOI": "10.1109/TAFFC.2017.2740923",
+                "article-title": "AffectNet: A Database for Facial Expression, Valence, and Arousal Computing in the Wild",
+                "volume": "10",
+                "author": "Mollahosseini",
+                "year": "2019",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_13",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zhang, Y., Wang, C., Ling, X., and Deng, W. (2022, January 23–27). Learn from all: Erasing attention consistency for noisy label facial expression recognition. Proceedings of the European Conference on Computer Vision (ECCV), Tel Aviv, Israel.",
+                "DOI": "10.1007/978-3-031-19809-0_24"
+              },
+              {
+                "key": "ref_14",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Xue, F., Wang, Q., and Guo, G. (2021, January 11–17). TransFER: Learning Relation-aware Facial Expression Representations with Transformers. Proceedings of the IEEE International Conference on Computer Vision (ICCV), Virtual Event.",
+                "DOI": "10.1109/ICCV48922.2021.00358"
+              },
+              {
+                "key": "ref_15",
+                "doi-asserted-by": "crossref",
+                "first-page": "3190",
+                "DOI": "10.1109/TCSVT.2021.3103782",
+                "article-title": "Self-Supervised Exclusive-Inclusive Interactive Learning for Multi-Label Facial Expression Recognition in the Wild",
+                "volume": "32",
+                "author": "Li",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_16",
+                "doi-asserted-by": "crossref",
+                "first-page": "6253",
+                "DOI": "10.1109/TCSVT.2022.3165321",
+                "article-title": "Adaptive Multilayer Perceptual Attention Network for Facial Expression Recognition",
+                "volume": "32",
+                "author": "Liu",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_17",
+                "doi-asserted-by": "crossref",
+                "first-page": "4057",
+                "DOI": "10.1109/TIP.2019.2956143",
+                "article-title": "Region Attention Networks for Pose and Occlusion Robust Facial Expression Recognition",
+                "volume": "29",
+                "author": "Wang",
+                "year": "2020",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_18",
+                "doi-asserted-by": "crossref",
+                "first-page": "2439",
+                "DOI": "10.1109/TIP.2018.2886767",
+                "article-title": "Occlusion Aware Facial Expression Recognition Using CNN With Attention Mechanism",
+                "volume": "28",
+                "author": "Li",
+                "year": "2019",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_19",
+                "doi-asserted-by": "crossref",
+                "first-page": "6544",
+                "DOI": "10.1109/TIP.2021.3093397",
+                "article-title": "Learning Deep Global Multi-Scale and Local Attention Features for Facial Expression Recognition in the Wild",
+                "volume": "30",
+                "author": "Zhao",
+                "year": "2021",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_20",
+                "doi-asserted-by": "crossref",
+                "first-page": "3812",
+                "DOI": "10.1093/nar/gkg509",
+                "article-title": "SIFT: Predicting amino acid changes that affect protein function",
+                "volume": "31",
+                "author": "Ng",
+                "year": "2003",
+                "journal-title": "Nucleic Acids Res."
+              },
+              {
+                "key": "ref_21",
+                "unstructured": "Dalal, N., and Triggs, B. (2005, January 20–26). Histograms of oriented gradients for human detection. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), San Diego, CA, USA."
+              },
+              {
+                "key": "ref_22",
+                "doi-asserted-by": "crossref",
+                "first-page": "467",
+                "DOI": "10.1109/TIP.2002.999679",
+                "article-title": "Gabor feature based classification using the enhanced fisher linear discriminant model for face recognition",
+                "volume": "11",
+                "author": "Liu",
+                "year": "2002",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_23",
+                "unstructured": "Fasel, B. (2002, January 11–15). Robust face analysis using convolutional neural networks. Proceedings of the 2002 International Conference on Pattern Recognition, Quebec City, QC, Canada."
+              },
+              {
+                "key": "ref_24",
+                "unstructured": "Tang, Y. (2013). Deep learning using linear support vector machines. arXiv."
+              },
+              {
+                "key": "ref_25",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Kahou, S.E., Pal, C., Bouthillier, X., Froumenty, P., Gülçehre, Ç., Memisevic, R., Vincent, P., Courville, A., Bengio, Y., and Ferrari, R.C. (2013, January 9–13). Combining modality specific deep neural networks for emotion recognition in video. Proceedings of the 15th ACM International Conference on Multimodal Interaction (ICMI), Sydney, Australia.",
+                "DOI": "10.1145/2522848.2531745"
+              },
+              {
+                "key": "ref_26",
+                "doi-asserted-by": "crossref",
+                "first-page": "1195",
+                "DOI": "10.1109/TAFFC.2020.2981446",
+                "article-title": "Deep facial expression recognition: A survey",
+                "volume": "13",
+                "author": "Li",
+                "year": "2020",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_27",
+                "first-page": "17616",
+                "article-title": "Relative Uncertainty Learning for Facial Expression Recognition",
+                "volume": "34",
+                "author": "Zhang",
+                "year": "2021",
+                "journal-title": "Adv. Neural Inf. Process. Syst."
+              },
+              {
+                "key": "ref_28",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zou, X., Yan, Y., Xue, J.H., Chen, S., and Wang, H. (2022, January 23–27). Learn-to-Decompose: Cascaded Decomposition Network for Cross-Domain Few-Shot Facial Expression Recognition. Proceedings of the European Conference on Computer Vision (ECCV), Tel Aviv, Israel.",
+                "DOI": "10.1007/978-3-031-19800-7_40"
+              },
+              {
+                "key": "ref_29",
+                "doi-asserted-by": "crossref",
+                "first-page": "1057",
+                "DOI": "10.1109/TAFFC.2020.2988264",
+                "article-title": "Facial expression recognition with deeply-supervised attention network",
+                "volume": "13",
+                "author": "Fan",
+                "year": "2020",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_30",
+                "doi-asserted-by": "crossref",
+                "first-page": "1868",
+                "DOI": "10.1109/TAFFC.2022.3197761",
+                "article-title": "Disentangling Identity and Pose for Facial Expression Recognition",
+                "volume": "13",
+                "author": "Jiang",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_31",
+                "first-page": "1320",
+                "article-title": "MAFONN-EP: A minimal angular feature oriented neural network based emotion prediction system in image processing",
+                "volume": "34",
+                "author": "Krithika",
+                "year": "2022",
+                "journal-title": "J. King Saud-Univ.-Comput. Inf. Sci."
+              },
+              {
+                "key": "ref_32",
+                "doi-asserted-by": "crossref",
+                "unstructured": "He, K., Zhang, X., Ren, S., and Sun, J. (2016, January 27–30). Deep residual learning for image recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA.",
+                "DOI": "10.1109/CVPR.2016.90"
+              },
+              {
+                "key": "ref_33",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Woo, S., Park, J., Lee, J.Y., and Kweon, I.S. (2018, January 8–14). Cbam: Convolutional block attention module. Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany.",
+                "DOI": "10.1007/978-3-030-01234-2_1"
+              },
+              {
+                "key": "ref_34",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Wen, Y., Zhang, K., Li, Z., and Qiao, Y. (2016, January 11–14). A discriminative feature learning approach for deep face recognition. Proceedings of the European Conference on Computer Vision (ECCV), Amsterdam, The Netherlands.",
+                "DOI": "10.1007/978-3-319-46478-7_31"
+              },
+              {
+                "key": "ref_35",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Emery, A.E., Muntoni, F., and Quinlivan, R. (2015). Duchenne Muscular Dystrophy, Oxford Monographs on Medical Genetics.",
+                "DOI": "10.1093/med/9780199681488.001.0001"
+              },
+              {
+                "key": "ref_36",
+                "doi-asserted-by": "crossref",
+                "first-page": "325",
+                "DOI": "10.1109/TAFFC.2017.2731763",
+                "article-title": "Automatic analysis of facial actions: A survey",
+                "volume": "10",
+                "author": "Martinez",
+                "year": "2017",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_37",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Barsoum, E., Zhang, C., Ferrer, C.C., and Zhang, Z. (2016, January 12–16). Training deep networks for facial expression recognition with crowd-sourced label distribution. Proceedings of the 18th ACM International Conference on Multimodal Interaction (ICMI), Tokyo, Japan.",
+                "DOI": "10.1145/2993148.2993165"
+              },
+              {
+                "key": "ref_38",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Guo, Y., Zhang, L., Hu, Y., He, X., and Gao, J. (2016, January 27–30). Ms-celeb-1m: A dataset and benchmark for large-scale face recognition. Proceedings of the European Conference on Computer Vision (ECCV), Las Vegas, NV, USA.",
+                "DOI": "10.1007/978-3-319-46487-9_6"
+              },
+              {
+                "key": "ref_39",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zeng, J., Shan, S., and Chen, X. (2018, January 8–14). Facial expression recognition with inconsistently annotated datasets. Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany.",
+                "DOI": "10.1007/978-3-030-01261-8_14"
+              },
+              {
+                "key": "ref_40",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Wang, K., Peng, X., Yang, J., Lu, S., and Qiao, Y. (2020, January 14–19). Suppressing uncertainties for large-scale facial expression recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA, USA.",
+                "DOI": "10.1109/CVPR42600.2020.00693"
+              },
+              {
+                "key": "ref_41",
+                "doi-asserted-by": "crossref",
+                "unstructured": "She, J., Hu, Y., Shi, H., Wang, J., Shen, Q., and Mei, T. (2021, January 19–25). Dive into ambiguity: Latent distribution mining and pairwise uncertainty estimation for facial expression recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Virtual.",
+                "DOI": "10.1109/CVPR46437.2021.00618"
+              },
+              {
+                "key": "ref_42",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Ma, F., Sun, B., and Li, S. (2021). Facial Expression Recognition with Visual Transformers and Attentional Selective Fusion. IEEE Trans. Affect. Comput., 1–13.",
+                "DOI": "10.1109/TAFFC.2021.3122146"
+              },
+              {
+                "key": "ref_43",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zeng, D., Lin, Z., Yan, X., Liu, Y., Wang, F., and Tang, B. (2022, January 19–24). Face2Exp: Combating Data Biases for Facial Expression Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA.",
+                "DOI": "10.1109/CVPR52688.2022.01965"
+              },
+              {
+                "key": "ref_44",
+                "doi-asserted-by": "crossref",
+                "first-page": "108737",
+                "DOI": "10.1016/j.patcog.2022.108737",
+                "article-title": "Improving the Facial Expression Recognition and Its Interpretability via Generating Expression Pattern-map",
+                "volume": "129",
+                "author": "Zhang",
+                "year": "2022",
+                "journal-title": "Pattern Recognit."
+              },
+              {
+                "key": "ref_45",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Parkhi, O.M., Vedaldi, A., and Zisserman, A. (2015, January 7–10). Deep face recognition. Proceedings of the British Machine Vision Conference 2015, Swansea, UK.",
+                "DOI": "10.5244/C.29.41"
+              },
+              {
+                "key": "ref_46",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Arnaud, E., Dapogny, A., and Bailly, K. (2022). Thin: Throwable information networks and application for facial expression recognition in the wild. IEEE Trans. Affect. Comput.",
+                "DOI": "10.1109/TAFFC.2022.3144439"
+              },
+              {
+                "key": "ref_47",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Fan, X., Deng, Z., Wang, K., Peng, X., and Qiao, Y. (2020, January 25–28). Learning discriminative representation for facial expression recognition from uncertainties. Proceedings of the IEEE International Conference on Image Processing (ICIP), Virtual.",
+                "DOI": "10.1109/ICIP40778.2020.9190643"
+              },
+              {
+                "key": "ref_48",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Farzaneh, A.H., and Qi, X. (2020, January 13–19). Discriminant distribution-agnostic loss for facial expression recognition in the wild. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Seattle, WA, USA.",
+                "DOI": "10.1109/CVPRW50498.2020.00211"
+              },
+              {
+                "key": "ref_49",
+                "doi-asserted-by": "crossref",
+                "first-page": "3178",
+                "DOI": "10.1109/TCSVT.2021.3103760",
+                "article-title": "Learning informative and discriminative features for facial expression recognition in the wild",
+                "volume": "32",
+                "author": "Li",
+                "year": "2021",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_50",
+                "doi-asserted-by": "crossref",
+                "first-page": "690",
+                "DOI": "10.1109/TCSVT.2021.3063052",
+                "article-title": "Triplet loss with multistage outlier suppression and class-pair margins for facial expression recognition",
+                "volume": "32",
+                "author": "Xie",
+                "year": "2021",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_51",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Hayale, W., Negi, P.S., and Mahoor, M. (2021). Deep Siamese neural networks for facial expression recognition in the wild. IEEE Trans. Affect. Comput.",
+                "DOI": "10.1109/TAFFC.2021.3077248"
+              },
+              {
+                "key": "ref_52",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Selvaraju, R.R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., and Batra, D. (2017, January 22–29). Grad-cam: Visual explanations from deep networks via gradient-based localization. Proceedings of the IEEE International Conference on Computer Vision (ICCV), Venice, Italy.",
+                "DOI": "10.1109/ICCV.2017.74"
+              }
+            ],
+            "metadata_verified": true,
+            "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+            "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 14，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.6909090909090909,
+            "feedback": 0
+          },
+          {
+            "identity": "doi:10.1109/access.2026.3698126",
+            "title": "Photovoltaic Scenario Generation via Multimodal Fusion and Local Window Attention",
+            "authors": [
+              "Zhipeng Kang",
+              "Jianbo Shang",
+              "Rui Zhu",
+              "Xiaojing Zhu"
+            ],
+            "year": 2026,
+            "doi": "10.1109/access.2026.3698126",
+            "url": "https://doi.org/10.1109/access.2026.3698126",
+            "pdf_url": null,
+            "source": "crossref",
+            "abstract": "",
+            "license": [
+              "https://creativecommons.org/licenses/by/4.0/legalcode"
+            ],
+            "references": [
+              {
+                "key": "ref1",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2017.2690297"
+              },
+              {
+                "key": "ref2",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2024.123182"
+              },
+              {
+                "key": "ref3",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.jweia.2017.11.023"
+              },
+              {
+                "key": "ref4",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2019.03.112"
+              },
+              {
+                "key": "ref5",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2018.06.095"
+              },
+              {
+                "key": "ref6",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TSTE.2013.2256807"
+              },
+              {
+                "key": "ref7",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2022.3170992"
+              },
+              {
+                "key": "ref8",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2015.10.052"
+              },
+              {
+                "key": "ref9",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2024.122971"
+              },
+              {
+                "key": "ref10",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TSG.2018.2884323"
+              },
+              {
+                "key": "ref11",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2020.114823"
+              },
+              {
+                "key": "ref12",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1002/we.284"
+              },
+              {
+                "key": "ref13",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.3390/en16134905"
+              },
+              {
+                "key": "ref14",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ACCESS.2018.2875936"
+              },
+              {
+                "key": "ref15",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2018.2794541"
+              },
+              {
+                "key": "ref16",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.est.2020.102081"
+              },
+              {
+                "key": "ref17",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.ijepes.2019.105388"
+              },
+              {
+                "key": "ref18",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CISS.2018.8362314"
+              },
+              {
+                "key": "ref19",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.renene.2025.122903"
+              },
+              {
+                "key": "ref20",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.egyai.2025.100540"
+              },
+              {
+                "key": "ref21",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.energy.2026.140314"
+              },
+              {
+                "key": "ref22",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2022.120300"
+              },
+              {
+                "key": "ref23",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TSTE.2023.3258929"
+              },
+              {
+                "key": "ref24",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.energy.2018.11.075"
+              },
+              {
+                "key": "ref25",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TII.2021.3098259"
+              },
+              {
+                "key": "ref26",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2024.122905"
+              },
+              {
+                "key": "ref27",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.renene.2021.12.110"
+              },
+              {
+                "key": "ref28",
+                "first-page": "1",
+                "article-title": "Generative adversarial nets",
+                "volume-title": "Proc. Adv. Neural Inf. Process. Syst.",
+                "volume": "27",
+                "author": "Goodfellow"
+              },
+              {
+                "key": "ref29",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2023.3277698"
+              },
+              {
+                "key": "ref30",
+                "article-title": "Wasserstein GAN",
+                "author": "Arjovsky",
+                "year": "2017",
+                "journal-title": "arXiv:1701.07875"
+              },
+              {
+                "key": "ref31",
+                "first-page": "5769",
+                "article-title": "Improved training of Wasserstein GANs",
+                "volume-title": "Proc. Adv. Neural Inf. Process. Syst.",
+                "volume": "30",
+                "author": "Gulrajani"
+              },
+              {
+                "key": "ref32",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCV48922.2021.00986"
+              },
+              {
+                "key": "ref33",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.renene.2025.122824"
+              },
+              {
+                "key": "ref34",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.48550/ARXIV.1706.03762"
+              },
+              {
+                "key": "ref35",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2011.11.004"
+              },
+              {
+                "key": "ref36",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.jhydrol.2015.01.024"
+              },
+              {
+                "key": "ref37",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/tip.2003.819861"
+              },
+              {
+                "key": "ref38",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.eswa.2012.01.039"
+              }
+            ],
+            "metadata_verified": true,
+            "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+            "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 3，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.6833333333333333,
+            "feedback": 0
+          },
+          {
+            "identity": "doi:10.1109/icip61757.2026.11630422",
+            "title": "Window-Based Linear Attention for Unified Local-to-Global Context in Image Super-Resolution",
+            "authors": [
+              "Nai-Jen Hsueh",
+              "Wen-Jiin Tsai"
+            ],
+            "year": 2026,
+            "doi": "10.1109/icip61757.2026.11630422",
+            "url": "https://doi.org/10.1109/icip61757.2026.11630422",
+            "pdf_url": null,
+            "source": "crossref",
+            "abstract": "",
+            "license": [
+              "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+              "https://doi.org/10.15223/policy-029",
+              "https://doi.org/10.15223/policy-037"
+            ],
+            "references": [
+              {
+                "key": "ref1",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCVW54120.2021.00210"
+              },
+              {
+                "key": "ref2",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCV48922.2021.00986"
+              },
+              {
+                "key": "ref3",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPR52729.2023.02142"
+              },
+              {
+                "key": "ref4",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPR52729.2023.01753"
+              },
+              {
+                "key": "ref5",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPRW63382.2024.00629"
+              },
+              {
+                "key": "ref6",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPRW63382.2024.00618"
+              },
+              {
+                "key": "ref7",
+                "article-title": "Transformers are rnns: Fast autoregressive transformers with linear attention",
+                "volume-title": "International Conference on Machine Learning",
+                "author": "Katharopoulos"
+              },
+              {
+                "key": "ref8",
+                "first-page": "3531",
+                "article-title": "Efficient attention: Attention with linear complexities",
+                "volume-title": "Proceedings of the IEEE/CVF winter conference on applications of computer vision",
+                "author": "Shen"
+              },
+              {
+                "key": "ref9",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCV51070.2023.00548"
+              },
+              {
+                "key": "ref10",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPR52734.2025.02353"
+              },
+              {
+                "key": "ref11",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.24963/ijcai.2023/121"
+              },
+              {
+                "key": "ref12",
+                "article-title": "Mamba: Linear-time sequence modeling with selective state spaces",
+                "author": "Gu",
+                "year": "2024"
+              },
+              {
+                "key": "ref13",
+                "doi-asserted-by": "crossref",
+                "DOI": "10.1007/978-3-030-01234-2_18",
+                "article-title": "Image super-resolution using very deep residual channel attention networks",
+                "volume-title": "European Conference on Computer Vision",
+                "author": "Zhang"
+              },
+              {
+                "key": "ref14",
+                "first-page": "11057",
+                "article-title": "Second-order attention network for single image super-resolution",
+                "volume-title": "2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                "author": "Dai"
+              },
+              {
+                "key": "ref15",
+                "doi-asserted-by": "crossref",
+                "first-page": "C1",
+                "DOI": "10.1007/978-3-030-58610-2_47",
+                "article-title": "Correction to: Single image super-resolution via a holistic attention network",
+                "volume-title": "Computer Vision – ECCV 2020",
+                "volume": "12357",
+                "author": "Niu",
+                "year": "2020"
+              },
+              {
+                "key": "ref16",
+                "first-page": "12294",
+                "article-title": "Pre-trained image processing transformer",
+                "volume-title": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                "author": "Chen"
+              },
+              {
+                "key": "ref17",
+                "article-title": "BasicSR: Open source image and video restoration toolbox",
+                "author": "Wang",
+                "year": "2022"
+              },
+              {
+                "key": "ref18",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1007/978-3-031-72649-1_13"
+              }
+            ],
+            "metadata_verified": true,
+            "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+            "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 3，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.6625,
+            "feedback": 0
+          }
+        ],
+        "errors": [],
+        "cached": false,
+        "searched_at": 1794738596.2942488,
+        "query": "local window attention Longformer",
+        "sources": [
+          "arxiv",
+          "crossref"
+        ],
+        "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+        "new_identities": [
+          "arxiv:2004.05150",
+          "arxiv:2609.08574",
+          "arxiv:2101.00272",
+          "arxiv:2601.20332",
+          "arxiv:2506.15545",
+          "arxiv:2306.00561",
+          "arxiv:2303.15105",
+          "doi:10.3390/s23073424",
+          "doi:10.1109/access.2026.3698126",
+          "doi:10.1109/icip61757.2026.11630422"
+        ],
+        "run_id": "63bd5b09a88c46b1b2dfa6736c1e2517"
+      }
+    },
+    {
+      "id": "1507d28fe5da46508226b608febf567c",
+      "status": "completed",
+      "result": {
+        "results": [
+          {
+            "identity": "arxiv:2004.05150",
+            "title": "Longformer: The Long-Document Transformer",
+            "authors": [
+              "Iz Beltagy",
+              "Matthew E. Peters",
+              "Arman Cohan"
+            ],
+            "year": 2020,
+            "published": "2020-04-10T17:54:09Z",
+            "updated": "2020-12-02T17:52:35Z",
+            "arxiv_id": "2004.05150v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2004.05150v2",
+            "pdf_url": "https://arxiv.org/pdf/2004.05150v2",
+            "source": "arxiv",
+            "abstract": "Transformer-based models are unable to process long sequences due to their self-attention operation, which scales quadratically with the sequence length. To address this limitation, we introduce the Longformer with an attention mechanism that scales linearly with sequence length, making it easy to process documents of thousands of tokens or longer. Longformer's attention mechanism is a drop-in replacement for the standard self-attention and combines a local windowed attention with a task motivated global attention. Following prior work on long-sequence transformers, we evaluate Longformer on character-level language modeling and achieve state-of-the-art results on text8 and enwik8. In contrast to most prior work, we also pretrain Longformer and finetune it on a variety of downstream tasks. Our pretrained Longformer consistently outperforms RoBERTa on long document tasks and sets new state-of-the-art results on WikiHop and TriviaQA. We finally introduce the Longformer-Encoder-Decoder (LED), a Longformer variant for supporting long document generative sequence-to-sequence tasks, and demonstrate its effectiveness on the arXiv summarization dataset.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 17，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 1.6,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2609.08574",
+            "title": "Do New Attention Mechanisms Actually Fix Attention Sinks at Million-Token Context?",
+            "authors": [
+              "Sara Rizwan",
+              "Samaanah Abdus Salam",
+              "Mohammed Mudassir Uddin"
+            ],
+            "year": 2026,
+            "published": "2026-09-08T11:10:11Z",
+            "updated": "2026-09-18T12:15:13Z",
+            "arxiv_id": "2609.08574v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2609.08574v2",
+            "pdf_url": "https://arxiv.org/pdf/2609.08574v2",
+            "source": "arxiv",
+            "abstract": "Long context language models now advertise windows of one million tokens, but two habits limit how much of that window is used. Attention heads with nothing useful to read still spend their budget on the first token, which is called the attention sink, and where a fact sits in the context changes whether the model finds it. Gated attention cut first token attention from 46.7 percent to 4.8 percent at NeurIPS 2025, and Kimi K3 pairs that idea with Kimi Delta Attention and Attention Residuals behind a one million token window, eight times past the range where these diagnostics have been reported. This paper asks whether the fix survives that jump. We build SinkProbe, a suite that measures sink mass, massive activation, position resolved recall and the recency gap, and apply it to four small models that differ only in how they mix tokens and depth. Three results follow. The training objective produces the sink, not the architecture. Gating did not reproduce its published effect at our scale. Sink mass, activations and position bias moved independently. Code, data and the measurement protocol are released at https://github.com/sararizwan7/Attention-Mechanisms-in-1M-Context-Window",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 12，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 1.0,
+            "feedback": 0,
+            "code_clues": [
+              "https://github.com/sararizwan7/Attention-Mechanisms-in-1M-Context-Window"
+            ]
+          },
+          {
+            "identity": "arxiv:2101.00272",
+            "title": "Locality of the windowed local density of states",
+            "authors": [
+              "Terry A. Loring",
+              "Jianfeng Lu",
+              "Alexander B. Watson"
+            ],
+            "year": 2021,
+            "published": "2021-01-01T17:17:49Z",
+            "updated": "2021-04-14T19:30:37Z",
+            "arxiv_id": "2101.00272v2",
+            "doi": "10.11128/arep.17.a17209",
+            "url": "https://arxiv.org/abs/2101.00272v2",
+            "pdf_url": "https://arxiv.org/pdf/2101.00272v2",
+            "source": "arxiv",
+            "abstract": "We introduce a generalization of local density of states which is \"windowed\" with respect to position and energy, called the windowed local density of states (wLDOS). This definition generalizes the usual LDOS in the sense that the usual LDOS is recovered in the limit where the position window captures individual sites and the energy window is a delta distribution. We prove that the wLDOS is local in the sense that it can be computed up to arbitrarily small error using spatial truncations of the system Hamiltonian. Using this result we prove that the wLDOS is well-defined and computable for infinite systems satisfying some natural assumptions. We finally present numerical computations of the wLDOS at the edge and in the bulk of a \"Fibonacci SSH model\", a one-dimensional non-periodic model with topological edge states.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 7，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.8333333333333333,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2601.20332",
+            "title": "Window-Diffusion: Accelerating Diffusion Language Model Inference with Windowed Token Pruning and Caching",
+            "authors": [
+              "Fengrui Zuo",
+              "Zhiwei Ke",
+              "Yiming Liu",
+              "Wenqi Lou",
+              "Chao Wang",
+              "Xuehai Zhou"
+            ],
+            "year": 2026,
+            "published": "2026-01-28T07:49:20Z",
+            "updated": "2026-09-15T03:06:05Z",
+            "arxiv_id": "2601.20332v3",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2601.20332v3",
+            "pdf_url": "https://arxiv.org/pdf/2601.20332v3",
+            "source": "arxiv",
+            "abstract": "Diffusion language models (DLMs) generate text through iterative denoising, but inference requires full-sequence attention at every iteration, resulting in substantial redundant computation on masked tokens. Block-wise diffusion can reduce this cost, yet it typically relies on retraining and constrained update orders, limiting its direct applicability to pretrained DLMs. Our token-level analysis reveals pronounced structural locality in DLM inference. Decoding is driven by a small set of prefix-localized active tokens; the influence of distant undecoded context diminishes rapidly, and decoded tokens exhibit stage-wise temporal stability, enabling reuse of intermediate representations except for a brief post-decode transient. Motivated by these observations, we propose \\textbf{\\placeholder}\\footnote{The source code is available at https://github.com/vhicrgit/Window-Diffusion.}, a window-based token pruning and caching method for inference. We maintain a local computation window that slides rightward as denoising progresses, and partition undecoded tokens into: (i) \\textit{active tokens} that are computed online, (ii) \\textit{buffer tokens} whose KV states are cached and periodically refreshed, and (iii) \\textit{far-field tokens} that are pruned outside the window. Computation is restricted to active and buffer tokens within the window, while far-field tokens are omitted at each stage. Experiments on LLaDA and Dream show that, under matched compute budgets, our method achieves up to $99\\times$ inference speedup while largely preserving generation performance.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 18，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.7666666666666666,
+            "feedback": 0,
+            "code_clues": [
+              "https://github.com/vhicrgit/Window-Diffusion."
+            ]
+          },
+          {
+            "identity": "arxiv:2506.15545",
+            "title": "RATTENTION: Towards the Minimal Sliding Window Size in Local-Global Attention Models",
+            "authors": [
+              "Bailin Wang",
+              "Chang Lan",
+              "Chong Wang",
+              "Ruoming Pang"
+            ],
+            "year": 2025,
+            "published": "2025-06-18T15:18:07Z",
+            "updated": "2025-11-17T16:40:02Z",
+            "arxiv_id": "2506.15545v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2506.15545v2",
+            "pdf_url": "https://arxiv.org/pdf/2506.15545v2",
+            "source": "arxiv",
+            "abstract": "Local-global attention models have recently emerged as compelling alternatives to standard Transformers, promising improvements in both training and inference efficiency. However, the crucial choice of window size presents a Pareto tradeoff: larger windows maintain performance akin to full attention but offer minimal efficiency gains in short-context scenarios, while smaller windows can lead to performance degradation. Current models, such as Gemma2 and Mistral, adopt conservative window sizes (e.g., 4096 out of an 8192 pretraining length) to preserve performance. This work investigates strategies to shift this Pareto frontier, enabling local-global models to achieve efficiency gains even in short-context regimes. Our core motivation is to address the intrinsic limitation of local attention -- its complete disregard for tokens outside the defined window. We explore RATTENTION, a variant of local attention integrated with a specialized linear attention mechanism designed to capture information from these out-of-window tokens. Pretraining experiments at the 3B and 12B scales demonstrate that RATTENTION achieves a superior Pareto tradeoff between performance and efficiency. As a sweet spot, RATTENTION with a window size of just 512 consistently matches the performance of full-attention models across diverse settings. Furthermore, the recurrent nature inherent in the linear attention component of RATTENTION contributes to enhanced long-context performance, as validated on the RULER benchmark. Crucially, these improvements do not compromise training efficiency; thanks to a specialized kernel implementation and the reduced window size, RATTENTION maintains training speeds comparable to existing state-of-the-art approaches. We open-sourced our Pallas kernels along with model codes to facilitate further research effort.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 13，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.7428571428571429,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2306.00561",
+            "title": "Masked Autoencoders with Multi-Window Local-Global Attention Are Better Audio Learners",
+            "authors": [
+              "Sarthak Yadav",
+              "Sergios Theodoridis",
+              "Lars Kai Hansen",
+              "Zheng-Hua Tan"
+            ],
+            "year": 2023,
+            "published": "2023-06-01T11:20:59Z",
+            "updated": "2023-10-01T21:53:36Z",
+            "arxiv_id": "2306.00561v2",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2306.00561v2",
+            "pdf_url": "https://arxiv.org/pdf/2306.00561v2",
+            "source": "arxiv",
+            "abstract": "In this work, we propose a Multi-Window Masked Autoencoder (MW-MAE) fitted with a novel Multi-Window Multi-Head Attention (MW-MHA) module that facilitates the modelling of local-global interactions in every decoder transformer block through attention heads of several distinct local and global windows. Empirical results on ten downstream audio tasks show that MW-MAEs consistently outperform standard MAEs in overall performance and learn better general-purpose audio representations, along with demonstrating considerably better scaling characteristics. Investigating attention distances and entropies reveals that MW-MAE encoders learn heads with broader local and global attention. Analyzing attention head feature representations through Projection Weighted Canonical Correlation Analysis (PWCCA) shows that attention heads with the same window sizes across the decoder layers of the MW-MAE learn correlated feature representations which enables each block to independently capture local and global information, leading to a decoupled decoder feature hierarchy. Code for feature extraction and downstream experiments along with pre-trained models will be released publically.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 3，库标题词重合 15，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.711111111111111,
+            "feedback": 0
+          },
+          {
+            "identity": "arxiv:2303.15105",
+            "title": "Vision Transformer with Quadrangle Attention",
+            "authors": [
+              "Qiming Zhang",
+              "Jing Zhang",
+              "Yufei Xu",
+              "Dacheng Tao"
+            ],
+            "year": 2023,
+            "published": "2023-03-27T11:13:50Z",
+            "updated": "2023-03-27T11:13:50Z",
+            "arxiv_id": "2303.15105v1",
+            "doi": null,
+            "url": "https://arxiv.org/abs/2303.15105v1",
+            "pdf_url": "https://arxiv.org/pdf/2303.15105v1",
+            "source": "arxiv",
+            "abstract": "Window-based attention has become a popular choice in vision transformers due to its superior performance, lower computational complexity, and less memory footprint. However, the design of hand-crafted windows, which is data-agnostic, constrains the flexibility of transformers to adapt to objects of varying sizes, shapes, and orientations. To address this issue, we propose a novel quadrangle attention (QA) method that extends the window-based attention to a general quadrangle formulation. Our method employs an end-to-end learnable quadrangle regression module that predicts a transformation matrix to transform default windows into target quadrangles for token sampling and attention calculation, enabling the network to model various targets with different shapes and orientations and capture rich context information. We integrate QA into plain and hierarchical vision transformers to create a new architecture named QFormer, which offers minor code modifications and negligible extra computational cost. Extensive experiments on public benchmarks demonstrate that QFormer outperforms existing representative vision transformers on various vision tasks, including classification, object detection, semantic segmentation, and pose estimation. The code will be made publicly available at \\href{https://github.com/ViTAE-Transformer/QFormer}{QFormer}.",
+            "license": "许可需在来源页面核对",
+            "metadata_verified": true,
+            "metadata_source_url": "https://export.arxiv.org/api/query?search_query=all%3Alocal+window+attention+Longformer&sortBy=relevance&start=0&max_results=10",
+            "reason": "arXiv 实时元数据候选；标题相近不等于同一研究问题；检索词重合 2，库标题词重合 15，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.7,
+            "feedback": 0,
+            "code_clues": [
+              "https://github.com/ViTAE-Transformer/QFormer"
+            ]
+          },
+          {
+            "identity": "doi:10.3390/s23073424",
+            "title": "Facial Expression Recognition Using Local Sliding Window Attention",
+            "authors": [
+              "Shuang Qiu",
+              "Guangzhe Zhao",
+              "Xiao Li",
+              "Xueping Wang"
+            ],
+            "year": 2023,
+            "doi": "10.3390/s23073424",
+            "url": "https://doi.org/10.3390/s23073424",
+            "pdf_url": null,
+            "source": "crossref",
+            "abstract": "There are problems associated with facial expression recognition (FER), such as facial occlusion and head pose variations. These two problems lead to incomplete facial information in images, making feature extraction extremely difficult. Most current methods use prior knowledge or fixed-size patches to perform local cropping, thereby enhancing the ability to acquire fine-grained features. However, the former requires extra data processing work and is prone to errors; the latter destroys the integrity of local features. In this paper, we propose a local Sliding Window Attention Network (SWA-Net) for FER. Specifically, we propose a sliding window strategy for feature-level cropping, which preserves the integrity of local features and does not require complex preprocessing. Moreover, the local feature enhancement module mines fine-grained features with intraclass semantics through a multiscale depth network. The adaptive local feature selection module is introduced to prompt the model to find more essential local features. Extensive experiments demonstrate that our SWA-Net model achieves a comparable performance to that of state-of-the-art methods with scores of 90.03% on RAF-DB, 89.22% on FERPlus, 63.97% on AffectNet.",
+            "license": [
+              "https://creativecommons.org/licenses/by/4.0/"
+            ],
+            "references": [
+              {
+                "key": "ref_1",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Chowdary, M.K., Nguyen, T.N., and Hemanth, D.J. (2021). Deep learning-based facial emotion recognition for human–computer interaction applications. Neural Comput. Appl., 1–18.",
+                "DOI": "10.1007/s00521-021-06012-8"
+              },
+              {
+                "key": "ref_2",
+                "doi-asserted-by": "crossref",
+                "first-page": "4501",
+                "DOI": "10.1016/j.ijleo.2015.08.185",
+                "article-title": "Driver fatigue recognition based on facial expression analysis using local binary patterns",
+                "volume": "126",
+                "author": "Zhang",
+                "year": "2015",
+                "journal-title": "Optik"
+              },
+              {
+                "key": "ref_3",
+                "doi-asserted-by": "crossref",
+                "first-page": "5619",
+                "DOI": "10.1109/TII.2022.3141400",
+                "article-title": "Impact of deep learning approaches on facial expression recognition in healthcare industries",
+                "volume": "18",
+                "author": "Bisogni",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Ind. Inform."
+              },
+              {
+                "key": "ref_4",
+                "unstructured": "Ruiz-Garcia, A., Webb, N., Palade, V., Eastwood, M., and Elshaw, M. Deep learning for real time facial expression recognition in social robots. Proceedings of the International Conference on Neural Information Processing (ICONIP)."
+              },
+              {
+                "key": "ref_5",
+                "doi-asserted-by": "crossref",
+                "first-page": "2058",
+                "DOI": "10.1109/TAFFC.2022.3208309",
+                "article-title": "FLEPNet: Feature Level Ensemble Parallel Network for Facial Expression Recognition",
+                "volume": "13",
+                "author": "Karnati",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_6",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Ruan, D., Yan, Y., Lai, S., Chai, Z., Shen, C., and Wang, H. (2021, January 19–25). Feature Decomposition and Reconstruction Learning for Effective Facial Expression Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Virtual.",
+                "DOI": "10.1109/CVPR46437.2021.00757"
+              },
+              {
+                "key": "ref_7",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Lucey, P., Cohn, J.F., Kanade, T., Saragih, J., Ambadar, Z., and Matthews, I. (2010, January 13–18). The Extended Cohn-Kanade Dataset (CK+): A complete dataset for action unit and emotion-specified expression. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), San Francisco, CA, USA.",
+                "DOI": "10.1109/CVPRW.2010.5543262"
+              },
+              {
+                "key": "ref_8",
+                "unstructured": "Pantic, M., Valstar, M., Rademaker, R., and Maat, L. (2005, January 6–9). Web-based database for facial expression analysis. Proceedings of the IEEE International Conference on Multimedia and Expo (ICME), Amsterdam, The Netherlands."
+              },
+              {
+                "key": "ref_9",
+                "unstructured": "Lyons, M., Akamatsu, S., Kamachi, M., and Gyoba, J. (1998, January 14–16). Coding facial expressions with Gabor wavelets. Proceedings of the IEEE International Conference on Automatic Face and Gesture Recognition (FG), Nara, Japan."
+              },
+              {
+                "key": "ref_10",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Goodfellow, I.J., Erhan, D., Carrier, P.L., Courville, A., Mirza, M., Hamner, B., Cukierski, W., Tang, Y., Thaler, D., and Lee, D.H. (2013, January 3–7). Challenges in representation learning: A report on three machine learning contests. Proceedings of the International Conference on Neural Information Processing (ICONIP), Daegu, Republic of Korea.",
+                "DOI": "10.1007/978-3-642-42051-1_16"
+              },
+              {
+                "key": "ref_11",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Li, S., Deng, W., and Du, J. (2017, January 21–26). Reliable Crowdsourcing and Deep Locality-Preserving Learning for Expression Recognition in the Wild. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Honolulu, HI, USA.",
+                "DOI": "10.1109/CVPR.2017.277"
+              },
+              {
+                "key": "ref_12",
+                "doi-asserted-by": "crossref",
+                "first-page": "18",
+                "DOI": "10.1109/TAFFC.2017.2740923",
+                "article-title": "AffectNet: A Database for Facial Expression, Valence, and Arousal Computing in the Wild",
+                "volume": "10",
+                "author": "Mollahosseini",
+                "year": "2019",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_13",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zhang, Y., Wang, C., Ling, X., and Deng, W. (2022, January 23–27). Learn from all: Erasing attention consistency for noisy label facial expression recognition. Proceedings of the European Conference on Computer Vision (ECCV), Tel Aviv, Israel.",
+                "DOI": "10.1007/978-3-031-19809-0_24"
+              },
+              {
+                "key": "ref_14",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Xue, F., Wang, Q., and Guo, G. (2021, January 11–17). TransFER: Learning Relation-aware Facial Expression Representations with Transformers. Proceedings of the IEEE International Conference on Computer Vision (ICCV), Virtual Event.",
+                "DOI": "10.1109/ICCV48922.2021.00358"
+              },
+              {
+                "key": "ref_15",
+                "doi-asserted-by": "crossref",
+                "first-page": "3190",
+                "DOI": "10.1109/TCSVT.2021.3103782",
+                "article-title": "Self-Supervised Exclusive-Inclusive Interactive Learning for Multi-Label Facial Expression Recognition in the Wild",
+                "volume": "32",
+                "author": "Li",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_16",
+                "doi-asserted-by": "crossref",
+                "first-page": "6253",
+                "DOI": "10.1109/TCSVT.2022.3165321",
+                "article-title": "Adaptive Multilayer Perceptual Attention Network for Facial Expression Recognition",
+                "volume": "32",
+                "author": "Liu",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_17",
+                "doi-asserted-by": "crossref",
+                "first-page": "4057",
+                "DOI": "10.1109/TIP.2019.2956143",
+                "article-title": "Region Attention Networks for Pose and Occlusion Robust Facial Expression Recognition",
+                "volume": "29",
+                "author": "Wang",
+                "year": "2020",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_18",
+                "doi-asserted-by": "crossref",
+                "first-page": "2439",
+                "DOI": "10.1109/TIP.2018.2886767",
+                "article-title": "Occlusion Aware Facial Expression Recognition Using CNN With Attention Mechanism",
+                "volume": "28",
+                "author": "Li",
+                "year": "2019",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_19",
+                "doi-asserted-by": "crossref",
+                "first-page": "6544",
+                "DOI": "10.1109/TIP.2021.3093397",
+                "article-title": "Learning Deep Global Multi-Scale and Local Attention Features for Facial Expression Recognition in the Wild",
+                "volume": "30",
+                "author": "Zhao",
+                "year": "2021",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_20",
+                "doi-asserted-by": "crossref",
+                "first-page": "3812",
+                "DOI": "10.1093/nar/gkg509",
+                "article-title": "SIFT: Predicting amino acid changes that affect protein function",
+                "volume": "31",
+                "author": "Ng",
+                "year": "2003",
+                "journal-title": "Nucleic Acids Res."
+              },
+              {
+                "key": "ref_21",
+                "unstructured": "Dalal, N., and Triggs, B. (2005, January 20–26). Histograms of oriented gradients for human detection. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), San Diego, CA, USA."
+              },
+              {
+                "key": "ref_22",
+                "doi-asserted-by": "crossref",
+                "first-page": "467",
+                "DOI": "10.1109/TIP.2002.999679",
+                "article-title": "Gabor feature based classification using the enhanced fisher linear discriminant model for face recognition",
+                "volume": "11",
+                "author": "Liu",
+                "year": "2002",
+                "journal-title": "IEEE Trans. Image Process."
+              },
+              {
+                "key": "ref_23",
+                "unstructured": "Fasel, B. (2002, January 11–15). Robust face analysis using convolutional neural networks. Proceedings of the 2002 International Conference on Pattern Recognition, Quebec City, QC, Canada."
+              },
+              {
+                "key": "ref_24",
+                "unstructured": "Tang, Y. (2013). Deep learning using linear support vector machines. arXiv."
+              },
+              {
+                "key": "ref_25",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Kahou, S.E., Pal, C., Bouthillier, X., Froumenty, P., Gülçehre, Ç., Memisevic, R., Vincent, P., Courville, A., Bengio, Y., and Ferrari, R.C. (2013, January 9–13). Combining modality specific deep neural networks for emotion recognition in video. Proceedings of the 15th ACM International Conference on Multimodal Interaction (ICMI), Sydney, Australia.",
+                "DOI": "10.1145/2522848.2531745"
+              },
+              {
+                "key": "ref_26",
+                "doi-asserted-by": "crossref",
+                "first-page": "1195",
+                "DOI": "10.1109/TAFFC.2020.2981446",
+                "article-title": "Deep facial expression recognition: A survey",
+                "volume": "13",
+                "author": "Li",
+                "year": "2020",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_27",
+                "first-page": "17616",
+                "article-title": "Relative Uncertainty Learning for Facial Expression Recognition",
+                "volume": "34",
+                "author": "Zhang",
+                "year": "2021",
+                "journal-title": "Adv. Neural Inf. Process. Syst."
+              },
+              {
+                "key": "ref_28",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zou, X., Yan, Y., Xue, J.H., Chen, S., and Wang, H. (2022, January 23–27). Learn-to-Decompose: Cascaded Decomposition Network for Cross-Domain Few-Shot Facial Expression Recognition. Proceedings of the European Conference on Computer Vision (ECCV), Tel Aviv, Israel.",
+                "DOI": "10.1007/978-3-031-19800-7_40"
+              },
+              {
+                "key": "ref_29",
+                "doi-asserted-by": "crossref",
+                "first-page": "1057",
+                "DOI": "10.1109/TAFFC.2020.2988264",
+                "article-title": "Facial expression recognition with deeply-supervised attention network",
+                "volume": "13",
+                "author": "Fan",
+                "year": "2020",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_30",
+                "doi-asserted-by": "crossref",
+                "first-page": "1868",
+                "DOI": "10.1109/TAFFC.2022.3197761",
+                "article-title": "Disentangling Identity and Pose for Facial Expression Recognition",
+                "volume": "13",
+                "author": "Jiang",
+                "year": "2022",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_31",
+                "first-page": "1320",
+                "article-title": "MAFONN-EP: A minimal angular feature oriented neural network based emotion prediction system in image processing",
+                "volume": "34",
+                "author": "Krithika",
+                "year": "2022",
+                "journal-title": "J. King Saud-Univ.-Comput. Inf. Sci."
+              },
+              {
+                "key": "ref_32",
+                "doi-asserted-by": "crossref",
+                "unstructured": "He, K., Zhang, X., Ren, S., and Sun, J. (2016, January 27–30). Deep residual learning for image recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Las Vegas, NV, USA.",
+                "DOI": "10.1109/CVPR.2016.90"
+              },
+              {
+                "key": "ref_33",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Woo, S., Park, J., Lee, J.Y., and Kweon, I.S. (2018, January 8–14). Cbam: Convolutional block attention module. Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany.",
+                "DOI": "10.1007/978-3-030-01234-2_1"
+              },
+              {
+                "key": "ref_34",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Wen, Y., Zhang, K., Li, Z., and Qiao, Y. (2016, January 11–14). A discriminative feature learning approach for deep face recognition. Proceedings of the European Conference on Computer Vision (ECCV), Amsterdam, The Netherlands.",
+                "DOI": "10.1007/978-3-319-46478-7_31"
+              },
+              {
+                "key": "ref_35",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Emery, A.E., Muntoni, F., and Quinlivan, R. (2015). Duchenne Muscular Dystrophy, Oxford Monographs on Medical Genetics.",
+                "DOI": "10.1093/med/9780199681488.001.0001"
+              },
+              {
+                "key": "ref_36",
+                "doi-asserted-by": "crossref",
+                "first-page": "325",
+                "DOI": "10.1109/TAFFC.2017.2731763",
+                "article-title": "Automatic analysis of facial actions: A survey",
+                "volume": "10",
+                "author": "Martinez",
+                "year": "2017",
+                "journal-title": "IEEE Trans. Affect. Comput."
+              },
+              {
+                "key": "ref_37",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Barsoum, E., Zhang, C., Ferrer, C.C., and Zhang, Z. (2016, January 12–16). Training deep networks for facial expression recognition with crowd-sourced label distribution. Proceedings of the 18th ACM International Conference on Multimodal Interaction (ICMI), Tokyo, Japan.",
+                "DOI": "10.1145/2993148.2993165"
+              },
+              {
+                "key": "ref_38",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Guo, Y., Zhang, L., Hu, Y., He, X., and Gao, J. (2016, January 27–30). Ms-celeb-1m: A dataset and benchmark for large-scale face recognition. Proceedings of the European Conference on Computer Vision (ECCV), Las Vegas, NV, USA.",
+                "DOI": "10.1007/978-3-319-46487-9_6"
+              },
+              {
+                "key": "ref_39",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zeng, J., Shan, S., and Chen, X. (2018, January 8–14). Facial expression recognition with inconsistently annotated datasets. Proceedings of the European Conference on Computer Vision (ECCV), Munich, Germany.",
+                "DOI": "10.1007/978-3-030-01261-8_14"
+              },
+              {
+                "key": "ref_40",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Wang, K., Peng, X., Yang, J., Lu, S., and Qiao, Y. (2020, January 14–19). Suppressing uncertainties for large-scale facial expression recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Seattle, WA, USA.",
+                "DOI": "10.1109/CVPR42600.2020.00693"
+              },
+              {
+                "key": "ref_41",
+                "doi-asserted-by": "crossref",
+                "unstructured": "She, J., Hu, Y., Shi, H., Wang, J., Shen, Q., and Mei, T. (2021, January 19–25). Dive into ambiguity: Latent distribution mining and pairwise uncertainty estimation for facial expression recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Virtual.",
+                "DOI": "10.1109/CVPR46437.2021.00618"
+              },
+              {
+                "key": "ref_42",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Ma, F., Sun, B., and Li, S. (2021). Facial Expression Recognition with Visual Transformers and Attentional Selective Fusion. IEEE Trans. Affect. Comput., 1–13.",
+                "DOI": "10.1109/TAFFC.2021.3122146"
+              },
+              {
+                "key": "ref_43",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Zeng, D., Lin, Z., Yan, X., Liu, Y., Wang, F., and Tang, B. (2022, January 19–24). Face2Exp: Combating Data Biases for Facial Expression Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA.",
+                "DOI": "10.1109/CVPR52688.2022.01965"
+              },
+              {
+                "key": "ref_44",
+                "doi-asserted-by": "crossref",
+                "first-page": "108737",
+                "DOI": "10.1016/j.patcog.2022.108737",
+                "article-title": "Improving the Facial Expression Recognition and Its Interpretability via Generating Expression Pattern-map",
+                "volume": "129",
+                "author": "Zhang",
+                "year": "2022",
+                "journal-title": "Pattern Recognit."
+              },
+              {
+                "key": "ref_45",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Parkhi, O.M., Vedaldi, A., and Zisserman, A. (2015, January 7–10). Deep face recognition. Proceedings of the British Machine Vision Conference 2015, Swansea, UK.",
+                "DOI": "10.5244/C.29.41"
+              },
+              {
+                "key": "ref_46",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Arnaud, E., Dapogny, A., and Bailly, K. (2022). Thin: Throwable information networks and application for facial expression recognition in the wild. IEEE Trans. Affect. Comput.",
+                "DOI": "10.1109/TAFFC.2022.3144439"
+              },
+              {
+                "key": "ref_47",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Fan, X., Deng, Z., Wang, K., Peng, X., and Qiao, Y. (2020, January 25–28). Learning discriminative representation for facial expression recognition from uncertainties. Proceedings of the IEEE International Conference on Image Processing (ICIP), Virtual.",
+                "DOI": "10.1109/ICIP40778.2020.9190643"
+              },
+              {
+                "key": "ref_48",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Farzaneh, A.H., and Qi, X. (2020, January 13–19). Discriminant distribution-agnostic loss for facial expression recognition in the wild. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), Seattle, WA, USA.",
+                "DOI": "10.1109/CVPRW50498.2020.00211"
+              },
+              {
+                "key": "ref_49",
+                "doi-asserted-by": "crossref",
+                "first-page": "3178",
+                "DOI": "10.1109/TCSVT.2021.3103760",
+                "article-title": "Learning informative and discriminative features for facial expression recognition in the wild",
+                "volume": "32",
+                "author": "Li",
+                "year": "2021",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_50",
+                "doi-asserted-by": "crossref",
+                "first-page": "690",
+                "DOI": "10.1109/TCSVT.2021.3063052",
+                "article-title": "Triplet loss with multistage outlier suppression and class-pair margins for facial expression recognition",
+                "volume": "32",
+                "author": "Xie",
+                "year": "2021",
+                "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+              },
+              {
+                "key": "ref_51",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Hayale, W., Negi, P.S., and Mahoor, M. (2021). Deep Siamese neural networks for facial expression recognition in the wild. IEEE Trans. Affect. Comput.",
+                "DOI": "10.1109/TAFFC.2021.3077248"
+              },
+              {
+                "key": "ref_52",
+                "doi-asserted-by": "crossref",
+                "unstructured": "Selvaraju, R.R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., and Batra, D. (2017, January 22–29). Grad-cam: Visual explanations from deep networks via gradient-based localization. Proceedings of the IEEE International Conference on Computer Vision (ICCV), Venice, Italy.",
+                "DOI": "10.1109/ICCV.2017.74"
+              }
+            ],
+            "metadata_verified": true,
+            "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+            "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 14，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.6909090909090909,
+            "feedback": 0
+          },
+          {
+            "identity": "doi:10.1109/access.2026.3698126",
+            "title": "Photovoltaic Scenario Generation via Multimodal Fusion and Local Window Attention",
+            "authors": [
+              "Zhipeng Kang",
+              "Jianbo Shang",
+              "Rui Zhu",
+              "Xiaojing Zhu"
+            ],
+            "year": 2026,
+            "doi": "10.1109/access.2026.3698126",
+            "url": "https://doi.org/10.1109/access.2026.3698126",
+            "pdf_url": null,
+            "source": "crossref",
+            "abstract": "",
+            "license": [
+              "https://creativecommons.org/licenses/by/4.0/legalcode"
+            ],
+            "references": [
+              {
+                "key": "ref1",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2017.2690297"
+              },
+              {
+                "key": "ref2",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2024.123182"
+              },
+              {
+                "key": "ref3",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.jweia.2017.11.023"
+              },
+              {
+                "key": "ref4",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2019.03.112"
+              },
+              {
+                "key": "ref5",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2018.06.095"
+              },
+              {
+                "key": "ref6",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TSTE.2013.2256807"
+              },
+              {
+                "key": "ref7",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2022.3170992"
+              },
+              {
+                "key": "ref8",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2015.10.052"
+              },
+              {
+                "key": "ref9",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2024.122971"
+              },
+              {
+                "key": "ref10",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TSG.2018.2884323"
+              },
+              {
+                "key": "ref11",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2020.114823"
+              },
+              {
+                "key": "ref12",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1002/we.284"
+              },
+              {
+                "key": "ref13",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.3390/en16134905"
+              },
+              {
+                "key": "ref14",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ACCESS.2018.2875936"
+              },
+              {
+                "key": "ref15",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2018.2794541"
+              },
+              {
+                "key": "ref16",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.est.2020.102081"
+              },
+              {
+                "key": "ref17",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.ijepes.2019.105388"
+              },
+              {
+                "key": "ref18",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CISS.2018.8362314"
+              },
+              {
+                "key": "ref19",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.renene.2025.122903"
+              },
+              {
+                "key": "ref20",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.egyai.2025.100540"
+              },
+              {
+                "key": "ref21",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.energy.2026.140314"
+              },
+              {
+                "key": "ref22",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2022.120300"
+              },
+              {
+                "key": "ref23",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TSTE.2023.3258929"
+              },
+              {
+                "key": "ref24",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.energy.2018.11.075"
+              },
+              {
+                "key": "ref25",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TII.2021.3098259"
+              },
+              {
+                "key": "ref26",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2024.122905"
+              },
+              {
+                "key": "ref27",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.renene.2021.12.110"
+              },
+              {
+                "key": "ref28",
+                "first-page": "1",
+                "article-title": "Generative adversarial nets",
+                "volume-title": "Proc. Adv. Neural Inf. Process. Syst.",
+                "volume": "27",
+                "author": "Goodfellow"
+              },
+              {
+                "key": "ref29",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/TPWRS.2023.3277698"
+              },
+              {
+                "key": "ref30",
+                "article-title": "Wasserstein GAN",
+                "author": "Arjovsky",
+                "year": "2017",
+                "journal-title": "arXiv:1701.07875"
+              },
+              {
+                "key": "ref31",
+                "first-page": "5769",
+                "article-title": "Improved training of Wasserstein GANs",
+                "volume-title": "Proc. Adv. Neural Inf. Process. Syst.",
+                "volume": "30",
+                "author": "Gulrajani"
+              },
+              {
+                "key": "ref32",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCV48922.2021.00986"
+              },
+              {
+                "key": "ref33",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.renene.2025.122824"
+              },
+              {
+                "key": "ref34",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.48550/ARXIV.1706.03762"
+              },
+              {
+                "key": "ref35",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.apenergy.2011.11.004"
+              },
+              {
+                "key": "ref36",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.jhydrol.2015.01.024"
+              },
+              {
+                "key": "ref37",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/tip.2003.819861"
+              },
+              {
+                "key": "ref38",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1016/j.eswa.2012.01.039"
+              }
+            ],
+            "metadata_verified": true,
+            "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+            "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 3，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.6833333333333333,
+            "feedback": 0
+          },
+          {
+            "identity": "doi:10.1109/icip61757.2026.11630422",
+            "title": "Window-Based Linear Attention for Unified Local-to-Global Context in Image Super-Resolution",
+            "authors": [
+              "Nai-Jen Hsueh",
+              "Wen-Jiin Tsai"
+            ],
+            "year": 2026,
+            "doi": "10.1109/icip61757.2026.11630422",
+            "url": "https://doi.org/10.1109/icip61757.2026.11630422",
+            "pdf_url": null,
+            "source": "crossref",
+            "abstract": "",
+            "license": [
+              "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+              "https://doi.org/10.15223/policy-029",
+              "https://doi.org/10.15223/policy-037"
+            ],
+            "references": [
+              {
+                "key": "ref1",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCVW54120.2021.00210"
+              },
+              {
+                "key": "ref2",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCV48922.2021.00986"
+              },
+              {
+                "key": "ref3",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPR52729.2023.02142"
+              },
+              {
+                "key": "ref4",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPR52729.2023.01753"
+              },
+              {
+                "key": "ref5",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPRW63382.2024.00629"
+              },
+              {
+                "key": "ref6",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPRW63382.2024.00618"
+              },
+              {
+                "key": "ref7",
+                "article-title": "Transformers are rnns: Fast autoregressive transformers with linear attention",
+                "volume-title": "International Conference on Machine Learning",
+                "author": "Katharopoulos"
+              },
+              {
+                "key": "ref8",
+                "first-page": "3531",
+                "article-title": "Efficient attention: Attention with linear complexities",
+                "volume-title": "Proceedings of the IEEE/CVF winter conference on applications of computer vision",
+                "author": "Shen"
+              },
+              {
+                "key": "ref9",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/ICCV51070.2023.00548"
+              },
+              {
+                "key": "ref10",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1109/CVPR52734.2025.02353"
+              },
+              {
+                "key": "ref11",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.24963/ijcai.2023/121"
+              },
+              {
+                "key": "ref12",
+                "article-title": "Mamba: Linear-time sequence modeling with selective state spaces",
+                "author": "Gu",
+                "year": "2024"
+              },
+              {
+                "key": "ref13",
+                "doi-asserted-by": "crossref",
+                "DOI": "10.1007/978-3-030-01234-2_18",
+                "article-title": "Image super-resolution using very deep residual channel attention networks",
+                "volume-title": "European Conference on Computer Vision",
+                "author": "Zhang"
+              },
+              {
+                "key": "ref14",
+                "first-page": "11057",
+                "article-title": "Second-order attention network for single image super-resolution",
+                "volume-title": "2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                "author": "Dai"
+              },
+              {
+                "key": "ref15",
+                "doi-asserted-by": "crossref",
+                "first-page": "C1",
+                "DOI": "10.1007/978-3-030-58610-2_47",
+                "article-title": "Correction to: Single image super-resolution via a holistic attention network",
+                "volume-title": "Computer Vision – ECCV 2020",
+                "volume": "12357",
+                "author": "Niu",
+                "year": "2020"
+              },
+              {
+                "key": "ref16",
+                "first-page": "12294",
+                "article-title": "Pre-trained image processing transformer",
+                "volume-title": "2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                "author": "Chen"
+              },
+              {
+                "key": "ref17",
+                "article-title": "BasicSR: Open source image and video restoration toolbox",
+                "author": "Wang",
+                "year": "2022"
+              },
+              {
+                "key": "ref18",
+                "doi-asserted-by": "publisher",
+                "DOI": "10.1007/978-3-031-72649-1_13"
+              }
+            ],
+            "metadata_verified": true,
+            "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=local+window+attention+Longformer&rows=30&filter=has-references%3Atrue",
+            "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 3，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+            "recommendation_score": 0.6625,
+            "feedback": 0
+          }
+        ],
+        "errors": [],
+        "cached": true,
+        "searched_at": 1794738596.2942488,
+        "query": "local window attention Longformer",
+        "sources": [
+          "arxiv",
+          "crossref"
+        ],
+        "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+        "new_identities": [],
+        "run_id": "1507d28fe5da46508226b608febf567c"
+      }
+    }
+  ],
+  "disabled_at": 1794738769.3983285,
+  "count_when_disabled": 2
+}

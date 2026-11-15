@@ -12,7 +12,7 @@ export const key=()=>crypto.randomUUID();
 export const date=(value?:number)=>value?new Date(value*1000).toLocaleString('zh-CN',{hour12:false}):'尚未执行';
 export const errorMessage=(error:unknown)=>error instanceof Error?error.message:String(error);
 
-export async function documentBlocks(versionId:string,max=2000){
- const pages=await Promise.all(Array.from({length:Math.ceil(max/500)},(_,i)=>api<import('./types').Block[]>(`/documents/${versionId}/blocks?offset=${i*500}&limit=500`)));
+export async function documentBlocks(versionId:string,max=2000,parseId?:string){
+ const pages=await Promise.all(Array.from({length:Math.ceil(max/500)},(_,i)=>api<import('./types').Block[]>(`/documents/${versionId}/blocks?offset=${i*500}&limit=500${parseId?`&parse_id=${encodeURIComponent(parseId)}`:''}`)));
  return pages.flat();
 }

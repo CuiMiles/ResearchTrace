@@ -1,0 +1,210 @@
+{
+  "engine": "paddleocr",
+  "device": "cpu",
+  "model_requests": 0,
+  "input_file": ".tools/parse-fixtures/scan-bilingual.pdf",
+  "input_sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
+  "version_id": "220e534860384f8ab23ad0962dbce527",
+  "run_id": "61d86d1e0fdd471d8c7c331f90b7294b",
+  "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+  "elapsed_seconds": 8.689606000029016,
+  "run_status": "completed",
+  "error": null,
+  "result": {
+    "version_id": "220e534860384f8ab23ad0962dbce527",
+    "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+    "status": "ready",
+    "parsed_pages": 1,
+    "references": 0,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 0
+  },
+  "status": "PASS",
+  "blocks": [
+    {
+      "id": "ce04ced3c3ac46dc85a2ed2c4218536f:0:0",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.04742857142857143,
+        0.0912,
+        0.48400000000000004,
+        0.136
+      ],
+      "type": "paragraph",
+      "reading_order": 0,
+      "text": "ResearchTrace OCR validation 7189",
+      "source": "paddleocr",
+      "quality": "ocr",
+      "metadata": {
+        "citation_markers": [],
+        "layout": "single_column",
+        "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+        "parser_version": "3.7.0",
+        "models": [
+          "PP-OCRv5_mobile_det",
+          "PP-OCRv5_mobile_rec"
+        ],
+        "device": "cpu"
+      },
+      "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f"
+    },
+    {
+      "id": "ce04ced3c3ac46dc85a2ed2c4218536f:0:1",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.045714285714285714,
+        0.2104,
+        0.4468571428571429,
+        0.2592
+      ],
+      "type": "paragraph",
+      "reading_order": 1,
+      "text": "科研证据链：物理页码与原文坐标。",
+      "source": "paddleocr",
+      "quality": "ocr",
+      "metadata": {
+        "citation_markers": [],
+        "layout": "single_column",
+        "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+        "parser_version": "3.7.0",
+        "models": [
+          "PP-OCRv5_mobile_det",
+          "PP-OCRv5_mobile_rec"
+        ],
+        "device": "cpu"
+      },
+      "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f"
+    },
+    {
+      "id": "ce04ced3c3ac46dc85a2ed2c4218536f:0:2",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.046285714285714284,
+        0.3288,
+        0.5662857142857143,
+        0.38
+      ],
+      "type": "paragraph",
+      "reading_order": 2,
+      "text": "实验记录共有 12、18、24 条，最大值为 24。",
+      "source": "paddleocr",
+      "quality": "ocr",
+      "metadata": {
+        "citation_markers": [],
+        "layout": "single_column",
+        "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+        "parser_version": "3.7.0",
+        "models": [
+          "PP-OCRv5_mobile_det",
+          "PP-OCRv5_mobile_rec"
+        ],
+        "device": "cpu"
+      },
+      "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f"
+    },
+    {
+      "id": "ce04ced3c3ac46dc85a2ed2c4218536f:0:3",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.046857142857142854,
+        0.4504,
+        0.6491428571428571,
+        0.5
+      ],
+      "type": "paragraph",
+      "reading_order": 3,
+      "text": "English text: reliable citations remain immutable.",
+      "source": "paddleocr",
+      "quality": "ocr",
+      "metadata": {
+        "citation_markers": [],
+        "layout": "single_column",
+        "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+        "parser_version": "3.7.0",
+        "models": [
+          "PP-OCRv5_mobile_det",
+          "PP-OCRv5_mobile_rec"
+        ],
+        "device": "cpu"
+      },
+      "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f"
+    },
+    {
+      "id": "ce04ced3c3ac46dc85a2ed2c4218536f:0:4",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.046285714285714284,
+        0.5696,
+        0.3394285714285714,
+        0.6192
+      ],
+      "type": "paragraph",
+      "reading_order": 4,
+      "text": "Table: A 12 | B 18 | C 24",
+      "source": "paddleocr",
+      "quality": "ocr",
+      "metadata": {
+        "citation_markers": [],
+        "layout": "single_column",
+        "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+        "parser_version": "3.7.0",
+        "models": [
+          "PP-OCRv5_mobile_det",
+          "PP-OCRv5_mobile_rec"
+        ],
+        "device": "cpu"
+      },
+      "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f"
+    },
+    {
+      "id": "ce04ced3c3ac46dc85a2ed2c4218536f:0:5",
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "version_id": "220e534860384f8ab23ad0962dbce527",
+      "page_index": 0,
+      "bbox": [
+        0.046857142857142854,
+        0.6896,
+        0.304,
+        0.7408
+      ],
+      "type": "equation",
+      "reading_order": 5,
+      "text": "Equation: E = m c^2",
+      "source": "paddleocr",
+      "quality": "ocr",
+      "metadata": {
+        "citation_markers": [],
+        "layout": "single_column",
+        "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f",
+        "parser_version": "3.7.0",
+        "models": [
+          "PP-OCRv5_mobile_det",
+          "PP-OCRv5_mobile_rec"
+        ],
+        "device": "cpu"
+      },
+      "parse_id": "ce04ced3c3ac46dc85a2ed2c4218536f"
+    }
+  ],
+  "query": "7189",
+  "located_block": "ce04ced3c3ac46dc85a2ed2c4218536f:0:0",
+  "page_index": 0,
+  "bbox": [
+    0.04742857142857143,
+    0.0912,
+    0.48400000000000004,
+    0.136
+  ],
+  "prior_blocks_unchanged": true,
+  "quota_unchanged": true
+}

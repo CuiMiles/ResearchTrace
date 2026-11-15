@@ -13,6 +13,7 @@ def isolated(tmp_path,monkeypatch):
     store.migrate()
     monkeypatch.setenv('HYDROGEN_SMOKE_LIMIT','4')
     monkeypatch.setenv('HYDROGEN_SESSION_LIMIT','2')
+    monkeypatch.setenv('RT_SMOKE_MODE','true')
 
 def test_project_aliases_share_daily_budget():
     now=1780000000
@@ -97,3 +98,84 @@ def test_three_workspaces_get_independent_runs():
     rs=[jobs.queue(w,'qa',{'q':w},'same-idem') for w in ['reviewer1','reviewer2','reviewer3']]
     assert len({r['id'] for r in rs})==3
     assert store.one("SELECT count(*) n FROM runs WHERE status='queued'")['n']==3
+
+def test_two_keys_same_project_are_not_two_quota_groups(monkeypatch):
+    monkeypatch.setenv('GEMINI_API_KEY','unit-key-one')
+    monkeypatch.setenv('GEMINI_API_KEY2','unit-key-two')
+    monkeypatch.setenv('GEMINI_PROJECT_1','p1')
+    monkeypatch.setenv('GEMINI_PROJECT_2','p1')
+    assert len(list(models._choose(models.BATCH)))==1
+    monkeypatch.setenv('GEMINI_PROJECT_2','p2')
+    assert len(list(models._choose(models.BATCH)))==2
+
+@pytest.mark.parametrize('status,category,disabled',[(401,'UNAUTHENTICATED',True),(403,'PERMISSION_DENIED',True),(404,'NOT_FOUND',True),(429,'RESOURCE_EXHAUSTED',False),(500,'INTERNAL',False)])
+def test_http_failures_are_bounded_counted_and_redacted(monkeypatch,status,category,disabled):
+    import httpx
+    monkeypatch.setenv('GEMINI_API_KEY','private-fixture-key')
+    monkeypatch.setenv('GEMINI_PROJECT_1','fixture-project')
+    monkeypatch.delenv('GEMINI_API_KEY2',raising=False)
+    calls=[]
+    def upstream(req):
+        calls.append(req)
+        return httpx.Response(status,json={'error':{'status':category,'message':'sensitive upstream text private-fixture-key'}})
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(upstream)))
+    with pytest.raises(models.ModelError) as caught:
+        models.generate('fixture system','fixture prompt',None,core=False)
+    assert 'private-fixture-key' not in str(caught.value)
+    assert len(calls)==1
+    q=store.one('select * from quota')
+    assert q['status']==('disabled' if disabled else 'failed')
+    assert q['input_tokens']>0
+
+def test_timeout_bad_json_and_truncation_count_without_fake_success(monkeypatch):
+    import httpx
+    monkeypatch.setenv('GEMINI_API_KEY','unit-key')
+    monkeypatch.setenv('GEMINI_PROJECT_1','p')
+    monkeypatch.delenv('GEMINI_API_KEY2',raising=False)
+    def timeout(req):
+        raise httpx.ReadTimeout('fixture timeout')
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(timeout)))
+    with pytest.raises(models.ModelError,match='未知'):
+        models.generate('s','p',None,False)
+    assert store.one('select status from quota')['status']=='unknown'
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(lambda _:httpx.Response(200,text='{bad'))))
+    with pytest.raises(models.ModelError,match='JSON'):
+        models.generate('s','p',None,False)
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(lambda _:httpx.Response(200,json={'candidates':[{'finishReason':'MAX_TOKENS','content':{'parts':[{'text':'partial'}]}}]}))))
+    with pytest.raises(models.ModelError,match='完整'):
+        models.generate('s','p',None,False)
+    assert store.one('select count(*) n from quota')['n']==3
+
+def test_actual_model_version_and_reasoning_usage(monkeypatch):
+    import httpx
+    monkeypatch.setenv('GEMINI_API_KEY','unit-key')
+    monkeypatch.setenv('GEMINI_PROJECT_1','p')
+    monkeypatch.delenv('GEMINI_API_KEY2',raising=False)
+    payload={'modelVersion':'actual-upstream-version','candidates':[{'finishReason':'STOP','content':{'parts':[{'text':'{"ok":true}'}]}}],'usageMetadata':{'promptTokenCount':10,'candidatesTokenCount':3,'thoughtsTokenCount':2,'totalTokenCount':15}}
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(lambda _:httpx.Response(200,json=payload))))
+    result=models.generate('s','p',None,False)
+    assert result['model']=='actual-upstream-version'
+    assert store.one('select output_tokens from quota')['output_tokens']==5
+
+def test_free_tier_exhaustion_disables_route(monkeypatch):
+    import httpx
+    monkeypatch.setenv('GEMINI_API_KEY','unit-key')
+    monkeypatch.setenv('GEMINI_PROJECT_1','p')
+    monkeypatch.delenv('GEMINI_API_KEY2',raising=False)
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(lambda _:httpx.Response(400,json={'error':{'status':'BAD_REQUEST','message':'AllocationQuota.FreeTierOnly'}}))))
+    with pytest.raises(models.ModelError):
+        models.generate('s','p',None,False)
+    assert store.one('select status from provider_state')['status']=='disabled'
+    assert list(models._choose(models.BATCH))==[]
+
+def test_bounded_pdf_line_hyphen_repair_preserves_raw_source():
+    raw='It combines a local windowed attention with a task moti- vated global attention.'
+    block={'id':'b','version_id':'v','page_index':3,'bbox':[0,0,1,1],'text':raw}
+    data={'answer':'有证据','claims':[{'text':'局部与全局注意力结合','type':'source_fact','evidence':[{'block_id':'b','quote':'It combines a local windowed attention with a task motivated global attention.'}]}]}
+    result=jobs.validate_answer(data,[block])
+    evidence=result['claims'][0]['evidence'][0]
+    assert evidence['quote']==raw
+    assert evidence['repair']=='pdf_layout_normalization'
+    data['claims'][0]['evidence'][0]['quote']='It combines a completely different mechanism with 999 global attention.'
+    with pytest.raises(ValueError):
+        jobs.validate_answer(data,[block])

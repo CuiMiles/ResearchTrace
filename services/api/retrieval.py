@@ -26,7 +26,7 @@ def index_dense(workspace, version_id, run_id):
     if not version:
         raise ValueError("文档不存在")
     model = os.environ.get("GEMINI_EMBEDDING_MODEL", "gemini-embedding-001")
-    blocks = rows("SELECT b.* FROM blocks b WHERE b.workspace=? AND b.version_id=? AND length(b.text)>10 AND b.type NOT IN ('header','footer') AND NOT EXISTS(SELECT 1 FROM embeddings e WHERE e.block_id=b.id AND e.model=?) ORDER BY b.page_index,b.reading_order", (workspace, version_id, model))
+    blocks = rows("SELECT b.* FROM current_blocks b WHERE b.workspace=? AND b.version_id=? AND length(b.text)>10 AND b.type NOT IN ('header','footer') AND NOT EXISTS(SELECT 1 FROM embeddings e WHERE e.block_id=b.id AND e.model=?) ORDER BY b.page_index,b.reading_order", (workspace, version_id, model))
     completed = 0
     # Bound by the adapter's conservative UTF-8-byte input reservation, not only count.
     batches = []
@@ -71,7 +71,7 @@ def index_dense(workspace, version_id, run_id):
                 if array.ndim != 1 or len(array) < 1 or not np.isfinite(array).all():
                     raise ValueError("invalid embedding vector")
                 conn.execute("INSERT OR REPLACE INTO embeddings VALUES(?,?,?,?,?,?)", (block["id"], workspace, version_id, actual_model, len(array), array.tobytes()))
-            covered = conn.execute("SELECT count(*) FROM pages p WHERE p.version_id=? AND p.status IN ('ready','ocr','ocr_review_required') AND NOT EXISTS(SELECT 1 FROM blocks b WHERE b.version_id=p.version_id AND b.page_index=p.page_index AND length(b.text)>10 AND b.type NOT IN ('header','footer') AND NOT EXISTS(SELECT 1 FROM embeddings e WHERE e.block_id=b.id AND e.model=?))", (version_id, actual_model)).fetchone()[0]
+            covered = conn.execute("SELECT count(*) FROM current_pages p WHERE p.version_id=? AND p.status IN ('ready','ocr','ocr_review_required') AND NOT EXISTS(SELECT 1 FROM current_blocks b WHERE b.version_id=p.version_id AND b.page_index=p.page_index AND length(b.text)>10 AND b.type NOT IN ('header','footer') AND NOT EXISTS(SELECT 1 FROM embeddings e WHERE e.block_id=b.id AND e.model=?))", (version_id, actual_model)).fetchone()[0]
             conn.execute("UPDATE versions SET dense_pages=? WHERE id=?", (covered, version_id))
         completed += len(batch)
         event(run_id, "dense_batch_indexed", {"tool": "embed_document", "model": actual_model, "dimension": response["dimension"], "blocks": completed, "dense_pages": covered, "page_count": version["page_count"]})
@@ -103,11 +103,11 @@ def retrieve(workspace, version_ids, question, limit=16):
     query = " OR ".join('"' + t.replace('"', '""') + '"' + ('*' if re.fullmatch(r"[A-Za-z]{3,}", t) else '') for t in expanded[:40] if len(t) > 1 or t in ("β", "γ", "δ"))
     sparse = []
     if query:
-        sparse = rows(f"SELECT b.*,bm25(block_fts) AS sparse_score FROM block_fts JOIN blocks b ON b.id=block_fts.id JOIN versions v ON v.id=b.version_id WHERE block_fts MATCH ? AND b.workspace=? AND b.version_id IN ({placeholders}) AND v.deleted=0 ORDER BY sparse_score LIMIT ?", (query, workspace, *requested, limit * 3))
+        sparse = rows(f"SELECT b.*,bm25(block_fts) AS sparse_score FROM block_fts JOIN current_blocks b ON b.id=block_fts.id JOIN versions v ON v.id=b.version_id WHERE block_fts MATCH ? AND b.workspace=? AND b.version_id IN ({placeholders}) AND v.deleted=0 ORDER BY sparse_score LIMIT ?", (query, workspace, *requested, limit * 3))
     dense = []
     notice = "当前使用关键词检索；密集索引未配置或未完成"
     model = os.environ.get("GEMINI_EMBEDDING_MODEL", "gemini-embedding-001")
-    dense_rows = rows(f"SELECT e.block_id,e.model,e.dimension,e.vector FROM embeddings e JOIN versions v ON v.id=e.version_id WHERE e.workspace=? AND e.version_id IN ({placeholders}) AND v.deleted=0 AND e.model=?", (workspace, *requested, model))
+    dense_rows = rows(f"SELECT e.block_id,e.model,e.dimension,e.vector FROM embeddings e JOIN current_blocks cb ON cb.id=e.block_id JOIN versions v ON v.id=e.version_id WHERE e.workspace=? AND e.version_id IN ({placeholders}) AND v.deleted=0 AND e.model=?", (workspace, *requested, model))
     if dense_rows and os.environ.get("RT_DISABLE_DENSE", "false").lower() != "true":
         try:
             from .models import embed
@@ -124,7 +124,7 @@ def retrieve(workspace, version_ids, question, limit=16):
                 scored.append((row["block_id"], score))
             scored.sort(key=lambda x: x[1], reverse=True)
             for block_id, score in scored[:limit * 3]:
-                block = one("SELECT * FROM blocks WHERE id=? AND workspace=?", (block_id, workspace))
+                block = one("SELECT * FROM current_blocks WHERE id=? AND workspace=?", (block_id, workspace))
                 if block:
                     dense.append({**block, "dense_score": score})
             notice = "FTS5 与真实 embedding 余弦候选经 RRF 合并；覆盖率见版本详情"
@@ -141,7 +141,7 @@ def retrieve(workspace, version_ids, question, limit=16):
     # Adjacent blocks recover table headers/conditions without changing evidence identities.
     added = set(picked)
     for item in blocks[:max(1, limit // 3)]:
-        neighbors = rows("SELECT * FROM blocks WHERE workspace=? AND version_id=? AND page_index=? AND reading_order BETWEEN ? AND ? AND length(text)>0 ORDER BY reading_order", (workspace, item["version_id"], item["page_index"], item["reading_order"] - 1, item["reading_order"] + 1))
+        neighbors = rows("SELECT * FROM current_blocks WHERE workspace=? AND version_id=? AND page_index=? AND reading_order BETWEEN ? AND ? AND length(text)>0 ORDER BY reading_order", (workspace, item["version_id"], item["page_index"], item["reading_order"] - 1, item["reading_order"] + 1))
         for neighbor in neighbors:
             if neighbor["id"] not in added and len(blocks) < limit + 6:
                 blocks.append({**_decode(neighbor), "neighbor_context": True})

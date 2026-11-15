@@ -1,0 +1,30 @@
+[
+  {
+    "file": ".tools/parse-fixtures/scan-bilingual.pdf",
+    "sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
+    "source": "self-authored bilingual raster fixture",
+    "official_original": false,
+    "derived": true
+  },
+  {
+    "file": ".tools/parse-fixtures/scan-bilingual.png",
+    "sha256": "f2e3d0c161cdcf1845efc2842e424bbd21525c948f4ad05196c0677a903dc498",
+    "source": "self-authored bilingual raster fixture",
+    "official_original": false,
+    "derived": true
+  },
+  {
+    "file": ".tools/parse-fixtures/equation.pdf",
+    "sha256": "29ddc3b35c5826a9f5a535bc10597687ffc938770bf829a25b17bba3dba25d37",
+    "source": "arxiv:1706.03762v7 single-page derivative",
+    "official_original": false,
+    "derived": true
+  },
+  {
+    "file": ".tools/parse-fixtures/table.pdf",
+    "sha256": "08b3688d1b9b15930ab69be77a0b0c997e166a83638576d1fed217d2e06a9475",
+    "source": "arxiv:1706.03762v7 single-page derivative",
+    "official_original": false,
+    "derived": true
+  }
+]

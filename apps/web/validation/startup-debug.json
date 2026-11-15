@@ -1,0 +1,10 @@
+{
+  "errors": [
+    "error: Refused to apply style from 'http://127.0.0.1:18970/assets/index-CEDgy7gu.css' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.",
+    "requestfailed http://127.0.0.1:18970/assets/index-CEDgy7gu.css net::ERR_ABORTED",
+    "error: Failed to load module script: Expected a JavaScript module script but the server responded with a MIME type of \"text/html\". Strict MIME type checking is enforced for module scripts per HTML spec."
+  ],
+  "responses": [],
+  "text": "",
+  "title": "研证 ResearchTrace · 让每个结论回到原文"
+}

@@ -1,0 +1,79 @@
+{
+  "translated": 120,
+  "numeric_review_flags": [
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:0:0",
+      "missing_numeric_tokens": [
+        "1"
+      ],
+      "source_excerpt": "The Era of 1-bit LLMs:",
+      "translation_excerpt": "1比特大语言模型时代："
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:1:1",
+      "missing_numeric_tokens": [
+        "1",
+        "16",
+        "4"
+      ],
+      "source_excerpt": "In recent years, the field of AI has seen a rapid growth in the size and capabilities of Large Langu",
+      "translation_excerpt": "近年来，AI领域见证了大语言模型（LLM）规模和能力的快速增长。这些模型在广泛的自然语言处理任务中表现出卓越的性能，但其不断增加的规模给部署带来了挑战，并由于高能耗引发了对其环境和经济影响的担忧。应对"
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:1:2",
+      "missing_numeric_tokens": [
+        "1.58"
+      ],
+      "source_excerpt": "of an on-chip accelerator (e.g., SRAM) can be expensive during inference. There have been attempts t",
+      "translation_excerpt": "（例如SRAM）的过程在推理过程中可能会产生高昂的代价。曾有尝试通过扩大SRAM来提高吞吐量，但这带来了比DRAM高得多的成本。与全精度模型相比，1比特LLM在容量和带宽方面都具有低得多的内存占用。这"
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:1:5",
+      "missing_numeric_tokens": [
+        "1.58",
+        "8"
+      ],
+      "source_excerpt": "BitNet b1.58 is based on the BitNet architecture, which is a Transformer that replaces nn.Linear wit",
+      "translation_excerpt": "BitNet b1.58基于BitNet架构，后者是一种将nn.Linear替换为BitLinear的Transformer。它是从头开始训练的，具有1.58比特的权重和8比特的激活值。与原始的Bit"
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:2:7",
+      "missing_numeric_tokens": [
+        "100"
+      ],
+      "source_excerpt": "We compared BitNet b1.58 to our reproduced FP16 LLaMA LLM in various sizes. To ensure a fair compari",
+      "translation_excerpt": "我们将 BitNet b1.58 与我们复现的各种大小的 FP16 LLaMA 大语言模型进行了对比。为了确保公平对比，我们在 RedPajama 数据集 [Com23] 上对这些模型进行了 1000"
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:4:17",
+      "missing_numeric_tokens": [
+        "1",
+        "1.58"
+      ],
+      "source_excerpt": "1-bit Mixture-of-Experts (MoE) LLMs Mixture-of-Experts (MoE) have proven to be a cost-effective appr",
+      "translation_excerpt": "1比特专家混合（MoE）大语言模型 专家混合（MoE）已被证明是大语言模型的一种具有成本效益的方法。虽然它显著减少了计算浮点运算次数（FLOPs），但高内存消耗和芯片间通信开销限制了其部署和应用。这些"
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:5:0",
+      "missing_numeric_tokens": [
+        "1",
+        "1.58",
+        "16",
+        "4",
+        "8"
+      ],
+      "source_excerpt": "Native Support of Long Sequence in LLMs In the era of LLMs, the ability to handle long sequence has ",
+      "translation_excerpt": "大语言模型对长序列的原生支持 在大语言模型时代，处理长序列的能力已成为一项关键需求。长序列推理面临的一个主要挑战是KV缓存带来的内存消耗。BitNet b1.58 为原生支持长序列迈出了重要一步，因为"
+    },
+    {
+      "block_id": "dfdbd6cf14a04c769770840a9fcb1c6f:5:1",
+      "missing_numeric_tokens": [
+        "1",
+        "23"
+      ],
+      "source_excerpt": "new hardware and system specifically optimized for 1-bit LLMs, given the new computation paradigm en",
+      "translation_excerpt": "专门针对1比特大语言模型进行优化的新硬件和系统。"
+    }
+  ],
+  "method": "lexical diagnostic, not independent semantic quality evaluation"
+}

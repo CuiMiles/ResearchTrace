@@ -60,3 +60,18 @@ def test_schema_and_idempotency_sse_read_does_not_queue(api):
     assert 'event: done' in stream
     assert store.one("SELECT count(*) n FROM runs WHERE kind='qa'")['n']==1
     assert '/api/v1/documents' in api.get('/openapi.json').json()['paths']
+
+def test_outline_correction_is_scoped_and_preserves_original(api,monkeypatch):
+    from services.api import retrieval
+    monkeypatch.setattr(retrieval,'index_dense',lambda *a:{'status':'UNIT_FIXTURE_NO_MODEL'})
+    api.post('/api/v1/auth/login',json={'code':'fixture-reviewer'})
+    uploaded=api.post('/api/v1/documents',files={'files':('outline.pdf',pdf_bytes())}).json()
+    vid=uploaded['documents'][0]['id'];rid=uploaded['runs'][0]['id']
+    documents.parse_document(store.one('SELECT * FROM runs WHERE id=?',(rid,)))
+    original=store.one('SELECT id,text FROM blocks WHERE version_id=? ORDER BY reading_order',(vid,))
+    out=api.patch('/api/v1/documents/'+vid,json={'outline':[{'title':'人工修正的目录','page_index':0,'block_id':None}]})
+    assert out.status_code==200,out.text
+    assert out.json()['metadata']['outline'][0]['block_id']==original['id']
+    assert store.one('SELECT text FROM blocks WHERE id=?',(original['id'],))['text']==original['text']
+    assert api.patch('/api/v1/documents/'+vid,json={'outline':[{'title':'伪造','page_index':0,'block_id':'other-workspace-block'}]}).status_code==422
+    assert api.get('/api/v1/documents/'+vid+'/search',params={'q':'GPU'}).json()

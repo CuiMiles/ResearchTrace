@@ -16,7 +16,7 @@ fi
 mkdir -p data
 if command -v systemctl >/dev/null && systemctl --user show-environment >/dev/null 2>&1; then
   .venv/bin/python scripts/install_service.py
-  echo 'ResearchTrace: http://127.0.0.1:18970 (port configurable in .env)'
+  .venv/bin/python -c 'import os; from dotenv import load_dotenv; load_dotenv(".env"); print("ResearchTrace: http://127.0.0.1:"+os.getenv("RT_PORT","18970"))'
   exit 0
 fi
 if [[ -f data/api.pid ]] && kill -0 "$(cat data/api.pid)" 2>/dev/null; then
@@ -29,7 +29,7 @@ nohup .venv/bin/python -m services.api.serve >data/api.log 2>&1 </dev/null &
 echo $! >data/api.pid
 for attempt in {1..30}; do
   if .venv/bin/python -c 'import httpx,os; from dotenv import load_dotenv; load_dotenv(".env"); r=httpx.get("http://127.0.0.1:"+os.getenv("RT_PORT","18970")+"/healthz",trust_env=False,timeout=1);r.raise_for_status()' 2>/dev/null; then
-    echo 'ResearchTrace started. Default address: http://127.0.0.1:18970'
+    .venv/bin/python -c 'import os; from dotenv import load_dotenv; load_dotenv(".env"); print("ResearchTrace started: http://127.0.0.1:"+os.getenv("RT_PORT","18970"))'
     echo 'Access codes: .env RT_ACCESS_CODE / RT_ADMIN_CODE (server login only).'
     exit 0
   fi

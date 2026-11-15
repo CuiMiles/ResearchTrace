@@ -64,6 +64,8 @@ def version(vid,w):
     if not v:
         raise HTTPException(404,'文档不存在或无权限；历史证据可能已删除')
     v.pop('path',None);v['metadata']=json.loads(v['metadata'])
+    a=one('SELECT parse_id FROM active_parses WHERE version_id=?',(vid,))
+    v['active_parse_id']=a['parse_id'] if a else vid
     return v
 
 def block_decode(b):
@@ -78,6 +80,16 @@ def run_get(rid,w):
     for k in ('payload','result','checkpoint'):
         r[k]=json.loads(r[k]) if r[k] else None
     r.pop('checkpoint',None)
+    def annotate(value):
+        if isinstance(value,dict):
+            if value.get('block_id') and value.get('version_id'):
+                from .snapshots import block_parse
+                value.setdefault('parse_id',block_parse(value['block_id'],value['version_id']))
+            for child in value.values():
+                annotate(child)
+        elif isinstance(value,list):
+            for child in value: annotate(child)
+    annotate(r['result'])
     r['steps']=rows('SELECT id,event,data,created FROM steps WHERE run_id=? ORDER BY id',(rid,))
     for step in r['steps']:
         step['data']=json.loads(step['data'])
@@ -138,7 +150,7 @@ def ready():
     return {'status':'ok' if one('SELECT 1 n') else 'unavailable'}
 
 @app.post('/api/v1/documents')
-async def upload(files:list[UploadFile]=File(...),s=Depends(session)):
+async def upload(files:list[UploadFile]=File(...),index_dense:bool=True,s=Depends(session)):
     from .documents import upload_document
     if len(files)>10:
         raise HTTPException(413,'单次最多10个文件')
@@ -147,7 +159,7 @@ async def upload(files:list[UploadFile]=File(...),s=Depends(session)):
         content=await f.read(50*1024*1024+1)
         if len(content)>50*1024*1024:
             raise HTTPException(413,'PDF 上限50MB')
-        result=await asyncio.to_thread(upload_document,s['workspace'],f.filename or 'upload.pdf',content)
+        result=await asyncio.to_thread(upload_document,s['workspace'],f.filename or 'upload.pdf',content,index_dense=index_dense)
         v=result.get('document') or result
         if isinstance(v,dict) and v.get('id'):
             v=version(v['id'],s['workspace'])
@@ -173,42 +185,72 @@ def pdf(vid:str,s=Depends(session)):
         raise HTTPException(404,'原文文件已缺失')
     return FileResponse(path,media_type='application/pdf',filename=vid+'.pdf',content_disposition_type='inline')
 
-@app.get('/api/v1/documents/{vid}/pages/{page_index}')
-def page(vid:str,page_index:int,s=Depends(session)):
+class ParseRequest(BaseModel):
+    engine:str=Field(pattern='^(native|paddleocr|mineru)$')
+    device:str=Field(default='cpu',pattern='^(cpu|gpu)$')
+    idempotency_key:str=Field(min_length=1,max_length=200)
+
+@app.get('/api/v1/documents/{vid}/parses')
+def parses(vid:str,s=Depends(session)):
     version(vid,s['workspace'])
-    p=one('SELECT * FROM pages WHERE version_id=? AND page_index=?',(vid,page_index))
+    from .snapshots import list_parses
+    return list_parses(s['workspace'],vid)
+
+@app.post('/api/v1/documents/{vid}/parses')
+def reparse(vid:str,p:ParseRequest,s=Depends(session)):
+    version(vid,s['workspace'])
+    from .snapshots import queue_parse
+    return queue_parse(s['workspace'],vid,p.engine,p.device,p.idempotency_key)
+
+@app.get('/api/v1/documents/{vid}/pages/{page_index}')
+def page(vid:str,page_index:int,parse_id:str|None=None,s=Depends(session)):
+    version(vid,s['workspace'])
+    from .snapshots import selected_parse, snapshot_blocks
+    snap=selected_parse(s['workspace'],vid,parse_id)
+    p=one('SELECT * FROM pages WHERE version_id=? AND page_index=?',(vid,page_index)) if snap['id']==vid else one('SELECT * FROM parse_pages WHERE parse_id=? AND page_index=?',(snap['id'],page_index))
     if not p:
         raise HTTPException(404,'该页尚未解析或不存在')
-    p['blocks']=[block_decode(b) for b in rows('SELECT * FROM blocks WHERE version_id=? AND workspace=? AND page_index=? ORDER BY reading_order',(vid,s['workspace'],page_index))]
+    p['parse_id']=snap['id']
+    p['blocks']=[block_decode(b) for b in snapshot_blocks(s['workspace'],vid,snap['id'],page_index=page_index)]
     return p
 
 @app.get('/api/v1/documents/{vid}/blocks')
-def blocks(vid:str,offset:int=0,limit:int=100,page_index:int|None=None,s=Depends(session)):
+def blocks(vid:str,offset:int=0,limit:int=100,page_index:int|None=None,parse_id:str|None=None,s=Depends(session)):
     version(vid,s['workspace']);limit=max(1,min(limit,500));offset=max(0,offset)
-    sql='SELECT * FROM blocks WHERE workspace=? AND version_id=?';params=[s['workspace'],vid]
-    if page_index is not None:
-        sql+=' AND page_index=?';params+=[page_index]
-    return [block_decode(b) for b in rows(sql+' ORDER BY page_index,reading_order LIMIT ? OFFSET ?',params+[limit,offset])]
+    from .snapshots import snapshot_blocks, selected_parse
+    snap=selected_parse(s['workspace'],vid,parse_id)
+    items=snapshot_blocks(s['workspace'],vid,snap['id'],page_index=page_index,offset=offset,limit=limit)
+    return [block_decode(b) for b in items]
 
 @app.get('/api/v1/documents/{vid}/references')
-def references(vid:str,s=Depends(session)):
+def references(vid:str,parse_id:str|None=None,s=Depends(session)):
     version(vid,s['workspace'])
-    return rows('SELECT * FROM refs WHERE workspace=? AND version_id=?',(s['workspace'],vid))
+    from .snapshots import selected_parse
+    snap=selected_parse(s['workspace'],vid,parse_id)
+    return rows("SELECT * FROM refs WHERE workspace=? AND version_id=? AND COALESCE(json_extract(metadata,'$.parse_id'),version_id)=?",(s['workspace'],vid,snap['id']))
 
 @app.get('/api/v1/documents/{vid}/search')
-def search_document(vid:str,q:str=Query(default='',max_length=500),s=Depends(session)):
+def search_document(vid:str,q:str=Query(default='',max_length=500),parse_id:str|None=None,s=Depends(session)):
     import re
     version(vid,s['workspace'])
+    from .snapshots import selected_parse
+    snap=selected_parse(s['workspace'],vid,parse_id)
     terms=re.findall(r'[\wβγδ]+',q,re.UNICODE)[:30]
     if not terms:
         return []
-    match=' OR '.join('"'+t.replace('"','""')+'"' for t in terms)
-    return [block_decode(b) for b in rows('SELECT b.* FROM block_fts JOIN blocks b ON b.id=block_fts.id WHERE block_fts MATCH ? AND b.workspace=? AND b.version_id=? ORDER BY bm25(block_fts) LIMIT 50',(match,s['workspace'],vid))]
+    match=' OR '.join('"'+t.replace('"','""')+'"'+('*' if t.isascii() and len(t)>1 else '') for t in terms)
+    return [block_decode(b) for b in rows('SELECT b.*,COALESCE(m.parse_id,b.version_id) AS parse_id FROM block_fts JOIN blocks b ON b.id=block_fts.id LEFT JOIN block_parses m ON m.block_id=b.id WHERE block_fts MATCH ? AND b.workspace=? AND b.version_id=? AND COALESCE(m.parse_id,b.version_id)=? ORDER BY bm25(block_fts) LIMIT 50',(match,s['workspace'],vid,snap['id']))]
+
+class OutlineEntry(BaseModel):
+    title:str=Field(min_length=1,max_length=300)
+    page_index:int=Field(ge=0)
+    block_id:str|None=None
 
 class PatchDoc(BaseModel):
     title:str|None=Field(default=None,max_length=500)
     tags:list[str]|None=None
     work_id:str|None=None
+    outline:list[OutlineEntry]|None=Field(default=None,max_length=2000)
 
 @app.patch('/api/v1/documents/{vid}')
 def patch_document(vid:str,p:PatchDoc,s=Depends(session)):
@@ -217,6 +259,18 @@ def patch_document(vid:str,p:PatchDoc,s=Depends(session)):
         execute('UPDATE versions SET title=? WHERE id=?',(p.title,vid))
     if p.tags is not None:
         meta['tags']=p.tags[:30];execute('UPDATE versions SET metadata=? WHERE id=?',(json.dumps(meta,ensure_ascii=False),vid))
+    if p.outline is not None:
+        if v['status'] not in ('ready','partial'):
+            raise HTTPException(409,'请等待当前解析阶段完成后修正目录')
+        for item in p.outline:
+            if item.block_id is None:
+                first=one('SELECT id FROM current_blocks WHERE version_id=? AND workspace=? AND page_index=? ORDER BY reading_order LIMIT 1',(vid,s['workspace'],item.page_index))
+                if first:
+                    item.block_id=first['id']
+            if not one('SELECT id FROM current_blocks WHERE id=? AND version_id=? AND workspace=? AND page_index=?',(item.block_id,vid,s['workspace'],item.page_index)):
+                raise HTTPException(422,'目录项必须指向此版本的真实段落和物理页')
+        meta['outline']=[item.model_dump() for item in p.outline];meta['outline_manual']=True
+        execute('UPDATE versions SET metadata=? WHERE id=?',(json.dumps(meta,ensure_ascii=False),vid))
     if p.work_id:
         if not one('SELECT id FROM works WHERE id=? AND workspace=?',(p.work_id,s['workspace'])):
             raise HTTPException(404,'作品不存在')
@@ -279,7 +333,7 @@ def translations(vid:str,s=Depends(session)):
 @app.get('/api/v1/translations/{vid}/export')
 def translation_export(vid:str,format:str='md',s=Depends(session)):
     v=version(vid,s['workspace'])
-    bs=rows('SELECT b.text source,t.text,t.model,b.page_index FROM blocks b LEFT JOIN translations t ON t.block_id=b.id AND t.workspace=b.workspace WHERE b.version_id=? AND b.workspace=? ORDER BY b.page_index,b.reading_order',(vid,s['workspace']))
+    bs=rows('SELECT b.text source,t.text,t.model,b.page_index FROM current_blocks b LEFT JOIN translations t ON t.block_id=b.id AND t.workspace=b.workspace WHERE b.version_id=? AND b.workspace=? ORDER BY b.page_index,b.reading_order',(vid,s['workspace']))
     text='# '+v['title']+'\n\n'
     for b in bs:
         text+=f"\n原文 p.{b['page_index']+1}\n\n{b['source']}\n\n译文（{b['model'] or '未完成'}）\n\n{b['text'] or '[尚未翻译]'}\n\n"
@@ -325,6 +379,8 @@ def cancel(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
     if r['status'] in ('queued','running','failed','partial'):
         execute("UPDATE runs SET status='cancelled',updated=? WHERE id=?",(time.time(),rid))
+        if r['kind'] in ('parse','parse_document','reparse'):
+            execute("UPDATE parses SET status='cancelled' WHERE id=?",(r['payload'].get('parse_id',r['payload']['version_id']),))
     return run_get(rid,s['workspace'])
 
 @app.post('/api/v1/runs/{rid}/resume')
@@ -332,6 +388,8 @@ def resume(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
     if r['status'] in ('cancelled','failed','partial'):
         execute("UPDATE runs SET status='queued',error=NULL,updated=? WHERE id=?",(time.time(),rid))
+        if r['kind'] in ('parse','parse_document','reparse'):
+            execute("UPDATE parses SET status='queued',error=NULL WHERE id=?",(r['payload'].get('parse_id',r['payload']['version_id']),))
     return run_get(rid,s['workspace'])
 
 class Search(BaseModel):
@@ -463,10 +521,8 @@ def providers(s=Depends(admin)):
     return provider_report()
 
 dist=ROOT/'apps/web/dist'
-if (dist/'assets').is_dir():
-    app.mount('/assets',StaticFiles(directory=dist/'assets'),name='assets')
-if (dist/'vendor').is_dir():
-    app.mount('/vendor',StaticFiles(directory=dist/'vendor'),name='vendor')
+app.mount('/assets',StaticFiles(directory=dist/'assets',check_dir=False),name='assets')
+app.mount('/vendor',StaticFiles(directory=dist/'vendor',check_dir=False),name='vendor')
 
 @app.get('/{path:path}')
 def frontend(path:str):
