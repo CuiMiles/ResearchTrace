@@ -1,0 +1,17 @@
+{
+  "engine": "mineru",
+  "device": "gpu",
+  "model_requests": 0,
+  "input_file": ".tools/parse-fixtures/scan-bilingual.pdf",
+  "input_sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
+  "version_id": "220e534860384f8ab23ad0962dbce527",
+  "run_id": "a069fb6e2515403c94345d9b02835624",
+  "parse_id": "bdf2f3beea864bc7900bb483913f25e3",
+  "elapsed_seconds": 3.3217859609867446,
+  "run_status": "failed",
+  "error": "mineru unavailable; broker HTTP 503: GPU accounting unavailable; stopping this job conservatively (WSL/NVML)",
+  "result": null,
+  "status": "BLOCKED",
+  "prior_blocks_unchanged": true,
+  "quota_unchanged": true
+}

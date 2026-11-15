@@ -6,7 +6,7 @@ This repository is an implementation in active acceptance testing, not a claim o
 
 ## Install and run
 
-Linux/WSL, Python3.12, Node22, CPU only. System dependencies: `tesseract-ocr tesseract-ocr-eng fonts-droid-fallback`. The current Ubuntu18 development host uses a private OCR installation under `.tools/ocr`, never overwrites system libraries. Use Docker on newer Ubuntu for a reproducible runtime.
+Linux/WSL, Python3.12, Node22, CPU only. System dependencies: `tesseract-ocr tesseract-ocr-eng fonts-droid-fallback`. The verified local environment is Ubuntu24.04.5 WSL2 with Python3.12.3. Optional OCR/browser libraries are extracted privately under `.tools`; system libraries are untouched. Docker is not installed on this development machine, so Compose execution remains separately unverified.
 
 ```bash
 python3.12 -m venv .venv
@@ -22,9 +22,9 @@ cd ../..
 ./scripts/dev.sh
 ```
 
-Default local address: http://127.0.0.1:18970. On this host Node is `/home/CuiMinghao/envs/cardweb/bin/node`; use `export PATH=/home/CuiMinghao/envs/cardweb/bin:$PATH`. Python3.12 is `/home/CuiMinghao/.local/bin/python3.12`. Neither path is required on a fresh normal host.
+Current verified local address: **http://127.0.0.1:18980**. The configured port in private `.env` takes precedence over the source default18970. In this checkout use `export PATH="$PWD/.tools/node-v22.16.0-linux-x64/bin:$PATH"`; Python is the normal `python3` (3.12). Large dependency/model downloads are relayed through the original server, then installed offline from `.tools/relay/`, as requested. Do not copy old virtualenv binaries or reset the quota database.
 
-`dev.sh` installs only the application's own user systemd units when user systemd is available. Inspect with `systemctl --user status researchtrace-api researchtrace-worker`; logs with `journalctl --user -u researchtrace-api -u researchtrace-worker -n 60`. Stop with `systemctl --user stop researchtrace-api researchtrace-worker`. Without systemd, run API and worker in separate retained terminals:
+`dev.sh` installs only the application's own user systemd units when user systemd is available. An optional `researchtrace-parser` user unit provides separate fixed-library environments. Inspect with `systemctl --user status researchtrace-api researchtrace-worker researchtrace-parser`; logs with `journalctl --user -u researchtrace-api -u researchtrace-worker -n 60`. Stop owned units/processes with `./scripts/stop.sh`. Without systemd, run API and worker in separate retained terminals:
 
 ```bash
 .venv/bin/python -m services.api.serve
@@ -33,7 +33,7 @@ Default local address: http://127.0.0.1:18970. On this host Node is `/home/CuiMi
 
 Server startup does not require provider credentials. Login uses local server access codes, not API keys. Each browser session creates an isolated workspace; refresh/restart preserves it for7days. Logging out or clearing cookies loses the local session entry point; multiuser identity recovery is a known V1 limit. The optional login workspace field cannot impersonate another workspace.
 
-For another machine, forward the server port with SSH: `ssh -L 18970:127.0.0.1:18970 your-existing-ssh-host`. Then open http://127.0.0.1:18970. A private LAN address is not a verified public HTTPS deployment.
+For another machine, forward the configured server port with SSH, for example `ssh -L 18980:127.0.0.1:18980 your-existing-ssh-host`. Then open http://127.0.0.1:18980. A private LAN address is not a verified public HTTPS deployment.
 
 ## New inputs
 
@@ -56,3 +56,11 @@ Live tests consume real quota. Request counts persist across restarts and retrie
 Docker lite: `docker compose --profile lite up -d --build`. See [deployment notes](docs/DEPLOYMENT.md), including volume ownership, host-specific proxy addresses, firewall and independent public verification. Compose execution is not claimed unless explicitly recorded in the test report.
 
 Backup: stop worker, use SQLite online backup (`sqlite3 researchtrace.sqlite '.backup backup.sqlite'`) and copy the associated data/pdf/chart directories plus server-only `.env` through a private channel. Restore into a new data directory, set `RT_DATA_DIR`, start API+worker, check `/readyz`. Never put `.env` or uploaded private files into Git.
+
+## Parser revisions on Ubuntu 24
+
+The Reader exposes native / PaddleOCR / MinerU reparse choices and a historical snapshot selector. PaddleOCR uses CPU; MinerU offers CPU or guarded GPU. A new parser creates new immutable block identities on the same PDF version; complete results atomically become current. Failed/partial attempts leave the old active snapshot available. Historic citations still open their original text and geometry. New revisions reset dense coverage to zero and do not silently spend embedding quota.
+
+PaddleOCR3.7.0 + PaddlePaddle3.2.2 has passed real bilingual CPU recognition and product/browser source-location checks. Actual MinerU and GPU results are recorded in TEST_REPORT; package installation or a green broker health check alone does not prove them. Runtime details and official version/license sources: [parsing README](services/parsing/README.md).
+
+Hydrogen's four-call smoke budget is exhausted and preserved from the old environment. A new live core answer or quality benchmark is BLOCKED pending a separately explicit budget. Existing saved live answers are history; local import/read/search/CSV/snapshots do not need a new model generation. Never rerun live smoke to try to reset its allowance.

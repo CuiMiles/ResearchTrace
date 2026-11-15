@@ -1,0 +1,12 @@
+{"case": "D02-citation-bibliography-return", "status": "PASS", "error": null}
+{"case": "D03-stored-translation-and-scroll", "status": "PASS", "error": null}
+{"case": "D05-loading", "status": "PASS", "error": null}
+{"case": "D05-partial", "status": "PASS", "error": null}
+{"case": "D05-error", "status": "PASS", "error": null}
+Task was destroyed but it is pending!
+task: <Task pending name='Task-536' coro=<BrowserContext._on_route() running at /home/cui/projects/competition/传智杯2026/.venv/lib/python3.12/site-packages/playwright/_impl/browser_context.py:406> wait_for=<Future pending cb=[shield.<locals>._outer_done_callback() at /usr/lib/python3.12/asyncio/tasks.py:922, Task.task_wakeup()]> cb=[EventEmitter._call_handler.<locals>.on_done() at /home/cui/projects/competition/传智杯2026/.venv/lib/python3.12/site-packages/playwright/_impl/event_emitter.py:100]>
+{"case": "D05-noauth", "status": "PASS", "error": null}
+{"case": "D05-empty", "status": "PASS", "error": null}
+{"case": "D05-429", "status": "PASS", "error": null}
+{"case": "D05-parse-failed", "status": "PASS", "error": null}
+{"status": "PASS", "report": "apps/web/validation/reader-extra-20261115T143101401610Z.json", "blocked_mutations": 0, "browser_errors": 0}

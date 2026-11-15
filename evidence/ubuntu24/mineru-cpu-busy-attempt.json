@@ -1,0 +1,17 @@
+{
+  "engine": "mineru",
+  "device": "cpu",
+  "model_requests": 0,
+  "input_file": ".tools/parse-fixtures/scan-bilingual.pdf",
+  "input_sha256": "0e5b5cb8466c3ec128e49a623d068b481b8005ffd016129d424c10956dd4208b",
+  "version_id": "220e534860384f8ab23ad0962dbce527",
+  "run_id": "f363f06ecca64dff950de9e35fface14",
+  "parse_id": "af77876c69da4ae090f7701f99d5b119",
+  "elapsed_seconds": 0.7709358650026843,
+  "run_status": "failed",
+  "error": "mineru unavailable; broker HTTP 429",
+  "result": null,
+  "status": "FAIL",
+  "prior_blocks_unchanged": true,
+  "quota_unchanged": true
+}

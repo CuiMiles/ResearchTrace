@@ -7,10 +7,11 @@ services:
     env_file: .env
     environment:
       RT_HOST: 0.0.0.0
+      RT_PORT: 18970
       RT_DATA_DIR: /app/data
       GEMINI_PROXY: ${GEMINI_CONTAINER_PROXY:-}
       RT_PUBLIC_PROXY: ${PUBLIC_CONTAINER_PROXY:-}
-    ports: ["127.0.0.1:18970:18970"]
+    ports: ["127.0.0.1:${RT_PORT:-18970}:18970"]
     volumes: ["./data:/app/data"]
     mem_limit: 512m
     cpus: 0.7

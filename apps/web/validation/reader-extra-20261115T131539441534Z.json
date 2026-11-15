@@ -1,0 +1,446 @@
+{
+  "base_url": "http://127.0.0.1:18980",
+  "created_utc": "20261115T131539441534Z",
+  "cases": [
+    {
+      "id": "D02-citation-bibliography-return",
+      "source": "live stored document and reference records; no fixtures",
+      "version_id": "737fd910148445ada3602508c4dc12f0",
+      "document_sha256": "0a9bff1be3575cf9fe26a4a3d3a9175bc791ecec90de8b9deba4cff75d2b9476",
+      "parse_id": "737fd910148445ada3602508c4dc12f0",
+      "source_block_id": "737fd910148445ada3602508c4dc12f0:0:7",
+      "source_page": 1,
+      "source_text_sha256": "e7c7c02882b8c756fb0f832437d8af330007884ee980285ac6cc9db2ded124c4",
+      "marker": "12",
+      "bibliography_block_id": "737fd910148445ada3602508c4dc12f0:9:14",
+      "bibliography_page": 10,
+      "bibliography_text_sha256": "0948af4604f73689ba7cbdc5baaa60efab212cfa3fe0efdb71eacdec437289e5",
+      "bibliography_screenshot": "apps/web/validation/reader-extra-20261115T131539441534Z-d02-bibliography.png",
+      "return_screenshot": "apps/web/validation/reader-extra-20261115T131539441534Z-d02-return.png",
+      "checks": [
+        "real marker clicked",
+        "exact bibliography block/page",
+        "same snapshot retained",
+        "return to exact source block/page/text"
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "D03-stored-translation-and-scroll",
+      "source": "live stored BitNet translations and legacy snapshot; no fixtures",
+      "version_id": "dfdbd6cf14a04c769770840a9fcb1c6f",
+      "document_sha256": "bcd625e89f95c39dc9143af4174978fcf2467eb9659d86f8da448d7d9366c332",
+      "parse_id": "dfdbd6cf14a04c769770840a9fcb1c6f",
+      "snapshot_active": false,
+      "stored_translations": 120,
+      "aligned_translation_count": 120,
+      "source_blocks": 127,
+      "untranslated": [
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:1:11",
+          "type": "footer",
+          "text": "2"
+        },
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:2:10",
+          "type": "footer",
+          "text": "3"
+        },
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:3:22",
+          "type": "footer",
+          "text": "4"
+        },
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:4:18",
+          "type": "footer",
+          "text": "5"
+        },
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:5:12",
+          "type": "footer",
+          "text": "6"
+        },
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:6:15",
+          "type": "footer",
+          "text": "7"
+        },
+        {
+          "id": "dfdbd6cf14a04c769770840a9fcb1c6f:7:5",
+          "type": "footer",
+          "text": "8"
+        }
+      ],
+      "pages": [
+        {
+          "physical_page": 1,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:9",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:10",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:11",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:12",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:13",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:14",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:15",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:16",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:17",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:18",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:19",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:20",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:21",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:22",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:0:23"
+          ]
+        },
+        {
+          "physical_page": 2,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:9",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:1:10"
+          ]
+        },
+        {
+          "physical_page": 3,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:2:9"
+          ]
+        },
+        {
+          "physical_page": 4,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:9",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:10",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:11",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:12",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:13",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:14",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:15",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:16",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:17",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:18",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:19",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:20",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:21",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:3:23"
+          ]
+        },
+        {
+          "physical_page": 5,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:9",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:10",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:11",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:12",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:13",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:14",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:15",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:16",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:17",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:19",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:4:20"
+          ]
+        },
+        {
+          "physical_page": 6,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:9",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:10",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:5:11"
+          ]
+        },
+        {
+          "physical_page": 7,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:4",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:5",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:6",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:7",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:8",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:9",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:10",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:11",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:12",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:13",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:6:14"
+          ]
+        },
+        {
+          "physical_page": 8,
+          "verified_translation_ids": [
+            "dfdbd6cf14a04c769770840a9fcb1c6f:7:0",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:7:1",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:7:2",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:7:3",
+            "dfdbd6cf14a04c769770840a9fcb1c6f:7:4"
+          ]
+        }
+      ],
+      "scroll_checks": [
+        {
+          "direction": "source-down",
+          "before": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:0",
+            "from_scroll": 0,
+            "to_scroll": 0,
+            "from_max": 2961,
+            "to_max": 1868,
+            "source_offset": 10,
+            "target_offset": 10
+          },
+          "after": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:4",
+            "from_scroll": 540,
+            "to_scroll": 433,
+            "from_max": 2961,
+            "to_max": 1868,
+            "source_offset": -81.1875,
+            "target_offset": -80.328125
+          },
+          "offset_error_px": 0.859375
+        },
+        {
+          "direction": "translation-down",
+          "before": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:4",
+            "from_scroll": 433,
+            "to_scroll": 540,
+            "from_max": 1868,
+            "to_max": 2961,
+            "source_offset": -80.328125,
+            "target_offset": -81.1875
+          },
+          "after": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:6",
+            "from_scroll": 693,
+            "to_scroll": 1145,
+            "from_max": 1868,
+            "to_max": 2961,
+            "source_offset": -30.53125,
+            "target_offset": -29.75
+          },
+          "offset_error_px": 0.78125
+        },
+        {
+          "direction": "source-up",
+          "before": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:6",
+            "from_scroll": 1145,
+            "to_scroll": 693,
+            "from_max": 2961,
+            "to_max": 1868,
+            "source_offset": -29.75,
+            "target_offset": -30.53125
+          },
+          "after": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:4",
+            "from_scroll": 935,
+            "to_scroll": 828,
+            "from_max": 2961,
+            "to_max": 1868,
+            "source_offset": -476.1875,
+            "target_offset": -475.328125
+          },
+          "offset_error_px": 0.859375
+        },
+        {
+          "direction": "translation-up",
+          "before": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:8",
+            "from_scroll": 828,
+            "to_scroll": 935,
+            "from_max": 1868,
+            "to_max": 2961,
+            "source_offset": -3.75,
+            "target_offset": 392.3125
+          },
+          "after": {
+            "anchor": "dfdbd6cf14a04c769770840a9fcb1c6f:0:5",
+            "from_scroll": 648,
+            "to_scroll": 1039,
+            "from_max": 1868,
+            "to_max": 2961,
+            "source_offset": -67.3125,
+            "target_offset": -66.8125
+          },
+          "offset_error_px": 0.5
+        }
+      ],
+      "screenshot": "apps/web/validation/reader-extra-20261115T131539441534Z-d03-aligned-scroll.png",
+      "verified_dom_translations": 120,
+      "translation_texts_sha256": "bd43b9d45e11930130a276aaceee0ebe22acbd69a829a43679a22935118798d6",
+      "status": "PASS"
+    },
+    {
+      "id": "D05-loading",
+      "source": "isolated browser route fixture delays real PDF GET; no server state changed",
+      "status": "FAIL",
+      "error": "No PDF request held by loading fixture"
+    },
+    {
+      "id": "D05-partial",
+      "source": "isolated browser GET fixtures for progress and an unparsed page; not a live parse",
+      "screenshot": "apps/web/validation/reader-extra-20261115T131539441534Z-d05-partial-fixture.png",
+      "fixture_hits": [
+        {
+          "path": "/api/v1/documents",
+          "status": 200
+        },
+        {
+          "path": "/api/v1/documents/dfdbd6cf14a04c769770840a9fcb1c6f/parses",
+          "status": 200
+        },
+        {
+          "path": "/api/v1/documents/dfdbd6cf14a04c769770840a9fcb1c6f/pages/1",
+          "status": 404
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "D05-error",
+      "source": "isolated browser GET 500/503 fixtures; not actual service failure",
+      "screenshot": "apps/web/validation/reader-extra-20261115T131539441534Z-d05-error-fixture.png",
+      "fixture_hits": [
+        {
+          "path": "/api/v1/documents/dfdbd6cf14a04c769770840a9fcb1c6f/parses",
+          "status": 503
+        },
+        {
+          "path": "/api/v1/documents/dfdbd6cf14a04c769770840a9fcb1c6f/pages/0",
+          "status": 500
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "D05-noauth",
+      "source": "real anonymous browser context, no cookie and no login POST",
+      "session_statuses": [
+        401
+      ],
+      "screenshot": "apps/web/validation/reader-extra-20261115T131539441534Z-d05-noauth-live.png",
+      "status": "PASS"
+    }
+  ],
+  "blocked_mutations": [],
+  "blocked_external_requests": [],
+  "browser_errors": [],
+  "live_reads": [
+    {
+      "path": "/documents",
+      "status": 200
+    },
+    {
+      "path": "/documents/220e534860384f8ab23ad0962dbce527/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/cc590ee5f7ea4ec4ab0c1c2595c5b0f7/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/8c545f6f8c6c4300be0773a6c9b97917/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/dfdbd6cf14a04c769770840a9fcb1c6f/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/2ff38c08ff444fc789230d0fe59c2002/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/737fd910148445ada3602508c4dc12f0/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/251813e62c6a4391824b5f7494cebb5b/parses",
+      "status": 200
+    },
+    {
+      "path": "/documents/737fd910148445ada3602508c4dc12f0/blocks?parse_id=737fd910148445ada3602508c4dc12f0&limit=500",
+      "status": 200
+    },
+    {
+      "path": "/documents/737fd910148445ada3602508c4dc12f0/references?parse_id=737fd910148445ada3602508c4dc12f0",
+      "status": 200
+    },
+    {
+      "path": "/translations/dfdbd6cf14a04c769770840a9fcb1c6f",
+      "status": 200
+    },
+    {
+      "path": "/documents/dfdbd6cf14a04c769770840a9fcb1c6f/blocks?parse_id=a3090586252b4bddbaad4a2b4e105bf0&limit=500",
+      "status": 200
+    },
+    {
+      "path": "/documents/dfdbd6cf14a04c769770840a9fcb1c6f/blocks?parse_id=dfdbd6cf14a04c769770840a9fcb1c6f&limit=500",
+      "status": 200
+    }
+  ],
+  "provider_requests": 0,
+  "parser_submissions": 0,
+  "fixtures_are_live_results": false,
+  "browser_version": "120.0.6099.28",
+  "status": "FAIL"
+}

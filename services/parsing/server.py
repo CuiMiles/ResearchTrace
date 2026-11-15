@@ -89,12 +89,6 @@ def execute(engine, directory, *, input_path=None, device='cpu', cancel_event=No
     reserve, budget, timeout = limits()
     env = runner_env(engine, directory)
     gpu = None
-    if device == 'gpu':
-        gpu = choose_gpu(reserve, budget)  # live selection for every job, never cached
-        # Fail before starting a GPU job when NVML cannot even answer this query.
-        own_gpu_usage(-1, gpu['uuid'])
-        env.update(CUDA_VISIBLE_DEVICES=gpu['uuid'], MINERU_DEVICE_MODE='cuda',
-                   RT_GPU_LIMIT_MIB=str(budget), PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True')
     command = [str(interpreter), str(ROOT / 'services/parsing/runner.py')]
     command += [engine, str(input_path), str(output_path)] if input_path else ['--check', engine]
     samples = []
@@ -104,6 +98,16 @@ def execute(engine, directory, *, input_path=None, device='cpu', cancel_event=No
     # Bounded pipe output goes to private disk; guard also bounds disk growth.
     log_path = directory / 'runner.log'
     try:
+        if device == 'gpu':
+            try:
+                gpu = choose_gpu(reserve, budget)  # live selection for every job, never cached
+                # Fail before starting a GPU job when NVML cannot even answer this query.
+                own_gpu_usage(-1, gpu['uuid'])
+            except (OSError, subprocess.SubprocessError, ValueError) as exc:
+                reason = str(exc)
+                raise ValueError(reason) from None
+            env.update(CUDA_VISIBLE_DEVICES=gpu['uuid'], MINERU_DEVICE_MODE='cuda',
+                       RT_GPU_LIMIT_MIB=str(budget), PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True')
         with log_path.open('wb') as logfile:
             proc = subprocess.Popen(command, env=env, cwd=directory, stdout=logfile,
                                     stderr=logfile, start_new_session=True)

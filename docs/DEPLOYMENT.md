@@ -1,28 +1,29 @@
 # Deployment and recovery
 
-Local operation is independent of existing web services. Default app address is `http://127.0.0.1:18970`; the port and bind address are configured in `.env`. No existing nginx, proxy routing, DNS, ECS service or GPU process is changed by this project. Public HTTPS deployment is **NOT RUN** until an external request and authorized reviewer login are verified.
+Local operation is independent of existing web services. Current verified app address is `http://127.0.0.1:18980` (source default18970); the port and bind address are configured in `.env`. No existing nginx, proxy routing, DNS, ECS service or GPU process is changed by this project. Public HTTPS deployment is **NOT RUN** until an external request and authorized reviewer login are verified.
 
 ## Local launch
 
-Use Linux or WSL with Python 3.12 and Node 22 on PATH. On this inspected host, Python is `/home/CuiMinghao/.local/bin/python3.12` and Node/npm are in `/home/CuiMinghao/envs/cardweb/bin`; the system defaults are older. Do not replace system binaries.
+Use Ubuntu24/Linux/WSL with Python3.12 and Node22. In the migrated checkout, Python3 is3.12.3 and Node22.16.0 lives privately under `.tools`. No old-host absolute paths are required.
 
 ```bash
-export PATH=/home/CuiMinghao/envs/cardweb/bin:$PATH
-export PYTHON_BIN=/home/CuiMinghao/.local/bin/python3.12
+export PATH="$PWD/.tools/node-v22.16.0-linux-x64/bin:$PATH"
 ./scripts/dev.sh
-curl --fail http://127.0.0.1:18970/healthz
+curl --fail http://127.0.0.1:18980/healthz
 ```
+
+The actual current local port is18980, because host-side18970 is occupied. Source defaults remain configurable; `.env` is authoritative. Large wheels, browser archives and models were downloaded on the source server and relayed, then installed into new local environments. With provisioned caches, core offline installation is `.venv/bin/pip install --no-index --find-links .tools/relay/core -r requirements.lock`; optional parsers use their separate pinned lockfiles. Do not copy a virtualenv or an old `.pth` across hosts. Small runtime Debian libraries are extracted privately under `.tools/ocr` / `.tools/browser-libs`, not installed over system libraries.
 
 On first setup, fill server-only `.env` from `.env.example`, mode 600. Set distinct private reviewer/admin codes and provider keys. The UI uses the access code, never the provider key. No-key mode still supports PDF reading, local indexing and CSV plots; model actions must report configuration failure. `HYDROGEN_SMOKE_LIMIT=4` is a persistent development safety cap, not the evaluation allowance for an entire judging period.
 
-When user systemd is available, dev.sh installs only `researchtrace-api.service` and `researchtrace-worker.service`; existing units for another checkout are not overwritten. Inspect with:
+When user systemd is available, dev.sh installs `researchtrace-api.service`, `researchtrace-worker.service`, and, when provisioned, the optional `researchtrace-parser.service`; existing units for another checkout are not overwritten. Inspect with:
 
 ```bash
 systemctl --user status researchtrace-api.service researchtrace-worker.service
 journalctl --user -u researchtrace-api.service -u researchtrace-worker.service -n 80
 ```
 
-The fallback uses background processes and `data/*.pid` / `data/*.log`. `scripts/stop.sh` handles those owned PID files. For systemd services, stop the two named user units explicitly. A user service can depend on a surviving user manager; configure system policy/lingering only with the operator's authorization. No assumption is made that an SSH terminal remains open.
+The fallback uses background processes and `data/*.pid` / `data/*.log`. `scripts/stop.sh` handles those owned PID files. `scripts/stop.sh` also stops systemd units only when their WorkingDirectory matches this checkout. A user service can depend on a surviving user manager; configure system policy/lingering only with the operator's authorization. No assumption is made that an SSH terminal remains open.
 
 ## Lite container target
 
@@ -62,3 +63,11 @@ This command is a deployment example, not an executed connection. Run the tunnel
 Quiesce new submissions and stop the two owned services for the simplest consistent snapshot. Back up the entire private `data/` directory, `.env` separately with mode600, and the exact source/image revision. SQLite includes documents, checkpoints, translations, quota ledger, sessions and artifact records; the same snapshot must include referenced PDFs, embedding BLOBs and chart files. Copying only the main `.sqlite` file during active WAL writes is unsafe; use SQLite's backup API or a stopped-service directory snapshot.
 
 Restore into a fresh private data directory, check ownership, restore `.env`, then start API/worker and verify existing PDFs, historical runs, translation coverage and quota counts. Restart intentionally preserves quota accounting; it is not a quota reset mechanism. Keep sensitive backups out of Git. Production disaster-recovery and public availability tests remain separate acceptance evidence.
+
+## Ubuntu24 measured local constraints
+
+`evidence/ubuntu24/lite-live.json` records three concurrent reviewer uploads on the real API512M and worker896M cgroups, with a541-page self-authored input completing tail-page search and strict workspace file isolation. Sum of their individual observed MemoryPeak values was153112576 bytes (about146MiB) in that run. This is a local constrained-service measurement, not an ECS/Docker result or a maximum for every possible input. The optional heavy parser is in its own5G/2CPU cgroup; it is excluded from the lite budget and cannot be assumed to fit2GiB.
+
+Parser transport is local Unix socket `data/parsing/parser.sock` with mode600 and private job directories. It has fixed library names, bounded single-page inputs, local-only models and no inherited provider keys. GPU tests query current free memory per job, reserve>=2048MiB and monitor only their own process sessions; unaccountable WSL usage stops the job. A loopback health endpoint alone does not establish model readiness or successful inference. See `services/parsing/README.md`.
+
+For SQLite transfer use Python sqlite3.Connection.backup into a project-private snapshot, verify integrity_check, transfer PDFs and that snapshot, and relocate only database paths in the copied environment. A live raw main-db copy can omit valid WAL records. Quota rows and unknown/failed attempts must remain intact. The migration retained Hydrogen4, FlashLite22, embedding56 attempts; current usage is in TEST_REPORT and the local database, not an official vendor balance.

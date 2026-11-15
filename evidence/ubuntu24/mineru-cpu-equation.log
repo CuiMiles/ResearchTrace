@@ -1,0 +1,34 @@
+{
+  "engine": "mineru",
+  "device": "cpu",
+  "model_requests": 0,
+  "input_file": ".tools/parse-fixtures/equation.pdf",
+  "input_sha256": "29ddc3b35c5826a9f5a535bc10597687ffc938770bf829a25b17bba3dba25d37",
+  "version_id": "f001bd221ba44d09a89348c6f6e94ce3",
+  "run_id": "94672e1d6e9f41a8b5a83e47a6228461",
+  "parse_id": "e1a17536cabe46879e8132a3404300e4",
+  "elapsed_seconds": 69.80703355802689,
+  "run_status": "completed",
+  "error": null,
+  "result": {
+    "version_id": "f001bd221ba44d09a89348c6f6e94ce3",
+    "parse_id": "e1a17536cabe46879e8132a3404300e4",
+    "status": "ready",
+    "parsed_pages": 1,
+    "references": 0,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 1
+  },
+  "status": "PASS",
+  "query": "Transformer",
+  "located_block": "e1a17536cabe46879e8132a3404300e4:0:0",
+  "page_index": 0,
+  "bbox": [
+    0.32,
+    0.09,
+    0.673,
+    0.497
+  ],
+  "prior_blocks_unchanged": true,
+  "quota_unchanged": true
+}

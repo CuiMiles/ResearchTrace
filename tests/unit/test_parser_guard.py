@@ -281,3 +281,14 @@ def test_request_cancellation_only_named_job_and_waits_for_release(tmp_path, mon
         assert client.post('/cancel/run_abc-123').status_code == 404
         invalid = client.post('/parse/paddleocr?request_id=bad.id', files={'file': ('page.png', png_bytes())})
         assert invalid.status_code == 422
+
+
+def test_prelaunch_gpu_rejection_writes_monitor_and_propagates_detail(tmp_path, monkeypatch):
+    monkeypatch.setattr(server, 'interpreter_for', lambda engine: Path(sys.executable))
+    monkeypatch.setattr(server, 'choose_gpu', lambda *a: (_ for _ in ()).throw(ValueError('GPU free memory insufficient')))
+    with pytest.raises(ValueError, match='insufficient'):
+        server.execute('mineru', tmp_path, input_path=tmp_path / 'page.pdf', device='gpu')
+    monitor = json.loads((tmp_path / 'result.monitor.json').read_text())
+    assert monitor['terminated_reason'] == 'GPU free memory insufficient'
+    assert monitor['returncode'] is None
+

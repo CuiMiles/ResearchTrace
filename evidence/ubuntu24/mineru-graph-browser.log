@@ -1,0 +1,36 @@
+{
+  "base_url": "http://127.0.0.1:18980",
+  "provider_requests": 0,
+  "cases": [
+    {
+      "id": "B02-mineru-formula",
+      "version_id": "1440252dd5d249c198d6335143d9e2b6",
+      "parse_id": "2b0232877a244809af1ca61e7320b37d",
+      "status": "PASS"
+    },
+    {
+      "id": "B02-mineru-table",
+      "version_id": "961a28b4f92d4c439acf9d66ffb88f1e",
+      "parse_id": "bda7b6f27b274b3eb9edd2b65d111a4e",
+      "status": "PASS"
+    },
+    {
+      "id": "E06-graph-20-nodes",
+      "nodes": 29,
+      "edges": 72,
+      "recomputed_nodes": 29,
+      "status": "PASS"
+    },
+    {
+      "id": "E08-stored-note-export",
+      "exports": {
+        "md": 1624,
+        "html": 1848,
+        "bib": 180
+      },
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

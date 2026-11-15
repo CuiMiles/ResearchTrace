@@ -1,0 +1,1 @@
+{"engine": "mineru", "version_id": "220e534860384f8ab23ad0962dbce527", "parse_id": "fca78cbb9ec84898b7dccc3c823d6e15", "mutations": [], "errors": [], "status": "PASS", "checks": ["real active parser text", "CJK text for Paddle", "search to exact source page", "normalized bbox highlight", "one lazily rendered canvas", "no browser exceptions", "no mutating requests"]}

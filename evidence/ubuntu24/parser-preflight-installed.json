@@ -1,0 +1,47 @@
+{
+  "ready": true,
+  "readiness_level": "offline_preflight",
+  "inference_verified": false,
+  "libraries": {
+    "paddleocr": {
+      "version": "3.7.0",
+      "models": [
+        "PP-OCRv5_mobile_det",
+        "PP-OCRv5_mobile_rec"
+      ],
+      "runtime_version": "3.2.2",
+      "preflight_ok": true,
+      "inference_verified": false,
+      "detail": "Imports and local files checked; inference has not run in this process"
+    },
+    "mineru": {
+      "version": "2.7.6",
+      "models": [
+        "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
+        "models/MFD/YOLO/yolo_v8_ft.pt",
+        "models/TabRec/SlanetPlus/slanet-plus.onnx",
+        "models/TabRec/UnetStructure/unet.onnx",
+        "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
+        "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
+        "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
+        "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
+        "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
+        "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
+        "models/MFR/unimernet_hf_small_2503"
+      ],
+      "runtime_version": "2.10.0+cu128",
+      "preflight_ok": true,
+      "inference_verified": false,
+      "detail": "Imports and local files checked; inference has not run in this process"
+    }
+  },
+  "last_runs": {
+    "paddleocr": {
+      "status": "PASS",
+      "version": "3.7.0",
+      "device": "cpu",
+      "inference_verified": true,
+      "time": 1794747587.581809
+    }
+  }
+}

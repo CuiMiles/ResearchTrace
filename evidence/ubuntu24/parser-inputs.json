@@ -26,5 +26,12 @@
     "source": "arxiv:1706.03762v7 single-page derivative",
     "official_original": false,
     "derived": true
+  },
+  {
+    "file": ".tools/parse-fixtures/formula-page4.pdf",
+    "sha256": "4335a42c91ca37f64dabaffff7d936e5f5081ac7dff458a845cd14da6970dd78",
+    "source": "arxiv:1706.03762v7 page 4 single-page derivative",
+    "official_original": false,
+    "derived": true
   }
 ]

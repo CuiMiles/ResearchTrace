@@ -1,0 +1,1271 @@
+[
+  {
+    "case_id": "A01",
+    "title": "全新目录安装",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md A01",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "README.md",
+      "evidence/ubuntu24/migration.json",
+      "evidence/ubuntu24/frontend-build.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "A02",
+    "title": "无密钥启动",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md A02",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/no-key-live.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "A03",
+    "title": "有密钥真实请求",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md A03",
+    "observed": "Hydrogen four-call smoke budget is exhausted; no new provider generation authorized for this migration acceptance. Historical real calls remain in evidence/.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "A04",
+    "title": "重启恢复",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md A04",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/migration.json",
+      "evidence/ubuntu24/live-native-snapshots.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "A05",
+    "title": "清洁构建",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md A05",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log",
+      "evidence/ubuntu24/backend-check.log",
+      "evidence/ubuntu24/frontend-build.log",
+      "packages/contracts/openapi.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "A06",
+    "title": "本地与公网分开",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md A06",
+    "observed": "Local18980 is verified; public HTTPS and reviewer login from outside are not provisioned or tested.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B01",
+    "title": "双栏阅读顺序",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B01",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/document-acceptance.json",
+      "tests/unit/test_documents.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B02",
+    "title": "公式与表格",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local MinerU 2.7.6 CPU parser validated via Unix socket broker (GPU accounting fail-closed BLOCKED on WSL2 NVML [N/A])",
+    "command_or_browser_steps": "scripts/validate_parser_live.py --engine mineru --device cpu (--file equation.pdf / table.pdf / formula-page4.pdf); tests/e2e/mineru_and_graph_browser.py; scripts/validate_parser_live.py --engine mineru --device gpu",
+    "expected": "ACCEPTANCE.md B02",
+    "observed": "MinerU 2.7.6 CPU layout/formula/table/figure extraction PASS (equation.pdf 8 blocks in 69.81s; table.pdf 13 blocks with HTML BLEU Table 2 in 94.89s; formula-page4.pdf 12 blocks with LaTeX Attention formula in 103.38s; prior snapshots and quota unchanged; browser yellow PDF bbox highlight verified). MinerU GPU explicitly BLOCKED by fail-closed WSL2 NVML [N/A] per-process VRAM guard (mineru-gpu-monitor.json).",
+    "evidence_paths": [
+      "evidence/ubuntu24/mineru-cpu-equation.json",
+      "evidence/ubuntu24/mineru-cpu-table.json",
+      "evidence/ubuntu24/mineru-cpu-formula.json",
+      "evidence/ubuntu24/mineru-gpu-product.json",
+      "evidence/ubuntu24/mineru-gpu-monitor.json",
+      "evidence/ubuntu24/mineru-graph-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "MinerU GPU mode remains BLOCKED on WSL2 due to NVML per-process memory reporting [N/A]; CPU mode verified end-to-end."
+  },
+  {
+    "case_id": "B03",
+    "title": "扫描件新输入",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B03",
+    "observed": "Derived bilingual scan passed PaddleOCR product/browser tests; official scan original is unavailable, so the complete official-input case remains blocked.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B04",
+    "title": "同一文件重复上传",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B04",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log",
+      "tests/unit/test_documents.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B05",
+    "title": "改名后的版本识别",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B05",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/document-acceptance.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B06",
+    "title": "相似但不同论文",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B06",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_documents.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B07",
+    "title": "版本差异可追溯",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B07",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/document-acceptance.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B08",
+    "title": "旧引用不漂移",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B08",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/live-native-snapshots.json",
+      "evidence/ubuntu24/paddleocr-cpu-product.json",
+      "evidence/ubuntu24/reader-snapshots-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B09",
+    "title": "长文完整处理",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B09",
+    "observed": "541-page engineering fixture completed, but the official specified textbook is unavailable. Dense coverage is explicitly separate.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B10",
+    "title": "后半部随机查询",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B10",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/document-acceptance.json",
+      "evidence/ubuntu24/lite-live.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B11",
+    "title": "中断与恢复",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B11",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/document-acceptance.json",
+      "tests/unit/test_parse_snapshots.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B12",
+    "title": "内存与页面懒加载",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B12",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/lite-live.json",
+      "evidence/ubuntu24/browser/acceptance.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "B13",
+    "title": "文件删除与权限",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md B13",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/integration/test_api_security.py",
+      "tests/unit/test_documents.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C01",
+    "title": "精确细节问答",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C01",
+    "observed": "Historical source fact answers exist; new live core facts require a separate generation budget.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C02",
+    "title": "混合检索真实存在",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C02",
+    "observed": "Real migrated dense vectors and RRF code exist; provider-query ablation in this environment is blocked by the no-new-model acceptance scope.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C03",
+    "title": "点击定位",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C03",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/browser/acceptance.json",
+      "evidence/ubuntu24/browser/paddleocr-reader.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C04",
+    "title": "引用与主张匹配",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C04",
+    "observed": "Location/quote membership verified; independent substantive support quality review is not complete.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C05",
+    "title": "无依据问题",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C05",
+    "observed": "Historical missing-evidence result retained, but no new Ubuntu24 model response may be claimed.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C06",
+    "title": "跨文事实表",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C06",
+    "observed": "Historical comparison source bounds retained; new cross-document model run blocked by budget.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C07",
+    "title": "版本隔离",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C07",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_documents.py",
+      "tests/unit/test_parse_snapshots.py",
+      "evidence/ubuntu24/reader-snapshots-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C08",
+    "title": "新 PDF 和新问题",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C08",
+    "observed": "New PDF import/index/source-location passed; a new live core answer remains blocked by exhausted Hydrogen budget.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C09",
+    "title": "恶意文档指令",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C09",
+    "observed": "No shell/download permission escalation exists and local malicious-input tests pass; a new model-level injection run remains blocked.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "C10",
+    "title": "引用修复有界",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md C10",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "D01",
+    "title": "目录定位",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md D01",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/integration/test_api_security.py",
+      "evidence/ubuntu24/reader-snapshots-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "D02",
+    "title": "正文与文献往返",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local Chromium check against http://127.0.0.1:18980",
+    "command_or_browser_steps": "apps/web/scripts/extended-reader-check.py against http://127.0.0.1:18980",
+    "expected": "ACCEPTANCE.md D02",
+    "observed": "Browser verification PASS for source-marker jump to bibliography reference and return scroll restoration (reader-extra-20261115T143101401610Z.json).",
+    "evidence_paths": [
+      "apps/web/validation/reader-extra-20261115T143101401610Z.json",
+      "apps/web/scripts/extended-reader-check.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "D03",
+    "title": "双向段落同步",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local Chromium check against http://127.0.0.1:18980",
+    "command_or_browser_steps": "apps/web/scripts/extended-reader-check.py against http://127.0.0.1:18980",
+    "expected": "ACCEPTANCE.md D03",
+    "observed": "Browser verification PASS for bidirectional paragraph scroll synchronization between source and bilingual blocks without jitter (reader-extra-20261115T143101401610Z.json).",
+    "evidence_paths": [
+      "apps/web/validation/reader-extra-20261115T143101401610Z.json",
+      "apps/web/scripts/extended-reader-check.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "D04",
+    "title": "全文翻译",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md D04",
+    "observed": "Full120-block historical BitNet translation remains stored; independent translation quality review/new Ubuntu24 generation not complete.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "D05",
+    "title": "可见 UI 状态",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; Chromium browser matrix with controlled route interception for 401/429/500/parse-failed",
+    "command_or_browser_steps": "apps/web/scripts/extended-reader-check.py against http://127.0.0.1:18980",
+    "expected": "ACCEPTANCE.md D05",
+    "observed": "All 9 browser state checks PASS: loading, partial, error (500/503), noauth (401), empty, 429 rate-limit, and parse-failed banners/empty states (blocked_mutations=0, browser_errors=0).",
+    "evidence_paths": [
+      "apps/web/validation/reader-extra-20261115T143101401610Z.json",
+      "apps/web/scripts/extended-reader-check.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; HTTP 401/429/500 error-state tests used controlled route interception on localhost."
+  },
+  {
+    "case_id": "D06",
+    "title": "浏览器视觉检查",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md D06",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/browser/acceptance.json",
+      "evidence/ubuntu24/reader-snapshots-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "D07",
+    "title": "真实 streaming",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md D07",
+    "observed": "Actual persistent SSE tool events/reconnect are implemented and tested; new live provider streaming not executed.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E01",
+    "title": "标题/ID 检索入库",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E01",
+    "observed": "Historical arXiv/Crossref requests preserved. Fresh uncached dual-source online import has not been revalidated on Ubuntu24.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E02",
+    "title": "限流与网络失败",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E02",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E03",
+    "title": "追踪查询",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E03",
+    "observed": "Controlled fixture watch/dedup tests passed and old live logs retained; a new scheduled online check has not been performed.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E04",
+    "title": "推荐反馈",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E04",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E05",
+    "title": "真实引用边",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E05",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "docs/evidence/graph_20_metadata.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E06",
+    "title": "20 篇级图谱",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; docs/evidence/graph_20_metadata.json",
+    "model_id_and_provider": "No new provider requests; real migrated 29-node / 72-edge graph rendered in Chromium on http://127.0.0.1:18980",
+    "command_or_browser_steps": "tests/e2e/mineru_and_graph_browser.py against http://127.0.0.1:18980",
+    "expected": "ACCEPTANCE.md E06",
+    "observed": "20+ paper citation graph (29 nodes, 72 edges, recomputed_nodes: 29) rendered cleanly with interactive inspector, node detail selection, scope controls, and zero overflow at 1440px and 1280px.",
+    "evidence_paths": [
+      "docs/evidence/graph_20_metadata.json",
+      "evidence/ubuntu24/live-graph.json",
+      "evidence/ubuntu24/mineru-graph-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E07",
+    "title": "旧 idea 后续核查",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E07",
+    "observed": "Historical real Transformer/Longformer audit retained; new live Future Work synthesis is blocked by Hydrogen budget.",
+    "evidence_paths": [
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E08",
+    "title": "源约束写作",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; deterministic stored-note md/html/bib exports verified in browser",
+    "command_or_browser_steps": "tests/e2e/mineru_and_graph_browser.py against http://127.0.0.1:18980",
+    "expected": "ACCEPTANCE.md E08",
+    "observed": "Deterministic stored-note exports PASS in browser (md: 1624 B, html: 1848 B, bib: 180 B); fresh source-constrained writing generation remains BLOCKED by exhausted Hydrogen four-call smoke budget.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/mineru-graph-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Fresh model-backed writing generation requires separate review quota."
+  },
+  {
+    "case_id": "E09",
+    "title": "可编辑结构图",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E09",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/browser/acceptance.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E10",
+    "title": "新 CSV 绘图",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E10",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "evidence/ubuntu24/browser/acceptance.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E11",
+    "title": "数值与坐标",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E11",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E12",
+    "title": "图和脚本可复现",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md E12",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "E13",
+    "title": "不夸大研究结论",
+    "status": "BLOCKED",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; prompt/caption policy unit tests pass",
+    "command_or_browser_steps": "pytest tests/unit/test_models_jobs.py",
+    "expected": "ACCEPTANCE.md E13",
+    "observed": "Deterministic chart caption and prompt guardrails pass unit tests; fresh broad live scientific-claim quality audit remains BLOCKED by exhausted model budget.",
+    "evidence_paths": [
+      "services/api/jobs.py",
+      "services/api/charts.py",
+      "tests/unit/test_models_jobs.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Live over-claiming audit requires separate model evaluation budget."
+  },
+  {
+    "case_id": "F01",
+    "title": "项目级额度",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F01",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F02",
+    "title": "TPM 预留",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F02",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/regression.log"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F03",
+    "title": "RPD 复位",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F03",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/migration.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F04",
+    "title": "日额度耗尽",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F04",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/migration.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F05",
+    "title": "百炼免费用尽",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F05",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F06",
+    "title": "费用保护",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F06",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py",
+      "evidence/ubuntu24/no-key-live.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F07",
+    "title": "幂等与 SSE 重连",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F07",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/integration/test_api_security.py",
+      "tests/integration/test_parse_snapshot_api.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F08",
+    "title": "上游响应异常",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F08",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_models_jobs.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F09",
+    "title": "取消和恢复",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F09",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_parser_guard.py",
+      "tests/unit/test_parse_snapshots.py",
+      "evidence/ubuntu24/document-acceptance.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F10",
+    "title": "队列与并发",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F10",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/lite-live.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F11",
+    "title": "凭据隔离",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F11",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/secret-scan.json",
+      "tests/integration/test_api_security.py",
+      "tests/unit/test_parser_guard.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F12",
+    "title": "SSRF/路径穿越",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F12",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py",
+      "tests/integration/test_api_security.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F13",
+    "title": "绘图执行隔离",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F13",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "tests/unit/test_research_charts.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F14",
+    "title": "工作区隔离",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F14",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/lite-live.json",
+      "tests/integration/test_parse_snapshot_api.py"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  },
+  {
+    "case_id": "F15",
+    "title": "降级诚实",
+    "status": "PASS",
+    "commit": "a6c8420 plus current integration changes",
+    "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
+    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
+    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "expected": "ACCEPTANCE.md F15",
+    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "evidence_paths": [
+      "evidence/ubuntu24/no-key-live.json",
+      "evidence/ubuntu24/reader-snapshots-browser.json"
+    ],
+    "api_calls_and_usage": {
+      "new_provider_calls": 0
+    },
+    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+  }
+]

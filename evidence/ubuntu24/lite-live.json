@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "model_requests": 0,
+  "sessions": [
+    {
+      "workspace": "ab756e9ea2fa42a3ab0dae4603d12fc1",
+      "version_id": "47e9d825ed3c4bca952199efeb4611b0",
+      "run_id": "ffe49cc5c18e4b0da57ba237334be67e",
+      "input_sha256": "ab425003e46fa39b418e5efaf76c95b29d07c32cd5f900204e07fb60bcebcfa7",
+      "derived": true,
+      "official_original": false
+    },
+    {
+      "workspace": "c26327bdc84540f996ecd51cf64d96f0",
+      "version_id": "e1456b68a6764e0993aaaf96f49387a2",
+      "run_id": "752c5209a3ab442ca745b5aadefbd9ff",
+      "input_sha256": "e3bca036356dc787075b8fd54b2c355e227dabea726da9eee7a682f5670f9ae7",
+      "derived": true,
+      "official_original": false
+    },
+    {
+      "workspace": "9da627cf5cc14cbc9e2faa5284e939a3",
+      "version_id": "d252d821e3b6427fa185f63fc0dd28f5",
+      "run_id": "f49d6e35935248cbbf98ab4a58f0271c",
+      "input_sha256": "e3bca036356dc787075b8fd54b2c355e227dabea726da9eee7a682f5670f9ae7",
+      "derived": true,
+      "official_original": false
+    }
+  ],
+  "target": "Local API512M and worker896M cgroups; not a provisioned ECS instance",
+  "elapsed_seconds": 25.67924004001543,
+  "queue_samples": [
+    [
+      "queued",
+      "queued",
+      "queued"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ],
+    [
+      "running",
+      "completed",
+      "completed"
+    ]
+  ],
+  "last_page": 540,
+  "resource_usage": {
+    "researchtrace-api": {
+      "MemoryCurrent": "65527808",
+      "MemoryPeak": "65773568",
+      "CPUQuotaPerSecUSec": "700ms",
+      "MemoryMax": "536870912"
+    },
+    "researchtrace-worker": {
+      "MemoryCurrent": "73220096",
+      "MemoryPeak": "87339008",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryMax": "939524096"
+    },
+    "researchtrace-parser": {
+      "MemoryCurrent": "218144768",
+      "MemoryPeak": "1188712448",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryMax": "5368709120"
+    }
+  },
+  "checks": [
+    "3 concurrent authenticated reviewer uploads",
+    "bounded persistent single worker queue",
+    "all inputs fully parsed",
+    "541-page tail search",
+    "cross-workspace PDF reads denied",
+    "API+worker sum of independently measured peaks below1.4GiB"
+  ],
+  "quota_unchanged": true
+}

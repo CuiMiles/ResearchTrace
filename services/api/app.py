@@ -311,6 +311,11 @@ def ask(p,s,kind):
 def qa(p:Question,s=Depends(session)):
     return ask(p,s,'qa')
 
+@app.get('/api/v1/agent/tools')
+def agent_tools(s=Depends(session)):
+    from .tool_registry import tool_schemas
+    return {'tools':tool_schemas(),'max_steps':10,'provider_budget':0,'notice':'Registered tools have JSON schemas and workspace checks. New core synthesis remains subject to the persistent model quota.'}
+
 @app.post('/api/v1/agent/runs')
 def agent(p:Question,s=Depends(session)):
     return ask(p,s,'agent')
@@ -381,6 +386,9 @@ def cancel(rid:str,s=Depends(session)):
         execute("UPDATE runs SET status='cancelled',updated=? WHERE id=?",(time.time(),rid))
         if r['kind'] in ('parse','parse_document','reparse'):
             execute("UPDATE parses SET status='cancelled' WHERE id=?",(r['payload'].get('parse_id',r['payload']['version_id']),))
+    if r['kind']=='agent':
+        from .tool_registry import ToolContext,cancel_tool_children
+        cancel_tool_children(ToolContext(workspace=s['workspace'],run_id=rid))
     return run_get(rid,s['workspace'])
 
 @app.post('/api/v1/runs/{rid}/resume')

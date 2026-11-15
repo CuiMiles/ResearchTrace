@@ -1,0 +1,120 @@
+{
+  "engine": "mineru",
+  "version": "2.7.6",
+  "models": [
+    "models/Layout/YOLO/doclayout_yolo_docstructbench_imgsz1280_2501.pt",
+    "models/MFD/YOLO/yolo_v8_ft.pt",
+    "models/TabRec/SlanetPlus/slanet-plus.onnx",
+    "models/TabRec/UnetStructure/unet.onnx",
+    "models/TabCls/paddle_table_cls/PP-LCNet_x1_0_table_cls.onnx",
+    "models/OriCls/paddle_orientation_classification/PP-LCNet_x1_0_doc_ori.onnx",
+    "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
+    "models/OCR/paddleocr_torch/ch_PP-OCRv4_rec_server_doc_infer.pth",
+    "models/OCR/paddleocr_torch/ch_PP-OCRv5_det_infer.pth",
+    "models/OCR/paddleocr_torch/ch_PP-OCRv5_rec_infer.pth",
+    "models/MFR/unimernet_hf_small_2503"
+  ],
+  "device": "cpu",
+  "backend": "pipeline",
+  "blocks": [
+    {
+      "bbox": [
+        0.048,
+        0.092,
+        0.484,
+        0.136
+      ],
+      "type": "paragraph",
+      "text": "ResearchTrace OCR validation 7189 ",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": 1,
+        "reconstruction": "MinerU structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.047,
+        0.21,
+        0.447,
+        0.258
+      ],
+      "type": "paragraph",
+      "text": "科研证据链：物理页码与原文坐标。",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.045,
+        0.33,
+        0.565,
+        0.378
+      ],
+      "type": "paragraph",
+      "text": "实验记录共有 12、18、24 条，最大值为 24。",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.05,
+        0.452,
+        0.647,
+        0.498
+      ],
+      "type": "paragraph",
+      "text": "English text: reliable citations remain immutable. ",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.047,
+        0.57,
+        0.34,
+        0.618
+      ],
+      "type": "paragraph",
+      "text": "Table: A 12 |B 18 |C 24 ",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region"
+      }
+    },
+    {
+      "bbox": [
+        0.047,
+        0.694,
+        0.302,
+        0.738
+      ],
+      "type": "paragraph",
+      "text": "Equation: E = m c^2 ",
+      "metadata": {
+        "mineru_type": "text",
+        "text_level": null,
+        "reconstruction": "MinerU structured output; verify against original region"
+      }
+    }
+  ],
+  "page_info": [
+    700,
+    500
+  ],
+  "elapsed_seconds": 40.718055862991605,
+  "cuda_peak_allocated_mib": 0,
+  "cuda_peak_reserved_mib": 0,
+  "total_seconds": 43.649400761991274,
+  "peak_rss_kib": 3581712
+}

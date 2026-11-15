@@ -1,0 +1,42 @@
+{
+  "engine": "mineru",
+  "device": "gpu",
+  "gpu": {
+    "index": "0",
+    "uuid": "GPU-29091215-1e1a-de71-8769-739c1d0964c3",
+    "free": 5921,
+    "total": 8188
+  },
+  "reserve_mib": 2048,
+  "budget_mib": 2048,
+  "samples": [
+    {
+      "elapsed": 0.284,
+      "free_mib": 5921,
+      "own_used_mib": 0
+    },
+    {
+      "elapsed": 0.693,
+      "free_mib": 5929,
+      "own_used_mib": 0
+    },
+    {
+      "elapsed": 1.092,
+      "free_mib": 5929,
+      "own_used_mib": 0
+    },
+    {
+      "elapsed": 1.457,
+      "free_mib": 5920,
+      "own_used_mib": 0
+    },
+    {
+      "elapsed": 1.783,
+      "free_mib": 5899,
+      "own_used_mib": 0
+    }
+  ],
+  "terminated_reason": "GPU accounting unavailable; stopping this job conservatively (WSL/NVML)",
+  "elapsed": 2.786,
+  "returncode": -15
+}

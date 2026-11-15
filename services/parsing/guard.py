@@ -3,14 +3,25 @@ import csv
 import io
 import os
 from pathlib import Path
+import shutil
 import signal
 import subprocess
 import time
 
 
+def _nvidia_smi():
+    found = shutil.which('nvidia-smi')
+    if found:
+        return found
+    for candidate in ('/usr/bin/nvidia-smi', '/usr/lib/wsl/lib/nvidia-smi'):
+        if Path(candidate).is_file():
+            return candidate
+    return 'nvidia-smi'
+
+
 def _query(fields, kind='gpu'):
     result = subprocess.run(
-        ['nvidia-smi', f'--query-{kind}={fields}', '--format=csv,noheader,nounits'],
+        [_nvidia_smi(), f'--query-{kind}={fields}', '--format=csv,noheader,nounits'],
         capture_output=True, text=True, timeout=3, check=True,
     )
     return list(csv.reader(io.StringIO(result.stdout)))

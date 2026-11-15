@@ -119,7 +119,15 @@ def queue(workspace,kind,payload,idempotency):
     return {'id':rid,'run_id':rid,'status':'queued'}
 
 def checkpoint(run,data):
-    execute('UPDATE runs SET checkpoint=?,updated=? WHERE id=?',(json.dumps(data,ensure_ascii=False),time.time(),run['id']))
+    with db() as c:
+        c.execute('BEGIN IMMEDIATE')
+        current=c.execute('SELECT checkpoint FROM runs WHERE id=?',(run['id'],)).fetchone()
+        merged=json.loads(current['checkpoint'] or '{}') if current else {}
+        registry=merged.get('tool_registry')
+        merged.update(data)
+        if registry is not None:
+            merged['tool_registry']=registry
+        c.execute('UPDATE runs SET checkpoint=?,updated=? WHERE id=?',(json.dumps(merged,ensure_ascii=False),time.time(),run['id']))
 
 def qa(run):
     from .retrieval import retrieve
@@ -127,7 +135,24 @@ def qa(run):
     event(rid,'plan',{'tools':['retrieve_evidence','synthesize','validate_citations','save_artifact'],'model_budget':1,'description':'先检索具体版本，再合并子问题，完成一次综合与引用校验'})
     snap=json.loads(one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'])
     if 'retrieval' not in snap:
-        ret=retrieve(w,p['version_ids'],p['question'],limit=20)
+        if run['kind']=='agent':
+            from .tool_registry import ToolContext, execute_tool
+            context=ToolContext(workspace=w,run_id=rid,call_id='retrieve-evidence')
+            tool=execute_tool(context,'retrieve_evidence',{'version_ids':p['version_ids'],'question':p['question'][:1000],'limit':20})
+            if tool['status']!='PASS':
+                raise ValueError(tool['summary'])
+            ret=tool['result']
+            extras=[]
+            if len(p['version_ids'])==2 and re.search(r'version|版本|差异',p['question'],re.I):
+                compared=execute_tool(context.model_copy(update={'call_id':'compare-versions'}),'compare_versions',{'left':p['version_ids'][0],'right':p['version_ids'][1]})
+                extras.append({'tool':'compare_versions','status':compared['status'],'summary':compared['summary']})
+            if re.search(r'graph|图谱|引用关系',p['question'],re.I):
+                graph=execute_tool(context.model_copy(update={'call_id':'build-graph'}),'build_citation_graph',{})
+                extras.append({'tool':'build_citation_graph','status':graph['status'],'summary':graph['summary']})
+            ret['tool_results']=extras
+            ret.setdefault('sparse',[]);ret.setdefault('dense',[])
+        else:
+            ret=retrieve(w,p['version_ids'],p['question'],limit=20)
         snap['retrieval']=ret;checkpoint(run,snap)
     ret=snap['retrieval']
     blocks=ret.get('blocks',[])

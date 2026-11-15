@@ -761,6 +761,22 @@
         }
       }
     },
+    "/api/v1/agent/tools": {
+      "get": {
+        "summary": "Agent Tools",
+        "operationId": "agent_tools_api_v1_agent_tools_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/agent/runs": {
       "post": {
         "summary": "Agent",

@@ -40,12 +40,15 @@ def validate_input(engine, path):
         with pdfium.PdfDocument(str(path)) as doc:
             if len(doc) != 1:
                 raise ValueError('MinerU input must contain exactly one page')
-            with doc[0] as page:
+            page = doc[0]
+            try:
                 size = page.get_size()
                 if (any(not math.isfinite(x) or not 0 < x <= MAX_SIDE * 72 / 200 for x in size)
                         or size[0] * size[1] * (200 / 72) ** 2 > MAX_PIXELS):
                     raise ValueError('PDF page dimensions exceed bounds')
                 return list(size)
+            finally:
+                page.close()
     except pdfium.PdfiumError as exc:
         raise ValueError('Invalid or encrypted PDF') from exc
 

@@ -43,9 +43,18 @@ def external_page(pdf_path,page_index,engine,device='cpu',run_id=None):
             params['request_id']=run_id
         result_holder={}
         done=threading.Event()
+        stop_waiting=threading.Event()
         def request():
             try:
-                result_holder['response']=client.post('/parse/'+engine,params=params,files={'file':(name,buffer.getvalue())})
+                for attempt in range(31):
+                    if stop_waiting.is_set():
+                        raise ValueError('解析任务已取消')
+                    response=client.post('/parse/'+engine,params=params,files={'file':(name,buffer.getvalue())})
+                    if response.status_code!=429 or attempt==30:
+                        result_holder['response']=response
+                        break
+                    # A local broker reservation is safe to retry; no inference started.
+                    stop_waiting.wait(1)
             except Exception as exc:
                 result_holder['error']=exc
             finally:
@@ -57,6 +66,7 @@ def external_page(pdf_path,page_index,engine,device='cpu',run_id=None):
             if run_id:
                 from .store import cancelled
                 if cancelled(run_id):
+                    stop_waiting.set()
                     # The private broker owns exactly this run's isolated process group.
                     # Retry 404 until the request has registered, never cancel another job.
                     response=client.post('/cancel/'+run_id,timeout=10)
@@ -72,7 +82,14 @@ def external_page(pdf_path,page_index,engine,device='cpu',run_id=None):
             raise ValueError('解析 worker 连接异常；已完成页面保留') from None
         response=result_holder['response']
     if response.status_code!=200:
-        raise ValueError(f'{engine} unavailable; broker HTTP {response.status_code}')
+        detail=''
+        try:
+            payload=response.json()
+            if isinstance(payload,dict) and isinstance(payload.get('detail'),str):
+                detail=payload['detail'].strip()[:180]
+        except ValueError:
+            pass
+        raise ValueError(f'{engine} unavailable; broker HTTP {response.status_code}'+(f': {detail}' if detail else ''))
     result=response.json()
     if result.get('engine')!=engine or not result.get('version'):
         raise ValueError('Parser provenance missing')

@@ -9,3 +9,7 @@ evals/files
 apps/web/node_modules
 apps/web/dist
 ResearchTrace_Codex_Task_Pack.zip
+
+apps/web/.browser-runtime
+
+evidence/private

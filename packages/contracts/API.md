@@ -17,6 +17,7 @@ Block `{id,version_id,page_index,bbox:number[],type,reading_order,text,source,qu
 PATCH /documents/{id} `{title?,tags?,work_id?}`. DELETE /documents/{id}.
 POST /versions/compare `{left:string,right:string}` → `{changes:[{kind,before?,after?}],...}`.
 POST /qa/runs `{question,version_ids:string[],idempotency_key:string}` → RunRef.
+GET /agent/tools → `{tools,max_steps,provider_budget,notice}`.
 POST /agent/runs same, performs evidence constrained comparison or writing.
 POST /translations `{version_id,block_ids?:string[],idempotency_key}` → RunRef.
 GET /translations/{version_id} → `{block_id,text,model}[]`. GET /translations/{version_id}/export?format=md|html.

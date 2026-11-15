@@ -1,4 +1,8 @@
-# Provider status — 2026-11-15
+# Provider status — Ubuntu24 migration, 2026-11-15
+
+The observations below were originally made on node01 and are preserved as **historical evidence**, not new Ubuntu24 calls. The migrated local SQLite ledger remains the authoritative local accounting source: Hydrogen4 requests, FlashLite22 requests, embedding56 attempts. New generation requests in the Ubuntu24 acceptance run so far: **0**. Failures and unknown usage stay accounted. This is not an official provider balance.
+
+The current project's existing local proxy is reachable and the application runs, but authenticated new provider inference was not re-probed because Hydrogen's explicit four-call budget is exhausted. `RT_SMOKE_MODE=true` and `HYDROGEN_SMOKE_LIMIT=4` remain unchanged. Core live/quality evaluation is BLOCKED pending separately explicit authorization. No paid model route is enabled.
 
 Actual native Gemini requests, no mock results:
 
