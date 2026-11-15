@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.venv/
+node_modules/
+dist/
+data/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+ResearchTrace_Codex_Task_Pack.zip
+evals/files/
+evidence/private/
