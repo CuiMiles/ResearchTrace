@@ -26,3 +26,41 @@
 .parse-snapshot-detail{display:flex;flex-direction:column;gap:4px;margin-top:8px;color:var(--muted);font-size:10px}
 .parse-controls .error-box{font-size:10px;padding:7px;margin:6px 0}
 .parse-controls .small-button{white-space:normal;width:100%;font-size:11px}
+
+/* Admin acceptance dashboard & screenshot gallery */
+.acceptance-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.acceptance-filter-input{flex:1;min-width:240px;max-width:460px;font-size:12px;padding:8px 12px}
+.acceptance-modules{display:flex;flex-direction:column;gap:18px;margin-bottom:32px}
+.acceptance-modules>h2{display:flex;align-items:center;gap:8px;margin:0}
+.acceptance-module-card{background:#fff;border:1px solid #dfe7f1;border-radius:8px;overflow:hidden}
+.acceptance-module-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;background:#f8fbff;border-bottom:1px solid #e4ecf5;flex-wrap:wrap}
+.acceptance-module-head h3{font-size:15px;color:#274469}
+.acceptance-module-badges{display:flex;gap:8px;align-items:center;flex:none}
+.acceptance-tests-list{display:flex;flex-direction:column}
+.acceptance-test-row{padding:18px 20px;border-bottom:1px solid #edf2f7;display:flex;flex-direction:column;gap:12px}
+.acceptance-test-row:last-child{border-bottom:0}
+.acceptance-test-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.acceptance-test-summary{font-size:12px;color:#546e8a;margin-top:6px;line-height:1.75}
+.acceptance-detail-block{display:flex;flex-direction:column;gap:7px}
+.acceptance-label{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#6c829b}
+.api-chain{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.api-chip code{display:inline-block;background:#f1f6fc;border:1px solid #dce6f4;color:#2d4f80;padding:4px 8px;border-radius:4px;font-size:11px;font-family:ui-monospace,monospace;word-break:break-all}
+.evidence-links-row{display:flex;flex-wrap:wrap;gap:7px}
+.evidence-links-row.compact{flex-direction:column;align-items:flex-start;gap:4px}
+.screenshot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.screenshot-thumb{border:1px solid #dce5f0;border-radius:6px;background:#fafcff;padding:8px;display:flex;flex-direction:column;gap:8px;text-align:left;transition:border-color .15s,box-shadow .15s}
+.screenshot-thumb:hover{border-color:#7aa1d6;box-shadow:0 3px 12px #172b4d12}
+.screenshot-thumb img{width:100%;height:130px;object-fit:cover;object-position:top center;border-radius:4px;border:1px solid #e6edf5;background:#fff}
+.screenshot-thumb span{display:flex;align-items:center;gap:5px;font-size:11px;color:#3d5c84;line-height:1.4}
+.acceptance-table{white-space:normal}
+.acceptance-table th{white-space:nowrap}
+.acceptance-observed-cell{min-width:260px;max-width:460px;line-height:1.65;white-space:normal}
+.acceptance-observed-cell small{display:block;margin-top:4px;word-break:break-all}
+.lightbox-backdrop{position:fixed;inset:0;background:#0f213788;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.lightbox-dialog{background:#fff;border-radius:8px;max-width:95vw;max-height:92vh;width:1120px;display:flex;flex-direction:column;box-shadow:0 16px 48px #0d1f3640;overflow:hidden}
+.lightbox-dialog.doc-viewer{width:920px}
+.lightbox-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid #e2e8f0;background:#f8fbff}
+.lightbox-head>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.lightbox-body{padding:16px;overflow:auto;flex:1;text-align:center;background:#f4f7fb}
+.lightbox-body img{max-width:100%;height:auto;border:1px solid #dce5f0;border-radius:4px;background:#fff}
+.log-viewer{text-align:left;max-height:72vh;margin:0}

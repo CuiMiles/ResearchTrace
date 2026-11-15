@@ -35,6 +35,8 @@ POST /ideas/audits `{version_id,block_id,question,idempotency_key}` → RunRef.
 POST /charts multipart `file`, `spec` JSON `{kind:'line'|'bar'|'radar'|'3d',x?:string,y?:string[],z?:string,title?:string,x_unit?:string,y_unit?:string,aggregate?:'none'|'mean'|'sum'}` → `{artifact_id,columns,statistics,warnings,caption,files:{png,svg,script,spec,csv}}`. Files are authenticated `/artifacts/{id}/files/{name}` URLs.
 GET /artifacts → Artifact[]. GET /artifacts/{id} → Artifact. GET /artifacts/{id}/export?format=md|html|bib.
 GET /admin/providers → redacted configuration + local usage; admin only.
+GET /admin/acceptance → summary counts, 6-module test matrix with API chains and screenshots, and 64 acceptance items; admin only.
+GET /admin/evidence-file?path=... → allowlisted evidence JSON/log/PNG/SVG file stream with path-traversal protection; admin only.
 
 Internal modules: `store.py` owns schema/helpers `db,one,rows,execute,uid,event,cancelled,artifact,DATA`. Functions synchronous, worker runs outside async API loop.
 documents.py exports `parse_document(run:dict)->dict`, `upload_document(workspace,filename,content:bytes)->dict`, `compare_versions(workspace,left,right)->dict`. Upload returns `{document,run_id?,duplicate}`; creates parse run. Parser updates page checkpoints.

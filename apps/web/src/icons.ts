@@ -16,6 +16,7 @@ export { default as Clock3 } from 'lucide-react/dist/esm/icons/clock-3.js';
 export { default as Code2 } from 'lucide-react/dist/esm/icons/code-2.js';
 export { default as Download } from 'lucide-react/dist/esm/icons/download.js';
 export { default as ExternalLink } from 'lucide-react/dist/esm/icons/external-link.js';
+export { default as Eye } from 'lucide-react/dist/esm/icons/eye.js';
 export { default as FileChartColumn } from 'lucide-react/dist/esm/icons/file-chart-column.js';
 export { default as FileDown } from 'lucide-react/dist/esm/icons/file-down.js';
 export { default as FilePenLine } from 'lucide-react/dist/esm/icons/file-pen-line.js';

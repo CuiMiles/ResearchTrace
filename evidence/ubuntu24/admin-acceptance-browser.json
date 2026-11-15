@@ -1,0 +1,17 @@
+{
+  "base_url": "http://127.0.0.1:18980",
+  "provider_requests": 0,
+  "checks": [
+    {
+      "case": "admin_acceptance_dashboard",
+      "loaded_screenshots": 25,
+      "status": "PASS"
+    },
+    {
+      "case": "reviewer_hidden_admin_nav",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

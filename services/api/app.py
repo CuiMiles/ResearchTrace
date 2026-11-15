@@ -528,6 +528,22 @@ def providers(s=Depends(admin)):
     from .models import provider_report
     return provider_report()
 
+@app.get('/api/v1/admin/acceptance')
+def admin_acceptance(s=Depends(admin)):
+    from .acceptance_report import build_acceptance_report
+    return build_acceptance_report()
+
+@app.get('/api/v1/admin/evidence-file')
+def admin_evidence_file(path:str=Query(...,min_length=1),s=Depends(admin)):
+    from .acceptance_report import MEDIA_TYPES, resolve_evidence_file
+    target=resolve_evidence_file(path)
+    if not target:
+        raise HTTPException(404,'证据文件不存在或不允许访问')
+    headers={'X-Content-Type-Options':'nosniff'}
+    if target.suffix.lower()=='.svg':
+        headers['Content-Security-Policy']='sandbox'
+    return FileResponse(target,media_type=MEDIA_TYPES[target.suffix.lower()],headers=headers)
+
 dist=ROOT/'apps/web/dist'
 app.mount('/assets',StaticFiles(directory=dist/'assets',check_dir=False),name='assets')
 app.mount('/vendor',StaticFiles(directory=dist/'vendor',check_dir=False),name='vendor')

@@ -5,7 +5,7 @@
 Prepared pinned local Mermaid modules.
 vite v6.4.6 building for production...
 transforming...
-✓ 378 modules transformed.
+✓ 380 modules transformed.
 rendering chunks...
 computing gzip size...
 dist-next/index.html                                           0.58 kB │ gzip:   0.47 kB
@@ -69,13 +69,13 @@ dist-next/assets/KaTeX_Main-Bold-waoOVXN0.ttf                 51.34 kB
 dist-next/assets/KaTeX_Main-Regular-ypZvNtVU.ttf              53.58 kB
 dist-next/assets/KaTeX_AMS-Regular-DRggAlZN.ttf               63.63 kB
 dist-next/assets/pdf.worker.min-yatZIOMy.mjs               1,375.84 kB
-dist-next/assets/index-Cg7wy-nu.css                           79.60 kB │ gzip:  19.43 kB
-dist-next/assets/Diagram-BpXxcvs_.js                          32.79 kB │ gzip:  13.26 kB
-dist-next/assets/index-m4GUqHmw.js                         1,026.71 kB │ gzip: 308.17 kB
+dist-next/assets/index-DTkz1xfT.css                           83.08 kB │ gzip:  20.11 kB
+dist-next/assets/Diagram-Bcmx7A2c.js                          32.79 kB │ gzip:  13.25 kB
+dist-next/assets/index-o4nOpSqK.js                         1,035.87 kB │ gzip: 310.54 kB
 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 2.25s
+✓ built in 2.20s
 Published 168 build files; index replaced last, existing hashed assets retained.
