@@ -1,0 +1,1096 @@
+[
+  {
+    "status": "PASS",
+    "engine": "native",
+    "device": "cpu",
+    "version_id": "4452fbc0c75443578fb2a2987629c19c",
+    "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+    "run_id": "66ed9b65a57543849689134ff31a3ec7",
+    "input_file": {
+      "id": "f8237d393163900f",
+      "name": "UnderstandingDeepLearning_02_09_26_C.pdf",
+      "relative_path": "pdf/UnderstandingDeepLearning_02_09_26_C.pdf",
+      "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+      "bytes": 22344992,
+      "kind": "pdf",
+      "page_count": 541,
+      "encrypted": false,
+      "role": "test_input"
+    },
+    "started": "2026-11-15T17:37:01.026589+00:00",
+    "provider_calls": 0,
+    "source": null,
+    "prior_hashes": {
+      "4452fbc0c75443578fb2a2987629c19c": "4eb95a410666382688f3c2d9494be70a19d8a9e8a7c394d4c5625d6354cd44d5"
+    },
+    "finished": "2026-11-15T17:38:29.032816+00:00",
+    "duration_seconds": 88.02,
+    "run_status": "completed",
+    "result": {
+      "version_id": "4452fbc0c75443578fb2a2987629c19c",
+      "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+      "status": "ready",
+      "parsed_pages": 541,
+      "references": 2821,
+      "failed_pages": [],
+      "suppressed_margin_blocks": 0
+    },
+    "error": null,
+    "old_snapshots_unchanged": true,
+    "counts": {
+      "blocks": 5315,
+      "types": {
+        "heading": 913,
+        "paragraph": 2961,
+        "caption": 273,
+        "figure": 467,
+        "table": 104,
+        "equation": 597
+      },
+      "sources": {
+        "pdfplumber": 4744,
+        "pdfplumber_region": 467,
+        "pdfplumber_table": 104
+      }
+    },
+    "provenance": {
+      "engine": "native",
+      "version": "pdfplumber-layout-v2",
+      "device": "cpu"
+    },
+    "monitors": [],
+    "blank_pages": [
+      {
+        "page_index": 1,
+        "status": "blank"
+      },
+      {
+        "page_index": 3,
+        "status": "blank"
+      },
+      {
+        "page_index": 9,
+        "status": "blank"
+      },
+      {
+        "page_index": 11,
+        "status": "blank"
+      }
+    ],
+    "examples": {
+      "table": {
+        "page_index": 26,
+        "id": "9a02fdf119ca4c4599e11a78b1a2299a:26:7",
+        "bbox": [
+          0.15721280117792072,
+          0.2015906209497318,
+          0.30121465359477123,
+          0.27747703061507983
+        ],
+        "text": " |  |  |  |  |  | \n |  |  |  |  |  | \n |  |  |  |  |  | "
+      },
+      "formula": {
+        "page_index": 30,
+        "id": "9a02fdf119ca4c4599e11a78b1a2299a:30:5",
+        "text": "y = f[x]. (2.1)",
+        "bbox": [
+          0.4363251633986927,
+          0.854892452020202,
+          0.7785685098039216,
+          0.8674719974747475
+        ]
+      },
+      "paragraph": {
+        "page_index": 0,
+        "id": "9a02fdf119ca4c4599e11a78b1a2299a:0:3",
+        "bbox": [
+          0.20475980392156864,
+          0.6712833383838385,
+          0.728891129251634,
+          0.6826040454545454
+        ],
+        "text": "The most recent version of this document can be found at http://udlbook.com."
+      }
+    },
+    "resource_observations": [],
+    "runner_peak_rss_kib": null
+  },
+  {
+    "status": "PASS",
+    "engine": "paddleocr",
+    "device": "cpu",
+    "version_id": "82451796b5294493b9e58f696fbb8adc",
+    "parse_id": "1dbbe68e582e40f59b6d34e8986796b9",
+    "run_id": "cd5715faedd648a49f0012dda260239e",
+    "input_file": {
+      "id": "64094fe169dd4ff4",
+      "name": "1706.03762v1_img.pdf",
+      "relative_path": "pdf/1706.03762v1_img.pdf",
+      "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+      "bytes": 4672118,
+      "kind": "pdf",
+      "page_count": 15,
+      "encrypted": false,
+      "role": "test_input"
+    },
+    "started": "2026-11-15T17:38:29.221875+00:00",
+    "provider_calls": 0,
+    "source": null,
+    "prior_hashes": {
+      "82451796b5294493b9e58f696fbb8adc": "dbbf5f48dbdc02e807d596520b03294a7df309b91853abe7a746f094bda4ca40"
+    },
+    "finished": "2026-11-15T17:42:25.472487+00:00",
+    "duration_seconds": 234.44,
+    "run_status": "completed",
+    "result": {
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "1dbbe68e582e40f59b6d34e8986796b9",
+      "status": "ready",
+      "parsed_pages": 15,
+      "references": 36,
+      "failed_pages": [],
+      "suppressed_margin_blocks": 14
+    },
+    "error": null,
+    "old_snapshots_unchanged": true,
+    "counts": {
+      "blocks": 311,
+      "types": {
+        "heading": 165,
+        "paragraph": 104,
+        "equation": 19,
+        "footer": 14,
+        "caption": 9
+      },
+      "sources": {
+        "paddleocr": 311
+      }
+    },
+    "provenance": {
+      "engine": "paddleocr",
+      "version": "3.7.0",
+      "models": [
+        "PP-OCRv5_mobile_det",
+        "PP-OCRv5_mobile_rec"
+      ],
+      "device": "cpu"
+    },
+    "monitors": [
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 11.516,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 19.53,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 11.261,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 19.271,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 18.517,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 17.016,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 12.266,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 17.767,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 17.272,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 15.016,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 10.76,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 16.276,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 16.016,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 7.509,
+        "returncode": 0
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 20.268,
+        "returncode": 0
+      }
+    ],
+    "examples": {
+      "table": null,
+      "formula": {
+        "page_index": 1,
+        "id": "1dbbe68e582e40f59b6d34e8986796b9:1:14",
+        "text": "of continuous representations z = (z1, …., ≈n). Given z, the decoder then generates an output",
+        "bbox": [
+          0.1738562091503268,
+          0.6251261352169526,
+          0.8254901960784313,
+          0.6392532795156408
+        ]
+      },
+      "paragraph": {
+        "page_index": 0,
+        "id": "1dbbe68e582e40f59b6d34e8986796b9:0:1",
+        "bbox": [
+          0.02091503267973856,
+          0.2325933400605449,
+          0.8117647058823529,
+          0.7088799192734612
+        ],
+        "text": "Ashish Vaswani* Noam Shazeer* Niki Parmar* Jakob Uszkoreit* Google Brain Google Brain Google Research Google Research  [A 1 Introduction avaswani@google.com 1lion@google.com Google Research performing models also connect the encoder and decoder through an attention to-German translation task, improving over the existing best results, including mechanism. We propose a new simple network architecture, the Transformer, less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English our model establishes a new single-model state-of-the-art BLEU score of 41.0 after convolutional neural networks in an encoder-decoder configuration. The best based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with Llion Jones* The dominant sequence transduction models are based on complex recurrent or ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, large and limited training data. noam@google.com aidan@cs.toronto.edu illia.polosukhin@gmail.com University of Toronto Aidan N. Gomez*† Hllia Polosukhin* Abstract nikip@google.com lukaszkaiser@google.com Lukasz Kaiser* Google Brain usz@google.com"
+      }
+    },
+    "resource_observations": [
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 9.35566956596449,
+        "peak_rss_kib": 1243080,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 17.31971562601393,
+        "peak_rss_kib": 1244892,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 8.899202159023844,
+        "peak_rss_kib": 1234456,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 16.874361549969763,
+        "peak_rss_kib": 1241848,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 16.17183260602178,
+        "peak_rss_kib": 1242240,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 14.697223056980874,
+        "peak_rss_kib": 1231896,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 9.774595068010967,
+        "peak_rss_kib": 1239168,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 15.447096567950211,
+        "peak_rss_kib": 1261320,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 13.051537529041525,
+        "peak_rss_kib": 1228296,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 12.551549130992498,
+        "peak_rss_kib": 1241120,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 8.413123932958115,
+        "peak_rss_kib": 1244636,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 14.007303074002266,
+        "peak_rss_kib": 1235508,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 13.682725127961021,
+        "peak_rss_kib": 1243108,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 5.143365374009591,
+        "peak_rss_kib": 1244220,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      },
+      {
+        "engine": "paddleocr",
+        "device": "cpu",
+        "elapsed_seconds": 18.118990393006243,
+        "peak_rss_kib": 1252460,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      }
+    ],
+    "runner_peak_rss_kib": 1261320
+  },
+  {
+    "status": "PASS",
+    "engine": "mineru",
+    "device": "cpu",
+    "version_id": "82451796b5294493b9e58f696fbb8adc",
+    "parse_id": "926da65067b645fb838c9207064f1f24",
+    "run_id": "5ad3764120af4dd09779977f2f7c6302",
+    "input_file": {
+      "id": "64094fe169dd4ff4",
+      "name": "1706.03762v1_img.pdf",
+      "relative_path": "pdf/1706.03762v1_img.pdf",
+      "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+      "bytes": 4672118,
+      "kind": "pdf",
+      "page_count": 15,
+      "encrypted": false,
+      "role": "test_input"
+    },
+    "started": "2026-11-15T17:42:25.619670+00:00",
+    "provider_calls": 0,
+    "source": null,
+    "prior_hashes": {
+      "1dbbe68e582e40f59b6d34e8986796b9": "aa852367aee5fef8119c61c99747bea94bad5626b8300b69b1b26da71dd711f4",
+      "82451796b5294493b9e58f696fbb8adc": "dbbf5f48dbdc02e807d596520b03294a7df309b91853abe7a746f094bda4ca40"
+    },
+    "finished": "2026-11-15T17:48:20.426513+00:00",
+    "duration_seconds": 352.72,
+    "run_status": "completed",
+    "result": {
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "926da65067b645fb838c9207064f1f24",
+      "status": "ready",
+      "parsed_pages": 15,
+      "references": 3,
+      "failed_pages": [],
+      "suppressed_margin_blocks": 14
+    },
+    "error": null,
+    "old_snapshots_unchanged": true,
+    "counts": {
+      "blocks": 138,
+      "types": {
+        "paragraph": 84,
+        "heading": 25,
+        "footer": 14,
+        "figure": 5,
+        "equation": 6,
+        "table": 4
+      },
+      "sources": {
+        "mineru": 138
+      }
+    },
+    "provenance": {
+      "engine": "mineru",
+      "version": "4.2.2",
+      "models": [
+        "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+        "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+        "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+        "MinerU-4_models_torch/OCR/paddleocr",
+        "MinerU-4_models_torch/Table/slanet-plus.onnx",
+        "MinerU-4_models_torch/Table/unet.onnx",
+        "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+        "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+        "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
+      ],
+      "device": "cpu"
+    },
+    "monitors": [
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 26.023,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 10.013,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 19.529,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 9.034,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 9.512,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 29.999,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 42.394,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 35.046,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 28.278,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 14.765,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 26.049,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 15.786,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 41.832,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 32.526,
+        "returncode": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 9.26,
+        "returncode": 0
+      }
+    ],
+    "examples": {
+      "table": {
+        "page_index": 5,
+        "id": "926da65067b645fb838c9207064f1f24:5:0",
+        "bbox": [
+          0.193,
+          0.141,
+          0.806,
+          0.236
+        ],
+        "text": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.\n<table><tr><td>Layer Type</td><td>Complexity per Layer</td><td>Sequential Operations</td><td>Maximum Path Length</td></tr><tr><td>Self-Attention</td><td> $\\overline { { O ( n ^ { 2 } \\cdot d ) } }$ </td><td>O(1)</td><td>O(1)</td></tr><tr><td>Recurrent</td><td> $O ( n \\cdot d ^ { 2 } )$ </td><td>O(n)</td><td> $O ( n )$ </td></tr><tr><td>Convolutional</td><td> $O ( \\vec { k } \\cdot \\boldsymbol { n } \\cdot \\dot { d ^ { 2 } } )$ </td><td>O(1)</td><td> $O ( l o g _ { k } \\dot { ( } n ) )$ </td></tr><tr><td>Self-Attention (restricted)</td><td> $O ( r \\cdot n \\cdot d )$ </td><td>O(1)</td><td> $O ( n / r )$ </td></tr></table>"
+      },
+      "formula": {
+        "page_index": 2,
+        "id": "926da65067b645fb838c9207064f1f24:2:7",
+        "text": "\\operatorname { A t t e n t i o n } ( Q , K , V ) = \\operatorname { s o f t m a x } ( \\frac { Q K ^ { T } } { \\sqrt { d _ { k } } } ) V ,\\tag{1}",
+        "bbox": [
+          0.356,
+          0.881,
+          0.824,
+          0.915
+        ]
+      },
+      "paragraph": {
+        "page_index": 0,
+        "id": "926da65067b645fb838c9207064f1f24:0:0",
+        "bbox": [
+          0.022,
+          0.268,
+          0.059,
+          0.706
+        ],
+        "text": "20[]1:017"
+      }
+    },
+    "resource_observations": [
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 23.327758122002706,
+        "peak_rss_kib": 2106960,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 7.372878518013749,
+        "peak_rss_kib": 1412672,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 16.803921942948364,
+        "peak_rss_kib": 1991832,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 6.499312951986212,
+        "peak_rss_kib": 1364564,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 7.125428652972914,
+        "peak_rss_kib": 1463416,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 27.353772370959632,
+        "peak_rss_kib": 2184036,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 36.94716042600339,
+        "peak_rss_kib": 2705092,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 32.52223318599863,
+        "peak_rss_kib": 2357396,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 24.7121897659963,
+        "peak_rss_kib": 2152856,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 12.314078324008733,
+        "peak_rss_kib": 1710648,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 22.931829267996363,
+        "peak_rss_kib": 2157492,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 12.295634103007615,
+        "peak_rss_kib": 1629476,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 37.61632811202435,
+        "peak_rss_kib": 2680624,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 26.89852734102169,
+        "peak_rss_kib": 2143468,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      },
+      {
+        "engine": "mineru",
+        "device": "cpu",
+        "elapsed_seconds": 6.930058386002202,
+        "peak_rss_kib": 1532864,
+        "cuda_peak_allocated_mib": 0,
+        "cuda_peak_reserved_mib": 0
+      }
+    ],
+    "runner_peak_rss_kib": 2705092
+  },
+  {
+    "status": "PASS",
+    "engine": "paddleocr_vl",
+    "device": "cpu",
+    "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+    "parse_id": "220c525cf88645fc8f82ed5d6682fe8d",
+    "run_id": "696c93dd2ba249cba1d5031368dfd235",
+    "input_file": {
+      "name": "scan-page4-attention-crop.pdf",
+      "sha256": "078a69ac3de5815718b2e3f369bac4bb35c57a42d8c4852f8c63f9e7400c09ab",
+      "page_count": 1
+    },
+    "started": "2026-11-15T17:48:23.755879+00:00",
+    "provider_calls": 0,
+    "source": {
+      "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+      "source_page_index": 3,
+      "crop_normalized_xy_from_bottom": [
+        0.07,
+        0.43,
+        0.93,
+        0.72
+      ],
+      "derived": true,
+      "scope": "仅第4物理页的裁剪区域；不代表全篇 VL 验收"
+    },
+    "prior_hashes": {
+      "5039d5b74bf54e45b9bf77efbf69eb20": "1c1472456a0ee260bfc8f1b764f1ed475f7fa4c97b2b5786c9ad13e11eff6f26"
+    },
+    "finished": "2026-11-15T17:50:43.421373+00:00",
+    "duration_seconds": 139.22,
+    "run_status": "completed",
+    "result": {
+      "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+      "parse_id": "220c525cf88645fc8f82ed5d6682fe8d",
+      "status": "ready",
+      "parsed_pages": 1,
+      "references": 0,
+      "failed_pages": [],
+      "suppressed_margin_blocks": 0
+    },
+    "error": null,
+    "old_snapshots_unchanged": true,
+    "counts": {
+      "blocks": 6,
+      "types": {
+        "paragraph": 4,
+        "heading": 1,
+        "figure": 1
+      },
+      "sources": {
+        "paddleocr_vl": 6
+      }
+    },
+    "provenance": {
+      "engine": "paddleocr_vl",
+      "version": "v1.6",
+      "models": [
+        "PP-DocLayoutV3",
+        "PaddleOCR-VL-1.6-0.9B"
+      ],
+      "device": "cpu"
+    },
+    "monitors": [
+      {
+        "engine": "paddleocr_vl",
+        "device": "cpu",
+        "gpu": null,
+        "reserve_mib": 2048,
+        "budget_mib": null,
+        "samples": [],
+        "terminated_reason": null,
+        "elapsed": 138.561,
+        "returncode": 0
+      }
+    ],
+    "examples": {
+      "table": null,
+      "formula": null,
+      "paragraph": {
+        "page_index": 0,
+        "id": "220c525cf88645fc8f82ed5d6682fe8d:0:0",
+        "bbox": [
+          0.11778115501519756,
+          0.2956521739130435,
+          0.8814589665653495,
+          0.5878260869565217
+        ],
+        "text": "The two most commonly used attention functions are additive attention [2], and dot-product (multiplicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of $\\sqrt{d_k}$. Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code."
+      }
+    },
+    "resource_observations": [
+      {
+        "engine": "paddleocr_vl",
+        "device": "cpu",
+        "elapsed_seconds": 137.67522395798005,
+        "peak_rss_kib": 2473220,
+        "cuda_peak_allocated_mib": null,
+        "cuda_peak_reserved_mib": null
+      }
+    ],
+    "runner_peak_rss_kib": 2473220
+  },
+  {
+    "status": "BLOCKED",
+    "engine": "mineru",
+    "device": "gpu",
+    "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+    "parse_id": "1cc8c94186a244c8bf32f042365548b7",
+    "run_id": "7ebb805526bd4475bcc962f262b64276",
+    "input_file": {
+      "name": "scan-page4-attention-crop.pdf",
+      "sha256": "078a69ac3de5815718b2e3f369bac4bb35c57a42d8c4852f8c63f9e7400c09ab",
+      "page_count": 1
+    },
+    "started": "2026-11-15T17:50:43.540773+00:00",
+    "provider_calls": 0,
+    "source": {
+      "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+      "source_page_index": 3,
+      "crop_normalized_xy_from_bottom": [
+        0.07,
+        0.43,
+        0.93,
+        0.72
+      ],
+      "derived": true,
+      "scope": "仅第4物理页的裁剪区域；不代表全篇 VL 验收"
+    },
+    "prior_hashes": {
+      "220c525cf88645fc8f82ed5d6682fe8d": "d9faa29f2655128bc464dc767a024f9967527f67a1f2a2b58b5b2dc199cbd7e3",
+      "5039d5b74bf54e45b9bf77efbf69eb20": "1c1472456a0ee260bfc8f1b764f1ed475f7fa4c97b2b5786c9ad13e11eff6f26"
+    },
+    "finished": "2026-11-15T17:50:48.118034+00:00",
+    "duration_seconds": 4.6,
+    "run_status": "failed",
+    "result": null,
+    "error": "mineru unavailable; broker HTTP 503: GPU accounting unavailable; stopping this job conservatively (WSL/NVML)",
+    "old_snapshots_unchanged": true,
+    "counts": {
+      "blocks": 0,
+      "types": {},
+      "sources": {}
+    },
+    "provenance": {},
+    "monitors": [
+      {
+        "engine": "mineru",
+        "device": "gpu",
+        "gpu": {
+          "index": "0",
+          "uuid": "GPU-29091215-1e1a-de71-8769-739c1d0964c3",
+          "free": 5188,
+          "total": 8188
+        },
+        "reserve_mib": 2048,
+        "budget_mib": 2048,
+        "samples": [
+          {
+            "elapsed": 0.363,
+            "free_mib": 5190,
+            "own_used_mib": 0
+          },
+          {
+            "elapsed": 0.769,
+            "free_mib": 5190,
+            "own_used_mib": 0
+          },
+          {
+            "elapsed": 1.177,
+            "free_mib": 5190,
+            "own_used_mib": 0
+          },
+          {
+            "elapsed": 1.605,
+            "free_mib": 5191,
+            "own_used_mib": 0
+          },
+          {
+            "elapsed": 2.028,
+            "free_mib": 5184,
+            "own_used_mib": 0
+          },
+          {
+            "elapsed": 2.388,
+            "free_mib": 5183,
+            "own_used_mib": 0
+          },
+          {
+            "elapsed": 2.801,
+            "free_mib": 5189,
+            "own_used_mib": 0
+          }
+        ],
+        "terminated_reason": "GPU accounting unavailable; stopping this job conservatively (WSL/NVML)",
+        "elapsed": 3.806,
+        "returncode": -15
+      }
+    ],
+    "examples": {
+      "table": null,
+      "formula": null,
+      "paragraph": null
+    },
+    "resource_observations": [],
+    "runner_peak_rss_kib": null
+  }
+]

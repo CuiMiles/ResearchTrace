@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "acceptance": {
+    "total": 64,
+    "pass": 48,
+    "blocked": 16,
+    "not_run": 0,
+    "fail": 0
+  },
+  "pytest": "142 passed, 1 warning in 29.61s",
+  "steps": {
+    "inventory": "PASS",
+    "upload": "PASS",
+    "parse": "BLOCKED",
+    "snapshots": "PASS",
+    "reader": "PASS",
+    "analysis": "BLOCKED",
+    "discovery": "BLOCKED",
+    "graph": "PASS",
+    "export": "PASS",
+    "recovery": "PASS"
+  },
+  "model_requests": 0
+}

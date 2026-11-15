@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "engine": "paddleocr_vl",
+  "device": "cpu",
+  "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+  "parse_id": "220c525cf88645fc8f82ed5d6682fe8d",
+  "run_id": "696c93dd2ba249cba1d5031368dfd235",
+  "input_file": {
+    "name": "scan-page4-attention-crop.pdf",
+    "sha256": "078a69ac3de5815718b2e3f369bac4bb35c57a42d8c4852f8c63f9e7400c09ab",
+    "page_count": 1
+  },
+  "started": "2026-11-15T17:48:23.755879+00:00",
+  "provider_calls": 0,
+  "source": {
+    "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+    "source_page_index": 3,
+    "crop_normalized_xy_from_bottom": [
+      0.07,
+      0.43,
+      0.93,
+      0.72
+    ],
+    "derived": true,
+    "scope": "仅第4物理页的裁剪区域；不代表全篇 VL 验收"
+  },
+  "prior_hashes": {
+    "5039d5b74bf54e45b9bf77efbf69eb20": "1c1472456a0ee260bfc8f1b764f1ed475f7fa4c97b2b5786c9ad13e11eff6f26"
+  },
+  "finished": "2026-11-15T17:50:43.421373+00:00",
+  "duration_seconds": 139.22,
+  "run_status": "completed",
+  "result": {
+    "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+    "parse_id": "220c525cf88645fc8f82ed5d6682fe8d",
+    "status": "ready",
+    "parsed_pages": 1,
+    "references": 0,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 0
+  },
+  "error": null,
+  "old_snapshots_unchanged": true,
+  "counts": {
+    "blocks": 6,
+    "types": {
+      "paragraph": 4,
+      "heading": 1,
+      "figure": 1
+    },
+    "sources": {
+      "paddleocr_vl": 6
+    }
+  },
+  "provenance": {
+    "engine": "paddleocr_vl",
+    "version": "v1.6",
+    "models": [
+      "PP-DocLayoutV3",
+      "PaddleOCR-VL-1.6-0.9B"
+    ],
+    "device": "cpu"
+  },
+  "monitors": [
+    {
+      "engine": "paddleocr_vl",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 138.561,
+      "returncode": 0
+    }
+  ],
+  "examples": {
+    "table": null,
+    "formula": null,
+    "paragraph": {
+      "page_index": 0,
+      "id": "220c525cf88645fc8f82ed5d6682fe8d:0:0",
+      "bbox": [
+        0.11778115501519756,
+        0.2956521739130435,
+        0.8814589665653495,
+        0.5878260869565217
+      ],
+      "text": "The two most commonly used attention functions are additive attention [2], and dot-product (multiplicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of $\\sqrt{d_k}$. Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code."
+    }
+  },
+  "resource_observations": [
+    {
+      "engine": "paddleocr_vl",
+      "device": "cpu",
+      "elapsed_seconds": 137.67522395798005,
+      "peak_rss_kib": 2473220,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    }
+  ],
+  "runner_peak_rss_kib": 2473220
+}

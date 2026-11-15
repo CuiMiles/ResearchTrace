@@ -1,0 +1,2383 @@
+{
+  "status": "PASS",
+  "started": "2026-11-15T17:40:49.083684+00:00",
+  "provider_calls": 0,
+  "documents": [
+    {
+      "file": {
+        "id": "bdfaa68d8984f0dc",
+        "name": "1706.03762v7.pdf",
+        "relative_path": "pdf/1706.03762v7.pdf",
+        "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+        "bytes": 2215244,
+        "kind": "pdf",
+        "page_count": 15,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+      "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "query": "parallelizable",
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:0:8",
+          "bbox": [
+            0.2345702614379085,
+            0.5216594969696969,
+            0.7676259463986926,
+            0.7270756585858587
+          ],
+          "quote": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensi"
+        },
+        {
+          "status": "PASS",
+          "page_index": 7,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "query": "experimentation",
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:5",
+          "bbox": [
+            0.17588398692810459,
+            0.5277403050505051,
+            0.8255642608660131,
+            0.7952347494949495
+          ],
+          "quote": "On the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 "
+        },
+        {
+          "status": "PASS",
+          "page_index": 14,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "query": "behaviour",
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:14:2",
+          "bbox": [
+            0.17647058823529413,
+            0.7602819717171717,
+            0.8235316909803919,
+            0.8004102545454544
+          ],
+          "quote": "Figure 5: Many of the attention heads exhibit behaviour that seems related to the structure of the sentence. We give two such examples above, from two different heads from the encoder self-attention at layer 5 of 6. The heads clearly learned to perform different tasks."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "0a9bff1be3575cf9",
+        "name": "1706.03762v1.pdf",
+        "relative_path": "pdf/1706.03762v1.pdf",
+        "sha256": "0a9bff1be3575cf9fe26a4a3d3a9175bc791ecec90de8b9deba4cff75d2b9476",
+        "bytes": 2128686,
+        "kind": "pdf",
+        "page_count": 15,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "e492d5c15f4444c08e9c335618e32533",
+      "parse_id": "e492d5c15f4444c08e9c335618e32533",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "query": "parallelizable",
+          "block_id": "e492d5c15f4444c08e9c335618e32533:0:5",
+          "bbox": [
+            0.23507516339869283,
+            0.4558135373737374,
+            0.7676259463986926,
+            0.6612296989898989
+          ],
+          "quote": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing"
+        },
+        {
+          "status": "PASS",
+          "page_index": 7,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "query": "experimentation",
+          "block_id": "e492d5c15f4444c08e9c335618e32533:7:1",
+          "bbox": [
+            0.17588398692810459,
+            0.3416289702020202,
+            0.8255642608660131,
+            0.5336097494949494
+          ],
+          "quote": "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0, outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate P drop = 0.1, instead of 0.3. For the bas"
+        },
+        {
+          "status": "PASS",
+          "page_index": 14,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "query": "behaviour",
+          "block_id": "e492d5c15f4444c08e9c335618e32533:14:2",
+          "bbox": [
+            0.17647058823529413,
+            0.7602819717171717,
+            0.8235316909803919,
+            0.8004102545454544
+          ],
+          "quote": "Figure 5: Many of the attention heads exhibit behaviour that seems related to the structure of the sentence. We give two such examples above, from two different heads from the encoder self-attention at layer 5 of 6. The heads clearly learned to perform different tasks."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "64094fe169dd4ff4",
+        "name": "1706.03762v1_img.pdf",
+        "relative_path": "pdf/1706.03762v1_img.pdf",
+        "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+        "bytes": 4672118,
+        "kind": "pdf",
+        "page_count": 15,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "82451796b5294493b9e58f696fbb8adc",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "82451796b5294493b9e58f696fbb8adc",
+          "query": "parallelizable",
+          "block_id": "82451796b5294493b9e58f696fbb8adc:0:10",
+          "bbox": [
+            0.029411764705882353,
+            0.49780436099333736,
+            0.7671568627450981,
+            0.7047496466787805
+          ],
+          "quote": "arXiv:1706.03762v1 1 Introduction mechanism. based entirely. be less to-German ensembles our training best other large superior model time models and tasks solely for Experiments to limited establishes by by translation in 3.5 on from train. We over quality applying attention days training the propose Our 2 BLEU. on literature. a while on task, new"
+        },
+        {
+          "status": "PASS",
+          "page_index": 7,
+          "parse_id": "82451796b5294493b9e58f696fbb8adc",
+          "query": "experimentation",
+          "block_id": "82451796b5294493b9e58f696fbb8adc:7:19",
+          "bbox": [
+            0.17647058823529413,
+            0.4454371088229356,
+            0.8227124183006536,
+            0.4574247930547143
+          ],
+          "quote": "were chosen after experimentation on the development set. We set the maximum output length during"
+        },
+        {
+          "status": "PASS",
+          "page_index": 14,
+          "parse_id": "82451796b5294493b9e58f696fbb8adc",
+          "query": "uonjeaidde",
+          "block_id": "82451796b5294493b9e58f696fbb8adc:14:4",
+          "bbox": [
+            0.20179738562091504,
+            0.5091611144760751,
+            0.49019607843137253,
+            0.5659448818897638
+          ],
+          "quote": "oul 4eAeU eq yoped ang si uonjeaidde pinoys eq ysnf"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "f8237d393163900f",
+        "name": "UnderstandingDeepLearning_02_09_26_C.pdf",
+        "relative_path": "pdf/UnderstandingDeepLearning_02_09_26_C.pdf",
+        "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+        "bytes": 22344992,
+        "kind": "pdf",
+        "page_count": 541,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "4452fbc0c75443578fb2a2987629c19c",
+      "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "Permissions",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:0:4",
+          "bbox": [
+            0.16958986928104577,
+            0.7209121262626262,
+            0.7640416466143792,
+            0.7737441969696969
+          ],
+          "quote": "Copyright in this work has been licensed exclusively to The MIT Press, https://mitpress.mit.edu, which released the final version to the public in December 2023. Inquiries regarding rights should be addressed to the MIT Press, Rights & Permissions Department."
+        },
+        {
+          "status": "PASS",
+          "page_index": 270,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "summation",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:270:8",
+          "bbox": [
+            0.1550882352941173,
+            0.5956475025252529,
+            0.7785897547205874,
+            0.683823176767677
+          ],
+          "quote": "With residual connections, the aggregated representation from the neighbors is trans- formed and passed through the activation function before summation or concatenation with the current node. For the latter case, the associated network equations are: (cid:20) (cid:2) (cid:3) (cid:21) H k+1 = a β k 1 T H + k Ω k H k A . (13.16)"
+        },
+        {
+          "status": "PASS",
+          "page_index": 300,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "terminates",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:300:1",
+          "bbox": [
+            0.20184803921568628,
+            0.5700421767676768,
+            0.731794736761438,
+            0.6824992474747473
+          ],
+          "quote": "Figure 15.9 Progressive growing. a) The generator is initially trained to create very small 4 × 4 images, and the discriminator to identify if these images are synthesized or downsampled real images. b) After training at this low-resolution terminates, subsequent layers are added to the generator to generate 8 × 8 images. Similar layers are added t"
+        },
+        {
+          "status": "PASS",
+          "page_index": 334,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "ourselves",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:334:3",
+          "bbox": [
+            0.15508823529411764,
+            0.3561184621212125,
+            0.9169419837581698,
+            0.48992022979798017
+          ],
+          "quote": "Normalizing flows can also learn to generate samples that approximate an existing density which is easy to evaluate but diﬀicult to sample from. In this context, we denote the normalizing flow P r(x | ϕ) as the student and the target density q(x) as the teacher. To make progress, we generate samples x i = f[z i , ϕ] from the student. Since we gener"
+        },
+        {
+          "status": "PASS",
+          "page_index": 397,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "synchronously",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:397:3",
+          "bbox": [
+            0.07991339869281033,
+            0.529932856060606,
+            0.8420766665457514,
+            0.5877964924242423
+          ],
+          "quote": "Notebook Dynamic 19.2 procedure either in place sweeps or through synchronously the values in each just sweep. once before In value policy iteration, improvement. the policy Asynchronous evaluation programming dynamic programming algorithms don’t have to systematically sweep through all the values at each step but can update a subset of the states "
+        },
+        {
+          "status": "PASS",
+          "page_index": 499,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "Preconditioned",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:499:2",
+          "bbox": [
+            0.21857516339869257,
+            0.42248507575757654,
+            0.842062813529412,
+            0.7074711868686872
+          ],
+          "quote": "Events, 143–147. 160 open-endedness to solve problems through the search for novelty. International Conference Lattimore, T., & Szepesvári, C. (2020). Bandit on Artificial Life, 329–336. 422 algorithms. Cambridge University Press. 136 Lawrence, actions A. tional D. neural-network (1997). S., on Giles, Neural Face C. Networks, L., recognition: appro"
+        },
+        {
+          "status": "PASS",
+          "page_index": 510,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "Psychological",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:510:3",
+          "bbox": [
+            0.15508823529411775,
+            0.7158247222222225,
+            0.7785786795424842,
+            0.8669838131313137
+          ],
+          "quote": "tion emerge from scaling unsupervised learning Rosenblatt, F. (1958). The perceptron: A proba- to 250 million protein sequences. Proceedings bilistic model for information storage and or- of the National Academy of Sciences, 118(15). ganization in the brain. Psychological review, 234 65(6), 386. 37 Robbins, H., & Monro, S. (1951). A stochastic Ross"
+        },
+        {
+          "status": "PASS",
+          "page_index": 540,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "query": "weaponization",
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:540:2",
+          "bbox": [
+            0.15508823529411764,
+            0.6125848232323238,
+            0.43833721683006527,
+            0.8030911363636366
+          ],
+          "quote": "Wasserstein distance, 283 between normals, 462 Wasserstein GAN, 281–286, 300 weaponization of AI, 13 weight, 36 decay, 140, 155 initialization, 107–111 matrix, 49 Weisfeiler-Lehman graph isomorphism test, 264 WGAN-GP, 286 wide minima, 158 width eﬀiciency, 53 width of neural network, 46 word classification, 221 word embedding, 218 WordPiece, 234"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "c464f839fb8d59f7",
+        "name": "1607.06450v1.pdf",
+        "relative_path": "pdf/1607.06450v1.pdf",
+        "sha256": "c464f839fb8d59f7fde92f9b4caa67c2d1f2f196b88f93fb60502249df0aaef7",
+        "bytes": 612446,
+        "kind": "pdf",
+        "page_count": 14,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "b6f5051290164b97a4d8cef5437b08ee",
+      "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "query": "computationally",
+          "block_id": "b6f5051290164b97a4d8cef5437b08ee:0:3",
+          "bbox": [
+            0.23507516339869264,
+            0.32640444646464595,
+            0.7649324630718953,
+            0.5844392949494946
+          ],
+          "quote": "Training state-of-the-art, deep neural networks is computationally expensive. One way to reduce the training time is to normalize the activities of the neurons. A recently introduced technique called batch normalization uses the distribution of the summed input to a neuron over a mini-batch of training cases to compute a mean and variance which are"
+        },
+        {
+          "status": "PASS",
+          "page_index": 7,
+          "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "query": "conceivable",
+          "block_id": "b6f5051290164b97a4d8cef5437b08ee:7:7",
+          "bbox": [
+            0.17647058823529407,
+            0.5747251535353536,
+            0.8235349467320262,
+            0.7987688404040407
+          ],
+          "quote": "encoded with a encoder RNN and decoder RNNs are used to predict the surrounding sentences. Kiros et al. [2015] showed that this model could produce generic sentence representations that perform well on several tasks without being fine-tuned. However, training this model is time- consuming, requiring several days of training in order to produce mean"
+        },
+        {
+          "status": "PASS",
+          "page_index": 13,
+          "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "query": "changing",
+          "block_id": "b6f5051290164b97a4d8cef5437b08ee:13:3",
+          "bbox": [
+            0.1764705882352944,
+            0.3155193454545454,
+            0.8235349467320263,
+            0.4304721232323231
+          ],
+          "quote": "We now compare how gradient descent updates changing magnitude of the equivalent weights be- tween the normalized GLM and original parameterization. The magnitude of the weights are ex- plicitly parameterized using the gain parameter in the normalized model. Assume there is a gradient update that changes norm of the weight vectors by δ g . We can p"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "e78feadadbdbb0b6",
+        "name": "1707.06347v2.pdf",
+        "relative_path": "pdf/1707.06347v2.pdf",
+        "sha256": "e78feadadbdbb0b601b3c2bcc81404722cd431a489b307545f9b7bea1e8c4f5b",
+        "bytes": 2923532,
+        "kind": "pdf",
+        "page_count": 12,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+      "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "query": "approximators",
+          "block_id": "12c74a3fa17f4e5a8435574d38e5c9f4:0:6",
+          "bbox": [
+            0.11746880438653666,
+            0.514997238567687,
+            0.8825426045058686,
+            0.7731751964754898
+          ],
+          "quote": "In recent years, several different approaches have been proposed for reinforcement learning with neural network function approximators. The leading contenders are deep Q-learning [Mni+15], “vanilla” policy gradient methods [Mni+16], and trust region / natural policy gradient methods [Sch+15b]. However, there is room for improvement in developing a "
+        },
+        {
+          "status": "PASS",
+          "page_index": 6,
+          "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "query": "RoboschoolHumanoidFlagrunHarder",
+          "block_id": "12c74a3fa17f4e5a8435574d38e5c9f4:6:5",
+          "bbox": [
+            0.2374927788806537,
+            0.6972110315806788,
+            0.7625031721510958,
+            0.8076684455949804
+          ],
+          "quote": "RoboschoolHumanoid-v0 RoboschoolHumanoidFlagrun-v0 RoboschoolHumanoidFlagrunHarder-v0 4000 2500 3000 2000 3000 1500 2000 2000 1000 1000 500 1000 0 0 0 0 50M 0 100M 0 100M Timestep Timestep Timestep"
+        },
+        {
+          "status": "PASS",
+          "page_index": 11,
+          "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "query": "MontezumaRevenge",
+          "block_id": "12c74a3fa17f4e5a8435574d38e5c9f4:11:1",
+          "bbox": [
+            0.2933438456279105,
+            0.16036854372483325,
+            0.7066640548692523,
+            0.8219182435407242
+          ],
+          "quote": "Alien 1141.7 1655.4 1850.3 Amidar 380.8 827.6 674.6 Assault 1562.9 4653.8 4971.9 Asterix 3176.3 6801.2 4532.5 Asteroids 1653.3 2389.3 2097.5 Atlantis 729265.3 1841376.0 2311815.0 BankHeist 1095.3 1177.5 1280.6 BattleZone 3080.0 8983.3 17366.7 BeamRider 3031.7 3863.3 1590.0 Bowling 30.1 33.3 40.1 Boxing 17.7 98.9 94.6 Breakout 303.0 456.4 274.8 Cent"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "c531734c7d9ee647",
+        "name": "1910.02054v3.pdf",
+        "relative_path": "pdf/1910.02054v3.pdf",
+        "sha256": "c531734c7d9ee647fda9b4f0e1a6abd6d58ad34e862bc945451b09032be3167e",
+        "bytes": 779206,
+        "kind": "pdf",
+        "page_count": 24,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+      "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+          "query": "breakthroughs",
+          "block_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:0:5",
+          "bbox": [
+            0.16470588235294117,
+            0.3613840207070708,
+            0.8353028136601307,
+            0.6305766974747473
+          ],
+          "quote": "Large deep learning models offer significant accuracy gains, but training billions to trillions of parameters is challenging. Existing solutions such as data and model parallelisms exhibit funda- mental limitations to fit these models into limited device memory, while obtaining computation, communication and development efficiency. We develop a nov"
+        },
+        {
+          "status": "PASS",
+          "page_index": 12,
+          "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+          "query": "demonstrating",
+          "block_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:12:1",
+          "bbox": [
+            0.16470588235294117,
+            0.24996861666666664,
+            0.8352963021568626,
+            0.3078317479797982
+          ],
+          "quote": "Table 2: Maximum model size through memory analysis (left) and the measured model size when running with ZeRO-OS (right). The measured model size with P os matches the theoretical maximum, demonstrating that our memory analysis provides realistic upper bounds on model sizes."
+        },
+        {
+          "status": "PASS",
+          "page_index": 23,
+          "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+          "query": "constraints",
+          "block_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:23:4",
+          "bbox": [
+            0.16470588235294117,
+            0.4784042227272727,
+            0.8353013491830065,
+            0.7174075055555555
+          ],
+          "quote": "These tables contain all the model configurations and batch sizes used for the experiments presented in the paper. In Figure 2, notice that the total number of GPUs for some baseline experiment is 384 or 256 compared to 400 for ZeRO. This is because the total number of GPUs must be a product of the number of MP, and we only had access to a total of"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "ad07e47cedf437a4",
+        "name": "1910.10683v4.pdf",
+        "relative_path": "pdf/1910.10683v4.pdf",
+        "sha256": "ad07e47cedf437a4156419ce5d3076e08a3e59bbfd6dac7cc53df1009cdcbe7f",
+        "bytes": 1190021,
+        "kind": "pdf",
+        "page_count": 67,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+      "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+          "query": "creativecommons",
+          "block_id": "3a013a663fd849ff9b6068654d8db7ce:0:11",
+          "bbox": [
+            0.14617320261437908,
+            0.9170784083333333,
+            0.8533088608287582,
+            0.9695635886363637
+          ],
+          "quote": "©2020 Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J. Liu. License: CC-BY 4.0, see https://creativecommons.org/licenses/by/4.0/. Attribution requirements are provided at http://jmlr.org/papers/v21/20-074.html ."
+        },
+        {
+          "status": "PASS",
+          "page_index": 33,
+          "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+          "query": "parallelization",
+          "block_id": "3a013a663fd849ff9b6068654d8db7ce:33:6",
+          "bbox": [
+            0.14615032679738563,
+            0.7314493686868687,
+            0.8564301583534313,
+            0.8901241987373738
+          ],
+          "quote": "computation: Training for 4× as many steps, training for 2× as many steps with the 2× bigger model, and training the 4× bigger model for the “baseline” number of training steps. When we increase the training steps, we scale both the pre-train and fine-tune steps for simplicity. Note that when increasing the number of pre-training steps, we are effe"
+        },
+        {
+          "status": "PASS",
+          "page_index": 66,
+          "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+          "query": "transferable",
+          "block_id": "3a013a663fd849ff9b6068654d8db7ce:66:6",
+          "bbox": [
+            0.14705882352941177,
+            0.39379154040404035,
+            0.8529905044969441,
+            0.42734515833333336
+          ],
+          "quote": "Jason Yosinski, Jeff Clune, Yoshua Bengio, and Hod Lipson. How transferable are features in deep neural networks? In Advances in neural information processing systems, 2014."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "a41bd7877fd1a6bc",
+        "name": "2001.08361v1.pdf",
+        "relative_path": "pdf/2001.08361v1.pdf",
+        "sha256": "a41bd7877fd1a6bcbba096b2619618bd2f90e02488f2365644903eb2f7c6a494",
+        "bytes": 2493004,
+        "kind": "pdf",
+        "page_count": 30,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "61699b3f11364e119e79181e21359218",
+      "parse_id": "61699b3f11364e119e79181e21359218",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "61699b3f11364e119e79181e21359218",
+          "query": "implementation",
+          "block_id": "61699b3f11364e119e79181e21359218:0:7",
+          "bbox": [
+            0.1470588235294118,
+            0.8373198767676768,
+            0.8529430588235297,
+            0.8863784626262626
+          ],
+          "quote": "Contributions: Jared Kaplan and Sam McCandlish led the research. Tom Henighan contributed the LSTM ex- periments. Tom Brown, Rewon Child, and Scott Gray, and Alec Radford developed the optimized Transformer implementation. Jeff Wu, Benjamin Chess, and Alec Radford developed the text datasets. Dario Amodei provided guidance throughout the project."
+        },
+        {
+          "status": "PASS",
+          "page_index": 15,
+          "parse_id": "61699b3f11364e119e79181e21359218",
+          "query": "definition",
+          "block_id": "61699b3f11364e119e79181e21359218:15:8",
+          "bbox": [
+            0.14705882352941185,
+            0.4159877797979798,
+            0.8529460761437911,
+            0.4784923252525253
+          ],
+          "quote": "In Figure 12, we show the effect of training models of sub-optimal sizes (see Appendix B.4). By definition C min ≡ 6NB crit S , and so we can use N(C min ) to extract further results. In particular, since prior fits show B ∝ L −4.8 and L ∝ C min −0.05 , we can conclude that B crit ∝ C min 0.24 . This leads us to conclude that the optimal number of "
+        },
+        {
+          "status": "PASS",
+          "page_index": 29,
+          "parse_id": "61699b3f11364e119e79181e21359218",
+          "query": "autoregressive",
+          "block_id": "61699b3f11364e119e79181e21359218:29:1",
+          "bbox": [
+            0.1470588235294118,
+            0.4181039414141412,
+            0.8529388911764706,
+            0.722656183333333
+          ],
+          "quote": "Omer Levy, and Samuel R. Bowman. Superglue: A stickier benchmark for general-purpose language understanding systems, 2019, 1905.00537. 2 [WRH17] Yu-Xiong Wang, Deva Ramanan, and Martial Hebert. Growing a brain: Fine-tuning by in- creasing model capacity. 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Jul 2017. doi:10.1109/c"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "e1fa0519ed8e09a6",
+        "name": "2002.04745v2.pdf",
+        "relative_path": "pdf/2002.04745v2.pdf",
+        "sha256": "e1fa0519ed8e09a676d56c983e99ead5effd7ef840ae86a186729287469bf883",
+        "bytes": 779713,
+        "kind": "pdf",
+        "page_count": 17,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+      "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+          "query": "Introduction",
+          "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:0:8",
+          "bbox": [
+            0.5023529411764706,
+            0.23713438989898997,
+            0.6279020758169934,
+            0.25222933939393943
+          ],
+          "quote": "1. Introduction"
+        },
+        {
+          "status": "PASS",
+          "page_index": 8,
+          "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+          "query": "classification",
+          "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:8:19",
+          "bbox": [
+            0.5023529411764706,
+            0.35426303232323236,
+            0.8875609724235293,
+            0.4272221232323232
+          ],
+          "quote": "He, T., Zhang, Z., Zhang, H., Zhang, Z., Xie, J., and Li, M. Bag of tricks for image classification with convolutional neural networks. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pp. 558– 567, 2019."
+        },
+        {
+          "status": "PASS",
+          "page_index": 16,
+          "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+          "query": "Performances",
+          "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:16:7",
+          "bbox": [
+            0.28947058823529415,
+            0.6302163414141414,
+            0.5113937071895425,
+            0.6415375535353536
+          ],
+          "quote": "Figure 6. Performances of the models"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "97fd272f1fdfc186",
+        "name": "2005.14165v4.pdf",
+        "relative_path": "pdf/2005.14165v4.pdf",
+        "sha256": "97fd272f1fdfc18677462d0292f5fbf26ca86b4d1b485c2dba03269b643a0e83",
+        "bytes": 6768044,
+        "kind": "pdf",
+        "page_count": 75,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "dae6c78ff75f412a8969110847fa06ed",
+      "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "query": "competitiveness",
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:0:10",
+          "bbox": [
+            0.17566503267973857,
+            0.5485862646464646,
+            0.8264441186535945,
+            0.7677764161616162
+          ],
+          "quote": "Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task. While typically task-agnostic in architecture, this method still requires task-specific fine-tuning datasets of thousands or tens of thousands of examples. By contrast, humans can gene"
+        },
+        {
+          "status": "PASS",
+          "page_index": 37,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "query": "Characterized",
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:37:1",
+          "bbox": [
+            0.12741503267973855,
+            0.38762194873737377,
+            0.875286390085294,
+            0.574135002020202
+          ],
+          "quote": "Religion Most Favored Descriptive Words Atheism ‘Theists’, ‘Cool’, ‘Agnostics’, ‘Mad’, ‘Theism’, ‘Defensive’, ‘Complaining’, ‘Correct’, ‘Arrogant’, ‘Characterized’ Buddhism ‘Myanmar’, ‘Vegetarians’, ‘Burma’, ‘Fellowship’, ‘Monk’, ‘Japanese’, ‘Reluctant’, ‘Wisdom’, ‘En- lightenment’, ‘Non-Violent’ Christianity ‘Attend’, ‘Ignorant’, ‘Response’, ‘Judg"
+        },
+        {
+          "status": "PASS",
+          "page_index": 74,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "query": "tiano",
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:74:0",
+          "bbox": [
+            0.12401470588235294,
+            0.09182590555555553,
+            0.8850594905947708,
+            0.13375368888888886
+          ],
+          "quote": "[ZSW + 19b] Daniel M. Ziegler, Nisan Stiennon, Jeffrey Wu, Tom B. Brown, Alec Radford, Dario Amodei, Paul Chris- tiano, and Geoffrey Irving. Fine-tuning language models from human preferences. ArXiv, abs/1909.08593, 2019."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "8ce7b83971a14508",
+        "name": "2010.11929v2.pdf",
+        "relative_path": "pdf/2010.11929v2.pdf",
+        "sha256": "8ce7b83971a14508ca711a27c875c9b6914c4f6767cf3150fb1ca6c07aa056d6",
+        "bytes": 3743814,
+        "kind": "pdf",
+        "page_count": 22,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+      "parse_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+          "query": "theoretically",
+          "block_id": "6b4d8bfdfcd84c99aaa3d147bef54a88:0:7",
+          "bbox": [
+            0.17647058823529432,
+            0.5576607595959596,
+            0.8235349467320263,
+            0.8067259111111112
+          ],
+          "quote": "Self-attention-based architectures, in particular Transformers (Vaswani et al., 2017), have become the model of choice in natural language processing (NLP). The dominant approach is to pre-train on a large text corpus and then fine-tune on a smaller task-specific dataset (Devlin et al., 2019). Thanks to Transformers’ computational efficiency and sc"
+        },
+        {
+          "status": "PASS",
+          "page_index": 11,
+          "parse_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+          "query": "Fixefficientnet",
+          "block_id": "6b4d8bfdfcd84c99aaa3d147bef54a88:11:2",
+          "bbox": [
+            0.17647058823529413,
+            0.1438147999999998,
+            0.8235349467320254,
+            0.17023096161616144
+          ],
+          "quote": "Hugo Touvron, Andrea Vedaldi, Matthijs Douze, and Herve Jegou. Fixing the train-test resolution discrepancy: Fixefficientnet. arXiv preprint arXiv:2003.08237, 2020."
+        },
+        {
+          "status": "PASS",
+          "page_index": 21,
+          "parse_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+          "query": "Breakdown",
+          "block_id": "6b4d8bfdfcd84c99aaa3d147bef54a88:21:1",
+          "bbox": [
+            0.29987745098039215,
+            0.4572958606060606,
+            0.6950768630718956,
+            0.46987490101010093
+          ],
+          "quote": "Table 9: Breakdown of VTAB-1k performance across tasks."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "2d5d4690b43be896",
+        "name": "209_Emergent_Abilities_of_Larg.pdf",
+        "relative_path": "pdf/209_Emergent_Abilities_of_Larg.pdf",
+        "sha256": "2d5d4690b43be8965a6b17ae28b370ab4b8774b2213c41111c1f584cc3c447a3",
+        "bytes": 629661,
+        "kind": "pdf",
+        "page_count": 30,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+          "query": "methodologically",
+          "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:0:8",
+          "bbox": [
+            0.11764705882352941,
+            0.752906747979798,
+            0.884607505602353,
+            0.8711511924242424
+          ],
+          "quote": "Language models have revolutionized natural language processing (NLP) in recent years. It is now well-known that increasing the scale of language models (e.g., training compute, model parameters, etc.) can lead to better performance and sample efficiency on a range of downstream NLP tasks (Devlin et al., 2019; Brown et al., 2020, inter alia). In ma"
+        },
+        {
+          "status": "PASS",
+          "page_index": 15,
+          "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+          "query": "representations",
+          "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:15:6",
+          "bbox": [
+            0.11764705882352941,
+            0.3579357883838383,
+            0.8850644763901966,
+            0.40070422272727274
+          ],
+          "quote": "Mohammad Taher Pilehvar and Jose Camacho-Collados. WiC: the word-in-context dataset for evaluat- ing context-sensitive meaning representations. NAACL, 2019. URL https://aclanthology.org/ N19-1128."
+        },
+        {
+          "status": "PASS",
+          "page_index": 29,
+          "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+          "query": "permissibility",
+          "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:29:2",
+          "bbox": [
+            0.11764705882352941,
+            0.1327766974747474,
+            0.8846218569555556,
+            0.22083048535353544
+          ],
+          "quote": "Better than random and not correlated with scale: boolean expressions, crash blossom, dynamic counting, entailed polarity hindi, epistemic reasoning, factuality of summary, fantasy reasoning, gender sensitivity chinese, gender sensitivity english, high low game, identify math theorems, intersect geometry, muslim violence bias, persian idioms, prote"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "f340f6ace31abf7d",
+        "name": "2101.03961v3.pdf",
+        "relative_path": "pdf/2101.03961v3.pdf",
+        "sha256": "f340f6ace31abf7d0730ef461404279f40d3c890e9cc2daeb7068b3304afdbd6",
+        "bytes": 1304157,
+        "kind": "pdf",
+        "page_count": 40,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+          "query": "creativecommons",
+          "block_id": "3f4fea8bed824d8a9345046cf0495095:0:10",
+          "bbox": [
+            0.1470588235294117,
+            0.9151261363636364,
+            0.8449273437908497,
+            0.9576128310606061
+          ],
+          "quote": "© 2022 William Fedus, Barret Zoph and Noam Shazeer. License: CC-BY 4.0, see https://creativecommons.org/licenses/by/4.0/. Attribution requirements are provided at http://jmlr.org/papers/v23/21-0998.html."
+        },
+        {
+          "status": "PASS",
+          "page_index": 20,
+          "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+          "query": "communicates",
+          "block_id": "3f4fea8bed824d8a9345046cf0495095:20:7",
+          "bbox": [
+            0.14705882352941158,
+            0.8079195270202018,
+            0.8529488948366003,
+            0.8916479790404037
+          ],
+          "quote": "It is common to mix both model and data parallelism for large scale models, which was done in the largest T5 models (Raffel et al., 2019; Xue et al., 2020) and in GPT-3 (Brown et al., 2020). With a total of N = n × m cores, now each core will be responsible for B/n tokens and d ff /m of both the weights and intermediate activation. In the forward a"
+        },
+        {
+          "status": "PASS",
+          "page_index": 39,
+          "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+          "query": "autoregressive",
+          "block_id": "3f4fea8bed824d8a9345046cf0495095:39:6",
+          "bbox": [
+            0.14705882352941177,
+            0.43067836540404003,
+            0.8529506773692807,
+            0.4786683906565653
+          ],
+          "quote": "Zhilin Yang, Zihang Dai, Yiming Yang, Jaime Carbonell, Ruslan Salakhutdinov, and Quoc V. Le. Xlnet: Generalized autoregressive pretraining for language understanding, 2020."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "6478b6e571a7d6fc",
+        "name": "2103.00020v1.pdf",
+        "relative_path": "pdf/2103.00020v1.pdf",
+        "sha256": "6478b6e571a7d6fcd846d8ef77bfd60c285f1986abb8f475eedc43de403074f5",
+        "bytes": 6813639,
+        "kind": "pdf",
+        "page_count": 48,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "query": "autoregressive",
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:0:7",
+          "bbox": [
+            0.5017679738562092,
+            0.23911783030303027,
+            0.8874145938300657,
+            0.4177410626262626
+          ],
+          "quote": "Task-agnostic objectives such as autoregressive and masked language modeling have scaled across many orders of mag- nitude in compute, model capacity, and data, steadily im- proving capabilities. The development of “text-to-text” as a standardized input-output interface (McCann et al., 2018; Radford et al., 2019; Raffel et al., 2019) has enabled ta"
+        },
+        {
+          "status": "PASS",
+          "page_index": 24,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "query": "inappropriateness",
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:24:20",
+          "bbox": [
+            0.5023529411764706,
+            0.8813994222222222,
+            0.8847101251764709,
+            0.9053001797979798
+          ],
+          "quote": "or due to the inappropriateness of AI use in the application area itself."
+        },
+        {
+          "status": "PASS",
+          "page_index": 47,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "query": "Maximum",
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:47:3",
+          "bbox": [
+            0.31137254901960787,
+            0.14387919393939394,
+            0.6598530787581698,
+            0.27721707272727275
+          ],
+          "quote": "Batch size 32768 Vocabulary size 49408 Training epochs 32 Maximum temperature 100.0 Weight decay 0.2 Warm-up iterations 2000 Adam β 1 0.9 Adam β 2 0.999 (ResNet), 0.98 (ViT) Adam (cid:15) 10 −8 (ResNet), 10 −6 (ViT)"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "e9a0d3128767db61",
+        "name": "2106.09685v2.pdf",
+        "relative_path": "pdf/2106.09685v2.pdf",
+        "sha256": "e9a0d3128767db616085dc0f4e6e455e672e89af823e8ed1282793682787395a",
+        "bytes": 1609513,
+        "kind": "pdf",
+        "page_count": 26,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+      "parse_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+          "query": "implementations",
+          "block_id": "3ca21a0392f54c2dae1e029d437dc7d8:0:4",
+          "bbox": [
+            0.23507516339869278,
+            0.3371923252525249,
+            0.7649324630718956,
+            0.5850011636363633
+          ],
+          "quote": "An important paradigm of natural language processing consists of large-scale pre- training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example – deploying indepen- dent instances of fine-tuned"
+        },
+        {
+          "status": "PASS",
+          "page_index": 13,
+          "parse_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+          "query": "overparameterized",
+          "block_id": "3ca21a0392f54c2dae1e029d437dc7d8:13:14",
+          "bbox": [
+            0.17647058823529413,
+            0.7182377797979793,
+            0.8235349467320257,
+            0.7446526787878783
+          ],
+          "quote": "Yuanzhi Li and Yingyu Liang. Learning overparameterized neural networks via stochastic gradient descent on structured data. In Advances in Neural Information Processing Systems, 2018."
+        },
+        {
+          "status": "PASS",
+          "page_index": 25,
+          "parse_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+          "query": "suggesting",
+          "block_id": "3ca21a0392f54c2dae1e029d437dc7d8:25:5",
+          "bbox": [
+            0.17647058823529402,
+            0.5859322242424242,
+            0.8235376137254903,
+            0.6676956080808082
+          ],
+          "quote": "Table 18: Validation loss and test set metrics on E2E NLG Challenge achieved by LoRA with different rank r using GPT-2 Medium. Unlike on GPT-3 where r = 1 suffices for many tasks, here the performance peaks at r = 16 for validation loss and r = 4 for BLEU, suggesting the GPT-2 Medium has a similar intrinsic rank for adaptation compared to GPT-3 175"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "ebae72ea0e8a5eb2",
+        "name": "2107.03374v2.pdf",
+        "relative_path": "pdf/2107.03374v2.pdf",
+        "sha256": "ebae72ea0e8a5eb2ecbccdb985aec6cc1254a7c4d29e6d4de7866db1e66c4855",
+        "bytes": 1885177,
+        "kind": "pdf",
+        "page_count": 35,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+          "query": "Correspondence",
+          "block_id": "0057f1a88e864a7aaae219ff98f7a6db:0:10",
+          "bbox": [
+            0.09006209150326798,
+            0.8436620484848485,
+            0.47537385275816996,
+            0.8927206343434344
+          ],
+          "quote": "formed while at OpenAI. Correspondence to: Mark Chen <mark@openai.com>, Jerry Tworek < jt@openai.com > , Heewoo Jun < hee- woo@openai.com > , Qiming Yuan < qiming@openai.com > ."
+        },
+        {
+          "status": "PASS",
+          "page_index": 17,
+          "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+          "query": "contextualized",
+          "block_id": "0057f1a88e864a7aaae219ff98f7a6db:17:3",
+          "bbox": [
+            0.09058823529411765,
+            0.2124474020202021,
+            0.47537306164705906,
+            0.24892644242424233
+          ],
+          "quote": "Peters, M. E., Neumann, M., Iyyer, M., Gardner, M., Clark, C., Lee, K., and Zettlemoyer, L. Deep contextualized word repre- sentations. arXiv preprint arXiv:1802.05365 , 2018."
+        },
+        {
+          "status": "PASS",
+          "page_index": 34,
+          "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+          "query": "compatibility",
+          "block_id": "0057f1a88e864a7aaae219ff98f7a6db:34:1",
+          "bbox": [
+            0.09058823529411765,
+            0.08738929494949495,
+            0.47564272529411783,
+            0.2660125272727273
+          ],
+          "quote": "trust Codex to do the rest. Users might be more inclined to accept the Codex answer under the assumption that the package it suggests is the one with which Codex will be more helpful. As a result, certain players might become more entrenched in the package market and Codex might not be aware of new packages developed after the training data was ori"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "7d9f878c23b460e4",
+        "name": "2201.11903v6.pdf",
+        "relative_path": "pdf/2201.11903v6.pdf",
+        "sha256": "7d9f878c23b460e4566aa4ec9201b1abfb3b8faefb2b1356e411cb90fef72a12",
+        "bytes": 891773,
+        "kind": "pdf",
+        "page_count": 43,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+          "query": "surpassing",
+          "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:0:17",
+          "bbox": [
+            0.23507516339869283,
+            0.5222478808080808,
+            0.7649194400653594,
+            0.5348269212121212
+          ],
+          "quote": "accuracy on the GSM8K benchmark of math word problems, surpassing even"
+        },
+        {
+          "status": "PASS",
+          "page_index": 21,
+          "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+          "query": "manipulation",
+          "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:21:1",
+          "bbox": [
+            0.1759656862745098,
+            0.6138160626262625,
+            0.8235346862745093,
+            0.6583193454545455
+          ],
+          "quote": "Table 5: Standard prompting versus chain of thought prompting enables length generalization to longer inference examples on two symbolic manipulation tasks. Last Letter Concatenation Coin Flip (state tracking)"
+        },
+        {
+          "status": "PASS",
+          "page_index": 42,
+          "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+          "query": "Thatmeanstherewereoriginall",
+          "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:42:12",
+          "bbox": [
+            0.18583169934640523,
+            0.28112626262626267,
+            0.8347229225023343,
+            0.30785606060606063
+          ],
+          "quote": " | Leahhad | 32chocolatesandLeah’ssisterh | ad42.Thatmeanstherewereoriginall | y32+42= | 74choco | lates.\n35 | havebee | neaten.Sointotaltheystillhave |  |  |  | "
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "c1984bb50a5b90fd",
+        "name": "2203.02155v1.pdf",
+        "relative_path": "pdf/2203.02155v1.pdf",
+        "sha256": "c1984bb50a5b90fddb895fdc3a0f72e5bc977148c9f63ef6040cbe7a3e1f0d98",
+        "bytes": 1797405,
+        "kind": "pdf",
+        "page_count": 68,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+      "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+          "query": "affiliations",
+          "block_id": "9be4b0b9d82b48efb62e9df9f947c637:0:12",
+          "bbox": [
+            0.17647058823529413,
+            0.8717942606060606,
+            0.8260976012549017,
+            0.9115362909090908
+          ],
+          "quote": "∗ Primary authors. This was a joint project of the OpenAI Alignment team. RL and JL are the team leads. Corresponding author: lowe@openai.com . † Work done while at OpenAI. Current affiliations: AA: Anthropic; PC: Alignment Research Center."
+        },
+        {
+          "status": "PASS",
+          "page_index": 34,
+          "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+          "query": "inaccuracies",
+          "block_id": "9be4b0b9d82b48efb62e9df9f947c637:34:0",
+          "bbox": [
+            0.17570588235294118,
+            0.0936266686868686,
+            0.8255711589215684,
+            0.2853319717171718
+          ],
+          "quote": "We used a lightweight classifier ( langid.py ) to classify the language of all instructions in our dataset. Empirically, around 96% of our dataset (110k datapoints) is classified as English, although we estimate that the actual fraction may be 99% or higher, due to classifier inaccuracies. Besides English, a small minority of prompts were found in "
+        },
+        {
+          "status": "PASS",
+          "page_index": 67,
+          "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+          "query": "predispositions",
+          "block_id": "9be4b0b9d82b48efb62e9df9f947c637:67:2",
+          "bbox": [
+            0.19264869281045752,
+            0.6300120929292929,
+            0.8099237986928106,
+            0.7294668464646464
+          ],
+          "quote": "InstructGPT 175B completion: There are a variety of factors that may impact your development of an anxiety lump in your chest. Stress is probably the most important factor, given that we experience it every day and it can be a significant contributing factor of many different mental health concerns and disorders, including an anxiety disorder. Othe"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "ca7f9fda10b90fc0",
+        "name": "2205.14135v2.pdf",
+        "relative_path": "pdf/2205.14135v2.pdf",
+        "sha256": "ca7f9fda10b90fc05dd291a3accc85e9c1a4a860b99b31928dab03ed3fcb14e4",
+        "bytes": 2630825,
+        "kind": "pdf",
+        "page_count": 34,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "464f25034aa74104a944a67df1d0cca2",
+      "parse_id": "464f25034aa74104a944a67df1d0cca2",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "464f25034aa74104a944a67df1d0cca2",
+          "query": "Introduction",
+          "block_id": "464f25034aa74104a944a67df1d0cca2:0:11",
+          "bbox": [
+            0.11764705882352941,
+            0.6567019732323233,
+            0.2980200498692811,
+            0.674815862121212
+          ],
+          "quote": "1 Introduction"
+        },
+        {
+          "status": "PASS",
+          "page_index": 17,
+          "parse_id": "464f25034aa74104a944a67df1d0cca2",
+          "query": "complicated",
+          "block_id": "464f25034aa74104a944a67df1d0cca2:17:11",
+          "bbox": [
+            0.11764705882352941,
+            0.7856280303030303,
+            0.8855097490941176,
+            0.8308367984848485
+          ],
+          "quote": "Since we already computed 𝐿 𝑖 , 𝑑𝑣 𝑗 can be computed without extra memory by repeated summing. The gradients dQ and dK are a little more complicated. We go through the gradients dP and dS first. From Eq. (2), we have that dP = dOV 𝑇 , and so:"
+        },
+        {
+          "status": "PASS",
+          "page_index": 33,
+          "parse_id": "464f25034aa74104a944a67df1d0cca2",
+          "query": "usage",
+          "block_id": "464f25034aa74104a944a67df1d0cca2:33:9",
+          "bbox": [
+            0.1171045751633987,
+            0.7218485878787879,
+            0.565928691957124,
+            0.7331698
+          ],
+          "quote": "Table 21: Memory usage (MB) of various exact/approximate/sparse"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "f457f08102eb381f",
+        "name": "2206.07682v2.pdf",
+        "relative_path": "pdf/2206.07682v2.pdf",
+        "sha256": "f457f08102eb381f2300e1653bf4c82a9aa5dce0eb8dba8fe744ccc2500c3755",
+        "bytes": 842905,
+        "kind": "pdf",
+        "page_count": 30,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+          "query": "methodologically",
+          "block_id": "6ccdeca3f4d44e588e81e3e1abface94:0:8",
+          "bbox": [
+            0.11764705882352941,
+            0.7504664141414142,
+            0.884607505602353,
+            0.8687108585858586
+          ],
+          "quote": "Language models have revolutionized natural language processing (NLP) in recent years. It is now well-known that increasing the scale of language models (e.g., training compute, model parameters, etc.) can lead to better performance and sample efficiency on a range of downstream NLP tasks (Devlin et al., 2019; Brown et al., 2020, inter alia ). In m"
+        },
+        {
+          "status": "PASS",
+          "page_index": 15,
+          "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+          "query": "representations",
+          "block_id": "6ccdeca3f4d44e588e81e3e1abface94:15:7",
+          "bbox": [
+            0.11764705882352941,
+            0.41411666666666663,
+            0.8850644763901966,
+            0.458734219949495
+          ],
+          "quote": "Mohammad Taher Pilehvar and Jose Camacho-Collados. WiC: the word-in-context dataset for evaluat- ing context-sensitive meaning representations. NAACL, 2019. URL https://aclanthology.org/ N19-1128."
+        },
+        {
+          "status": "PASS",
+          "page_index": 29,
+          "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+          "query": "permissibility",
+          "block_id": "6ccdeca3f4d44e588e81e3e1abface94:29:2",
+          "bbox": [
+            0.11764705882352941,
+            0.13033636363636364,
+            0.8846218569555556,
+            0.21839015151515156
+          ],
+          "quote": "Better than random and not correlated with scale: boolean expressions, crash blossom, dynamic counting, entailed polarity hindi, epistemic reasoning, factuality of summary, fantasy reasoning, gender sensitivity chinese, gender sensitivity english, high low game, identify math theorems, intersect geometry, muslim violence bias, persian idioms, prote"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "82d5b9634b3d2601",
+        "name": "2210.02414v2.pdf",
+        "relative_path": "pdf/2210.02414v2.pdf",
+        "sha256": "82d5b9634b3d2601b3eb494dcc9e2189132f5d6e479233b91c7ce411dbdfcfa4",
+        "bytes": 4743570,
+        "kind": "pdf",
+        "page_count": 56,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "ca715fafd401474eb2a0471c068cc3b2",
+      "parse_id": "ca715fafd401474eb2a0471c068cc3b2",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "ca715fafd401474eb2a0471c068cc3b2",
+          "query": "intransparent",
+          "block_id": "ca715fafd401474eb2a0471c068cc3b2:0:8",
+          "bbox": [
+            0.17647058823529382,
+            0.6503059616161618,
+            0.8235349467320258,
+            0.8641501535353537
+          ],
+          "quote": "Large language models (LLMs), particularly those with over 100 billion (100B) parameters (Brown et al., 2020; Thoppilan et al., 2022; Rae et al., 2021; Chowdhery et al., 2022; Wang et al., 2021), have presented attractive scaling laws (Wei et al., 2022b), where emergent zero-shot and few-shot capabilities suddenly arose. Among them, GPT-3 (Brown et"
+        },
+        {
+          "status": "PASS",
+          "page_index": 28,
+          "parse_id": "ca715fafd401474eb2a0471c068cc3b2",
+          "query": "ISTRIBUTION",
+          "block_id": "ca715fafd401474eb2a0471c068cc3b2:28:6",
+          "bbox": [
+            0.17687745098039215,
+            0.4987642949494949,
+            0.47353388186274514,
+            0.5113433353535353
+          ],
+          "quote": "B.8.2 W EIGHT D ISTRIBUTION A NALYSIS"
+        },
+        {
+          "status": "PASS",
+          "page_index": 55,
+          "parse_id": "ca715fafd401474eb2a0471c068cc3b2",
+          "query": "NVIRONMENTAL",
+          "block_id": "ca715fafd401474eb2a0471c068cc3b2:55:2",
+          "bbox": [
+            0.1769591503267974,
+            0.2998499030303024,
+            0.42787379101307194,
+            0.3149448525252519
+          ],
+          "quote": "H E NVIRONMENTAL I MPACT"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "8033c3e611aaa120",
+        "name": "2211.05100v4.pdf",
+        "relative_path": "pdf/2211.05100v4.pdf",
+        "sha256": "8033c3e611aaa120cb7294085ebd6ee297ffae9ec02393b1c4f1593d7e6ee065",
+        "bytes": 3029243,
+        "kind": "pdf",
+        "page_count": 73,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+          "query": "correspondence",
+          "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:0:5",
+          "bbox": [
+            0.15307679738562094,
+            0.8622936868686869,
+            0.8529427037908496,
+            0.8896483353535354
+          ],
+          "quote": "∗. Please direct correspondence to bigscience-contact@googlegroups.com. A list of contributions is available in Section 6."
+        },
+        {
+          "status": "PASS",
+          "page_index": 36,
+          "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+          "query": "Examination",
+          "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:36:7",
+          "bbox": [
+            0.14705882352941177,
+            0.515345032070707,
+            0.8529506773692813,
+            0.5975497037878787
+          ],
+          "quote": "2018; Tenney et al., 2018; Belinkov and Glass, 2019; Teehan et al., 2022), although it comes with certain shortcomings (Belinkov, 2022). Examination of the LLM embeddings can help shed light on the generalizing abilities of the model apart from its training objective loss or downstream task evaluation, which is especially beneficial for examining l"
+        },
+        {
+          "status": "PASS",
+          "page_index": 72,
+          "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+          "query": "demontraste",
+          "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:72:11",
+          "bbox": [
+            0.1470588235294118,
+            0.567512961363636,
+            0.3681427867320262,
+            0.5812870775252523
+          ],
+          "quote": "demontraste_or_violate"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "6337bde031b2f237",
+        "name": "2212.04356v1.pdf",
+        "relative_path": "pdf/2212.04356v1.pdf",
+        "sha256": "6337bde031b2f237547a977b022f831169a7e05b4d9047f29501166d83594566",
+        "bytes": 1008644,
+        "kind": "pdf",
+        "page_count": 28,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "2209b4a8f3454c179e785f68eba4d81f",
+      "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "query": "Correspondence",
+          "block_id": "2209b4a8f3454c179e785f68eba4d81f:0:7",
+          "bbox": [
+            0.08990032679738562,
+            0.8155019717171718,
+            0.4755025379973857,
+            0.8538317454545454
+          ],
+          "quote": "* Equal contribution 1 OpenAI, San Francisco, CA 94110, USA. Correspondence to: Alec Radford < alec@openai.com > , Jong Wook Kim <jongwook@openai.com>."
+        },
+        {
+          "status": "PASS",
+          "page_index": 14,
+          "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "query": "differentiation",
+          "block_id": "2209b4a8f3454c179e785f68eba4d81f:14:21",
+          "bbox": [
+            0.5023529411764706,
+            0.6116594969696969,
+            0.8874145962745101,
+            0.6846185878787878
+          ],
+          "quote": "Griewank, A. and Walther, A. Algorithm 799: revolve: an implementation of checkpointing for the reverse or ad- joint mode of computational differentiation. ACM Trans- actions on Mathematical Software (TOMS), 26(1):19–45, 2000."
+        },
+        {
+          "status": "PASS",
+          "page_index": 27,
+          "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "query": "Speechless",
+          "block_id": "2209b4a8f3454c179e785f68eba4d81f:27:2",
+          "bbox": [
+            0.3092254901960784,
+            0.12372641616161616,
+            0.6620006441176471,
+            0.33885469898989906
+          ],
+          "quote": "Hyperparameter Value Updates 1048576 Batch Size 256 Warmup Updates 2048 Max grad norm 1.0 Optimizer AdamW β 1 0.9 β 2 0.98 (cid:15) 10 −6 Weight Decay 0.1 Weight Init Gaussian Fan-In Learning Rate Schedule Linear Decay Speechless audio subsample factor 10× Condition on prior text rate 50%"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "c33a66dadca2388d",
+        "name": "2303.08774v6.pdf",
+        "relative_path": "pdf/2303.08774v6.pdf",
+        "sha256": "c33a66dadca2388d7b172d6293b00dc32b71110c6f38fafe0d41112e61be7774",
+        "bytes": 5245564,
+        "kind": "pdf",
+        "page_count": 100,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+          "query": "Correspondence",
+          "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:0:6",
+          "bbox": [
+            0.1759656862745098,
+            0.7541582343434343,
+            0.8246270886176466,
+            0.9112582585858585
+          ],
+          "quote": "model capability results, as well as model safety improvements and results, in more detail in later sections. This report also discusses a key challenge of the project, developing deep learning infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to make predictions about the expected perfor"
+        },
+        {
+          "status": "PASS",
+          "page_index": 50,
+          "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+          "query": "disproportionately",
+          "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:50:22",
+          "bbox": [
+            0.11561324676470587,
+            0.7878617796548826,
+            0.8848612703597483,
+            0.8016423570188977
+          ],
+          "quote": "threatening our ability to distinguish fact from fiction.[55] This could disproportionately benefit"
+        },
+        {
+          "status": "PASS",
+          "page_index": 99,
+          "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+          "query": "bioisosterism",
+          "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:99:0",
+          "bbox": [
+            0.12603644401960784,
+            0.09572159148737512,
+            0.4890376945560931,
+            0.10704809931389027
+          ],
+          "quote": "Observation: Failed to modify (bioisosterism) compound"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "dc8bace378a282ea",
+        "name": "2304.08485v2.pdf",
+        "relative_path": "pdf/2304.08485v2.pdf",
+        "sha256": "dc8bace378a282ea78caa9b5959306202fbfa3b8cedaf8a66541a9af18f4d3bf",
+        "bytes": 5906135,
+        "kind": "pdf",
+        "page_count": 25,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "15624a22277749948d0faf32cfd20727",
+      "parse_id": "15624a22277749948d0faf32cfd20727",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "15624a22277749948d0faf32cfd20727",
+          "query": "communicating",
+          "block_id": "15624a22277749948d0faf32cfd20727:0:7",
+          "bbox": [
+            0.1759656862745098,
+            0.5877100020202021,
+            0.8240965638888884,
+            0.8207385373737374
+          ],
+          "quote": "Humans interact with the world through many channels such as vision and language, as each individual channel has a unique advantage in representing and communicating certain concepts, and thus facilitates a better understanding of the world. One of the core aspirations in artificial intelligence is to develop a general-purpose assistant that can ef"
+        },
+        {
+          "status": "PASS",
+          "page_index": 12,
+          "parse_id": "15624a22277749948d0faf32cfd20727",
+          "query": "Alipoormolabashi",
+          "block_id": "15624a22277749948d0faf32cfd20727:12:3",
+          "bbox": [
+            0.17647058823529413,
+            0.24778323434343424,
+            0.8263714401395422,
+            0.3016842444444445
+          ],
+          "quote": "[52] Yizhong Wang, Swaroop Mishra, Pegah Alipoormolabashi, Yeganeh Kordi, Amirreza Mirzaei, Anjana Arunkumar, Arjun Ashok, Arut Selvan Dhanasekaran, Atharva Naik, David Stap, et al. Benchmarking generalization via in-context instructions on 1,600+ language tasks. arXiv preprint arXiv:2204.07705, 2022. 2"
+        },
+        {
+          "status": "PASS",
+          "page_index": 24,
+          "parse_id": "15624a22277749948d0faf32cfd20727",
+          "query": "definitively",
+          "block_id": "15624a22277749948d0faf32cfd20727:24:1",
+          "bbox": [
+            0.20048692810457516,
+            0.25069283358585864,
+            0.7860686168235288,
+            0.5413312383838383
+          ],
+          "quote": "Conversation Question: What is the skier doing? === Answer: The skier is skiing in the snow-covered hills, making his way through the snow and enjoying the beautiful mountain scenery. They are also standing near a trail sign, which indicates their location on the mountain. === Question: Are there any other people or skiers visible in the image? ==="
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "57d18c40bdbb4bc1",
+        "name": "2305.13048v2.pdf",
+        "relative_path": "pdf/2305.13048v2.pdf",
+        "sha256": "57d18c40bdbb4bc1ab69c078a304f97e31657b4f543c408d8a5520e672a3fab0",
+        "bytes": 1590242,
+        "kind": "pdf",
+        "page_count": 30,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+          "query": "parallelizability",
+          "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:0:23",
+          "bbox": [
+            0.513681048790813,
+            0.3395589276508808,
+            0.8841502915128446,
+            0.5456417888322703
+          ],
+          "quote": "processing tasks such as natural language under- standing, conversational AI, time-series analysis, and indirectly sequential formats like images and graphs (Brown et al., 2020; Ismail Fawaz et al., 2019; Wu et al., 2020; Albalak et al., 2022). Pre- dominant among these techniques include RNNs and Transformers (Vaswani et al., 2017), each with spec"
+        },
+        {
+          "status": "PASS",
+          "page_index": 15,
+          "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+          "query": "computationally",
+          "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:15:13",
+          "bbox": [
+            0.11838710110940136,
+            0.6041702620294813,
+            0.8841112441529648,
+            0.7788218954970365
+          ],
+          "quote": "Attention Free Models Another line of research replaces the attention mechanism with other modules to scale to long sequences. MLP-Mixer and others (Tolstikhin et al., 2021; Liu et al., 2021) propose replacing attention by Multi-Layer Perceptrons (MLPs) in computer vision tasks. The Attention Free Transformer (AFT) (Zhai et al., 2021) and HrrFormer"
+        },
+        {
+          "status": "PASS",
+          "page_index": 29,
+          "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+          "query": "proportionality",
+          "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:29:8",
+          "bbox": [
+            0.14523851121160605,
+            0.4339370530591882,
+            0.8554070923207056,
+            0.543457417952464
+          ],
+          "quote": "If five cats can catch five mice in five minutes, it means that each cat can catch one mouse in one minute. To find out how long it will take one cat to catch one mouse, we can use the concept of proportionality. Let’s assume that it takes x minutes for a cat to catch a mouse. Then, the number of mice caught by a cat in one minute is equal to the n"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "33a4e757c19d6ea8",
+        "name": "2305.14314v1.pdf",
+        "relative_path": "pdf/2305.14314v1.pdf",
+        "sha256": "33a4e757c19d6ea8d3cca8958fce8fe405e290272e135c99ee66065c775d5bd1",
+        "bytes": 1065470,
+        "kind": "pdf",
+        "page_count": 26,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+          "query": "backpropagates",
+          "block_id": "93a4234ccaf6433c9f66f01322316fec:0:5",
+          "bbox": [
+            0.23430882352941176,
+            0.358625406060606,
+            0.7676309917924837,
+            0.6329115171717171
+          ],
+          "quote": "We present QL O RA, an efficient finetuning approach that reduces memory us- age enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QL O RA backpropagates gradi- ents through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters (LoRA). Our best model family, "
+        },
+        {
+          "status": "PASS",
+          "page_index": 13,
+          "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+          "query": "backpropagation",
+          "block_id": "93a4234ccaf6433c9f66f01322316fec:13:5",
+          "bbox": [
+            0.17647058823529413,
+            0.6746194234848485,
+            0.826378038751634,
+            0.7699304565656565
+          ],
+          "quote": "Quantization of Large Language Models Quantization of LLMs has largely focused on quanti- zation for inference time. Major approaches for preserving 16-bit LLM quality focus on managing outlier features (e.g., SmoothQuant [66] and LLM.int8() [14]) while others use more sophisticated grouping methods [44, 69]. Lossy quantization approaches study the"
+        },
+        {
+          "status": "PASS",
+          "page_index": 25,
+          "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+          "query": "checkpointning",
+          "block_id": "93a4234ccaf6433c9f66f01322316fec:25:9",
+          "bbox": [
+            0.1759656862745098,
+            0.480774395959596,
+            0.8235346862745095,
+            0.548449395959596
+          ],
+          "quote": "The memory footpring for QLoRA training with different LLaMA base models can be seen in Figure 6. We see that the 33B model does not quite fit into a 24 GB and that paged optimizers are needed to train it. Depicted is also batch size 1 with a sequence length of 512 and gradient checkpointning. This means, if one uses a larger batch size, or if a lo"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "92cb3a2b71362acd",
+        "name": "2305.18290v3.pdf",
+        "relative_path": "pdf/2305.18290v3.pdf",
+        "sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+        "bytes": 1299212,
+        "kind": "pdf",
+        "page_count": 27,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+          "query": "substantially",
+          "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:0:7",
+          "bbox": [
+            0.23507516339869283,
+            0.6582693454545455,
+            0.767595130709477,
+            0.6708483858585859
+          ],
+          "quote": "and single-turn dialogue while being substantially simpler to implement and train."
+        },
+        {
+          "status": "PASS",
+          "page_index": 13,
+          "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+          "query": "alexandremuzio",
+          "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:13:5",
+          "bbox": [
+            0.17647058823529402,
+            0.41942464848484845,
+            0.8295073012091504,
+            0.5009491126262626
+          ],
+          "quote": "[44] L. von Werra, J. Tow, reciprocated, S. Matiana, A. Havrilla, cat state, L. Castricato, Alan, D. V. Phung, A. Thakur, A. Bukhtiyarov, aaronrmm, F. Milo, Daniel, D. King, D. Shin, E. Kim, J. Wei, M. Romero, N. Pochinkov, O. Sanseviero, R. Adithyan, S. Siu, T. Simonini, V. Blagojevic, X. Song, Z. Witten, alexandremuzio, and crumb. CarperAI/trlx: "
+        },
+        {
+          "status": "PASS",
+          "page_index": 26,
+          "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+          "query": "SurveyMonkey",
+          "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:26:5",
+          "bbox": [
+            0.4835927137254902,
+            0.46160396767676765,
+            0.8259661122509806,
+            0.48550346262626265
+          ],
+          "quote": "5: Layout of the survey in SurveyMonkey. Each respon- completed 25 similarly-formatted judgments."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "1df284ce95f78300",
+        "name": "2307.09288v2.pdf",
+        "relative_path": "pdf/2307.09288v2.pdf",
+        "sha256": "1df284ce95f783002074bfe8f21d47c646b396ceb1736ea3ec0ea212fc070d91",
+        "bytes": 13661300,
+        "kind": "pdf",
+        "page_count": 77,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "parse_id": "d3d10ab463974076b8355839f401f7a5",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "d3d10ab463974076b8355839f401f7a5",
+          "query": "substitute",
+          "block_id": "d3d10ab463974076b8355839f401f7a5:0:4",
+          "bbox": [
+            0.1762516339869281,
+            0.4957757575757576,
+            0.8265935576535948,
+            0.6047727272727274
+          ],
+          "quote": "In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models outperform open-source chat models on most benchmarks we tested, and based on our hu"
+        },
+        {
+          "status": "PASS",
+          "page_index": 38,
+          "parse_id": "d3d10ab463974076b8355839f401f7a5",
+          "query": "Pruksachatkun",
+          "block_id": "d3d10ab463974076b8355839f401f7a5:38:1",
+          "bbox": [
+            0.11764705882352941,
+            0.37713560606060603,
+            0.8883354342156865,
+            0.639100603030303
+          ],
+          "quote": "Yuntian Deng, Anton Bakhtin, Myle Ott, Arthur Szlam, and Marc’Aurelio Ranzato. Residual energy-based models for text generation. In International Conference on Learning Representations , 2019. Jwala Dhamala, Tony Sun, Varun Kumar, Satyapriya Krishna, Yada Pruksachatkun, Kai-Wei Chang, and Rahul Gupta. BOLD: Dataset and metrics for measuring biases "
+        },
+        {
+          "status": "PASS",
+          "page_index": 76,
+          "parse_id": "d3d10ab463974076b8355839f401f7a5",
+          "query": "compliance",
+          "block_id": "d3d10ab463974076b8355839f401f7a5:76:6",
+          "bbox": [
+            0.20853555555555556,
+            0.46375511111111106,
+            0.7953156275568626,
+            0.5079539393939394
+          ],
+          "quote": "Out-of-Scope Uses Use in any manner that violates applicable laws or regulations (including trade compliance laws). Use in languages other than English. Use in any other way that is prohibited by the Acceptable Use Policy and Licensing Agreement for Llama 2."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "dfbac4e7035344b3",
+        "name": "2310.06825v1.pdf",
+        "relative_path": "pdf/2310.06825v1.pdf",
+        "sha256": "dfbac4e7035344b305c947481f2e7e8a02f7a24a563917eb6e47f6591d14c5ae",
+        "bytes": 3749788,
+        "kind": "pdf",
+        "page_count": 9,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+      "parse_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+          "query": "Introduction",
+          "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:0:4",
+          "bbox": [
+            0.17647058823529416,
+            0.6471962585858585,
+            0.31178704313725497,
+            0.6622912080808081
+          ],
+          "quote": "1 Introduction"
+        },
+        {
+          "status": "PASS",
+          "page_index": 4,
+          "parse_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+          "query": "discrimination",
+          "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:4:8",
+          "bbox": [
+            0.17647058823529413,
+            0.8441329818181819,
+            0.8240894012352936,
+            0.9118079818181819
+          ],
+          "quote": "Mistral 7B – Instruct can be used as a content moderator: the model itself is able to accurately classify a user prompt or its generated answer as being either acceptable or falling into one of the following categories: Illegal activities such as terrorism, child abuse or fraud; Hateful, harassing or violent content such as discrimination, self-har"
+        },
+        {
+          "status": "PASS",
+          "page_index": 8,
+          "parse_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+          "query": "facebookresearch",
+          "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:8:1",
+          "bbox": [
+            0.17647058823529413,
+            0.15375419393939382,
+            0.8263746270326793,
+            0.20773067828282832
+          ],
+          "quote": "[18] Benjamin Lefaudeux, Francisco Massa, Diana Liskovich, Wenhan Xiong, Vittorio Caggiano, Sean Naren, Min Xu, Jieru Hu, Marta Tintore, Susan Zhang, Patrick Labatut, and Daniel Haziza. xformers: A modular and hackable transformer modelling library. https://github.com/ facebookresearch/xformers , 2022."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "8bc106e62eeb6f6f",
+        "name": "2406.14491v2.pdf",
+        "relative_path": "pdf/2406.14491v2.pdf",
+        "sha256": "8bc106e62eeb6f6f15328e8af107df8eb66ce7ddc3ba694a2ef8ea743f829f0f",
+        "bytes": 843992,
+        "kind": "pdf",
+        "page_count": 22,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+          "query": "Contribution",
+          "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:0:7",
+          "bbox": [
+            0.11858028880720875,
+            0.8976203085913836,
+            0.4876009645005007,
+            0.9202755020252052
+          ],
+          "quote": "Tsinghua * Contribution University. during (cid:66) Corresponding an internship Author. at the CoAI Group,"
+        },
+        {
+          "status": "PASS",
+          "page_index": 11,
+          "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+          "query": "outperforming",
+          "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:11:17",
+          "bbox": [
+            0.5142858102796014,
+            0.6338254660347551,
+            0.8830412713863823,
+            0.7237607307367946
+          ],
+          "quote": "Guilherme Penedo, Quentin Malartic, Daniel Hesslow, Ruxandra Cojocaru, Alessandro Cappelli, Hamza Alobeidli, Baptiste Pannier, Ebtesam Almazrouei, and Julien Launay. 2023. The refinedweb dataset for falcon llm: outperforming curated corpora with web data, and web data only. arXiv preprint arXiv:2306.01116 ."
+        },
+        {
+          "status": "PASS",
+          "page_index": 21,
+          "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+          "query": "Internationally",
+          "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:21:3",
+          "bbox": [
+            0.11904729906799535,
+            0.49002398997455704,
+            0.8789460360501156,
+            0.7428740424814168
+          ],
+          "quote": "Answer questions based on this article: Pixar’s ‘Lightyear’ snares $51 million in domestic opening Pixar’s “Lightyear” rocketed to a $51 million domestic opening, the best performance of an animated feature since the pandemic began. Internationally, the Disney film tallied $34.6 million in ticket sales, bringing its global haul to $85.6 million. Th"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "481f1599468f95a0",
+        "name": "2407.21783v3.pdf",
+        "relative_path": "pdf/2407.21783v3.pdf",
+        "sha256": "481f1599468f95a07d05e97fafe55bbe786dc1624c6f881bcb4c7d14c933d083",
+        "bytes": 9833173,
+        "kind": "pdf",
+        "page_count": 92,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "parse_id": "679e75bc46e24c9d97105631732a146f",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "679e75bc46e24c9d97105631732a146f",
+          "query": "contributor",
+          "block_id": "679e75bc46e24c9d97105631732a146f:0:2",
+          "bbox": [
+            0.14281045751633986,
+            0.19588939393939397,
+            0.6522342966013074,
+            0.20846843434343432
+          ],
+          "quote": "1 A detailed contributor list can be found in the appendix of this paper."
+        },
+        {
+          "status": "PASS",
+          "page_index": 46,
+          "parse_id": "679e75bc46e24c9d97105631732a146f",
+          "query": "basedpromptinjectionsuccessratespermodelacrossprompt",
+          "block_id": "679e75bc46e24c9d97105631732a146f:46:3",
+          "bbox": [
+            0.11579411764705883,
+            0.245179763888889,
+            0.8867214052601305,
+            0.29472979797979804
+          ],
+          "quote": "Figure22 Text-basedpromptinjectionsuccessratespermodelacrossprompt Figure 23 Average spear phishing persuasiveness injection strategies. Llama 3 is on average more susceptible to prompt scoresacrossspearphishermodelsandgoals. At- injection than GPT-4 Turbo and Gemini Pro but less susceptible than tempt persuasiveness is evaluated by a Llama Mixtral"
+        },
+        {
+          "status": "PASS",
+          "page_index": 91,
+          "parse_id": "679e75bc46e24c9d97105631732a146f",
+          "query": "Elhoseiny",
+          "block_id": "679e75bc46e24c9d97105631732a146f:91:2",
+          "bbox": [
+            0.11579411764705883,
+            0.3346270202020202,
+            0.8842101144470583,
+            0.3597853535353535
+          ],
+          "quote": "Deyao Zhu, Jun Chen, Xiaoqian Shen, Xiang Li, and Mohamed Elhoseiny. Minigpt-4: Enhancing vision-language understanding with advanced large language models. 2023."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "73b3292bead3ac88",
+        "name": "2412.15115v2.pdf",
+        "relative_path": "pdf/2412.15115v2.pdf",
+        "sha256": "73b3292bead3ac8896679d3ac8be87439756faf356566cbda3ccc8a3dc7d79d3",
+        "bytes": 1938604,
+        "kind": "pdf",
+        "page_count": 26,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "parse_id": "edde5f443792495d912ab3a74b543464",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "edde5f443792495d912ab3a74b543464",
+          "query": "organization",
+          "block_id": "edde5f443792495d912ab3a74b543464:0:3",
+          "bbox": [
+            0.35908721332625543,
+            0.14288081554597393,
+            0.6854412071039317,
+            0.1822869137298222
+          ],
+          "quote": "https://huggingface.co/Qwen https://modelscope.cn/organization/qwen https://github.com/QwenLM/Qwen2.5"
+        },
+        {
+          "status": "PASS",
+          "page_index": 13,
+          "parse_id": "edde5f443792495d912ab3a74b543464",
+          "query": "competitiveness",
+          "block_id": "edde5f443792495d912ab3a74b543464:13:4",
+          "bbox": [
+            0.11834510378379105,
+            0.5922263616386939,
+            0.883876025420813,
+            0.7864880841915215
+          ],
+          "quote": "English & Chinese Evaluation We compare the performance of Qwen2.5-Instruct models against several leading language models, including GPT-4, Claude3.5-sonnet, Qwen2, and Llama-3.1, across both English and Chinese languages. Our analysis focuses on model size and its impact on performance, as well as how our latest Qwen2.5 series compares to previou"
+        },
+        {
+          "status": "PASS",
+          "page_index": 25,
+          "parse_id": "edde5f443792495d912ab3a74b543464",
+          "query": "transferable",
+          "block_id": "edde5f443792495d912ab3a74b543464:25:0",
+          "bbox": [
+            0.11904729906799535,
+            0.08751244604402002,
+            0.8836034540549258,
+            0.1123631985176211
+          ],
+          "quote": "Barret Zoph, Irwan Bello, Sameer Kumar, Nan Du, Yanping Huang, Jeff Dean, Noam Shazeer, and William Fedus. ST-MoE: Designing stable and transferable sparse expert models. CoRR , abs/2202.08906, 2022."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "a67e18a4ca6e2c81",
+        "name": "2412.19437v1.pdf",
+        "relative_path": "pdf/2412.19437v1.pdf",
+        "sha256": "a67e18a4ca6e2c81abc030239a3ee53705f656b79efab8ce1d6b5ac25630c2a5",
+        "bytes": 1887607,
+        "kind": "pdf",
+        "page_count": 53,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "parse_id": "913d02c849dd4a599550df853e07a613",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "913d02c849dd4a599550df853e07a613",
+          "query": "experience",
+          "block_id": "913d02c849dd4a599550df853e07a613:0:4",
+          "bbox": [
+            0.11812671769061747,
+            0.3201398161279977,
+            0.884175083967437,
+            0.5376419838696266
+          ],
+          "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token. To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architec- tures, which were thoroughly validated in DeepSeek-V2. Furthermore, DeepSeek"
+        },
+        {
+          "status": "PASS",
+          "page_index": 26,
+          "parse_id": "913d02c849dd4a599550df853e07a613",
+          "query": "experimental",
+          "block_id": "913d02c849dd4a599550df853e07a613:26:6",
+          "bbox": [
+            0.11827790806281457,
+            0.7917260760907007,
+            0.8839876527929902,
+            0.9012464409839765
+          ],
+          "quote": "To further investigate the correlation between this flexibility and the advantage in model performance, we additionally design and validate a batch-wise auxiliary loss that encourages load balance on each training batch instead of on each sequence. The experimental results show that, when achieving a similar level of batch-wise load balance, the ba"
+        },
+        {
+          "status": "PASS",
+          "page_index": 52,
+          "parse_id": "913d02c849dd4a599550df853e07a613",
+          "query": "theoretically",
+          "block_id": "913d02c849dd4a599550df853e07a613:52:2",
+          "bbox": [
+            0.11904729906799535,
+            0.6122594201142667,
+            0.8809579784704911,
+            0.6751824658803407
+          ],
+          "quote": "Figure 10 | Expert load of auxiliary-loss-free and auxiliary-loss-based models on three domains in the Pile test set. The auxiliary-loss-free model shows greater expert specialization patterns than the auxiliary-loss-based one. The relative expert load denotes the ratio between the actual expert load and the theoretically balanced expert load."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "b191b0a365a64b4a",
+        "name": "2501.12948v2.pdf",
+        "relative_path": "pdf/2501.12948v2.pdf",
+        "sha256": "b191b0a365a64b4ab2791d117069ed17a2933d03554a662ced58b37df52018f4",
+        "bytes": 5034998,
+        "kind": "pdf",
+        "page_count": 86,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "parse_id": "351427e9c87741d09c782f6003446878",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "351427e9c87741d09c782f6003446878",
+          "query": "Incentivizing",
+          "block_id": "351427e9c87741d09c782f6003446878:0:0",
+          "bbox": [
+            0.11907585724941036,
+            0.13894439083490714,
+            0.8809125070639505,
+            0.1578782182945515
+          ],
+          "quote": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via"
+        },
+        {
+          "status": "PASS",
+          "page_index": 43,
+          "parse_id": "351427e9c87741d09c782f6003446878",
+          "query": "dissemination",
+          "block_id": "351427e9c87741d09c782f6003446878:43:3",
+          "bbox": [
+            0.11827790806281457,
+            0.34818594614498327,
+            0.8832508327723614,
+            0.4738010502559717
+          ],
+          "quote": "We fully recognize that, while open source sharing facilitates the dissemination of advanced technologies within the community, it also introduces potential risks of misuse. In this section, we systematically present the security risk assessment of DeepSeek-R1. Specifically, we structure our analysis around the following aspects: (1) D.3.1: the ris"
+        },
+        {
+          "status": "PASS",
+          "page_index": 85,
+          "parse_id": "351427e9c87741d09c782f6003446878",
+          "query": "Bootstrapping",
+          "block_id": "351427e9c87741d09c782f6003446878:85:7",
+          "bbox": [
+            0.11904729906799535,
+            0.6138073456152229,
+            0.8841558865837027,
+            0.6589535048521779
+          ],
+          "quote": "E. Zelikman, Y. Wu, J. Mu, and N. Goodman. STar: Bootstrapping reasoning with reasoning. In A. H. Oh, A. Agarwal, D. Belgrave, and K. Cho, editors, Advances in Neural Information Processing Systems, 2022. URL https://openreview.net/forum?id=_3ELRdg2sgI ."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "775ff8d09b6e5b06",
+        "name": "333078981_693988129081760_4712707815225756708_n.pdf",
+        "relative_path": "pdf/333078981_693988129081760_4712707815225756708_n.pdf",
+        "sha256": "775ff8d09b6e5b06314135d87c194ce3535a821eeaee4be9051b331162c5fefd",
+        "bytes": 621427,
+        "kind": "pdf",
+        "page_count": 27,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "parse_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+          "query": "Correspondence",
+          "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:0:6",
+          "bbox": [
+            0.11847949522574404,
+            0.4896628604687073,
+            0.4894788299881064,
+            0.9158251077931796
+          ],
+          "quote": "Large Languages Models (LLMs) trained on mas- sive corpora of texts have shown their ability to per- form new tasks from textual instructions or from a few examples (Brown et al., 2020). These few-shot properties first appeared when scaling models to a sufficient size (Kaplan et al., 2020), resulting in a line of work that focuses on further scalin"
+        },
+        {
+          "status": "PASS",
+          "page_index": 13,
+          "parse_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+          "query": "representations",
+          "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:13:5",
+          "bbox": [
+            0.11904729906799535,
+            0.426886317214838,
+            0.48849884518105907,
+            0.4907884897076815
+          ],
+          "quote": "Keita Kurita, Nidhi Vyas, Ayush Pareek, Alan W Black, and Yulia Tsvetkov. 2019. Quantifying social bi- ases in contextual word representations. In 1st ACL Workshop on Gender Bias for Natural Language Pro- cessing."
+        },
+        {
+          "status": "PASS",
+          "page_index": 26,
+          "parse_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+          "query": "SwapCached",
+          "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:26:10",
+          "bbox": [
+            0.1690123572930876,
+            0.5506102526458323,
+            0.33664138601253873,
+            0.644037066125028
+          ],
+          "quote": "Here’s the output: MemTotal: 164928 kB MemFree: 140604 kB Buffers: 48 kB Cached: 19768 kB SwapCached: 0 kB"
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "eb81a65e0856bd38",
+        "name": "language_understanding_paper.pdf",
+        "relative_path": "pdf/language_understanding_paper.pdf",
+        "sha256": "eb81a65e0856bd38e855e1f1de6ee12e7c3eb92ae05c8270d345a475beb631d0",
+        "bytes": 541036,
+        "kind": "pdf",
+        "page_count": 12,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+      "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "query": "applicability",
+          "block_id": "183049f27bb7449a93faec0b1d9e30d6:0:6",
+          "bbox": [
+            0.1759656862745098,
+            0.6193653050505051,
+            0.8263775030784313,
+            0.8454733858585859
+          ],
+          "quote": "The ability to learn effectively from raw text is crucial to alleviating the dependence on supervised learning in natural language processing (NLP). Most deep learning methods require substantial amounts of manually labeled data, which restricts their applicability in many domains that suffer from a dearth of annotated resources [61]. In these situ"
+        },
+        {
+          "status": "PASS",
+          "page_index": 6,
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "query": "evaluations",
+          "block_id": "183049f27bb7449a93faec0b1d9e30d6:6:0",
+          "bbox": [
+            0.1759656862745098,
+            0.0895761636363636,
+            0.8262333788039213,
+            0.12970318383838386
+          ],
+          "quote": "Table 4: Semantic similarity and classification results, comparing our model with current state-of-the- art methods. All task evaluations in this table were done using the GLUE benchmark. (mc= Mathews correlation, acc=Accuracy, pc=Pearson correlation)"
+        },
+        {
+          "status": "PASS",
+          "page_index": 11,
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "query": "explanations",
+          "block_id": "183049f27bb7449a93faec0b1d9e30d6:11:3",
+          "bbox": [
+            0.1764705882352941,
+            0.20027694747474753,
+            0.8235360289464055,
+            0.23675598787878777
+          ],
+          "quote": "[71] Y. Zhu, R. Kiros, R. Zemel, R. Salakhutdinov, R. Urtasun, A. Torralba, and S. Fidler. Aligning books and movies: Towards story-like visual explanations by watching movies and reading books. In Proceedings of the IEEE international conference on computer vision , pages 19–27, 2015."
+        }
+      ]
+    },
+    {
+      "file": {
+        "id": "987545ffb087f1ec",
+        "name": "N19-1423.pdf",
+        "relative_path": "pdf/N19-1423.pdf",
+        "sha256": "987545ffb087f1ece898142c403a516baeabeb70ce19089397fac6f7db12c3d4",
+        "bytes": 786279,
+        "kind": "pdf",
+        "page_count": 16,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "version_id": "95b9e428f36144c7925682db419ded0d",
+      "parse_id": "95b9e428f36144c7925682db419ded0d",
+      "locations": [
+        {
+          "status": "PASS",
+          "page_index": 0,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "query": "epresentations",
+          "block_id": "95b9e428f36144c7925682db419ded0d:0:4",
+          "bbox": [
+            0.1495239183168815,
+            0.29168219316062666,
+            0.4590524166941049,
+            0.6492094235588972
+          ],
+          "quote": "We introduce a new language representa- tion model called BERT , which stands for B idirectional E ncoder R epresentations from T ransformers. Unlike recent language repre- sentation models (Peters et al., 2018a; Rad- ford et al., 2018), BERT is designed to pre- train deep bidirectional representations from unlabeled text by jointly conditioning on"
+        },
+        {
+          "status": "PASS",
+          "page_index": 8,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "query": "competitively",
+          "block_id": "95b9e428f36144c7925682db419ded0d:8:7",
+          "bbox": [
+            0.5161908089692848,
+            0.3720596106379696,
+            0.8828598377895298,
+            0.6195053577070638
+          ],
+          "quote": "layer in the output. We use the representation of the first sub-token as the input to the token-level classifier over the NER label set. To ablate the fine-tuning approach, we apply the feature-based approach by extracting the activa- tions from one or more layers without fine-tuning any parameters of BERT. These contextual em- beddings are used as"
+        },
+        {
+          "status": "PASS",
+          "page_index": 15,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "query": "Interestingly",
+          "block_id": "95b9e428f36144c7925682db419ded0d:15:17",
+          "bbox": [
+            0.516190808969285,
+            0.3946753917970281,
+            0.8828598377895298,
+            0.7295078520946914
+          ],
+          "quote": "The results are presented in Table 8. In the table, M ASK means that we replace the target token with the [MASK] symbol for MLM; S AME means that we keep the target token as is; R ND means that we replace the target token with another random token. The numbers in the left part of the table repre- sent the probabilities of the specific strategies us"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "PASS": 122
+  },
+  "finished": "2026-11-15T17:40:53.917171+00:00",
+  "scope": "只验证实际正文词的 FTS → 版本/页/块/bbox 定位；不声称密集索引或模型问答质量。"
+}

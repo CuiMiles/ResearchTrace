@@ -1,0 +1,6 @@
+textbook-native-v2: PASS 88.02s 5315 blocks
+paddleocr-cpu-82451796b5294493b9e58f696fbb8adc: PASS 234.44s 311 blocks
+mineru-cpu-82451796b5294493b9e58f696fbb8adc: PASS 352.72s 138 blocks
+scan-crop-paddleocr-vl-cpu: PASS 139.22s 6 blocks
+scan-crop-mineru-gpu: BLOCKED 4.6s 0 blocks
+Downstream dataset checks complete

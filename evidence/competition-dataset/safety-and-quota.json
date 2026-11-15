@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "damaged_pdf_http": 422,
+  "unauth_file_http": 401,
+  "cross_workspace_http": 404,
+  "evidence_path_escapes": {
+    ".env": 404,
+    "../.env": 404,
+    "data/researchtrace.sqlite": 404
+  },
+  "quota_unchanged": true,
+  "ledger": [
+    {
+      "model": "gemini-3.5-flash-lite",
+      "calls": 22,
+      "input_tokens": 15068,
+      "output_tokens": 14624
+    },
+    {
+      "model": "gemini-4-hydrogen",
+      "calls": 4,
+      "input_tokens": 65537,
+      "output_tokens": 23309
+    },
+    {
+      "model": "gemini-embedding-001",
+      "calls": 56,
+      "input_tokens": 214761,
+      "output_tokens": 0
+    }
+  ]
+}

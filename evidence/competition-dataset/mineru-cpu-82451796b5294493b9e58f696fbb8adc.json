@@ -1,0 +1,395 @@
+{
+  "status": "PASS",
+  "engine": "mineru",
+  "device": "cpu",
+  "version_id": "82451796b5294493b9e58f696fbb8adc",
+  "parse_id": "926da65067b645fb838c9207064f1f24",
+  "run_id": "5ad3764120af4dd09779977f2f7c6302",
+  "input_file": {
+    "id": "64094fe169dd4ff4",
+    "name": "1706.03762v1_img.pdf",
+    "relative_path": "pdf/1706.03762v1_img.pdf",
+    "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+    "bytes": 4672118,
+    "kind": "pdf",
+    "page_count": 15,
+    "encrypted": false,
+    "role": "test_input"
+  },
+  "started": "2026-11-15T17:42:25.619670+00:00",
+  "provider_calls": 0,
+  "source": null,
+  "prior_hashes": {
+    "1dbbe68e582e40f59b6d34e8986796b9": "aa852367aee5fef8119c61c99747bea94bad5626b8300b69b1b26da71dd711f4",
+    "82451796b5294493b9e58f696fbb8adc": "dbbf5f48dbdc02e807d596520b03294a7df309b91853abe7a746f094bda4ca40"
+  },
+  "finished": "2026-11-15T17:48:20.426513+00:00",
+  "duration_seconds": 352.72,
+  "run_status": "completed",
+  "result": {
+    "version_id": "82451796b5294493b9e58f696fbb8adc",
+    "parse_id": "926da65067b645fb838c9207064f1f24",
+    "status": "ready",
+    "parsed_pages": 15,
+    "references": 3,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 14
+  },
+  "error": null,
+  "old_snapshots_unchanged": true,
+  "counts": {
+    "blocks": 138,
+    "types": {
+      "paragraph": 84,
+      "heading": 25,
+      "footer": 14,
+      "figure": 5,
+      "equation": 6,
+      "table": 4
+    },
+    "sources": {
+      "mineru": 138
+    }
+  },
+  "provenance": {
+    "engine": "mineru",
+    "version": "4.2.2",
+    "models": [
+      "MinerU-4_models_torch/Layout/PP-DocLayoutV2",
+      "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M.pth",
+      "MinerU-4_models_torch/MFR/pp_formulanet_plus_m/PP-FormulaNet_plus-M_inference.yml",
+      "MinerU-4_models_torch/OCR/paddleocr",
+      "MinerU-4_models_torch/Table/slanet-plus.onnx",
+      "MinerU-4_models_torch/Table/unet.onnx",
+      "MinerU-4_models_torch/Table/PP-LCNet_x1_0_table_cls.onnx",
+      "MinerU2.5-Pro-2605-1.2B-GGUF/MinerU2.5-Pro-2605-1.2B-Q8_0.gguf",
+      "MinerU2.5-Pro-2605-1.2B-GGUF/mmproj-MinerU2.5-Pro-2605-1.2B-Q8_0.gguf"
+    ],
+    "device": "cpu"
+  },
+  "monitors": [
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 26.023,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 10.013,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 19.529,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 9.034,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 9.512,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 29.999,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 42.394,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 35.046,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 28.278,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 14.765,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 26.049,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 15.786,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 41.832,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 32.526,
+      "returncode": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 9.26,
+      "returncode": 0
+    }
+  ],
+  "examples": {
+    "table": {
+      "page_index": 5,
+      "id": "926da65067b645fb838c9207064f1f24:5:0",
+      "bbox": [
+        0.193,
+        0.141,
+        0.806,
+        0.236
+      ],
+      "text": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.\n<table><tr><td>Layer Type</td><td>Complexity per Layer</td><td>Sequential Operations</td><td>Maximum Path Length</td></tr><tr><td>Self-Attention</td><td> $\\overline { { O ( n ^ { 2 } \\cdot d ) } }$ </td><td>O(1)</td><td>O(1)</td></tr><tr><td>Recurrent</td><td> $O ( n \\cdot d ^ { 2 } )$ </td><td>O(n)</td><td> $O ( n )$ </td></tr><tr><td>Convolutional</td><td> $O ( \\vec { k } \\cdot \\boldsymbol { n } \\cdot \\dot { d ^ { 2 } } )$ </td><td>O(1)</td><td> $O ( l o g _ { k } \\dot { ( } n ) )$ </td></tr><tr><td>Self-Attention (restricted)</td><td> $O ( r \\cdot n \\cdot d )$ </td><td>O(1)</td><td> $O ( n / r )$ </td></tr></table>"
+    },
+    "formula": {
+      "page_index": 2,
+      "id": "926da65067b645fb838c9207064f1f24:2:7",
+      "text": "\\operatorname { A t t e n t i o n } ( Q , K , V ) = \\operatorname { s o f t m a x } ( \\frac { Q K ^ { T } } { \\sqrt { d _ { k } } } ) V ,\\tag{1}",
+      "bbox": [
+        0.356,
+        0.881,
+        0.824,
+        0.915
+      ]
+    },
+    "paragraph": {
+      "page_index": 0,
+      "id": "926da65067b645fb838c9207064f1f24:0:0",
+      "bbox": [
+        0.022,
+        0.268,
+        0.059,
+        0.706
+      ],
+      "text": "20[]1:017"
+    }
+  },
+  "resource_observations": [
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 23.327758122002706,
+      "peak_rss_kib": 2106960,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 7.372878518013749,
+      "peak_rss_kib": 1412672,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 16.803921942948364,
+      "peak_rss_kib": 1991832,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 6.499312951986212,
+      "peak_rss_kib": 1364564,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 7.125428652972914,
+      "peak_rss_kib": 1463416,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 27.353772370959632,
+      "peak_rss_kib": 2184036,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 36.94716042600339,
+      "peak_rss_kib": 2705092,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 32.52223318599863,
+      "peak_rss_kib": 2357396,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 24.7121897659963,
+      "peak_rss_kib": 2152856,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 12.314078324008733,
+      "peak_rss_kib": 1710648,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 22.931829267996363,
+      "peak_rss_kib": 2157492,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 12.295634103007615,
+      "peak_rss_kib": 1629476,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 37.61632811202435,
+      "peak_rss_kib": 2680624,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 26.89852734102169,
+      "peak_rss_kib": 2143468,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "elapsed_seconds": 6.930058386002202,
+      "peak_rss_kib": 1532864,
+      "cuda_peak_allocated_mib": 0,
+      "cuda_peak_reserved_mib": 0
+    }
+  ],
+  "runner_peak_rss_kib": 2705092
+}

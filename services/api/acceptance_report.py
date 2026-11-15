@@ -123,7 +123,7 @@ _MODULE_SPECS = [
                 'name': 'PaddleOCR-VL-1.6 CPU 文档大模型双语识别与高亮',
                 'case_refs': ['B03(派生夹具)'],
                 'status': 'PASS',
-                'summary': '两阶段隔离（PP-DocLayoutV3 -> PyTorch bfloat16 PaddleOCR-VL-1.6-0.9B）离线 CPU 解析 scan-bilingual.pdf（132.67s），中英段落、表格、公式识别与 FTS 定位高亮全部通过；官方扫描原件暂缺故 B03 总项标 BLOCKED。',
+                'summary': '历史双语夹具由两阶段 VL CPU 解析并高亮；现另有用户资料包第4页裁剪区域的真实 CPU 测试（139.22s / 6块）。这条历史夹具记录不代表扫描原件全文 VL 验收；完整原扫描15页已分别通过 PaddleOCR / MinerU，见上方处理流程。',
                 'api_steps': [
                     'POST /api/v1/documents?index_dense=false',
                     'POST /api/v1/documents/{vid}/parses (engine=paddleocr_vl, device=cpu)',
@@ -145,7 +145,7 @@ _MODULE_SPECS = [
                 'name': 'PaddleOCR 3.7.0 CPU 双语识别与产品端到端高亮',
                 'case_refs': ['B03(派生夹具)'],
                 'status': 'PASS',
-                'summary': '自编中英双语扫描页经 PaddleOCR CPU（8.69s）写入独立快照，中文 FTS 检索与 PDF bbox 高亮正常；官方扫描原件暂缺故 B03 总项标 BLOCKED。',
+                'summary': '历史自编中英双语扫描页经 PaddleOCR CPU 写入独立快照，中文 FTS 与 PDF 高亮正常；本次用户资料包的完整15页扫描原件另已通过 PaddleOCR（234.44s / 311块），真实新输入记录见上方处理流程。',
                 'api_steps': [
                     'POST /api/v1/documents?index_dense=false',
                     'POST /api/v1/documents/{vid}/parses (engine=paddleocr, device=cpu)',
@@ -410,9 +410,11 @@ def _evidence_url(rel_path: str) -> str:
 
 
 def _parse_regression_summary() -> str:
-    log = ROOT / 'evidence/ubuntu24/regression.log'
-    if not log.is_file():
+    candidates = [ROOT / 'evidence/ubuntu24/regression.log', ROOT / 'evidence/competition-dataset/regression.log']
+    candidates = [path for path in candidates if path.is_file()]
+    if not candidates:
         return '尚未记录回归日志'
+    log = max(candidates, key=lambda path: path.stat().st_mtime)
     text = log.read_text(encoding='utf-8', errors='replace')
     match = re.findall(r'(\d+\s+passed[^\n]*)', text)
     return match[-1].strip() if match else '已执行（详见 regression.log）'

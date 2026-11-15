@@ -15,13 +15,45 @@ import pypdfium2 as pdfium
 
 from .store import DATA, cancelled, db, event, execute, one, rows, uid
 
-PARSER_VERSION = "pdfplumber-layout-v1"
+PARSER_VERSION = "pdfplumber-layout-v2"
 MAX_BYTES = 70 * 1024 * 1024
 MAX_PAGES = 1500
 
 
 def _json(value):
     return json.dumps(value, ensure_ascii=False)
+
+
+def _is_blank_page(page, path, page_index):
+    """Verify an empty body, allowing only margin printer trim lines.
+
+    Scanned pages, figures, faint body text and extraction failures must not be
+    marked blank. Structural checks are confirmed by a bounded raster render.
+    """
+    if any(objects for kind, objects in page.objects.items() if kind != 'line'):
+        return False
+    x0, y0, x1, y1 = page.bbox
+    inner = (x0 + page.width * .05, y0 + page.height * .05,
+             x1 - page.width * .05, y1 - page.height * .05)
+    for line in page.lines:
+        if not (line['x1'] < inner[0] or line['x0'] > inner[2]
+                or line['bottom'] < inner[1] or line['top'] > inner[3]):
+            return False
+    doc = rendered_page = bitmap = image = body = None
+    try:
+        doc = pdfium.PdfDocument(path)
+        rendered_page = doc[page_index]
+        bitmap = rendered_page.render(scale=.5)
+        image = bitmap.to_pil().convert('RGB')
+        width, height = image.size
+        body = image.crop((int(width * .05), int(height * .05), int(width * .95), int(height * .95)))
+        return all(low == high == 255 for low, high in body.getextrema())
+    except Exception:
+        return False
+    finally:
+        for item in (body, image, bitmap, rendered_page, doc):
+            if item is not None:
+                item.close()
 
 
 def _decode(row):
@@ -446,6 +478,7 @@ def parse_document(run):
                 words = page.extract_words(line_dir_rotated="rtl" if page.rotation == 90 else "ltr", char_dir_rotated="ttb" if page.rotation == 90 else "btt")
             words = [{**w, "x0": w["x0"] - origin_x, "x1": w["x1"] - origin_x, "top": w["top"] - origin_y, "bottom": w["bottom"] - origin_y} for w in words]
             native_text = " ".join(w["text"] for w in words)
+            blank_page = engine == 'native' and not native_text.strip() and _is_blank_page(page,version['path'],page_index)
             quality, source = "native", "pdfplumber"
             provenance = {'engine':'native','version':PARSER_VERSION,'device':'cpu'}
             if engine in ('paddleocr','paddleocr_vl','mineru'):
@@ -459,7 +492,7 @@ def parse_document(run):
                     quality = 'ocr_review_required'
                 source = engine
             else:
-                if len(re.sub(r"\s", "", native_text)) < 25:
+                if len(re.sub(r"\s", "", native_text)) < 25 and not blank_page:
                     words, quality = _ocr_words(version["path"], page_index)
                     source = "tesseract" if words else "none"
                 blocks = _make_rotated_blocks(words, width, height, version_id, page_index, page.rotation) if rotated_text and source == "pdfplumber" else _make_blocks(words, width, height, version_id, page_index, source, quality)
@@ -484,7 +517,7 @@ def parse_document(run):
             text = "\n".join(b["text"] for b in blocks if b["text"])
             status = "ready" if quality == "native" else quality
             if not text.strip():
-                status = "ocr_unavailable" if quality == "ocr_unavailable" else "empty_or_failed"
+                status = "blank" if blank_page else "ocr_unavailable" if quality == "ocr_unavailable" else "empty_or_failed"
             # Printed page number is evidence-based; physical index always remains separate.
             label = None
             bottom_words = [w for w in words if w["top"] > height * .9 and re.fullmatch(r"\d{1,5}|[ivxlcdm]{1,8}", w["text"], re.I)]
@@ -537,7 +570,7 @@ def parse_document(run):
     headings = [b for b in parsed_blocks if b['type']=='heading']
     outline = [{"title":h['text'],"page_index":h['page_index'],"block_id":h['id']} for h in headings]
     pages = rows('SELECT page_index,status FROM pages WHERE version_id=?',(version_id,)) if legacy else rows('SELECT page_index,status FROM parse_pages WHERE parse_id=?',(parse_id,))
-    failures = [p for p in pages if p['status'] not in ('ready','ocr','ocr_review_required')]
+    failures = [p for p in pages if p['status'] not in ('ready','ocr','ocr_review_required','blank')]
     status = 'partial' if failures else 'ready'
     with db() as conn:
         conn.execute('BEGIN IMMEDIATE')

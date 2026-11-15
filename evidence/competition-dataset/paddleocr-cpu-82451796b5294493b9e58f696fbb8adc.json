@@ -1,0 +1,376 @@
+{
+  "status": "PASS",
+  "engine": "paddleocr",
+  "device": "cpu",
+  "version_id": "82451796b5294493b9e58f696fbb8adc",
+  "parse_id": "1dbbe68e582e40f59b6d34e8986796b9",
+  "run_id": "cd5715faedd648a49f0012dda260239e",
+  "input_file": {
+    "id": "64094fe169dd4ff4",
+    "name": "1706.03762v1_img.pdf",
+    "relative_path": "pdf/1706.03762v1_img.pdf",
+    "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+    "bytes": 4672118,
+    "kind": "pdf",
+    "page_count": 15,
+    "encrypted": false,
+    "role": "test_input"
+  },
+  "started": "2026-11-15T17:38:29.221875+00:00",
+  "provider_calls": 0,
+  "source": null,
+  "prior_hashes": {
+    "82451796b5294493b9e58f696fbb8adc": "dbbf5f48dbdc02e807d596520b03294a7df309b91853abe7a746f094bda4ca40"
+  },
+  "finished": "2026-11-15T17:42:25.472487+00:00",
+  "duration_seconds": 234.44,
+  "run_status": "completed",
+  "result": {
+    "version_id": "82451796b5294493b9e58f696fbb8adc",
+    "parse_id": "1dbbe68e582e40f59b6d34e8986796b9",
+    "status": "ready",
+    "parsed_pages": 15,
+    "references": 36,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 14
+  },
+  "error": null,
+  "old_snapshots_unchanged": true,
+  "counts": {
+    "blocks": 311,
+    "types": {
+      "heading": 165,
+      "paragraph": 104,
+      "equation": 19,
+      "footer": 14,
+      "caption": 9
+    },
+    "sources": {
+      "paddleocr": 311
+    }
+  },
+  "provenance": {
+    "engine": "paddleocr",
+    "version": "3.7.0",
+    "models": [
+      "PP-OCRv5_mobile_det",
+      "PP-OCRv5_mobile_rec"
+    ],
+    "device": "cpu"
+  },
+  "monitors": [
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 11.516,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 19.53,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 11.261,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 19.271,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 18.517,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 17.016,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 12.266,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 17.767,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 17.272,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 15.016,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 10.76,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 16.276,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 16.016,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 7.509,
+      "returncode": 0
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "gpu": null,
+      "reserve_mib": 2048,
+      "budget_mib": null,
+      "samples": [],
+      "terminated_reason": null,
+      "elapsed": 20.268,
+      "returncode": 0
+    }
+  ],
+  "examples": {
+    "table": null,
+    "formula": {
+      "page_index": 1,
+      "id": "1dbbe68e582e40f59b6d34e8986796b9:1:14",
+      "text": "of continuous representations z = (z1, …., ≈n). Given z, the decoder then generates an output",
+      "bbox": [
+        0.1738562091503268,
+        0.6251261352169526,
+        0.8254901960784313,
+        0.6392532795156408
+      ]
+    },
+    "paragraph": {
+      "page_index": 0,
+      "id": "1dbbe68e582e40f59b6d34e8986796b9:0:1",
+      "bbox": [
+        0.02091503267973856,
+        0.2325933400605449,
+        0.8117647058823529,
+        0.7088799192734612
+      ],
+      "text": "Ashish Vaswani* Noam Shazeer* Niki Parmar* Jakob Uszkoreit* Google Brain Google Brain Google Research Google Research  [A 1 Introduction avaswani@google.com 1lion@google.com Google Research performing models also connect the encoder and decoder through an attention to-German translation task, improving over the existing best results, including mechanism. We propose a new simple network architecture, the Transformer, less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English our model establishes a new single-model state-of-the-art BLEU score of 41.0 after convolutional neural networks in an encoder-decoder configuration. The best based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with Llion Jones* The dominant sequence transduction models are based on complex recurrent or ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, large and limited training data. noam@google.com aidan@cs.toronto.edu illia.polosukhin@gmail.com University of Toronto Aidan N. Gomez*† Hllia Polosukhin* Abstract nikip@google.com lukaszkaiser@google.com Lukasz Kaiser* Google Brain usz@google.com"
+    }
+  },
+  "resource_observations": [
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 9.35566956596449,
+      "peak_rss_kib": 1243080,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 17.31971562601393,
+      "peak_rss_kib": 1244892,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 8.899202159023844,
+      "peak_rss_kib": 1234456,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 16.874361549969763,
+      "peak_rss_kib": 1241848,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 16.17183260602178,
+      "peak_rss_kib": 1242240,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 14.697223056980874,
+      "peak_rss_kib": 1231896,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 9.774595068010967,
+      "peak_rss_kib": 1239168,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 15.447096567950211,
+      "peak_rss_kib": 1261320,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 13.051537529041525,
+      "peak_rss_kib": 1228296,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 12.551549130992498,
+      "peak_rss_kib": 1241120,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 8.413123932958115,
+      "peak_rss_kib": 1244636,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 14.007303074002266,
+      "peak_rss_kib": 1235508,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 13.682725127961021,
+      "peak_rss_kib": 1243108,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 5.143365374009591,
+      "peak_rss_kib": 1244220,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "elapsed_seconds": 18.118990393006243,
+      "peak_rss_kib": 1252460,
+      "cuda_peak_allocated_mib": null,
+      "cuda_peak_reserved_mib": null
+    }
+  ],
+  "runner_peak_rss_kib": 1261320
+}

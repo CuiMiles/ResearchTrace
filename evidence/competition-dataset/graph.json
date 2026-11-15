@@ -1,0 +1,2186 @@
+{
+  "nodes": [
+    {
+      "id": "36eca0577d4b4818896c4542a30b17c8",
+      "title": "Attention Is All You Need",
+      "identity": "arxiv:1706.03762",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "e492d5c15f4444c08e9c335618e32533",
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ]
+    },
+    {
+      "id": "6864c8e7a21a4655bc71ceec51fd4271",
+      "title": "corpus-03-64094fe1",
+      "identity": null,
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ]
+    },
+    {
+      "id": "0c50a61801744443ae53f8771fe48bb8",
+      "title": "Understanding Deep Learning",
+      "identity": null,
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ]
+    },
+    {
+      "id": "8a2816c75aa44ea68c951fdb1fb09239",
+      "title": "Layer Normalization",
+      "identity": "arxiv:1607.06450",
+      "rank": 0.11246811972069874,
+      "indegree": 6,
+      "versions": [
+        "b6f5051290164b97a4d8cef5437b08ee"
+      ]
+    },
+    {
+      "id": "b364f8c1dca0433ca108ae7915bac13e",
+      "title": "Proximal Policy Optimization Algorithms",
+      "identity": "arxiv:1707.06347",
+      "rank": 0.023851176647771026,
+      "indegree": 5,
+      "versions": [
+        "12c74a3fa17f4e5a8435574d38e5c9f4"
+      ]
+    },
+    {
+      "id": "f30f70e07bb64e14b7acbdcaea8fc95d",
+      "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+      "identity": "arxiv:1910.02054",
+      "rank": 0.018611378746754607,
+      "indegree": 4,
+      "versions": [
+        "eabe2adc48474c4fa4b2ff2e95d5c7f3"
+      ]
+    },
+    {
+      "id": "c2ce82ea9b094c39862af4d44c1588bf",
+      "title": "Exploring the Limits of Transfer Learning with Unified Text-to-Text Transformer",
+      "identity": "arxiv:1910.10683",
+      "rank": 0.037148684831737416,
+      "indegree": 4,
+      "versions": [
+        "3a013a663fd849ff9b6068654d8db7ce"
+      ]
+    },
+    {
+      "id": "ca636f5d0a194aaf91116372638db6f2",
+      "title": "Scaling Laws for Neural Language Models",
+      "identity": "arxiv:2001.08361",
+      "rank": 0.06362693255681187,
+      "indegree": 15,
+      "versions": [
+        "61699b3f11364e119e79181e21359218"
+      ]
+    },
+    {
+      "id": "b5cfb6b7f8e34edd84e0336af4ab7f21",
+      "title": "On Layer Normalization in the Transformer Architecture",
+      "identity": "arxiv:2002.04745",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "42bd2e6ae5c840178e5cfb422a0d5d5a"
+      ]
+    },
+    {
+      "id": "346153a7feaf48a19edf8de5d1a303a1",
+      "title": "Language Models are Few-Shot Learners",
+      "identity": "arxiv:2005.14165",
+      "rank": 0.06981472971165076,
+      "indegree": 18,
+      "versions": [
+        "dae6c78ff75f412a8969110847fa06ed"
+      ]
+    },
+    {
+      "id": "b5031525401a4fe68c7db1dd47e1d3b0",
+      "title": "16 16",
+      "identity": "arxiv:2010.11929",
+      "rank": 0.015095351968409422,
+      "indegree": 2,
+      "versions": [
+        "6b4d8bfdfcd84c99aaa3d147bef54a88"
+      ]
+    },
+    {
+      "id": "08e7652535be429187789352557c98c0",
+      "title": "Emergent Abilities of Large Language Models",
+      "identity": null,
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "47b66a19b9a444a59f7180c3c79fa4d3"
+      ]
+    },
+    {
+      "id": "b33c0d9f25904143b5c989477f9199bb",
+      "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+      "identity": "arxiv:2101.03961",
+      "rank": 0.0262302971774306,
+      "indegree": 7,
+      "versions": [
+        "3f4fea8bed824d8a9345046cf0495095"
+      ]
+    },
+    {
+      "id": "3f05df2bca5f4412bb695ee895e06902",
+      "title": "Learning Transferable Visual Models From Natural Language Supervision",
+      "identity": "arxiv:2103.00020",
+      "rank": 0.028496889102807902,
+      "indegree": 4,
+      "versions": [
+        "da462b7a23bf4f91b00e1d79746166e9"
+      ]
+    },
+    {
+      "id": "598821a866a0457eb220ae8150af5ebe",
+      "title": "RA: -R",
+      "identity": "arxiv:2106.09685",
+      "rank": 0.011902247675662387,
+      "indegree": 1,
+      "versions": [
+        "3ca21a0392f54c2dae1e029d437dc7d8"
+      ]
+    },
+    {
+      "id": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "title": "Evaluating Large Language Models Trained on Code",
+      "identity": "arxiv:2107.03374",
+      "rank": 0.034256857531237535,
+      "indegree": 10,
+      "versions": [
+        "0057f1a88e864a7aaae219ff98f7a6db"
+      ]
+    },
+    {
+      "id": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "identity": "arxiv:2201.11903",
+      "rank": 0.022588731574571166,
+      "indegree": 8,
+      "versions": [
+        "9bb90453cf834fd1b83c3593b6b4cb2d"
+      ]
+    },
+    {
+      "id": "1017dd11e8b444b581aa49be6890c0bc",
+      "title": "Training language models to follow instructions with human feedback",
+      "identity": "arxiv:2203.02155",
+      "rank": 0.032479453318204475,
+      "indegree": 12,
+      "versions": [
+        "9be4b0b9d82b48efb62e9df9f947c637"
+      ]
+    },
+    {
+      "id": "75c8085ee02846f089d11811c2d792fc",
+      "title": "FlashAttention Fast and Memory-Efficient Exact Attention with IO-Awareness",
+      "identity": "arxiv:2205.14135",
+      "rank": 0.018429411932894962,
+      "indegree": 4,
+      "versions": [
+        "464f25034aa74104a944a67df1d0cca2"
+      ]
+    },
+    {
+      "id": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "title": "Emergent Abilities of Large Language Models",
+      "identity": "arxiv:2206.07682",
+      "rank": 0.013047396632640363,
+      "indegree": 1,
+      "versions": [
+        "6ccdeca3f4d44e588e81e3e1abface94"
+      ]
+    },
+    {
+      "id": "b3d90b55a89c47a281921a7864e33834",
+      "title": "GLM-130B: -T",
+      "identity": "arxiv:2210.02414",
+      "rank": 0.014122966725926164,
+      "indegree": 2,
+      "versions": [
+        "ca715fafd401474eb2a0471c068cc3b2"
+      ]
+    },
+    {
+      "id": "d43182ede6d64a1ba4bb35701adfd135",
+      "title": "BLOOM: 176B-Parameter Open-Access Multilingual Language Model",
+      "identity": "arxiv:2211.05100",
+      "rank": 0.020900885178975984,
+      "indegree": 6,
+      "versions": [
+        "4bc46336dcf44b0392ea7f16e6a87a6f"
+      ]
+    },
+    {
+      "id": "5b16309608b14047bfb8af76cc209049",
+      "title": "Robust Speech Recognition via Large-Scale Weak Supervision",
+      "identity": "arxiv:2212.04356",
+      "rank": 0.011058292678848143,
+      "indegree": 1,
+      "versions": [
+        "2209b4a8f3454c179e785f68eba4d81f"
+      ]
+    },
+    {
+      "id": "4075c28a972d4430a13fac173a2207a3",
+      "title": "GPT-4 Technical Report",
+      "identity": "arxiv:2303.08774",
+      "rank": 0.013308839337019457,
+      "indegree": 3,
+      "versions": [
+        "a59ea29d2f5f474d8f2b8dc8e3e45c39"
+      ]
+    },
+    {
+      "id": "422e1b1fb0e643ddac3b58cd7fa222e0",
+      "title": "Visual Instruction Tuning",
+      "identity": "arxiv:2304.08485",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "15624a22277749948d0faf32cfd20727"
+      ]
+    },
+    {
+      "id": "d504ff07e8ba4abe9b5976538587578b",
+      "title": "RWKV: Reinventing RNNs for the Transformer Era",
+      "identity": "arxiv:2305.13048",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "3fdbfb3b1c234530883333f9c6b93bc3"
+      ]
+    },
+    {
+      "id": "c18f85e20ea9495fa854fc0d3bad8336",
+      "title": "QL RA: Efficient Finetuning of Quantized LLMs",
+      "identity": "arxiv:2305.14314",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "93a4234ccaf6433c9f66f01322316fec"
+      ]
+    },
+    {
+      "id": "d449d58eeced43aca40dc8f0b0de4ec1",
+      "title": "Direct Preference Optimization: Your Language Model is Secretly Reward Model",
+      "identity": "arxiv:2305.18290",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "fb01f0adc8ff42f7aa58f536f74c3ac0"
+      ]
+    },
+    {
+      "id": "2489862023034f22a5d2b591167c22be",
+      "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+      "identity": "arxiv:2307.09288",
+      "rank": 0.018995323123972122,
+      "indegree": 6,
+      "versions": [
+        "d3d10ab463974076b8355839f401f7a5"
+      ]
+    },
+    {
+      "id": "d7e9d8f02a44473da993b625ea583dc6",
+      "title": "Mistral 7B",
+      "identity": "arxiv:2310.06825",
+      "rank": 0.013940633424912011,
+      "indegree": 3,
+      "versions": [
+        "115a8bd9918b47c49ad03dec3ac22d6c"
+      ]
+    },
+    {
+      "id": "9f2e3b06be804901b8bd53ea7452d73c",
+      "title": "Instruction Pre-Training: Language Models are Supervised Multitask Learners",
+      "identity": "arxiv:2406.14491",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "d503f5dfee294ef1a1cfc62e04e84a6c"
+      ]
+    },
+    {
+      "id": "cd537278b5d94fa0932c55ce5349f718",
+      "title": "The Llama Herd of Models",
+      "identity": "arxiv:2407.21783",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "679e75bc46e24c9d97105631732a146f"
+      ]
+    },
+    {
+      "id": "a92801daeb47448cb51f14188e1279dc",
+      "title": "Qwen2.5 Technical Report",
+      "identity": "arxiv:2412.15115",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "edde5f443792495d912ab3a74b543464"
+      ]
+    },
+    {
+      "id": "97e850419aa349b6a5c0b12092ccb411",
+      "title": "DeepSeek-V3 Technical Report Abstract",
+      "identity": "arxiv:2412.19437",
+      "rank": 0.011409940594187411,
+      "indegree": 1,
+      "versions": [
+        "913d02c849dd4a599550df853e07a613"
+      ]
+    },
+    {
+      "id": "b68517130674488aaa4663eac71bed75",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "identity": "arxiv:2501.12948",
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "351427e9c87741d09c782f6003446878"
+      ]
+    },
+    {
+      "id": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "title": "LLaMA: Open and Efficient Foundation Language Models",
+      "identity": null,
+      "rank": 0.027763096250189842,
+      "indegree": 10,
+      "versions": [
+        "a8ff140b0e3647e8bca38f4cf679b22a"
+      ]
+    },
+    {
+      "id": "1205dc9733bb480d922753f4ee1ee535",
+      "title": "Improving Language Understanding by Generative Pre-Training",
+      "identity": null,
+      "rank": 0.08049506407954303,
+      "indegree": 11,
+      "versions": [
+        "183049f27bb7449a93faec0b1d9e30d6"
+      ]
+    },
+    {
+      "id": "35d3dedc59e442939d00664bdb1b045b",
+      "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "identity": null,
+      "rank": 0.11400272943981818,
+      "indegree": 16,
+      "versions": [
+        "95b9e428f36144c7925682db419ded0d"
+      ]
+    },
+    {
+      "id": "a06e2357f5ca44c485385ebf1dccbaee",
+      "title": "scan-page4-attention-crop",
+      "identity": null,
+      "rank": 0.010425326431237461,
+      "indegree": 0,
+      "versions": [
+        "5039d5b74bf54e45b9bf77efbf69eb20"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "36eca0577d4b4818896c4542a30b17c8",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "dceae303ec2f41cbbc4d88f047db9424:ref:0",
+      "text": "[1] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. Layer normalization. arXiv preprint arXiv:1607.06450, 2016.",
+      "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+      "page_index": 9,
+      "block_id": "dceae303ec2f41cbbc4d88f047db9424:9:6",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "36eca0577d4b4818896c4542a30b17c8",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "e492d5c15f4444c08e9c335618e32533:ref:0",
+      "text": "[1] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. Layer normalization. arXiv preprint arXiv:1607.06450 , 2016.",
+      "version_id": "e492d5c15f4444c08e9c335618e32533",
+      "page_index": 9,
+      "block_id": "e492d5c15f4444c08e9c335618e32533:9:3",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "f30f70e07bb64e14b7acbdcaea8fc95d",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:ref:0",
+      "text": "[1] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: pre-training of deep bidirectional transformers for language understanding. CoRR, abs/1810.04805, 2018.",
+      "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+      "page_index": 19,
+      "block_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:19:3",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c2ce82ea9b094c39862af4d44c1588bf",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "3a013a663fd849ff9b6068654d8db7ce:ref:3",
+      "text": "Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E. Hinton. Layer normalization. arXiv preprint arXiv:1607.06450 , 2016.",
+      "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+      "page_index": 57,
+      "block_id": "3a013a663fd849ff9b6068654d8db7ce:57:5",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c2ce82ea9b094c39862af4d44c1588bf",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "3a013a663fd849ff9b6068654d8db7ce:ref:25",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre- training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805, 2018.",
+      "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+      "page_index": 58,
+      "block_id": "3a013a663fd849ff9b6068654d8db7ce:58:13",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c2ce82ea9b094c39862af4d44c1588bf",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "3a013a663fd849ff9b6068654d8db7ce:ref:93",
+      "text": "Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language understanding by generative pre-training, 2018.",
+      "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+      "page_index": 63,
+      "block_id": "3a013a663fd849ff9b6068654d8db7ce:63:7",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "ca636f5d0a194aaf91116372638db6f2",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "61699b3f11364e119e79181e21359218:ref:0",
+      "text": "[ACDE12] Eduardo G Altmann, Giampaolo Cristadoro, and Mirko Degli Esposti. On the origin of long- range correlations in texts. Proceedings of the National Academy of Sciences, 109(29):11582– 11587, 2012. 25 [AS17] Madhu S. Advani and Andrew M. Saxe. High-dimensional dynamics of generalization error in neural networks. arXiv, 2017, 1710.03667. 11, 18, 22 [BB01] Michele Banko and Eric Brill. Scaling to very very large corpora for natural language disam- biguation. In Proceedings of the 39th annual meeting on association for computational linguis- tics, pages 26–33. Association for Computational Linguistics, 2001. 18 [BHMM18] Mikhail Belkin, Daniel Hsu, Siyuan Ma, and Soumik Mandal. Reconciling modern machine learning and the bias-variance trade-off. arXiv, 2018, 1812.11118. 18 [Bia12] GÃŠrard Biau. Analysis of a random forests model. Journal of Machine Learning Research , 13(Apr):1063–1095, 2012. 18 [CGRS19] Rewon Child, Scott Gray, Alec Radford, and Ilya Sutskever. Generating long sequences with sparse transformers. CoRR, abs/1904.10509, 2019, 1904.10509. URL http://arxiv.org/ abs/1904.10509 . 19 [DCLT18] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: Pre-training of deep bidirectional transformers for language understanding, 2018, arXiv:1810.04805. 2 [DGV + 18] Mostafa Dehghani, Stephan Gouws, Oriol Vinyals, Jakob Uszkoreit, and Lukasz Kaiser. Uni- versal transformers. CoRR, abs/1807.03819, 2018, 1807.03819. URL http://arxiv.org/ abs/1807.03819. 6, 9, 23, 24",
+      "version_id": "61699b3f11364e119e79181e21359218",
+      "page_index": 27,
+      "block_id": "61699b3f11364e119e79181e21359218:27:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "ca636f5d0a194aaf91116372638db6f2",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "61699b3f11364e119e79181e21359218:ref:3",
+      "text": "Lewis, Luke Zettlemoyer, and Veselin Stoyanov. Roberta: A robustly optimized BERT pretrain- ing approach. CoRR , abs/1907.11692, 2019, 1907.11692. URL http://arxiv.org/abs/ 1907.11692 . 2 [LSP + 18] Peter J. Liu, Mohammad Saleh, Etienne Pot, Ben Goodrich, Ryan Sepassi, Lukasz Kaiser, and Noam Shazeer. Generating wikipedia by summarizing long sequences. arXiv:1801.10198 [cs], 2018, 1801.10198. URL http://arxiv.org/abs/1801.10198. 2, 6 [LT16] Henry W Lin and Max Tegmark. Criticality in formal languages and statistical physics. arXiv preprint arXiv:1606.06737 , 2016. 25 [LXS + 19] Jaehoon Lee, Lechao Xiao, Samuel S. Schoenholz, Yasaman Bahri, Roman Novak, Jascha Sohl- Dickstein, and Jeffrey Pennington. Wide neural networks of any depth evolve as linear models under gradient descent, 2019, arXiv:1902.06720. 18 [MKAT18] Sam McCandlish, Jared Kaplan, Dario Amodei, and OpenAI Dota Team. An empirical model of large-batch training, 2018, arXiv:1812.06162. 3, 5, 6, 12, 13, 21 [Pap18] Vardan Papyan. The full spectrum of deep net hessians at scale: Dynamics with sample size. CoRR , abs/1811.07062, 2018, 1811.07062. URL http://arxiv.org/abs/1811.07062 . 18 [RNSS18] Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language understanding by generative pre-training. URL https://s3-us-west-2. amazonaws. com/openai- assets/research-covers/languageunsupervised/language understanding paper. pdf , 2018. 2, 6 [RRBS19a] Jonathan S. Rosenfeld, Amir Rosenfeld, Yonatan Belinkov, and Nir Shavit. A constructive",
+      "version_id": "61699b3f11364e119e79181e21359218",
+      "page_index": 28,
+      "block_id": "61699b3f11364e119e79181e21359218:28:1",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "ca636f5d0a194aaf91116372638db6f2",
+      "target": "c2ce82ea9b094c39862af4d44c1588bf",
+      "ref_id": "61699b3f11364e119e79181e21359218:ref:4",
+      "text": "prediction of the generalization error across scales, 2019, 1909.12673. 18 [RRBS19b] Jonathan S. Rosenfeld, Amir Rosenfeld, Yonatan Belinkov, and Nir Shavit. A constructive prediction of the generalization error across scales, 2019, arXiv:1909.12673. 18 [RSR + 19] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J. Liu. Exploring the limits of transfer learning with a unified text-to-text transformer, 2019, arXiv:1910.10683. 2 [RWC + 19] Alec Radford, Jeff Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. Language models are unsupervised multitask learners. openai.com , 2019. 2, 5, 6, 7, 8 [SCP + 18] Noam Shazeer, Youlong Cheng, Niki Parmar, Dustin Tran, Ashish Vaswani, Penporn Koanan- takool, Peter Hawkins, HyoukJoong Lee, Mingsheng Hong, Cliff Young, Ryan Sepassi, and Blake Hechtman. Mesh-tensorflow: Deep learning for supercomputers, 2018, 1811.02084. 19 [SHB15] Rico Sennrich, Barry Haddow, and Alexandra Birch. Neural machine translation of rare words with subword units. CoRR, 2015, 1508.07909. 6",
+      "version_id": "61699b3f11364e119e79181e21359218",
+      "page_index": 28,
+      "block_id": "61699b3f11364e119e79181e21359218:28:2",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b5cfb6b7f8e34edd84e0336af4ab7f21",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:ref:8",
+      "text": "Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K. Bert: Pre-training of deep bidirectional transformers for lan- guage understanding. arXiv preprint arXiv:1810.04805, 2018.",
+      "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+      "page_index": 8,
+      "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:8:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b5cfb6b7f8e34edd84e0336af4ab7f21",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:ref:23",
+      "text": "Lei Ba, J., Kiros, J. R., and Hinton, G. E. Layer normaliza- tion. arXiv preprint arXiv:1607.06450 , 2016.",
+      "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+      "page_index": 8,
+      "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:8:25",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "346153a7feaf48a19edf8de5d1a303a1",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "dae6c78ff75f412a8969110847fa06ed:ref:19",
+      "text": "[DCLT18] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805, 2018.",
+      "version_id": "dae6c78ff75f412a8969110847fa06ed",
+      "page_index": 67,
+      "block_id": "dae6c78ff75f412a8969110847fa06ed:67:20",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "346153a7feaf48a19edf8de5d1a303a1",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "dae6c78ff75f412a8969110847fa06ed:ref:56",
+      "text": "[KMH + 20] Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models, 2020.",
+      "version_id": "dae6c78ff75f412a8969110847fa06ed",
+      "page_index": 69,
+      "block_id": "dae6c78ff75f412a8969110847fa06ed:69:15",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "346153a7feaf48a19edf8de5d1a303a1",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "dae6c78ff75f412a8969110847fa06ed:ref:111",
+      "text": "[RNSS18] Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language understanding by generative pre-training, 2018.",
+      "version_id": "dae6c78ff75f412a8969110847fa06ed",
+      "page_index": 72,
+      "block_id": "dae6c78ff75f412a8969110847fa06ed:72:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "08e7652535be429187789352557c98c0",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "47b66a19b9a444a59f7180c3c79fa4d3:ref:11",
+      "text": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D. Kaplan, Prafulla Dhari- wal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language mod- els are few-shot learners. NeurIPS, 2020. URL https://papers.nips.cc/paper/2020/hash/ 1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html .",
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "page_index": 11,
+      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:11:13",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "08e7652535be429187789352557c98c0",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "47b66a19b9a444a59f7180c3c79fa4d3:ref:20",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirec- tional transformers for language understanding. NAACL, 2019. URL https://aclanthology.org/ N19-1423.",
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "page_index": 12,
+      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:12:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "08e7652535be429187789352557c98c0",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "47b66a19b9a444a59f7180c3c79fa4d3:ref:22",
+      "text": "William Fedus, Barret Zoph, and Noam Shazeer. Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity. arXiv preprint arXiv:2101.03961, 2021. URL https://arxiv.org/ abs/2101.03961.",
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "page_index": 12,
+      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:12:10",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "08e7652535be429187789352557c98c0",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "47b66a19b9a444a59f7180c3c79fa4d3:ref:41",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020. URL https://arxiv.org/abs/2001.08361 .",
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "page_index": 13,
+      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:13:13",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "08e7652535be429187789352557c98c0",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "47b66a19b9a444a59f7180c3c79fa4d3:ref:59",
+      "text": "Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to follow instructions with human feedback. arXiv preprint arXiv:2203.02155, 2022. URL https://arxiv.org/abs/2203.02155 .",
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "page_index": 15,
+      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:15:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "08e7652535be429187789352557c98c0",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "47b66a19b9a444a59f7180c3c79fa4d3:ref:86",
+      "text": "Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Ed Chi, Quoc Le, and Denny Zhou. Chain of thought prompting elicits reasoning in large language models. arXiv preprint arXiv:2201.11903, 2022b. URL https://arxiv.org/abs/2201.11903 .",
+      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+      "page_index": 16,
+      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:16:13",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b33c0d9f25904143b5c989477f9199bb",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "3f4fea8bed824d8a9345046cf0495095:ref:3",
+      "text": "Tom B Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. arXiv preprint arXiv:2005.14165, 2020.",
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "page_index": 35,
+      "block_id": "3f4fea8bed824d8a9345046cf0495095:35:5",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b33c0d9f25904143b5c989477f9199bb",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "3f4fea8bed824d8a9345046cf0495095:ref:8",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: Pre- training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805, 2018.",
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "page_index": 35,
+      "block_id": "3f4fea8bed824d8a9345046cf0495095:35:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b33c0d9f25904143b5c989477f9199bb",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "3f4fea8bed824d8a9345046cf0495095:ref:24",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020.",
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "page_index": 36,
+      "block_id": "3f4fea8bed824d8a9345046cf0495095:36:11",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b33c0d9f25904143b5c989477f9199bb",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "3f4fea8bed824d8a9345046cf0495095:ref:34",
+      "text": "Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language understanding by generative pre-training, 2018.",
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "page_index": 37,
+      "block_id": "3f4fea8bed824d8a9345046cf0495095:37:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b33c0d9f25904143b5c989477f9199bb",
+      "target": "c2ce82ea9b094c39862af4d44c1588bf",
+      "ref_id": "3f4fea8bed824d8a9345046cf0495095:ref:35",
+      "text": "Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J Liu. Exploring the limits of transfer learning with a unified text-to-text transformer. arXiv preprint arXiv:1910.10683, 2019.",
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "page_index": 37,
+      "block_id": "3f4fea8bed824d8a9345046cf0495095:37:9",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b33c0d9f25904143b5c989477f9199bb",
+      "target": "f30f70e07bb64e14b7acbdcaea8fc95d",
+      "ref_id": "3f4fea8bed824d8a9345046cf0495095:ref:36",
+      "text": "Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, and Yuxiong He. Zero: Memory opti- mization towards training a trillion parameter models. arXiv preprint arXiv:1910.02054, 2019.",
+      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+      "page_index": 37,
+      "block_id": "3f4fea8bed824d8a9345046cf0495095:37:10",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "3f05df2bca5f4412bb695ee895e06902",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "da462b7a23bf4f91b00e1d79746166e9:ref:14",
+      "text": "Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., et al. Language models are few-shot learners. arXiv preprint arXiv:2005.14165, 2020.",
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "page_index": 27,
+      "block_id": "da462b7a23bf4f91b00e1d79746166e9:27:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "3f05df2bca5f4412bb695ee895e06902",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "da462b7a23bf4f91b00e1d79746166e9:ref:35",
+      "text": "Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K. Bert: Pre-training of deep bidirectional transformers for lan- guage understanding. arXiv preprint arXiv:1810.04805, 2018.",
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "page_index": 27,
+      "block_id": "da462b7a23bf4f91b00e1d79746166e9:27:25",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "3f05df2bca5f4412bb695ee895e06902",
+      "target": "b5031525401a4fe68c7db1dd47e1d3b0",
+      "ref_id": "da462b7a23bf4f91b00e1d79746166e9:ref:39",
+      "text": "Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., et al. An image is worth 16x16 words: Transformers for image recognition at scale. arXiv preprint arXiv:2010.11929, 2020.",
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "page_index": 28,
+      "block_id": "da462b7a23bf4f91b00e1d79746166e9:28:3",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "3f05df2bca5f4412bb695ee895e06902",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "da462b7a23bf4f91b00e1d79746166e9:ref:88",
+      "text": "Kaplan, J., McCandlish, S., Henighan, T., Brown, T. B., Chess, B., Child, R., Gray, S., Radford, A., Wu, J., and Amodei, D. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361 , 2020.",
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "page_index": 30,
+      "block_id": "da462b7a23bf4f91b00e1d79746166e9:30:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "3f05df2bca5f4412bb695ee895e06902",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "da462b7a23bf4f91b00e1d79746166e9:ref:156",
+      "text": "Radford, A., Narasimhan, K., Salimans, T., and Sutskever, I. Improving language understanding by generative pre- training, 2018.",
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "page_index": 32,
+      "block_id": "da462b7a23bf4f91b00e1d79746166e9:32:20",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "3f05df2bca5f4412bb695ee895e06902",
+      "target": "c2ce82ea9b094c39862af4d44c1588bf",
+      "ref_id": "da462b7a23bf4f91b00e1d79746166e9:ref:158",
+      "text": "Raffel, C., Shazeer, N., Roberts, A., Lee, K., Narang, S., Matena, M., Zhou, Y., Li, W., and Liu, P. J. Exploring the limits of transfer learning with a unified text-to-text transformer. arXiv preprint arXiv:1910.10683, 2019.",
+      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+      "page_index": 32,
+      "block_id": "da462b7a23bf4f91b00e1d79746166e9:32:22",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "0057f1a88e864a7aaae219ff98f7a6db:ref:19",
+      "text": "Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D. M., Wu, J., Winter, C., Hesse, C., Chen, M., Sigler, E., Litwin, M., Gray, S., Chess, B., Clark, J., Berner, C., McCandlish, S., Radford, A., Sutskever, I., and Amodei, D. Language models are few-shot learners. ArXiv , abs/2005.14165, 2020.",
+      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "page_index": 14,
+      "block_id": "0057f1a88e864a7aaae219ff98f7a6db:14:24",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "0057f1a88e864a7aaae219ff98f7a6db:ref:36",
+      "text": "Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K. Bert: Pre- training of deep bidirectional transformers for language under- standing. arXiv preprint arXiv:1810.04805, 2018.",
+      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "page_index": 15,
+      "block_id": "0057f1a88e864a7aaae219ff98f7a6db:15:14",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "0057f1a88e864a7aaae219ff98f7a6db:ref:60",
+      "text": "Kaplan, J., McCandlish, S., Henighan, T., Brown, T. B., Chess, B., Child, R., Gray, S., Radford, A., Wu, J., and Amodei, D. Scaling laws for neural language models, 2020.",
+      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "page_index": 16,
+      "block_id": "0057f1a88e864a7aaae219ff98f7a6db:16:5",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "0057f1a88e864a7aaae219ff98f7a6db:ref:93",
+      "text": "Radford, A., Narasimhan, K., Salimans, T., and Sutskever, I. Improving language understanding by generative pre-training. 2018.",
+      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "page_index": 17,
+      "block_id": "0057f1a88e864a7aaae219ff98f7a6db:17:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "target": "3f05df2bca5f4412bb695ee895e06902",
+      "ref_id": "0057f1a88e864a7aaae219ff98f7a6db:ref:95",
+      "text": "Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agar- wal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., et al. Learning transferable visual models from natural language su- pervision. arXiv preprint arXiv:2103.00020, 2021.",
+      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+      "page_index": 17,
+      "block_id": "0057f1a88e864a7aaae219ff98f7a6db:17:10",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "9bb90453cf834fd1b83c3593b6b4cb2d:ref:7",
+      "text": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel Ziegler, Jeffrey Wu, Clemens Winter, Chris Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. 2020. Language models are few-shot learners. NeurIPS .",
+      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "page_index": 9,
+      "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:9:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "9bb90453cf834fd1b83c3593b6b4cb2d:ref:11",
+      "text": "Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. 2021. Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374.",
+      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "page_index": 9,
+      "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:9:14",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "9bb90453cf834fd1b83c3593b6b4cb2d:ref:16",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2019. BERT: Pre-training of deep bidirectional transformers for language understanding. NAACL.",
+      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "page_index": 10,
+      "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:10:2",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "9bb90453cf834fd1b83c3593b6b4cb2d:ref:26",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361.",
+      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "page_index": 10,
+      "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:10:12",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "9bb90453cf834fd1b83c3593b6b4cb2d:ref:44",
+      "text": "Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. 2022. Training language models to follow instructions with human feedback. arXiv preprint arXiv:2203.02155.",
+      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+      "page_index": 11,
+      "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:11:10",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "1017dd11e8b444b581aa49be6890c0bc",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "9be4b0b9d82b48efb62e9df9f947c637:ref:2",
+      "text": "Böhm, F., Gao, Y., Meyer, C. M., Shapira, O., Dagan, I., and Gurevych, I. (2019). Better rewards yield better summaries: Learning to summarise without references. arXiv preprint arXiv:1909.01214. Bojar, O., Chatterjee, R., Federmann, C., Haddow, B., Huck, M., Hokamp, C., Koehn, P., Logacheva, V., Monz, C., Negri, M., Post, M., Scarton, C., Specia, L., and Turchi, M. (2015). Findings of the 2015 workshop on statistical machine translation. In Proceedings of the Tenth Workshop on Statistical Machine Translation, pages 1–46, Lisbon, Portugal. Association for Computational Linguistics. Bommasani, R., Hudson, D. A., Adeli, E., Altman, R., Arora, S., von Arx, S., Bernstein, M. S., Bohg, J., Bosselut, A., Brunskill, E., et al. (2021). On the opportunities and risks of foundation models. arXiv preprint arXiv:2108.07258. Bostrom, N. (2014). Superintelligence. Dunod. Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., et al. (2020). Language models are few-shot learners. arXiv preprint arXiv:2005.14165. Buchanan, B., Lohn, A., Musser, M., and Sedova, K. (2021). Truth, lies, and automation. Technical report, Center for the Study of Emerging Technology. Caliskan, A., Bryson, J. J., and Narayanan, A. (2017). Semantics derived automatically from language corpora contain human-like biases. Science, 356(6334):183–186. Carlini, N., Tramer, F., Wallace, E., Jagielski, M., Herbert-Voss, A., Lee, K., Roberts, A., Brown, T., Song, D., Erlingsson, U., et al. (2021). Extracting training data from large language models. In",
+      "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+      "page_index": 21,
+      "block_id": "9be4b0b9d82b48efb62e9df9f947c637:21:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "1017dd11e8b444b581aa49be6890c0bc",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "9be4b0b9d82b48efb62e9df9f947c637:ref:3",
+      "text": "30th USENIX Security Symposium (USENIX Security 21), pages 2633–2650. Chen, M., Tworek, J., Jun, H., Yuan, Q., Pinto, H. P. d. O., Kaplan, J., Edwards, H., Burda, Y., Joseph, N., Brockman, G., et al. (2021). Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374 . Cho, W. S., Zhang, P., Zhang, Y., Li, X., Galley, M., Brockett, C., Wang, M., and Gao, J. (2018). Towards coherent and cohesive long-form text generation. arXiv preprint arXiv:1811.00511 . Choi, E., He, H., Iyyer, M., Yatskar, M., Yih, W.-t., Choi, Y., Liang, P., and Zettlemoyer, L. (2018). Quac: Question answering in context. In Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing , pages 2174–2184. Christiano, P., Cotra, A., and Xu, M. (2021). Eliciting latent knowledge: How to tell if your eyes deceive you. https://www.alignmentforum.org/posts/qHCDysDnvhteW7kRd/arc-s-first-technical- report-eliciting-latent-knowledge . Christiano, P., Shlegeris, B., and Amodei, D. (2018). Supervising strong learners by amplifying weak experts. arXiv preprint arXiv:1810.08575 . Christiano, P. F., Leike, J., Brown, T., Martic, M., Legg, S., and Amodei, D. (2017). Deep reinforce- ment learning from human preferences. In Advances in Neural Information Processing Systems , pages 4299–4307. Dathathri, S., Madotto, A., Lan, J., Hung, J., Frank, E., Molino, P., Yosinski, J., and Liu, R. (2019). Plug and play language models: A simple approach to controlled text generation. arXiv preprint arXiv:1912.02164.",
+      "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+      "page_index": 21,
+      "block_id": "9be4b0b9d82b48efb62e9df9f947c637:21:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "1017dd11e8b444b581aa49be6890c0bc",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "9be4b0b9d82b48efb62e9df9f947c637:ref:4",
+      "text": "Dhamala, J., Sun, T., Kumar, V., Krishna, S., Pruksachatkun, Y., Chang, K.-W., and Gupta, R. (2021). Bold: Dataset and metrics for measuring biases in open-ended language generation. In Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency , pages 862–872. Dinan, E., Fan, A., Williams, A., Urbanek, J., Kiela, D., and Weston, J. (2019a). Queens are powerful too: Mitigating gender bias in dialogue generation. arXiv preprint arXiv:1911.03842 . Dinan, E., Humeau, S., Chintagunta, B., and Weston, J. (2019b). Build it break it fix it for dialogue safety: Robustness from adversarial human attack. arXiv preprint arXiv:1908.06083 . Dua, D., Wang, Y., Dasigi, P., Stanovsky, G., Singh, S., and Gardner, M. (2019). Drop: A read- ing comprehension benchmark requiring discrete reasoning over paragraphs. arXiv preprint arXiv:1903.00161. Fedus, W., Zoph, B., and Shazeer, N. (2021). Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity. arXiv preprint arXiv:2101.03961.",
+      "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+      "page_index": 21,
+      "block_id": "9be4b0b9d82b48efb62e9df9f947c637:21:2",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "1017dd11e8b444b581aa49be6890c0bc",
+      "target": "b364f8c1dca0433ca108ae7915bac13e",
+      "ref_id": "9be4b0b9d82b48efb62e9df9f947c637:ref:10",
+      "text": "optimization algorithms. arXiv preprint arXiv:1707.06347. Sheng, E., Chang, K.-W., Natarajan, P., and Peng, N. (2019). The woman worked as a babysitter: On biases in language generation. arXiv preprint arXiv:1909.01326 . Silver, D., Hubert, T., Schrittwieser, J., Antonoglou, I., Lai, M., Guez, A., Lanctot, M., Sifre, L., Kumaran, D., Graepel, T., et al. (2017). Mastering chess and shogi by self-play with a general reinforcement learning algorithm. arXiv preprint arXiv:1712.01815. Soares, N., Fallenstein, B., Armstrong, S., and Yudkowsky, E. (2015). Corrigibility. In Workshops at the Twenty-Ninth AAAI Conference on Artificial Intelligence. Socher, R., Perelygin, A., Wu, J., Chuang, J., Manning, C. D., Ng, A. Y., and Potts, C. (2013). Recursive deep models for semantic compositionality over a sentiment treebank. In Proceedings of the 2013 conference on empirical methods in natural language processing, pages 1631–1642.",
+      "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+      "page_index": 23,
+      "block_id": "9be4b0b9d82b48efb62e9df9f947c637:23:2",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "75c8085ee02846f089d11811c2d792fc",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "464f25034aa74104a944a67df1d0cca2:ref:4",
+      "text": "[5] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901, 2020.",
+      "version_id": "464f25034aa74104a944a67df1d0cca2",
+      "page_index": 10,
+      "block_id": "464f25034aa74104a944a67df1d0cca2:10:6",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "75c8085ee02846f089d11811c2d792fc",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "464f25034aa74104a944a67df1d0cca2:ref:21",
+      "text": "[22] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. 2019.",
+      "version_id": "464f25034aa74104a944a67df1d0cca2",
+      "page_index": 11,
+      "block_id": "464f25034aa74104a944a67df1d0cca2:11:7",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "6ccdeca3f4d44e588e81e3e1abface94:ref:12",
+      "text": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D. Kaplan, Prafulla Dhari- wal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language mod- els are few-shot learners. NeurIPS , 2020. URL https://papers.nips.cc/paper/2020/hash/ 1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html.",
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "page_index": 11,
+      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:11:14",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "6ccdeca3f4d44e588e81e3e1abface94:ref:22",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirec- tional transformers for language understanding. NAACL, 2019. URL https://aclanthology.org/ N19-1423.",
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "page_index": 12,
+      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:12:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "6ccdeca3f4d44e588e81e3e1abface94:ref:24",
+      "text": "William Fedus, Barret Zoph, and Noam Shazeer. Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity. arXiv preprint arXiv:2101.03961 , 2021. URL https://arxiv.org/ abs/2101.03961.",
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "page_index": 12,
+      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:12:12",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "6ccdeca3f4d44e588e81e3e1abface94:ref:43",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361 , 2020. URL https://arxiv.org/abs/2001.08361.",
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "page_index": 14,
+      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:14:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "6ccdeca3f4d44e588e81e3e1abface94:ref:61",
+      "text": "Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to follow instructions with human feedback. arXiv preprint arXiv:2203.02155 , 2022. URL https://arxiv.org/abs/2203.02155.",
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "page_index": 15,
+      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:15:2",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "6ccdeca3f4d44e588e81e3e1abface94:ref:92",
+      "text": "Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Ed Chi, Quoc Le, and Denny Zhou. Chain of thought prompting elicits reasoning in large language models. NeurIPS , 2022b. URL https://arxiv. org/abs/2201.11903.",
+      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+      "page_index": 17,
+      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:17:3",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:26",
+      "text": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel Ziegler, Jeffrey Wu, Clemens Winter, Chris Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. Language models are few-shot learners. Advances in Neural Information Processing Systems, 2020.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 47,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:47:5",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:28",
+      "text": "Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Eval- uating large language models trained on code. arXiv preprint arXiv:2107.03374, 2021.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 47,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:47:7",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:39",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In Conference of the North American Chapter of the Association for Computational Linguistics, 2019.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 49,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:49:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:43",
+      "text": "William Fedus, Barret Zoph, and Noam Shazeer. Switch transformers: Scaling to tril- lion parameter models with simple and efficient sparsity. Journal of Machine Learning Research, 23(120):1–39, 2022.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 49,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:49:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:68",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 52,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:52:6",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:120",
+      "text": "Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language understanding by generative pre-training, 2018.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 58,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:58:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "f30f70e07bb64e14b7acbdcaea8fc95d",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:124",
+      "text": "Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, and Yuxiong He. ZeRO: Memory optimizations toward training trillion parameter models. SC20: International Conference for High Performance Computing, Networking, Storage and Analysis, Nov 2020. doi: 10.1109/sc41405.2020.00024. URL http://dx.doi.org/10.1109/SC41405.2020.00024.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 58,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:58:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d43182ede6d64a1ba4bb35701adfd135",
+      "target": "b3d90b55a89c47a281921a7864e33834",
+      "ref_id": "4bc46336dcf44b0392ea7f16e6a87a6f:ref:172",
+      "text": "Aohan Zeng, Xiao Liu, Zhengxiao Du, Zihan Wang, Hanyu Lai, Ming Ding, Zhuoyi Yang, Yifan Xu, Wendi Zheng, Xiao Xia, et al. Glm-130b: An open bilingual pre-trained model. arXiv preprint arXiv:2210.02414, 2022.",
+      "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+      "page_index": 63,
+      "block_id": "4bc46336dcf44b0392ea7f16e6a87a6f:63:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "5b16309608b14047bfb8af76cc209049",
+      "target": "3f05df2bca5f4412bb695ee895e06902",
+      "ref_id": "2209b4a8f3454c179e785f68eba4d81f:ref:61",
+      "text": "Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. Learning transferable visual models from natural language supervision. arXiv preprint arXiv:2103.00020 , 2021.",
+      "version_id": "2209b4a8f3454c179e785f68eba4d81f",
+      "page_index": 16,
+      "block_id": "2209b4a8f3454c179e785f68eba4d81f:16:16",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:0",
+      "text": "[1] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D. Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. Advances in Neural Information Processing Systems , 33:1877–1901, 2020.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 17,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:17:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:6",
+      "text": "[7] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805 , 2018.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 17,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:17:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "c2ce82ea9b094c39862af4d44c1588bf",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:7",
+      "text": "[8] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J Liu. Exploring the limits of transfer learning with a unified text-to-text transformer. arXiv preprint arXiv:1910.10683 , 2019.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 17,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:17:11",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:9",
+      "text": "[10] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E. Hinton. Layer normalization. arXiv preprint arXiv:1607.06450, 2016.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 17,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:17:13",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:10",
+      "text": "[11] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Ed Chi, Quoc Le, and Denny Zhou. Chain-of-thought prompting elicits reasoning in large language models. NeurIPS, 2022.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 17,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:17:14",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:13",
+      "text": "[14] Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 18,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:18:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "d43182ede6d64a1ba4bb35701adfd135",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:25",
+      "text": "[26] Teven Le Scao, Angela Fan, Christopher Akiki, Ellie Pavlick, Suzana Ilic´, Daniel Hesslow, Roman Castagné, Alexandra Sasha Luccioni, François Yvon, Matthias Gallé, et al. Bloom: A 176B-parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100 , 2022.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 18,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:18:13",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:27",
+      "text": "[28] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timo- thée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. LLaMA: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 18,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:18:15",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "75c8085ee02846f089d11811c2d792fc",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:30",
+      "text": "[31] Tri Dao, Daniel Y. Fu, Stefano Ermon, Atri Rudra, and Christopher Ré. Flashattention: Fast and memory-efficient exact attention with io-awareness. arXiv preprint arXiv:2205.14135, 2022.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 19,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:19:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:37",
+      "text": "[38] Alec Radford, Karthik Narasimhan, Tim Salimans, and Ilya Sutskever. Improving language understanding by generative pre-training. 2018.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 19,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:19:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:42",
+      "text": "[43] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, Alex Ray, Raul Puri, Gretchen Krueger, Michael Petrov, Heidy Khlaaf, Girish Sastry, Pamela Mishkin, Brooke Chan, Scott Gray, Nick Ryder, Mikhail Pavlov, Alethea Power, Lukasz Kaiser, Mohammad Bavarian, Clemens Winter, Philippe Tillet, Felipe Petroski Such, Dave Cummings, Matthias Plappert, Fotios Chantzis, Elizabeth Barnes, Ariel Herbert-Voss, William Hebgen Guss, Alex Nichol, Alex Paino, Nikolas Tezak, Jie Tang, Igor Babuschkin, Suchir Balaji, Shantanu Jain, William Saunders, Christopher Hesse, Andrew N. Carr, Jan Leike, Josh Achiam, Vedant Misra, Evan Morikawa, Alec Radford, Matthew Knight, Miles Brundage, Mira Murati, Katie Mayer, Peter Welinder, Bob McGrew, Dario Amodei, Sam McCandlish, Ilya Sutskever, and Wojciech Zaremba. Evaluating large language models trained on code. 2021.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 19,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:19:13",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "4075c28a972d4430a13fac173a2207a3",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:ref:62",
+      "text": "[63] Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to follow instructions with human feedback. arXiv preprint arXiv:2203.02155, 2022.",
+      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+      "page_index": 21,
+      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:21:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "422e1b1fb0e643ddac3b58cd7fa222e0",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "15624a22277749948d0faf32cfd20727:ref:6",
+      "text": "[7] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901, 2020. 2",
+      "version_id": "15624a22277749948d0faf32cfd20727",
+      "page_index": 9,
+      "block_id": "15624a22277749948d0faf32cfd20727:9:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "422e1b1fb0e643ddac3b58cd7fa222e0",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "15624a22277749948d0faf32cfd20727:ref:36",
+      "text": "[37] Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35:27730–27744, 2022. 2",
+      "version_id": "15624a22277749948d0faf32cfd20727",
+      "page_index": 11,
+      "block_id": "15624a22277749948d0faf32cfd20727:11:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "422e1b1fb0e643ddac3b58cd7fa222e0",
+      "target": "3f05df2bca5f4412bb695ee895e06902",
+      "ref_id": "15624a22277749948d0faf32cfd20727:ref:39",
+      "text": "[40] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervision. arXiv preprint arXiv:2103.00020 , 2021. 1, 2, 4",
+      "version_id": "15624a22277749948d0faf32cfd20727",
+      "page_index": 11,
+      "block_id": "15624a22277749948d0faf32cfd20727:11:7",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "422e1b1fb0e643ddac3b58cd7fa222e0",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "15624a22277749948d0faf32cfd20727:ref:48",
+      "text": "[49] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timo- thée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023. 1",
+      "version_id": "15624a22277749948d0faf32cfd20727",
+      "page_index": 12,
+      "block_id": "15624a22277749948d0faf32cfd20727:12:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d504ff07e8ba4abe9b5976538587578b",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "3fdbfb3b1c234530883333f9c6b93bc3:ref:14",
+      "text": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. 2020. Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901.",
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "page_index": 9,
+      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:9:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d504ff07e8ba4abe9b5976538587578b",
+      "target": "75c8085ee02846f089d11811c2d792fc",
+      "ref_id": "3fdbfb3b1c234530883333f9c6b93bc3:ref:25",
+      "text": "Tri Dao, Daniel Y Fu, Stefano Ermon, Atri Rudra, and Christopher Re. 2022a. Flashattention: Fast and memory-efficient exact attention with IO-awareness. In Advances in Neural Information Processing Sys- tems.",
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "page_index": 9,
+      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:9:16",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d504ff07e8ba4abe9b5976538587578b",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "3fdbfb3b1c234530883333f9c6b93bc3:ref:45",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361.",
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "page_index": 10,
+      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:10:15",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d504ff07e8ba4abe9b5976538587578b",
+      "target": "d43182ede6d64a1ba4bb35701adfd135",
+      "ref_id": "3fdbfb3b1c234530883333f9c6b93bc3:ref:70",
+      "text": "Teven Le Scao, Angela Fan, Christopher Akiki, El- lie Pavlick, Suzana Ili c, ´ Daniel Hesslow, Roman Castagné, Alexandra Sasha Luccioni, François Yvon, Matthias Gallé, et al. 2022. Bloom: A 176b- parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100.",
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "page_index": 11,
+      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:11:18",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d504ff07e8ba4abe9b5976538587578b",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "3fdbfb3b1c234530883333f9c6b93bc3:ref:78",
+      "text": "Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, Aurelien Rodriguez, Armand Joulin, Edouard Grave, and Guillaume Lample. 2023. Llama: Open and efficient foundation language models.",
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "page_index": 12,
+      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:12:3",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d504ff07e8ba4abe9b5976538587578b",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "3fdbfb3b1c234530883333f9c6b93bc3:ref:85",
+      "text": "Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Ed Chi, Quoc Le, and Denny Zhou. 2022b. Chain of thought prompting elicits reasoning in large language models. arXiv preprint arXiv:2201.11903.",
+      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+      "page_index": 12,
+      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:12:10",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c18f85e20ea9495fa854fc0d3bad8336",
+      "target": "598821a866a0457eb220ae8150af5ebe",
+      "ref_id": "93a4234ccaf6433c9f66f01322316fec:ref:27",
+      "text": "[28] E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, and W. Chen. Lora: Low-rank adaptation of large language models. arXiv preprint arXiv:2106.09685, 2021.",
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "page_index": 17,
+      "block_id": "93a4234ccaf6433c9f66f01322316fec:17:10",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c18f85e20ea9495fa854fc0d3bad8336",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "93a4234ccaf6433c9f66f01322316fec:ref:42",
+      "text": "[43] L. Ouyang, J. Wu, X. Jiang, D. Almeida, C. Wainwright, P. Mishkin, C. Zhang, S. Agarwal, K. Slama, A. Ray, et al. Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35:27730–27744, 2022.",
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "page_index": 18,
+      "block_id": "93a4234ccaf6433c9f66f01322316fec:18:6",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c18f85e20ea9495fa854fc0d3bad8336",
+      "target": "d43182ede6d64a1ba4bb35701adfd135",
+      "ref_id": "93a4234ccaf6433c9f66f01322316fec:ref:51",
+      "text": "[52] T. L. Scao, A. Fan, C. Akiki, E. Pavlick, S. Ilic´, D. Hesslow, R. Castagné, A. S. Luccioni, F. Yvon, M. Gallé, et al. Bloom: A 176b-parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100 , 2022.",
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "page_index": 18,
+      "block_id": "93a4234ccaf6433c9f66f01322316fec:18:15",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c18f85e20ea9495fa854fc0d3bad8336",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "93a4234ccaf6433c9f66f01322316fec:ref:56",
+      "text": "[57] H. Touvron, T. Lavril, G. Izacard, X. Martinet, M.-A. Lachaux, T. Lacroix, B. Rozière, N. Goyal, E. Hambro, F. Azhar, et al. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023.",
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "page_index": 19,
+      "block_id": "93a4234ccaf6433c9f66f01322316fec:19:2",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c18f85e20ea9495fa854fc0d3bad8336",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "93a4234ccaf6433c9f66f01322316fec:ref:62",
+      "text": "[63] J. Wei, X. Wang, D. Schuurmans, M. Bosma, F. Xia, E. H. Chi, Q. V. Le, D. Zhou, et al. Chain-of-thought prompting elicits reasoning in large language models. In Advances in Neural Information Processing Systems , 2022.",
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "page_index": 19,
+      "block_id": "93a4234ccaf6433c9f66f01322316fec:19:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "c18f85e20ea9495fa854fc0d3bad8336",
+      "target": "b3d90b55a89c47a281921a7864e33834",
+      "ref_id": "93a4234ccaf6433c9f66f01322316fec:ref:70",
+      "text": "[71] A. Zeng, X. Liu, Z. Du, Z. Wang, H. Lai, M. Ding, Z. Yang, Y. Xu, W. Zheng, X. Xia, et al. Glm-130b: An open bilingual pre-trained model. arXiv preprint arXiv:2210.02414, 2022.",
+      "version_id": "93a4234ccaf6433c9f66f01322316fec",
+      "page_index": 19,
+      "block_id": "93a4234ccaf6433c9f66f01322316fec:19:16",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d449d58eeced43aca40dc8f0b0de4ec1",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:ref:5",
+      "text": "[6] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, S. Agarwal, A. Herbert-Voss, G. Krueger, T. Henighan, R. Child, A. Ramesh, D. Ziegler, J. Wu, C. Winter, C. Hesse, M. Chen, E. Sigler, M. Litwin, S. Gray, B. Chess, J. Clark, C. Berner, S. McCandlish, A. Radford, I. Sutskever, and D. Amodei. Lan- guage models are few-shot learners. In H. Larochelle, M. Ranzato, R. Hadsell, M. Balcan, and H. Lin, editors, Advances in Neural Information Processing Systems, volume 33, pages 1877– 1901. Curran Associates, Inc., 2020. URL https://proceedings.neurips.cc/paper_ files/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf .",
+      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "page_index": 10,
+      "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:10:6",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d449d58eeced43aca40dc8f0b0de4ec1",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:ref:6",
+      "text": "[7] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, et al. Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901, 2020.",
+      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "page_index": 10,
+      "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:10:7",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d449d58eeced43aca40dc8f0b0de4ec1",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:ref:27",
+      "text": "[28] L. Ouyang, J. Wu, X. Jiang, D. Almeida, C. Wainwright, P. Mishkin, C. Zhang, S. Agarwal, K. Slama, A. Ray, J. Schulman, J. Hilton, F. Kelton, L. Miller, M. Simens, A. Askell, P. Welinder, P. F. Christiano, J. Leike, and R. Lowe. Training language models to follow instructions with human feedback. In S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh, editors, Advances in Neural Information Processing Systems, volume 35, pages 27730–27744. Curran Associates, Inc., 2022. URL https://proceedings.neurips.cc/paper_files/ paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf .",
+      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "page_index": 12,
+      "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:12:2",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d449d58eeced43aca40dc8f0b0de4ec1",
+      "target": "b364f8c1dca0433ca108ae7915bac13e",
+      "ref_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:ref:38",
+      "text": "[39] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov. Proximal policy optimization algorithms, 2017.",
+      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "page_index": 13,
+      "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:13:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d449d58eeced43aca40dc8f0b0de4ec1",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:ref:41",
+      "text": "[42] H. Touvron, T. Lavril, G. Izacard, X. Martinet, M.-A. Lachaux, T. Lacroix, B. Rozière, N. Goyal, E. Hambro, F. Azhar, et al. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023.",
+      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+      "page_index": 13,
+      "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:13:3",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "2489862023034f22a5d2b591167c22be",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "d3d10ab463974076b8355839f401f7a5:ref:15",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361 , 2020. James Kirkpatrick, Razvan Pascanu, Neil Rabinowitz, Joel Veness, Guillaume Desjardins, Andrei A Rusu, Kieran Milan, John Quan, Tiago Ramalho, Agnieszka Grabska-Barwinska, et al. Overcoming catastrophic forgetting in neural networks. Proceedings of the national academy of sciences , 114(13):3521–3526, 2017. Andreas Köpf, Yannic Kilcher, Dimitri von Rütte, Sotiris Anagnostidis, Zhi-Rui Tam, Keith Stevens, Ab- dullah Barhoum, Nguyen Minh Duc, Oliver Stanley, Richárd Nagyfi, et al. Openassistant conversations– democratizing large language model alignment. arXiv preprint arXiv:2304.07327 , 2023. Tomasz Korbak, Kejian Shi, Angelica Chen, Rasika Bhalerao, Christopher L Buckley, Jason Phang, Samuel R Bowman, and Ethan Perez. Pretraining language models with human preferences. arXiv preprint arXiv:2302.08582 , 2023. Taku Kudo and John Richardson. Sentencepiece: A simple and language independent subword tokenizer and detokenizer for neural text processing, 2018. Sachin Kumar, Vidhisha Balachandran, Lucille Njoo, Antonios Anastasopoulos, and Yulia Tsvetkov. Language generation models can cause harm: So what can we do about it? an actionable survey. arXiv preprint arXiv:2210.07700 , 2022. Tom Kwiatkowski, Jennimaria Palomaki, Olivia Redfield, Michael Collins, Ankur Parikh, Chris Alberti,",
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "page_index": 40,
+      "block_id": "d3d10ab463974076b8355839f401f7a5:40:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "2489862023034f22a5d2b591167c22be",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "d3d10ab463974076b8355839f401f7a5:ref:18",
+      "text": "Reiichiro Nakano, Jacob Hilton, Suchir Balaji, Jeff Wu, Lonbrown Ouyanbrown, Christina Kim, Christopher Hesse, Shantanu Jain, Vineet Kosaraju, William Saunders, Xu Jiang, Karl Cobbe, Tyna Eloundou, Gretchen Krueger, Kevin Button, Matthew Knight, Benjamin Chess, and John Schulman. Webgpt: Browser-assisted question-answering with human feedback. In arXiv , 2021. Cuong V. Nguyen, Alessandro Achille, Michael Lam, Tal Hassner, Vijay Mahadevan, and Stefano Soatto. Toward understanding catastrophic forgetting in continual learning. arXiv preprint arXiv:1908.01091 , 2019. OpenAI. GPT-4 technical report. CoRR , abs/2303.08774, 2023. doi: 10.48550/arXiv.2303.08774. URL https://doi.org/10.48550/arXiv.2303.08774. Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, et al. Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems , 35:27730–27744, 2022. David Patterson, Joseph Gonzalez, Quoc Le, Chen Liang, Lluis-Miquel Munguia, Daniel Rothchild, David So, Maud Texier, and Jeff Dean. Carbon emissions and large neural network training. arXiv preprint arXiv:2104.10350 , 2021. Guilherme Penedo, Quentin Malartic, Daniel Hesslow, Ruxandra Cojocaru, Alessandro Cappelli, Hamza Alobeidli, Baptiste Pannier, Ebtesam Almazrouei, and Julien Launay. The refinedweb dataset for falcon llm: Outperforming curated corpora with web data, and web data only, 2023.",
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "page_index": 41,
+      "block_id": "d3d10ab463974076b8355839f401f7a5:41:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "2489862023034f22a5d2b591167c22be",
+      "target": "d43182ede6d64a1ba4bb35701adfd135",
+      "ref_id": "d3d10ab463974076b8355839f401f7a5:ref:20",
+      "text": "language models: Methods, analysis & insights from training gopher, 2022. Pranav Rajpurkar, Robin Jia, and Percy Liang. Know what you don’t know: Unanswerable questions for squad. arXiv preprint arXiv:1806.03822 , 2018. Vinay Venkatesh Ramasesh, Aitor Lewkowycz, and Ethan Dyer. Effect of scale on catastrophic forgetting in neural networks. In International Conference on Learning Representations , 2021. Stephen Roller, Y-Lan Boureau, Jason Weston, Antoine Bordes, Emily Dinan, Angela Fan, David Gunning, Da Ju, Margaret Li, Spencer Poff, et al. Open-domain conversational agents: Current progress, open problems, and future directions. arXiv preprint arXiv:2006.12442 , 2020. Keisuke Sakaguchi, Ronan Le Bras, Chandra Bhagavatula, and Yejin Choi. Winogrande: An adversarial winograd schema challenge at scale. Communications of the ACM , 64(9):99–106, 2021. Maarten Sap, Hannah Rashkin, Derek Chen, Ronan LeBras, and Yejin Choi. Socialiqa: Commonsense reasoning about social interactions. arXiv preprint arXiv:1904.09728 , 2019. Teven Le Scao, Angela Fan, Christopher Akiki, Ellie Pavlick, Suzana Ilić, Daniel Hesslow, Roman Castagné, Alexandra Sasha Luccioni, François Yvon, Matthias Gallé, et al. Bloom: A 176b-parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100 , 2022. Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. Toolformer: Language models can teach themselves to use tools. arXiv",
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "page_index": 41,
+      "block_id": "d3d10ab463974076b8355839f401f7a5:41:2",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "2489862023034f22a5d2b591167c22be",
+      "target": "b364f8c1dca0433ca108ae7915bac13e",
+      "ref_id": "d3d10ab463974076b8355839f401f7a5:ref:21",
+      "text": "preprint arXiv:2302.04761 , 2023. John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov. Proximal policy optimization algorithms. arXiv preprint arXiv:1707.06347 , 2017.",
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "page_index": 41,
+      "block_id": "d3d10ab463974076b8355839f401f7a5:41:3",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "2489862023034f22a5d2b591167c22be",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "d3d10ab463974076b8355839f401f7a5:ref:25",
+      "text": "Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, Aur’elien Rodriguez, Armand Joulin, Edouard Grave, and Guillaume Lample. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971 , 2023. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. Attention is all you need, 2017. Oriol Vinyals, Igor Babuschkin, Wojciech M Czarnecki, Michaël Mathieu, Andrew Dudzik, Junyoung Chung, David H Choi, Richard Powell, Timo Ewalds, Petko Georgiev, et al. Grandmaster level in starcraft ii using multi-agent reinforcement learning. Nature , 575(7782):350–354, 2019. Yizhong Wang, Yeganeh Kordi, Swaroop Mishra, Alisa Liu, Noah A Smith, Daniel Khashabi, and Han- naneh Hajishirzi. Self-instruct: Aligning language model with self generated instructions. arXiv preprint arXiv:2212.10560 , 2022. Michael Webb. The impact of artificial intelligence on the labor market. Available at SSRN 3482150 , 2019. Jason Wei, Maarten Bosma, Vincent Zhao, Kelvin Guu, Adams Wei Yu, Brian Lester, Nan Du, Andrew M Dai, and Quoc V Le. Finetuned language models are zero-shot learners. In International Conference on Learning Representations , 2021. Jason Wei, Maarten Bosma, Vincent Zhao, Kelvin Guu, Adams Wei Yu, Brian Lester, Nan Du, Andrew M. Dai, and Quoc V Le. Finetuned language models are zero-shot learners. In International Conference on Learning",
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "page_index": 43,
+      "block_id": "d3d10ab463974076b8355839f401f7a5:43:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "2489862023034f22a5d2b591167c22be",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "d3d10ab463974076b8355839f401f7a5:ref:26",
+      "text": "Representations , 2022a. URL https://openreview.net/forum?id=gEZrGCozdqR. Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou, et al. Chain-of-thought prompting elicits reasoning in large language models. Advances in Neural Information Processing Systems , 35:24824–24837, 2022b. Laura Weidinger, John Mellor, Maribeth Rauh, Conor Griffin, Jonathan Uesato, Po-Sen Huang, Myra Cheng, Mia Glaese, Borja Balle, Atoosa Kasirzadeh, et al. Ethical and social risks of harm from language models. arXiv preprint arXiv:2112.04359 , 2021. Johannes Welbl, Amelia Glaese, Jonathan Uesato, Sumanth Dathathri, John Mellor, Lisa Anne Hendricks, Kirsty Anderson, Pushmeet Kohli, Ben Coppin, and Po-Sen Huang. Challenges in detoxifying language models, 2021. Carole-Jean Wu, Ramya Raghavendra, Udit Gupta, Bilge Acun, Newsha Ardalani, Kiwan Maeng, Gloria Chang, Fiona Aga, Jinshi Huang, Charles Bai, et al. Sustainable ai: Environmental implications, challenges and opportunities. Proceedings of Machine Learning and Systems , 4:795–813, 2022. Jing Xu, Da Ju, Margaret Li, Y-Lan Boureau, Jason Weston, and Emily Dinan. Recipes for safety in open-domain chatbots, 2021. Rowan Zellers, Ari Holtzman, Yonatan Bisk, Ali Farhadi, and Yejin Choi. Hellaswag: Can a machine really finish your sentence? arXiv preprint arXiv:1905.07830 , 2019a. Rowan Zellers, Ari Holtzman, Hannah Rashkin, Yonatan Bisk, Ali Farhadi, Franziska Roesner, and Yejin Choi. Defending against neural fake news. Advances in neural information processing systems , 32, 2019b.",
+      "version_id": "d3d10ab463974076b8355839f401f7a5",
+      "page_index": 43,
+      "block_id": "d3d10ab463974076b8355839f401f7a5:43:1",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d7e9d8f02a44473da993b625ea583dc6",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "115a8bd9918b47c49ad03dec3ac22d6c:ref:4",
+      "text": "[5] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374, 2021.",
+      "version_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+      "page_index": 7,
+      "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:7:5",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d7e9d8f02a44473da993b625ea583dc6",
+      "target": "75c8085ee02846f089d11811c2d792fc",
+      "ref_id": "115a8bd9918b47c49ad03dec3ac22d6c:ref:10",
+      "text": "[11] Tri Dao, Daniel Y. Fu, Stefano Ermon, Atri Rudra, and Christopher Ré. FlashAttention: Fast and memory-efficient exact attention with IO-awareness. In Advances in Neural Information Processing Systems , 2022.",
+      "version_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+      "page_index": 7,
+      "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:7:11",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d7e9d8f02a44473da993b625ea583dc6",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "115a8bd9918b47c49ad03dec3ac22d6c:ref:24",
+      "text": "[25] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timo- thée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023.",
+      "version_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+      "page_index": 8,
+      "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:8:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "d7e9d8f02a44473da993b625ea583dc6",
+      "target": "2489862023034f22a5d2b591167c22be",
+      "ref_id": "115a8bd9918b47c49ad03dec3ac22d6c:ref:25",
+      "text": "[26] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al. Llama 2: Open foundation and fine-tuned chat models. arXiv preprint arXiv:2307.09288, 2023.",
+      "version_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+      "page_index": 8,
+      "block_id": "115a8bd9918b47c49ad03dec3ac22d6c:8:9",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:9",
+      "text": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. 2020. Language models are few-shot learners. Advances in neural information processing systems , 33:1877–1901.",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 8,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:8:16",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "d7e9d8f02a44473da993b625ea583dc6",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:32",
+      "text": "Albert Q Jiang, Alexandre Sablayrolles, Arthur Men- sch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guil- laume Lample, Lucile Saulnier, et al. 2023. Mistral 7b. arXiv preprint arXiv:2310.06825 .",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 9,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:9:18",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "4075c28a972d4430a13fac173a2207a3",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:71",
+      "text": "OpenAI. 2023. Gpt-4 technical report. arXiv preprint arXiv:2303.08774.",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 11,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:11:15",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:74",
+      "text": "Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever, et al. 2018. Improving language under- standing by generative pre-training.",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 11,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:11:18",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "2489862023034f22a5d2b591167c22be",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:93",
+      "text": "Hugo Touvron, Louis Martin, Kevin Stone, Peter Al- bert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al. 2023. Llama 2: Open founda- tion and fine-tuned chat models. arXiv preprint arXiv:2307.09288 .",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 12,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:12:16",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:99",
+      "text": "Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou, et al. 2022. Chain-of-thought prompting elicits rea- soning in large language models. Advances in neural information processing systems, 35:24824–24837.",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 13,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:13:1",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "9f2e3b06be804901b8bd53ea7452d73c",
+      "target": "d43182ede6d64a1ba4bb35701adfd135",
+      "ref_id": "d503f5dfee294ef1a1cfc62e04e84a6c:ref:102",
+      "text": "BigScience Workshop, Teven Le Scao, Angela Fan, Christopher Akiki, Ellie Pavlick, Suzana Ili c, ´ Daniel Hesslow, Roman Castagné, Alexandra Sasha Luc- cioni, François Yvon, et al. 2022. Bloom: A 176b- parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100 .",
+      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+      "page_index": 13,
+      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:13:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:10",
+      "text": "Patrick Chao, Alexander Robey, Edgar Dobriban, Hamed Hassani, George J. Pappas, and Eric Wong. Jailbreaking black box large language models in twenty queries. arXiv preprint arXiv:2310.08419, 2023. Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large language models trained on code. arXiv preprint arXiv:2107.03374 , 2021. Nuo Chen, Zinan Zheng, Ning Wu, Ming Gong, Yangqiu Song, Dongmei Zhang, and Jia Li. Breaking language barriers in multilingual mathematical reasoning: Insights and observations, 2023. https://arxiv.org/abs/2310.20246. Wenhu Chen, Xueguang Ma, Xinyi Wang, and William W Cohen. Program of thoughts prompting: Disentangling computation from reasoning for numerical reasoning tasks. arXiv preprint arXiv:2211.12588 , 2022. Wei-Lin Chiang, Lianmin Zheng, Ying Sheng, Anastasios Nikolas Angelopoulos, Tianle Li, Dacheng Li, Hao Zhang, Banghua Zhu, Michael Jordan, Joseph E Gonzalez, et al. Chatbot arena: An open platform for evaluating llms by human preference. arXiv preprint arXiv:2403.04132 , 2024. Chung-Cheng Chiu, James Qin, Yu Zhang, Jiahui Yu, and Yonghui Wu. Self-supervised learning with random-projection quantizer for speech recognition. In International Conference on Machine Learning , pages 3915–3924. PMLR, 2022. Eunsol Choi, He He, Mohit Iyyer, Mark Yatskar, Wen-tau Yih, Yejin Choi, Percy Liang, and Luke Zettlemoyer. QuAC: Question answering in context. In Ellen Riloff, David Chiang, Julia Hockenmaier, and Jun’ichi Tsujii,",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 76,
+      "block_id": "679e75bc46e24c9d97105631732a146f:76:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:15",
+      "text": "Databricks. Introducing MPT-7B: A New Standard for Open-Source, Commercially Usable LLMs blog. https: //www.databricks.com/blog/mpt-7b , 2024. DeepSeek-AI, Qihao Zhu, Daya Guo, Zhihong Shao, Dejian Yang, Peiyi Wang, Runxin Xu, Y. Wu, Yukun Li, Huazuo Gao, Shirong Ma, Wangding Zeng, Xiao Bi, Zihui Gu, Hanwei Xu, Damai Dai, Kai Dong, Liyue Zhang, Yishi Piao, Zhibin Gou, Zhenda Xie, Zhewen Hao, Bingxuan Wang, Junxiao Song, Deli Chen, Xin Xie, Kang Guan, Yuxiang You, Aixin Liu, Qiushi Du, Wenjun Gao, Xuan Lu, Qinyu Chen, Yaohui Wang, Chengqi Deng, Jiashi Li, Chenggang Zhao, Chong Ruan, Fuli Luo, and Wenfeng Liang. Deepseek-coder-v2: Breaking the barrier of closed-source models in code intelligence, 2024. https://arxiv.org/abs/2406.11931. Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805 , 2018. Aniket Didolkar, Anirudh Goyal, Nan Rosemary Ke, Siyuan Guo, Michal Valko, Timothy Lillicrap, Danilo Rezende, Yoshua Bengio, Michael Mozer, and Sanjeev Arora. Metacognitive capabilities of llms: An exploration in mathematical problem solving. arXiv preprint arXiv:2405.12205 , 2024. Li Dong, Nan Yang, Wenhui Wang, Furu Wei, Xiaodong Liu, Yu Wang, Jianfeng Gao, Ming Zhou, and Hsiao-Wuen Hon. Unified language model pre-training for natural language understanding and generation. Advances in neural information processing systems , 32, 2019. Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner,",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 77,
+      "block_id": "679e75bc46e24c9d97105631732a146f:77:2",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "b5031525401a4fe68c7db1dd47e1d3b0",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:16",
+      "text": "Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby. An image is worth 16x16 words: Transformers for image recognition at scale. arXiv:2010.11929 , 2020. Dheeru Dua, Yizhong Wang, Pradeep Dasigi, Gabriel Stanovsky, Sameer Singh, and Matt Gardner. DROP: A reading comprehension benchmark requiring discrete reasoning over paragraphs. In Jill Burstein, Christy Doran, and Thamar Solorio, editors, Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers) , pages 2368– 2378, Minneapolis, Minnesota, June 2019. Association for Computational Linguistics. doi: 10.18653/v1/N19-1246. https://aclanthology.org/N19-1246. Patrick Esser, Sumith Kulal, Andreas Blattmann, Rahim Entezari, Jonas Müller, Harry Saini, Yam Levi, Dominik Lorenz, Axel Sauer, Frederic Boesel, et al. Scaling rectified flow transformers for high-resolution image synthesis. arXiv preprint arXiv:2403.03206, 2024. Hany Farid. An overview of perceptual hashing. Journal of Online Trust and Safety, 1(1), 2021. Yassir Fathullah, Chunyang Wu, Egor Lakomkin, Ke Li, Junteng Jia, Yuan Shangguan, Jay Mahadeokar, Ozlem Kalinli, Christian Fuegen, and Mike Seltzer. Audiochatllama: Towards general-purpose speech abilities for llms. In Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers), pages 5522–5532, 2024.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 77,
+      "block_id": "679e75bc46e24c9d97105631732a146f:77:3",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:17",
+      "text": "William Fedus, Barret Zoph, and Noam Shazeer. Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity. Journal of Machine Learning Research, 23(120):1–39, 2022. Adithya Gangidi, Rui Miao, Shengbao Zheng, Sai Jayesh Bondu, Guilherme Goes, Hany Morsy, Rohit Puri, Mohammad Riftadi, Ashmitha Jeevaraj Shetty, Jingyi Yang, Shuqiang Zhang, Mikel Jimenez Fernandez, Shashidhar Gandham, and Hongyi Zeng. RDMA over Ethernet for Distributed AI Training at Meta Scale. In ACM Special Interest Group on Data Communication (SIGCOMM) , 2024. https://doi.org/10.1145/3651890.3672233 .",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 77,
+      "block_id": "679e75bc46e24c9d97105631732a146f:77:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "d7e9d8f02a44473da993b625ea583dc6",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:28",
+      "text": "Albert Q Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, Lélio Renard Lavaud, Marie-Anne Lachaux, Pierre Stock, Teven Le Scao, Thibaut Lavril, Thomas Wang, Timothée Lacroix, and William El Sayed. Mistral 7b. arXiv preprint arXiv:2310.06825 , 2023. Albert Q Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch, Blanche Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Emma Bou Hanna, Florian Bressand, et al. Mixtral of experts. arXiv preprint arXiv:2401.04088 , 2024. Jeff Johnson, Matthijs Douze, and Hervé Jégou. Billion-scale similarity search with gpus. IEEE Transactions on Big Data , 7(3):535–547, 2019. Mandar Joshi, Eunsol Choi, Daniel Weld, and Luke Zettlemoyer. TriviaQA: A large scale distantly supervised challenge dataset for reading comprehension. In Regina Barzilay and Min-Yen Kan, editors, Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 1601– 1611, Vancouver, Canada, July 2017. Association for Computational Linguistics. doi: 10.18653/v1/P17-1147. https://aclanthology.org/P17-1147. Armand Joulin, Edouard Grave, Piotr Bojanowski, and Tomas Mikolov. Bag of tricks for efficient text classification. In Proceedings of the 15th Conference of the European Chapter of the Association for Computational Linguistics: Volume 2, Short Papers, pages 427–431. Association for Computational Linguistics, April 2017.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 79,
+      "block_id": "679e75bc46e24c9d97105631732a146f:79:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:30",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 80,
+      "block_id": "679e75bc46e24c9d97105631732a146f:80:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "4075c28a972d4430a13fac173a2207a3",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:50",
+      "text": "OpenAI. Gpt-4 technical report. arXiv preprint arXiv:2303.08774, 2023a. OpenAI. GPT-4 blog. https://openai.com/index/gpt-4-research/ , 2023b. OpenAI. simple-evals. https://github.com/openai/simple-evals, 2024.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 83,
+      "block_id": "679e75bc46e24c9d97105631732a146f:83:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:51",
+      "text": "Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul Christiano, Jan Leike, and Ryan Lowe. Training language models to follow instructions with human feedback. arXiv preprint arXiv:2203.02155, 2022. Arka Pal, Deep Karkhanis, Samuel Dooley, Manley Roberts, Siddartha Naidu, and Colin White. Smaug: Fixing failure modes of preference optimisation with dpo-positive. arXiv preprint arXiv:2402.13228, 2024. Liangming Pan, Michael Saxon, Wenda Xu, Deepak Nathani, Xinyi Wang, and William Yang Wang. Automatically correcting large language models: Surveying the Landscape of Diverse Automated Correction Strategies. Trans. Assoc. Comput. Linguistics, 12:484–506, 2024. doi: 10.1162/TACL\\_A\\_00660. https://doi.org/10.1162/tacl_a_00660 . Satadru Pan Pan, Theano Stavrinos, Yunqiao Zhang, Atul Sikaria, Pavel Zakharov, Abhinav Sharma, Shiva Shankar, Mike Shuey, Richard Wareing, Monika Gangapuram, Guanglei Cao, Christian Preseau, Pratap Singh, Kestutis Patiejunas, JR Tipton, Ethan Katz-Bassett, and Wyatt Lloyd. Facebook’s tectonic filesystem: Efficiency from exascale. In Proceedings of the 19th USENIX Conference on File and Storage Technologies, pages 217–231, 2021. Vassil Panayotov, Guoguo Chen, Daniel Povey, and Sanjeev Khudanpur. Librispeech: an asr corpus based on public domain audio books. In 2015 IEEE international conference on acoustics, speech and signal processing (ICASSP),",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 84,
+      "block_id": "679e75bc46e24c9d97105631732a146f:84:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "3f05df2bca5f4412bb695ee895e06902",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:54",
+      "text": "B.T. Polyak. New stochastic approximation type procedures. Automation and Remote Control , 7(7), 1991. Vineel Pratap, Qiantong Xu, Anuroop Sriram, Gabriel Synnaeve, and Ronan Collobert. Mls: A large-scale multilingual dataset for speech research. arXiv preprint arXiv:2012.03411 , 2020. Prokopis Prokopidis, Vassilis Papavassiliou, and Stelios Piperidis. Parallel global voices: a collection of multilingual corpora with citizen media stories. In Nicoletta Calzolari (Conference Chair), Khalid Choukri, Thierry Declerck, Sara Goggi, Marko Grobelnik, Bente Maegaard, Joseph Mariani, Helene Mazo, Asuncion Moreno, Jan Odijk, and Stelios Piperidis, editors, Proceedings of the Tenth International Conference on Language Resources and Evaluation (LREC 2016), Paris, France, may 2016. European Language Resources Association (ELRA). ISBN 978-2-9517408-9-1. Viorica Pătrăucean, Lucas Smaira, Ankush Gupta, Adrià Recasens Continente, Larisa Markeeva, Dylan Banarse, Skanda Koppula, Joseph Heyward, Mateusz Malinowski, Yi Yang, Carl Doersch, Tatiana Matejovicova, Yury Sulsky, Antoine Miech, Alex Frechette, Hanna Klimczak, Raphael Koster, Junlin Zhang, Stephanie Winkler, Yusuf Aytar, Simon Osindero, Dima Damen, Andrew Zisserman, and João Carreira. Perception test: A diagnostic benchmark for multimodal video models. In NeurIPS, 2023. Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning transferable visual models from natural language supervision.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 84,
+      "block_id": "679e75bc46e24c9d97105631732a146f:84:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "5b16309608b14047bfb8af76cc209049",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:55",
+      "text": "In International Conference on Machine Learning, 2021. Alec Radford, Jong Wook Kim, Tao Xu, Greg Brockman, Christine Mcleavey, and Ilya Sutskever. Robust speech recognition via large-scale weak supervision. In Andreas Krause, Emma Brunskill, Kyunghyun Cho, Barbara Engelhardt, Sivan Sabato, and Jonathan Scarlett, editors, Proceedings of the 40th International Conference on",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 84,
+      "block_id": "679e75bc46e24c9d97105631732a146f:84:5",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "f30f70e07bb64e14b7acbdcaea8fc95d",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:57",
+      "text": "https://api.semanticscholar.org/CorpusID:245353475 . Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano Ermon, and Chelsea Finn. Direct preference optimization: Your language model is secretly a reward model. Advances in Neural Information Processing Systems, 2023. Rafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano Ermon, and Chelsea Finn. Direct preference optimization: Your language model is secretly a reward model. Advances in Neural Information Processing Systems , 36, 2024. Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter J Liu. Exploring the limits of transfer learning with a unified text-to-text transformer. Journal of machine learning research , 21(140):1–67, 2020. Samyam Rajbhandari, Jeff Rasley, Olatunji Ruwase, and Yuxiong He. Zero: Memory optimizations toward training trillion parameter models, 2020. https://arxiv.org/abs/1910.02054. Pranav Rajpurkar, Jian Zhang, Konstantin Lopyrev, and Percy Liang. SQuAD: 100,000+ questions for machine comprehension of text. In Jian Su, Kevin Duh, and Xavier Carreras, editors, Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing , pages 2383–2392, Austin, Texas, November 2016. Association for Computational Linguistics. doi: 10.18653/v1/D16-1264. https://aclanthology.org/D16-1264. Pranav Rajpurkar, Robin Jia, and Percy Liang. Know what you don’t know: Unanswerable questions for SQuAD.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 85,
+      "block_id": "679e75bc46e24c9d97105631732a146f:85:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "b364f8c1dca0433ca108ae7915bac13e",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:62",
+      "text": "about social interactions. In Kentaro Inui, Jing Jiang, Vincent Ng, and Xiaojun Wan, editors, Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP) , pages 4463–4473, Hong Kong, China, November 2019. Association for Computational Linguistics. doi: 10.18653/v1/D19-1454. https://aclanthology.org/D19-1454. Beatrice Savoldi, Marco Gaido, Luisa Bentivogli, Matteo Negri, and Marco Turchi. Gender Bias in Machine Translation. Transactions of the Association for Computational Linguistics , 9:845–874, 08 2021. ISSN 2307-387X. doi: 10.1162/ tacl_a_00401. https://doi.org/10.1162/tacl_a_00401. Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Eric Hambro, Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. Toolformer: Language models can teach themselves to use tools. Advances in Neural Information Processing Systems , 36, 2024. John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov. Proximal policy optimization algorithms. arXiv preprint arXiv:1707.06347 , 2017. Seamless Communication, Loic Barrault, Yu-An Chung, Mariano Cora Meglioli, David Dale, Ning Dong, Paul-Ambroise Duquenne, Hady Elsahar, Hongyu Gong, Kevin Heffernan, John Hoffman, Christopher Klaiber, Pengwei Li, Daniel Licht, Jean Maillard, Alice Rakotoarison, Kaushik Ram Sadagopan, Guillaume Wenzek, Ethan Ye, Bapi Akula, Peng-Jen Chen, Naji El Hachem, Brian Ellis, Gabriel Mejia Gonzalez, Justin Haaheim, Prangthip Hansanti, Russ",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 86,
+      "block_id": "679e75bc46e24c9d97105631732a146f:86:2",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:70",
+      "text": "Jörg Tiedemann. Parallel data, tools and interfaces in opus. In International Conference on Language Resources and Evaluation, 2012. https://api.semanticscholar.org/CorpusID:15453873 . Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, Aurelien Rodriguez, Armand Joulin, Edouard Grave, and Guillaume Lample. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023a. Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, Dan Bikel, Lukas Blecher, Cristian Canton Ferrer, Moya Chen, Guillem Cucurull, David Esiobu, Jude Fernandes, Jeremy Fu, Wenyin Fu, Brian Fuller, Cynthia Gao, Vedanuj Goswami, Naman Goyal, Anthony Hartshorn, Saghar Hosseini, Rui Hou, Hakan Inan, Marcin Kardas, Viktor Kerkez, Madian Khabsa, Isabel Kloumann, Artem Korenev, Punit Singh Koura, Marie-Anne Lachaux, Thibaut Lavril, Jenya Lee, Diana Liskovich, Yinghai Lu, Yuning Mao, Xavier Martinet, Todor Mihaylov, Pushkar Mishra, Igor Molybog, Yixin Nie, Andrew Poulton, Jeremy Reizenstein, Rashi Rungta, Kalyan Saladi, Alan Schelten, Ruan Silva, Eric Michael Smith, Ranjan Subramanian, Xiaoqing Ellen Tan, Binh Tang, Ross Taylor, Adina Williams, Jian Xiang Kuan, Puxin Xu, Zheng Yan, Iliyan Zarov, Yuchen Zhang, Angela Fan, Melanie Kambadur, Sharan Narang, Aurelien Rodriguez, Robert Stojnic, Sergey Edunov, and Thomas Scialom. Llama 2: Open foundation and",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 88,
+      "block_id": "679e75bc46e24c9d97105631732a146f:88:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "cd537278b5d94fa0932c55ce5349f718",
+      "target": "2489862023034f22a5d2b591167c22be",
+      "ref_id": "679e75bc46e24c9d97105631732a146f:ref:71",
+      "text": "fine-tuned chat models. arXiv preprint arXiv:2307.09288, 2023b. Jonathan Uesato, Nate Kushman, Ramana Kumar, Francis Song, Noah Siegel, Lisa Wang, Antonia Creswell, Geoffrey Irving, and Irina Higgins. Solving math word problems with process-and outcome-based feedback. arXiv preprint arXiv:2211.14275, 2022. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in Neural Information Processing Systems , 2017. Bertie Vidgen, Adarsh Agrawal, Ahmed M Ahmed, Victor Akinwande, Namir Al-Nuaimi, Najla Alfaraj, Elie Alhajjar, Lora Aroyo, Trupti Bavalatti, Borhane Blili-Hamelin, et al. Introducing v0.5 of the ai safety benchmark from mlcommons. arXiv preprint arXiv:2404.12241 , 2024. Saranyan Vigraham and Benjamin Leonhardi. Maintaining large-scale ai capacity at meta. 2024.",
+      "version_id": "679e75bc46e24c9d97105631732a146f",
+      "page_index": 88,
+      "block_id": "679e75bc46e24c9d97105631732a146f:88:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:12",
+      "text": "Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. Language models are few-shot learners. In NeurIPS, 2020.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 19,
+      "block_id": "edde5f443792495d912ab3a74b543464:19:5",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:15",
+      "text": "Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde´ de Oliveira Pinto, Jared Kaplan, Harrison Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, Alex Ray, Raul Puri, Gretchen Krueger, Michael Petrov, Heidy Khlaaf, Girish Sastry, Pamela Mishkin, Brooke Chan, Scott Gray, Nick Ryder, Mikhail Pavlov, Alethea Power, Lukasz Kaiser, Mohammad Bavarian, Clemens Winter, Philippe Tillet, Felipe Petroski Such, Dave Cummings, Matthias Plappert, Fotios Chantzis, Elizabeth Barnes, Ariel Herbert-Voss, William Hebgen Guss, Alex Nichol, Alex Paino, Nikolas Tezak, Jie Tang, Igor Babuschkin, Suchir Balaji, Shantanu Jain, William Saunders, Christopher Hesse, Andrew N. Carr, Jan Leike, Joshua Achiam, Vedant Misra, Evan Morikawa, Alec Radford, Matthew Knight, Miles Brundage, Mira Murati, Katie Mayer, Peter Welinder, Bob McGrew, Dario Amodei, Sam McCandlish, Ilya Sutskever, and Wojciech Zaremba. Evaluating large language models trained on code. CoRR , abs/2107.03374, 2021.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 19,
+      "block_id": "edde5f443792495d912ab3a74b543464:19:8",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:26",
+      "text": "William Fedus, Barret Zoph, and Noam Shazeer. Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity. J. Mach. Learn. Res., 23:120:1–120:39, 2022.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 20,
+      "block_id": "edde5f443792495d912ab3a74b543464:20:6",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:46",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. CoRR, abs/2001.08361, 2020.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 21,
+      "block_id": "edde5f443792495d912ab3a74b543464:21:12",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:61",
+      "text": "Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul F. Christiano, Jan Leike, and Ryan Lowe. Training language models to follow instructions with human feedback. In NeurIPS, 2022.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 22,
+      "block_id": "edde5f443792495d912ab3a74b543464:22:11",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:69",
+      "text": "Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever, et al. Improving language understand- ing by generative pre-training. Technical report, OpenAI, 2018.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 22,
+      "block_id": "edde5f443792495d912ab3a74b543464:22:19",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:79",
+      "text": "Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothe´e Lacroix, Baptiste Rozie`re, Naman Goyal, Eric Hambro, Faisal Azhar, Aure´lien Rodriguez, Armand Joulin, Edouard Grave, and Guillaume Lample. LLaMA: Open and efficient foundation language models. CoRR, abs/2302.13971, 2023a.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 23,
+      "block_id": "edde5f443792495d912ab3a74b543464:23:9",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "a92801daeb47448cb51f14188e1279dc",
+      "target": "2489862023034f22a5d2b591167c22be",
+      "ref_id": "edde5f443792495d912ab3a74b543464:ref:80",
+      "text": "Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, Dan Bikel, Lukas Blecher, Cristian Canton- Ferrer, Moya Chen, Guillem Cucurull, David Esiobu, Jude Fernandes, Jeremy Fu, Wenyin Fu, Brian Fuller, Cynthia Gao, Vedanuj Goswami, Naman Goyal, Anthony Hartshorn, Saghar Hosseini, Rui Hou, Hakan Inan, Marcin Kardas, Viktor Kerkez, Madian Khabsa, Isabel Kloumann, Artem Korenev, Punit Singh Koura, Marie-Anne Lachaux, Thibaut Lavril, Jenya Lee, Diana Liskovich, Yinghai Lu, Yuning Mao, Xavier Martinet, Todor Mihaylov, Pushkar Mishra, Igor Molybog, Yixin Nie, Andrew Poulton, Jeremy Reizenstein, Rashi Rungta, Kalyan Saladi, Alan Schelten, Ruan Silva, Eric Michael Smith, Ranjan Subramanian, Xiaoqing Ellen Tan, Binh Tang, Ross Taylor, Adina Williams, Jian Xiang Kuan, Puxin Xu, Zheng Yan, Iliyan Zarov, Yuchen Zhang, Angela Fan, Melanie Kambadur, Sharan Narang, Aure´lien Rodriguez, Robert Stojnic, Sergey Edunov, and Thomas Scialom. Llama 2: Open foundation and fine-tuned chat models. CoRR, abs/2307.09288, 2023b.",
+      "version_id": "edde5f443792495d912ab3a74b543464",
+      "page_index": 23,
+      "block_id": "edde5f443792495d912ab3a74b543464:23:10",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "97e850419aa349b6a5c0b12092ccb411",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "913d02c849dd4a599550df853e07a613:ref:9",
+      "text": "B. Chan, S. Gray, N. Ryder, M. Pavlov, A. Power, L. Kaiser, M. Bavarian, C. Winter, P. Tillet, F. P. Such, D. Cummings, M. Plappert, F. Chantzis, E. Barnes, A. Herbert-Voss, W. H. Guss, A. Nichol, A. Paino, N. Tezak, J. Tang, I. Babuschkin, S. Balaji, S. Jain, W. Saunders, C. Hesse, A. N. Carr, J. Leike, J. Achiam, V. Misra, E. Morikawa, A. Radford, M. Knight, M. Brundage, M. Murati, K. Mayer, P. Welinder, B. McGrew, D. Amodei, S. McCandlish, I. Sutskever, and W. Zaremba. Evaluating large language models trained on code. CoRR, abs/2107.03374, 2021. URL https://arxiv.org/abs/2107.03374 .",
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "page_index": 36,
+      "block_id": "913d02c849dd4a599550df853e07a613:36:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "97e850419aa349b6a5c0b12092ccb411",
+      "target": "b33c0d9f25904143b5c989477f9199bb",
+      "ref_id": "913d02c849dd4a599550df853e07a613:ref:21",
+      "text": "W. Fedus, B. Zoph, and N. Shazeer. Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity. CoRR, abs/2101.03961, 2021. URL https://arxiv.org/ abs/2101.03961 .",
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "page_index": 37,
+      "block_id": "913d02c849dd4a599550df853e07a613:37:1",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "97e850419aa349b6a5c0b12092ccb411",
+      "target": "d7e9d8f02a44473da993b625ea583dc6",
+      "ref_id": "913d02c849dd4a599550df853e07a613:ref:38",
+      "text": "A. Q. Jiang, A. Sablayrolles, A. Mensch, C. Bamford, D. S. Chaplot, D. d. l. Casas, F. Bressand, G. Lengyel, G. Lample, L. Saulnier, et al. Mistral 7b. arXiv preprint arXiv:2310.06825, 2023.",
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "page_index": 38,
+      "block_id": "913d02c849dd4a599550df853e07a613:38:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "97e850419aa349b6a5c0b12092ccb411",
+      "target": "f30f70e07bb64e14b7acbdcaea8fc95d",
+      "ref_id": "913d02c849dd4a599550df853e07a613:ref:75",
+      "text": "S. Rajbhandari, J. Rasley, O. Ruwase, and Y. He. Zero: Memory optimizations toward training tril- lion parameter models. In SC20: International Conference for High Performance Computing, Networking, Storage and Analysis, pages 1–16. IEEE, 2020.",
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "page_index": 40,
+      "block_id": "913d02c849dd4a599550df853e07a613:40:15",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "97e850419aa349b6a5c0b12092ccb411",
+      "target": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "ref_id": "913d02c849dd4a599550df853e07a613:ref:90",
+      "text": "H. Touvron, T. Lavril, G. Izacard, X. Martinet, M.-A. Lachaux, T. Lacroix, B. Rozière, N. Goyal, E. Hambro, F. Azhar, et al. LLaMA: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023a.",
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "page_index": 41,
+      "block_id": "913d02c849dd4a599550df853e07a613:41:12",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "97e850419aa349b6a5c0b12092ccb411",
+      "target": "2489862023034f22a5d2b591167c22be",
+      "ref_id": "913d02c849dd4a599550df853e07a613:ref:92",
+      "text": "R. Hou, H. Inan, M. Kardas, V. Kerkez, M. Khabsa, I. Kloumann, A. Korenev, P. S. Koura, M. Lachaux, T. Lavril, J. Lee, D. Liskovich, Y. Lu, Y. Mao, X. Martinet, T. Mihaylov, P. Mishra, I. Molybog, Y. Nie, A. Poulton, J. Reizenstein, R. Rungta, K. Saladi, A. Schelten, R. Silva, E. M. Smith, R. Subramanian, X. E. Tan, B. Tang, R. Taylor, A. Williams, J. X. Kuan, P. Xu, Z. Yan, I. Zarov, Y. Zhang, A. Fan, M. Kambadur, S. Narang, A. Rodriguez, R. Stojnic, S. Edunov, and T. Scialom. Llama 2: Open foundation and fine-tuned chat models. CoRR, abs/2307.09288, 2023b. doi: 10.48550/arXiv.2307.09288. URL https://doi.org/10.48550/arXiv.2307. 09288 .",
+      "version_id": "913d02c849dd4a599550df853e07a613",
+      "page_index": 42,
+      "block_id": "913d02c849dd4a599550df853e07a613:42:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:4",
+      "text": "T. B. Brown, B. Mann, N. Ryder, M. Subbiah, J. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, S. Agarwal, A. Herbert-Voss, G. Krueger, T. Henighan, R. Child, A. Ramesh, D. M. Ziegler, J. Wu, C. Winter, C. Hesse, M. Chen, E. Sigler, M. Litwin, S. Gray, B. Chess, J. Clark, C. Berner, S. McCandlish, A. Radford, I. Sutskever, and D. Amodei. Lan- guage models are few-shot learners. In H. Larochelle, M. Ranzato, R. Hadsell, M. Balcan, and H. Lin, editors, Advances in Neural Information Processing Systems 33: Annual Conference on Neural Information Processing Systems 2020, NeurIPS 2020, December 6-12, 2020, virtual, 2020. URL https://proceedings.neurips.cc/paper/2020/hash/1457c0d6bfcb4 967418bfb8ac142f64a-Abstract.html .",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 78,
+      "block_id": "351427e9c87741d09c782f6003446878:78:5",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:6",
+      "text": "M. Chen, J. Tworek, H. Jun, Q. Yuan, H. P. de Oliveira Pinto, J. Kaplan, H. Edwards, Y. Burda, N. Joseph, G. Brockman, A. Ray, R. Puri, G. Krueger, M. Petrov, H. Khlaaf, G. Sastry, P. Mishkin, B. Chan, S. Gray, N. Ryder, M. Pavlov, A. Power, L. Kaiser, M. Bavarian, C. Winter, P. Tillet, F. P. Such, D. Cummings, M. Plappert, F. Chantzis, E. Barnes, A. Herbert-Voss, W. H. Guss, A. Nichol, A. Paino, N. Tezak, J. Tang, I. Babuschkin, S. Balaji, S. Jain, W. Saunders, C. Hesse, A. N. Carr, J. Leike, J. Achiam, V. Misra, E. Morikawa, A. Radford, M. Knight, M. Brundage, M. Murati, K. Mayer, P. Welinder, B. McGrew, D. Amodei, S. McCandlish, I. Sutskever, and W. Zaremba. Evaluating large language models trained on code. CoRR, abs/2107.03374, 2021. URL https://arxiv.org/abs/2107.03374 .",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 78,
+      "block_id": "351427e9c87741d09c782f6003446878:78:7",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "97e850419aa349b6a5c0b12092ccb411",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:14",
+      "text": "DeepSeek-AI. Deepseek-v3 technical report. arXiv preprint arXiv:2412.19437, 2024b.",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 79,
+      "block_id": "351427e9c87741d09c782f6003446878:79:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:31",
+      "text": "J. Kaplan, S. McCandlish, T. Henighan, T. B. Brown, B. Chess, R. Child, S. Gray, A. Radford, J. Wu, and D. Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020.",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 80,
+      "block_id": "351427e9c87741d09c782f6003446878:80:9",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "4075c28a972d4430a13fac173a2207a3",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:47",
+      "text": "OpenAI. GPT4 technical report. arXiv preprint arXiv:2303.08774, 2023.",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 82,
+      "block_id": "351427e9c87741d09c782f6003446878:82:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:50",
+      "text": "L. Ouyang, J. Wu, X. Jiang, D. Almeida, C. L. Wainwright, P. Mishkin, C. Zhang, S. Agarwal, K. Slama, A. Ray, J. Schulman, J. Hilton, F. Kelton, L. Miller, M. Simens, A. Askell, P. Welinder, P. F. Christiano, J. Leike, and R. Lowe. Training language models to follow instructions with human feedback. In S. Koyejo, S. Mohamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh, edi- tors, Advances in Neural Information Processing Systems 35: Annual Conference on Neural Information Processing Systems 2022, NeurIPS 2022, New Orleans, LA, USA, November 28 - December 9, 2022, 2022. URL http://papers.nips.cc/paper_files/paper/2022/ha sh/b1efde53be364a73914f58805a001731-Abstract-Conference.html .",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 82,
+      "block_id": "351427e9c87741d09c782f6003446878:82:4",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "b364f8c1dca0433ca108ae7915bac13e",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:63",
+      "text": "J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov. Proximal policy optimization algorithms. arXiv preprint arXiv:1707.06347, 2017.",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 83,
+      "block_id": "351427e9c87741d09c782f6003446878:83:4",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "2489862023034f22a5d2b591167c22be",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:72",
+      "text": "H. Touvron, L. Martin, K. Stone, P. Albert, A. Almahairi, Y. Babaei, N. Bashlykov, S. Batra, P. Bhargava, S. Bhosale, et al. Llama 2: Open foundation and fine-tuned chat models. arXiv preprint arXiv:2307.09288, 2023.",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 84,
+      "block_id": "351427e9c87741d09c782f6003446878:84:1",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "b68517130674488aaa4663eac71bed75",
+      "target": "c9b5be1f1ac4472196c51bfb4aa08054",
+      "ref_id": "351427e9c87741d09c782f6003446878:ref:82",
+      "text": "J. Wei, X. Wang, D. Schuurmans, M. Bosma, B. Ichter, F. Xia, E. H. Chi, Q. V. Le, and D. Zhou. Chain-of-thought prompting elicits reasoning in large language models. In S. Koyejo, S. Mo- hamed, A. Agarwal, D. Belgrave, K. Cho, and A. Oh, editors, Advances in Neural Information Processing Systems 35: Annual Conference on Neural Information Processing Systems 2022, NeurIPS 2022, New Orleans, LA, USA, November 28 - December 9, 2022, 2022b. URL http://papers.nips.cc/paper_files/paper/2022/hash/9d5609613524ecf4f 15af0f7b31abca4-Abstract-Conference.html .",
+      "version_id": "351427e9c87741d09c782f6003446878",
+      "page_index": 85,
+      "block_id": "351427e9c87741d09c782f6003446878:85:0",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:8",
+      "text": "Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. 2020. Language models are few-shot learners.",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 11,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:11:12",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "e2bfab6421cc4ed692b7266724ccbfc0",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:11",
+      "text": "Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared Ka- plan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, Alex Ray, Raul Puri, Gretchen Krueger, Michael Petrov, Heidy Khlaaf, Girish Sas- try, Pamela Mishkin, Brooke Chan, Scott Gray, Nick Ryder, Mikhail Pavlov, Alethea Power, Lukasz Kaiser, Mohammad Bavarian, Clemens Winter, Philippe Tillet, Felipe Petroski Such, Dave Cum- mings, Matthias Plappert, Fotios Chantzis, Eliza- beth Barnes, Ariel Herbert-Voss, William Hebgen Guss, Alex Nichol, Alex Paino, Nikolas Tezak, Jie Tang, Igor Babuschkin, Suchir Balaji, Shantanu Jain, William Saunders, Christopher Hesse, Andrew N. Carr, Jan Leike, Josh Achiam, Vedant Misra, Evan Morikawa, Alec Radford, Matthew Knight, Miles Brundage, Mira Murati, Katie Mayer, Peter Welinder, Bob McGrew, Dario Amodei, Sam McCandlish, Ilya Sutskever, and Wojciech Zaremba. 2021. Evaluating large language models trained on code.",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 11,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:11:15",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "75c8085ee02846f089d11811c2d792fc",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:18",
+      "text": "Tri Dao, Daniel Y Fu, Stefano Ermon, Atri Rudra, and Christopher Ré. 2022. Flashattention: Fast and memory-efficient exact attention with io-awareness. arXiv preprint arXiv:2205.14135.",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 12,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:12:5",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "35d3dedc59e442939d00664bdb1b045b",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:19",
+      "text": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. Bert: Pre-training of deep bidirectional transformers for language understand- ing. arXiv preprint arXiv:1810.04805 .",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 12,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:12:6",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "ca636f5d0a194aaf91116372638db6f2",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:36",
+      "text": "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361.",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 13,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:13:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "1017dd11e8b444b581aa49be6890c0bc",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:53",
+      "text": "Long Ouyang, Jeffrey Wu, Xu Jiang, Diogo Almeida, Carroll Wainwright, Pamela Mishkin, Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Gray, John Schulman, Jacob Hilton, Fraser Kelton, Luke Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul Christiano, Jan Leike, and Ryan Lowe. 2022. Training language models to follow instructions with human feedback. In Advances in Neural Information Processing Systems .",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 13,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:13:17",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "1205dc9733bb480d922753f4ee1ee535",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:55",
+      "text": "Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever, et al. 2018. Improving language under- standing by generative pre-training.",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 13,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:13:19",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "d43182ede6d64a1ba4bb35701adfd135",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:64",
+      "text": "Teven Le Scao, Angela Fan, Christopher Akiki, El- lie Pavlick, Suzana Ili c, ´ Daniel Hesslow, Roman Castagné, Alexandra Sasha Luccioni, François Yvon, Matthias Gallé, et al. 2022. Bloom: A 176b- parameter open-access multilingual language model. arXiv preprint arXiv:2211.05100 .",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 14,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:14:6",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6c4dc6f280ca4801a24d21bd98a44e2d",
+      "target": "c3ba3ce3c1ec423fa499985a852bbe62",
+      "ref_id": "a8ff140b0e3647e8bca38f4cf679b22a:ref:79",
+      "text": "Maarten Bosma, Denny Zhou, Donald Metzler, et al. 2022. Emergent abilities of large language models. arXiv preprint arXiv:2206.07682.",
+      "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+      "page_index": 15,
+      "block_id": "a8ff140b0e3647e8bca38f4cf679b22a:15:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "1205dc9733bb480d922753f4ee1ee535",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "183049f27bb7449a93faec0b1d9e30d6:ref:1",
+      "text": "[2] J. L. Ba, J. R. Kiros, and G. E. Hinton. Layer normalization. arXiv preprint arXiv:1607.06450 , 2016.",
+      "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+      "page_index": 8,
+      "block_id": "183049f27bb7449a93faec0b1d9e30d6:8:0",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "0c50a61801744443ae53f8771fe48bb8",
+      "target": "346153a7feaf48a19edf8de5d1a303a1",
+      "ref_id": "9a02fdf119ca4c4599e11a78b1a2299a:ref:1424",
+      "text": "Here, the text containing the paired examples in orange was provided as context for GPT3, and the system then generated the correct answer in cyan. This phenomenon extends to many situations, including generating code snippets based on natural language descriptions, arithmetic, translating between languages, and answering questions about text passages. Consequently, it is argued that enormous language models are few-shot learners; they can learn to do novel tasks based on just a few examples. However, performance is erratic in practice, and the extent to which it is extrapolating from learned examples rather than merely interpolating or copying verbatim is unclear.",
+      "version_id": "4452fbc0c75443578fb2a2987629c19c",
+      "page_index": 238,
+      "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:238:5",
+      "method": "reference_unique_full_title",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    },
+    {
+      "source": "6864c8e7a21a4655bc71ceec51fd4271",
+      "target": "8a2816c75aa44ea68c951fdb1fb09239",
+      "ref_id": "926da65067b645fb838c9207064f1f24:ref:0",
+      "text": "[1] Jimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. Layer normalization. arXiv preprint arXiv:1607.064502016.\n[2] Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio. Neural machine translation by jointly learning to align and translate. CoRR, abs/1409.0473, 2014.\n[3] Denny Britz, Anna Goldie, Minh-Thang Luong, and Quoc V. Le. Massive exploration of neural machine translation architectures. CoRR, abs/1703.03906, 2017.\n[4] Jianpeng Cheng, Li Dong, and Mirella Lapata. Long short-term memory-networks for machine reading. arXiv preprintarXiv:1601.067332016.\n[5] Kyunghyun Cho, Bart van Merrienboer, Caglar Gulcehre, Fethi Bougares, Holger Schwenk, and Yoshua Bengio. Learning phrase representations using rnn encoder-decoder for statistical machine translation. CoRR, abs/1406.1078, 2014.\n[6] Francois Chollet. Xception: Deep learning with depthwise separable convolutions. arXiv preprintarXiv:1610.023572016.\n[7] Junyoung Chung, Çaglar Gülçehre, Kyunghyun Cho, and Yoshua Bengio. Empirical evaluation of gated recurrent neural networks on sequence modeling. CoRR, abs/1412.3555, 2014.\n[8] Chris Dyer, Adhiguna Kuncoro, Miguel Ballesteros, and Noah A. Smith. Recurrent neural network grammars. In Proc. of NAACL, 2016.\n[9] Jonas Gehring, Michael Auli, David Grangier, Denis Yarats, and Yann N. Dauphin. Convolutional sequence to sequence learning. arXiv preprintarXiv:1705.03122v2, 2017.\n[10] Alex Graves. Generating sequences with recurrent neural networks. arXiv preprint arXiv:1308.08502013.\n[11] Sepp Hochreiter, Yoshua Bengio, Paolo Frasconi, and Jürgen Schmidhuber. Gradient flow in recurrent nets: the difficulty of learning long-term dependencies, 2001.\n[12] Sepp Hochreiter and Jürgen Schmidhuber. Long short-term memory. Neural computation, 9(8):1735–1780, 1997.\n[13] Zhongqiang Huang and Mary Harper. Self-training PCFG grammars with latent annotations across languages. In Proceedings of the 2009 Conference on Empirical Methods in Natural Language Processing, pages 832–841. ACL, August 2009.\n[14] Rafal Jozefowicz, Oriol Vinyals, Mike Schuster, Noam Shazeer, and Yonghui Wu. Exploring the limits of language modeling. arXiv preprintarXiv:1602.024102016.",
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "page_index": 9,
+      "block_id": "926da65067b645fb838c9207064f1f24:9:6",
+      "method": "reference_identifier_exact",
+      "status": "参考文献条目已定位，匹配需人工抽查"
+    }
+  ],
+  "scope": "当前工作区已导入作品的局部引用图；仅使用真实参考文献/已核验 Crossref 引用条目。PageRank 是当前集合相对中心性，断连节点不代表论文质量低。",
+  "computed_at": 1794765049.7331223,
+  "algorithm": {
+    "name": "PageRank",
+    "damping": 0.85,
+    "iterations_max": 150
+  }
+}

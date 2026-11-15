@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "phase": "after",
+  "checks": [],
+  "errors": [],
+  "mutations": [],
+  "provider_calls": 0,
+  "error": "Page.wait_for_function: EvalError: Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: \"script-src 'self' 'wasm-unsafe-eval'\".\n\n    at eval (<anonymous>)\n    at predicate (eval at evaluate (:370:30), <anonymous>:4:60)\n    at next (eval at evaluate (:370:30), <anonymous>:29:33)"
+}

@@ -39,7 +39,7 @@ try:
         page.goto(base, wait_until='networkidle')
         page.get_by_role('button', name='验收与截图', exact=True).click()
         page.locator('.aw-nodes button').nth(9).wait_for()
-        page.wait_for_function("document.querySelector('.aw-overview').innerText.includes('40 个文件')")
+        page.wait_for_function("() => document.querySelector('.aw-overview')?.innerText.includes('40 个文件')")
         check('40-file manifest visible', '40 个文件' in page.locator('.aw-overview').inner_text())
         payload = context.request.get(base + '/api/v1/admin/workflow').json()
         check('ten real backend step definitions', len(payload['steps']) == 10)

@@ -1,0 +1,182 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "textbook-page541 exact source physical page",
+      "status": "PASS"
+    },
+    {
+      "label": "textbook-page541 lazily renders one PDF canvas",
+      "status": "PASS"
+    },
+    {
+      "label": "textbook-page541 no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "textbook-page541 snapshot and original location",
+      "status": "PASS",
+      "version_id": "4452fbc0c75443578fb2a2987629c19c",
+      "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+      "query": "weaponization",
+      "page_index": 540
+    },
+    {
+      "label": "verified blank is explained as ready rather than pending text",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr exact source physical page",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr lazily renders one PDF canvas",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr snapshot and original location",
+      "status": "PASS",
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "1dbbe68e582e40f59b6d34e8986796b9",
+      "query": "parallelization",
+      "page_index": 0
+    },
+    {
+      "label": "mineru exact source physical page",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru lazily renders one PDF canvas",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru snapshot and original location",
+      "status": "PASS",
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "926da65067b645fb838c9207064f1f24",
+      "query": "parallelization",
+      "page_index": 0
+    },
+    {
+      "label": "mineru-table exact source physical page",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru-table lazily renders one PDF canvas",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru-table no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru-table snapshot and original location",
+      "status": "PASS",
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "926da65067b645fb838c9207064f1f24",
+      "query": "representation",
+      "page_index": 5
+    },
+    {
+      "label": "mineru-formula exact source physical page",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru-formula lazily renders one PDF canvas",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru-formula no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "mineru-formula snapshot and original location",
+      "status": "PASS",
+      "version_id": "82451796b5294493b9e58f696fbb8adc",
+      "parse_id": "926da65067b645fb838c9207064f1f24",
+      "query": "operatorname",
+      "page_index": 2
+    },
+    {
+      "label": "paddleocr_vl exact source physical page",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr_vl lazily renders one PDF canvas",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr_vl no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "label": "paddleocr_vl snapshot and original location",
+      "status": "PASS",
+      "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+      "parse_id": "220c525cf88645fc8f82ed5d6682fe8d",
+      "query": "multiplicative",
+      "page_index": 0
+    },
+    {
+      "label": "20+ real PDF corpus nodes shown",
+      "status": "PASS"
+    },
+    {
+      "label": "real graph inspector opens",
+      "status": "PASS"
+    },
+    {
+      "label": "no model, translation, upload or parser requests",
+      "status": "PASS"
+    },
+    {
+      "label": "no page exceptions",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "blocked_mutations": [],
+  "screenshots": [
+    {
+      "path": "evidence/competition-dataset/textbook-page541-highlight.png",
+      "label": "textbook-page541 · 实际 PDF 证据高亮"
+    },
+    {
+      "path": "evidence/competition-dataset/textbook-blank-page.png",
+      "label": "教材第2物理页 · 已核验空白页"
+    },
+    {
+      "path": "evidence/competition-dataset/paddleocr-highlight.png",
+      "label": "paddleocr · 实际 PDF 证据高亮"
+    },
+    {
+      "path": "evidence/competition-dataset/mineru-highlight.png",
+      "label": "mineru · 实际 PDF 证据高亮"
+    },
+    {
+      "path": "evidence/competition-dataset/mineru-table-highlight.png",
+      "label": "mineru-table · 实际 PDF 证据高亮"
+    },
+    {
+      "path": "evidence/competition-dataset/mineru-formula-highlight.png",
+      "label": "mineru-formula · 实际 PDF 证据高亮"
+    },
+    {
+      "path": "evidence/competition-dataset/paddleocr_vl-highlight.png",
+      "label": "paddleocr_vl · 实际 PDF 证据高亮"
+    },
+    {
+      "path": "evidence/competition-dataset/corpus-graph.png",
+      "label": "原始 PDF 资料集 · 引用图谱与排名"
+    }
+  ],
+  "provider_calls": 0
+}

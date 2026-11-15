@@ -1,0 +1,104 @@
+{
+  "status": "BLOCKED",
+  "engine": "mineru",
+  "device": "gpu",
+  "version_id": "5039d5b74bf54e45b9bf77efbf69eb20",
+  "parse_id": "1cc8c94186a244c8bf32f042365548b7",
+  "run_id": "7ebb805526bd4475bcc962f262b64276",
+  "input_file": {
+    "name": "scan-page4-attention-crop.pdf",
+    "sha256": "078a69ac3de5815718b2e3f369bac4bb35c57a42d8c4852f8c63f9e7400c09ab",
+    "page_count": 1
+  },
+  "started": "2026-11-15T17:50:43.540773+00:00",
+  "provider_calls": 0,
+  "source": {
+    "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+    "source_page_index": 3,
+    "crop_normalized_xy_from_bottom": [
+      0.07,
+      0.43,
+      0.93,
+      0.72
+    ],
+    "derived": true,
+    "scope": "仅第4物理页的裁剪区域；不代表全篇 VL 验收"
+  },
+  "prior_hashes": {
+    "220c525cf88645fc8f82ed5d6682fe8d": "d9faa29f2655128bc464dc767a024f9967527f67a1f2a2b58b5b2dc199cbd7e3",
+    "5039d5b74bf54e45b9bf77efbf69eb20": "1c1472456a0ee260bfc8f1b764f1ed475f7fa4c97b2b5786c9ad13e11eff6f26"
+  },
+  "finished": "2026-11-15T17:50:48.118034+00:00",
+  "duration_seconds": 4.6,
+  "run_status": "failed",
+  "result": null,
+  "error": "mineru unavailable; broker HTTP 503: GPU accounting unavailable; stopping this job conservatively (WSL/NVML)",
+  "old_snapshots_unchanged": true,
+  "counts": {
+    "blocks": 0,
+    "types": {},
+    "sources": {}
+  },
+  "provenance": {},
+  "monitors": [
+    {
+      "engine": "mineru",
+      "device": "gpu",
+      "gpu": {
+        "index": "0",
+        "uuid": "GPU-29091215-1e1a-de71-8769-739c1d0964c3",
+        "free": 5188,
+        "total": 8188
+      },
+      "reserve_mib": 2048,
+      "budget_mib": 2048,
+      "samples": [
+        {
+          "elapsed": 0.363,
+          "free_mib": 5190,
+          "own_used_mib": 0
+        },
+        {
+          "elapsed": 0.769,
+          "free_mib": 5190,
+          "own_used_mib": 0
+        },
+        {
+          "elapsed": 1.177,
+          "free_mib": 5190,
+          "own_used_mib": 0
+        },
+        {
+          "elapsed": 1.605,
+          "free_mib": 5191,
+          "own_used_mib": 0
+        },
+        {
+          "elapsed": 2.028,
+          "free_mib": 5184,
+          "own_used_mib": 0
+        },
+        {
+          "elapsed": 2.388,
+          "free_mib": 5183,
+          "own_used_mib": 0
+        },
+        {
+          "elapsed": 2.801,
+          "free_mib": 5189,
+          "own_used_mib": 0
+        }
+      ],
+      "terminated_reason": "GPU accounting unavailable; stopping this job conservatively (WSL/NVML)",
+      "elapsed": 3.806,
+      "returncode": -15
+    }
+  ],
+  "examples": {
+    "table": null,
+    "formula": null,
+    "paragraph": null
+  },
+  "resource_observations": [],
+  "runner_peak_rss_kib": null
+}

@@ -150,11 +150,11 @@
     "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json; evidence/ubuntu24/mineru-422-model-manifest.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; local MinerU 4.2.2 CPU parser validated via Unix socket broker (GPU accounting fail-closed BLOCKED on WSL2 NVML [N/A])",
-    "command_or_browser_steps": "scripts/validate_parser_live.py --engine mineru --device cpu (--file equation.pdf / table.pdf / formula-page4.pdf / scan-bilingual.pdf); tests/e2e/mineru_and_graph_browser.py; tests/e2e/parser_browser.py; scripts/validate_parser_live.py --engine mineru --device gpu",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md B02",
-    "observed": "MinerU 4.2.2 CPU layout/formula/table/figure extraction PASS (equation.pdf 14.29s; table.pdf with HTML BLEU Table 2 in 15.82s; formula-page4.pdf with LaTeX Attention formula in 23.73s; scan-bilingual.pdf in 9.20s; prior snapshots and quota unchanged; browser yellow PDF bbox highlight verified). MinerU GPU explicitly BLOCKED by fail-closed WSL2 NVML [N/A] per-process VRAM guard (mineru-gpu-product.json).",
+    "observed": "用户资料包15页原始扫描件通过 MinerU4.2.2 CPU（352.72秒，138块：4表格/6公式），实际表格与公式PDF高亮浏览器通过；GPU仍为单独BLOCKED，不计作GPU推理成功。",
     "evidence_paths": [
       "evidence/ubuntu24/mineru-422-model-manifest.json",
       "evidence/ubuntu24/mineru-cpu-equation.json",
@@ -163,24 +163,30 @@
       "evidence/ubuntu24/mineru-cpu-product.json",
       "evidence/ubuntu24/mineru-gpu-product.json",
       "evidence/ubuntu24/mineru-gpu-monitor.json",
-      "evidence/ubuntu24/mineru-graph-browser.json"
+      "evidence/ubuntu24/mineru-graph-browser.json",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "MinerU GPU mode remains BLOCKED on WSL2 due to NVML per-process memory reporting [N/A]; CPU mode verified end-to-end."
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B03",
     "title": "扫描件新输入",
-    "status": "BLOCKED",
+    "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json; evidence/ubuntu24/paddle-vl-model-manifest.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; local PaddleOCR 3.7.0 and PaddleOCR-VL-1.6 CPU parsers validated",
-    "command_or_browser_steps": "scripts/validate_parser_live.py --engine paddleocr / paddleocr_vl --device cpu --file .tools/parse-fixtures/scan-bilingual.pdf; tests/e2e/parser_browser.py; pytest tests/unit tests/integration",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md B03",
-    "observed": "Derived bilingual scan passed PaddleOCR3.7.0, MinerU4.2.2 and PaddleOCR-VL1.6 CPU product/browser tests. VL continuation recheck156.58s/6blocks, oldanchorsandquotaunchanged. Official scanned original remains unavailable; overall case stays BLOCKED.",
+    "observed": "用户提供的1706.03762v1_img.pdf完整15页，经PaddleOCR CPU（234.44秒/311块）与MinerU CPU（352.72秒/138块）真实产品路径及浏览器定位通过。VL仅裁剪第4物理页区域（139.22秒/6块），不宣称全文VL测试。原包来源渠道未独立认证。",
     "evidence_paths": [
       "evidence/ubuntu24/paddleocr-cpu-product.json",
       "evidence/ubuntu24/paddle-vl-model-manifest.json",
@@ -188,14 +194,20 @@
       "evidence/ubuntu24/browser/paddleocr_vl-reader.json",
       "evidence/ubuntu24/regression.log",
       "evidence/ubuntu24/paddleocr-vl-20261116-product.json",
-      "evidence/ubuntu24/browser-20261116/paddleocr_vl-reader.json"
+      "evidence/ubuntu24/browser-20261116/paddleocr_vl-reader.json",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
     "continuation_base_commit": "ba83619",
-    "continuation_tested_at": "2026-11-16 Asia/Shanghai"
+    "continuation_tested_at": "2026-11-16 Asia/Shanghai",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B04",
@@ -281,43 +293,55 @@
     "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
-    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md B08",
-    "observed": "New recovery regressions and real MinerU two-page cancellation/resume retain old text/bbox hashes. Translation queue/export pin the parse revision; no model requests in these checks.",
+    "observed": "本次CPU/GPU解析修订逐个保留旧快照文字/块ID/bbox哈希；教材v1首次部分失败仍保留，v2独立修复发布。历史已有引用未重写。",
     "evidence_paths": [
       "evidence/ubuntu24/live-native-snapshots.json",
       "evidence/ubuntu24/paddleocr-cpu-product.json",
       "evidence/ubuntu24/reader-snapshots-browser.json",
       "evidence/ubuntu24/parser-recovery-20261116.json",
-      "evidence/ubuntu24/snapshot-scoping-20261116.log"
+      "evidence/ubuntu24/snapshot-scoping-20261116.log",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
     "continuation_tested_at": "2026-11-16 Asia/Shanghai",
-    "continuation_base_commit": "ba83619"
+    "continuation_base_commit": "ba83619",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B09",
     "title": "长文完整处理",
-    "status": "BLOCKED",
+    "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
-    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md B09",
-    "observed": "541-page engineering fixture completed, but the official specified textbook is unavailable. Dense coverage is explicitly separate.",
+    "observed": "指定原教材541页全处理通过：pdfplumber-layout-v2新快照88.02秒/5315块，4张空白页经结构+渲染核验记blank；旧v1失败记录保留。全文FTS及中后部/末页定位通过。",
     "evidence_paths": [
-      "evidence/ubuntu24/regression.log"
+      "evidence/ubuntu24/regression.log",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B10",
@@ -325,19 +349,25 @@
     "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
-    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md B10",
-    "observed": "Executed local checks listed in evidence_paths; unit fixtures are not live provider proof.",
+    "observed": "本批39份原资料122次实际正文词FTS→版本/快照/物理页/块/bbox定位通过，包含教材后半部按文件哈希为种子选取的3个页面及第541页。仅验证关键词定位，不是语义问答质量评测。",
     "evidence_paths": [
       "evidence/ubuntu24/document-acceptance.json",
-      "evidence/ubuntu24/lite-live.json"
+      "evidence/ubuntu24/lite-live.json",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B11",
@@ -345,23 +375,29 @@
     "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; local parsers as explicit per-case evidence",
-    "command_or_browser_steps": "scripts/validate_*_live.py; pytest tests/unit tests/integration; tests/e2e/*; evidence logs",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md B11",
-    "observed": "Real MinerU4.2.2 CPU two-page cancel/resume PASS: checkpoint6blocks retained ->12blocks; completed2pages; immediate resume409 until cleanup. Low-quality checkpoint and parser-provenance-change fixtures also verified.",
+    "observed": "实际原教材在32个已提交页面时API取消，等待执行锁释放后恢复至541页，检查点块哈希不变；最终空白页修复使用独立v2快照。原MinerU两页取消恢复证据亦保留。",
     "evidence_paths": [
       "evidence/ubuntu24/document-acceptance.json",
       "tests/unit/test_parse_snapshots.py",
       "evidence/ubuntu24/parser-recovery-20261116.json",
-      "evidence/ubuntu24/task-ownership-20261116.log"
+      "evidence/ubuntu24/task-ownership-20261116.log",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations.",
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
     "continuation_tested_at": "2026-11-16 Asia/Shanghai",
-    "continuation_base_commit": "ba83619"
+    "continuation_base_commit": "ba83619",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "B12",
@@ -682,19 +718,25 @@
     "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; evidence/ubuntu24/parser-inputs.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; Chromium browser matrix with controlled route interception for 401/429/500/parse-failed",
-    "command_or_browser_steps": "apps/web/scripts/extended-reader-check.py against http://127.0.0.1:18980",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md D05",
-    "observed": "All 9 browser state checks PASS: loading, partial, error (500/503), noauth (401), empty, 429 rate-limit, and parse-failed banners/empty states (blocked_mutations=0, browser_errors=0).",
+    "observed": "原UI九状态矩阵保留；新增真实教材空白页提示，以及管理员十步流程发布前/后点击、真实结果展示、5秒保留选中刷新、桌面/390px无溢出通过。",
     "evidence_paths": [
       "apps/web/validation/reader-extra-20261115T143101401610Z.json",
-      "apps/web/scripts/extended-reader-check.py"
+      "apps/web/scripts/extended-reader-check.py",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; HTTP 401/429/500 error-state tests used controlled route interception on localhost."
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "D06",
@@ -849,20 +891,26 @@
     "status": "PASS",
     "commit": "a6c8420 plus current integration changes",
     "environment": "Ubuntu24.04.5 WSL2 Python3.12.3 Node22.16.0 RTX4060Ti8188MiB",
-    "data_source_and_sha256": "evals/manifest.json; docs/evidence/graph_20_metadata.json",
+    "data_source_and_sha256": "evidence/competition-dataset/manifest.json",
     "model_id_and_provider": "No new provider requests; real migrated 29-node / 72-edge graph rendered in Chromium on http://127.0.0.1:18980",
-    "command_or_browser_steps": "tests/e2e/mineru_and_graph_browser.py against http://127.0.0.1:18980",
+    "command_or_browser_steps": "scripts/validate_competition_dataset.py; scripts/validate_competition_followup.py; scripts/validate_competition_locations.py; apps/web/scripts/dataset-reader-check.py; apps/web/scripts/dataset-workflow-check.py --phase before/after",
     "expected": "ACCEPTANCE.md E06",
-    "observed": "20+ paper citation graph (29 nodes, 72 edges, recomputed_nodes: 29) rendered cleanly with interactive inspector, node detail selection, scope controls, and zero overflow at 1440px and 1280px.",
+    "observed": "39份原始PDF全文已处理，v1/v7合为同作品（38个原作品），加1份裁剪辅助PDF构成39节点/162条定位引用记录（160条去重有向关系）；真实浏览器节点检查器通过。匹配精度未独立人工标注。",
     "evidence_paths": [
       "docs/evidence/graph_20_metadata.json",
       "evidence/ubuntu24/live-graph.json",
-      "evidence/ubuntu24/mineru-graph-browser.json"
+      "evidence/ubuntu24/mineru-graph-browser.json",
+      "evidence/competition-dataset/summary.json",
+      "evidence/competition-dataset/enhanced.json",
+      "evidence/competition-dataset/location-recheck.json",
+      "evidence/competition-dataset/browser-reader.json",
+      "evidence/competition-dataset/graph-scope.json"
     ],
     "api_calls_and_usage": {
       "new_provider_calls": 0
     },
-    "remaining_risk": "Scope limited to recorded inputs and commands; see report limitations."
+    "remaining_risk": "Only recorded input/execution and source-location coverage; independently labelled quality assessment not performed. GPU/model/source-network limitations remain separate.",
+    "dataset_tested_at": "2026-11-16 Asia/Shanghai"
   },
   {
     "case_id": "E07",

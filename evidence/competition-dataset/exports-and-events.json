@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "downloaded_files": {
+    "png": {
+      "bytes": 36088,
+      "sha256": "7fb01187ec38e42ce21f03218a037870c82e7cc882e335eba8d8292bf0673458"
+    },
+    "svg": {
+      "bytes": 37749,
+      "sha256": "9867e6c809490b5f4a9fba9612850414cebb4f851f62d48ee7a6d24e90704462"
+    },
+    "script": {
+      "bytes": 5609,
+      "sha256": "f34b5c1e72c82750d19765d69b4adcf6e68a48d5fd057c8a3412e7f6e251c89c"
+    },
+    "spec": {
+      "bytes": 467,
+      "sha256": "0ac4016c273176628458b555b72e8e53ac7199341ddc5f55a8a0f4b05f30de37"
+    },
+    "csv": {
+      "bytes": 421,
+      "sha256": "f1a446b29a33d84951cfcd6ce860805b7cd0b9afc92fabdfccf31bea555c5a93"
+    }
+  },
+  "terminal_run": "66ed9b65a57543849689134ff31a3ec7",
+  "event_count": 545,
+  "first_event": 3131,
+  "last_event": 3675
+}

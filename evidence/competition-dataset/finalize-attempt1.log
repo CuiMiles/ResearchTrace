@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/finalize_competition_evidence.py", line 122, in <module>
+    prepare() if '--prepare' in sys.argv else finalize()
+                                              ^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/scripts/finalize_competition_evidence.py", line 55, in finalize
+    record('reader','actual-corpus-reader','原教材末页 / 扫描原件 / 结构化公式表格 · 浏览器检查','PASS',
+  File "/home/cui/projects/competition/传智杯2026/scripts/validate_competition_dataset.py", line 43, in record
+    run = dict(id=rid, label=label, status=status, summary=summary, files=files or [],
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dict() got multiple values for keyword argument 'screenshots'

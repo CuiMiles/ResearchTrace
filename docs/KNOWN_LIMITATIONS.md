@@ -7,12 +7,14 @@
 
 ## 2. Model Smoke Quota Exhausted (`HYDROGEN_SMOKE_LIMIT=4`)
 - **Observation**: Live Hydrogen budget (`4` calls, `65537` input tokens / `23309` output tokens in SQLite `quota`) was already consumed prior to handoff, with `RT_SMOKE_MODE=true`, `HYDROGEN_SMOKE_LIMIT=4`, and `ALLOW_PAID_FALLBACK=false`.
-- **Impact**: Fresh Hydrogen-dependent checks (such as full 50-question/baseline evaluation, fresh QA/synthesis/critique/writing generation, and large-scale end-to-end model workflows) remain `BLOCKED` on this quota-preserving instance until a separate review/demo quota or fresh key configuration is explicitly authorized.
+- **Impact**: Fresh Hydrogen-dependent checks (such as full 50-question/baseline evaluation, fresh QA/synthesis/critique/writing generation, and large-scale end-to-end model workflows) remain `BLOCKED` on this quota-preserving instance until a separate review/demo budget is explicitly authorized; adding keys alone does not add quota.
 - **Preservation**: Existing stored notes, citations, deterministic exports (`md`/`html`/`bib`), knowledge graph recomputation, and parse snapshot protections all operate with `0` provider calls.
 
-## 3. Official Scanned & Textbook PDF Fixtures
-- **Observation**: Official raw scanned/textbook benchmark PDFs were not supplied in the workspace.
-- **Coverage**: OCR and layout/formula/table parsing were validated on self-authored bilingual raster fixtures (`scan-bilingual.pdf`, `scan-bilingual.png`) and single-page derivatives extracted from `arxiv:1706.03762v7` (`equation.pdf`, `table.pdf`, `formula-page4.pdf`). Multi-page full-textbook scans should be tested on native hardware once original inputs are provided.
+## 3. User-provided competition corpus and quality scope
+- **Inputs now available**: `科研小助手.rar` contains 39 test PDFs (1986 pages) plus a 7-page task description. The specified 15-page `1706.03762v1_img.pdf` and 541-page textbook are available under `evals/files/user-dataset-a87f17843197/`. The textbook bytes match the author's Release. The archive's publishing channel was not independently authenticated.
+- **Actual coverage**: all39 source documents are ready. The original scan passed full15-page PaddleOCR and MinerU CPU parsing; the textbook passed native v2 full541-page parsing, including four verified blank pages. PaddleOCR-VL passed a labelled crop of physical page4 only, not full-scan VL processing. Old partial snapshots remain unchanged. See `evidence/competition-dataset/summary.json`.
+- **Quality boundary**: execution, page coverage, source location, tables/formulas and snapshot protection were checked; this does not establish independently annotated OCR accuracy, QA correctness or comparative performance. The current39-node graph includes one cropped helper document; `graph-scope.json` separates original works, reference entries and distinct directed relations.
+- **Import scope**: this acceptance uploaded the39 source PDFs through separate authenticated HTTP operations. A single multipart request still has a10-file limit; this run does not certify a20-file atomic upload.
 
 ## 4. Deployment & External Competition Materials
 - **Deployment**: The active runtime runs locally as user `systemd` services (`researchtrace-api`, `researchtrace-worker`, `researchtrace-parser`) on `http://127.0.0.1:18980`. Public HTTPS ingress, remote Docker daemon, and public cloud deployment are outside the local WSL2 environment and remain to be provisioned manually if required.

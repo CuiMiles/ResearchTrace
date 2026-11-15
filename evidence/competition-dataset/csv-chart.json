@@ -1,0 +1,105 @@
+{
+  "artifact_id": "9820991ab00447abb705f7210b998b00",
+  "columns": [
+    "document_index",
+    "pages",
+    "processed_pages"
+  ],
+  "column_details": [
+    {
+      "name": "document_index",
+      "type": "number",
+      "numeric_count": 39,
+      "missing_rows": [],
+      "invalid_numeric_rows": [],
+      "diagnostics_truncated": false
+    },
+    {
+      "name": "pages",
+      "type": "number",
+      "numeric_count": 39,
+      "missing_rows": [],
+      "invalid_numeric_rows": [],
+      "diagnostics_truncated": false
+    },
+    {
+      "name": "processed_pages",
+      "type": "number",
+      "numeric_count": 39,
+      "missing_rows": [],
+      "invalid_numeric_rows": [],
+      "diagnostics_truncated": false
+    }
+  ],
+  "statistics": {
+    "document_index": {
+      "count": 39,
+      "min": 1.0,
+      "max": 39.0,
+      "mean": 20.0,
+      "sum": 780.0,
+      "first": 1.0,
+      "last": 39.0,
+      "delta": 38.0,
+      "max_row": 40,
+      "missing_count": 0,
+      "invalid_count": 0
+    },
+    "pages": {
+      "count": 39,
+      "min": 9.0,
+      "max": 541.0,
+      "mean": 50.92307692307692,
+      "sum": 1986.0,
+      "first": 15.0,
+      "last": 16.0,
+      "delta": 1.0,
+      "max_row": 5,
+      "missing_count": 0,
+      "invalid_count": 0
+    },
+    "processed_pages": {
+      "count": 39,
+      "min": 9.0,
+      "max": 541.0,
+      "mean": 50.92307692307692,
+      "sum": 1986.0,
+      "first": 15.0,
+      "last": 16.0,
+      "delta": 1.0,
+      "max_row": 5,
+      "missing_count": 0,
+      "invalid_count": 0
+    }
+  },
+  "warnings": [],
+  "caption": "Corpus physical page counts：输入 39 行，图型 bar。pages 有效 n=39，最大值 541 pages（CSV 第 5 行），末个与首个有效值之差 1。统计来自程序计算，未进行统计显著性或因果检验。",
+  "files": {
+    "png": "/api/v1/artifacts/9820991ab00447abb705f7210b998b00/files/chart.png",
+    "svg": "/api/v1/artifacts/9820991ab00447abb705f7210b998b00/files/chart.svg",
+    "script": "/api/v1/artifacts/9820991ab00447abb705f7210b998b00/files/plot.py",
+    "spec": "/api/v1/artifacts/9820991ab00447abb705f7210b998b00/files/spec.json",
+    "csv": "/api/v1/artifacts/9820991ab00447abb705f7210b998b00/files/input.csv"
+  },
+  "spec": {
+    "kind": "bar",
+    "x": "document_index",
+    "y": [
+      "pages"
+    ],
+    "z": null,
+    "title": "Corpus physical page counts",
+    "x_unit": "",
+    "y_unit": "pages",
+    "aggregate": "none",
+    "encoding": "utf-8-sig",
+    "input_sha256": "f1a446b29a33d84951cfcd6ce860805b7cd0b9afc92fabdfccf31bea555c5a93",
+    "row_count": 39,
+    "plot_template_version": 2,
+    "plot_script_sha256": "f34b5c1e72c82750d19765d69b4adcf6e68a48d5fd057c8a3412e7f6e251c89c",
+    "x_scale": "categorical"
+  },
+  "input_sha256": "f1a446b29a33d84951cfcd6ce860805b7cd0b9afc92fabdfccf31bea555c5a93",
+  "encoding": "utf-8-sig",
+  "row_count": 39
+}

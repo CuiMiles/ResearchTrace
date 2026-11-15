@@ -1,0 +1,11 @@
+{
+  "original_pdf_versions": 39,
+  "original_distinct_works": 38,
+  "derivative_versions": [
+    "5039d5b74bf54e45b9bf77efbf69eb20"
+  ],
+  "all_nodes": 39,
+  "located_reference_entries": 162,
+  "distinct_directed_relations": 160,
+  "note": "当前图包含39份原始资料（v1/v7合并为同一作品）与1份裁剪辅助PDF。引用记录数与去重有向关系数分别列出；边匹配仍需人工精度抽查。"
+}

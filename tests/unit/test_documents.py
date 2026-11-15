@@ -362,5 +362,47 @@ def run_document_acceptance():
     print("EVIDENCE", target, "longbook", output["longbook"], flush=True)
 
 
+def test_verified_blank_pages_do_not_fail_or_invoke_ocr(isolated, monkeypatch):
+    out = io.BytesIO()
+    pdf = canvas.Canvas(out, pagesize=(612, 792))
+    pdf.showPage()
+    # The real textbook has trim lines confined to the margins.
+    pdf.line(18, 15, 18, 65)
+    pdf.line(-38, 72, 11, 72)
+    pdf.showPage()
+    pdf.setFont('Helvetica', 12)
+    pdf.drawString(50, 600, 'A genuinely nonempty final page for the blank page regression.')
+    pdf.save()
+    def forbidden(*args):
+        raise AssertionError('Verified empty body must not invoke OCR')
+    monkeypatch.setattr(documents, '_ocr_words', forbidden)
+    uploaded, result = parse_uploaded(content=out.getvalue())
+    assert result['status'] == 'ready' and result['failed_pages'] == []
+    pages = store.rows('SELECT page_index,status FROM pages WHERE version_id=? ORDER BY page_index', (uploaded['document']['id'],))
+    assert [p['status'] for p in pages] == ['blank', 'blank', 'ready']
+
+
+@pytest.mark.parametrize('kind', ['body_vector', 'faint_text', 'raster'])
+def test_empty_extraction_does_not_hide_nonblank_content(isolated, monkeypatch, kind):
+    from PIL import Image
+    from reportlab.lib.utils import ImageReader
+    out = io.BytesIO()
+    pdf = canvas.Canvas(out, pagesize=(612, 792))
+    if kind == 'body_vector':
+        pdf.line(200, 200, 400, 400)
+    elif kind == 'faint_text':
+        pdf.setFillGray(.99)
+        pdf.drawString(100, 400, 'faint')
+    else:
+        image = Image.new('RGB', (100, 100), 'white')
+        pdf.drawImage(ImageReader(image), 100, 300, width=200, height=200)
+    pdf.showPage()
+    pdf.save()
+    monkeypatch.setattr(documents, '_ocr_words', lambda *args: ([], 'ocr_unavailable'))
+    _, result = parse_uploaded(content=out.getvalue())
+    assert result['status'] == 'partial'
+    assert result['failed_pages'][0]['status'] == 'ocr_unavailable'
+
+
 if __name__ == "__main__":
     run_document_acceptance()

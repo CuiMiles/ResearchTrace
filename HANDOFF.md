@@ -90,3 +90,17 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 按用户要求，先在管理员“验收与截图”顶部发布十步可点击流程，再执行这批资料测试。`evidence/competition-dataset/browser-before.json` 证明流程发布时 test_execution_started=false，十个节点点击、5秒保留选中刷新和桌面/390px无溢出均通过。实际记录来自 `/api/v1/admin/workflow`，证据沿用管理员白名单文件接口。前端子任务因工具额度停止，主 agent 接续已落盘内容，没有伪造其完成报告。
 
 本阶段提交时资料测试仍在继续；当前真实进度由 `evidence/competition-dataset/workflow.json` 提供，最终结果见后续交接段。不要把本阶段提交当作全部验收通过。Hydrogen4/FlashLite22/embedding56账本仍保留，没有新增供应商请求。
+
+## 2026-11-16 用户原资料包测试完成（最新）
+
+- 继续保留用户原RAR与已修改的项目，流程阶段已提交 `7a80ed4`。本阶段用真实HTTP在独立测试workspace逐文件导入39份原资料；私有会话位于 `data/competition-dataset-session.json`，未打印/提交。所有39份最终ready、1986页均处理。另7页题目说明用于阅读核对，不冒充应用解析测试。
+- 教材首轮541页因为4张仅有裁切线的空白页而partial，原始失败保留。修复 `pdfplumber-layout-v2`：结构检查加白色正文区域渲染确认才记blank，图像/矢量图/淡字不能误判。创建独立新快照541页/5315块，88.02秒通过；旧块ID/文字/bbox哈希不变。原教材在32页取消、等待执行锁释放后恢复，检查点保留。
+- 指定扫描件完整15页：PaddleOCR CPU234.44秒/311块，runner峰值RSS1261320KiB；MinerU4.2.2 CPU352.72秒/138块（4表格/6公式），runner峰值RSS2705092KiB。VL仅第4页裁剪区域：139.22秒/6块，runner峰值RSS2473220KiB；衍生来源页/范围/哈希均记录，不宣称全文VL。重型解析不计入2GB lite声明。
+- GPU真实产品请求4.6秒后因WSL/NVML无法核算进程显存而BLOCKED；monitors保留实时选卡、2GiB余量、项目预算和仅终止本项目会话。无残留解析runner，无操作其他进程。
+- 122次真实正文FTS→指定版本/parse_id/页/块/bbox查询通过，含教材后半部抽页与末页。首轮5个文件选中重复页眉、目标页不在前50条结果的失败保留并标注复测；没有将该失败冒称索引修复。浏览器29项阅读/表格/公式/VL/空白页/图谱检查通过；流程发布前39项、发布后38项通过。每个步骤可点开看真实文件、任务、结果、JSON/log和截图，5秒刷新保留选中项。
+- 图谱当前39节点/162条实际定位引用记录、160条去重有向关系。39份原PDF对应38作品（v1/v7合一），另含1份裁剪辅助文档；该scope单列，未声称人工审查的引用匹配精度。由39份资料页数生成的衍生CSV已真实绘图并鉴权下载PNG/SVG/脚本/spec/CSV，原RAR无CSV。损坏PDF422、未登录401、跨workspace404、路径逃逸404；真实教材任务SSE事件有序且收到done。
+- 完整 `./scripts/test.sh` **142 passed**，Ruff、TypeScript/Vite（168文件）、OpenAPI全部通过，见 `evidence/competition-dataset/regression.log`。首次脚本竞态/构建类型遗漏/浏览器CSP写法错误均有失败日志，修复后复验；原始失败没有删除。64项机器验收更新为 **48 PASS /16 BLOCKED /0 FAIL**，新流程阶段状态按执行范围独立统计。
+- 当前仍为 **http://127.0.0.1:18980**，三个项目user systemd服务运行；启动 `./scripts/dev.sh`，停止 `./scripts/stop.sh`。管理员“验收与截图”顶部即十步流程。结果总览 `evidence/competition-dataset/summary.json`；明细 `workflow.json`；来源 `manifest.json`；`docs/TEST_REPORT.md` 已更新。
+- 本轮0供应商新请求，完整quota行未变：Hydrogen4次（65537输入/23309输出）、FlashLite22次（15068/14624）、embedding56次尝试（214761输入，含失败/未知）。Hydrogen原4次上限和付费兜底保护未改。公开检索真实检查仍被非公网DNS安全拒绝，测试追踪关闭；独立质量真值/新模型评测预算、公网HTTPS/评审运行与正式视频PDF仍未完成。
+
+三条本轮新输入演示：①资料包v7/v1改名上传→同论文版本比较，原扫描→Paddle/MinerU新快照→搜索高亮；②原教材541页→32页取消恢复→空白页核验→后半部与末页定位；③39份资料页数生成CSV→绘图与五类导出，并展示损坏PDF422。新增测试脚本只执行明确步骤；不要重跑任何会消费供应商配额的历史smoke脚本，不迁移/重置原账本。遗留10文件/请求上限未变，本次逐文件导入不声称20文件原子批量上传已验收。

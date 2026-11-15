@@ -1,0 +1,18 @@
+{
+  "kind": "bar",
+  "x": "document_index",
+  "y": [
+    "pages"
+  ],
+  "z": null,
+  "title": "Corpus physical page counts",
+  "x_unit": "",
+  "y_unit": "pages",
+  "aggregate": "none",
+  "encoding": "utf-8-sig",
+  "input_sha256": "f1a446b29a33d84951cfcd6ce860805b7cd0b9afc92fabdfccf31bea555c5a93",
+  "row_count": 39,
+  "plot_template_version": 2,
+  "plot_script_sha256": "f34b5c1e72c82750d19765d69b4adcf6e68a48d5fd057c8a3412e7f6e251c89c",
+  "x_scale": "categorical"
+}

@@ -1,0 +1,27 @@
+{
+  "results": [],
+  "errors": [
+    {
+      "source": "arxiv",
+      "error": "内网、回环、链路本地和云元数据地址被禁止"
+    },
+    {
+      "source": "crossref",
+      "error": "内网、回环、链路本地和云元数据地址被禁止"
+    }
+  ],
+  "cached": false,
+  "searched_at": 1794765049.8926802,
+  "query": "Attention Is All You Need",
+  "sources": [
+    "arxiv",
+    "crossref"
+  ],
+  "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+  "new_identities": [],
+  "seen_identities": [],
+  "run_id": "ac5a68ece60046a89afbdf17a91f2b93",
+  "trigger": "manual",
+  "last_attempt": 1794765049.885037,
+  "status": "failed"
+}

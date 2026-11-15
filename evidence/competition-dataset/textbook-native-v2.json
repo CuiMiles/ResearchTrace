@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "engine": "native",
+  "device": "cpu",
+  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+  "run_id": "66ed9b65a57543849689134ff31a3ec7",
+  "input_file": {
+    "id": "f8237d393163900f",
+    "name": "UnderstandingDeepLearning_02_09_26_C.pdf",
+    "relative_path": "pdf/UnderstandingDeepLearning_02_09_26_C.pdf",
+    "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+    "bytes": 22344992,
+    "kind": "pdf",
+    "page_count": 541,
+    "encrypted": false,
+    "role": "test_input"
+  },
+  "started": "2026-11-15T17:37:01.026589+00:00",
+  "provider_calls": 0,
+  "source": null,
+  "prior_hashes": {
+    "4452fbc0c75443578fb2a2987629c19c": "4eb95a410666382688f3c2d9494be70a19d8a9e8a7c394d4c5625d6354cd44d5"
+  },
+  "finished": "2026-11-15T17:38:29.032816+00:00",
+  "duration_seconds": 88.02,
+  "run_status": "completed",
+  "result": {
+    "version_id": "4452fbc0c75443578fb2a2987629c19c",
+    "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+    "status": "ready",
+    "parsed_pages": 541,
+    "references": 2821,
+    "failed_pages": [],
+    "suppressed_margin_blocks": 0
+  },
+  "error": null,
+  "old_snapshots_unchanged": true,
+  "counts": {
+    "blocks": 5315,
+    "types": {
+      "heading": 913,
+      "paragraph": 2961,
+      "caption": 273,
+      "figure": 467,
+      "table": 104,
+      "equation": 597
+    },
+    "sources": {
+      "pdfplumber": 4744,
+      "pdfplumber_region": 467,
+      "pdfplumber_table": 104
+    }
+  },
+  "provenance": {
+    "engine": "native",
+    "version": "pdfplumber-layout-v2",
+    "device": "cpu"
+  },
+  "monitors": [],
+  "blank_pages": [
+    {
+      "page_index": 1,
+      "status": "blank"
+    },
+    {
+      "page_index": 3,
+      "status": "blank"
+    },
+    {
+      "page_index": 9,
+      "status": "blank"
+    },
+    {
+      "page_index": 11,
+      "status": "blank"
+    }
+  ],
+  "examples": {
+    "table": {
+      "page_index": 26,
+      "id": "9a02fdf119ca4c4599e11a78b1a2299a:26:7",
+      "bbox": [
+        0.15721280117792072,
+        0.2015906209497318,
+        0.30121465359477123,
+        0.27747703061507983
+      ],
+      "text": " |  |  |  |  |  | \n |  |  |  |  |  | \n |  |  |  |  |  | "
+    },
+    "formula": {
+      "page_index": 30,
+      "id": "9a02fdf119ca4c4599e11a78b1a2299a:30:5",
+      "text": "y = f[x]. (2.1)",
+      "bbox": [
+        0.4363251633986927,
+        0.854892452020202,
+        0.7785685098039216,
+        0.8674719974747475
+      ]
+    },
+    "paragraph": {
+      "page_index": 0,
+      "id": "9a02fdf119ca4c4599e11a78b1a2299a:0:3",
+      "bbox": [
+        0.20475980392156864,
+        0.6712833383838385,
+        0.728891129251634,
+        0.6826040454545454
+      ],
+      "text": "The most recent version of this document can be found at http://udlbook.com."
+    }
+  },
+  "resource_observations": [],
+  "runner_peak_rss_kib": null
+}

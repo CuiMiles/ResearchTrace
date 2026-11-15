@@ -1,0 +1,185 @@
+{
+  "overall_status": "BLOCKED",
+  "local_document_pipeline_status": "PASS",
+  "source_archive_unchanged": true,
+  "workflow_published_before_tests": true,
+  "original_input_documents": 39,
+  "original_input_pages": 1986,
+  "original_file_manifest_count": 40,
+  "final_ready_documents": 39,
+  "location_checks": {
+    "PASS": 122
+  },
+  "enhanced_runs": [
+    {
+      "engine": "native",
+      "device": "cpu",
+      "status": "PASS",
+      "duration_seconds": 88.02,
+      "blocks": 5315,
+      "types": {
+        "heading": 913,
+        "paragraph": 2961,
+        "caption": 273,
+        "figure": 467,
+        "table": 104,
+        "equation": 597
+      },
+      "scope": {
+        "id": "f8237d393163900f",
+        "name": "UnderstandingDeepLearning_02_09_26_C.pdf",
+        "relative_path": "pdf/UnderstandingDeepLearning_02_09_26_C.pdf",
+        "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+        "bytes": 22344992,
+        "kind": "pdf",
+        "page_count": 541,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "runner_peak_rss_kib": null
+    },
+    {
+      "engine": "paddleocr",
+      "device": "cpu",
+      "status": "PASS",
+      "duration_seconds": 234.44,
+      "blocks": 311,
+      "types": {
+        "heading": 165,
+        "paragraph": 104,
+        "equation": 19,
+        "footer": 14,
+        "caption": 9
+      },
+      "scope": {
+        "id": "64094fe169dd4ff4",
+        "name": "1706.03762v1_img.pdf",
+        "relative_path": "pdf/1706.03762v1_img.pdf",
+        "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+        "bytes": 4672118,
+        "kind": "pdf",
+        "page_count": 15,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "runner_peak_rss_kib": 1261320
+    },
+    {
+      "engine": "mineru",
+      "device": "cpu",
+      "status": "PASS",
+      "duration_seconds": 352.72,
+      "blocks": 138,
+      "types": {
+        "paragraph": 84,
+        "heading": 25,
+        "footer": 14,
+        "figure": 5,
+        "equation": 6,
+        "table": 4
+      },
+      "scope": {
+        "id": "64094fe169dd4ff4",
+        "name": "1706.03762v1_img.pdf",
+        "relative_path": "pdf/1706.03762v1_img.pdf",
+        "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+        "bytes": 4672118,
+        "kind": "pdf",
+        "page_count": 15,
+        "encrypted": false,
+        "role": "test_input"
+      },
+      "runner_peak_rss_kib": 2705092
+    },
+    {
+      "engine": "paddleocr_vl",
+      "device": "cpu",
+      "status": "PASS",
+      "duration_seconds": 139.22,
+      "blocks": 6,
+      "types": {
+        "paragraph": 4,
+        "heading": 1,
+        "figure": 1
+      },
+      "scope": {
+        "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+        "source_page_index": 3,
+        "crop_normalized_xy_from_bottom": [
+          0.07,
+          0.43,
+          0.93,
+          0.72
+        ],
+        "derived": true,
+        "scope": "仅第4物理页的裁剪区域；不代表全篇 VL 验收"
+      },
+      "runner_peak_rss_kib": 2473220
+    },
+    {
+      "engine": "mineru",
+      "device": "gpu",
+      "status": "BLOCKED",
+      "duration_seconds": 4.6,
+      "blocks": 0,
+      "types": {},
+      "scope": {
+        "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+        "source_page_index": 3,
+        "crop_normalized_xy_from_bottom": [
+          0.07,
+          0.43,
+          0.93,
+          0.72
+        ],
+        "derived": true,
+        "scope": "仅第4物理页的裁剪区域；不代表全篇 VL 验收"
+      },
+      "runner_peak_rss_kib": null
+    }
+  ],
+  "graph_nodes": 39,
+  "graph_reference_entries": 162,
+  "workflow_step_statuses": {
+    "inventory": "PASS",
+    "upload": "PASS",
+    "parse": "BLOCKED",
+    "snapshots": "PASS",
+    "reader": "PASS",
+    "analysis": "BLOCKED",
+    "discovery": "BLOCKED",
+    "graph": "PASS",
+    "export": "PASS",
+    "recovery": "PASS"
+  },
+  "provider_calls_this_batch": 0,
+  "quota_unchanged": true,
+  "ledger": [
+    {
+      "model": "gemini-3.5-flash-lite",
+      "calls": 22,
+      "input_tokens": 15068,
+      "output_tokens": 14624
+    },
+    {
+      "model": "gemini-4-hydrogen",
+      "calls": 4,
+      "input_tokens": 65537,
+      "output_tokens": 23309
+    },
+    {
+      "model": "gemini-embedding-001",
+      "calls": 56,
+      "input_tokens": 214761,
+      "output_tokens": 0
+    }
+  ],
+  "finished": "2026-11-15T17:58:43.905021+00:00",
+  "remaining": [
+    "GPU WSL/NVML process memory accounting",
+    "exhausted Hydrogen smoke budget; no new model-quality assessment",
+    "public scholarly source DNS route",
+    "public HTTPS and final contest deliverables"
+  ],
+  "quality_scope": "Execution, snapshot preservation, indexing and browser location checks; not an independently labelled OCR/QA quality benchmark."
+}
