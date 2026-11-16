@@ -288,6 +288,37 @@ def references(vid:str,parse_id:str|None=None,s=Depends(session)):
     snap=selected_parse(s['workspace'],vid,parse_id)
     return rows("SELECT * FROM refs WHERE workspace=? AND version_id=? AND COALESCE(json_extract(metadata,'$.parse_id'),version_id)=?",(s['workspace'],vid,snap['id']))
 
+@app.get('/api/v1/documents/{vid}/card')
+def document_card(vid:str,s=Depends(session)):
+    """Structured metadata of the active snapshot; every field names its source."""
+    version(vid,s['workspace'])
+    from .cards import get_card
+    card=get_card(s['workspace'],vid)
+    if card is None:
+        return {'status':'missing','version_id':vid}
+    return {'status':'ready',**card}
+
+class CardRequest(BaseModel):
+    idempotency_key:str=Field(min_length=8,max_length=150)
+
+@app.post('/api/v1/documents/{vid}/card')
+def rebuild_card(vid:str,p:CardRequest,s=Depends(session)):
+    """Queue a rebuild of the document card (live record lookup and one light-model call)."""
+    version(vid,s['workspace'])
+    return queue(s['workspace'],'card',{'version_id':vid},p.idempotency_key)
+
+@app.get('/api/v1/documents/{vid}/outline')
+def document_outline(vid:str,s=Depends(session)):
+    """Hierarchical outline: PDF bookmarks when present, else numbered headings."""
+    v=version(vid,s['workspace'])
+    from .cards import get_card, outline_tree
+    card=get_card(s['workspace'],vid)
+    entries=(card or {}).get('outline')
+    if entries is None:
+        meta=v['metadata'] if isinstance(v['metadata'],dict) else json.loads(v['metadata'] or '{}')
+        entries=[{**e,'level':e.get('level',1)} for e in meta.get('outline',[])]
+    return {'source':'document_card' if card else 'legacy_headings','tree':outline_tree(entries)}
+
 @app.get('/api/v1/documents/{vid}/search')
 def search_document(vid:str,q:str=Query(default='',max_length=500),parse_id:str|None=None,s=Depends(session)):
     version(vid,s['workspace'])

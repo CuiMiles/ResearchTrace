@@ -96,6 +96,12 @@ def migrate():
         CREATE TABLE IF NOT EXISTS translation_cache(workspace TEXT NOT NULL,version_id TEXT NOT NULL,parse_id TEXT NOT NULL,block_id TEXT NOT NULL,source_language TEXT NOT NULL CHECK(source_language IN ('auto','en','zh')),target_language TEXT NOT NULL CHECK(target_language IN ('en','zh-Hans')),glossary_version TEXT NOT NULL,model TEXT NOT NULL,actual_model TEXT NOT NULL,text TEXT NOT NULL,created REAL NOT NULL,PRIMARY KEY(workspace,version_id,parse_id,block_id,source_language,target_language,glossary_version,model));
         ''')
         c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(5,?)',(time.time(),))
+        # Structured paper metadata per parse snapshot (services/api/cards.py).
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS document_cards(version_id TEXT NOT NULL,parse_id TEXT NOT NULL,workspace TEXT NOT NULL,card TEXT NOT NULL,created REAL NOT NULL,updated REAL NOT NULL,PRIMARY KEY(version_id,parse_id));
+        CREATE INDEX IF NOT EXISTS document_cards_workspace ON document_cards(workspace,version_id);
+        ''')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(6,?)',(time.time(),))
 
 def one(sql, params=()):
     with db() as c:

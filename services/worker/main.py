@@ -12,7 +12,7 @@ load_dotenv(Path(__file__).resolve().parents[2]/'.env')
 from services.api import store
 from services.api.jobs import work_once
 
-POOLS={'documents':('parse','parse_document','reparse','index'),
+POOLS={'documents':('parse','parse_document','reparse','index','card'),
        'interactive':('qa','agent','writing','translate','audit')}
 stopping=False
 

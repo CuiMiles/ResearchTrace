@@ -76,8 +76,39 @@ def source_context(workspace,version_ids):
             v['date_evidence']='arXiv identifier month '+str(year)+'-'+arxiv[2:4]+'; original submission month, not exact revision date'
         else:
             v['date_evidence']='verified source metadata' if year else 'unknown; do not assume later'
-        v['year']=year;context.append(v)
+        v['year']=year
+        from .cards import get_card, prompt_view
+        try:
+            card=prompt_view(get_card(workspace,vid))
+        except ValueError:
+            card=None
+        if card:
+            v['document_card']=card
+            if card.get('year'):v['year']=card['year']
+        context.append(v)
     return context
+
+METADATA_QUESTION=re.compile(r'作者|机构|单位|公司|邮箱|谁写|author|affiliat|institution|e-?mail|who wrote',re.I)
+
+def with_card_blocks(workspace,version_ids,question,ret):
+    """Add title-page author/affiliation blocks for metadata questions so answers can cite them."""
+    if not METADATA_QUESTION.search(question or ''):
+        return ret
+    from .cards import author_blocks, get_card
+    from .retrieval import _decode
+    have={b['id'] for b in ret.get('blocks',[])}
+    wanted=[]
+    for vid in version_ids:
+        try:
+            wanted+= [bid for bid in author_blocks(get_card(workspace,vid)) if bid not in have]
+        except ValueError:
+            continue
+    if not wanted:
+        return ret
+    placeholders=','.join('?' for _ in wanted)
+    found=rows(f'SELECT * FROM current_blocks WHERE workspace=? AND id IN ({placeholders})',(workspace,*wanted))
+    added=[{**_decode(b),'card_context':True} for b in found]
+    return {**ret,'blocks':added+ret.get('blocks',[]),'card_blocks':[b['id'] for b in added]}
 
 def validate_answer(data,blocks,*,workspace=None,version_ids=None):
     from .evidence_validation import validate
@@ -182,6 +213,7 @@ def qa(run):
             ret.setdefault('sparse',[]);ret.setdefault('dense',[])
         else:
             ret=retrieve(w,p['version_ids'],p['question'],limit=20)
+        ret=with_card_blocks(w,p['version_ids'],p['question'],ret)
         snap['retrieval']=ret;checkpoint(run,snap)
     ret=snap['retrieval']
     blocks=ret.get('blocks',[])
@@ -233,7 +265,7 @@ def work_once(pool='all'):
     with ExitStack() as execution:
         with db() as c:
             c.execute('BEGIN IMMEDIATE')
-            kinds={'documents':('parse','parse_document','reparse','index'),
+            kinds={'documents':('parse','parse_document','reparse','index','card'),
                    'interactive':('qa','agent','writing','translate','audit')}
             if pool not in ('all',*kinds):raise ValueError('未知执行池')
             allowed=kinds.get(pool)
@@ -259,6 +291,11 @@ def work_once(pool='all'):
                 result=translate(run)
             elif run['kind']=='audit':
                 result=audit(run)
+            elif run['kind']=='card':
+                from .cards import build_card
+                card=build_card(run['workspace'],run['payload']['version_id'],rid)
+                result={'version_id':run['payload']['version_id'],'title':card['title'],'authors':len(card.get('authors',[])),
+                        'outline_entries':len(card.get('outline',[])),'notes':card.get('notes',[])}
             elif run['kind']=='index':
                 from .index_generations import build
                 snap=json.loads(one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'] or '{}')

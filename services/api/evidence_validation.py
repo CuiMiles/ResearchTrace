@@ -98,7 +98,7 @@ def numeric_findings(claim, quotes,source_identifiers=()):
     return findings
 
 
-def metadata_spans(text,citations,blocks):
+def metadata_spans(text,citations,blocks,card_authors=None):
     """Numbers in checked locator labels and verified author-list enumerators.
 
     These are source metadata or counted list positions, not experimental values.
@@ -111,6 +111,11 @@ def metadata_spans(text,citations,blocks):
         for part in re.split(r'[∗*]',b['text'])[:-1]:
             name=part.strip('† \t\n')
             if re.fullmatch(name_pattern,name):authors.setdefault(b['version_id'],[]).append(name)
+    # Document cards carry the authoritative order (arXiv/Crossref record or title page).
+    for vid,names in (card_authors or {}).items():
+        if names:authors[vid]=list(names)
+    from .cards import fold
+    folded_text=fold(text)
     for e in citations:
         b=lookup[e['block_id']];spans.append(b['id'])
         if re.search(r'blocks?|块',text,re.I) and ':' in b['id']:
@@ -122,8 +127,8 @@ def metadata_spans(text,citations,blocks):
         for ordinal,name in enumerate(authors.get(b['version_id'],[]),1):
             # Drop only an enumerator paired with its source-counted exact name.
             for match in re.finditer(r'(?<!\d)'+str(ordinal)+r'[.)、]\s*'+re.escape(name),text):spans.append(match[0])
-            for match in re.finditer(r'第'+str(ordinal)+r'(?:位)?作者',text):
-                if name in text:spans.append(match[0])
+            for match in re.finditer(r'第'+str(ordinal)+r'(?:位|个)?作者',text):
+                if name in text or fold(name) in folded_text:spans.append(match[0])
     return spans
 
 
@@ -139,6 +144,15 @@ def validate(data, blocks, *, workspace=None, version_ids=None):
                 identifiers.append(v['identity'])
                 version=json.loads(v['metadata'] or '{}').get('arxiv_version')
                 if version:identifiers.append(v['identity']+'v'+str(version))
+    card_authors={}
+    if workspace is not None:
+        from .cards import get_card
+        for vid in set(version_ids or [b['version_id'] for b in blocks]):
+            try:
+                card=get_card(workspace,vid)
+            except ValueError:
+                card=None
+            if card:card_authors[vid]=[a['name'] for a in card.get('authors',[])]
     validated, repaired = [], 0
     for index, claim in enumerate(answer.claims):
         cid = claim.id or f'claim-{index+1}'
@@ -186,7 +200,7 @@ def validate(data, blocks, *, workspace=None, version_ids=None):
                                   status='located_semantics_pending', **({'repair':repair} if repair else {})))
         if claim.type=='source_fact' and not citations:
             raise ValueError('事实主张缺少可定位证据；结果已拦截')
-        findings = numeric_findings(claim.text, [e['quote'] for e in citations],identifiers+metadata_spans(claim.text,citations,blocks)) if claim.type=='source_fact' else []
+        findings = numeric_findings(claim.text, [e['quote'] for e in citations],identifiers+metadata_spans(claim.text,citations,blocks,card_authors)) if claim.type=='source_fact' else []
         if findings:
             raise ValueError('主张与证据中的数值或单位矛盾；结果已拦截')
         literal = claim.type=='source_fact' and any(canonical(claim.text)[0] in canonical(e['quote'])[0] for e in citations)

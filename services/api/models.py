@@ -321,6 +321,12 @@ def request(model,method,body,run_id,estimate):
         result['_quota_id']=qid
         status='ok'
         return result,project
+    except (httpx.ConnectError, httpx.ConnectTimeout, httpx.ProxyError, httpx.UnsupportedProtocol) as error:
+        # The connection (or proxy tunnel) was never established: nothing was sent.
+        status='failed'
+        detail='连接未建立，请求未发送（'+type(error).__name__+'）'
+        if run_id:event(run_id,'provider_connect_failed',{'model':model,'quota_id':qid,'error_type':type(error).__name__})
+        raise SentRequestError(detail, outcome='failed', quota_id=qid) from None
     except httpx.HTTPError as error:
         if run_id:event(run_id,'provider_transport_unknown',{'model':model,'quota_id':qid,'error_type':type(error).__name__,'automatic_retry':False})
         detail='网络超时或传输失败；上游消耗未知，保留预留账目'
