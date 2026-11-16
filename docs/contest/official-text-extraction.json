@@ -1,0 +1,33 @@
+{
+  "note": "Native text extraction omits text rendered as outlines/images. Original PDF is authoritative for tables and delivery details.",
+  "pages": [
+    {
+      "page": 1,
+      "text": "科研小助手Agent\r\n1. 产品功能\r\n1.1 PDF文件管理和解析\r\n基本的CRUD操作，比如用户可以上传PDF格式的论文，包括批量上传。上传之后需要对PDF进行\r\n的解析，把文字提取出来，另外也可以考虑更高级的文档解析，如识别文档的结构，识别公式、表格\r\n和图表等。下面是一些功能的详细说明。\r\n1.1.1 PDF文件内容去重\r\nAgent需要根据内容去重(文件名不同，但是内容完全或者基本相同)，可以用于测试的文件是：\r\n1706.03762v1.pdf和1706.03762v7.pdf，这两个文件是论文《Attention Is All You Need》在arxiv上\r\n发布的第一版和第七版。如果存在重复的论文，可以提示用户选择保留哪个版本，如果可能，Agent可\r\n以提示用户保留新的版本。\r\n1.1.2 PDF文件解析\r\n对上传的PDF论文进行解析，PDF文件可能是扫描的图片，比如1706.03762v1_img.pdf，也可能是\r\n很长的数据，比如书籍Understanding Deep\r\nLearning(UnderstandingDeepLearning_02_09_26_C.pdf)。解析的粒度越细越好。下面是一些细粒\r\n度解析的参考：\r\n•\r\n标题\r\n•\r\n作者(包括顺序和联系方式/工作单位等等)\r\n•\r\n摘要\r\n• 一级标题(如Introduction、Background和Experiment等等)\r\n•\r\n二级标题/三级标题\r\n•\r\n表格\r\n•\r\n图表(chart)\r\n•\r\n公式\r\n•\r\n参考文献\r\n•\r\n附录\r\n1.2 知识问答"
+    },
+    {
+      "page": 2,
+      "text": "1.2.1 针对单篇论文的问答\r\n通过RAG或者其它技术，实现问答。如果可能，给出参考的原文，从而让用户可能发现模型的幻觉。\r\n下面是一些例子：\r\n1. 论文Attention Is All You Need的第6作者是谁，在哪个公司/机构工作？\r\n2. 其中Adam 优化器的超参数 β1 和 β2 分别被设置为了多少？（接上文省略了论文名字）\r\n3. 这篇论文中提到的 Transformer 架构，在训练 Base 模型时使用了多少个 GPU？具体是什么型号？\r\n4. Transformer (big) 模型在 English-to-German 任务上的 BLEU 分数是多少？当时的 State-of-the￾art 模型是多少？提升了多少？\r\n5. 请列出论文中引用的关于 “Layer Normalization” 的参考文献（References）的完整作者和年\r\n份。\r\n1.2.2 针对多篇论文的问答\r\n1. 根据《Attention Is All You Need》和《BERT: Pre-training of Deep Bidirectional Transformers\r\nfor Language Understanding》。请对比：BERT 的架构和原始 Transformer 的 Encoder 有什么\r\n承袭关系？BERT 丢弃了原始 Transformer 的哪个部分？\r\n2. 对比GPT-1、GPT-2和GPT-3的论文，说明这些模型的参数的变化。\r\n3. GPT-2 相比于 GPT-1，在 Transformer 的 Layer Normalization（LN）位置上做了什么关键的调\r\n整？\r\n4. 从 GPT-1 到 GPT-3，模型的最大上下文 Token 长度（Context Window）分别递增到了多少？\r\n1.3 阅读和翻译\r\n我们希望可以在科研小助手这个平台进行论文阅读，另外为了提升阅读速度，希望能够对论文进行翻\r\n译。\r\n1.3.1 基本阅读功能\r\n要考虑原文的排版(双栏/单栏)，公式和表格的排版。\r\n1.3.2 智能引导与快读速览\r\n1. 把一级标题和二级标题做成树状导航栏，快速定位到某个部分（比如论文《Attention Is All You\r\nNeed》可以快速跳转3.2.2 Multi-Head Attention）。\r\n2. 对于文章引用的参考文献，比如 “We employ a residual connection [11] around each of the\r\ntwo sub-layers, followed by layer normalization [1]”，可以点击快速跳转到References的“[1]\r\nJimmy Lei Ba, Jamie Ryan Kiros, and Geoffrey E Hinton. Layer normalization. arXiv preprint。\r\narXiv:1607.06450, 2016.”并且还可以从References快速跳回到原来的位置。\r\n1.3.3 翻译(英文到中文)"
+    },
+    {
+      "page": 3,
+      "text": "1.3.3.1 部分翻译\r\n翻译论文的某一部分，比如摘要。或者用户选中某一段进行翻译，甚至鼠标划词或者悬停翻译。\r\n1.3.3.2 翻译整篇论文(整个PDF)\r\n需要考虑：\r\na. 翻译质量\r\nb. 输出可读性\r\n一种方案可能是输出Markdown或者Html格式，在网页重新排版；另外一种方案是输出PDF，\r\n重新在原来的位置排版，这要考虑中文和英文长度不同带来的问题。\r\nc. 代码和公式保留英文不翻译\r\n1.3.3.3 中英对比阅读\r\n整篇翻译可以实现对比阅读，拖动英文部分，中文部分自动滚动到对应的位置；反之拖动中文，英文\r\n也自动滚动到对应位置。\r\n1.4 论文自动下载和推荐\r\n1.4.1 基本下载\r\n1. 给定论文名称，利用搜索引擎等工具自动下载论文并入库。\r\n2. 根据论文的参考文献，自动下载所有(或者文章提到的)参考文献，更高级的可以根据文章内容筛选\r\n最重要的参考文献，把那些为了引用而引用的去掉。\r\n1.4.2 下载最新论文\r\n定期刷新Arxiv(可以参考https://info.arxiv.org/help/oa/index.html ，使用sickle等python库)，找到\r\n可能库里论文相关的新论文(比如大量引用了库里的论文，或者主题非常相关)。\r\n1.4.3 每日/每周新论文推荐\r\n根据上一步得到的新论文，进行论文推荐。需要考虑：\r\n1. 新论文和用户兴趣(库里已有的论文)的相关性，最好能根据论文的内容给出推荐理由，比如：这篇\r\n论文在xxx的基础上提出了一种新的xxx方法，在xxxx数据集上的效果提升非常明显。\r\n2. 是否包含github代码，有代码的文章容易复现，优先推荐。\r\n3. 可以考虑加入用户反馈，是否点击，或者可以实现“点赞”和“踩一下”的功能。\r\n4. 如果Agent实现了多用户，可以考虑更复杂的推荐算法，如协同过滤。\r\n1.5 论文分析与生成"
+    },
+    {
+      "page": 4,
+      "text": "1. 局域图谱生成： 当用户一次性上传一个方向的 20 篇 PDF 文献时，Agent 能够自动解析它们之间的\r\n引用与被引用关系，并在前端用展示它们的引用关系。\r\n2. 核心节点挖掘： 利用图论算法，用这 20 篇 PDF 的内部引用网络，精准算出哪一篇是该领域的“基\r\n石论文”，哪几篇是“边缘衍生论文”。\r\n3. 自动综述：根据上面的结果，大模型自动生成这个领域简短的综述。\r\n4. 未来工作探索：根据多篇论文的Future Work部分，Agent提出一些下一步值得继续探索的方向，\r\n要考虑论文的时间以及最新的工作，不要提出以及被最新论文尝试过的idea。\r\n1.6 写作助手\r\n1. 论文框架生成：给定一个idea，让论文自动生成论文的框架，包括：Abstract、Introduction、\r\nRelated Work和References部分。确保References是真实没有幻觉。\r\n2. 论文架构拓扑图生成： 让Agent 可以根据论文逻辑，直接生成高质量的 TikZ (LaTeX 绘图代码)、\r\nGraphviz (DOT) 或 Mermaid / Python Matplotlib 绘图脚本。\r\n3. 数据可视化：实验的数据需要做成精美的表格或者图表，用户上传实验产出的原始 CSV 数据，\r\nAgent 自动将其转化为的表格、折线图、柱状图或三维雷达图等。同时，自动为该图生成符合学术\r\n规范的 Figure Caption（图注说明），不仅说明图表内容，还自动提炼图中的核心趋势结论。\r\n4. 翻译：自动将中文论文的摘要或者全文翻译成英文。\r\n2. 测试数据\r\npdf目录下包含一下测试用的论文。其中：\r\n1. PDF文件内容去重：用户先上传1706.03762v7.pdf，这是一篇新的论文；用户接着上传\r\n1706.03762v1.pdf，Agent应该能检测库里存在相同的论文，让用户选择覆盖库里已有的版本还是\r\n保留库里的版本。如果可能，提示用户库里版本比新上传的更新，建议保留库里版本，甚至可以对\r\n比两个版本有哪些差异。\r\n2. PDF文件解析：需要能够解析标准的PDF论文(比如1706.03762v1.pdf)，也能够解析图片扫描的\r\nPDF论文(比如1706.03762v1_img.pdf），也能解析很长的书籍(比如\r\nUnderstandingDeepLearning_02_09_26_C.pdf，总共541页)。"
+    },
+    {
+      "page": 5,
+      "text": "3. 其它pdf无特殊之处，可以用于测试。\r\n4. 参赛者也可加入更多pdf论文以便演示。\r\n3. 提交要求\r\n参赛者须在规定时间内提交以下完整材料：\r\n3.1 代码仓库\r\n3.2 演示视频\r\n3.3 技术文档"
+    },
+    {
+      "page": 6,
+      "text": "3.4 在线演示\r\n3.5 提交注意事项\r\n•\r\n所有材料须在截止时间前通过大赛官网统一提交\r\n•\r\nAPI密钥等敏感信息不得出现在公开仓库中，须通过环境变量方式配置\r\n•\r\n提交后不得修改，如有特殊情况须联系组委会处理\r\n•\r\n材料不完整将影响评审结果，建议提前检查确认\r\n4. 评分标准\r\n评分维度 权重 核心考察点\r\nAI 技术深度 35% 文档智能解析、高级 RAG 架构以及多智能体协同的核心技术\r\n和架构。本地模型部署加分。"
+    },
+    {
+      "page": 7,
+      "text": "创新性 15% 技术创新、功能创新、交互创新。\r\n产品功能和工程质量 30% 产品功能完善程度，前后端架构和工程质量。\r\n用户体验 10% UI/UX设计、交互流畅度、易用性\r\n实用性 10% 真实场景价值、问题解决能力"
+    }
+  ]
+}

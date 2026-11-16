@@ -23,6 +23,7 @@ class Supervisor:
         self.lock = threading.Lock()
         self.process = None
         self.gpu_claims=[]
+        self.claims_lock=threading.Lock()
         self.model_id = None
         self.monitor = None
         self.failure = None
@@ -32,7 +33,9 @@ class Supervisor:
         self.host_budget = int(os.environ.get("RT_RETRIEVAL_HOST_MAX_MIB", "49152"))
         self.host_reserve = max(16384, int(os.environ.get("RT_RETRIEVAL_HOST_RESERVE_MIB", "16384")))
         self.mode = os.environ.get("RT_RETRIEVAL_EXECUTION_MODE", "cpu")
-        if self.mode not in {"cpu", "cuda", "cuda_sharded", "cpu_offload"}:
+        self.gpu_count=int(os.getenv('RT_RETRIEVAL_GPU_COUNT','2'))
+        if not 2<=self.gpu_count<=4:raise ValueError('Sharded GPU count must be2..4')
+        if self.mode not in {"cpu", "cuda", "cuda_sharded", "cpu_offload", "cuda_auto"}:
             raise ValueError("Execution mode must be cpu, cuda, cuda_sharded or cpu_offload")
         if self.mode == "cpu_offload" and self.gpu_budget < 4096:
             raise ValueError("CPU offload needs >=4096 MiB whole GPU budget")
@@ -51,17 +54,23 @@ class Supervisor:
             for pipe in (proc.stdin, proc.stdout):
                 if pipe:
                     pipe.close()
-        for handle in self.gpu_claims:handle.close()
-        self.gpu_claims=[]
+        self._release_gpu_claims()
         if self.monitor and self.monitor is not threading.current_thread():
             self.monitor.join(timeout=6)
         self.monitor = None
+
+    def _release_gpu_claims(self,proc=None):
+        with self.claims_lock:
+            if proc is not None and self.process is not proc:
+                return
+            for handle in self.gpu_claims:handle.close()
+            self.gpu_claims=[]
 
     def close(self):
         with self.lock:
             self._close()
 
-    def _watch(self, proc, gpu, folder, started):
+    def _watch(self, proc, gpu, folder, started,mode,budget):
         peak_rss = peak_gpu = 0
         card_peaks = {}
         with (folder / "monitor.jsonl").open("a") as log:
@@ -74,14 +83,17 @@ class Supervisor:
                     peak_gpu = max(peak_gpu, value["gpu_used_mib"])
                     for item in value.get("per_gpu", []):
                         card_peaks[item["uuid"]] = max(card_peaks.get(item["uuid"], 0), item["used_mib"])
-                    self.report = {"mode": self.mode, "peak_rss_mib": peak_rss, "peak_gpu_mib": peak_gpu,
+                    self.report = {"mode": mode, "peak_rss_mib": peak_rss, "peak_gpu_mib": peak_gpu,
                                    "selected_gpus": gpu or [], "per_gpu_peak_mib": dict(card_peaks),
-                                   "gpu_reserve_mib": self.gpu_reserve, "gpu_budget_mib": self.gpu_budget,
+                                   "gpu_reserve_mib": self.gpu_reserve, "gpu_budget_mib": budget,
                                    "host_budget_mib": self.host_budget, "monitor_path": str(folder / "monitor.jsonl")}
-                    reason = guard.violation(value, self.gpu_budget, self.gpu_reserve,
+                    if not value['pids']:
+                        self._release_gpu_claims(proc)
+                        return
+                    reason = guard.violation(value, budget, self.gpu_reserve,
                                              self.host_budget, self.host_reserve)
-                    if time.monotonic() - started > 3600:
-                        reason = "Resident worker reached one-hour lifecycle bound"
+                    if time.monotonic() - started > min(14400,int(os.getenv('RT_RETRIEVAL_WORKER_LIFETIME','7200'))):
+                        reason = "Resident worker reached its bounded lifecycle"
                     if (folder / "stderr.log").stat().st_size > 16 * 1024 * 1024:
                         reason = "Worker log exceeded private disk budget"
                     if reason:
@@ -91,8 +103,6 @@ class Supervisor:
                     try:guard.stop_owned(proc)
                     except subprocess.TimeoutExpired:
                         self.failure+='; own process cleanup is still pending'
-                    return
-                if not value["pids"]:
                     return
                 time.sleep(0.5)
 
@@ -118,11 +128,18 @@ class Supervisor:
         if guard.memory_available_mib() < self.host_budget + self.host_reserve:
             raise RuntimeUnavailable("Insufficient host RAM for whole process budget plus reserve")
         gpu=None
-        if self.mode!='cpu':
-            gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,self.gpu_budget,self.gpu_reserve,2 if self.mode=='cuda_sharded' else 1)
-        if self.mode == "cuda":
+        mode=self.mode;budget=self.gpu_budget
+        if mode=='cuda_auto':
+            try:
+                gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,budget*2,self.gpu_reserve,1)
+                mode='cuda';budget*=2
+            except RuntimeError:
+                mode='cuda_sharded'
+        if mode!='cpu' and gpu is None:
+            gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,budget,self.gpu_reserve,self.gpu_count if mode=='cuda_sharded' else 1)
+        if mode == "cuda":
             minimum = 18432  # BF16 8.38B weights + a conservative small-input workspace.
-            if self.gpu_budget < minimum:
+            if budget < minimum:
                 raise RuntimeUnavailable("Full GPU BF16 requires >=18432 MiB whole job budget")
         folder = self.catalog.root / "private" / "jobs" / uuid.uuid4().hex
         folder.mkdir(parents=True, mode=0o700)
@@ -137,8 +154,8 @@ class Supervisor:
                "USE_TF": "0", "USE_FLAX": "0", "CUDA_VISIBLE_DEVICES": ",".join(g["uuid"] for g in gpu) if gpu else "",
                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
                "RT_RETRIEVAL_ROOT": str(self.catalog.root), "RT_RETRIEVAL_CONFIG": str(config),
-               "RT_RETRIEVAL_MODEL_ID": spec["model_id"], "RT_RETRIEVAL_EXECUTION_MODE": self.mode,
-               "RT_RETRIEVAL_GPU_MAX_MIB": str(self.gpu_budget), "RT_RETRIEVAL_CPU_THREADS": threads,
+               "RT_RETRIEVAL_MODEL_ID": spec["model_id"], "RT_RETRIEVAL_EXECUTION_MODE": mode,
+               "RT_RETRIEVAL_GPU_MAX_MIB": str(budget), "RT_RETRIEVAL_CPU_THREADS": threads,
                "RT_RETRIEVAL_JOB_DIR": str(folder)}
         self.failure = None
         with (folder / "stderr.log").open("w") as log:
@@ -147,7 +164,7 @@ class Supervisor:
                                     env=env, text=True, bufsize=1, start_new_session=True,
                                     cwd=Path(__file__).resolve().parents[2])
         self.process, self.model_id = proc, spec["model_id"]
-        self.monitor = threading.Thread(target=self._watch, args=(proc, gpu, folder, time.monotonic()), daemon=True)
+        self.monitor = threading.Thread(target=self._watch, args=(proc, gpu, folder, time.monotonic(),mode,budget), daemon=True)
         self.monitor.start()
         response = self._line(proc)
         if response.get("ready") is not True:

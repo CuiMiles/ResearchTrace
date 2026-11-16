@@ -1,0 +1,2 @@
+{"filename": "1706.03762v1.pdf", "status": "FAIL", "transport_status": "FAIL", "author_name_status": null, "sixth_author_affiliation_status": null, "error": "GROBID transport failed or timed out; no automatic retry", "elapsed_seconds": 30.051}
+{"filename": "1706.03762v7.pdf", "status": "FAIL", "transport_status": "FAIL", "author_name_status": null, "sixth_author_affiliation_status": null, "error": "GROBID HTTP 429", "elapsed_seconds": 0.038}

@@ -1,0 +1,70 @@
+Collecting pdf2zh-next==2.10.2
+  Downloading pdf2zh_next-2.10.2-py3-none-any.whl.metadata (10 kB)
+Collecting babeldoc==0.7.1
+  Downloading babeldoc-0.7.1.tar.gz (13.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.8/13.8 MB 369.2 kB/s eta 0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [39 lines of output]
+      Python reports SOABI: cpython-311-x86_64-linux-gnu
+      Computed rustc target triple: x86_64-unknown-linux-gnu
+      Installation directory: /home/CuiMinghao/.cache/puccinialin
+      Downloading rustup-init from https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init
+      Checking for Rust toolchain....
+      Rust not found, installing into a temporary directory
+      Traceback (most recent call last):
+        File "/home/CuiMinghao/projects/Competition/ResearchTrace-pdf-export-20261116/.venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 353, in <module>
+          main()
+        File "/home/CuiMinghao/projects/Competition/ResearchTrace-pdf-export-20261116/.venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 335, in main
+          json_out['return_val'] = hook(**hook_input['kwargs'])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/home/CuiMinghao/projects/Competition/ResearchTrace-pdf-export-20261116/.venv/lib/python3.11/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py", line 149, in prepare_metadata_for_build_wheel
+          return hook(metadata_directory, config_settings)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/overlay/lib/python3.11/site-packages/maturin/__init__.py", line 200, in prepare_metadata_for_build_wheel
+          env = _get_env()
+                ^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/overlay/lib/python3.11/site-packages/maturin/__init__.py", line 83, in _get_env
+          extra_env = setup_rust()
+                      ^^^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/normal/lib/python3.11/site-packages/puccinialin/_setup_rust.py", line 143, in setup_rust
+          rustup_init = download_rustup(url, rustup_init, target, file)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/normal/lib/python3.11/site-packages/puccinialin/_setup_rust.py", line 33, in download_rustup
+          client = httpx.Client(timeout=60)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/normal/lib/python3.11/site-packages/httpx/_client.py", line 697, in __init__
+          self._mounts: dict[URLPattern, BaseTransport | None] = {
+                                                                 ^
+        File "/tmp/pip-build-env-f6ol1x6v/normal/lib/python3.11/site-packages/httpx/_client.py", line 700, in <dictcomp>
+          else self._init_proxy_transport(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/normal/lib/python3.11/site-packages/httpx/_client.py", line 750, in _init_proxy_transport
+          return HTTPTransport(
+                 ^^^^^^^^^^^^^^
+        File "/tmp/pip-build-env-f6ol1x6v/normal/lib/python3.11/site-packages/httpx/_transports/default.py", line 191, in __init__
+          raise ImportError(
+      ImportError: Using SOCKS proxy, but the 'socksio' package is not installed. Make sure to install httpx using `pip install httpx[socks]`.
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+[notice] A new release of pip is available: 24.0 -> 26.3
+[notice] To update, run: /home/CuiMinghao/projects/Competition/ResearchTrace-pdf-export-20261116/.venv/bin/python -m pip install --upgrade pip

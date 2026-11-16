@@ -1,0 +1,35 @@
+{
+  "status": "FAIL",
+  "kind": "real_grobid_metadata_no_models",
+  "cases": [
+    {
+      "filename": "1706.03762v1.pdf",
+      "source_sha256": "0a9bff1be3575cf9fe26a4a3d3a9175bc791ecec90de8b9deba4cff75d2b9476",
+      "expected": {
+        "author_order": 6,
+        "name": "Aidan N. Gomez",
+        "institution": "University of Toronto"
+      },
+      "status": "FAIL",
+      "transport_status": "FAIL",
+      "error": "GROBID transport failed or timed out; no automatic retry",
+      "elapsed_seconds": 30.051
+    },
+    {
+      "filename": "1706.03762v7.pdf",
+      "source_sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+      "expected": {
+        "author_order": 6,
+        "name": "Aidan N. Gomez",
+        "institution": "University of Toronto"
+      },
+      "status": "FAIL",
+      "transport_status": "FAIL",
+      "error": "GROBID HTTP 429",
+      "elapsed_seconds": 0.038
+    }
+  ],
+  "model_api_calls": 0,
+  "gpu_used": false,
+  "gold_source": "direct original PDF first page, user task author ordering"
+}

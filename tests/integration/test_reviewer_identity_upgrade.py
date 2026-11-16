@@ -78,6 +78,19 @@ def test_same_label_still_has_distinct_codes_accounts_and_workspaces():
     assert store.one('SELECT COUNT(*) n FROM workspaces')['n'] == 8
 
 
+def test_admin_can_explicitly_bind_existing_corpus_without_copying_or_rewriting():
+    store.execute('INSERT INTO workspaces VALUES(?,?,?)',('prepared','Prepared corpus',NOW))
+    assert accounts.available_workspaces()[0]['id']=='prepared'
+    created=accounts.create_reviewer('Prepared reviewer',workspace_id='prepared')
+    assert created['workspace']=='prepared'
+    assert accounts.lookup_reviewer(created['access_code'])['workspace']=='prepared'
+    assert store.one('SELECT count(*) n FROM workspaces')['n']==1
+    assert accounts.available_workspaces()==[]
+    with pytest.raises(ValueError,match='已有'):accounts.create_reviewer('Second',workspace_id='prepared')
+    with pytest.raises(ValueError,match='不存在'):accounts.create_reviewer('Missing',workspace_id='missing')
+    assert store.one('SELECT count(*) n FROM review_accounts')['n']==1
+
+
 @pytest.mark.parametrize('label', [None, 42, '', '   ', 'x' * 121])
 def test_invalid_labels_leave_no_partial_workspace(label):
     with pytest.raises(ValueError):

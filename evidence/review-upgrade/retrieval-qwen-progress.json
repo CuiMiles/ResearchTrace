@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "phase": "document_vectors",
+  "completed": 5330,
+  "expected": 5330,
+  "source_generation": "fcdff7af26f44e369897bf3ee452089f",
+  "identical_input_sha256": "47797fe2b46108dfef2b202a85d9e152c47854ce46dc615ae2b56f2f7ed024e5",
+  "provider_llm_calls": 0,
+  "descriptor": {
+    "model_id": "Qwen/Qwen3-Embedding-8B",
+    "revision": "1d8ad4ca9b3dd8059ad90a75d4983776a23d44af",
+    "kind": "embedding",
+    "dimension": 4096,
+    "dtype": "bfloat16",
+    "context_length": 32768,
+    "pooling": "last_token",
+    "normalization": "l2",
+    "tokenizer": {
+      "revision": "1d8ad4ca9b3dd8059ad90a75d4983776a23d44af",
+      "sha256": "f28baece38bb359cb84d23d36bf2e5cd0a6e12393971a2e9b5e17cd0bbd517e0"
+    },
+    "templates": {
+      "query": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:{text}",
+      "document": "{text}",
+      "sha256": "bdc82f852dff52bf10cb0a52a245a806b3852f25591c2aa1ea5f07df7e9ec1c9"
+    },
+    "source_sha256": {
+      "tokenizer.json": "83cdf8c3a34f68862319cb1810ee7b1e2c0a44e0864ae930194ddb76bb7feb8d",
+      "tokenizer_config.json": "2f58f4bbd7bbce15d683f525954ef3a92cd82f5e06415a9c513859bf8ab72436",
+      "config.json": "dcccf7c7890c8debc4af8dace8d6acd8dd50bd56d50d4d8b60529381ba3de3d7",
+      "1_Pooling/config.json": "2e1da26b3fd65cf7e370d2fabf28a8c59efa7edb525d1b8b50be8e5ca1048ea6",
+      "config_sentence_transformers.json": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961",
+      "model.safetensors.index.json": "ceaf1429bfa18eecc75d079737e8d1fe8dc0627f5ec7e6a985514626d1ac6a77"
+    },
+    "runtime_version": "researchtrace-retrieval-v1",
+    "truncation": "reject",
+    "attention_implementation": "sdpa",
+    "tokenizer_revision": "1d8ad4ca9b3dd8059ad90a75d4983776a23d44af",
+    "query_template": "{\"chat_template\": null, \"format\": \"Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery:{text}\", \"tokenizer_sha256\": \"f28baece38bb359cb84d23d36bf2e5cd0a6e12393971a2e9b5e17cd0bbd517e0\"}",
+    "document_template": "{\"chat_template\": null, \"format\": \"{text}\", \"tokenizer_sha256\": \"f28baece38bb359cb84d23d36bf2e5cd0a6e12393971a2e9b5e17cd0bbd517e0\"}",
+    "provenance_fingerprint": "sha256:c785cddfa476233dd11ab0e486031dd13f57fd6f6106747e27ea6028f40dbda1",
+    "fingerprint": "sha256:97cbbf996a97b332246c9bbea339daf1b3b035e1fe07a468ade1af2581ba97c6",
+    "tokenizer_ready": true,
+    "weights_ready": true,
+    "inference_verified": false
+  },
+  "latest_execution": {
+    "mode": "cuda_sharded",
+    "peak_rss_mib": 15165,
+    "peak_gpu_mib": 17350,
+    "selected_gpus": [
+      {
+        "index": 7,
+        "uuid": "GPU-31d3cf27-dd2f-88b2-2154-349a943b8161",
+        "free_mib": 8966,
+        "total_mib": 24576
+      },
+      {
+        "index": 2,
+        "uuid": "GPU-f1289656-94c0-299c-18dd-1a72dcf15ccd",
+        "free_mib": 8947,
+        "total_mib": 24576
+      },
+      {
+        "index": 6,
+        "uuid": "GPU-32d99607-6952-5beb-e578-f597ec3fb749",
+        "free_mib": 7693,
+        "total_mib": 24576
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-886f5208-280c-9b1a-b35a-8547bbc4dd08",
+        "free_mib": 7663,
+        "total_mib": 24576
+      }
+    ],
+    "per_gpu_peak_mib": {
+      "GPU-31d3cf27-dd2f-88b2-2154-349a943b8161": 4190,
+      "GPU-f1289656-94c0-299c-18dd-1a72dcf15ccd": 4792,
+      "GPU-32d99607-6952-5beb-e578-f597ec3fb749": 4710,
+      "GPU-886f5208-280c-9b1a-b35a-8547bbc4dd08": 3740
+    },
+    "gpu_reserve_mib": 2048,
+    "gpu_budget_mib": 4864,
+    "host_budget_mib": 49152,
+    "monitor_path": "/home/CuiMinghao/projects/Competition/ResearchTrace-retrieval-20261116/private/jobs/d18aa688d7d9451fb94f9460ecb492bd/monitor.jsonl",
+    "elapsed_seconds": 1.8271
+  }
+}

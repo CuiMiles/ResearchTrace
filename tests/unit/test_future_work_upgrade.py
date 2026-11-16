@@ -14,6 +14,25 @@ def test_same_year_later_month_is_included_but_overlapping_year_is_not():
     assert publication_window({'year':2024})['latest']=='2024-12-31'
 
 
+def test_chinese_query_plan_is_received_once_and_preserves_original_request(tmp_path,monkeypatch):
+    from services.api import models
+    monkeypatch.setattr(store,'DATA',tmp_path);store.migrate()
+    payload={'question':'局部注意力是否支持更长序列？'}
+    rid=jobs.queue('w','audit',payload,'query-plan')['id']
+    run={'id':rid,'workspace':'w','payload':payload}
+    calls=[]
+    def generate(system,prompt,run_id,core=True):
+        calls.append(core);assert json.loads(prompt)['question']==payload['question']
+        return {'text':json.dumps({'query':'local attention long sequences'}),'model':'FIXTURE_PLANNER','usage':{}}
+    monkeypatch.setattr(models,'generate',generate)
+    for _ in range(2):
+        snap=json.loads(store.one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'])
+        assert future_work.planned_query(run,{'text':'restricted local attention'},snap)=='local attention long sequences'
+    assert calls==[False]
+    assert run['payload']==payload
+    assert not store.rows('SELECT * FROM quota')
+
+
 def test_fulltext_download_waits_for_own_parser_then_wakes(tmp_path,monkeypatch):
     from services.api.dependencies import wake_dependencies,cancel_owned_children
     monkeypatch.setattr(store,'DATA',tmp_path);store.migrate()

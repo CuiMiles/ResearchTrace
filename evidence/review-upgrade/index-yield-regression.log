@@ -1,0 +1,33 @@
+..F..............                                                        [100%]
+=================================== FAILURES ===================================
+_ test_pending_parse_yields_after_persisting_vectors_without_early_activation __
+
+corpus = '3afd32b212094cfabc7cac15e7071b72'
+
+    def test_pending_parse_yields_after_persisting_vectors_without_early_activation(corpus):
+        from services.api import jobs
+        store.execute("UPDATE runs SET status='completed'")
+        for i in range(40):
+            store.execute('INSERT INTO blocks VALUES(?,?,?,?,?,?,?,?,?,?,?)',(f'fixture-extra-{i}','workspace',corpus,0,'[0,0,1,1]','paragraph',100+i,
+                          f'Explicit independent fixture paragraph {i}.','fixture','native','{}'))
+        index=jobs.queue('workspace','index',{'version_ids':[corpus]},'yield-index')['id']
+        store.execute("UPDATE runs SET status='running' WHERE id=?",(index,))
+        child=jobs.queue('workspace','parse',{'version_id':'different-fixture'},'waiting-fulltext')['id']
+        provider=FixtureProvider()
+        first=indices.build('workspace',[corpus],provider=provider,run_id=index)
+        assert first['status']=='queued' and first['vector_count']>0
+        assert first['vector_count']<first['chunk_count'] and not first['coverage_complete']
+        assert not store.rows('SELECT * FROM active_retrieval_indices')
+        store.execute("UPDATE runs SET status='completed' WHERE id=?",(child,))
+        final=indices.build('workspace',[corpus],provider=provider,run_id=index,generation_id=first['id'])
+        assert final['coverage_complete'] and final['id']==first['id']
+        failed=store.one("SELECT * FROM index_generations WHERE status='failed'")
+        provider.fail=False
+>       new=indices.build('workspace',[corpus],provider=provider,generation_id=failed['id'])
+                                                                               ^^^^^^^^^^^^
+E       TypeError: 'NoneType' object is not subscriptable
+
+tests/unit/test_retrieval_generations_upgrade.py:80: TypeError
+=========================== short test summary info ============================
+FAILED tests/unit/test_retrieval_generations_upgrade.py::test_pending_parse_yields_after_persisting_vectors_without_early_activation
+1 failed, 16 passed in 4.77s

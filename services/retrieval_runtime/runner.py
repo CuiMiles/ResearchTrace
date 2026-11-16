@@ -37,10 +37,11 @@ def load(catalog, spec):
             kwargs["offload_folder"] = os.environ["RT_RETRIEVAL_JOB_DIR"] + "/offload"
             kwargs["offload_state_dict"] = True
         elif mode == "cuda_sharded":
-            if torch.cuda.device_count() != 2:
-                raise RuntimeError("Sharded profile requires exactly two guarded CUDA devices")
+            if not 2<=torch.cuda.device_count()<=4:
+                raise RuntimeError("Sharded profile requires2..4 guarded CUDA devices")
             kwargs["device_map"] = "balanced"
-            kwargs["max_memory"] = {0: f"{budget - 1536}MiB", 1: f"{budget - 1536}MiB", "cpu": "0GiB"}
+            headroom=768 if budget<8192 else 1536
+            kwargs["max_memory"] = {**{i:f"{budget-headroom}MiB" for i in range(torch.cuda.device_count())},"cpu":"0GiB"}
         else:
             raise RuntimeError("Unknown execution mode")
     if spec["kind"] == "reranker":
@@ -70,7 +71,7 @@ def load(catalog, spec):
         raise RuntimeError("Disk offload is not authorized by this bounded CPU offload profile")
     if mode == "cpu_offload" and not ({"cpu"} & placements):
         raise RuntimeError("CPU offload profile unexpectedly did not offload to CPU")
-    if mode == "cuda_sharded" and ("cpu" in placements or not placements.issubset({"0", "1", "cuda:0", "cuda:1"})):
+    if mode == "cuda_sharded" and ("cpu" in placements or not placements.issubset({str(i) for i in range(torch.cuda.device_count())}|{f'cuda:{i}' for i in range(torch.cuda.device_count())})):
         raise RuntimeError("Two-card GPU profile cannot silently use CPU or disk placement")
     return model, torch
 
@@ -102,7 +103,7 @@ def infer(model, torch, tokenizer, request):
         batch={"input_ids":torch.tensor([ids+[pad]*(width-len(ids)) for ids in group],dtype=torch.long,device=device),
                "attention_mask":torch.tensor([[1]*len(ids)+[0]*(width-len(ids)) for ids in group],dtype=torch.long,device=device)}
         with torch.inference_mode():
-            output=model(**batch)
+            output=model(**batch,use_cache=False)
             if spec["kind"]=="reranker":
                 values=output.logits.reshape(-1).float()
                 if values.numel()!=len(group) or not torch.isfinite(values).all():

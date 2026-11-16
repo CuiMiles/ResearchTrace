@@ -77,6 +77,16 @@ def test_interaction_claim_does_not_wait_for_earlier_document(isolated,monkeypat
     assert store.one('SELECT status FROM runs WHERE id=?',(doc,))['status']=='queued'
 
 
+def test_fulltext_parse_runs_before_older_index_slice(isolated,monkeypatch):
+    from services.api import documents
+    index=jobs.queue('w','index',{},'older-index')['id']
+    parse=jobs.queue('w','parse',{},'new-fulltext')['id']
+    monkeypatch.setattr(documents,'parse_document',lambda run:{'status':'ready','fixture':True})
+    assert jobs.work_once(pool='documents')
+    assert store.one('SELECT status FROM runs WHERE id=?',(parse,))['status']=='completed'
+    assert store.one('SELECT status FROM runs WHERE id=?',(index,))['status']=='queued'
+
+
 def test_health_does_not_trust_expired_heartbeat(isolated):
     import os
     from services.api.worker_health import read_worker_status

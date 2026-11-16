@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checked_at": 1794818606.876258,
+  "scope": "Current tracked/untracked nonignored files plus every blob reachable from HEAD",
+  "head": "a0ac863cbecc6097c0079d9cbe45fd59d0998455",
+  "candidate_files": 676,
+  "history_blobs": 730,
+  "configured_values_checked": 12,
+  "findings": [],
+  "oversized_files": [],
+  "private_values_printed": false
+}

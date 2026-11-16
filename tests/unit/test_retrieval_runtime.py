@@ -180,6 +180,33 @@ def test_guard_terminates_only_spawned_session():
         guard.stop_owned(unrelated)
 
 
+def test_exited_unreaped_child_releases_slots_and_repeated_cleanup_is_safe(tmp_path,monkeypatch):
+    from services.retrieval_runtime.supervisor import Supervisor
+    from types import SimpleNamespace
+    import fcntl
+    own=subprocess.Popen([sys.executable,'-c','pass'],start_new_session=True)
+    try:
+        os.waitid(os.P_PID,own.pid,os.WEXITED|os.WNOWAIT)
+        assert own.returncode is None  # Still anchors its original session ID.
+        assert not guard.members(own.pid)
+        monkeypatch.setattr(guard,'gpus',lambda:[{'index':0,'uuid':'GPU-fixture','free_mib':14000}])
+        _,handles=guard.claim_gpus(tmp_path,10000,2048,1)
+        with pytest.raises(RuntimeError,match='unclaimed'):
+            guard.claim_gpus(tmp_path,10000,2048,1)
+        manager=Supervisor(SimpleNamespace())
+        manager.process=own;manager.gpu_claims=handles
+        (tmp_path/'stderr.log').touch()
+        manager._watch(own,None,tmp_path,0,'cpu',10000)
+        assert manager.gpu_claims==[] and manager.failure is None
+        _,released=guard.claim_gpus(tmp_path,10000,2048,1)
+        for handle in released:handle.close()
+        guard.stop_owned(own)
+        monkeypatch.setattr(guard,'members',lambda sid:pytest.fail('Already reaped PID must never be scanned for signals'))
+        guard.stop_owned(own)
+    finally:
+        if own.returncode is None:own.wait(timeout=10)
+
+
 def test_no_application_provider_keys_pass_to_runner(provisioned, monkeypatch):
     from services.retrieval_runtime import supervisor
     catalog, spec, _, _ = provisioned

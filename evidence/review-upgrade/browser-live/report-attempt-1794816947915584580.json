@@ -1,0 +1,20 @@
+{
+  "started": 1794816595.8265176,
+  "data_kind": "REAL project UI, original user corpus",
+  "checks": [
+    {
+      "case": "admin_corpus_library",
+      "status": "PASS",
+      "observed": {
+        "documents": 41
+      }
+    }
+  ],
+  "provider_calls_by_test": 0,
+  "page_errors": [],
+  "failed_requests": [],
+  "status": "FAIL",
+  "error_type": "TimeoutError",
+  "error": "Locator.select_option: Timeout 30000ms exceeded.\nCall log:\n  - waiting for get_by_label(\"研究资料空间\", exact=True)\n",
+  "finished": 1794816628.6108444
+}

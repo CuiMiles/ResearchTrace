@@ -32,6 +32,8 @@ def test_observation_changes_second_plan_and_reaches_answer(tmp_path,monkeypatch
     result=store.one('SELECT * FROM runs WHERE id=?',(run['id'],))
     assert result['status'] in ('partial','completed'),result['error']
     assert [core for core,_ in calls]==[False,False,True]
+    snap=json.loads(result['checkpoint'])
+    assert len(snap['tool_registry']['calls'])==2
     assert store.one('SELECT count(*) n FROM quota')['n']==0
 
 

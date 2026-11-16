@@ -16,6 +16,7 @@ interface ReviewerAccount {
 interface IssuedReviewer extends ReviewerAccount {
   access_code: string;
 }
+interface WorkspaceChoice {id:string;name:string;documents:number;ready_documents:number}
 
 export function ReviewAccounts({ role }: { role: string }) {
   // Unmount the admin view on role changes, clearing its one-time secret state.
@@ -26,6 +27,8 @@ function AdminReviewAccounts() {
   const [accounts, setAccounts] = useState<ReviewerAccount[]>([]);
   const [label, setLabel] = useState('');
   const [days, setDays] = useState('7');
+  const [workspace,setWorkspace]=useState('');
+  const [workspaces,setWorkspaces]=useState<WorkspaceChoice[]>([]);
   const [issued, setIssued] = useState<IssuedReviewer | null>(null);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
@@ -39,8 +42,8 @@ function AdminReviewAccounts() {
     setLoading(true);
     setError('');
     try {
-      const result = await api<ReviewerAccount[]>('/admin/reviewers');
-      if (mounted.current && version === listVersion.current) setAccounts(result);
+      const [result,choices] = await Promise.all([api<ReviewerAccount[]>('/admin/reviewers'),api<WorkspaceChoice[]>('/admin/reviewer-workspaces')]);
+      if (mounted.current && version === listVersion.current) {setAccounts(result);setWorkspaces(choices);}
     } catch (e) {
       if (mounted.current && version === listVersion.current) setError(errorMessage(e));
     } finally {
@@ -66,7 +69,7 @@ function AdminReviewAccounts() {
     setError('');
     setNotice('');
     try {
-      const result = await api<IssuedReviewer>('/admin/reviewers', { label: label.trim(), days: lifetime });
+      const result = await api<IssuedReviewer>('/admin/reviewers', { label: label.trim(), days: lifetime,...(workspace?{workspace_id:workspace}:{}) });
       if (!mounted.current) return;
       // Keep the code only in this temporary state, never in the metadata list.
       const { access_code, ...metadata } = result;
@@ -74,6 +77,7 @@ function AdminReviewAccounts() {
       setLoading(false);
       setAccounts(current => [metadata, ...current.filter(item => item.id !== metadata.id)]);
       setIssued({ ...metadata, access_code });
+      setWorkspaces(current=>current.filter(item=>item.id!==metadata.workspace));setWorkspace('');
       setLabel('');
     } catch (e) {
       if (mounted.current) setError(errorMessage(e));
@@ -109,7 +113,7 @@ function AdminReviewAccounts() {
         {loading ? <Busy /> : '刷新评审列表'}
       </button>
     </div>
-    <p className="muted">每位评审使用独立访问码和研究空间。退出或换浏览器后，使用原访问码即可返回自己的资料。</p>
+    <p className="muted">评审访问码固定绑定一个研究空间。可创建空白空间供新输入测试，也可明确选择已有演示资料；换浏览器后仍返回该空间。</p>
     {error && <ErrorBox error={error} onClose={() => setError('')} />}
     {notice && <p role="status">{notice}</p>}
     <form onSubmit={event => void create(event)}>
@@ -119,6 +123,11 @@ function AdminReviewAccounts() {
         <label>有效天数<input type="number" min={1} max={90} step={1} required value={days} disabled={busy}
           onChange={event => setDays(event.target.value)} /></label>
       </div>
+      <label>研究资料空间<select aria-label="研究资料空间" value={workspace} disabled={busy} onChange={event=>setWorkspace(event.target.value)}>
+        <option value="">新建空白评审空间</option>
+        {workspaces.map(item=><option key={item.id} value={item.id}>{item.name} · {item.ready_documents}/{item.documents} 篇已解析 · {item.id.slice(0,8)}</option>)}
+      </select></label>
+      {workspace&&<p className="info-note">此访问码将能读取并操作选定空间中的现有文献与研究记录。请只选择用于该评审的资料。</p>}
       <button className="primary-button" type="submit" disabled={busy || !!issued || !label.trim()}>
         {busy ? <Busy /> : '创建独立评审访问码'}
       </button>

@@ -48,7 +48,9 @@ def collect(run):
     if state['complete']:return state
     for round_index in range(len(state['rounds']),2):
         if store.cancelled(rid):return state
+        from .jobs import source_context
         prompt={'question':payload['question'],'allowed_versions':payload['version_ids'],
+                'selected_versions':source_context(w,payload['version_ids']),
                 'tools':tool_schemas(),'observations':state['observations'],
                 'task_route':task_route,
                 'round_index':round_index,'last_round':round_index==1}

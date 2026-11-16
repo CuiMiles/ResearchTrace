@@ -1,0 +1,118 @@
+{
+  "kind": "real_header_only_metadata",
+  "cases": [
+    {
+      "filename": "UnderstandingDeepLearning_02_09_26_C.pdf",
+      "source_sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+      "pages": 541,
+      "first_page_native_characters": 694,
+      "mode": "header",
+      "end_page": 2,
+      "model_api_calls": 0,
+      "ocr": false,
+      "status": "PASS",
+      "transport_status": "PASS",
+      "title": "Understanding Deep Learning",
+      "authors": [
+        {
+          "order": 1,
+          "name": "Simon J D Prince",
+          "given_names": [
+            "Simon",
+            "J D"
+          ],
+          "family_name": "Prince",
+          "emails": [
+            "udlbookmail@gmail.com"
+          ],
+          "identifiers": [],
+          "affiliations": [],
+          "unresolved_affiliation_refs": [],
+          "positions": [],
+          "association_status": "grobid_extracted_needs_source_review"
+        }
+      ],
+      "sidecar": {
+        "schema": "researchtrace-scholarly-metadata-v1",
+        "sidecar_id": "44985125dbccf74559e882e4962dd14fc46ec3d59a8722dac254cd6445b486b6",
+        "source_pdf_sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+        "files": {
+          "document.tei.xml": "db17a3ffd734d7ef0031f5c964a526f82954dedb638b8b451990d555285e2cae",
+          "metadata.json": "42824f391c77372f3afa85033ad0f059b454ea15cbd2e624762f41494d24e119",
+          "provenance.json": "1c7080637892ecc187148613bf2a37c984e3b0a9a24c717abd4b9690fa40e3cf"
+        },
+        "path": "services/metadata_runtime/private/sidecars/44985125dbccf74559e882e4962dd14fc46ec3d59a8722dac254cd6445b486b6"
+      },
+      "provenance": {
+        "schema": "researchtrace-scholarly-metadata-v1",
+        "engine": "grobid",
+        "engine_version": "0.9.1",
+        "expected_source_commit": "523bb8e97f357e93682dc4eaa6d22faa8b5b93de",
+        "source_commit_attested": false,
+        "source_pdf_sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32",
+        "source_pdf_bytes": 22344992,
+        "tei_sha256": "db17a3ffd734d7ef0031f5c964a526f82954dedb638b8b451990d555285e2cae",
+        "mode": "header",
+        "end_page": 2,
+        "endpoint_transport": "http",
+        "loopback": true,
+        "authenticated": true,
+        "started_unix": 1794817107.1538854,
+        "finished_unix": 1794817110.488791,
+        "consolidation": false,
+        "ocr": false,
+        "model_api_calls": 0,
+        "request_parameters": [
+          [
+            "consolidateHeader",
+            "0"
+          ],
+          [
+            "consolidateCitations",
+            "0"
+          ],
+          [
+            "consolidateFunders",
+            "0"
+          ],
+          [
+            "includeRawAffiliations",
+            "1"
+          ],
+          [
+            "includeRawCitations",
+            "1"
+          ],
+          [
+            "generateIDs",
+            "1"
+          ],
+          [
+            "end",
+            "2"
+          ]
+        ]
+      },
+      "full_book_parsing": "NOT RUN",
+      "metadata_quality": "needs_independent_review",
+      "elapsed_seconds": 3.388
+    },
+    {
+      "filename": "1706.03762v1_img.pdf",
+      "source_sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d",
+      "pages": 15,
+      "first_page_native_characters": 0,
+      "mode": "header",
+      "end_page": 1,
+      "model_api_calls": 0,
+      "ocr": false,
+      "status": "FAIL",
+      "transport_status": "FAIL",
+      "error": "GROBID HTTP 502",
+      "requires_existing_ocr_route": true,
+      "elapsed_seconds": 1.731
+    }
+  ],
+  "gpu_used": false,
+  "model_api_calls": 0
+}

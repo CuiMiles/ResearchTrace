@@ -6,9 +6,11 @@ import os
 import shutil
 import signal
 import subprocess
+import threading
 import time
 from pathlib import Path
 _nvml=None
+_stop_lock=threading.Lock()
 
 
 def query(fields, kind="gpu"):
@@ -89,7 +91,7 @@ def members(session_id):
             continue
         try:
             fields = (entry / "stat").read_text().rsplit(")", 1)[1].split()
-            if int(fields[3]) == session_id:
+            if fields[0] not in {'Z','X'} and int(fields[3]) == session_id:
                 result.add(int(entry.name))
         except (OSError, ValueError, IndexError):
             continue
@@ -156,6 +158,15 @@ def violation(sample_data, gpu_budget_mib, gpu_reserve_mib, host_budget_mib, hos
 def stop_owned(proc):
     # Must be a live, unreaped Popen(start_new_session=True) owned by this broker.
     # Never accepts an arbitrary PID, and never signals another user's job.
+    # The watcher and request cleanup may arrive together. Keep the unreaped
+    # Popen as the identity anchor until the one serialized cleanup has finished.
+    with _stop_lock:
+        if proc.returncode is not None:
+            return
+        _stop_unreaped(proc)
+
+
+def _stop_unreaped(proc):
     for sig in (signal.SIGTERM, signal.SIGKILL):
         groups = set()
         for pid in members(proc.pid):

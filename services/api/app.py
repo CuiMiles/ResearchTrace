@@ -553,6 +553,7 @@ class Audit(BaseModel):
     version_id:str
     block_id:str
     question:str=Field(min_length=1,max_length=1500)
+    search_query:str|None=Field(default=None,min_length=1,max_length=350)
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/ideas/audits')
@@ -614,6 +615,12 @@ def export_artifact(aid:str,format:str='md',s=Depends(session)):
 class ReviewerCreate(BaseModel):
     label:str=Field(min_length=1,max_length=120)
     days:int=Field(default=7,ge=1,le=90)
+    workspace_id:str|None=Field(default=None,min_length=1,max_length=100)
+
+@app.get('/api/v1/admin/reviewer-workspaces')
+def review_workspace_choices(s=Depends(admin)):
+    from .reviewer_accounts import available_workspaces
+    return available_workspaces()
 
 @app.get('/api/v1/admin/reviewers')
 def list_review_accounts(s=Depends(admin)):
@@ -623,7 +630,7 @@ def list_review_accounts(s=Depends(admin)):
 @app.post('/api/v1/admin/reviewers')
 def create_review_account(p:ReviewerCreate,s=Depends(admin)):
     from .reviewer_accounts import create_reviewer
-    return create_reviewer(p.label,p.days)
+    return create_reviewer(p.label,p.days,p.workspace_id)
 
 @app.post('/api/v1/admin/reviewers/{account_id}/revoke')
 def revoke_review_account(account_id:str,s=Depends(admin)):

@@ -1,0 +1,1 @@
+{"callback_label":"TEST_IDENTITY_FIXTURE","elapsed_seconds":44.991,"error_type":"RuntimeError","frames":[{"file":"engine.py","function":"translate_job","line":166}],"job_id":"identity-transformer-page3-second","status":"FAIL","translation_quality":"NOT RUN"}

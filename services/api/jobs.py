@@ -152,7 +152,15 @@ def qa(run):
         allowed=[v for v in extra if one('SELECT id FROM versions WHERE id=? AND workspace=? AND deleted=0',(v,w))]
         p={**p,'version_ids':list(dict.fromkeys(p['version_ids']+allowed))[:50]}
     if 'retrieval' not in snap:
-        if run['kind']=='agent':
+        if agent_state is not None:
+            # Reuse actual planner observations; fixed extra tools would exceed
+            # the plan's ten-step bound and obscure whether feedback was used.
+            observed=[o['result'] for o in agent_state.get('observations',[]) if o.get('tool')=='retrieve_evidence' and o.get('status')=='PASS' and isinstance(o.get('result'),dict)]
+            combined={b['id']:b for result in observed for b in result.get('blocks',[])}
+            ret={'blocks':list(combined.values())[:40],'sparse':[b for r in observed for b in r.get('sparse',[])],
+                 'dense':[b for r in observed for b in r.get('dense',[])],
+                 'mode':'agent_observations','notice':'证据来自规划器真实工具观察；没有额外固定工具步骤。'}
+        elif run['kind']=='agent':
             from .tool_registry import ToolContext, execute_tool
             context=ToolContext(workspace=w,run_id=rid,call_id='retrieve-evidence')
             tool=execute_tool(context,'retrieve_evidence',{'version_ids':p['version_ids'],'question':p['question'][:1000],'limit':20})
@@ -180,14 +188,13 @@ def qa(run):
         return {}
     if 'model_response' not in snap:
         evidence=[{**{k:b[k] for k in ('id','version_id','page_index')},'text':b.get('evidence_text',b['text'])} for b in blocks]
-        prompt=json.dumps({'task':p['question'],'mode':run['kind'],'versions':source_context(w,p['version_ids']),'evidence':evidence,'tool_observations':agent_state['observations'] if agent_state else ret.get('tool_results',[]),'requirements':'跨文比较时逐项列条件和缺失字段；综述包含研究问题、方法差异、限制和待研究点；所有事实还需列到claims。'},ensure_ascii=False)
+        prompt=json.dumps({'task':p['question'],'mode':run['kind'],'versions':source_context(w,p['version_ids']),'evidence':evidence,'tool_observations':agent_state['observations'] if agent_state else ret.get('tool_results',[]),'requirements':'只回答用户所问的内容，使用简短原子主张，避免附加无关数字或作者全名单；block_id和页码放结构化引用，不复制到事实正文。跨文比较逐项列条件和缺失字段；综述列研究问题、方法差异、限制；所有事实列到claims。'},ensure_ascii=False)
         snap['model_response']=models.generate(SYSTEM,prompt,rid,core=True)
         checkpoint(run,snap)
     response=snap['model_response']
     event(rid,'validating',{'message':'核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持'})
-    result=validate_answer(json.loads(response['text']),blocks,workspace=w,version_ids=p['version_ids'])
-    from .evidence_validation import review_live
-    result=review_live(run,result,blocks,p['version_ids'],p['question'])
+    from .answer_cycle import complete
+    result,response,blocks,ret=complete(run,response,blocks,p['version_ids'],p['question'],ret)
     result.update(model=response['model'],usage=response['usage'],retrieval=ret)
     with db() as conn:
         conn.execute('BEGIN IMMEDIATE')
@@ -225,7 +232,8 @@ def work_once(pool='all'):
             if pool not in ('all',*kinds):raise ValueError('未知执行池')
             allowed=kinds.get(pool)
             where=' AND kind IN ('+','.join('?' for _ in allowed)+')' if allowed else ''
-            row=c.execute("SELECT * FROM runs WHERE status='queued'"+where+" ORDER BY created LIMIT 1",allowed or ()).fetchone()
+            order="CASE WHEN kind='index' THEN 1 ELSE 0 END,created" if pool=='documents' else 'created'
+            row=c.execute("SELECT * FROM runs WHERE status='queued'"+where+" ORDER BY "+order+" LIMIT 1",allowed or ()).fetchone()
             if not row:
                 return False
             from .store import run_execution_lock
@@ -254,7 +262,8 @@ def work_once(pool='all'):
             else:
                 raise ValueError('不支持的任务类型')
             if not cancelled(rid):
-                final=result['status'] if result.get('status') in ('partial','waiting_children') else 'completed'
+                states=('partial','waiting_children','queued') if run['kind']=='index' else ('partial','waiting_children')
+                final=result['status'] if result.get('status') in states else 'completed'
                 execute("UPDATE runs SET status=?,result=?,updated=? WHERE id=?",(final,json.dumps(result,ensure_ascii=False),time.time(),rid))
                 event(rid,final,{'result_saved':True})
         except Exception as e:

@@ -1,0 +1,8 @@
+{"case": "v1-author", "run": "dd17fcabaa3f4f62bf19478ae04562ac", "status": "failed", "calls": 1, "retrieval": null, "error": "网络超时或传输失败；上游消耗未知，保留预留账目"}
+{"case": "v7-optimizer", "run": "33f342a56e274324898c63b1f028c297", "status": "failed", "calls": 1, "retrieval": null, "error": "gemini-4-hydrogen HTTP 503 UNAVAILABLE；请求已记账，无自动付费兜底"}
+{"case": "v1-author", "run": "dd17fcabaa3f4f62bf19478ae04562ac", "status": "failed", "calls": 1, "retrieval": null, "error": "网络超时或传输失败；上游消耗未知，保留预留账目"}
+{"case": "v7-optimizer", "run": "33f342a56e274324898c63b1f028c297", "status": "failed", "calls": 1, "retrieval": null, "error": "gemini-4-hydrogen HTTP 503 UNAVAILABLE；请求已记账，无自动付费兜底"}
+{"case": "scan-table", "run": "85b5932fc8c5457282c421abdf83f42d", "status": "failed", "calls": 1, "retrieval": null, "error": "gemini-4-hydrogen HTTP 503 UNAVAILABLE；请求已记账，无自动付费兜底"}
+{"case": "book-tail", "run": "0c21e54e272d4ece843de3b2c1e517fc", "status": "failed", "calls": 1, "retrieval": null, "error": "gemini-4-hydrogen HTTP 503 UNAVAILABLE；请求已记账，无自动付费兜底"}
+{"case": "false-premise", "run": "89c4570efeca435485ecbb1c7b151950", "status": "partial", "calls": 3, "retrieval": "hybrid", "error": null}
+{"case": "v7-hardware", "run": "03b765722d2547d58373b813769d15d1", "status": "completed", "calls": 2, "retrieval": "hybrid", "error": null}

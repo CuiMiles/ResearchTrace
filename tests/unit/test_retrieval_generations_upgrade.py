@@ -64,6 +64,25 @@ def test_failed_staging_index_never_replaces_active_generation(corpus):
     assert store.one('SELECT generation_id FROM active_retrieval_indices')['generation_id']==old
 
 
+def test_pending_parse_yields_after_persisting_vectors_without_early_activation(corpus):
+    from services.api import jobs
+    store.execute("UPDATE runs SET status='completed'")
+    for i in range(40):
+        store.execute('INSERT INTO blocks VALUES(?,?,?,?,?,?,?,?,?,?,?)',(f'fixture-extra-{i}','workspace',corpus,0,'[0,0,1,1]','paragraph',100+i,
+                      f'Explicit independent fixture paragraph {i}.','fixture','native','{}'))
+    index=jobs.queue('workspace','index',{'version_ids':[corpus]},'yield-index')['id']
+    store.execute("UPDATE runs SET status='running' WHERE id=?",(index,))
+    child=jobs.queue('workspace','parse',{'version_id':'different-fixture'},'waiting-fulltext')['id']
+    provider=FixtureProvider()
+    first=indices.build('workspace',[corpus],provider=provider,run_id=index)
+    assert first['status']=='queued' and first['vector_count']>0
+    assert first['vector_count']<first['chunk_count'] and not first['coverage_complete']
+    assert not store.rows('SELECT * FROM active_retrieval_indices')
+    store.execute("UPDATE runs SET status='completed' WHERE id=?",(child,))
+    final=indices.build('workspace',[corpus],provider=provider,run_id=index,generation_id=first['id'])
+    assert final['coverage_complete'] and final['id']==first['id']
+
+
 def test_revision_mismatch_and_workspace_are_never_mixed(corpus):
     provider=FixtureProvider();generation=indices.build('workspace',[corpus],provider=provider)['id']
     provider.revision='b'*40

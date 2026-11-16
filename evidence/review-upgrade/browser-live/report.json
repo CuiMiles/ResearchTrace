@@ -1,0 +1,128 @@
+{
+  "started": 1794817891.563615,
+  "data_kind": "REAL project UI, original user corpus",
+  "checks": [
+    {
+      "case": "admin_corpus_library",
+      "status": "PASS",
+      "observed": {
+        "documents": 41
+      }
+    },
+    {
+      "case": "admin_ui_binds_prepared_workspace",
+      "status": "PASS",
+      "observed": {
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "account_id": "90de47c45455466985b38e371a2ca6b2",
+        "code_in_public_report": false
+      }
+    },
+    {
+      "case": "fresh_browser_stable_login_and_reload",
+      "status": "PASS",
+      "observed": {
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "documents": 41
+      }
+    },
+    {
+      "case": "real_graph_layout_1280",
+      "status": "PASS",
+      "observed": {
+        "visible_summary": "核心一跳\n显示 17 / 40 篇文献 · 66 / 162 条引用",
+        "geometry": {
+          "width": 1280,
+          "scroll": 1280
+        }
+      }
+    },
+    {
+      "case": "real_graph_layout_1440",
+      "status": "PASS",
+      "observed": {
+        "visible_summary": "核心一跳\n显示 17 / 40 篇文献 · 66 / 162 条引用",
+        "geometry": {
+          "width": 1440,
+          "scroll": 1440
+        }
+      }
+    },
+    {
+      "case": "real_graph_layout_1920",
+      "status": "PASS",
+      "observed": {
+        "visible_summary": "核心一跳\n显示 17 / 40 篇文献 · 66 / 162 条引用",
+        "geometry": {
+          "width": 1920,
+          "scroll": 1920
+        }
+      }
+    },
+    {
+      "case": "real_graph_layout_390",
+      "status": "PASS",
+      "observed": {
+        "visible_summary": "核心一跳\n显示 17 / 40 篇文献 · 66 / 162 条引用",
+        "geometry": {
+          "width": 390,
+          "scroll": 390
+        }
+      }
+    },
+    {
+      "case": "real_graph_edge_opens_reader",
+      "status": "PASS",
+      "observed": {
+        "quote": "[1] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: pre-training of deep bidirectional transformers for language understanding. CoRR, abs/1810.04805, 2018.",
+        "edge_metadata": "引用 ID\neabe2adc48474c4fa4b2ff2e95d5c7f3:ref:0\n版本\neabe2adc48474c4fa4b2ff2e95d5c7f3\n物理页码\n第 20 页（索引 19）\n原文块\neabe2adc48474c4fa4b2ff2e95d5c7f3:19:3\n匹配方法\nreference_unique_full_title\n证据状态\n参考文献条目已定位，匹配需人工抽查",
+        "reader_notice": "证据已定位到此版本第 20 页\n[1] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: pre-training o"
+      }
+    },
+    {
+      "case": "reader_focus_and_snapshot_v1",
+      "status": "PASS",
+      "observed": {
+        "version_id": "e492d5c15f4444c08e9c335618e32533",
+        "index_progress": "活动快照解析 15/15\n语义索引 142/142 块 · 就绪"
+      }
+    },
+    {
+      "case": "reader_focus_and_snapshot_scan",
+      "status": "PASS",
+      "observed": {
+        "version_id": "82451796b5294493b9e58f696fbb8adc",
+        "index_progress": "活动快照解析 15/15\n语义索引 124/124 块 · 就绪"
+      }
+    },
+    {
+      "case": "reader_focus_and_snapshot_book",
+      "status": "PASS",
+      "observed": {
+        "version_id": "4452fbc0c75443578fb2a2987629c19c",
+        "index_progress": "活动快照解析 541/541\n语义索引 4848/4848 块 · 就绪"
+      }
+    },
+    {
+      "case": "book_physical_page541_renders",
+      "status": "PASS",
+      "observed": null
+    },
+    {
+      "case": "translation_direction_select_without_generation",
+      "status": "PASS",
+      "observed": null
+    }
+  ],
+  "provider_calls_by_test": 0,
+  "page_errors": [
+    "Worker was terminated",
+    "Worker was terminated",
+    "Worker was terminated"
+  ],
+  "failed_requests": [],
+  "status": "FAIL",
+  "error_type": "AssertionError",
+  "error": "['Worker was terminated', 'Worker was terminated', 'Worker was terminated']",
+  "finished": 1794817905.443282
+}

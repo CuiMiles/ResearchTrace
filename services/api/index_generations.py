@@ -132,8 +132,16 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
               GROUP BY current.id''',(fp,desc['dimension'],gid,workspace))
             c.execute('UPDATE index_generations SET vector_count=(SELECT count(*) FROM retrieval_vectors v JOIN retrieval_chunks c ON c.id=v.chunk_id WHERE c.generation_id=?) WHERE id=?',(gid,gid))
         # Read bounded batches. Successful batches persist before the next call.
+        completed_batches=0
         while True:
             stop()
+            if run_id and completed_batches and store.one("SELECT 1 FROM runs WHERE status='queued' AND kind IN ('parse','parse_document','reparse') LIMIT 1"):
+                # Release the document executor at a persisted batch boundary.
+                # Activation still requires all vectors and unchanged snapshots.
+                status=generation_status(workspace,gid)
+                store.event(run_id,'index_yielded',{'generation_id':gid,'vector_count':status['vector_count'],
+                                                   'reason':'让待解析全文先执行；相同索引代继续恢复'})
+                return {**status,'generation_status':status['status'],'status':'queued','coverage_complete':False}
             batch=store.rows('SELECT c.id,c.retrieval_text FROM retrieval_chunks c LEFT JOIN retrieval_vectors v ON v.chunk_id=c.id WHERE c.generation_id=? AND v.chunk_id IS NULL ORDER BY c.id LIMIT 16',(gid,))
             if not batch:break
             response=provider.embed([b['retrieval_text'] for b in batch],'RETRIEVAL_DOCUMENT')
@@ -148,6 +156,7 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
                 for block,vector in zip(batch,vectors):
                     c.execute('INSERT INTO retrieval_vectors VALUES(?,?,?)',(block['id'],desc['dimension'],vector.tobytes()))
                 c.execute('UPDATE index_generations SET vector_count=(SELECT count(*) FROM retrieval_vectors v JOIN retrieval_chunks c ON c.id=v.chunk_id WHERE c.generation_id=?) WHERE id=?',(gid,gid))
+            completed_batches+=1
             if run_id:
                 progress=store.one('SELECT vector_count,chunk_count FROM index_generations WHERE id=?',(gid,))
                 store.event(run_id,'index_embedding',{'generation_id':gid,**progress,'model_id':desc['model_id'],'cloud_requests':0})

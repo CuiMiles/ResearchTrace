@@ -1,0 +1,32 @@
+{
+  "official_source_attempts": [
+    {
+      "source": "GitHub connector: PDFMathTranslate/PDFMathTranslate-next v2.10.2",
+      "status": "FAIL",
+      "reason": "connector transport error; tag not found"
+    },
+    {
+      "source": "official PyPI pdf2zh-next==2.10.2 wheel and babeldoc==0.7.1 sdist",
+      "status": "PASS",
+      "method": "download and inspect on remote through 127.0.0.1:7890"
+    }
+  ],
+  "installation_attempts": [
+    {
+      "log": "remote logs/source-download.log",
+      "status": "FAIL",
+      "reason": "inherited SOCKS proxy missing socksio during isolated metadata build"
+    },
+    {
+      "log": "remote logs/install-first.log",
+      "status": "FAIL",
+      "reason": "Ubuntu18 glibc2.27 rejects manylinux2.28 wheel; stopped own source-build install"
+    },
+    {
+      "log": "remote logs/install-wheels.log",
+      "status": "PASS",
+      "method": "private copied glibc2.35 loader, official binary wheels"
+    }
+  ],
+  "provider_calls": 0
+}

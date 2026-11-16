@@ -1,0 +1,63 @@
+{
+  "started": 1794817183.9924722,
+  "source": "original user corpus; real HTTP/model calls",
+  "cases": [
+    {
+      "name": "agent-feedback",
+      "input": {
+        "question": "请先在Attention Is All You Need中定位Layer Normalization对应的原始参考文献条目。看到实际引用后，再以该文献的标题与方法关键词，在所选Layer Normalization原论文中补检索归一化计算的维度，说明两篇文献的承袭关系。请根据第一轮实际证据决定第二轮检索表达，缺证据时说明。",
+        "version_ids": [
+          "e492d5c15f4444c08e9c335618e32533",
+          "b6f5051290164b97a4d8cef5437b08ee"
+        ],
+        "idempotency_key": "live-agent-observation-feedback-20261116"
+      },
+      "run_id": "f9c4ca41ec1d4e28b8d513162b5e4db0",
+      "status": "FAIL",
+      "run": {
+        "id": "f9c4ca41ec1d4e28b8d513162b5e4db0",
+        "kind": "agent",
+        "status": "failed",
+        "result": null,
+        "error": "网络超时或传输失败；上游消耗未知，保留预留账目"
+      },
+      "requests": [
+        {
+          "id": "31de75ef5b3843169c2daa7b86563a21",
+          "model": "gemini-decision-1",
+          "status": "unknown",
+          "input_tokens": 1210,
+          "output_tokens": 0
+        }
+      ]
+    },
+    {
+      "name": "future-fulltext",
+      "input": {
+        "question": "原文提出把self-attention限制在局部邻域以处理更长序列。请核查更晚论文中滑动窗口或局部注意力的全文证据，区分已覆盖的适用条件和尚缺少的证据，不宣称彻底解决或全球首次。",
+        "version_id": "e492d5c15f4444c08e9c335618e32533",
+        "block_id": "e492d5c15f4444c08e9c335618e32533:5:3",
+        "idempotency_key": "live-future-local-attention-fulltext-20261116"
+      },
+      "run_id": "2c33b789faee43e09f2d262ad97d9506",
+      "status": "FAIL",
+      "run": {
+        "id": "2c33b789faee43e09f2d262ad97d9506",
+        "kind": "audit",
+        "status": "failed",
+        "result": null,
+        "error": "网络超时或传输失败；上游消耗未知，保留预留账目"
+      },
+      "requests": [
+        {
+          "id": "9c67cedb3cbf4630bcff6ab52ecbf202",
+          "model": "gemini-3.6-flash",
+          "status": "unknown",
+          "input_tokens": 3066,
+          "output_tokens": 0
+        }
+      ]
+    }
+  ],
+  "updated": 1794818457.4478557
+}

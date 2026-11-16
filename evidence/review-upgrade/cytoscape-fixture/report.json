@@ -1,0 +1,386 @@
+{
+  "data_kind": "FIXTURE ONLY - synthetic component data",
+  "actual_model_calls": 0,
+  "real_api_calls": 0,
+  "checks": [
+    {
+      "case": "default_core_one_hop",
+      "status": "PASS",
+      "observed": {
+        "visible_nodes": 8,
+        "visible_edges": 9,
+        "total_nodes": 24,
+        "total_edges": 24
+      }
+    },
+    {
+      "case": "real_edges_parallel_and_direction",
+      "status": "PASS",
+      "observed": "Two distinct provenance records retained; target arrows only."
+    },
+    {
+      "case": "canvas_pointer_node",
+      "status": "PASS",
+      "observed": "Actual canvas pointer click selects a node."
+    },
+    {
+      "case": "canvas_pointer_edge",
+      "status": "PASS",
+      "observed": "Actual curved-edge pointer click opens raw provenance."
+    },
+    {
+      "case": "evidence_exact_version_page_block",
+      "status": "PASS",
+      "observed": {
+        "kind": "evidence",
+        "value": {
+          "version_id": "fixture-v0",
+          "page_index": 11,
+          "block_id": "fixture-block-0",
+          "bbox": [],
+          "quote": "[FIXTURE ONLY reference 0] document 0 cites document 1. 原始引用，不是实时学术数据。",
+          "status": "FIXTURE provenance; not verified scholarship"
+        }
+      }
+    },
+    {
+      "case": "metadata_only_edge",
+      "status": "PASS",
+      "observed": "Metadata-only citations preserve original text and source link, with no invented page locator."
+    },
+    {
+      "case": "incomplete_locator_no_fabricated_block",
+      "status": "PASS",
+      "observed": "Missing block ID never falls back to reference ID; version-only callback remains available."
+    },
+    {
+      "case": "hostile_metadata_rendering",
+      "status": "PASS",
+      "observed": "Untrusted title remains text; javascript source URL is omitted."
+    },
+    {
+      "case": "title_filter",
+      "status": "PASS",
+      "observed": "Case-insensitive substring filter updates actual Cytoscape elements and induced real edges."
+    },
+    {
+      "case": "publication_years_unknown_and_conflict",
+      "status": "PASS",
+      "observed": {
+        "sources": [
+          "node.year",
+          "version.metadata.year",
+          "published ISO",
+          "Crossref date-parts"
+        ],
+        "unknowns": "Not inferred from 2099 in title, ID, or upload date",
+        "conflicts": "2017/2022 explicitly uncertain"
+      }
+    },
+    {
+      "case": "invalid_year_range",
+      "status": "PASS",
+      "observed": "Reversed year range is explained and displays no misleading results."
+    },
+    {
+      "case": "change_core",
+      "status": "PASS",
+      "observed": "Core selection recenters the real incoming/outgoing one-hop subgraph."
+    },
+    {
+      "case": "directed_shortest_path_full_real_edges",
+      "status": "PASS",
+      "observed": "3-hop shortest path beats a real 4-hop alternative, crosses beyond core one-hop, ignores filters with explicit notice, and terminates despite a cycle."
+    },
+    {
+      "case": "reverse_path_unreachable",
+      "status": "PASS",
+      "observed": "No fabricated reverse edge/path; PNG disabled for empty view."
+    },
+    {
+      "case": "disconnected_path",
+      "status": "PASS",
+      "observed": "Disconnected target explicitly lacks path evidence."
+    },
+    {
+      "case": "zero_edge_path",
+      "status": "PASS",
+      "observed": "Same-endpoint query is a valid zero-edge path, including isolated nodes."
+    },
+    {
+      "case": "keyboard_accessibility",
+      "status": "PASS",
+      "observed": "Native Space/Enter selection; focusable canvas +, arrow, and 0 shortcuts."
+    },
+    {
+      "case": "png_export",
+      "status": "PASS",
+      "observed": {
+        "file": "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-directed-path.png",
+        "bytes": 120192,
+        "dimensions": [
+          611,
+          1800
+        ],
+        "download_name": "researchtrace-citations.png"
+      }
+    },
+    {
+      "case": "rebuild_edge_identity",
+      "status": "PASS",
+      "observed": "Selection retains provenance identity when backend edge array is reordered."
+    },
+    {
+      "case": "rebuild_failure_preserves_graph",
+      "status": "PASS",
+      "observed": "Graph POST failure is surfaced and last computed graph stays available."
+    },
+    {
+      "case": "component_lifecycle_cleanup",
+      "status": "PASS",
+      "observed": "Unmount destroys the Cytoscape instance; remount creates a working graph."
+    },
+    {
+      "case": "missing_endpoint_edge",
+      "status": "PASS",
+      "observed": "Missing-endpoint citation is counted and excluded explicitly without synthetic nodes."
+    },
+    {
+      "case": "empty_loading_error_singleton_states",
+      "status": "PASS",
+      "observed": "Empty, loading, first-load HTTP failure, and all-unknown single-node states are honest."
+    },
+    {
+      "case": "responsive_1280",
+      "status": "PASS",
+      "observed": {
+        "viewport": [
+          1280,
+          800
+        ],
+        "document_horizontal_overflow": false,
+        "graph_sections_horizontal_overflow": false,
+        "states": [
+          "default",
+          "all 24 nodes",
+          "long hostile title details",
+          "path form and result"
+        ]
+      }
+    },
+    {
+      "case": "responsive_1440",
+      "status": "PASS",
+      "observed": {
+        "viewport": [
+          1440,
+          900
+        ],
+        "document_horizontal_overflow": false,
+        "graph_sections_horizontal_overflow": false,
+        "states": [
+          "default",
+          "all 24 nodes",
+          "long hostile title details",
+          "path form and result"
+        ]
+      }
+    },
+    {
+      "case": "responsive_1920",
+      "status": "PASS",
+      "observed": {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "document_horizontal_overflow": false,
+        "graph_sections_horizontal_overflow": false,
+        "states": [
+          "default",
+          "all 24 nodes",
+          "long hostile title details",
+          "path form and result"
+        ]
+      }
+    },
+    {
+      "case": "responsive_390",
+      "status": "PASS",
+      "observed": {
+        "viewport": [
+          390,
+          844
+        ],
+        "document_horizontal_overflow": false,
+        "graph_sections_horizontal_overflow": false,
+        "states": [
+          "default",
+          "all 24 nodes",
+          "long hostile title details",
+          "path form and result"
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "unexpected_requests": [],
+  "fixture_api_requests": [
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "reorder",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "reorder",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "rebuild-error",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "rebuild-error",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "dangling",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "error",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    },
+    {
+      "case": "default",
+      "method": "POST",
+      "path": "/api/v1/graphs"
+    }
+  ],
+  "screenshots": [
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-1280-filters.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-1280-graph.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-1440-filters.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-1440-graph.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-1920-filters.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-1920-graph.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-390-filters.png",
+    "/tmp/researchtrace-cytoscape-fixture-20261116/fixture-390-graph.png"
+  ],
+  "totals": {
+    "PASS": 27,
+    "FAIL": 0
+  },
+  "source_sha256": {
+    "apps/web/package.json": "0e8ee866bcefa70ecb6e9d04b836e69d7fef0270b46d286ff6daf0295ae74c79",
+    "apps/web/package-lock.json": "8a80cf66398243cb665f16f19d7963be93ce318cf85ad7f596b41fdc7a5afecd",
+    "apps/web/src/Research.tsx": "548a6c585f664c9a84f16d8e8bd0ec20993085bffa17f1b64de63018d078b1cb",
+    "apps/web/src/GraphView.tsx": "9798d80682a29f48439c9b6fa9a9409d00e35511ea4e2413ceff00f9e7b07a5a",
+    "apps/web/src/graph-view.css": "bb5aa8ab83875c6a8b098688c5ce23a25e6f187135e80da144d4c5cfa0b1f6ad"
+  },
+  "build": {
+    "status": "PASS",
+    "command": "npm run build (isolated worktree; Node 22.16.0)",
+    "log": "/tmp/researchtrace-cytoscape-fixture-20261116/build.log",
+    "limitation": "Vite warns that the main application chunk exceeds 500 kB."
+  },
+  "scope_verification": {
+    "status": "PASS",
+    "changed_files": [
+      "apps/web/package.json",
+      "apps/web/package-lock.json",
+      "apps/web/src/Research.tsx",
+      "apps/web/src/GraphView.tsx",
+      "apps/web/src/graph-view.css"
+    ],
+    "Research.tsx": "Only GraphPage plus required GraphView import differs from baseline.",
+    "main_node_modules": "Not used for package installation or changed."
+  },
+  "official_docs": [
+    "https://js.cytoscape.org/#core/initialisation",
+    "https://js.cytoscape.org/#cy.png",
+    "https://github.com/cytoscape/cytoscape.js/releases/tag/v3.35.0"
+  ],
+  "limits": [
+    {
+      "status": "NOT RUN",
+      "case": "Real authenticated Graph API / Reader end-to-end; only fixture callbacks checked."
+    },
+    {
+      "status": "NOT RUN",
+      "case": "Real scholarly corpus acceptance and model tests; user explicitly prohibited credentials/model calls."
+    },
+    {
+      "status": "PASS",
+      "case": "Unknown publication years remain unknown; conflicting version metadata remains uncertain."
+    }
+  ],
+  "commit": "b45d600368db699aedbb9f6def5ca56b09f46f34",
+  "branch": "upgrade/cytoscape-20261116",
+  "git_worktree_clean": true
+}

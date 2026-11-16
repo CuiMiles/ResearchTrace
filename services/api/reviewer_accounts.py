@@ -29,26 +29,44 @@ def _metadata(row, now):
     return data
 
 
-def create_reviewer(label, days=7):
+def create_reviewer(label, days=7, workspace_id=None):
     """Return flat account metadata plus access_code once; never log this result."""
     if not isinstance(label, str) or not 1 <= len(label.strip()) <= 120:
         raise ValueError('评审名称需要 1–120 个字符')
     if type(days) is not int or not 1 <= days <= 90:
         raise ValueError('评审访问有效期需要 1–90 整数天')
+    if workspace_id is not None and (not isinstance(workspace_id,str) or not 1<=len(workspace_id)<=100):
+        raise ValueError('需要选择有效的已有研究空间')
     label = label.strip()
     now = time.time()
-    account = {'id': uid(), 'workspace': uid(), 'label': label, 'created': now,
+    account = {'id': uid(), 'workspace': workspace_id or uid(), 'label': label, 'created': now,
                'expires': now + days * 86400, 'revoked': False, 'last_login': None,
                'status': 'active'}
     code = secrets.token_urlsafe(32)
     with db() as c:
         c.execute('BEGIN IMMEDIATE')
-        c.execute('INSERT INTO workspaces(id,name,created) VALUES(?,?,?)',
-                  (account['workspace'], '评审空间 · ' + label, now))
+        if workspace_id:
+            if not c.execute('SELECT id FROM workspaces WHERE id=?',(workspace_id,)).fetchone():
+                raise ValueError('选择的研究空间不存在')
+            if c.execute('SELECT id FROM review_accounts WHERE workspace=?',(workspace_id,)).fetchone():
+                raise ValueError('该研究空间已有固定评审入口，请保留其访问历史')
+        else:
+            c.execute('INSERT INTO workspaces(id,name,created) VALUES(?,?,?)',
+                      (account['workspace'], '评审空间 · ' + label, now))
         c.execute('''INSERT INTO review_accounts(id,workspace,label,code_hash,created,expires,revoked,last_login)
                      VALUES(?,?,?,?,?,?,0,NULL)''',
                   (account['id'], account['workspace'], label, _code_hash(code), now, account['expires']))
     return {**account, 'access_code': code}
+
+
+def available_workspaces():
+    """Admin-only selection metadata, never file paths, sessions or secrets."""
+    with db() as c:
+        return [dict(row) for row in c.execute('''SELECT w.id,w.name,
+            (SELECT count(*) FROM versions v WHERE v.workspace=w.id AND v.deleted=0) documents,
+            (SELECT count(*) FROM versions v WHERE v.workspace=w.id AND v.deleted=0 AND v.status='ready') ready_documents
+            FROM workspaces w WHERE NOT EXISTS(SELECT 1 FROM review_accounts a WHERE a.workspace=w.id)
+            ORDER BY documents DESC,w.created DESC''')]
 
 
 def list_reviewers():

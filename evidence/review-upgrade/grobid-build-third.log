@@ -1,0 +1,49 @@
+Building isolated GROBID 0.9.1; tests excluded from package build, live validation is separate
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Checking git under /home/CuiMinghao/projects/Competition/ResearchTrace-grobid-20261116/source
+Current Git revision: 
+
+> Task :grobid-service:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :grobid-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :grobid-trainer:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :grobid-trainer:processResources UP-TO-DATE
+> Task :grobid-service:processResources UP-TO-DATE
+> Task :grobid-core:compileKotlin UP-TO-DATE
+> Task :grobid-core:compileJava UP-TO-DATE
+> Task :grobid-core:processResources UP-TO-DATE
+> Task :grobid-core:classes UP-TO-DATE
+> Task :grobid-core:jar UP-TO-DATE
+> Task :grobid-trainer:compileKotlin NO-SOURCE
+> Task :grobid-trainer:compileJava UP-TO-DATE
+> Task :grobid-trainer:classes UP-TO-DATE
+> Task :grobid-trainer:jar UP-TO-DATE
+> Task :grobid-service:compileKotlin NO-SOURCE
+> Task :grobid-service:compileJava UP-TO-DATE
+> Task :grobid-service:classes UP-TO-DATE
+> Task :grobid-service:jar UP-TO-DATE
+> Task :grobid-service:startScripts UP-TO-DATE
+> Task :grobid-service:distZip
+
+[Incubating] Problems report is available at: file:///home/CuiMinghao/projects/Competition/ResearchTrace-grobid-20261116/source/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2m 30s
+12 actionable tasks: 1 executed, 11 up-to-date
+Traceback (most recent call last):
+  File "/home/CuiMinghao/projects/Competition/ResearchTrace-grobid-20261116/private/provision_grobid.py", line 234, in <module>
+    main()
+  File "/home/CuiMinghao/projects/Competition/ResearchTrace-grobid-20261116/private/provision_grobid.py", line 219, in main
+    (target / "grobid-service/bin/grobid-service").chmod(0o700)
+  File "/usr/lib/python3.6/pathlib.py", line 1266, in chmod
+    self._accessor.chmod(self, mode)
+  File "/usr/lib/python3.6/pathlib.py", line 387, in wrapped
+    return strfunc(str(pathobj), *args)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/CuiMinghao/projects/Competition/ResearchTrace-grobid-20261116/source/grobid-service/build/install/grobid-service/bin/grobid-service'
