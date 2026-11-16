@@ -6,6 +6,8 @@
 
 **核心测试 PDF：[查看/下载四份原文件](evals/pdfs/core/README.md)**，包含 Transformer v1/v7、扫描版和 541 页《Understanding Deep Learning》。
 
+**完整资料包：[科研小助手全部 40 个 PDF](evals/pdfs/科研小助手/README.md)**，包含其余 35 份拓展文献和原始赛题说明，保留原目录结构。
+
 A source-grounded research workbench: immutable PDF versions, page/block evidence, model QA, bilingual reading, live scholarly search, reference-derived local graph, Future Work audits, constrained writing, and reproducible CSV charts.
 
 This repository is an implementation in active acceptance testing, not a claim of contest ranking or universal factual accuracy. Exact current results and limits are in [HANDOFF.md](HANDOFF.md) and [docs/TEST_REPORT.md](docs/TEST_REPORT.md).

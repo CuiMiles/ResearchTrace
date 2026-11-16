@@ -43,11 +43,11 @@
 - **PDF，不超过 30 页**的技术文档，包含概述、需求、架构、AI 方案、实现、测试部署、总结；明确选型理由、集成方式、优化策略与创新点。Markdown 不等于正式 PDF。
 - 公网可访问的在线演示，评审期间保持可用；需要登录时提供专用测试账号。GitHub 公开不等于已部署公网产品。
 - 在大赛平台截止时间前统一提交，提交后不得自行修改，特殊情况联系组委会。截止时间以报名平台实际公告/个人入口为准。本仓库推送不等于赛事平台提交。
-- 公开仓库不能包含 API 密钥、访问码、会话 Cookie、私有数据库、用户上传资料或模型权重。
+- 公开仓库不能包含 API 密钥、访问码、会话 Cookie、私有数据库、未经用户明确授权的上传资料或模型权重。本次四份公开测试 PDF 由用户明确要求补充上传，保留原件与哈希。
 
 ## 核心测试材料与评测口径
 
-主要开发和验收固定为：`1706.03762v1.pdf`、`1706.03762v7.pdf`、`1706.03762v1_img.pdf`、`UnderstandingDeepLearning_02_09_26_C.pdf`（541 页）。四份原文件已放在 [evals/pdfs/core/](evals/pdfs/core/README.md)，可查看或下载。其余 35 份是拓展测试，须分开报告。精确 SHA256/版本/活动解析快照见 [evals/review_upgrade_scopes.json](evals/review_upgrade_scopes.json)。运行数据库不随公开仓库分发；生成扫描夹具不能冒充用户原扫描件。
+主要开发和验收固定为：`1706.03762v1.pdf`、`1706.03762v7.pdf`、`1706.03762v1_img.pdf`、`UnderstandingDeepLearning_02_09_26_C.pdf`（541 页）。四份原文件已放在 [evals/pdfs/core/](evals/pdfs/core/README.md)，完整资料包的 40 个 PDF 位于 [evals/pdfs/科研小助手/](evals/pdfs/科研小助手/README.md)，均可查看或下载。其余 35 份是拓展测试，须分开报告。精确 SHA256/版本/活动解析快照见 [evals/review_upgrade_scopes.json](evals/review_upgrade_scopes.json)。运行数据库不随公开仓库分发；生成扫描夹具不能冒充用户原扫描件。
 
 [80 条检索问题](evals/retrieval_upgrade_80.json)为核心 50/拓展 30，含相关的中英改写，不是 80 个独立事实；答案源于原 PDF 预先阅读，独立人工审阅仍为 NOT RUN。无答案题不进入有答案 Recall 分母。所有结果严格标 PASS / FAIL / BLOCKED / NOT RUN，失败和历史结果要保留。
 
