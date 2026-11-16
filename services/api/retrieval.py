@@ -100,12 +100,23 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
     if not requested:
         return {'blocks':[],'sparse':[],'dense':[],'mode':'keyword','notice':'所选版本已被版本选择排除；请保留两个版本或改选当前版本。'}
     placeholders=','.join('?' for _ in requested)
+    boundaries={}
+    if not re.search(r'references?|bibliograph|appendi|参考文献|附录|索引|末页|\bindex\b',question,re.I):
+        headings=rows(f"SELECT version_id,page_index,reading_order,text FROM current_blocks WHERE workspace=? AND version_id IN ({placeholders}) AND type='heading'",(workspace,*requested))
+        for heading in headings:
+            if re.match(r'^\s*(?:\d+[.\s]+)?(?:references|bibliography|appendix|参考文献|附录)\b',heading['text'],re.I):
+                position=(heading['page_index'],heading['reading_order'])
+                boundaries[heading['version_id']]=min(boundaries.get(heading['version_id'],position),position)
+    if re.search(r'上下文|context|sequence.{0,12}length',question,re.I):
+        queries=list(dict.fromkeys(list(queries or [])+['context size tokens','contiguous sequences tokens']))[:4]
     from .sparse_index import search as sparse_search
     sparse,expanded_terms=sparse_search(workspace,requested,question,limit=min(150,limit*3))
     if len(requested)>1:
         seen={b['id'] for b in sparse}
         for vid in requested:
             per_doc,_=sparse_search(workspace,[vid],question,limit=max(2,limit//len(requested)))
+            if vid in boundaries:
+                body,_=sparse_search(workspace,[vid],question,limit=max(2,limit//len(requested)),before=boundaries[vid]);per_doc+=body
             for item in per_doc:
                 if item['id'] not in seen:
                     sparse.append(item);seen.add(item['id'])
@@ -114,6 +125,8 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
         ranked=[]
         for vid in requested:
             per_doc,_=sparse_search(workspace,[vid],extra[:300],limit=max(3,limit//len(requested)))
+            if vid in boundaries:
+                body,_=sparse_search(workspace,[vid],extra[:300],limit=max(3,limit//len(requested)),before=boundaries[vid]);per_doc+=body
             ranked.extend(per_doc)
         ranked.sort(key=lambda b:b['sparse_score'])
         rewritten.append(ranked)
@@ -173,6 +186,10 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
             by_id[block["id"]] = block
             scores[block["id"]] = scores.get(block["id"], 0) + 1 / (60 + rank + 1)
             rank+=1
+    def main_body(b):
+        return (b['page_index'],b['reading_order'])<boundaries.get(b['version_id'],(10**9,10**9))
+    for bid in scores:
+        if not main_body(by_id[bid]):scores[bid]*=.35
     ordered=sorted(scores,key=scores.get,reverse=True)
     rerank_metadata={'status':'NOT RUN'}
     if reranker is not None and dense_metadata.get('status')!='unavailable' and ordered and os.getenv('RT_ENABLE_RERANK','true')=='true':
@@ -187,7 +204,14 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
     picked=[]
     # Reserve evidence slots for each requested document before filling globally.
     reserved=max(1,limit//len(requested))
-    per_document={vid:[k for k in ordered if by_id[k]['version_id']==vid][:reserved] for vid in requested}
+    anchors={vid:[] for vid in requested}
+    # Preserve a precise rewrite's best hit for each paper, even when generic
+    # query consensus favours repetitive appendices or sample-output blocks.
+    for ranked in rewritten:
+        for vid in requested:
+            best=next((b['id'] for b in ranked if b['version_id']==vid and main_body(b)),None)
+            if best and best not in anchors[vid]:anchors[vid].append(best)
+    per_document={vid:(anchors[vid][:min(2,reserved)]+[k for k in ordered if by_id[k]['version_id']==vid and k not in anchors[vid][:min(2,reserved)]])[:reserved] for vid in requested}
     for slot in range(reserved):
         for vid in requested:
             if slot<len(per_document[vid]) and len(picked)<limit:picked.append(per_document[vid][slot])

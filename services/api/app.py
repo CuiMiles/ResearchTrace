@@ -145,7 +145,8 @@ def who(s=Depends(session)):
 @app.get('/api/v1/capabilities')
 def capabilities(s=Depends(session)):
     from .models import CORE,BATCH,credentials
-    return {'model_configured':any(bool(key) for _,key in credentials()),'core_model':CORE,'batch_model':BATCH,'paid_fallback':False}
+    return {'model_configured':any(bool(key) for _,key in credentials()) and os.getenv('RT_PROVIDER_MODE','all') not in ('embedding_only','disabled'),
+            'core_model':CORE,'batch_model':BATCH,'paid_fallback':False,'provider_mode':os.getenv('RT_PROVIDER_MODE','all')}
 
 @app.post('/api/v1/auth/logout')
 def logout(request:Request,response:Response,s=Depends(session)):

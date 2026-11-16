@@ -37,8 +37,8 @@ def load(catalog, spec):
             kwargs["offload_folder"] = os.environ["RT_RETRIEVAL_JOB_DIR"] + "/offload"
             kwargs["offload_state_dict"] = True
         elif mode == "cuda_sharded":
-            if not 2<=torch.cuda.device_count()<=4:
-                raise RuntimeError("Sharded profile requires2..4 guarded CUDA devices")
+            if not 2<=torch.cuda.device_count()<=8:
+                raise RuntimeError("Sharded profile requires2..8 guarded CUDA devices")
             kwargs["device_map"] = "balanced"
             headroom=768 if budget<8192 else 1536
             kwargs["max_memory"] = {**{i:f"{budget-headroom}MiB" for i in range(torch.cuda.device_count())},"cpu":"0GiB"}

@@ -52,7 +52,7 @@ def ensure(workspace,version_ids,parse_id=None):
             c.execute('INSERT INTO sparse_index_state VALUES(?,?)',(block['id'],hashlib.sha256(block['text'].encode()).hexdigest()))
 
 
-def search(workspace,version_ids,question,limit=50,parse_id=None):
+def search(workspace,version_ids,question,limit=50,parse_id=None,before=None):
     ensure(workspace,version_ids,parse_id)
     expanded=tokens(question)
     translated=[]
@@ -67,5 +67,7 @@ def search(workspace,version_ids,question,limit=50,parse_id=None):
     placeholders=','.join('?' for _ in version_ids)
     table='blocks' if parse_id else 'current_blocks'
     constraint=' AND COALESCE(bp.parse_id,b.version_id)=?' if parse_id else ''
-    result=store.rows(f'SELECT b.*,COALESCE(bp.parse_id,b.version_id) AS parse_id,bm25(sparse_blocks_v2) AS sparse_score FROM sparse_blocks_v2 JOIN {table} b ON b.id=sparse_blocks_v2.block_id LEFT JOIN block_parses bp ON bp.block_id=b.id JOIN versions v ON v.id=b.version_id WHERE sparse_blocks_v2 MATCH ? AND b.workspace=? AND b.version_id IN ({placeholders}) AND v.deleted=0'+constraint+' ORDER BY sparse_score LIMIT ?', (match,workspace,*version_ids,*([parse_id] if parse_id else []),limit))
+    region=' AND (b.page_index<? OR (b.page_index=? AND b.reading_order<?))' if before else ''
+    region_args=[before[0],before[0],before[1]] if before else []
+    result=store.rows(f'SELECT b.*,COALESCE(bp.parse_id,b.version_id) AS parse_id,bm25(sparse_blocks_v2) AS sparse_score FROM sparse_blocks_v2 JOIN {table} b ON b.id=sparse_blocks_v2.block_id LEFT JOIN block_parses bp ON bp.block_id=b.id JOIN versions v ON v.id=b.version_id WHERE sparse_blocks_v2 MATCH ? AND b.workspace=? AND b.version_id IN ({placeholders}) AND v.deleted=0'+constraint+region+' ORDER BY sparse_score LIMIT ?', (match,workspace,*version_ids,*([parse_id] if parse_id else []),*region_args,limit))
     return result,translated

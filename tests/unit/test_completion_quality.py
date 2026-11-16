@@ -99,3 +99,14 @@ def test_multi_paper_retrieval_cannot_fill_every_slot_with_one_paper(tmp_path,mo
     result=retrieval.retrieve('w',['a','b'],'GPU training',limit=6)
     primary=[b for b in result['blocks'] if not b.get('neighbor_context')]
     assert len([b for b in primary if b['version_id']=='b'])==3
+
+
+def test_split_provider_purpose_refuses_before_network_or_reservation(tmp_path,monkeypatch):
+    monkeypatch.setattr(store,'DATA',tmp_path);store.migrate()
+    monkeypatch.setenv('RT_PROVIDER_MODE','embedding_only')
+    with pytest.raises(models.QuotaRefusal) as refused:models.request('gemini-3.6-flash','generateContent',{},None,1)
+    assert refused.value.code=='purpose_disabled'
+    assert not store.rows('select * from quota')
+    monkeypatch.setenv('RT_PROVIDER_MODE','generation_only')
+    with pytest.raises(models.QuotaRefusal):models.request(models.EMBED,'batchEmbedContents',{'requests':[{}]},None,1)
+    assert not store.rows('select * from quota')

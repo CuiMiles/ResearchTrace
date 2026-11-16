@@ -256,6 +256,12 @@ def _local_refusal(exc):
     return None
 
 def request(model,method,body,run_id,estimate):
+    mode=os.getenv('RT_PROVIDER_MODE','all')
+    if mode not in ('all','embedding_only','generation_only','disabled'):
+        raise QuotaRefusal('供应商运行用途配置无效',scope='global',code='budget_configuration')
+    embedding=model==EMBED
+    if mode=='disabled' or (mode=='embedding_only' and not embedding) or (mode=='generation_only' and embedding):
+        raise QuotaRefusal('该用途由另一运行环境统一计账，本机未发送请求',scope='global',code='purpose_disabled')
     # Conservative 1 token per UTF-8 byte reserve; correct with actual usage.
     # Retry only unsent local reservations; no sent retries or paid fallback.
     qid=None

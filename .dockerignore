@@ -13,3 +13,7 @@ ResearchTrace_Codex_Task_Pack.zip
 apps/web/.browser-runtime
 
 evidence/private
+# Local retrieval credentials, tokenizer environments and test runs are runtime.
+services/**/private/
+services/**/.venv/
+services/**/__pycache__/
