@@ -102,6 +102,8 @@ def migrate():
         CREATE INDEX IF NOT EXISTS document_cards_workspace ON document_cards(workspace,version_id);
         ''')
         c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(6,?)',(time.time(),))
+    from .document_workflows import migrate_document_workflows
+    migrate_document_workflows()
 
 def one(sql, params=()):
     with db() as c:

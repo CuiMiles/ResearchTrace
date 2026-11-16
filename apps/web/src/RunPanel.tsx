@@ -132,6 +132,15 @@ export function RunDetail({
       </div>
       <AgentTimeline steps={steps} live={running} />
       {!running && <AnswerView run={run} onEvidence={onEvidence} versionLabel={versionLabel} />}
+      {!running && Array.isArray(run.result?.coverage_matrix) && <section className="data-table-wrap" aria-label="后续工作条件对照">
+        <h3>后续工作与条件对照</h3>
+        <table><thead><tr><th>后续论文</th><th>时间与覆盖</th><th>条件、范围与全文证据</th></tr></thead><tbody>
+          {(run.result.coverage_matrix as {version_id:string;title:string;category:string;time_comparison?:{status:string};statements:string[];evidence:Evidence[];notice:string}[]).map(row=><tr key={row.version_id}>
+            <td>{row.title}</td><td>{{direct:'直接相关证据',partial:'部分覆盖',insufficient:'当前证据不足'}[row.category]??row.category}<br/><small>{row.time_comparison?.status==='later'?'发表区间晚于来源':'发表先后尚不确定'}</small></td>
+            <td>{row.statements.map((text,i)=><p key={i}>{text}</p>)}{row.evidence.map((e,i)=><button key={i} className="text-button" onClick={()=>onEvidence(e)}>查看原文 · 第 {e.page_index+1} 页</button>)}<p className="muted">{row.notice}</p></td>
+          </tr>)}
+        </tbody></table>
+      </section>}
       {!running && <RetrievalSummary result={run.result} />}
     </div>
   );
@@ -149,6 +158,11 @@ const KIND_LABEL: Record<string, string> = {
   card: '文献卡片',
   writing: '写作',
   watch: '追踪检查',
+  text_translation:'选段翻译',
+  recommendation:'文献推荐',
+  reference_classify:'引用功能分类',
+  reference_download:'参考文献下载',
+  reference_import:'参考文献获取',
 };
 
 export function runTitle(run: Run) {

@@ -205,7 +205,7 @@ def status(vid:str,s=Depends(session)):
     return v
 
 def local_index_status(workspace,vid):
-    model=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16')
+    model=os.getenv('GEMINI_EMBEDDING_MODEL','gemini-embedding-001') if os.getenv('RT_EMBED_PROVIDER','gemini')=='gemini' else os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16')
     generation=one('SELECT g.* FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id WHERE a.workspace=? AND a.version_id=? AND a.model_id=?',(workspace,vid,model))
     expected=one("SELECT count(*) n FROM current_blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer')",(workspace,vid))['n']
     covered=one('SELECT count(DISTINCT s.block_id) n FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id JOIN current_blocks b ON b.id=s.block_id WHERE c.workspace=? AND c.version_id=? AND c.generation_id=?',(workspace,vid,generation['id']))['n'] if generation else 0
@@ -216,6 +216,8 @@ def local_index_status(workspace,vid):
 class IndexRequest(BaseModel):
     version_ids:list[str]=Field(min_length=1,max_length=100)
     generation_id:str|None=None
+    provider:Literal['local','gemini']|None=None
+    source_generation_id:str|None=None
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/indices/runs')
@@ -499,6 +501,10 @@ async def events(rid:str,request:Request,after:int=0,s=Depends(session)):
 @app.post('/api/v1/runs/{rid}/cancel')
 def cancel(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
+    if r['kind']=='reference_download':
+        from .document_workflows import cancel_reference_downloads
+        cancel_reference_downloads(s['workspace'],rid)
+        return run_get(rid,s['workspace'])
     if r['payload'].get('batch_id') and r['payload'].get('batch_item_id'):
         from .batches import cancel_batch
         cancel_batch(s['workspace'],r['payload']['batch_id'],[r['payload']['batch_item_id']])
@@ -517,6 +523,10 @@ def cancel(rid:str,s=Depends(session)):
 @app.post('/api/v1/runs/{rid}/resume')
 def resume(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
+    if r['kind']=='reference_download':
+        from .document_workflows import resume_reference_downloads
+        resume_reference_downloads(s['workspace'],rid)
+        return run_get(rid,s['workspace'])
     if r['payload'].get('batch_id') and r['payload'].get('batch_item_id'):
         from .batches import resume_batch
         resume_batch(s['workspace'],r['payload']['batch_id'],[r['payload']['batch_item_id']])
@@ -670,11 +680,12 @@ class ReviewerCreate(BaseModel):
     label:str=Field(min_length=1,max_length=120)
     days:int=Field(default=7,ge=1,le=90)
     workspace_id:str|None=Field(default=None,min_length=1,max_length=100)
+    seed_workspace_id:str|None=Field(default=None,min_length=1,max_length=100)
 
 @app.get('/api/v1/admin/reviewer-workspaces')
-def review_workspace_choices(s=Depends(admin)):
+def review_workspace_choices(include_bound:bool=False,s=Depends(admin)):
     from .reviewer_accounts import available_workspaces
-    return available_workspaces()
+    return available_workspaces(include_bound=include_bound)
 
 @app.get('/api/v1/admin/reviewers')
 def list_review_accounts(s=Depends(admin)):
@@ -684,7 +695,7 @@ def list_review_accounts(s=Depends(admin)):
 @app.post('/api/v1/admin/reviewers')
 def create_review_account(p:ReviewerCreate,s=Depends(admin)):
     from .reviewer_accounts import create_reviewer
-    return create_reviewer(p.label,p.days,p.workspace_id)
+    return create_reviewer(p.label,p.days,p.workspace_id,p.seed_workspace_id)
 
 @app.post('/api/v1/admin/reviewers/{account_id}/revoke')
 def revoke_review_account(account_id:str,s=Depends(admin)):
@@ -718,6 +729,14 @@ def admin_evidence_file(path:str=Query(...,min_length=1),s=Depends(admin)):
     if target.suffix.lower()=='.svg':
         headers['Content-Security-Policy']='sandbox'
     return FileResponse(target,media_type=MEDIA_TYPES[target.suffix.lower()],headers=headers)
+
+from . import recommendations as recommendation_api
+recommendation_api.register(session)
+app.include_router(recommendation_api.router)
+from .text_translation import router as text_translation_router
+app.include_router(text_translation_router)
+from .document_workflows import router as document_workflow_router
+app.include_router(document_workflow_router)
 
 dist=ROOT/'apps/web/dist'
 app.mount('/assets',StaticFiles(directory=dist/'assets',check_dir=False),name='assets')

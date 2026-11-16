@@ -318,7 +318,7 @@ def work_once(pool='all'):
         with db() as c:
             c.execute('BEGIN IMMEDIATE')
             kinds={'documents':('parse','parse_document','reparse','index','card'),
-                   'interactive':('qa','agent','writing','translate','audit')}
+                   'interactive':('qa','agent','writing','translate','text_translation','audit','recommendation','reference_classify','reference_download','reference_import')}
             if pool not in ('all',*kinds):raise ValueError('未知执行池')
             allowed=kinds.get(pool)
             where=' AND kind IN ('+','.join('?' for _ in allowed)+')' if allowed else ''
@@ -343,6 +343,15 @@ def work_once(pool='all'):
                 result=translate(run)
             elif run['kind']=='audit':
                 result=audit(run)
+            elif run['kind'] in ('reference_classify','reference_download','reference_import'):
+                from .document_workflows import handle_document_run
+                result=handle_document_run(run)
+            elif run['kind']=='text_translation':
+                from .text_translation import handle
+                result=handle(run)
+            elif run['kind']=='recommendation':
+                from .recommendations import run as recommend
+                result=recommend(run)
             elif run['kind']=='card':
                 from .cards import build_card
                 card=build_card(run['workspace'],run['payload']['version_id'],rid)
@@ -353,7 +362,10 @@ def work_once(pool='all'):
                 snap=json.loads(one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'] or '{}')
                 generation_id=run['payload'].get('generation_id') or snap.get('index_generation_id') or uid()
                 checkpoint(run,{'index_generation_id':generation_id})
-                result=build(run['workspace'],run['payload']['version_ids'],run_id=rid,generation_id=generation_id)
+                from .embedding_providers import configured_provider
+                result=build(run['workspace'],run['payload']['version_ids'],run_id=rid,generation_id=generation_id,
+                             provider=configured_provider(run['payload'].get('provider'),rid),
+                             source_generation_id=run['payload'].get('source_generation_id'))
             else:
                 raise ValueError('不支持的任务类型')
             if not cancelled(rid):

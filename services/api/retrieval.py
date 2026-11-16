@@ -19,7 +19,7 @@ def _decode(block):
 
 
 def index_dense(workspace, version_id, run_id):
-    if os.getenv('RT_EMBED_PROVIDER','gemini')=='local':
+    if os.getenv('RT_EMBED_PROVIDER','gemini') in ('local','auto','gemini'):
         from .index_generations import build
         return build(workspace,[version_id],run_id=run_id)
     if os.environ.get("ENABLE_DENSE", "true").lower() == "false" or os.environ.get("RT_DISABLE_DENSE", "false").lower() == "true":
@@ -95,6 +95,11 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
     allowed = rows(f"SELECT id FROM versions WHERE workspace=? AND deleted=0 AND id IN ({placeholders})", (workspace, *requested))
     if len(allowed) != len(requested):
         raise ValueError("检索版本不存在或不属于当前工作区")
+    from .document_workflows import retrieval_version_ids
+    requested=retrieval_version_ids(workspace,requested)
+    if not requested:
+        return {'blocks':[],'sparse':[],'dense':[],'mode':'keyword','notice':'所选版本已被版本选择排除；请保留两个版本或改选当前版本。'}
+    placeholders=','.join('?' for _ in requested)
     from .sparse_index import search as sparse_search
     sparse,expanded_terms=sparse_search(workspace,requested,question,limit=min(150,limit*3))
     if len(requested)>1:
@@ -114,7 +119,8 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
         rewritten.append(ranked)
     dense=[];dense_metadata={'status':'unindexed'};reranker=None
     notice='当前使用对称分词的关键词索引；向量覆盖尚未完成'
-    if os.getenv('RT_EMBED_PROVIDER','gemini')=='local':
+    selected_provider=os.getenv('RT_EMBED_PROVIDER','gemini')
+    if selected_provider in ('local','auto'):
         try:
             from .embedding_providers import LocalRetrievalProvider
             from .index_generations import dense_search
@@ -125,7 +131,18 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
         except Exception as exc:
             dense_metadata={'status':'unavailable','reason':type(exc).__name__}
             notice='本地向量服务不可用；仅关键词与明确标识的术语扩展，未调用云端替代'
-    else:
+    if not dense and selected_provider in ('gemini','auto') and allow_cloud_dense and os.getenv('RT_DISABLE_DENSE','false').lower()!='true':
+        try:
+            from .embedding_providers import GeminiRetrievalProvider
+            from .index_generations import dense_search
+            local_state=dense_metadata
+            dense,dense_metadata=dense_search(workspace,requested,question,limit=50,provider=GeminiRetrievalProvider())
+            dense_metadata.update(provider='gemini',local_fallback=local_state if selected_provider=='auto' else None)
+            notice='Gemini独立代际向量与BM25经RRF融合；本地服务可用时优先使用其独立索引' if dense else 'Gemini语义索引尚未完整，当前仅关键词检索'
+        except Exception as exc:
+            dense_metadata={'status':'unavailable','provider':'gemini','reason':type(exc).__name__}
+            notice='云向量查询暂不可用；保留关键词结果，不冒充语义召回'
+    if not dense and selected_provider=='gemini' and dense_metadata.get('status')=='unindexed':
         model=os.environ.get('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
         # One joined read replaces a per-vector block lookup. This legacy index
         # remains independent of model-fingerprinted local generations.

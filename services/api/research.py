@@ -228,11 +228,11 @@ def _text(elem, name):
     return ' '.join(elem.findtext(name, default='', namespaces=_NS).split())
 
 
-def _arxiv(query: str, limit: int) -> list[dict]:
+def _arxiv(query: str, limit: int,sort_by='relevance') -> list[dict]:
     identifier = re.search(r'(?:arxiv:|arxiv.org/(?:abs|pdf)/)?(\d{4}\.\d{4,5}(?:v\d+)?)', query, re.IGNORECASE)
     params = ({'id_list': identifier.group(1), 'max_results': 1}
               if identifier and len(query.split()) <= 2 else
-              {'search_query': 'all:' + query, 'sortBy': 'relevance', 'start': 0, 'max_results': limit})
+              {'search_query': 'all:' + query, 'sortBy': sort_by, 'sortOrder':'descending','start': 0, 'max_results': limit})
     url = 'https://export.arxiv.org/api/query?' + urllib.parse.urlencode(params)
     fetched = fetch_public(url, 5 * 1024 * 1024)
     provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time(), 'metadata_network': fetched.get('network')}
@@ -248,6 +248,9 @@ def _arxiv(query: str, limit: int) -> list[dict]:
         result.append({'identity': 'arxiv:' + re.sub(r'v\d+$', '', aid), 'title': _text(entry, 'a:title'), 'authors': [_text(a, 'a:name') for a in entry.findall('a:author', _NS)], 'year': int(_text(entry, 'a:published')[:4] or 0), 'published': _text(entry, 'a:published'), 'updated': _text(entry, 'a:updated'), 'arxiv_id': aid, 'doi': doi or None, 'url': 'https://arxiv.org/abs/' + aid, 'pdf_url': 'https://arxiv.org/pdf/' + aid, 'source': 'arxiv', 'abstract': _text(entry, 'a:summary'), 'license': license_url.text if license_url is not None else '许可需在来源页面核对', 'metadata_verified': True, 'metadata_source_url': url, 'reason': 'arXiv 实时元数据候选；标题相近不等于同一研究问题'})
     for item in result:
         item.update(provenance)
+    for item,entry in zip(result,root.findall('a:entry',_NS)):
+        item['comments']=_text(entry,'ar:comment')
+        item['categories']=[c.get('term') for c in entry.findall('a:category',_NS)]
     return result
 
 

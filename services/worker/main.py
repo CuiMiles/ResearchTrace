@@ -13,7 +13,7 @@ from services.api import store
 from services.api.jobs import work_once
 
 POOLS={'documents':('parse','parse_document','reparse','index','card'),
-       'interactive':('qa','agent','writing','translate','audit')}
+       'interactive':('qa','agent','writing','translate','text_translation','audit','recommendation','reference_classify','reference_download','reference_import')}
 stopping=False
 
 
@@ -94,7 +94,10 @@ def main():
                 if pool in ('all','interactive') and time.monotonic()-last_watch>30 and not (watch_thread and watch_thread.is_alive()):
                     last_watch=time.monotonic()
                     def watch():
-                        try:check_due_watches(limit=1)
+                        try:
+                            check_due_watches(limit=1)
+                            from services.api.recommendations import schedule_due
+                            schedule_due()
                         except Exception as exc:print('watch scheduler error: '+type(exc).__name__,flush=True)
                     watch_thread=threading.Thread(target=watch,daemon=True);watch_thread.start()
                 state.update(busy=True,phase='executing')

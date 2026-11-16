@@ -28,6 +28,7 @@ function AdminReviewAccounts() {
   const [label, setLabel] = useState('');
   const [days, setDays] = useState('7');
   const [workspace,setWorkspace]=useState('');
+  const [copySeed,setCopySeed]=useState(true);
   const [workspaces,setWorkspaces]=useState<WorkspaceChoice[]>([]);
   const [issued, setIssued] = useState<IssuedReviewer | null>(null);
   const [error, setError] = useState('');
@@ -42,7 +43,7 @@ function AdminReviewAccounts() {
     setLoading(true);
     setError('');
     try {
-      const [result,choices] = await Promise.all([api<ReviewerAccount[]>('/admin/reviewers'),api<WorkspaceChoice[]>('/admin/reviewer-workspaces')]);
+      const [result,choices] = await Promise.all([api<ReviewerAccount[]>('/admin/reviewers'),api<WorkspaceChoice[]>('/admin/reviewer-workspaces?include_bound=true')]);
       if (mounted.current && version === listVersion.current) {setAccounts(result);setWorkspaces(choices);}
     } catch (e) {
       if (mounted.current && version === listVersion.current) setError(errorMessage(e));
@@ -69,7 +70,7 @@ function AdminReviewAccounts() {
     setError('');
     setNotice('');
     try {
-      const result = await api<IssuedReviewer>('/admin/reviewers', { label: label.trim(), days: lifetime,...(workspace?{workspace_id:workspace}:{}) });
+      const result = await api<IssuedReviewer>('/admin/reviewers', { label: label.trim(), days: lifetime,...(workspace?{[copySeed?'seed_workspace_id':'workspace_id']:workspace}:{}) });
       if (!mounted.current) return;
       // Keep the code only in this temporary state, never in the metadata list.
       const { access_code, ...metadata } = result;
@@ -125,9 +126,9 @@ function AdminReviewAccounts() {
       </div>
       <label>研究资料空间<select aria-label="研究资料空间" value={workspace} disabled={busy} onChange={event=>setWorkspace(event.target.value)}>
         <option value="">新建空白评审空间</option>
-        {workspaces.map(item=><option key={item.id} value={item.id}>{item.name} · {item.ready_documents}/{item.documents} 篇已解析 · {item.id.slice(0,8)}</option>)}
+        {workspaces.filter(item=>copySeed||!accounts.some(a=>a.workspace===item.id)).map(item=><option key={item.id} value={item.id}>{item.name} · {item.ready_documents}/{item.documents} 篇已解析 · {item.id.slice(0,8)}</option>)}
       </select></label>
-      {workspace&&<p className="info-note">此访问码将能读取并操作选定空间中的现有文献与研究记录。请只选择用于该评审的资料。</p>}
+      {workspace&&<><label><input type="checkbox" checked={copySeed} onChange={e=>setCopySeed(e.target.checked)}/>复制为独立评审资料（沿用现有向量，不重新计费）</label><p className="info-note">{copySeed?'复制文献与完整索引到新空间；不复制历史回答、私有笔记或调用账本。':'此访问码将能读取并操作选定空间中的现有文献与研究记录。'}</p></>}
       <button className="primary-button" type="submit" disabled={busy || !!issued || !label.trim()}>
         {busy ? <Busy /> : '创建独立评审访问码'}
       </button>

@@ -2,6 +2,7 @@
 import json
 import os
 import time
+from typing import Literal
 from pydantic import BaseModel,ConfigDict,Field
 from . import models,store
 from .dependencies import child_statuses,PENDING
@@ -11,6 +12,42 @@ from .temporal import compare_time
 class SearchPlan(BaseModel):
     model_config=ConfigDict(extra='forbid')
     query:str=Field(min_length=1,max_length=350)
+
+
+class CoverageAssessment(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    version_id:str
+    category:Literal['direct','partial','insufficient']
+    claim_ids:list[str]=Field(min_length=1,max_length=12)
+
+
+def coverage_matrix(raw,validated,contexts,comparisons):
+    """Classification cannot promote a claim rejected by the evidence reviewer."""
+    claims={c['id']:c for c in validated.get('claims',[])}
+    dates={c['version_id']:c for c in comparisons}
+    assessments={}
+    for value in raw.get('coverage_assessments',[])[:8]:
+        item=CoverageAssessment.model_validate(value)
+        if item.version_id in assessments:raise ValueError('重复的后续论文覆盖分类')
+        assessments[item.version_id]=item
+    rows=[]
+    for context in contexts:
+        vid=context['id'];item=assessments.pop(vid,None)
+        ids=item.claim_ids if item else []
+        bound=[claims[i] for i in ids if i in claims]
+        supported=bool(bound) and len(bound)==len(ids) and all(
+            c.get('review',{}).get('status')=='supported' and
+            any(e['version_id']==vid for e in c.get('evidence',[])) for c in bound)
+        later=dates.get(vid,{}).get('status')=='later'
+        category=item.category if item and supported and later else 'insufficient'
+        rows.append({'version_id':vid,'title':context['title'],'time_comparison':dates.get(vid),
+                     'category':category,'requested_category':item.category if item else None,
+                     'claim_ids':[c['id'] for c in bound],
+                     'statements':[c['text'] for c in bound],
+                     'evidence':[e for c in bound for e in c.get('evidence',[]) if e['version_id']==vid],
+                     'notice':'模型辅助分类，限本次全文与条件；待人工核对' if supported and later else '缺少通过复核的本篇全文条件证据，不能判为覆盖'})
+    if assessments:raise ValueError('覆盖分类引用了本次范围外的论文')
+    return rows
 
 
 def planned_query(run,block,snap):
@@ -85,6 +122,9 @@ def audit(run):
     available=[]
     for vid in later:
         if store.one("SELECT 1 FROM current_blocks b JOIN versions v ON v.id=b.version_id WHERE b.workspace=? AND b.version_id=? AND v.status='ready' LIMIT 1",(w,vid)):available.append(vid)
+    downloaded=[d.get('document',{}).get('id') for d in downloads if d.get('document')]
+    # Newly discovered full text takes precedence over the unrelated bulk library.
+    available=list(dict.fromkeys([v for v in downloaded if v in available]+available))[:8]
     result={'source':block,'source_versions':[old]+all_context,'query':p['question'],'searched_at':search.get('searched_at'),
             'search_query':snap.get('audit_search_query',p.get('search_query') or p['question'][:350]),
             'search':search,'downloads':downloads,'excluded_by_time':excluded,'time_comparisons':comparisons,
@@ -95,20 +135,20 @@ def audit(run):
     else:
         if 'audit_evidence' not in snap:
             from .retrieval import retrieve
-            ret=retrieve(w,available,p['question'],limit=14)
+            ret=retrieve(w,available,p['question'],limit=min(40,max(14,4*len(available))),queries=[snap.get('audit_search_query',p.get('search_query') or p['question'][:350])])
             snap['audit_evidence']=[block]+ret.get('blocks',[]);checkpoint(run,{'audit_evidence':snap['audit_evidence']})
         evidence=snap['audit_evidence']
         if 'model_response' not in snap:
             prompt={'old_suggestion':block,'source_versions':[old]+[c for c in all_context if c['id'] in available],
                     'question':p['question'],'time_comparisons':comparisons,'available_fulltext_evidence':evidence,
-                    'requirements':'逐项比较发表日期精度、任务、数据、模型与适用条件，说明覆盖什么和尚未覆盖什么。各项只允许直接相关证据/部分覆盖/当前范围证据不足/尚未完成无法判断。引用必须来自实际全文，摘要和标题不是结论证据；最多6条原子主张，不宣称彻底解决或全球首次。'}
+                    'requirements':'逐项比较发表日期精度、任务、数据、模型与适用条件，说明覆盖什么和尚未覆盖什么。各项只允许直接相关证据/部分覆盖/当前范围证据不足/尚未完成无法判断。引用必须来自实际全文，摘要和标题不是结论证据；最多12条原子主张，不宣称彻底解决或全球首次。JSON除answer_segments和claims外，增加coverage_assessments数组，每项{version_id,category:direct|partial|insufficient,claim_ids:[本回答实际主张id]}。分类覆盖的主张必须引用对应后续论文全文，并在主张中说明任务与条件。'}
             snap['model_response']=models.generate(SYSTEM,json.dumps(prompt,ensure_ascii=False),rid,role='deep')
             checkpoint(run,{'model_response':snap['model_response']})
         response=snap['model_response']
-        validated=validate_answer(json.loads(response['text']),evidence,workspace=w,version_ids=[p['version_id']]+available)
-        from .evidence_validation import review_live
-        validated=review_live(run,validated,evidence,[p['version_id']]+available,p['question'])
-        result.update(validated,model=response['model'],usage=response['usage'])
+        from .answer_cycle import _checked
+        validated=_checked(run,response,evidence,[p['version_id']]+available,p['question'])
+        matrix=coverage_matrix(json.loads(response['text']),validated,[c for c in all_context if c['id'] in available],comparisons)
+        result.update(validated,model=response['model'],usage=response['usage'],coverage_matrix=matrix)
     with store.db() as conn:
         conn.execute('BEGIN IMMEDIATE')
         current=conn.execute('SELECT status FROM runs WHERE id=? AND workspace=?',(rid,w)).fetchone()

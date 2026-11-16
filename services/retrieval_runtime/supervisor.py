@@ -135,6 +135,15 @@ class Supervisor:
                 mode='cuda';budget*=2
             except RuntimeError:
                 mode='cuda_sharded'
+                for count in range(2,5):
+                    share=(self.gpu_budget*2)//count
+                    try:
+                        gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,share,self.gpu_reserve,count)
+                        budget=share
+                        break
+                    except RuntimeError:
+                        continue
+                if gpu is None:raise RuntimeUnavailable('共享GPU暂时没有满足2..4卡总预算及每卡2GiB余量的资源槽')
         if mode!='cpu' and gpu is None:
             gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,budget,self.gpu_reserve,self.gpu_count if mode=='cuda_sharded' else 1)
         if mode == "cuda":
