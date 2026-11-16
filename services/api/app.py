@@ -196,7 +196,11 @@ def resume_import_batch(batch_id:str,p:BatchSelection=BatchSelection(),s=Depends
 
 @app.get('/api/v1/documents')
 def documents(s=Depends(session)):
-    return [version(v['id'],s['workspace']) for v in rows('SELECT id FROM versions WHERE workspace=? AND deleted=0 ORDER BY created DESC',(s['workspace'],))]
+    found=rows('SELECT v.*,COALESCE(a.parse_id,v.id) active_parse_id FROM versions v LEFT JOIN active_parses a ON a.version_id=v.id WHERE v.workspace=? AND v.deleted=0 ORDER BY v.created DESC',(s['workspace'],))
+    indexes=index_status_map(s['workspace'])
+    for v in found:
+        v.pop('path',None);v['metadata']=json.loads(v['metadata']);v['local_index']=indexes[v['id']]
+    return found
 
 @app.get('/api/v1/documents/{vid}/status')
 def status(vid:str,s=Depends(session)):
@@ -205,19 +209,36 @@ def status(vid:str,s=Depends(session)):
     return v
 
 def local_index_status(workspace,vid):
-    model=os.getenv('GEMINI_EMBEDDING_MODEL','gemini-embedding-001') if os.getenv('RT_EMBED_PROVIDER','gemini')=='gemini' else os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16')
-    generation=one('SELECT g.* FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id WHERE a.workspace=? AND a.version_id=? AND a.model_id=?',(workspace,vid,model))
-    expected=one("SELECT count(*) n FROM current_blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer')",(workspace,vid))['n']
-    covered=one('SELECT count(DISTINCT s.block_id) n FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id JOIN current_blocks b ON b.id=s.block_id WHERE c.workspace=? AND c.version_id=? AND c.generation_id=?',(workspace,vid,generation['id']))['n'] if generation else 0
-    return {'status':'ready' if generation and covered==expected and expected>0 else 'unindexed',
-            'generation_id':generation['id'] if generation else None,'model_id':model,
-            'indexed_blocks':covered,'eligible_blocks':expected,'semantic_ready':bool(generation and covered==expected and expected>0)}
+    return index_status_map(workspace).get(vid,{'status':'unindexed','semantic_ready':False,'indexed_blocks':0,'eligible_blocks':0})
+
+def index_status_map(workspace):
+    counts={r['version_id']:r['n'] for r in rows("SELECT version_id,count(*) n FROM current_blocks WHERE workspace=? AND length(trim(text))>0 AND type NOT IN ('header','footer') GROUP BY version_id",(workspace,))}
+    mode=os.getenv('RT_EMBED_PROVIDER','gemini');local=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16');cloud=os.getenv('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
+    models=[cloud] if mode=='gemini' else [local,cloud] if mode=='auto' else [local]
+    coverage=rows('''SELECT a.version_id,a.model_id,g.id generation_id,g.status,count(DISTINCT b.id) covered
+       FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id
+       LEFT JOIN retrieval_chunks c ON c.generation_id=g.id AND c.version_id=a.version_id AND c.workspace=a.workspace
+       LEFT JOIN retrieval_spans s ON s.chunk_id=c.id
+       LEFT JOIN current_blocks b ON b.id=s.block_id AND b.workspace=a.workspace AND b.version_id=a.version_id
+       WHERE a.workspace=? GROUP BY a.version_id,a.model_id,g.id''',(workspace,))
+    lookup={(r['version_id'],r['model_id']):r for r in coverage};result={}
+    for v in rows('SELECT id FROM versions WHERE workspace=? AND deleted=0',(workspace,)):
+        providers=[];expected=counts.get(v['id'],0)
+        for model in models:
+            r=lookup.get((v['id'],model));covered=r['covered'] if r else 0
+            ready=bool(r and r['status']=='ready' and covered==expected and expected>0)
+            providers.append({'status':'ready' if ready else 'unindexed','generation_id':r['generation_id'] if r else None,'model_id':model,
+                              'indexed_blocks':covered,'eligible_blocks':expected,'semantic_ready':ready})
+        chosen=next((p for p in providers if p['semantic_ready']),providers[0])
+        result[v['id']]={**chosen,'providers':providers}
+    return result
 
 class IndexRequest(BaseModel):
     version_ids:list[str]=Field(min_length=1,max_length=100)
     generation_id:str|None=None
     provider:Literal['local','gemini']|None=None
     source_generation_id:str|None=None
+    pack_cloud:bool=False
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/indices/runs')
@@ -533,6 +554,8 @@ def resume(rid:str,s=Depends(session)):
         return run_get(rid,s['workspace'])
     if r['kind']=='watch':
         raise HTTPException(409,'追踪检查请通过“立即检查”重试；不会将追踪任务加入解析队列')
+    if r['status'] in ('cancelled','failed','partial') and one("SELECT 1 FROM quota WHERE run_id=? AND status IN ('reserved','unknown') LIMIT 1",(rid,)):
+        raise HTTPException(409,'此任务有已发送但结果未知的请求，已保留计账；需核对上游回执，不能直接恢复重发。')
     if r['status'] in ('cancelled','failed','partial'):
         from .store import run_execution_lock
         with db() as c:
@@ -737,6 +760,8 @@ from .text_translation import router as text_translation_router
 app.include_router(text_translation_router)
 from .document_workflows import router as document_workflow_router
 app.include_router(document_workflow_router)
+from .writing_workflows import router as writing_workflow_router
+app.include_router(writing_workflow_router)
 
 dist=ROOT/'apps/web/dist'
 app.mount('/assets',StaticFiles(directory=dist/'assets',check_dir=False),name='assets')

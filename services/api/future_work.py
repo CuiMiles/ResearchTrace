@@ -21,13 +21,14 @@ class CoverageAssessment(BaseModel):
     claim_ids:list[str]=Field(min_length=1,max_length=12)
 
 
-def coverage_matrix(raw,validated,contexts,comparisons):
+def coverage_matrix(raw,validated,contexts,comparisons,source_version_ids=()):
     """Classification cannot promote a claim rejected by the evidence reviewer."""
     claims={c['id']:c for c in validated.get('claims',[])}
     dates={c['version_id']:c for c in comparisons}
     assessments={}
     for value in raw.get('coverage_assessments',[])[:8]:
         item=CoverageAssessment.model_validate(value)
+        if item.version_id in source_version_ids:continue
         if item.version_id in assessments:raise ValueError('重复的后续论文覆盖分类')
         assessments[item.version_id]=item
     rows=[]
@@ -123,8 +124,10 @@ def audit(run):
     for vid in later:
         if store.one("SELECT 1 FROM current_blocks b JOIN versions v ON v.id=b.version_id WHERE b.workspace=? AND b.version_id=? AND v.status='ready' LIMIT 1",(w,vid)):available.append(vid)
     downloaded=[d.get('document',{}).get('id') for d in downloads if d.get('document')]
+    discovered={normalize_identity(c['identity']) for c in candidates}
+    matching={c['id'] for c in all_context if normalize_identity(c.get('identity')) in discovered}
     # Newly discovered full text takes precedence over the unrelated bulk library.
-    available=list(dict.fromkeys([v for v in downloaded if v in available]+available))[:8]
+    available=list(dict.fromkeys([v for v in downloaded if v in available]+[v for v in available if v in matching]))[:8]
     result={'source':block,'source_versions':[old]+all_context,'query':p['question'],'searched_at':search.get('searched_at'),
             'search_query':snap.get('audit_search_query',p.get('search_query') or p['question'][:350]),
             'search':search,'downloads':downloads,'excluded_by_time':excluded,'time_comparisons':comparisons,
@@ -135,19 +138,25 @@ def audit(run):
     else:
         if 'audit_evidence' not in snap:
             from .retrieval import retrieve
-            ret=retrieve(w,available,p['question'],limit=min(40,max(14,4*len(available))),queries=[snap.get('audit_search_query',p.get('search_query') or p['question'][:350])])
+            import re
+            source_topics=' '.join(s for s in re.split(r'(?<=[.!?])\s+',block['text']) if re.search(r'future|plan to|intend to|local|modalit',s,re.I))
+            queries=[c['title'][:300] for c in candidates if normalize_identity(c['identity']) in {normalize_identity(a.get('identity')) for a in all_context if a['id'] in available}][:2]
+            queries+=[source_topics[:400]] if source_topics else []
+            ret=retrieve(w,available,p['question'],limit=min(40,max(14,6*len(available))),queries=queries)
             snap['audit_evidence']=[block]+ret.get('blocks',[]);checkpoint(run,{'audit_evidence':snap['audit_evidence']})
         evidence=snap['audit_evidence']
         if 'model_response' not in snap:
             prompt={'old_suggestion':block,'source_versions':[old]+[c for c in all_context if c['id'] in available],
-                    'question':p['question'],'time_comparisons':comparisons,'available_fulltext_evidence':evidence,
+                    'question':p['question'],'time_comparisons':[c for c in comparisons if c['version_id'] in available],'available_fulltext_evidence':evidence,
                     'requirements':'逐项比较发表日期精度、任务、数据、模型与适用条件，说明覆盖什么和尚未覆盖什么。各项只允许直接相关证据/部分覆盖/当前范围证据不足/尚未完成无法判断。引用必须来自实际全文，摘要和标题不是结论证据；最多12条原子主张，不宣称彻底解决或全球首次。JSON除answer_segments和claims外，增加coverage_assessments数组，每项{version_id,category:direct|partial|insufficient,claim_ids:[本回答实际主张id]}。分类覆盖的主张必须引用对应后续论文全文，并在主张中说明任务与条件。'}
+            prompt['requirements']+=' 不要将原建议论文列为后续论文；coverage_assessments只允许available_fulltext_evidence中的后续version_id。事实正文避免重复标题中的数字、年份或页码；时间先后由程序表格展示。只比较命题所需条件，不扩写无关论文。'
+            prompt['requirements']+=' 每篇候选最多3条与命题直接相关的简短原子主张；不另写日期主张。coverage_assessments中claim_ids只列直接支持该分类的1—2个本篇主张，不能把旧建议复述、无证据的缺口或无关旁证混入partial/direct的依据。其它缺口作为insufficient单独说明。'
             snap['model_response']=models.generate(SYSTEM,json.dumps(prompt,ensure_ascii=False),rid,role='deep')
             checkpoint(run,{'model_response':snap['model_response']})
         response=snap['model_response']
         from .answer_cycle import _checked
         validated=_checked(run,response,evidence,[p['version_id']]+available,p['question'])
-        matrix=coverage_matrix(json.loads(response['text']),validated,[c for c in all_context if c['id'] in available],comparisons)
+        matrix=coverage_matrix(json.loads(response['text']),validated,[c for c in all_context if c['id'] in available],comparisons,[p['version_id']])
         result.update(validated,model=response['model'],usage=response['usage'],coverage_matrix=matrix)
     with store.db() as conn:
         conn.execute('BEGIN IMMEDIATE')

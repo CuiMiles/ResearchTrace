@@ -7,7 +7,7 @@ from . import store
 LEXICON = {'作者':('author','authors','affiliation'), '机构':('affiliation','organization'),
            '训练':('train','trained','training'), '显卡':('GPU','GPUs','accelerator'),
            '优化器':('optimizer','optimization'), '参数':('parameters','hyperparameters'),
-           '层归一化':('layer','normalization'), '上下文':('context','length'),
+           '层归一化':('layer','normalization'), '上下文':('context','length','sequence','sequences','tokens','window','positional'),
            '注意力':('attention',), '模型':('model','models'), '翻译':('translation',),
            '成本':('cost','expense'), '批量':('batch',), '学习率':('learning','rate')}
 

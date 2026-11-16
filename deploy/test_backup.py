@@ -62,6 +62,16 @@ class BackupTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             module.backup(self.data, self.root / "backups")
 
+    def test_container_document_paths_restore_on_host(self):
+        self.db.execute("UPDATE versions SET path='/app/data/pdfs/input.pdf'")
+        self.db.commit()
+        snapshot=module.backup(self.data,self.root/'backups')
+        target=self.root/'container-restored'
+        module.restore(snapshot,target)
+        with sqlite3.connect(target/module.DATABASE) as conn:
+            path=Path(conn.execute('SELECT path FROM versions').fetchone()[0])
+            self.assertEqual(path.read_bytes(),self.pdf.read_bytes())
+
     def test_retention_keeps_unknown_files_and_restore_refuses_existing_destination(self):
         first = module.backup(self.data, self.root / "backups", retain=1)
         unrelated = self.root / "backups/do-not-delete"

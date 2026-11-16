@@ -6,13 +6,15 @@ import re
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[2]
-ALLOWED_ROOTS = (ROOT / 'evidence', ROOT / 'apps' / 'web' / 'validation')
-ALLOWED_EXTENSIONS = {'.png', '.svg', '.json', '.log'}
+ALLOWED_ROOTS = (ROOT / 'evidence', ROOT / 'apps' / 'web' / 'validation', ROOT / 'deliverables')
+ALLOWED_EXTENSIONS = {'.png', '.svg', '.json', '.log', '.pdf', '.mp4'}
 MEDIA_TYPES = {
     '.png': 'image/png',
     '.svg': 'image/svg+xml',
     '.json': 'application/json; charset=utf-8',
     '.log': 'text/plain; charset=utf-8',
+    '.pdf': 'application/pdf',
+    '.mp4': 'video/mp4',
 }
 
 _MODULE_SPECS = [

@@ -175,7 +175,7 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
             rank+=1
     ordered=sorted(scores,key=scores.get,reverse=True)
     rerank_metadata={'status':'NOT RUN'}
-    if reranker is not None and ordered and os.getenv('RT_ENABLE_RERANK','true')=='true':
+    if reranker is not None and dense_metadata.get('status')!='unavailable' and ordered and os.getenv('RT_ENABLE_RERANK','true')=='true':
         try:
             top=ordered[:50]
             response=reranker.rerank(question,[by_id[k].get('retrieval_text',by_id[k]['text']) for k in top])
@@ -186,9 +186,11 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
             rerank_metadata={'status':'BLOCKED','reason':type(exc).__name__}
     picked=[]
     # Reserve evidence slots for each requested document before filling globally.
-    for vid in requested:
-        candidate=next((k for k in ordered if by_id[k]['version_id']==vid),None)
-        if candidate and candidate not in picked and len(picked)<limit:picked.append(candidate)
+    reserved=max(1,limit//len(requested))
+    per_document={vid:[k for k in ordered if by_id[k]['version_id']==vid][:reserved] for vid in requested}
+    for slot in range(reserved):
+        for vid in requested:
+            if slot<len(per_document[vid]) and len(picked)<limit:picked.append(per_document[vid][slot])
     picked.extend(k for k in ordered if k not in picked)
     picked=picked[:limit]
     blocks=[{**_decode(by_id[k]),'rrf_score':scores[k]} for k in picked]

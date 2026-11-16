@@ -33,7 +33,31 @@ def snapshots(versions):
     return [{'version_id':v['id'],'parse_id':v['parse_id'],'sha256':v['sha256']} for v in versions]
 
 
-def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,activate=True,chunks_only=False,source_generation_id=None):
+def packed_cloud_chunks(blocks,title,provider):
+    """Pack complete source spans; each input stays within a UTF-8 token bound.
+
+    This is a different retrieval chunker, never a same-input model comparison.
+    A hit still resolves to each original immutable block and physical page.
+    """
+    prefix=('Title: '+title+'\n').encode()[:120].decode('utf-8',errors='ignore')
+    cap=2048-len(prefix.encode());groups=[];parts=[];spans=[];size=0
+    def flush():
+        nonlocal parts,spans,size
+        if parts:
+            text='\n\n'.join(parts);groups.append({'text':text,'retrieval_text':prefix+text,'spans':spans,'kind':'source_bundle'})
+        parts=[];spans=[];size=0
+    for b in blocks:
+        if not eligible(b):continue
+        for piece in provider.split(b['text'],cap,32):
+            length=len(piece['text'].encode());separator=2 if parts else 0
+            if parts and size+separator+length>cap:flush();separator=0
+            parts.append(piece['text']);size+=separator+length
+            spans.append((b['id'],piece['start'],piece['end']))
+    flush()
+    return groups
+
+
+def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,activate=True,chunks_only=False,source_generation_id=None,pack_cloud=False):
     if provider is None:
         from .embedding_providers import configured_provider
         provider=configured_provider(run_id=run_id)
@@ -42,6 +66,10 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
     stable={k:v for k,v in desc.items() if k not in ('weights_ready','tokenizer_ready','inference_verified')}
     manifest={'provider':stable,'fingerprint':fp,'chunker':CHUNKER,'snapshots':snapshots(versions),'max_tokens':512,
               'exclusions':['empty_text','header','footer'],'context_is_source_evidence':False}
+    if pack_cloud:
+        if desc.get('provider')!='gemini':raise ValueError('显式云片段合并只适用于Gemini独立索引')
+        manifest.update(chunker='source-bundles-byte-bound-v1',input_byte_limit=2048,max_tokens=2048,
+                        token_count_kind='conservative_utf8_byte_upper_bound',identical_retrieval_inputs=False,source_spans_preserved=True)
     if source_generation_id:
         source=store.one('SELECT * FROM index_generations WHERE id=? AND workspace=?',(source_generation_id,workspace))
         if not source or source['covered_blocks']!=source['expected_blocks'] or not source['chunk_count']:
@@ -50,9 +78,10 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
             raise ValueError('对照源索引的文档及解析快照必须完全相同')
         manifest.update(chunker='fixed-source-spans-v1',source_generation_id=source_generation_id,
                         token_count_kind='source_chunker_count_not_cloud_tokenizer')
-        if desc.get('provider')=='gemini':
+        if desc.get('provider')=='gemini' and not pack_cloud:
             manifest.update(chunker='source-spans-cloud-byte-bound-v1',input_byte_limit=2048,
                             identical_retrieval_inputs=False,source_spans_preserved=True)
+        if pack_cloud:manifest['chunker']='source-bundles-byte-bound-v1'
     gid=generation_id or store.uid()
     previous=store.one('SELECT * FROM index_generations WHERE id=? AND workspace=?',(gid,workspace))
     if previous:
@@ -73,7 +102,7 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
             raise RetrievalUnavailable('索引已取消，已持久化片段可继续同代恢复')
     try:
         expected=excluded=covered=0
-        if source_generation_id:
+        if source_generation_id and not pack_cloud:
             with store.db() as c:
                 for chunk in c.execute('SELECT * FROM retrieval_chunks WHERE generation_id=?',(source_generation_id,)).fetchall():
                     spans=c.execute('SELECT * FROM retrieval_spans WHERE chunk_id=?',(chunk['id'],)).fetchall()
@@ -100,6 +129,15 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
             from .snapshots import snapshot_blocks
             blocks=snapshot_blocks(workspace,version['id'],version['parse_id'])
             existing={r['block_id'] for r in store.rows('SELECT DISTINCT s.block_id FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id WHERE c.generation_id=? AND c.version_id=?',(gid,version['id']))}
+            if pack_cloud and not existing:
+                packed=packed_cloud_chunks(blocks,version['title'],provider)
+                with store.db() as c:
+                    for ordinal,item in enumerate(packed):
+                        cid=hashlib.sha256((gid+':packed:'+version['id']+':'+str(ordinal)).encode()).hexdigest()
+                        c.execute('INSERT OR IGNORE INTO retrieval_chunks VALUES(?,?,?,?,?,?,?,?,?,?)',
+                            (cid,gid,workspace,version['id'],version['parse_id'],ordinal,item['text'],item['retrieval_text'],len(item['retrieval_text'].encode()),item['kind']))
+                        for bid,start,end in item['spans']:c.execute('INSERT OR IGNORE INTO retrieval_spans VALUES(?,?,?,?)',(cid,bid,start,end))
+                existing={b['id'] for b in blocks if eligible(b)}
             prepared={}
             if hasattr(provider,'split_many'):
                 for cap in (512,2048):

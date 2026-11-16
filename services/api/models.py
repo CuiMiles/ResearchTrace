@@ -114,8 +114,10 @@ def credentials():
     second = os.getenv('GEMINI_PROJECT_2','').strip()
     # A missing project ID cannot manufacture an independent quota group.
     shared = first or second or 'gemini-shared'
-    return [(first or shared,os.getenv('GEMINI_API_KEY','')),
-            (second or shared,os.getenv('GEMINI_API_KEY2',''))]
+    choices=[(first or shared,os.getenv('GEMINI_API_KEY','')),
+             (second or shared,os.getenv('GEMINI_API_KEY2',''))]
+    # Operator selection changes credentials, never the project accounting group.
+    return choices[::-1] if os.getenv('RT_PREFERRED_CREDENTIAL','1')=='2' else choices
 
 def limits(model):
     try:
@@ -139,11 +141,21 @@ def limits(model):
         return (5,250000,20)
     return (15,250000,500)
 
-def reserve(project,model,tokens,run_id,now=None):
+
+def accounting_projects(project):
+    """Operator aliases retain earlier ledger rows under the same real project."""
+    try:
+        aliases=json.loads(os.getenv('RT_LEGACY_PROJECT_MAP','{}'))
+        if not isinstance(aliases,dict) or any(not isinstance(k,str) or not isinstance(v,str) for k,v in aliases.items()):raise ValueError
+    except ValueError:raise QuotaRefusal('历史项目映射无效',scope='global',code='budget_configuration') from None
+    return tuple(dict.fromkeys([project]+[k for k,v in aliases.items() if v==project]))
+
+def reserve(project,model,tokens,run_id,now=None,request_units=1):
     now = time.time() if now is None else now
     rpm,tpm,rpd=limits(model)
     with db() as c:
         c.execute('BEGIN IMMEDIATE')
+        if type(request_units) is not int or not 0<=request_units<=32:raise ValueError('Invalid provider request units')
         run = None
         if run_id:
             run=c.execute('SELECT workspace,status FROM runs WHERE id=?',(run_id,)).fetchone()
@@ -160,8 +172,8 @@ def reserve(project,model,tokens,run_id,now=None):
             raise QuotaRefusal('模型当日总预算配置无效',scope='global',code='budget_configuration') from None
         cap=daily_caps.get(model)
         if cap is not None:
-            used=c.execute('SELECT count(*) FROM quota WHERE model=? AND day=?',(model,quota_day(now))).fetchone()[0]
-            if used>=cap:
+            used=c.execute('SELECT COALESCE(SUM(COALESCE(u.units,1)),0) FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id WHERE q.model=? AND q.day=?',(model,quota_day(now))).fetchone()[0]
+            if used+request_units>cap:
                 raise QuotaRefusal('该模型当日授权总调用数已用尽，失败与未知请求也计入',scope='global',code='model_daily')
         if model=='gemini-decision-1' and run_id:
             decision_limit=int(os.getenv('RT_DECISION_WORKFLOW_LIMIT','3'))
@@ -186,20 +198,22 @@ def reserve(project,model,tokens,run_id,now=None):
         workflow_limit = _global_budget(c, model, run_id, run, policy, now)
         if type(tokens) is not int or tokens < 0 or tokens > min(tpm,96000):
             raise QuotaRefusal('上下文超过本次请求安全预算；请缩小范围', scope='global', code='context_budget')
-        minute=c.execute('SELECT COUNT(*),COALESCE(SUM(input_tokens),0) FROM quota WHERE project=? AND model=? AND started>?',(project,model,now-60)).fetchone()
-        daily=c.execute('SELECT COUNT(*) FROM quota WHERE project=? AND model=? AND day=?',(project,model,quota_day(now))).fetchone()[0]
-        active=c.execute("SELECT COUNT(*) FROM quota WHERE project=? AND model=? AND status='reserved' AND started>?",(project,model,now-300)).fetchone()[0]
-        if daily>=rpd:
+        groups=accounting_projects(project);marks=','.join('?' for _ in groups)
+        minute=c.execute('SELECT COALESCE(SUM(COALESCE(u.units,1)),0),COALESCE(SUM(q.input_tokens),0) FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id WHERE q.project IN ('+marks+') AND q.model=? AND q.started>?',(*groups,model,now-60)).fetchone()
+        daily=c.execute('SELECT COALESCE(SUM(COALESCE(u.units,1)),0) FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id WHERE q.project IN ('+marks+') AND q.model=? AND q.day=?',(*groups,model,quota_day(now))).fetchone()[0]
+        active=c.execute("SELECT COUNT(*) FROM quota WHERE project IN ("+marks+") AND model=? AND status='reserved' AND started>?",(*groups,model,now-300)).fetchone()[0]
+        if daily+request_units>rpd:
             raise QuotaRefusal('项目日额度已用尽；太平洋时间午夜复位', scope='project', code='project_daily')
         if model == CORE and (policy['profile'] != 'smoke' or os.getenv('RT_SMOKE_MODE','true') != 'true'):
             if daily >= policy['runtime_soft_rpd']:
                 raise QuotaRefusal('Hydrogen 常规项目日软预算已用尽；保留关键演示额度，不自动继续', scope='project', code='project_soft_daily')
-        if active >= 1 or minute[0]>=rpm or minute[1]+tokens>tpm:
+        if active >= 1 or minute[0]+request_units>rpm or minute[1]+tokens>tpm:
             raise QuotaRefusal('项目分钟额度/并发预算不足，请稍后恢复任务', scope='transient', code='project_window')
         qid=uid()
         c.execute('INSERT INTO quota(id,project,model,day,run_id,started,input_tokens,status) VALUES(?,?,?,?,?,?,?,?)',(qid,project,model,quota_day(now),run_id,now,tokens,'reserved'))
         c.execute('INSERT INTO quota_context(quota_id,profile,workflow_limit) VALUES(?,?,?)',
                   (qid,policy['profile'],workflow_limit))
+        c.execute('INSERT INTO quota_request_units VALUES(?,?,?)',(qid,request_units,'request_body'))
         return qid
 
 def client():
@@ -249,7 +263,8 @@ def request(model,method,body,run_id,estimate):
         refused = []
         for project,key in _choose(model):
             try:
-                qid=reserve(project,model,estimate,run_id)
+                units=len(body.get('requests',[])) if method=='batchEmbedContents' else 0 if method=='countTokens' else 1
+                qid=reserve(project,model,estimate,run_id,request_units=units) if units!=1 else reserve(project,model,estimate,run_id)
                 break
             except ModelError as exc:
                 local = _local_refusal(exc)
@@ -283,6 +298,7 @@ def request(model,method,body,run_id,estimate):
         with client() as c:
             response=c.post(endpoint,headers={'x-goog-api-key':key},json=body)
         if response.status_code!=200:
+            error={}
             try:
                 payload=response.json()
                 error=payload.get('error',{}) if isinstance(payload,dict) else {}
@@ -303,6 +319,25 @@ def request(model,method,body,run_id,estimate):
                 status='failed'
             # Only controlled categories exposed, never raw upstream URL/body/headers.
             detail=f'HTTP {response.status_code} {category}'
+            if response.status_code==429:
+                # Retain machine-readable quota diagnostics without upstream
+                # messages, signed URLs, keys or arbitrary response text.
+                import re
+                diagnostics=[]
+                for item in error.get('details',[]) if isinstance(error.get('details',[]),list) else []:
+                    if not isinstance(item,dict):continue
+                    delay=item.get('retryDelay')
+                    if isinstance(delay,str) and re.fullmatch(r'\d+(?:\.\d+)?s',delay):diagnostics.append({'retry_delay':delay})
+                    for v in item.get('violations',[]) if isinstance(item.get('violations',[]),list) else []:
+                        if not isinstance(v,dict):continue
+                        entry={}
+                        for field in ('quotaMetric','quotaId','quotaValue'):
+                            value=str(v.get(field,''))
+                            if re.fullmatch(r'[A-Za-z0-9_./:-]{1,200}',value):entry[field]=value
+                        if entry:diagnostics.append(entry)
+                if diagnostics:
+                    usage['quota_diagnostics']=diagnostics
+                    if run_id:event(run_id,'provider_quota_exhausted',{'model':model,'diagnostics':diagnostics})
             raise SentRequestError(f'{model} {detail}；请求已记账，无自动付费兜底', outcome=status, quota_id=qid,
                                    http_status=response.status_code)
         result=response.json()
@@ -384,7 +419,7 @@ def role_chain(role):
     return list(dict.fromkeys(chain)) or [BATCH if role == 'light' else CORE]
 
 
-def generate(system,prompt,run_id,core=True,role=None,json_output=True):
+def generate(system,prompt,run_id,core=True,role=None,json_output=True,response_schema=None):
     """Generate with the first usable model of the role chain.
 
     A later model is tried only when the earlier one was refused locally for
@@ -402,7 +437,8 @@ def generate(system,prompt,run_id,core=True,role=None,json_output=True):
         model = chain[index]
         last = index == len(chain) - 1
         try:
-            result = _generate_once(model, system, prompt, run_id, json_output=json_output)
+            options={'response_schema':response_schema} if response_schema else {}
+            result = _generate_once(model, system, prompt, run_id, json_output=json_output,**options)
         except QuotaRefusal as exc:
             if last or exc.code not in _DOWNGRADE_CODES:
                 raise
@@ -440,12 +476,14 @@ def generate(system,prompt,run_id,core=True,role=None,json_output=True):
     raise ModelError('没有可用模型')
 
 
-def _generate_once(model, system, prompt, run_id, json_output=True):
+def _generate_once(model, system, prompt, run_id, json_output=True,response_schema=None):
     core = model == CORE
     text_bytes=len((system+prompt).encode())
     config = {'maxOutputTokens': 16384 if core or (text_bytes > 20000) else 8192}
     if json_output:
         config['responseMimeType'] = 'application/json'
+    if response_schema:
+        config['responseSchema']=response_schema
     payload={'systemInstruction':{'parts':[{'text':system}]},'contents':[{'role':'user','parts':[{'text':prompt}]}],
              'generationConfig':config}
     data,project=request(model,'generateContent',payload,run_id,text_bytes+1024)
@@ -501,7 +539,11 @@ def provider_report():
         config_error=exc.code
     return {'configured':bool(projects),'paid_fallback':False,'reset_at':reset_at(),'remaining_balance':'未知；下列是本应用本地账目，其他业务用量未知',
         'projects':projects,'models':[{'model':m,'rpm':limits(m)[0],'tpm':limits(m)[1],'rpd':limits(m)[2]} for m in ((CORE,BATCH,EMBED,'gemini-decision-1') if os.getenv('RT_DECISION_ENABLED')=='true' else (CORE,BATCH,EMBED))],
-        'status':rows('SELECT * FROM provider_state'),'usage':rows('SELECT project,model,day,COUNT(*) calls,SUM(input_tokens) input_tokens,SUM(output_tokens) output_tokens FROM quota GROUP BY project,model,day'),
+        'status':rows('SELECT * FROM provider_state'),'usage':rows('''SELECT q.project,q.model,q.day,COUNT(*) calls,
+            SUM(COALESCE(u.units,1)) provider_request_units,
+            SUM(CASE WHEN u.source='legacy_upper_bound' THEN 1 ELSE 0 END) conservative_legacy_attempts,
+            SUM(q.input_tokens) input_tokens,SUM(q.output_tokens) output_tokens
+            FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id GROUP BY q.project,q.model,q.day'''),
         'hydrogen_total_used':one('SELECT COUNT(*) n FROM quota WHERE model=?',(CORE,))['n'],
         'hydrogen_budget':policy['limit'] if policy else None,'mode':active if active in PROFILE_LIMITS else 'invalid',
         'profiles':profiles,'budget_configuration_error':config_error,

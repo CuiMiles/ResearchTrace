@@ -91,13 +91,32 @@ def run(run):
         checkpoint(run,{'recommendation_response':snap['recommendation_response']})
     if candidates:
         reasons=Reasons.model_validate_json(snap['recommendation_response']['text']).reasons
-        if {r.identity for r in reasons}!={c['identity'] for c in candidates} or len(reasons)!=len(candidates):raise ValueError('推荐理由与真实候选不一致')
+        expected={c['identity'] for c in candidates}
+        if any(r.identity not in expected for r in reasons):raise ValueError('推荐理由包含不存在的候选')
+        if {r.identity for r in reasons}!=expected or len(reasons)!=len(candidates):
+            response=snap.get('recommendation_repair_response')
+            if response is None and not snap.get('recommendation_repair_attempted'):
+                checkpoint(run,{'recommendation_repair_attempted':True})
+                schema={'type':'OBJECT','required':['reasons'],'properties':{'reasons':{'type':'ARRAY','minItems':len(candidates),'maxItems':len(candidates),
+                    'items':{'type':'OBJECT','required':['identity','reason'],'properties':{'identity':{'type':'STRING','enum':sorted(expected)},'reason':{'type':'STRING'}}}}}}
+                try:
+                    response=models.generate('为每个真实候选给出摘要范围内的相关性理由，低相关也必须明确说明，不能省略或改变identity，不补全文结论。',
+                        json.dumps({'query':p['query'],'candidates':candidates,'requirements':'每个identity恰好出现一次'},ensure_ascii=False),rid,role='light',response_schema=schema)
+                    checkpoint(run,{'recommendation_repair_response':response})
+                except models.ModelError:
+                    store.event(rid,'recommendation_reason_incomplete',{'repair_status':'BLOCKED','no_automatic_resend':True})
+            if response:
+                reasons=Reasons.model_validate_json(response['text']).reasons
+                if any(r.identity not in expected for r in reasons):raise ValueError('修订理由包含不存在候选')
         mapping={r.identity:r.reason for r in reasons}
-        for item in candidates:item['reason']=mapping[item['identity']]
+        for item in candidates:
+            item['reason']=mapping.get(item['identity'],'本次尚未生成该候选的摘要理由，待复核。')
+            item['reason_status']='generated_from_metadata' if item['identity'] in mapping else 'missing'
     result={'query':p['query'],'source_candidates':candidates,'results':_rank(w,p['query'],candidates),
             'searched_at':time.time(),'source':'arxiv','model':snap.get('recommendation_response',{}).get('model'),
             'scope_notice':'依据本次最新候选元数据和库内兴趣；GitHub链接只是代码线索，未运行或验证可复现性。',
-            'status':'ready' if candidates else 'partial'}
+            'missing_reason_ids':[c['identity'] for c in candidates if c.get('reason_status')=='missing'],
+            'status':'ready' if candidates and all(c.get('reason_status')!='missing' for c in candidates) else 'partial'}
     with store.db() as c:
         c.execute('BEGIN IMMEDIATE')
         if c.execute('SELECT status FROM runs WHERE id=?',(rid,)).fetchone()['status']=='cancelled':return {}

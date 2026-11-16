@@ -337,6 +337,9 @@ def work_once(pool='all'):
             if run['kind'] in ('parse','parse_document','reparse'):
                 from .documents import parse_document
                 result=parse_document(run)
+            elif run['kind']=='writing' and run['payload'].get('workflow'):
+                from .writing_workflows import handle
+                result=handle(run)
             elif run['kind'] in ('qa','agent','writing'):
                 result=qa(run)
             elif run['kind']=='translate':
@@ -365,7 +368,7 @@ def work_once(pool='all'):
                 from .embedding_providers import configured_provider
                 result=build(run['workspace'],run['payload']['version_ids'],run_id=rid,generation_id=generation_id,
                              provider=configured_provider(run['payload'].get('provider'),rid),
-                             source_generation_id=run['payload'].get('source_generation_id'))
+                             source_generation_id=run['payload'].get('source_generation_id'),pack_cloud=run['payload'].get('pack_cloud',False))
             else:
                 raise ValueError('不支持的任务类型')
             if not cancelled(rid):

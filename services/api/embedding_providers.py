@@ -192,7 +192,7 @@ class LocalRetrievalProvider:
 
     def embed(self,texts,task):
         desc=self.descriptor()
-        response=self._call('/embed',{'model_id':self.model_id,'revision':desc['revision'],'texts':texts,'task':'query' if task=='RETRIEVAL_QUERY' else 'document'},timeout=45 if task=='RETRIEVAL_QUERY' else None)
+        response=self._call('/embed',{'model_id':self.model_id,'revision':desc['revision'],'texts':texts,'task':'query' if task=='RETRIEVAL_QUERY' else 'document'},timeout=min(60,max(5,int(os.getenv('RT_RETRIEVAL_QUERY_TIMEOUT','15')))) if task=='RETRIEVAL_QUERY' else None)
         if response.get('fingerprint')!=fingerprint(desc):
             raise RetrievalUnavailable('模型实际指纹与索引不匹配')
         vectors=np.asarray(response.get('vectors',[]),dtype=np.float32)
@@ -210,7 +210,7 @@ class LocalRetrievalProvider:
         desc=next((d for d in manifest['models'] if d['model_id']==model_id),None)
         if not desc:raise RetrievalUnavailable('所选重排模型尚未部署')
         expected=fingerprint(desc)
-        response=provider._call('/rerank',{'model_id':model_id,'revision':desc['revision'],'query':query,'documents':documents})
+        response=provider._call('/rerank',{'model_id':model_id,'revision':desc['revision'],'query':query,'documents':documents},timeout=min(120,max(5,int(os.getenv('RT_RERANK_TIMEOUT','45')))))
         if response.get('fingerprint')!=expected:
             raise RetrievalUnavailable('重排模型实际指纹发生变化')
         response={**response,'model_id':model_id,'revision':desc['revision']}

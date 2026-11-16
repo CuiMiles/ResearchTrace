@@ -1,7 +1,7 @@
 name: ResearchTrace CI
 on:
   push:
-    branches: [main, "claude/**", "complete/**"]
+    branches: [main, "claude/**", "complete/**", "upgrade/**"]
   pull_request:
   workflow_dispatch:
 permissions:

@@ -98,7 +98,7 @@ def build_workflow_report():
         'test_execution_started': bool(saved.get('test_execution_started', False)),
         'published_at': saved.get('published_at'),
         'load_error': load_error,
-        'guard_notice': 'Hydrogen 原冒烟 4 次已用尽；本批默认不调用供应商，密集索引关闭。GPU 必须保留 2 GiB 且能核算本项目进程显存。',
+        'guard_notice': 'Hydrogen 原冒烟 4 次账本保留；后续调用受服务器显式预算与真实项目额度约束。索引是否完成见各代覆盖率。共享 GPU 每卡保留 2 GiB，只管理本项目进程。',
         'ledger': saved.get('ledger'),
         'generated_at': datetime.now(timezone.utc).isoformat(),
     }

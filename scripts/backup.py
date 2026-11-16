@@ -25,6 +25,18 @@ DATABASE = "researchtrace.sqlite"
 SKIP_DIRS = {"run_locks", "cache", "matplotlib", "backups", "__pycache__"}
 
 
+def document_relative(name: str, data: Path) -> Path:
+    path=Path(name)
+    if not path.is_absolute():
+        if '..' in path.parts:raise ValueError('Document path escapes data root')
+        return path
+    if path.is_relative_to('/app/data'):
+        relative=path.relative_to('/app/data')
+        if '..' in relative.parts:raise ValueError('Document path escapes container data root')
+        return relative
+    return path.resolve().relative_to(data)
+
+
 def _private_copy(source: Path, target: Path, deadline: float):
     if time.monotonic() >= deadline:
         raise TimeoutError("Backup exceeded maximum writer-pause window")
@@ -91,11 +103,8 @@ def backup(data: Path, destination: Path, env: Path | None = None,
                           for name in ("versions", "blocks", "quota", "runs") if name in tables}
                 if "versions" in tables:
                     for (name,) in verify.execute("SELECT path FROM versions"):
-                        path = Path(name)
-                        if not path.is_absolute():
-                            path = data / path
                         try:
-                            relative = path.resolve().relative_to(data)
+                            relative = document_relative(name,data)
                         except ValueError:
                             raise ValueError("A document path is outside the live data directory") from None
                         if not (staging / relative).is_file():
@@ -140,10 +149,7 @@ def restore(snapshot: Path, destination: Path):
             tables = {r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
             if "versions" in tables:
                 for vid, name in conn.execute("SELECT id,path FROM versions").fetchall():
-                    source = Path(name)
-                    if not source.is_absolute():
-                        source = old_data / source
-                    relative = source.relative_to(old_data)
+                    relative = document_relative(name,old_data)
                     if not (destination / relative).is_file():
                         raise FileNotFoundError("Restored PDF missing")
                     conn.execute("UPDATE versions SET path=? WHERE id=?", (str(destination / relative), vid))

@@ -12,6 +12,8 @@ def isolate_live_configuration(monkeypatch):
                  'RT_MODEL_DEEP','RT_MODEL_ANSWER','RT_MODEL_LIGHT','RT_MODEL_VERIFY',
                  'RT_WORKFLOW_MODEL_CALLS','RT_WORKSPACE_DAILY_CALLS'):
         monkeypatch.delenv(name,raising=False)
+    for name in ('RT_PREFERRED_CREDENTIAL','RT_LEGACY_PROJECT_MAP','RT_ENABLE_RERANK','RT_RETRIEVAL_QUERY_TIMEOUT'):
+        monkeypatch.delenv(name,raising=False)
     # Document cards stay offline in tests: no live arXiv/Crossref lookups, no model calls.
     monkeypatch.setenv('RT_CARD_NETWORK','false')
     monkeypatch.setenv('RT_CARD_MODEL','false')

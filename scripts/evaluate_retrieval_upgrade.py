@@ -28,9 +28,9 @@ def save(path,value):
     temp=path.with_suffix(path.suffix+'.tmp');temp.write_text(json.dumps(value,ensure_ascii=False,indent=2));temp.replace(path)
 
 
-def corpus(gid):
+def corpus(gid,require_vectors=True):
     generation=store.one('SELECT * FROM index_generations WHERE workspace=? AND id=?',(WORKSPACE,gid))
-    if not generation or generation['status']!='ready':raise ValueError('Comparison source generation is not fully ready')
+    if not generation or (require_vectors and generation['status']!='ready') or generation['expected_blocks']!=generation['covered_blocks']:raise ValueError('Comparison source generation is not fully ready')
     chunks=store.rows('SELECT * FROM retrieval_chunks WHERE generation_id=? ORDER BY version_id,ordinal,id',(gid,))
     spans=store.rows('SELECT s.* FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id WHERE c.generation_id=?',(gid,))
     mapping={}
@@ -91,7 +91,7 @@ def metrics(ranking,gold):
 def evaluate(label,scope,rerank=False):
     reportfile=OUT/f'retrieval-{label}-{scope}{"-rerank" if rerank else ""}.json'
     gid=CORE_GENERATION if scope=='core' else FULL_GENERATION
-    generation,chunks,mapping,digest=corpus(gid)
+    generation,chunks,mapping,digest=corpus(gid,require_vectors=label!='keyword')
     desc=None;vectors=None;directory=None
     questions=[q for q in json.loads(GOLD.read_text())['questions'] if scope=='all' or q['group']=='core']
     provider=LocalRetrievalProvider(MODELS.get(label),base='http://127.0.0.1:18988' if label=='qwen' else None) if label!='keyword' else None
