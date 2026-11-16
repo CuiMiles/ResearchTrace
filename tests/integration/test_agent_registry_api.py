@@ -10,7 +10,8 @@ from services.api import app,documents,jobs,models,store
 def api(tmp_path,monkeypatch):
  for mod in (app,documents,store):monkeypatch.setattr(mod,'DATA',tmp_path)
  monkeypatch.setenv('RT_ACCESS_CODE','test-only-code');monkeypatch.setenv('RT_DISABLE_DENSE','true')
- def fixture_generate(system,prompt,rid,core=True):
+ def fixture_generate(system,prompt,rid,core=True, role=None, **_):
+  core = core if role is None else role != 'light'  # role-based routing
   evidence=json.loads(prompt)['evidence'];b=next(b for b in evidence if 'eight' in b['text'])
   return {'text':json.dumps({'answer':'Fixture response only','claims':[{'text':'Fixture reports eight GPUs','type':'source_fact','evidence':[{'block_id':b['id'],'quote':b['text']}]}]}),'model':'UNIT_TEST_NO_PROVIDER','usage':{}}
  monkeypatch.setattr(models,'generate',fixture_generate)

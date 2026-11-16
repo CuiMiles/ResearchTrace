@@ -14,7 +14,8 @@ def api(tmp_path,monkeypatch):
     monkeypatch.setattr(app,'LOGIN_ATTEMPTS',{})
     monkeypatch.setenv('RT_ACCESS_CODE','test-fixture-only')
     monkeypatch.setenv('RT_DISABLE_DENSE','true')
-    def translate(system,prompt,rid,core=False):
+    def translate(system,prompt,rid,core=False, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         assert core is False
         blocks=json.loads(prompt)
         return {'text':json.dumps({'translations':[{'block_id':b['block_id'],'text':'译文 '+b['text']} for b in blocks]}),'model':'FIXTURE_NO_API'}

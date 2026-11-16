@@ -83,6 +83,10 @@ def validate_answer(data,blocks,*,workspace=None,version_ids=None):
     from .evidence_validation import validate
     return validate(data,blocks,workspace=workspace,version_ids=version_ids)
 
+def answer_role(run):
+    """Single-paper questions use the answer chain; comparisons, notes and surveys the deep chain."""
+    return 'answer' if run['kind']=='qa' and len(run['payload'].get('version_ids',[]))<=1 else 'deep'
+
 def queue(workspace,kind,payload,idempotency):
     with db() as c:
         c.execute('BEGIN IMMEDIATE')
@@ -189,13 +193,15 @@ def qa(run):
     if 'model_response' not in snap:
         evidence=[{**{k:b[k] for k in ('id','version_id','page_index')},'text':b.get('evidence_text',b['text'])} for b in blocks]
         prompt=json.dumps({'task':p['question'],'mode':run['kind'],'versions':source_context(w,p['version_ids']),'evidence':evidence,'tool_observations':agent_state['observations'] if agent_state else ret.get('tool_results',[]),'requirements':'只回答用户所问的内容，使用简短原子主张，避免附加无关数字或作者全名单；block_id和页码放结构化引用，不复制到事实正文。跨文比较逐项列条件和缺失字段；综述列研究问题、方法差异、限制；所有事实列到claims。'},ensure_ascii=False)
-        snap['model_response']=models.generate(SYSTEM,prompt,rid,core=True)
+        snap['model_response']=models.generate(SYSTEM,prompt,rid,role=answer_role(run))
         checkpoint(run,snap)
     response=snap['model_response']
     event(rid,'validating',{'message':'核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持'})
     from .answer_cycle import complete
     result,response,blocks,ret=complete(run,response,blocks,p['version_ids'],p['question'],ret)
     result.update(model=response['model'],usage=response['usage'],retrieval=ret)
+    if response.get('downgraded_from'):
+        result['model_downgraded_from']=response['downgraded_from']
     with db() as conn:
         conn.execute('BEGIN IMMEDIATE')
         current=conn.execute('SELECT status FROM runs WHERE id=? AND workspace=?',(rid,w)).fetchone()

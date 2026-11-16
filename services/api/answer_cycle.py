@@ -27,7 +27,7 @@ def _checked(run,response,blocks,versions,question):
 
 
 def complete(run,response,blocks,versions,question,retrieval):
-    from .jobs import checkpoint,SYSTEM,source_context
+    from .jobs import answer_role,checkpoint,SYSTEM,source_context
     rid=run['id'];snap=_snapshot(rid)
     if 'answer_revision_result' in snap:
         saved=snap['answer_revision_result']
@@ -78,7 +78,7 @@ def complete(run,response,blocks,versions,question,retrieval):
         checkpoint(run,{'answer_revision_attempted':True})
         store.event(rid,'answer_revising',{'revision':1,'max_revisions':1,'received_response_is_checkpointed':True})
         try:
-            snap['answer_revision_response']=models.generate(SYSTEM,json.dumps(prompt,ensure_ascii=False),rid,core=True)
+            snap['answer_revision_response']=models.generate(SYSTEM,json.dumps(prompt,ensure_ascii=False),rid,role=answer_role(run))
         except models.ModelError as error:
             checkpoint(run,{'answer_revision_error':{'type':type(error).__name__}})
             first['revision']={'status':'BLOCKED','reason':'修订调用未得到有效响应，调用已计账，不自动重发。'}

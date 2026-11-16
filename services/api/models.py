@@ -1,6 +1,7 @@
 """Native Gemini adapter with transactional, project-scoped quota accounting."""
 import json
 import os
+import ssl
 import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -30,10 +31,11 @@ class QuotaRefusal(ModelError):
 
 class SentRequestError(ModelError):
     """A sent request must remain accounted for and must not be retried here."""
-    def __init__(self, message, *, outcome, quota_id):
+    def __init__(self, message, *, outcome, quota_id, http_status=None):
         super().__init__(message)
         self.outcome = outcome
         self.quota_id = quota_id
+        self.http_status = http_status
 
 PROFILE_LIMITS = {'smoke': 'HYDROGEN_SMOKE_LIMIT',
                   'evaluation': 'HYDROGEN_EVALUATION_LIMIT',
@@ -129,6 +131,9 @@ def limits(model):
         return (5,250000,20)
     if 'embedding' in model:
         return (100,30000,1000)
+    if 'flash' in model and 'lite' not in model:
+        # Team quota snapshot: the non-lite Flash tier shares Hydrogen's limits.
+        return (5,250000,20)
     return (15,250000,500)
 
 def reserve(project,model,tokens,run_id,now=None):
@@ -160,6 +165,20 @@ def reserve(project,model,tokens,run_id,now=None):
             if not 1<=decision_limit<=10:raise QuotaRefusal('Decision工作流预算无效',scope='global',code='budget_configuration')
             used=c.execute('SELECT count(*) FROM quota WHERE model=? AND run_id=?',(model,run_id)).fetchone()[0]
             if used>=decision_limit:raise QuotaRefusal('Decision工作流调用预算已用尽',scope='global',code='decision_workflow')
+        # Caps across ALL generation models, so a downgrade chain cannot loop or
+        # let one workspace drain the high-volume tier. Embeddings are bounded
+        # separately by their project window and batch sizes.
+        if run_id and 'embedding' not in model:
+            run_cap = _budget_number('RT_WORKFLOW_MODEL_CALLS', 60, 1)
+            used = c.execute("SELECT COUNT(*) FROM quota WHERE run_id=? AND model NOT LIKE '%embedding%'", (run_id,)).fetchone()[0]
+            if used >= run_cap:
+                raise QuotaRefusal('本任务的模型调用总上限已用尽', scope='global', code='workflow_calls')
+            workspace_cap = _budget_number('RT_WORKSPACE_DAILY_CALLS', 600, 1)
+            used = c.execute('''SELECT COUNT(*) FROM quota q JOIN runs r ON r.id=q.run_id
+                                WHERE r.workspace=? AND q.day=? AND q.model NOT LIKE '%embedding%' ''',
+                             (run['workspace'], quota_day(now))).fetchone()[0]
+            if used >= workspace_cap:
+                raise QuotaRefusal('本工作区今日模型调用总上限已用尽', scope='global', code='workspace_calls')
         # Global/workspace/workflow guards precede every project-specific check.
         workflow_limit = _global_budget(c, model, run_id, run, policy, now)
         if type(tokens) is not int or tokens < 0 or tokens > min(tpm,96000):
@@ -181,7 +200,16 @@ def reserve(project,model,tokens,run_id,now=None):
         return qid
 
 def client():
-    return httpx.Client(proxy=os.getenv('GEMINI_PROXY') or None,timeout=httpx.Timeout(150,connect=15),trust_env=False)
+    """HTTP client for the model provider.
+
+    Proxy and CA bundle come only from operator configuration (never from the
+    request or inherited shell variables). RT_CA_BUNDLE is for networks whose
+    egress proxy re-signs TLS; certificate verification is never disabled.
+    """
+    bundle = os.getenv('RT_CA_BUNDLE')
+    verify = ssl.create_default_context(cafile=bundle) if bundle else True
+    return httpx.Client(proxy=os.getenv('GEMINI_PROXY') or None, verify=verify,
+                        timeout=httpx.Timeout(150, connect=15), trust_env=False)
 
 def _choose(model):
     seen=set()
@@ -272,7 +300,8 @@ def request(model,method,body,run_id,estimate):
                 status='failed'
             # Only controlled categories exposed, never raw upstream URL/body/headers.
             detail=f'HTTP {response.status_code} {category}'
-            raise SentRequestError(f'{model} {detail}；请求已记账，无自动付费兜底', outcome=status, quota_id=qid)
+            raise SentRequestError(f'{model} {detail}；请求已记账，无自动付费兜底', outcome=status, quota_id=qid,
+                                   http_status=response.status_code)
         result=response.json()
         if not isinstance(result,dict):
             raise ValueError('response must be an object')
@@ -318,11 +347,98 @@ def workflow_budget(run_id):
     return {'profile':prior['profile'] if prior else policy['profile'],
             'estimated_core_calls':1,'limit':limit,'used':used,'remaining':max(0,limit-used)}
 
-def generate(system,prompt,run_id,core=True):
-    model=CORE if core else BATCH
+ROLE_ENV = {'deep': 'RT_MODEL_DEEP', 'answer': 'RT_MODEL_ANSWER', 'light': 'RT_MODEL_LIGHT',
+            'verify': 'RT_MODEL_VERIFY'}
+# Local refusals after which trying the next model of a role chain is legitimate.
+# Run-wide caps, cancellation and configuration errors are never bypassed.
+_DOWNGRADE_CODES = {'profile_budget', 'workspace_budget', 'workflow_budget', 'model_daily',
+                    'project_daily', 'project_soft_daily', 'project_window', 'no_route'}
+
+
+def role_chain(role):
+    """Ordered model ids for a role, from operator configuration.
+
+    deep   – cross-paper synthesis, surveys, audits (default: the core model)
+    answer – single-paper answers (default: the deep chain)
+    light  – routing, planning, extraction, translation (default: the batch model)
+    verify – independent claim review (default: the deep chain, as before)
+    Without configuration every chain has exactly the legacy single model.
+    """
+    if role not in ROLE_ENV:
+        raise ValueError('未知模型角色')
+    raw = os.getenv(ROLE_ENV[role], '')
+    if not raw and role in ('answer', 'verify'):
+        raw = os.getenv(ROLE_ENV['deep'], '')
+    chain = [m.strip() for m in raw.split(',') if m.strip()]
+    if not all(m.isascii() and len(m) <= 80 and m.replace('-', '').replace('.', '').replace('_', '').isalnum() for m in chain):
+        raise QuotaRefusal('模型角色配置无效', scope='global', code='budget_configuration')
+    return list(dict.fromkeys(chain)) or [BATCH if role == 'light' else CORE]
+
+
+def generate(system,prompt,run_id,core=True,role=None,json_output=True):
+    """Generate with the first usable model of the role chain.
+
+    A later model is tried only when the earlier one was refused locally for
+    its own budget, or the provider returned a definite error response. A sent
+    request whose outcome is unknown (timeout) is never repeated. Every attempt
+    stays in the ledger, and the result names the model that actually answered
+    plus the models that were skipped, so the UI can label a downgrade.
+    """
+    chain = role_chain(role or ('deep' if core else 'light'))
+    skipped = []
+    overloaded = None  # first model that answered 503 (overloaded): one delayed retry
+    retried = False
+    index = 0
+    while index < len(chain):
+        model = chain[index]
+        last = index == len(chain) - 1
+        try:
+            result = _generate_once(model, system, prompt, run_id, json_output=json_output)
+        except QuotaRefusal as exc:
+            if last or exc.code not in _DOWNGRADE_CODES:
+                raise
+            reason = exc.code
+        except SentRequestError as exc:
+            if exc.outcome == 'unknown':
+                raise
+            if exc.http_status == 503 and overloaded is None:
+                overloaded = index
+            if last:
+                # A definite overload answer is retried once, after a pause, on
+                # the best overloaded model; the retry is a new counted request.
+                if overloaded is not None and not retried and not (run_id and store.cancelled(run_id)):
+                    retried = True
+                    if run_id:
+                        event(run_id, 'provider_overload_retry', {'model': chain[overloaded], 'wait_seconds': 4})
+                    time.sleep(4)
+                    index = overloaded
+                    continue
+                raise
+            reason = 'provider_' + exc.outcome
+        except ModelError:
+            # Truncated or empty output: the provider answered, the call is counted.
+            if last:
+                raise
+            reason = 'unusable_output'
+        else:
+            if skipped:
+                result['downgraded_from'] = skipped
+            return result
+        skipped.append({'model': model, 'reason': reason})
+        if run_id:
+            event(run_id, 'model_downgraded', {'from': model, 'to': chain[index + 1], 'reason': reason})
+        index += 1
+    raise ModelError('没有可用模型')
+
+
+def _generate_once(model, system, prompt, run_id, json_output=True):
+    core = model == CORE
     text_bytes=len((system+prompt).encode())
+    config = {'maxOutputTokens': 16384 if core or (text_bytes > 20000) else 8192}
+    if json_output:
+        config['responseMimeType'] = 'application/json'
     payload={'systemInstruction':{'parts':[{'text':system}]},'contents':[{'role':'user','parts':[{'text':prompt}]}],
-             'generationConfig':{'responseMimeType':'application/json','maxOutputTokens':16384 if core else 8192}}
+             'generationConfig':config}
     data,project=request(model,'generateContent',payload,run_id,text_bytes+1024)
     candidates=data.get('candidates',[])
     if not candidates or candidates[0].get('finishReason')!='STOP':

@@ -66,7 +66,8 @@ def make_run(*, workspace='w', version='v', checkpoint=None, **options):
 def fixture_provider(monkeypatch, *, actual_model='FIXTURE_NOT_LIVE', prefix=''):
     calls = []
 
-    def generate(system, prompt, rid, core=False):
+    def generate(system, prompt, rid, core=False, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         assert core is False
         items = json.loads(prompt)
         calls.append({'system': system, 'items': items, 'run_id': rid})
@@ -264,7 +265,8 @@ def test_completed_batches_survive_provider_failure_and_resume_without_repeating
     run = make_run()
     calls = []
 
-    def generate(system, prompt, rid, core=False):
+    def generate(system, prompt, rid, core=False, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         items = json.loads(prompt)
         calls.append(items)
         if len(calls) == 2:
@@ -292,7 +294,8 @@ def test_oversized_utf8_block_uses_bounded_segments_and_recovers_partial_block(m
     successful_ids = []
     calls = []
 
-    def generate(system, prompt, rid, core=False):
+    def generate(system, prompt, rid, core=False, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         items = json.loads(prompt)
         assert translation.estimate_input_tokens(system, items) <= 2600
         assert translation.estimate_output_tokens(items) <= translation.OUTPUT_TOKEN_BUDGET
@@ -323,7 +326,8 @@ def test_bad_batch_is_atomic_and_never_marked_complete(monkeypatch, corruption):
     seed(['First 17 [2].', 'Second 18 [3].'])
     run = make_run()
 
-    def generate(system, prompt, rid, core=False):
+    def generate(system, prompt, rid, core=False, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         items = json.loads(prompt)
         output = [{'block_id': item['block_id'], 'text': item['text']} for item in items]
         if corruption == 'missing':
@@ -355,7 +359,8 @@ def test_cancel_before_or_during_request_does_not_publish_response(monkeypatch, 
     run = make_run()
     calls = []
 
-    def generate(system, prompt, rid, core=False):
+    def generate(system, prompt, rid, core=False, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         calls.append(prompt)
         store.execute("UPDATE runs SET status='cancelled' WHERE id=?", (rid,))
         return {'model': 'FIXTURE_NOT_LIVE', 'text': json.dumps({'translations': [

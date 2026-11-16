@@ -491,7 +491,7 @@ def translate(run: Mapping[str, Any]) -> dict[str, Any]:
         responses=json.loads(row['checkpoint'] or '{}').get('translation_responses',{})
         response=responses.get(response_key)
         if response is None:
-            response=models.generate(system,batch_prompt,rid,core=False)
+            response=models.generate(system,batch_prompt,rid,role='light')
             # Preserve a received response before validating it. Recovery must
             # not silently issue the same billed batch after a local failure.
             from .jobs import checkpoint

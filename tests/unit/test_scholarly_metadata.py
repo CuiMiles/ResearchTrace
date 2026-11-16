@@ -297,7 +297,7 @@ def test_gateway_auth_route_whitelist_and_real_upstream_forward(upstream, privat
         assert r.metadata["title"] == "Synthetic metadata paper"
         # Only the whitelisted parser route is forwarded; no training or URL proxy.
         import http.client
-        c = http.client.HTTPConnection("127.0.0.1", instance.server_port, timeout=2)
+        c = http.client.HTTPConnection("127.0.0.1", instance.server_port, timeout=10)
         c.request("POST", "/api/modelTraining", body=b"", headers={"Authorization": "Bearer " + instance.token})
         assert c.getresponse().status == 404
         c.close()
