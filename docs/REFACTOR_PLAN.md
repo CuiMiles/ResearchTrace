@@ -192,13 +192,13 @@ team's snapshot of 2026-11-15/16, not a live balance. **To be confirmed by the t
 
 | Resource | Quota on record | Role in this plan |
 |---|---|---|
-| Gemini 4 Hydrogen | 5 RPM · 250K input TPM · 20 RPD per quota project; team authorised **40 calls/day in total** | deep synthesis only: comparison, survey, Future-Work judgement, paper skeleton, and fact questions the verifier rejected once |
+| Gemini 4 Hydrogen | 5 RPM · 250K input TPM · 20 RPD per key; **two keys on separate quota projects = 40 calls/day** (confirmed by the team 11-16) | deep synthesis only: comparison, survey, Future-Work judgement, paper skeleton, and fact questions the verifier rejected once |
 | Gemini 3.5 / 3.1 Flash Lite | 15 RPM · 250K TPM · 500 RPD each | default high-volume tier: router, planner, query rewrite, metadata extraction, translation, recommendation reasons; default synthesiser for simple fact questions if it passes the golden checklist |
-| Gemini 3.8 / 3.6 / 3 Flash | 5 RPM · 250K TPM · 20 RPD each (3.8 timed out twice in testing; 3.6 worked) | spare synthesiser when Hydrogen is exhausted; labelled as a downgrade |
+| Gemini 3.6 Flash | 20 RPD per key, two keys = 40 calls/day (confirmed 11-16); 3.8 Flash timed out twice in testing and is not routed | second synthesiser: takes over when the Hydrogen reserve is reached, labelled as a downgrade — together about 80 strong-model answers a day |
 | Gemini Decision 1 | provider free tier 200 RPM · 50K TPM · 10K RPD; project test cap 100/day | verifier (claim support check) and router, as already calibrated on 11 cases |
 | Gemini Embedding | 100 RPM · 30K TPM · 1K RPD | not used for the main index (local models own it); optional fallback index only |
 | Bailian models (Qwen, DeepSeek, Kimi, GLM) | 1M free tokens each, expiry between 11-18 and 2027-02; "用完即停" on for only three | second provider through the OpenAI-compatible adapter: reachable from a mainland server without a proxy; synthesiser fallback |
-| MiniMax plan | bought; package and endpoint not recorded | not routed until the team states its terms |
+| MiniMax M Plan | subscription (confirmed 11-16) | **not routed into the product**: the provider positions Plan keys for personal interactive development, not for serving a public application (`CODEX_TASK.md` §2.3) |
 | Local embed + rerank (3090s) | no call quota; bounded by GPU availability | all retrieval |
 | Local LLM (A5, P1) | no call quota | router / verifier / selection-translate when online |
 
@@ -207,7 +207,8 @@ What the numbers imply:
 - **40 Hydrogen calls a day is not enough to be the default answerer.** One answered question costs one core call, two if the single revision fires; several judges plus our own checks would exhaust it by mid-day. Hydrogen is therefore reserved for the hard intents, with a daily reserve (keep ≥10 calls for the demo and re-checks) and an automatic, labelled downgrade when the reserve is reached.
 - **Flash Lite carries the volume.** Roughly 1,000 calls a day across the two models covers routing, planning and translation (a 15-page paper is about 40 translation batches).
 - **Budget configuration for judging** (operator sets, nothing hard-coded): `RT_BUDGET_PROFILE=judging`, `HYDROGEN_JUDGING_LIMIT` = total core calls for the whole judging period, `RT_MODEL_DAILY_LIMITS` = `{"gemini-4-hydrogen": 40, …}`, `HYDROGEN_SESSION_LIMIT` raised from 2 to a per-reviewer daily share (for example 8), `HYDROGEN_WORKFLOW_LIMIT` stays 2. New: the same per-workspace daily limit for the high-volume tier so one account cannot drain it. Failed and unknown calls keep counting; paid fallback stays off unless the team turns it on.
-- Two keys count as two quota projects only if they really are separate projects (`GEMINI_PROJECT_1/2` set to different labels); otherwise the ledger keeps treating them as one.
+- The two Gemini keys are separate quota projects, so the server `.env` sets `GEMINI_PROJECT_1` and `GEMINI_PROJECT_2` to different labels and the ledger counts 20 per project. (If two keys ever belong to one project they must share a label.)
+- Network: Gemini is reached through the team's proxy on the mainland server (`GEMINI_PROXY`); the cloud development environment reaches it directly.
 
 ### 4.3 Agent layer — `services/api/agents/`
 
