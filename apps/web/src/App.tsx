@@ -39,6 +39,7 @@ import { HomePage } from './features/home/HomePage';
 import { LibraryPage } from './features/library/LibraryPage';
 import { ChatPage } from './features/chat/ChatPage';
 import { Reader } from './Reader';
+import { ReferenceTools } from './components/ReferenceTools';
 
 const ComparePage = lazy(() => import('./Research').then((m) => ({ default: m.ComparePage })));
 const SearchPage = lazy(() => import('./Research').then((m) => ({ default: m.SearchPage })));
@@ -305,6 +306,9 @@ function ReaderRoute() {
   }, [version?.id]);
   if (!ws.loaded) return <div className="page-content"><Busy>载入文献</Busy></div>;
   return (
+    <>
+    {version && <ReferenceTools key={version.id} versionId={version.id}
+      onEvidence={(e) => void ws.openEvidence(e)} />}
     <Reader
       key={version?.id ?? 'empty'}
       versions={ws.versions}
@@ -317,6 +321,7 @@ function ReaderRoute() {
       refresh={() => void ws.refresh()}
       startUpload={ws.openUpload}
     />
+    </>
   );
 }
 

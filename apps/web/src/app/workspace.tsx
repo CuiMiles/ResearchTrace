@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { api, errorMessage, parseObject } from '../api';
 import type { ModelCapability } from '../ModelConfig';
 import type { Block, Evidence, Run, Session, Version } from '../types';
+import { VersionChoice } from '../components/VersionChoice';
 
 interface UploadResult {
   documents: Version[];
@@ -67,6 +68,19 @@ export function WorkspaceProvider({
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const fileInput = useRef<HTMLInputElement>(null);
+  const choiceStorage = `rt-version-choices:${session.workspace}`;
+  const [versionChoiceIds, setVersionChoiceIds] = useState<string[]>(() => {
+    try {
+      const saved: unknown = JSON.parse(sessionStorage.getItem(choiceStorage) || '[]');
+      return Array.isArray(saved) ? saved.filter((id): id is string => typeof id === 'string').slice(-100) : [];
+    } catch { return []; }
+  });
+  useEffect(() => {
+    try { sessionStorage.setItem(choiceStorage, JSON.stringify(versionChoiceIds)); } catch { /* optional UI persistence */ }
+  }, [choiceStorage, versionChoiceIds]);
+  const dismissVersionChoice = useCallback((id: string) => {
+    setVersionChoiceIds((current) => current.filter((candidate) => candidate !== id));
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -111,6 +125,8 @@ export function WorkspaceProvider({
       try {
         const result = await api<UploadResult>('/documents', form);
         if (result.batch_id) setBatchId(result.batch_id);
+        setVersionChoiceIds((current) => Array.from(new Set([...current,
+          ...result.documents.filter((document) => !document.duplicate).map((document) => document.id)])));
         await refresh();
         const first = result.documents[0];
         if (first && files.length === 1 && !result.batch_id) {
@@ -213,6 +229,8 @@ export function WorkspaceProvider({
         onChange={(e) => void upload(e.target.files)}
       />
       {children}
+      <VersionChoice pendingIds={versionChoiceIds} versions={versions}
+        onDismiss={dismissVersionChoice} onResolved={refresh} />
     </WorkspaceContext.Provider>
   );
 }
