@@ -1,0 +1,15 @@
+[Unit]
+Description=ResearchTrace private ECS reverse tunnel (node01)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# This is a user unit installed on node01 only. Existing proxy/model services are
+# reused without changes. The dedicated key cannot open a shell on the ECS.
+ExecStart=/usr/bin/ssh -NT -i /home/CuiMinghao/.local/share/researchtrace-deployment/ecs_ed25519 -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=15 -o "ProxyCommand=/bin/nc -X connect -x 127.0.0.1:7890 118.31.50.2 22" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/home/CuiMinghao/.local/share/researchtrace-deployment/known_hosts -o ExitOnForwardFailure=yes -o ServerAliveInterval=20 -o ServerAliveCountMax=3 -R 127.0.0.1:18987:127.0.0.1:7890 -R 127.0.0.1:18985:127.0.0.1:18985 -R 127.0.0.1:18986:127.0.0.1:18986 root@118.31.50.2
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

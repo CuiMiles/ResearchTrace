@@ -1,0 +1,57 @@
+# Run from /opt/researchtrace/current. Private runtime.env is provisioned separately.
+name: researchtrace
+x-app: &app
+  image: ${RT_IMAGE:-researchtrace:ecs}
+  env_file: /opt/researchtrace/private/runtime.env
+  environment: &environment
+    RT_HOST: 127.0.0.1
+    RT_PORT: 18970
+    RT_DATA_DIR: /app/data
+    MPLCONFIGDIR: /app/data/matplotlib
+    OPENBLAS_NUM_THREADS: "1"
+    OMP_NUM_THREADS: "1"
+    MKL_NUM_THREADS: "1"
+  volumes:
+    - /opt/researchtrace/data:/app/data
+  # Existing authenticated SSH reverse tunnels bind ECS loopback only. The app
+  # uses that network namespace and still binds only 127.0.0.1:18970.
+  network_mode: host
+  restart: unless-stopped
+  init: true
+  stop_grace_period: 45s
+  security_opt: [no-new-privileges:true]
+  cap_drop: [ALL]
+  pids_limit: 128
+  logging:
+    driver: json-file
+    options: {max-size: 10m, max-file: "3"}
+
+services:
+  api:
+    <<: *app
+    mem_limit: 384m
+    cpus: 0.6
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:18970/healthz',timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+  worker-documents:
+    <<: *app
+    command: [python, -m, services.worker.main]
+    environment:
+      <<: *environment
+      RT_WORKER_POOL: documents
+      RT_WORKER_AS_MB: "1200"
+    mem_limit: 512m
+    cpus: 0.8
+  worker-interactive:
+    <<: *app
+    command: [python, -m, services.worker.main]
+    environment:
+      <<: *environment
+      RT_WORKER_POOL: interactive
+      RT_WORKER_AS_MB: "1000"
+    mem_limit: 384m
+    cpus: 0.6
