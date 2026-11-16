@@ -71,3 +71,16 @@ Restore into a fresh private data directory, check ownership, restore `.env`, th
 Parser transport is local Unix socket `data/parsing/parser.sock` with mode600 and private job directories. It has fixed library names, bounded single-page inputs, local-only models and no inherited provider keys. GPU tests query current free memory per job, reserve>=2048MiB and monitor only their own process sessions; unaccountable WSL usage stops the job. A loopback health endpoint alone does not establish model readiness or successful inference. See `services/parsing/README.md`.
 
 For SQLite transfer use Python sqlite3.Connection.backup into a project-private snapshot, verify integrity_check, transfer PDFs and that snapshot, and relocate only database paths in the copied environment. A live raw main-db copy can omit valid WAL records. Quota rows and unknown/failed attempts must remain intact. The migration retained Hydrogen4, FlashLite22, embedding56 attempts; current usage is in TEST_REPORT and the local database, not an official vendor balance.
+
+## 2026-11-16 Compose layout (current)
+
+`compose.yaml` now runs four services: `api`, `worker-documents` (parsing and indexing), `worker-interactive` (questions, translation, audits) and, with the `https` profile, `caddy` with automatic certificates for `RT_DOMAIN`. Data lives in the named volume `rt-data`, so the image's non-root user owns it without host chown. Memory limits: API 512 MiB, document worker 640 MiB, interactive worker 384 MiB.
+
+```bash
+cp .env.example .env && chmod 600 .env        # access codes, model keys, budgets, RT_SECURE_COOKIE=true for HTTPS
+docker compose --profile lite up -d --build
+RT_DOMAIN=demo.example.org RT_SECURE_COOKIE=true docker compose --profile lite --profile https up -d
+docker compose exec api python -c "import sqlite3; s=sqlite3.connect('/app/data/researchtrace.sqlite'); s.backup(sqlite3.connect('/app/data/backup.sqlite'))"
+```
+
+Where Docker Hub is rate-limited, set `RT_IMAGE_REGISTRY=mirror.gcr.io/library/`. Status: `docker compose config` validated in the cloud sandbox; the image build there was BLOCKED by the sandbox network (Docker Hub 429; the egress proxy refuses plain-HTTP Debian mirrors). A first real build must be run on the target server and recorded in `docs/TEST_REPORT.md`.

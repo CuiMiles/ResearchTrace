@@ -154,3 +154,20 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 | 真实模型问答、公网、视频、PDF | NOT RUN | 本阶段只做审阅与规划 |
 
 后续执行顺序见 `docs/REFACTOR_PLAN.md`。
+
+## 2026-11-16 重构第一阶段验收
+
+环境：云沙箱，Python 3.13 / Node 22；开发用单个 Gemini 密钥经环境代理注入；数据目录在临时目录。
+
+| 项目 | 状态 | 证据与边界 |
+|---|---|---|
+| 后端单元与集成测试 | PASS | 507 passed、7 skipped；`test_scholarly_metadata.py::test_gateway_auth_route_whitelist_and_real_upstream_forward` 在完整套件中不稳定（单独运行通过，非首个运行时连接失败），属可选 GROBID 网关，既有问题，未修复 |
+| 前端类型检查与构建 | PASS | `tsc --noEmit`、`vite build` 通过 |
+| 标题抽取 | PASS | 39 份资料中 38 份标题正确；扫描件无文字层，按设计回退文件名 |
+| 文献卡片（Transformer v7） | PASS | 8 位作者顺序、单位、邮箱全部正确；目录 22 项三级；arXiv 实时记录在沙箱内因 DNS 固定无法经代理而未取得（SSRF 保护未放宽） |
+| 官方单篇问题 Q1–Q5 | PASS（单次运行） | 第 6 作者 Aidan N. Gomez / University of Toronto；β1=0.9、β2=0.98；8 张 P100；BLEU 28.4 对 26.36；LN 参考文献 [1] Ba, Kiros, Hinton 2016。均带逐字引文；非独立人工评测 |
+| 多轮追问 | PASS | 浏览器内“其中 Adam 优化器…”在同一线程中正确回答，证据弹出并跳转第 7 页高亮 |
+| 多篇问题 | PARTIAL | BERT 与 Transformer 编码器关系正确；GPT-3 上下文 2048 与参数表正确，GPT-1 上下文 512 未召回（关键词检索），GPT-2 论文不在资料包 |
+| 错误前提（80 张 GPU） | NOT RUN | 两次因上游 503/额度未得到回答；数值规则单测仍拦截 80 对 8 |
+| 浏览器巡检 1440×900 | PASS | 工作台、文献库、卡片抽屉、阅读器、问答、图谱、比较、写作、检索、设置均无控制台错误；截图 `docs/images/` |
+| Docker Compose | BLOCKED | `docker compose config` 通过；镜像构建在沙箱因 Docker Hub 429 与代理拒绝 Debian 源而失败 |
