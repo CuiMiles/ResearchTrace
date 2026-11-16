@@ -53,7 +53,7 @@ export default function DiagramStudio({ versions, onEvidence, onQueued }: {
     {runId && <RunDetail runId={runId} onEvidence={onEvidence} onUpdate={() => void finished()} />}
     {sources ? <>
       <div className="diagram-sources" role="group" aria-label="结构图源码格式">{(Object.keys(labels) as Language[]).map(lang => <button key={lang} type="button" className="small-button" aria-pressed={language === lang} onClick={() => setLanguage(lang)}>{labels[lang]}</button>)}</div>
-      {language === 'mermaid' ? <Diagram key={sources.mermaid} initialSource={sources.mermaid} /> : <>
+      {language === 'mermaid' ? <Diagram key={runId ?? "manual"} initialSource={sources.mermaid} onSourceChange={source => setSources(previous => previous ? { ...previous, mermaid: source } : null)} /> : <>
         <label>{labels[language]} 可编辑源码<textarea aria-label={`${labels[language]} 源码`} className="diagram-source-code" spellCheck={false} rows={16} value={sources[language]} onChange={e => setSources({ ...sources, [language]: e.target.value })} /></label>
         {language === 'dot' ? <DotPreview source={sources.dot} /> : <p className="info-note">源码仅下载；本平台不执行此 {labels[language]} 代码。生成图中的节点与边来自本次建议结构，不代表已运行的实验。</p>}
       </>}
@@ -69,7 +69,7 @@ export function DotPreview({ source }: { source: string }) {
   const worker = useRef<Worker | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>();
   function stop() { worker.current?.terminate(); worker.current = null; clearTimeout(timer.current); }
-  useEffect(() => { setSvg(''); return stop; }, [source]);
+  useEffect(() => { setSvg(''); setBusy(false); return stop; }, [source]);
   function render() {
     stop(); setSvg(''); setError('');
     if (source.length > 30000 || /(?:<|\b(?:image|shapefile|href|url|stylesheet|imagepath|fontpath)\s*=|javascript:|https?:\/\/)/i.test(source)) {

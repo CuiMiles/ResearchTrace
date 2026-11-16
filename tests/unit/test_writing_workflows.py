@@ -307,3 +307,36 @@ def test_manuscript_export_keeps_verified_record_and_quote(monkeypatch):
     assert 'Verified title' in exported and 'arxiv:2001.00001' in exported
     bib = writing.export_writing(result['artifact_id'], 'bib', {'workspace': 'w'}).body.decode()
     assert '@article{R1' in bib and 'Real Author' in bib
+
+
+@pytest.mark.parametrize('field,value', [('authors', {'name': 'bad'}), ('year', 'not-a-year'), ('identity', 'arxiv:invented'), ('metadata_source_url', 'https://api.crossref.org.evil/works')])
+def test_reference_record_schema_rejects_each_invalid_field(field, value):
+    assert writing._verified_record({**verified(), field: value}) is None
+
+
+def test_chinese_idea_english_search_plan_is_checkpointed(monkeypatch):
+    paper(); run = run_for('outline', question='研究注意力证据检索')
+    calls = []
+    def generate(system, prompt, rid, **kw):
+        calls.append(kw['role'])
+        return response({'query': 'attention evidence retrieval'})
+    monkeypatch.setattr(models, 'generate', generate)
+    assert writing.planned_search_query(run) == 'attention evidence retrieval'
+    assert writing.planned_search_query(run) == 'attention evidence retrieval'
+    assert calls == ['light']
+
+
+def test_outline_discovery_failure_is_visible_and_partial(monkeypatch):
+    paper(); run = run_for('outline'); block = writing.collect_evidence(run)['blocks'][0]
+    monkeypatch.setattr(research, 'search_papers', lambda *a, **kw: {'results': [], 'errors': [{'source': 'arxiv', 'error': 'fixture timeout'}]})
+    monkeypatch.setattr(models, 'generate', lambda *a, **kw: response(manuscript(block, 'outline')))
+    result = writing.outline(run)
+    assert result['status'] == 'partial' and result['search']['errors']
+    assert '检索未全部成功' in result['publication_notice']
+
+
+def test_references_cannot_omit_known_cited_fulltext_record():
+    paper(); run = run_for('outline'); block = writing.collect_evidence(run)['blocks'][0]
+    reference = {**verified(), 'id': 'R1', 'version_id': 'v1'}
+    with pytest.raises(ValueError, match='遗漏'):
+        writing.validate_manuscript(manuscript(block, 'outline'), [block], 'w', ['v1'], 'outline', [reference])

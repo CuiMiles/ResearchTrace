@@ -98,6 +98,20 @@ with sync_playwright() as p:
         form.get_by_role('button', name='生成结构图与四种源码').click()
         form.get_by_role('button', name='Graphviz DOT', exact=True).wait_for()
         check('diagram_dedicated_route', requests[-1]['path'] == '/writing/diagrams')
+        form.locator('.diagram-preview svg').wait_for(timeout=40000)
+        check('real_mermaid_svg', 'Attention编码器' in form.locator('.diagram-preview').inner_text())
+        edited = 'flowchart LR\n A["Edited input"] --> B["Evidence"]'
+        form.get_by_role('textbox', name='Mermaid 源码', exact=True).fill(edited)
+        form.get_by_role('button', name='更新预览', exact=True).click()
+        form.locator('.diagram-preview svg').get_by_text('Edited input', exact=True).wait_for()
+        with page.expect_download() as downloaded:
+            form.get_by_role('button', name='下载 Mermaid', exact=True).click()
+        download = downloaded.value
+        download.save_as(OUT / 'edited-source.mmd')
+        check('mermaid_download_has_edited_source', (OUT / 'edited-source.mmd').read_text() == edited)
+        form.get_by_role('textbox', name='Mermaid 源码', exact=True).fill('flowchart LR\n A --> B\n click A "javascript:alert(1)"')
+        form.get_by_role('button', name='更新预览', exact=True).click()
+        check('unsafe_mermaid_blocked', form.get_by_text('结构图不允许脚本、链接、HTML 图片或覆盖安全设置的指令。', exact=True).is_visible())
         form.get_by_role('button', name='Graphviz DOT', exact=True).click()
         form.get_by_role('button', name='更新 DOT 预览', exact=True).click()
         form.locator('.diagram-preview svg').wait_for(timeout=40000)
