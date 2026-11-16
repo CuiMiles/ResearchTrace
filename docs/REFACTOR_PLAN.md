@@ -58,7 +58,7 @@ in eight minutes, and several things a judge will try first do not work well.
 
 | Finding | Where |
 |---|---|
-| Core model budget is 2 calls per workspace per day and 4 lifetime in the default profile | `models.py` `budget_policy`, `.env.example` |
+| Repository defaults limit the core model to 2 calls per workspace per day (`HYDROGEN_SESSION_LIMIT`, applied in every budget profile, not only smoke) and 4 lifetime in the default `smoke` profile. These are configuration values, not provider limits; the private server `.env` may already be higher, but a fresh deployment from this repository gets the test values | `models.py` `budget_policy`, `.env.example` |
 | Only one provider (Gemini native, needs a proxy from mainland servers); no OpenAI-compatible or local LLM route | `models.py` |
 | No streaming: the answer appears only when the whole run finishes | `jobs.qa`, `app.py` events |
 | No conversation: every question is a stand-alone run; the official follow-up "其中 Adam…（接上文省略了论文名字）" cannot resolve "其中" | `Reader.tsx` `ask()`, `/qa/runs` |
@@ -184,6 +184,30 @@ Roles map to tiers in configuration, not in code:
 | embedding, rerank | **local** (existing service) | keyword + LLM query translation |
 
 The UI always shows the model that actually answered. Budgets become a named profile (`judging`) with explicit numbers set by the operator (§10); failed and unknown calls keep counting.
+
+### 4.2.1 Quotas on record and how the routing uses them
+
+Numbers below are what the repository records (`CODEX_TASK.md` §2.2, `docs/UPGRADE_STATUS_20261116.md`); they are the
+team's snapshot of 2026-11-15/16, not a live balance. **To be confirmed by the team before B0** (§10).
+
+| Resource | Quota on record | Role in this plan |
+|---|---|---|
+| Gemini 4 Hydrogen | 5 RPM · 250K input TPM · 20 RPD per quota project; team authorised **40 calls/day in total** | deep synthesis only: comparison, survey, Future-Work judgement, paper skeleton, and fact questions the verifier rejected once |
+| Gemini 3.5 / 3.1 Flash Lite | 15 RPM · 250K TPM · 500 RPD each | default high-volume tier: router, planner, query rewrite, metadata extraction, translation, recommendation reasons; default synthesiser for simple fact questions if it passes the golden checklist |
+| Gemini 3.8 / 3.6 / 3 Flash | 5 RPM · 250K TPM · 20 RPD each (3.8 timed out twice in testing; 3.6 worked) | spare synthesiser when Hydrogen is exhausted; labelled as a downgrade |
+| Gemini Decision 1 | provider free tier 200 RPM · 50K TPM · 10K RPD; project test cap 100/day | verifier (claim support check) and router, as already calibrated on 11 cases |
+| Gemini Embedding | 100 RPM · 30K TPM · 1K RPD | not used for the main index (local models own it); optional fallback index only |
+| Bailian models (Qwen, DeepSeek, Kimi, GLM) | 1M free tokens each, expiry between 11-18 and 2027-02; "用完即停" on for only three | second provider through the OpenAI-compatible adapter: reachable from a mainland server without a proxy; synthesiser fallback |
+| MiniMax plan | bought; package and endpoint not recorded | not routed until the team states its terms |
+| Local embed + rerank (3090s) | no call quota; bounded by GPU availability | all retrieval |
+| Local LLM (A5, P1) | no call quota | router / verifier / selection-translate when online |
+
+What the numbers imply:
+
+- **40 Hydrogen calls a day is not enough to be the default answerer.** One answered question costs one core call, two if the single revision fires; several judges plus our own checks would exhaust it by mid-day. Hydrogen is therefore reserved for the hard intents, with a daily reserve (keep ≥10 calls for the demo and re-checks) and an automatic, labelled downgrade when the reserve is reached.
+- **Flash Lite carries the volume.** Roughly 1,000 calls a day across the two models covers routing, planning and translation (a 15-page paper is about 40 translation batches).
+- **Budget configuration for judging** (operator sets, nothing hard-coded): `RT_BUDGET_PROFILE=judging`, `HYDROGEN_JUDGING_LIMIT` = total core calls for the whole judging period, `RT_MODEL_DAILY_LIMITS` = `{"gemini-4-hydrogen": 40, …}`, `HYDROGEN_SESSION_LIMIT` raised from 2 to a per-reviewer daily share (for example 8), `HYDROGEN_WORKFLOW_LIMIT` stays 2. New: the same per-workspace daily limit for the high-volume tier so one account cannot drain it. Failed and unknown calls keep counting; paid fallback stays off unless the team turns it on.
+- Two keys count as two quota projects only if they really are separate projects (`GEMINI_PROJECT_1/2` set to different labels); otherwise the ledger keeps treating them as one.
 
 ### 4.3 Agent layer — `services/api/agents/`
 
@@ -542,7 +566,7 @@ evaluation table present with denominators; every visible button works or is hid
 ## 10. Actions only the team can take
 
 1. **Confirm the exact submission deadline** (hour) in the contest personal centre.
-2. **Choose the judging models and budget.** Recommended: an OpenAI-compatible cloud model reachable from the ECS without a proxy as the default synthesiser, Gemini kept as an optional deep-analysis tier if the proxy is reliable. Decide the daily call/token ceiling for the judging period and whether any paid usage is allowed — several Bailian models in the quota snapshot do not have "用完即停" enabled, so this is a cost decision. Put keys only in the server `.env`.
+2. **Confirm the quota table in §4.2.1 and the judging budget.** Needed: (a) whether the 40 Hydrogen calls/day are two separate quota projects of 20 or one; (b) whether the public server can reach Gemini (directly or through a proxy that will stay up) — if not, the Bailian route becomes the default and Gemini is optional; (c) which Bailian models still have free tokens, their expiry, and whether any paid usage is allowed (several do not have "用完即停" enabled, so this is a cost decision); (d) the MiniMax package terms and endpoint, if it should be used; (e) how many days the site must stay up for judging, to size the total core budget. Put keys only in the server `.env`, never in chat or the repository.
 3. **GPU host during judging**: who keeps it up, on which cards, and the tunnel credentials. If it cannot be guaranteed, say so now — the plan then presents local embedding/rerank as "available when the lab host is online" and relies on cloud fallback.
 4. **ECS + DNS**: SSH access, a sub-domain under the existing domain, ports 80/443 open. The existing main site is not touched.
 5. **Team information** for the README and the PDF cover.
