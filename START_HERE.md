@@ -47,7 +47,7 @@
 
 ## 核心测试材料与评测口径
 
-主要开发和验收固定为：`1706.03762v1.pdf`、`1706.03762v7.pdf`、`1706.03762v1_img.pdf`、`UnderstandingDeepLearning_02_09_26_C.pdf`（541 页）。其余 35 份是拓展测试，须分开报告。精确 SHA256/版本/活动解析快照见 [evals/review_upgrade_scopes.json](evals/review_upgrade_scopes.json)。论文、书籍和运行数据库不随公开仓库分发，运行环境应另外提供原文件；生成扫描夹具不能冒充用户原扫描件。
+主要开发和验收固定为：`1706.03762v1.pdf`、`1706.03762v7.pdf`、`1706.03762v1_img.pdf`、`UnderstandingDeepLearning_02_09_26_C.pdf`（541 页）。四份原文件已放在 [evals/pdfs/core/](evals/pdfs/core/README.md)，可查看或下载。其余 35 份是拓展测试，须分开报告。精确 SHA256/版本/活动解析快照见 [evals/review_upgrade_scopes.json](evals/review_upgrade_scopes.json)。运行数据库不随公开仓库分发；生成扫描夹具不能冒充用户原扫描件。
 
 [80 条检索问题](evals/retrieval_upgrade_80.json)为核心 50/拓展 30，含相关的中英改写，不是 80 个独立事实；答案源于原 PDF 预先阅读，独立人工审阅仍为 NOT RUN。无答案题不进入有答案 Recall 分母。所有结果严格标 PASS / FAIL / BLOCKED / NOT RUN，失败和历史结果要保留。
 

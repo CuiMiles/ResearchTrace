@@ -4,6 +4,8 @@
 
 2026-11-16 开发快照：核心四文档本地索引已完成，其他35份索引与新闭环继续验收。保留真实失败记录；GitHub 公开不代表公网产品、正式视频/PDF或全部验收完成。旧环境的历史说明请结合 START_HERE 和最新交接读取。
 
+**核心测试 PDF：[查看/下载四份原文件](evals/pdfs/core/README.md)**，包含 Transformer v1/v7、扫描版和 541 页《Understanding Deep Learning》。
+
 A source-grounded research workbench: immutable PDF versions, page/block evidence, model QA, bilingual reading, live scholarly search, reference-derived local graph, Future Work audits, constrained writing, and reproducible CSV charts.
 
 This repository is an implementation in active acceptance testing, not a claim of contest ranking or universal factual accuracy. Exact current results and limits are in [HANDOFF.md](HANDOFF.md) and [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
