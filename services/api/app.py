@@ -393,11 +393,34 @@ class Question(BaseModel):
     question:str=Field(min_length=1,max_length=6000)
     version_ids:list[str]=Field(min_length=1,max_length=20)
     idempotency_key:str=Field(min_length=8,max_length=150)
+    # Conversation thread: earlier turns are read server-side from this workspace's runs.
+    thread_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9_-]{8,64}$')
 
 def ask(p,s,kind):
     for v in p.version_ids:
         version(v,s['workspace'])
-    return queue(s['workspace'],kind,p.model_dump(exclude={'idempotency_key'}),p.idempotency_key)
+    return queue(s['workspace'],kind,p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
+
+@app.get('/api/v1/chat/threads')
+def chat_threads(s=Depends(session)):
+    """Conversation threads derived from question runs that carry a thread_id."""
+    found=rows("""SELECT json_extract(payload,'$.thread_id') AS thread_id,MIN(created) AS created,MAX(updated) AS updated,
+                         COUNT(*) AS turns FROM runs WHERE workspace=? AND kind IN ('qa','agent')
+                         AND json_extract(payload,'$.thread_id') IS NOT NULL GROUP BY 1 ORDER BY updated DESC LIMIT 50""",(s['workspace'],))
+    for thread in found:
+        first=one("""SELECT payload FROM runs WHERE workspace=? AND json_extract(payload,'$.thread_id')=?
+                      ORDER BY created LIMIT 1""",(s['workspace'],thread['thread_id']))
+        payload=json.loads(first['payload'])
+        thread.update(title=payload['question'][:80],version_ids=payload['version_ids'])
+    return found
+
+@app.get('/api/v1/chat/threads/{thread_id}')
+def chat_thread(thread_id:str,s=Depends(session)):
+    ids=rows("""SELECT id FROM runs WHERE workspace=? AND kind IN ('qa','agent') AND json_extract(payload,'$.thread_id')=?
+                 ORDER BY created""",(s['workspace'],thread_id))
+    if not ids:
+        raise HTTPException(404,'对话不存在或无权限')
+    return {'thread_id':thread_id,'runs':[run_get(r['id'],s['workspace']) for r in ids[-30:]]}
 
 @app.post('/api/v1/qa/runs')
 def qa(p:Question,s=Depends(session)):

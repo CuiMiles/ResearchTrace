@@ -177,3 +177,19 @@ def test_query_rewrite_is_checkpointed_and_skipped_for_english_single_paper(work
     other = jobs.queue('ws-card', 'qa', {'question': 'What is studied?', 'version_ids': [workspace_doc]}, 'rewrite-key-2')
     assert jobs.rewrite_queries({'id': other['id'], 'workspace': 'ws-card'}, 'What is studied?', [workspace_doc]) == []
     assert calls == ['light']
+
+
+def test_conversation_turns_come_from_the_same_thread_and_workspace(workspace_doc):
+    first = jobs.queue('ws-card', 'qa', {'question': 'Who wrote it?', 'version_ids': [workspace_doc],
+                                         'thread_id': 'thread-abc-1'}, 'thread-key-1')
+    store.execute("UPDATE runs SET status='completed',result=? WHERE id=?",
+                  (json.dumps({'answer': 'Alice Example and others.'}), first['id']))
+    jobs.queue('ws-card', 'qa', {'question': 'Unrelated', 'version_ids': [workspace_doc],
+                                 'thread_id': 'thread-other'}, 'thread-key-2')
+    second = jobs.queue('ws-card', 'qa', {'question': '其中第二位是谁？', 'version_ids': [workspace_doc],
+                                          'thread_id': 'thread-abc-1'}, 'thread-key-3')
+    record = store.one('SELECT * FROM runs WHERE id=?', (second['id'],))
+    record['payload'] = json.loads(record['payload'])
+    assert jobs.conversation(record) == [{'question': 'Who wrote it?', 'answer': 'Alice Example and others.'}]
+    other_ws = {**record, 'workspace': 'ws-other'}
+    assert jobs.conversation(other_ws) == []
