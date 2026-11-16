@@ -4,6 +4,7 @@ import { BookOpen, Download, Network, RefreshCw } from './icons';
 import { Busy, Empty, ErrorBox } from './ui';
 import type { Evidence, Graph, GraphEdge, GraphNode, Version } from './types';
 import './graph-view.css';
+import { WritingWorkflowForm } from './Writing';
 
 type Props = {
   graph: Graph | null;
@@ -119,6 +120,7 @@ function rank(value: number): string {
 
 export function GraphView({ graph, versions, loading, error, onReload, onEvidence, onVersion }: Props) {
   const id = useId();
+  const [showSurvey, setShowSurvey] = useState(false);
   const [coreId, setCoreId] = useState('');
   const [selection, setSelection] = useState<Selection>(null);
   const [query, setQuery] = useState('');
@@ -196,6 +198,8 @@ export function GraphView({ graph, versions, loading, error, onReload, onEvidenc
         <RefreshCw size={15} />{loading ? '计算中…' : '重建与重算'}
       </button>
     </div>
+    <button type="button" className="secondary-button" onClick={() => setShowSurvey(value => !value)} aria-expanded={showSurvey}>生成领域综述</button>
+    {showSurvey && <WritingWorkflowForm workflow="survey" versions={versions} onEvidence={onEvidence} />}
     {error && <ErrorBox error={error} />}
     <p className="rt-graph-boundary">PageRank 仅表示当前语料的相对中心性，不代表全领域权威或基石地位；断连不代表论文质量低。图谱边仅来自后端真实引用条目。</p>
     {loading && <div role="status" className="rt-graph-loading"><Busy>正在读取并计算真实引用图</Busy>{graph && ' · 下方保留上次结果'}</div>}
@@ -262,6 +266,7 @@ export function GraphView({ graph, versions, loading, error, onReload, onEvidenc
           {selectedNode && <section aria-label="文献详情">
             <p className="rt-graph-eyebrow">{selectedNode.node.id === core?.node.id ? '核心节点' : '文献节点'}</p>
             <h3>{selectedNode.node.title}</h3>
+            <div className="rt-graph-role"><strong>{String(record(selectedNode.node).role_label ?? '角色尚未计算')}</strong><p>{String(record(selectedNode.node).role_reason ?? '请重建图谱读取角色规则。')}</p><small>出度 {String(record(selectedNode.node).outdegree ?? '未知')} · 总度 {String(record(selectedNode.node).degree ?? '未知')} · 有向介数 {rank(Number(record(selectedNode.node).betweenness))}</small></div>
             <dl className="rt-graph-facts"><div><dt>发表年份</dt><dd>{selectedNode.publication.label}</dd></div><div><dt>年份依据</dt><dd>{selectedNode.publication.source}</dd></div><div><dt>局部 PageRank</dt><dd>{rank(selectedNode.node.rank)}</dd></div><div><dt>局部入度</dt><dd>{selectedNode.node.indegree}</dd></div></dl>
             <button type="button" className="small-button" onClick={() => chooseCore(selectedNode.node.id)}>以此为核心查看一跳</button>
             <div className="rt-graph-versions">{selectedNode.versions.length ? selectedNode.versions.map(version => <button key={version.id} type="button" className="text-button" onClick={() => onVersion(version.id)}><BookOpen size={14} />阅读 {version.label}<span className="rt-graph-id">{version.id}</span></button>) : <p className="rt-graph-help">当前未加载可阅读的本地版本。可通过真实引用条目核对关系。</p>}</div>
@@ -273,6 +278,7 @@ export function GraphView({ graph, versions, loading, error, onReload, onEvidenc
             <summary>当前视图引用（{visible.citations.length}）</summary>
             <CitationList citations={visible.citations} nodeById={nodeById} selectedId={selectedEdge?.id} onSelect={citationId => setSelection({ kind: 'edge', id: citationId })} />
           </details>
+          <details className="rt-graph-role-rules"><summary>局部角色划分规则</summary><p>基石和桥梁均为当前引用集合中的候选；入度为零不证明工作价值低，引用不等同方法继承。</p><pre>{JSON.stringify(record(graph).role_rules ?? { notice: '旧图谱结果，请重新计算' }, null, 2)}</pre></details>
           <details className="rt-graph-scope-details"><summary>后端语料范围</summary><pre>{typeof graph.scope === 'string' ? graph.scope : JSON.stringify(graph.scope, null, 2)}</pre></details>
         </aside>
       </div>
