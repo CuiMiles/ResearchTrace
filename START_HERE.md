@@ -4,6 +4,7 @@
 
 ## 先读哪些文件
 
+0. **[最终重构与优化计划 docs/REFACTOR_PLAN.md](docs/REFACTOR_PLAN.md)（2026-11-16）**：当前唯一的执行顺序与优先级；下文“当前接手重点”的任务排序以该计划为准，各项约束仍然有效。
 1. 本文件：赛题、评分、交付和下一步。
 2. [用户提供的赛题原件 PDF](docs/contest/official-requirements.pdf)：7 页；第 1–4 页功能、第 5–6 页提交、第 6–7 页评分。来源和原文件哈希见 [source-manifest.json](docs/contest/source-manifest.json)。原发布渠道未独立认证，不冒称组委会签名包。
 3. [AGENTS.md](AGENTS.md)、[完整项目任务书 CODEX_TASK.md](CODEX_TASK.md)、[ACCEPTANCE.md](ACCEPTANCE.md)：工程约束与逐项验收。

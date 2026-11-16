@@ -113,3 +113,16 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 运行服务已拆成researchtrace-api、worker-documents、worker-interactive、parser，以及本项目loopback检索隧道；旧单worker单元已停用，旧源码/用户ZIP/RAR及未跟踪文件保留。所有新增结果见 `evidence/review-upgrade/`，管理员流程已追加真实运行记录。不要据此宣称公网、正式赛事视频/PDF或全部质量门槛完成。
 
 核心4索引已完成：run `e5d48e5600a947438dd3a5d0ca45c19d`，generation `fcdff7af26f44e369897bf3ee452089f`，5267合格源块→5330片段/5330向量，完整后已激活，云调用0。全39的staged代 `53ffb2e2e9c14cab81b122e9a4b50857` 有23185片段尚未构建全部向量。后续优先真实混合检索与核心4问答复验，并完成Qwen同切分对照、其余35拓展与公网/材料。
+
+## 2026-11-16 全量审阅与最终重构计划（最新）
+
+本阶段只做审阅和规划，没有修改产品代码。完整读取赛题原件、任务书、验收、审阅包与全部前后端源码后，产出 **`docs/REFACTOR_PLAN.md`**：后续开发按该计划的工作包、时间块和取舍清单执行。项目名保留“研证 ResearchTrace”，定位语改为“每个结论都能回到原文的科研智能体”。
+
+本阶段实际执行（干净检出，Python 3.13.18 / Node 22，非锁定的 3.12 环境；无供应商密钥，模型调用 0 次）：
+- `pytest tests/unit tests/integration`：477 passed、7 skipped，38.62 秒，日志 `evidence/refactor-plan/pytest-20261116.log`。
+- `npm ci && npm run build`：通过；主包 1.07 MB（gzip 321 KB）。
+- 本地启动 API 与两个 worker 池，经浏览器上传 9 份资料包 PDF：全部解析完成，页面巡检无页面异常；刚上传尚未解析的文档会留下页面数据 404 的控制台记录。截图见 `evidence/refactor-plan/`。
+
+本次实测确认的缺陷（均写入计划并排了优先级）：默认原生解析下 LoRA 标题为“RA: -R”、ViT 标题为“16 16”；9 份中 8 份 `metadata.author` 为空，作者与机构被压成一个段落；无发表年份，图谱节点全部“年份未知”；目录为无层级的平铺列表；核心模型默认每工作区每日 2 次；规划 Agent 与路由默认关闭；仅 Gemini 一条模型通道；无流式输出、无多轮对话；参考文献批量下载、综述、论文框架、结构图生成等功能缺失；前端源码为超长单行、无路由/数据层/Lint/测试；无 CI，Compose 未实际运行。
+
+未做：公网部署、任何真实模型调用、正式视频与 PDF。需要团队先完成的人工动作见计划第 10 节（确认截止时刻、评审期模型与预算、GPU 主机与隧道、ECS 与域名、团队信息）。

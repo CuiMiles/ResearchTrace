@@ -140,3 +140,17 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 审阅包基线cc54691，增量实现细节与当前PASS/FAIL/NOT RUN见 `docs/UPGRADE_STATUS_20261116.md`。核心集限定v1/v7/扫描版/541页教材，其余35份拓展。395项完整工程回归通过；真实20篇批量导入、3.6Flash双向翻译、Decision1原生11例校准与双卡本地模型已有证据。核心问答保留首次失败和复验partial；核心4索引仍在构建，未冒称全量向量完成。原smoke4与旧账本没有重置；本轮新增授权各模型每日40次，失败/unknown照计，付费兜底仍关闭。
 
 运行服务已拆成researchtrace-api、worker-documents、worker-interactive、parser，以及本项目loopback检索隧道；旧单worker单元已停用，旧源码/用户ZIP/RAR及未跟踪文件保留。所有新增结果见 `evidence/review-upgrade/`，管理员流程已追加真实运行记录。不要据此宣称公网、正式赛事视频/PDF或全部质量门槛完成。
+
+## 2026-11-16 重构规划前的基线复核
+
+环境：干净检出 `11d4cb3`，Python 3.13.18（锁定环境为 3.12，属环境差异）、Node 22；无供应商密钥，模型调用 0 次。
+
+| 项目 | 状态 | 证据与边界 |
+|---|---|---|
+| 后端单元与集成测试 | PASS | 477 passed、7 skipped，38.62 秒；`evidence/refactor-plan/pytest-20261116.log` |
+| 前端类型检查与构建 | PASS | 构建通过；主包 1.07 MB，超过 500 kB 分包警告仍在 |
+| 本地无密钥启动与浏览器巡检 | PASS | 上传 9 份资料包 PDF 全部解析；文献库、阅读器、比较、检索、图谱、核查、写作、资源页巡检无页面异常；刚上传尚未解析的文档有页面数据 404 的控制台记录；截图在 `evidence/refactor-plan/` |
+| 标题与作者元数据抽取 | FAIL | LoRA 标题为“RA: -R”，ViT 标题为“16 16”；9 份中 8 份作者字段为空；全部无年份 |
+| 真实模型问答、公网、视频、PDF | NOT RUN | 本阶段只做审阅与规划 |
+
+后续执行顺序见 `docs/REFACTOR_PLAN.md`。
