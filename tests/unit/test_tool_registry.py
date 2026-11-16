@@ -25,7 +25,9 @@ def isolated(tmp_path, monkeypatch):
     monkeypatch.setattr(models, 'embed', no_request)
     monkeypatch.setattr(research, 'fetch_public', no_request)
     monkeypatch.setattr(research, 'search_papers', no_request)
-    monkeypatch.setattr(registry.retrieval, 'retrieve', no_request)
+    # retrieve() itself may run (keyword lists only); the provider calls above stay forbidden,
+    # so any hidden query embedding still fails the test.
+    monkeypatch.setattr(registry.retrieval, 'LocalRetrievalProvider', no_request, raising=False)
     for workspace in ('alpha', 'beta'):
         store.execute('INSERT INTO workspaces VALUES(?,?,?)', (workspace, workspace, time.time()))
         store.execute('INSERT INTO runs(id,workspace,kind,status,payload,checkpoint,created,updated) VALUES(?,?,?,?,?,?,?,?)',

@@ -72,6 +72,7 @@ class RetrieveEvidence(StrictModel):
     version_ids: list[SafeID] = Field(min_length=1, max_length=10)
     question: Question
     limit: int = Field(default=8, ge=1, le=20)
+    queries: list[str] = Field(default_factory=list, max_length=4)
 
 
 class CompareVersions(StrictModel):
@@ -270,13 +271,15 @@ def _retrieve(ctx, args, key):
     vids = list(dict.fromkeys(args.version_ids))
     for vid in vids:
         _version(ctx, vid)
+    queries=[q[:300] for q in args.queries if q.strip()]
     if os.getenv('RT_EMBED_PROVIDER')=='local':
-        return retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit)
-    from .sparse_index import search
-    blocks,expanded=search(ctx.workspace,vids,args.question,limit=args.limit)
-    return {'mode':'keyword','method':'FTS5_BM25','blocks':[retrieval._decode(b) for b in blocks],
-            'version_ids':vids,'query_term_expansion':expanded,
-            'notice':'本地关键词检索；未提交云端问题向量，不冒充语义召回'}
+        return retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit,queries=queries)
+    # Keyword lists only (question + rewrites, per-document quotas, neighbour context);
+    # no cloud question embedding is sent from a tool call.
+    result=retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit,queries=queries,
+                              allow_cloud_dense=False)
+    result['notice']='本地关键词检索（含改写查询与逐篇配额）；未提交云端问题向量，不冒充语义召回'
+    return result
 
 
 def _compare(ctx, args, key):

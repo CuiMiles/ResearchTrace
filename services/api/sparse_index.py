@@ -12,7 +12,11 @@ LEXICON = {'作者':('author','authors','affiliation'), '机构':('affiliation',
            '成本':('cost','expense'), '批量':('batch',), '学习率':('learning','rate')}
 
 
+FTS_OPERATORS = {'OR', 'AND', 'NOT', 'NEAR'}
+
+
 def tokens(text):
+    text = re.sub(r'\b(?:OR|AND|NOT|NEAR)\b', ' ', text or '')
     out = re.findall(r'[A-Za-z][A-Za-z0-9_]*|[βγδε]\s*\d*|\d+(?:\.\d+)?|[\u4e00-\u9fff]+',text)
     result=[]
     for token in out:

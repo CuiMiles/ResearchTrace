@@ -147,3 +147,33 @@ def test_card_authors_exempt_author_ordinals_from_number_checks(workspace_doc):
                          'evidence': [{'block_id': author_block['id'], 'quote': 'Carol Third'}]}]}
     with pytest.raises(ValueError):
         evidence_validation.validate(wrong, blocks, workspace='ws-card', version_ids=[workspace_doc])
+
+
+def test_rewritten_queries_reach_english_text_a_chinese_question_misses(workspace_doc):
+    from services.api import retrieval
+    plain = retrieval.retrieve('ws-card', [workspace_doc], '这篇论文研究什么场景？', limit=5)
+    rewritten = retrieval.retrieve('ws-card', [workspace_doc], '这篇论文研究什么场景？', limit=5,
+                                   queries=['controlled setting fixtures'], allow_cloud_dense=False)
+    hit = lambda result: any('controlled setting' in b['text'] for b in result['blocks'])
+    assert not hit(plain) and hit(rewritten)
+    assert rewritten['rewritten_queries'] == ['controlled setting fixtures']
+
+
+def test_query_rewrite_is_checkpointed_and_skipped_for_english_single_paper(workspace_doc, monkeypatch):
+    from services.api import models
+    calls = []
+
+    def fake(system, prompt, rid, core=True, role=None, **_):
+        calls.append(role)
+        return {'text': json.dumps({'queries': ['controlled setting', 'fixtures']}), 'model': 'FIXTURE', 'usage': {}}
+
+    monkeypatch.setenv('RT_QUERY_REWRITE', 'true')
+    monkeypatch.setattr(models, 'generate', fake)
+    run = jobs.queue('ws-card', 'qa', {'question': '这篇论文研究什么？', 'version_ids': [workspace_doc]}, 'rewrite-key-1')
+    record = {'id': run['id'], 'workspace': 'ws-card'}
+    assert jobs.rewrite_queries(record, '这篇论文研究什么？', [workspace_doc]) == ['controlled setting', 'fixtures']
+    assert jobs.rewrite_queries(record, '这篇论文研究什么？', [workspace_doc]) == ['controlled setting', 'fixtures']
+    assert calls == ['light']
+    other = jobs.queue('ws-card', 'qa', {'question': 'What is studied?', 'version_ids': [workspace_doc]}, 'rewrite-key-2')
+    assert jobs.rewrite_queries({'id': other['id'], 'workspace': 'ws-card'}, 'What is studied?', [workspace_doc]) == []
+    assert calls == ['light']

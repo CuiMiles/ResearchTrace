@@ -15,3 +15,5 @@ def isolate_live_configuration(monkeypatch):
     # Document cards stay offline in tests: no live arXiv/Crossref lookups, no model calls.
     monkeypatch.setenv('RT_CARD_NETWORK','false')
     monkeypatch.setenv('RT_CARD_MODEL','false')
+    # Query rewriting is one extra light call; fixture providers do not expect it.
+    monkeypatch.setenv('RT_QUERY_REWRITE','false')

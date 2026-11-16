@@ -81,7 +81,12 @@ def index_dense(workspace, version_id, run_id):
     return {"status": "complete" if completed == len(blocks) else "partial", "new_blocks": completed, "model": model, "dense_pages": one("SELECT dense_pages FROM versions WHERE id=?", (version_id,))["dense_pages"]}
 
 
-def retrieve(workspace, version_ids, question, limit=16):
+def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_cloud_dense=True):
+    """Hybrid retrieval over immutable blocks.
+
+    `queries` are extra keyword queries (e.g. English rewrites of a Chinese
+    question); each is searched per document and fused by RRF as its own list.
+    """
     limit = min(max(int(limit), 1), 50)
     if not version_ids:
         return {"blocks": [], "sparse": [], "dense": [], "mode": "keyword", "notice": "请选择文档版本"}
@@ -99,6 +104,14 @@ def retrieve(workspace, version_ids, question, limit=16):
             for item in per_doc:
                 if item['id'] not in seen:
                     sparse.append(item);seen.add(item['id'])
+    rewritten=[]
+    for extra in [q for q in (queries or []) if isinstance(q,str) and q.strip()][:4]:
+        ranked=[]
+        for vid in requested:
+            per_doc,_=sparse_search(workspace,[vid],extra[:300],limit=max(3,limit//len(requested)))
+            ranked.extend(per_doc)
+        ranked.sort(key=lambda b:b['sparse_score'])
+        rewritten.append(ranked)
     dense=[];dense_metadata={'status':'unindexed'};reranker=None
     notice='当前使用对称分词的关键词索引；向量覆盖尚未完成'
     if os.getenv('RT_EMBED_PROVIDER','gemini')=='local':
@@ -116,7 +129,7 @@ def retrieve(workspace, version_ids, question, limit=16):
         model=os.environ.get('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
         # One joined read replaces a per-vector block lookup. This legacy index
         # remains independent of model-fingerprinted local generations.
-        dense_rows=rows(f"SELECT cb.*,e.model,e.dimension,e.vector FROM embeddings e JOIN current_blocks cb ON cb.id=e.block_id JOIN versions v ON v.id=e.version_id WHERE e.workspace=? AND e.version_id IN ({placeholders}) AND v.deleted=0 AND e.model=?",(workspace,*requested,model))
+        dense_rows=rows(f"SELECT cb.*,e.model,e.dimension,e.vector FROM embeddings e JOIN current_blocks cb ON cb.id=e.block_id JOIN versions v ON v.id=e.version_id WHERE e.workspace=? AND e.version_id IN ({placeholders}) AND v.deleted=0 AND e.model=?",(workspace,*requested,model)) if allow_cloud_dense else []
         if dense_rows and os.environ.get('RT_DISABLE_DENSE','false').lower()!='true':
             try:
                 from .models import embed
@@ -135,7 +148,7 @@ def retrieve(workspace, version_ids, question, limit=16):
                 notice='密集查询不可用（'+type(exc).__name__+'）；当前为关键词检索'
     by_id = {}
     scores = {}
-    for candidates in (sparse, dense):
+    for candidates in (sparse, *rewritten, dense):
         seen=set();rank=0
         for block in candidates:
             if block['id'] in seen:continue
@@ -173,4 +186,5 @@ def retrieve(workspace, version_ids, question, limit=16):
             if neighbor["id"] not in added and len(blocks) < limit + 6:
                 blocks.append({**_decode(neighbor), "neighbor_context": True})
                 added.add(neighbor["id"])
-    return {"blocks": blocks, "sparse": [{"block_id": b["id"], "score": b["sparse_score"]} for b in sparse], "dense": [{"block_id": b["id"], "score": b["dense_score"]} for b in dense], "mode": "hybrid" if dense else "keyword", "notice": notice, "version_ids": requested, "method": "FTS5_BM25+cosine+RRF" if dense else "FTS5_BM25", "dense_index":dense_metadata, "rerank":rerank_metadata, "query_term_expansion":expanded_terms}
+    sparse_all = sparse + [b for ranked in rewritten for b in ranked]
+    return {"rewritten_queries": [q for q in (queries or [])][:4], "blocks": blocks, "sparse": [{"block_id": b["id"], "score": b["sparse_score"]} for b in sparse_all], "dense": [{"block_id": b["id"], "score": b["dense_score"]} for b in dense], "mode": "hybrid" if dense else "keyword", "notice": notice, "version_ids": requested, "method": "FTS5_BM25+cosine+RRF" if dense else "FTS5_BM25", "dense_index":dense_metadata, "rerank":rerank_metadata, "query_term_expansion":expanded_terms}

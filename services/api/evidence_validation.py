@@ -66,6 +66,8 @@ def numbers(text):
     chinese = dict(zip('零一二三四五六七八九十', map(str, range(11))))
     text = re.sub(r'[零一二三四五六七八九十](?=\s*(?:张|台|块|个|小时|秒|年|%))', lambda m: chinese[m[0]], text)
     text=re.sub(r'(\d+(?:\.\d+)?)\s*([万亿])',lambda m:str(Decimal(m[1])*(10000 if m[2]=='万' else 100000000)),text)
+    # Model and version names ("GPT-3", "Llama-2", "T5") are identifiers, not quantities.
+    text = re.sub(r'(?<![A-Za-z0-9])[A-Za-z][A-Za-z.]*-\d+(?:\.\d+)?(?![\d.])', ' ', text)
     return {str(Decimal(x.replace(',', '')).normalize()) for x in re.findall(r'(?<![A-Za-z0-9_])[+-]?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+-]?\d+)?', text)}
 
 
