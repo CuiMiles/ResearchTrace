@@ -8,7 +8,7 @@ export interface Evidence { parse_id?:string; block_id:string; version_id:string
 export interface Claim { id?:string; text:string; type:string; evidence:Evidence[]; review?:{status:string;label?:string;reason?:string;method?:string;human_status?:string} }
 export interface Run { id:string; kind:string; status:string; payload:Json; result:Result|null; error:string|null; created:number; updated:number; steps?:Step[] }
 export interface Step { id:number; event:string; data:Json; created:number }
-export interface Result extends Json { answer?:string; answer_segments?:{text:string;claim_ids:string[]}[]; claims?:Claim[]; publication_notice?:string; model?:string; artifact_id?:string; retrieval?:Json }
+export interface Result extends Json { answer?:string; answer_segments?:{text:string;claim_ids:string[]}[]; claims?:Claim[]; publication_notice?:string; model?:string; artifact_id?:string; retrieval?:Json; model_downgraded_from?:{model:string;reason:string}[] }
 export interface Ref { id:string; block_id:string; version_id:string; marker?:string; text:string; page_index:number; metadata?:Json }
 export interface Translation { block_id:string; text:string; model:string }
 export interface Paper { identity:string; title:string; authors:string[]; year?:number; doi?:string; arxiv_id?:string; url:string; pdf_url?:string; source:string; abstract?:string; reason?:string; score?:number }

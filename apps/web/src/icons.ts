@@ -50,3 +50,16 @@ export { default as ThumbsDown } from 'lucide-react/dist/esm/icons/thumbs-down.j
 export { default as ThumbsUp } from 'lucide-react/dist/esm/icons/thumbs-up.js';
 export { default as UploadCloud } from 'lucide-react/dist/esm/icons/upload-cloud.js';
 export { default as X } from 'lucide-react/dist/esm/icons/x.js';
+export { default as Bot } from 'lucide-react/dist/esm/icons/bot.js';
+export { default as Database } from 'lucide-react/dist/esm/icons/database.js';
+export { default as GitBranch } from 'lucide-react/dist/esm/icons/git-branch.js';
+export { default as Home } from 'lucide-react/dist/esm/icons/home.js';
+export { default as Library } from 'lucide-react/dist/esm/icons/library.js';
+export { default as MessagesSquare } from 'lucide-react/dist/esm/icons/messages-square.js';
+export { default as Quote } from 'lucide-react/dist/esm/icons/quote.js';
+export { default as ScanSearch } from 'lucide-react/dist/esm/icons/scan-search.js';
+export { default as Telescope } from 'lucide-react/dist/esm/icons/telescope.js';
+export { default as TriangleAlert } from 'lucide-react/dist/esm/icons/triangle-alert.js';
+export { default as Wand2 } from 'lucide-react/dist/esm/icons/wand-2.js';
+export { default as Workflow } from 'lucide-react/dist/esm/icons/workflow.js';
+export { default as Info } from 'lucide-react/dist/esm/icons/info.js';

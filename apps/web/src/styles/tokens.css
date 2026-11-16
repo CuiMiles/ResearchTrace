@@ -1,0 +1,68 @@
+/*
+ * 研证 ResearchTrace design tokens.
+ * A quiet reading room: warm paper canvas, ink text, one brand blue.
+ * Colour beyond that is reserved for evidence state and agent activity.
+ */
+:root {
+  /* Surfaces */
+  --canvas: #f6f5f1;
+  --surface: #ffffff;
+  --surface-2: #fbfaf7;
+  --sunken: #f0eee8;
+  --rail: #131a29;
+  --rail-2: #1c2436;
+  --rail-ink: #c9d1e1;
+  --rail-ink-strong: #ffffff;
+
+  /* Ink */
+  --ink: #1b2333;
+  --ink-2: #3a4456;
+  --muted: #6b7384;
+  --faint: #9aa1ae;
+  --line: #e6e2da;
+  --line-strong: #d4cfc4;
+
+  /* Brand */
+  --brand: #2f55b5;
+  --brand-ink: #1f3f8f;
+  --brand-soft: #eaf0fb;
+  --brand-line: #c8d6f2;
+
+  /* Evidence states */
+  --ok: #0e8f7e;
+  --ok-soft: #e3f4f1;
+  --review: #a96a12;
+  --review-soft: #fbf1df;
+  --bad: #c2413b;
+  --bad-soft: #fbe9e7;
+  --none: #6f7889;
+  --none-soft: #eef0f3;
+
+  /* Agent activity */
+  --agent: #6b5bd2;
+  --agent-soft: #efecfb;
+
+  /* Type */
+  --font-ui: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC",
+    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-paper: "Source Serif 4", "Source Serif Pro", Georgia, "Songti SC", "Noto Serif CJK SC",
+    serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Shape and depth */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow-pop: 0 12px 32px rgba(19, 26, 41, 0.14), 0 2px 6px rgba(19, 26, 41, 0.08);
+  --shadow-card: 0 1px 2px rgba(19, 26, 41, 0.05);
+  --focus: 0 0 0 3px rgba(47, 85, 181, 0.28);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --fast: 150ms;
+
+  /* Layout */
+  --rail-width: 228px;
+  --topbar-height: 56px;
+  --right-width: 380px;
+}

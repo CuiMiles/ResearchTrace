@@ -1,38 +1,453 @@
-import { UploadBatchPanel } from './UploadBatchPanel';
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Bell, BookOpen, ChevronDown, CircleHelp, Clock3, FileChartColumn, FileText, Files, FlaskConical, FolderOpen, GitCompareArrows, Layers3, ListChecks, LogOut, Menu, Network, Plus, Search, Settings2, ShieldCheck, Sparkles, UploadCloud, X } from './icons';
-import { api, date, errorMessage, parseObject } from './api';
-import type { Evidence, Run, Session, Version } from './types';
-import { Badge, Boundary, Busy, Empty, ErrorBox } from './ui';
-import { Reader } from './Reader';
-import { ModelConfig, type ModelCapability } from './ModelConfig';
+/**
+ * Application root: session gate, routes and the workbench shell.
+ * Pages own their data; shared workspace state lives in app/workspace.tsx.
+ */
+import { lazy, Suspense, useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
+import { Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  ArrowRight,
+  BookOpen,
+  CircleHelp,
+  Clock3,
+  FileChartColumn,
+  FileText,
+  FlaskConical,
+  GitCompareArrows,
+  Home,
+  Layers3,
+  Library,
+  ListChecks,
+  LogOut,
+  Menu,
+  MessagesSquare,
+  Network,
+  Plus,
+  Search,
+  Settings2,
+  ShieldCheck,
+  UploadCloud,
+  X,
+} from './icons';
+import { api, errorMessage } from './api';
+import type { Session } from './types';
+import { Boundary, Busy, ErrorBox } from './ui';
+import { ModelConfig } from './ModelConfig';
 import { activeRun, RunDetail, RunsDrawer } from './RunPanel';
-import { AuditPage, ComparePage, GraphPage, SearchPage } from './Research';
-import { WritingPage, ResourcesPage } from './Writing';
-import { AdminAcceptancePage } from './AdminAcceptance';
-import './styles.css';
-type Section='library'|'reader'|'compare'|'search'|'graph'|'audit'|'writing'|'resources'|'acceptance'|'run';
-const navigation=[{id:'library',label:'文献库',icon:FolderOpen},{id:'reader',label:'阅读与问答',icon:BookOpen},{id:'compare',label:'版本与比较',icon:GitCompareArrows},{id:'search',label:'检索与追踪',icon:Search},{id:'graph',label:'引用图谱',icon:Network},{id:'audit',label:'研究建议核查',icon:ShieldCheck},{id:'writing',label:'写作与绘图',icon:FileChartColumn}] as const;
-export default function App(){const [session,setSession]=useState<Session|null>(null);const [capability,setCapability]=useState<ModelCapability|null>(null);const [checking,setChecking]=useState(true);const [section,setSection]=useState<Section>('library');const [versions,setVersions]=useState<Version[]>([]);const [runs,setRuns]=useState<Run[]>([]);const [selected,setSelected]=useState<string|null>(localStorage.getItem('rt-version'));const [highlight,setHighlight]=useState<Evidence|null>(null);const [runId,setRunId]=useState<string|null>(null);const [compareRun,setCompareRun]=useState<string|null>(null);const [auditRun,setAuditRun]=useState<string|null>(null);const [error,setError]=useState('');const [notice,setNotice]=useState('');const [uploading,setUploading]=useState(false);const [batchId,setBatchId]=useState<string|null>(null);const [drawer,setDrawer]=useState(false);const [mobileNav,setMobileNav]=useState(false);const [readerFocus,setReaderFocus]=useState(false);const [filter,setFilter]=useState('');const uploadInput=useRef<HTMLInputElement>(null);const [dragging,setDragging]=useState(false);async function refresh(){try{const [v,r,batches]=await Promise.all([api<Version[]>('/documents'),api<Run[]>('/runs?summary=true'),api<{id:string}[]>('/batches')]);setBatchId(current=>current??batches[0]?.id??null);setVersions(v.map(d=>({...d,metadata:parseObject(d.metadata,{})})));setRuns(r.map(x=>({...x,payload:parseObject(x.payload,{}),result:parseObject(x.result,null)})))}catch(e){setError(errorMessage(e))}}
- useEffect(()=>{api<Session>('/auth/session').then(setSession).catch(()=>setSession(null)).finally(()=>setChecking(false))},[]);useEffect(()=>{if(!session)return;setBatchId(null);void api<ModelCapability>('/capabilities').then(setCapability).catch(e=>setError(errorMessage(e)));void refresh();const timer=setInterval(refresh,3000);return()=>clearInterval(timer)},[session?.workspace]);useEffect(()=>{if(selected)localStorage.setItem('rt-version',selected)},[selected]);
- function choose(id:string){setSelected(id);setHighlight(null);setRunId(null);setSection('reader')}
- async function evidence(e:Evidence){setSelected(e.version_id);setSection('reader');if(!e.bbox||e.bbox.length!==4){try{const blocks=await api<{blocks:import('./types').Block[]}>(`/documents/${e.version_id}/pages/${e.page_index}${e.parse_id?`?parse_id=${encodeURIComponent(e.parse_id)}`:''}`);const b=blocks.blocks.find(x=>x.id===e.block_id);if(b)e={...e,bbox:parseObject(b.bbox,[]),block_id:b.id,parse_id:b.parse_id??e.parse_id}}catch(err){setError(errorMessage(err))}}setHighlight(e)}
- async function upload(files:FileList|File[]|null){if(!files?.length)return;setUploading(true);setError('');setNotice('');const form=new FormData();Array.from(files).forEach(f=>form.append('files',f));try{const r=await api<{documents:Version[];runs:{id:string}[];batch_id?:string;duplicates?:unknown}>('/documents',form);if(r.batch_id)setBatchId(r.batch_id);await refresh();const first=r.documents[0];if(first){if(files.length===1)choose(first.id);else setSection('library');if(r.runs?.[0]?.id)setRunId(r.runs[0].id);if(!r.batch_id)setNotice(first.duplicate?'文件内容已存在，已打开已有版本。':'PDF 已保存，解析任务会逐页处理；现在可以阅读原文。')}}catch(e){setError(errorMessage(e))}finally{setUploading(false);if(uploadInput.current)uploadInput.current.value=''}}
- const version=versions.find(v=>v.id===selected)??null;const working=runs.filter(activeRun).length;const openUpload=()=>uploadInput.current?.click();
- if(checking)return <div className="app-loading"><div className="brand-mark"><Layers3 size={24}/></div><Busy>正在打开研证工作台</Busy></div>;
- if(!session)return <Login onLogin={setSession}/>;
- return <ModelConfig.Provider value={capability}><div className={`app-shell ${section==='reader'?`reading ${readerFocus?'focus-reader':''}`:''}`} onDragOver={e=>{if(e.dataTransfer.types.includes('Files')){e.preventDefault();setDragging(true)}}} onDragLeave={e=>{if(!e.relatedTarget)setDragging(false)}} onDrop={e=>{e.preventDefault();setDragging(false);void upload(e.dataTransfer.files)}}><input type="file" accept="application/pdf,.pdf" multiple hidden ref={uploadInput} data-testid="pdf-upload" onChange={e=>void upload(e.target.files)}/><aside className={`main-sidebar ${mobileNav?'mobile-open':''}`}><a className="brand" href="#" onClick={e=>{e.preventDefault();setSection('library')}}><div className="brand-mark"><Layers3 size={22}/></div><span><strong>研证</strong><small>ResearchTrace</small></span></a><div className="workspace-label"><span className="workspace-avatar">研</span><div><strong>研究工作区</strong><small>{session.workspace.slice(0,8)} / {session.role==='admin'?'管理员':'独立空间'}</small></div><ChevronDown size={14}/></div><button className="primary-button import-button" disabled={uploading} onClick={openUpload}>{uploading?<Busy/>:<Plus size={17}/>}导入论文</button><nav aria-label="主导航">{navigation.map(n=><button key={n.id} aria-label={n.label} title={n.label} className={section===n.id?'active':''} onClick={()=>{setSection(n.id);setMobileNav(false)}}><n.icon size={18}/><span>{n.label}</span>{n.id==='library'&&<small>{versions.length}</small>}{n.id==='audit'&&<span className="new-dot"/>}</button>)}</nav><div className="sidebar-bottom"><div className="evidence-principle"><ShieldCheck size={17}/><span>每个结论，都能回到原文</span></div>{session.role==='admin'&&<button className={section==='acceptance'?'active':''} onClick={()=>{setSection('acceptance');setMobileNav(false)}}><ListChecks size={18}/><span>验收与截图</span></button>}<button className={section==='resources'?'active':''} onClick={()=>{setSection('resources');setMobileNav(false)}}><Settings2 size={18}/><span>资源与配额</span></button><button onClick={async()=>{try{await api('/auth/logout',{});setSession(null);setVersions([]);setRuns([])}catch(e){setError(errorMessage(e))}}}><LogOut size={17}/><span>退出工作区</span></button></div></aside><div className="app-main"><header className="topbar"><div className="breadcrumbs"><button className="icon-button mobile-only" aria-label="展开主导航" onClick={()=>setMobileNav(!mobileNav)}><Menu size={19}/></button><span>研究工作区</span><span className="breadcrumb-slash">/</span><strong>{section==='run'?'运行详情':section==='acceptance'?'测试验收与截图看板':navigation.find(n=>n.id===section)?.label??'资源与配额'}</strong>{section==='reader'&&version&&<><span className="breadcrumb-slash">/</span><span className="truncate">{version.title}</span></>}</div><div className="topbar-actions">{section==='reader'&&<button className="small-button" aria-pressed={readerFocus} onClick={()=>setReaderFocus(!readerFocus)}>{readerFocus?'退出专注':'专注阅读'}</button>}<span className="connected"><span/>数据持久化</span><button className="task-button" onClick={()=>setDrawer(true)}><Clock3 size={17}/><span>任务</span>{working>0&&<b>{working}</b>}</button><span className="user-avatar">{session.role==='admin'?'管':'研'}</span></div></header>{error&&<div className="global-message"><ErrorBox error={error} onClose={()=>setError('')}/></div>}{notice&&<div className="notice" role="status"><span>{notice}</span><button className="icon-button" aria-label="关闭通知" onClick={()=>setNotice('')}><X size={15}/></button></div>}{capability&&!capability.model_configured&&<div className="notice missing-config" role="status">模型配置缺失：导入、解析、阅读和图表仍可使用。请在服务器 .env 配置密钥；真实模型任务受阻。</div>}<main className={`main-content ${section==='reader'?'reader-content':''}`}><Boundary>{section==='library'&&<UploadBatchPanel batchId={batchId}/>}
- {section==='library'&&<div className="page-content library-page"><div className="page-heading"><div><div className="greeting">从文献到可信结论</div><h1>你的研究，有证可循。</h1><p>读懂论文，核对证据，把每一次探索沉淀为可追溯的研究笔记。</p></div><button className="primary-button" onClick={openUpload} disabled={uploading}><UploadCloud size={17}/>导入 PDF</button></div><div className="start-paths"><button className="start-path" onClick={openUpload}><div className="path-icon blue"><BookOpen size={22}/></div><div><h3>导入并阅读论文</h3><p>原文、译文与证据问答联动</p></div><ArrowRight size={18}/></button><button className="start-path" onClick={()=>setSection('compare')}><div className="path-icon teal"><GitCompareArrows size={22}/></div><div><h3>比较论文与版本</h3><p>差异、条件与出处逐项核对</p></div><ArrowRight size={18}/></button><button className="start-path" onClick={()=>setSection('writing')}><div className="path-icon purple"><FileChartColumn size={22}/></div><div><h3>把实验数据变成图</h3><p>上传 CSV，计算并导出可复现图表</p></div><ArrowRight size={18}/></button></div><section className="library-section"><div className="section-heading"><h2><Files size={19}/>我的文献 <span className="count">{versions.length}</span></h2><label className="search-field"><Search size={16}/><input aria-label="筛选文献" placeholder="搜索标题、标签或文件名" value={filter} onChange={e=>setFilter(e.target.value)}/></label></div>{!versions.length?<div className="upload-empty" onClick={openUpload} tabIndex={0} role="button" onKeyDown={e=>e.key==='Enter'&&openUpload()}><UploadCloud size={36} strokeWidth={1.25}/><h3>把第一篇论文放进来</h3><p>拖放 PDF 到这里，或点击选择文件</p><span>逐页解析 · 保留版本 · 不覆盖原文</span></div>:<div className="document-table"><div className="document-table-head"><span>文献与版本</span><span>解析与索引</span><span>导入时间</span><span/></div>{versions.filter(v=>[v.title,v.filename,JSON.stringify(v.metadata)].join(' ').toLowerCase().includes(filter.toLowerCase())).map(v=><article className="document-row" key={v.id}><button className="document-title" onClick={()=>choose(v.id)}><div className="pdf-icon"><FileText size={23}/><span>PDF</span></div><div><strong>{v.title}</strong><small><Badge>{v.label}</Badge><span>{v.filename}</span></small>{Boolean(v.metadata.version_notice)&&<em>{String(v.metadata.version_notice)}</em>}</div></button><div className="document-status"><Badge status={v.status}/><small>解析 {v.parsed_pages}/{v.page_count||'?'} 页</small><small>{v.local_index?.semantic_ready?'语义检索就绪':'语义索引未完成'} · {v.local_index?.indexed_blocks??0}/{v.local_index?.eligible_blocks??0} 块</small>{v.status==='ready'&&!v.local_index?.semantic_ready&&<button className="text-button" onClick={async()=>{try{const r=await api<Run>('/indices/runs',{version_ids:[v.id],idempotency_key:`index-${v.id}-${crypto.randomUUID()}`});setRunId(r.id);setSection('run');await refresh()}catch(e){setError(errorMessage(e))}}}>建立语义索引</button>}</div><time>{date(v.created)}</time><div className="document-actions"><button className="text-button" onClick={()=>choose(v.id)}>阅读<ArrowRight size={14}/></button><DocumentMenu version={v} refresh={refresh} onError={setError}/></div></article>)}</div>}</section><div className="library-bottom"><section className="feature-note"><ShieldCheck size={24} strokeWidth={1.4}/><div><h3>研究建议，经得起后续文献核查吗？</h3><p>从旧论文的一段 Future Work 出发，检索后续证据，区分直接覆盖、部分覆盖与证据不足。</p><button className="text-button" onClick={()=>setSection('audit')}>打开研究建议核查<ArrowRight size={14}/></button></div></section><section className="recent-activity"><h3>最近活动</h3>{runs.length?runs.slice(0,3).map(r=><button key={r.id} onClick={()=>{setRunId(r.id);setSection('run')}}><span className="activity-dot"/><span>{String(r.payload.question??({parse:'导入与解析',translation:'翻译任务'} as Record<string,string>)[r.kind]??r.kind).slice(0,46)}<small>{date(r.created)}</small></span><Badge status={r.status}/></button>):<p className="muted">新文献和任务的真实记录会保存在这里。</p>}</section></div></div>}
- {section==='reader'&&<Reader key={version?.id??'empty'} versions={versions} version={version} setVersion={choose} highlight={highlight} onEvidence={e=>void evidence(e)} runId={runId} setRunId={setRunId} refresh={()=>void refresh()} startUpload={openUpload}/>}
- {section==='compare'&&<ComparePage versions={versions} onEvidence={e=>void evidence(e)} onRun={setCompareRun} runId={compareRun}/>}
- {section==='search'&&<SearchPage refresh={()=>void refresh()} onImport={id=>{if(id)setSelected(id)}}/>}
- {section==='graph'&&<GraphPage versions={versions} onEvidence={e=>void evidence(e)} onVersion={choose}/>}
- {section==='audit'&&<AuditPage versions={versions} onEvidence={e=>void evidence(e)} onRun={setAuditRun} runId={auditRun}/>}
- {section==='writing'&&<WritingPage versions={versions} onEvidence={e=>void evidence(e)} refresh={()=>void refresh()}/>}
- {section==='resources'&&<ResourcesPage role={session.role} onOpenAcceptance={()=>setSection('acceptance')}/>}
- {section==='acceptance'&&<AdminAcceptancePage role={session.role}/>}
- {section==='run'&&runId&&<div className="page-content"><RunDetail runId={runId} onEvidence={e=>void evidence(e)}/></div>}
- </Boundary></main></div>{drawer&&<RunsDrawer runs={runs} onClose={()=>setDrawer(false)} onSelect={id=>{setRunId(id);setSection('run');setDrawer(false)}}/>}{dragging&&<div className="drop-overlay"><UploadCloud size={54}/><h2>松开以导入 PDF</h2><p>文件会进入当前独立工作区</p></div>}</div></ModelConfig.Provider>
+import { WorkspaceProvider, useWorkspace } from './app/workspace';
+import { HomePage } from './features/home/HomePage';
+import { LibraryPage } from './features/library/LibraryPage';
+import { ChatPage } from './features/chat/ChatPage';
+import { Reader } from './Reader';
+
+const ComparePage = lazy(() => import('./Research').then((m) => ({ default: m.ComparePage })));
+const SearchPage = lazy(() => import('./Research').then((m) => ({ default: m.SearchPage })));
+const GraphPage = lazy(() => import('./Research').then((m) => ({ default: m.GraphPage })));
+const AuditPage = lazy(() => import('./Research').then((m) => ({ default: m.AuditPage })));
+const WritingPage = lazy(() => import('./Writing').then((m) => ({ default: m.WritingPage })));
+const ResourcesPage = lazy(() => import('./Writing').then((m) => ({ default: m.ResourcesPage })));
+const AdminAcceptancePage = lazy(() =>
+  import('./AdminAcceptance').then((m) => ({ default: m.AdminAcceptancePage })),
+);
+
+interface NavItem {
+  to: string;
+  label: string;
+  icon: typeof Home;
 }
-function Login({onLogin}:{onLogin:(s:Session)=>void}){const [code,setCode]=useState('');const [error,setError]=useState('');const [loading,setLoading]=useState(false);async function submit(e:React.FormEvent){e.preventDefault();setLoading(true);setError('');try{onLogin(await api<Session>('/auth/login',{code}))}catch(err){setError(errorMessage(err))}finally{setLoading(false)}}return <div className="login-page"><div className="login-story"><div className="brand light"><div className="brand-mark"><Layers3 size={27}/></div><span><strong>研证</strong><small>ResearchTrace</small></span></div><h1>让每一个研究结论，<br/>都能回到原文。</h1><p>版本感知的证据链，连接文献、问题与研究判断。</p><div className="login-evidence"><div><FileText size={19}/><span>原始论文与具体版本</span></div><span className="evidence-connector"/><div><Search size={19}/><span>页码、段落与原文位置</span></div><span className="evidence-connector"/><div><ShieldCheck size={19}/><span>可核对的结论与研究笔记</span></div></div><small>不编造来源，不把未找到当作首次。</small></div><form className="login-form" onSubmit={e=>void submit(e)}><FlaskConical size={29} strokeWidth={1.4}/><h2>打开研究工作区</h2><p>使用本机配置的访问码。模型密钥始终保留在服务器。</p><label htmlFor="access-code">访问码</label><input id="access-code" type="password" autoFocus autoComplete="current-password" value={code} onChange={e=>setCode(e.target.value)} required placeholder="输入管理员或评审访问码"/>{error&&<ErrorBox error={error}/>}<button className="primary-button" disabled={loading||!code}>{loading?<Busy/>:'进入工作台'}<ArrowRight size={17}/></button><div className="login-help"><CircleHelp size={15}/><span>访问码保存在项目 .env 的评审 / 管理员配置中，首次启动见 HANDOFF.md。</span></div></form></div>}
-function DocumentMenu({version,refresh,onError}:{version:Version;refresh:()=>Promise<void>;onError:(s:string)=>void}){const [open,setOpen]=useState(false);const [renaming,setRenaming]=useState(false);const [title,setTitle]=useState(version.title);const [confirm,setConfirm]=useState(false);async function rename(){try{await api(`/documents/${version.id}`,{title},'PATCH');setRenaming(false);setOpen(false);await refresh()}catch(e){onError(errorMessage(e))}}async function remove(){try{await api(`/documents/${version.id}`,undefined,'DELETE');setConfirm(false);setOpen(false);await refresh()}catch(e){onError(errorMessage(e))}}return <div className="document-menu"><button className="icon-button" aria-label={`管理文献：${version.title}`} aria-expanded={open} onClick={()=>setOpen(!open)}><ChevronDown size={16}/></button>{open&&<div className="popover">{renaming?<><input aria-label="文献新标题" value={title} onChange={e=>setTitle(e.target.value)}/><button className="text-button" onClick={()=>void rename()}>保存标题</button></>:<button onClick={()=>setRenaming(true)}>重命名</button>}{confirm?<><p>删除后将停止新检索，历史引用会标记原文缺失。</p><button className="danger-text" onClick={()=>void remove()}>确认删除</button><button onClick={()=>setConfirm(false)}>保留</button></>:<button className="danger-text" onClick={()=>setConfirm(true)}>删除此版本</button>}<button onClick={()=>setOpen(false)}>关闭菜单</button></div>}</div>}
+
+const NAVIGATION: NavItem[] = [
+  { to: '/', label: '工作台', icon: Home },
+  { to: '/library', label: '文献库', icon: Library },
+  { to: '/chat', label: '证据问答', icon: MessagesSquare },
+  { to: '/compare', label: '版本与比较', icon: GitCompareArrows },
+  { to: '/discover', label: '检索与推荐', icon: Search },
+  { to: '/insights', label: '图谱与核查', icon: Network },
+  { to: '/studio', label: '写作工坊', icon: FileChartColumn },
+];
+
+const TITLES: [RegExp, string][] = [
+  [/^\/library/, '文献库'],
+  [/^\/read/, '阅读'],
+  [/^\/chat/, '证据问答'],
+  [/^\/compare/, '版本与比较'],
+  [/^\/discover/, '检索与推荐'],
+  [/^\/insights/, '图谱与核查'],
+  [/^\/studio/, '写作工坊'],
+  [/^\/settings\/acceptance/, '验收与截图'],
+  [/^\/settings/, '资源与配额'],
+  [/^\/runs/, '任务详情'],
+  [/^\/$/, '工作台'],
+];
+
+export default function App() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [checking, setChecking] = useState(true);
+  useEffect(() => {
+    api<Session>('/auth/session')
+      .then(setSession)
+      .catch(() => setSession(null))
+      .finally(() => setChecking(false));
+  }, []);
+  if (checking) {
+    return (
+      <div className="app-loading">
+        <div className="brand-mark">
+          <Layers3 size={22} />
+        </div>
+        <Busy>正在打开研证工作台</Busy>
+      </div>
+    );
+  }
+  if (!session) return <Login onLogin={setSession} />;
+  return (
+    <WorkspaceProvider session={session} onLogout={() => setSession(null)}>
+      <Shell />
+    </WorkspaceProvider>
+  );
+}
+
+function Shell() {
+  const ws = useWorkspace();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [drawer, setDrawer] = useState(false);
+  const [mobileNav, setMobileNav] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const working = ws.runs.filter(activeRun).length;
+  const title = TITLES.find(([pattern]) => pattern.test(location.pathname))?.[1] ?? '';
+  const reading = location.pathname.startsWith('/read') || location.pathname.startsWith('/chat');
+  const lastRead = localStorage.getItem('rt-version');
+  useEffect(() => setMobileNav(false), [location.pathname]);
+
+  return (
+    <ModelConfig.Provider value={ws.capability}>
+      <div
+        className={`app-shell ${location.pathname.startsWith('/read') ? 'compact' : ''}`}
+        onDragOver={(e) => {
+          if (e.dataTransfer.types.includes('Files')) {
+            e.preventDefault();
+            setDragging(true);
+          }
+        }}
+        onDragLeave={(e) => {
+          if (!e.relatedTarget) setDragging(false);
+        }}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragging(false);
+          void ws.upload(e.dataTransfer.files).then((r) => {
+            if (r?.documents.length === 1 && !r.batch_id) ws.openDocument(r.documents[0].id);
+            else if (r) navigate('/library');
+          });
+        }}
+      >
+        <aside className={`main-sidebar ${mobileNav ? 'mobile-open' : ''}`}>
+          <NavLink className="brand" to="/">
+            <div className="brand-mark">
+              <Layers3 size={20} />
+            </div>
+            <span>
+              <strong>研证</strong>
+              <small>ResearchTrace</small>
+            </span>
+          </NavLink>
+          <button className="primary-button import-button" disabled={ws.uploading} onClick={ws.openUpload}>
+            {ws.uploading ? <Busy /> : <Plus size={16} />}
+            <span className="label">导入论文</span>
+          </button>
+          <nav aria-label="主导航">
+            {NAVIGATION.map((item) => (
+              <NavLink key={item.to} to={item.to} end={item.to === '/'} title={item.label}>
+                <item.icon size={17} />
+                <span>{item.label}</span>
+                {item.to === '/library' && <small>{ws.versions.length}</small>}
+              </NavLink>
+            ))}
+            {lastRead && ws.versions.some((v) => v.id === lastRead) && (
+              <NavLink to={`/read/${lastRead}`} title="继续阅读">
+                <BookOpen size={17} />
+                <span>继续阅读</span>
+              </NavLink>
+            )}
+          </nav>
+          <div className="sidebar-bottom">
+            <div className="evidence-principle">
+              <ShieldCheck size={15} />
+              <span>每个结论，都能回到原文</span>
+            </div>
+            {ws.session.role === 'admin' && (
+              <NavLink to="/settings/acceptance">
+                <ListChecks size={17} />
+                <span>验收与截图</span>
+              </NavLink>
+            )}
+            <NavLink to="/settings" end>
+              <Settings2 size={17} />
+              <span>资源与配额</span>
+            </NavLink>
+            <button onClick={() => void ws.logout()}>
+              <LogOut size={17} />
+              <span>退出工作区</span>
+            </button>
+          </div>
+        </aside>
+        <div className="app-main">
+          <header className="topbar">
+            <div className="breadcrumbs">
+              <button
+                className="icon-button mobile-only"
+                aria-label="展开主导航"
+                onClick={() => setMobileNav(!mobileNav)}
+              >
+                <Menu size={18} />
+              </button>
+              <span>研究工作区</span>
+              <span className="breadcrumb-slash">/</span>
+              <strong className="truncate">{title}</strong>
+            </div>
+            <div className="topbar-actions">
+              {ws.capability && (
+                <span className="model-pill" title="核心分析模型（服务器配置）">
+                  <FlaskConical size={13} />
+                  {ws.capability.model_configured ? ws.capability.core_model : '模型未配置'}
+                </span>
+              )}
+              <span className="connected">
+                <span />
+                数据持久化
+              </span>
+              <button className="task-button" onClick={() => setDrawer(true)}>
+                <Clock3 size={16} />
+                <span>任务</span>
+                {working > 0 && <b>{working}</b>}
+              </button>
+              <span className="user-avatar" title={ws.session.role === 'admin' ? '管理员' : '评审'}>
+                {ws.session.role === 'admin' ? '管' : '评'}
+              </span>
+            </div>
+          </header>
+          {ws.error && (
+            <div className="global-message">
+              <ErrorBox error={ws.error} onClose={() => ws.setError('')} />
+            </div>
+          )}
+          {ws.notice && (
+            <div className="notice" role="status">
+              <span>{ws.notice}</span>
+              <button className="icon-button" aria-label="关闭通知" onClick={() => ws.setNotice('')}>
+                <X size={15} />
+              </button>
+            </div>
+          )}
+          {ws.capability && !ws.capability.model_configured && (
+            <div className="notice missing-config" role="status">
+              服务器尚未配置模型密钥：导入、解析、阅读、检索和绘图可用；问答与翻译暂不可用。
+            </div>
+          )}
+          <main className={`main-content ${reading ? 'reader-content' : ''}`}>
+            <Boundary>
+              <Suspense fallback={<div className="page-content"><Busy>载入页面</Busy></div>}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/library" element={<LibraryPage />} />
+                  <Route path="/read/:versionId" element={<ReaderRoute />} />
+                  <Route path="/read" element={<ReaderRoute />} />
+                  <Route path="/chat" element={<ChatPage />} />
+                  <Route path="/chat/:threadId" element={<ChatPage />} />
+                  <Route path="/compare" element={<CompareRoute />} />
+                  <Route
+                    path="/discover"
+                    element={<SearchPage refresh={() => void ws.refresh()} onImport={() => void ws.refresh()} />}
+                  />
+                  <Route path="/insights" element={<InsightsRoute />} />
+                  <Route path="/studio" element={<WritingPage versions={ws.versions} onEvidence={(e) => void ws.openEvidence(e)} refresh={() => void ws.refresh()} />} />
+                  <Route path="/settings" element={<ResourcesPage role={ws.session.role} onOpenAcceptance={() => navigate('/settings/acceptance')} />} />
+                  <Route path="/settings/acceptance" element={<AdminAcceptancePage role={ws.session.role} />} />
+                  <Route path="/runs/:runId" element={<RunRoute />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </Boundary>
+          </main>
+        </div>
+        {drawer && (
+          <RunsDrawer
+            runs={ws.runs}
+            onClose={() => setDrawer(false)}
+            onSelect={(id) => {
+              setDrawer(false);
+              navigate(`/runs/${id}`);
+            }}
+          />
+        )}
+        {dragging && (
+          <div className="drop-overlay">
+            <UploadCloud size={54} />
+            <h2>松开以导入 PDF</h2>
+            <p>文件进入当前独立工作区，逐页解析并保留版本</p>
+          </div>
+        )}
+      </div>
+    </ModelConfig.Provider>
+  );
+}
+
+function ReaderRoute() {
+  const ws = useWorkspace();
+  const { versionId } = useParams();
+  const navigate = useNavigate();
+  const [runId, setRunId] = useState<string | null>(null);
+  const fallback = versionId ?? localStorage.getItem('rt-version') ?? ws.versions[0]?.id ?? null;
+  const version = ws.versions.find((v) => v.id === fallback) ?? null;
+  useEffect(() => {
+    if (version) localStorage.setItem('rt-version', version.id);
+  }, [version?.id]);
+  if (!ws.loaded) return <div className="page-content"><Busy>载入文献</Busy></div>;
+  return (
+    <Reader
+      key={version?.id ?? 'empty'}
+      versions={ws.versions}
+      version={version}
+      setVersion={(id) => navigate(`/read/${id}`)}
+      highlight={ws.highlight}
+      onEvidence={(e) => void ws.openEvidence(e)}
+      runId={runId}
+      setRunId={setRunId}
+      refresh={() => void ws.refresh()}
+      startUpload={ws.openUpload}
+    />
+  );
+}
+
+function CompareRoute() {
+  const ws = useWorkspace();
+  const [runId, setRunId] = useState<string | null>(null);
+  return (
+    <ComparePage versions={ws.versions} onEvidence={(e) => void ws.openEvidence(e)} onRun={setRunId} runId={runId} />
+  );
+}
+
+function InsightsRoute() {
+  const ws = useWorkspace();
+  const [tab, setTab] = useState<'graph' | 'audit'>('graph');
+  const [auditRun, setAuditRun] = useState<string | null>(null);
+  return (
+    <>
+      <div className="insights-tabs">
+        <div className="tab-row">
+          <button className={tab === 'graph' ? 'active' : ''} onClick={() => setTab('graph')}>
+            <Network size={16} />
+            引用图谱与核心文献
+          </button>
+          <button className={tab === 'audit' ? 'active' : ''} onClick={() => setTab('audit')}>
+            <ShieldCheck size={16} />
+            Future Work 核查
+          </button>
+        </div>
+      </div>
+      {tab === 'graph' ? (
+        <GraphPage versions={ws.versions} onEvidence={(e) => void ws.openEvidence(e)} onVersion={ws.openDocument} />
+      ) : (
+        <AuditPage
+          versions={ws.versions}
+          onEvidence={(e) => void ws.openEvidence(e)}
+          onRun={setAuditRun}
+          runId={auditRun}
+        />
+      )}
+    </>
+  );
+}
+
+function RunRoute() {
+  const ws = useWorkspace();
+  const { runId } = useParams();
+  if (!runId) return <Navigate to="/" replace />;
+  return (
+    <div className="page-content" style={{ maxWidth: 900 }}>
+      <RunDetail runId={runId} onEvidence={(e) => void ws.openEvidence(e)} onUpdate={() => void ws.refresh()} />
+    </div>
+  );
+}
+
+function Login({ onLogin }: { onLogin: (s: Session) => void }) {
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      onLogin(await api<Session>('/auth/login', { code }));
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  }
+  return (
+    <div className="login-page">
+      <div className="login-story">
+        <div className="brand light">
+          <div className="brand-mark">
+            <Layers3 size={24} />
+          </div>
+          <span>
+            <strong>研证</strong>
+            <small>ResearchTrace</small>
+          </span>
+        </div>
+        <div>
+          <h1>每个结论，都能回到原文的科研智能体。</h1>
+          <p>导入论文，提出问题；回答逐句标出处、逐句经过核对，换了版本也知道哪些结论需要重审。</p>
+          <div className="login-evidence">
+            <div>
+              <FileText size={18} />
+              <span>具体论文版本与原文位置</span>
+            </div>
+            <span className="evidence-connector" />
+            <div>
+              <Search size={18} />
+              <span>检索、比对与独立复核</span>
+            </div>
+            <span className="evidence-connector" />
+            <div>
+              <ShieldCheck size={18} />
+              <span>可点击核验的研究结论</span>
+            </div>
+          </div>
+        </div>
+        <small>不编造来源；查不到就说证据不足，不把“没找到”写成“首次”。</small>
+      </div>
+      <form className="login-form" onSubmit={(e) => void submit(e)}>
+        <FlaskConical size={30} strokeWidth={1.4} />
+        <h2>进入研究工作区</h2>
+        <p>使用评审或管理员访问码。模型密钥只保存在服务器。</p>
+        <label htmlFor="access-code">
+          访问码
+          <input
+            id="access-code"
+            type="password"
+            autoFocus
+            autoComplete="current-password"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            required
+            placeholder="输入访问码"
+          />
+        </label>
+        {error && <ErrorBox error={error} />}
+        <button className="primary-button" disabled={loading || !code}>
+          {loading ? <Busy /> : '进入工作台'}
+          <ArrowRight size={16} />
+        </button>
+        <div className="login-help">
+          <CircleHelp size={14} />
+          <span>访问码由部署方提供；评审账号进入各自独立的工作区。</span>
+        </div>
+      </form>
+    </div>
+  );
+}

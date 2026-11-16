@@ -193,3 +193,20 @@ def test_conversation_turns_come_from_the_same_thread_and_workspace(workspace_do
     assert jobs.conversation(record) == [{'question': 'Who wrote it?', 'answer': 'Alice Example and others.'}]
     other_ws = {**record, 'workspace': 'ws-other'}
     assert jobs.conversation(other_ws) == []
+
+
+def test_unavailable_reviewer_keeps_answer_as_review_pending(workspace_doc, monkeypatch):
+    from services.api import models
+    monkeypatch.setenv('RT_EVIDENCE_CRITIC', 'true')
+
+    def refuse(*_a, **_k):
+        raise models.QuotaRefusal('项目日额度已用尽', scope='project', code='project_daily')
+
+    monkeypatch.setattr(models, 'generate', refuse)
+    run = jobs.queue('ws-card', 'qa', {'question': 'q', 'version_ids': [workspace_doc]}, 'review-key-1')
+    record = {'id': run['id'], 'workspace': 'ws-card'}
+    result = {'claims': [{'id': 'c1', 'type': 'source_fact', 'text': 'x', 'evidence': [],
+                          'review': {'status': 'not_checked'}}], 'status': 'partial'}
+    reviewed = evidence_validation.review_live(record, result, [], [workspace_doc], 'q')
+    assert reviewed['claims'][0]['review']['status'] == 'not_checked'
+    assert '复核暂不可用' in reviewed['publication_notice']

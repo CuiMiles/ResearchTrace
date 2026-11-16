@@ -64,8 +64,11 @@ def test_quote_offsets_and_review_do_not_claim_semantic_support(block):
 
 
 def test_unknown_segments_or_paraphrase_are_not_unchecked_facts(block):
+    # Prose that differs from its checked claim is replaced by the claim text, never published.
     data=answer();data['answer_segments']=[{'text':'It cost a billion dollars.','claim_ids':['c1']}]
-    with pytest.raises(ValueError,match='不一致'):jobs.validate_answer(data,[block])
+    result=jobs.validate_answer(data,[block])
+    assert 'billion' not in result['answer'] and result['unchecked_prose_replaced']==1
+    assert result['answer_segments'][0]['text']==result['claims'][0]['text']
     data['answer_segments'][0]['claim_ids']=['foreign']
     with pytest.raises(ValueError,match='未知主张'):jobs.validate_answer(data,[block])
 
