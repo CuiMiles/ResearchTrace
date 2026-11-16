@@ -1,0 +1,201 @@
+{
+  "live_http": true,
+  "cases": [
+    {
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+      "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6",
+      "tokenizer_status": "PASS",
+      "split_chunks": 23,
+      "tokenizer_seconds": 0.1251,
+      "inference_status": "PASS",
+      "norms": [
+        0.999999993472975,
+        0.999999993472975,
+        1.0000000178747697
+      ],
+      "repeat_max_abs": 0.0,
+      "usage": {
+        "inputs": 3,
+        "input_tokens": 31,
+        "batch_size": 3,
+        "padded_token_budget": 2048
+      },
+      "execution": {
+        "mode": "cuda_sharded",
+        "peak_rss_mib": 16663,
+        "peak_gpu_mib": 16668,
+        "selected_gpus": [
+          {
+            "index": 4,
+            "uuid": "GPU-a5c3d501-21c5-b2cc-4226-6e003d66f9ff",
+            "free_mib": 13147,
+            "total_mib": 24576
+          },
+          {
+            "index": 5,
+            "uuid": "GPU-87f4d80f-26e0-be85-8410-c117f0306973",
+            "free_mib": 13102,
+            "total_mib": 24576
+          }
+        ],
+        "per_gpu_peak_mib": {
+          "GPU-a5c3d501-21c5-b2cc-4226-6e003d66f9ff": 8422,
+          "GPU-87f4d80f-26e0-be85-8410-c117f0306973": 8246
+        },
+        "gpu_reserve_mib": 2048,
+        "gpu_budget_mib": 10240,
+        "host_budget_mib": 49152,
+        "monitor_path": "/home/CuiMinghao/projects/Competition/ResearchTrace-retrieval-20261116/private/jobs/ddf5cc78700a4ab48083ab374838262b/monitor.jsonl",
+        "elapsed_seconds": 165.4003
+      },
+      "device_map": {
+        "vision_tower": "0",
+        "multi_modal_projector": "0",
+        "language_model.embed_tokens": "0",
+        "language_model.layers.0": "0",
+        "language_model.layers.1": "0",
+        "language_model.layers.2": "0",
+        "language_model.layers.3": "0",
+        "language_model.layers.4": "0",
+        "language_model.layers.5": "0",
+        "language_model.layers.6": "0",
+        "language_model.layers.7": "0",
+        "language_model.layers.8": "0",
+        "language_model.layers.9": "0",
+        "language_model.layers.10": "0",
+        "language_model.layers.11": "0",
+        "language_model.layers.12": "0",
+        "language_model.layers.13": "0",
+        "language_model.layers.14": "0",
+        "language_model.layers.15": "1",
+        "language_model.layers.16": "1",
+        "language_model.layers.17": "1",
+        "language_model.layers.18": "1",
+        "language_model.layers.19": "1",
+        "language_model.layers.20": "1",
+        "language_model.layers.21": "1",
+        "language_model.layers.22": "1",
+        "language_model.layers.23": "1",
+        "language_model.layers.24": "1",
+        "language_model.layers.25": "1",
+        "language_model.layers.26": "1",
+        "language_model.layers.27": "1",
+        "language_model.layers.28": "1",
+        "language_model.layers.29": "1",
+        "language_model.layers.30": "1",
+        "language_model.layers.31": "1",
+        "language_model.layers.32": "1",
+        "language_model.layers.33": "1",
+        "language_model.norm": "1",
+        "language_model.rotary_emb": "1"
+      }
+    },
+    {
+      "model_id": "nvidia/Nemotron-3.5-Rerank-8B-BF16",
+      "revision": "f88f8d9104726747791283ab156d2fcdb29e90a7",
+      "fingerprint": "sha256:ef397013858fab8d8d0933428a00bc5547044a41f0c59e99ce8081a73172dc0b",
+      "tokenizer_status": "PASS",
+      "split_chunks": 25,
+      "tokenizer_seconds": 0.941,
+      "inference_status": "BLOCKED",
+      "reason": {
+        "detail": {
+          "code": "runtime_unavailable",
+          "message": "RuntimeError: expected self and mask to be on the same device, but got mask on cuda:0 and self on cuda:1"
+        }
+      }
+    },
+    {
+      "model_id": "Qwen/Qwen3-Embedding-8B",
+      "revision": "1d8ad4ca9b3dd8059ad90a75d4983776a23d44af",
+      "fingerprint": "sha256:97cbbf996a97b332246c9bbea339daf1b3b035e1fe07a468ade1af2581ba97c6",
+      "tokenizer_status": "PASS",
+      "split_chunks": 16,
+      "tokenizer_seconds": 0.6674,
+      "inference_status": "PASS",
+      "norms": [
+        1.0000000563076572,
+        1.0000000563076572,
+        1.0000000007500467
+      ],
+      "repeat_max_abs": 0.0,
+      "usage": {
+        "inputs": 3,
+        "input_tokens": 22,
+        "batch_size": 3,
+        "padded_token_budget": 2048
+      },
+      "execution": {
+        "mode": "cuda_sharded",
+        "peak_rss_mib": 15248,
+        "peak_gpu_mib": 15114,
+        "selected_gpus": [
+          {
+            "index": 4,
+            "uuid": "GPU-a5c3d501-21c5-b2cc-4226-6e003d66f9ff",
+            "free_mib": 17139,
+            "total_mib": 24576
+          },
+          {
+            "index": 5,
+            "uuid": "GPU-87f4d80f-26e0-be85-8410-c117f0306973",
+            "free_mib": 13102,
+            "total_mib": 24576
+          }
+        ],
+        "per_gpu_peak_mib": {
+          "GPU-a5c3d501-21c5-b2cc-4226-6e003d66f9ff": 8518,
+          "GPU-87f4d80f-26e0-be85-8410-c117f0306973": 6596
+        },
+        "gpu_reserve_mib": 2048,
+        "gpu_budget_mib": 10240,
+        "host_budget_mib": 49152,
+        "monitor_path": "/home/CuiMinghao/projects/Competition/ResearchTrace-retrieval-20261116/private/jobs/994f9955be714dca964a557618d9a34f/monitor.jsonl",
+        "elapsed_seconds": 81.0031
+      },
+      "device_map": {
+        "embed_tokens": "0",
+        "layers.0": "0",
+        "layers.1": "0",
+        "layers.2": "0",
+        "layers.3": "0",
+        "layers.4": "0",
+        "layers.5": "0",
+        "layers.6": "0",
+        "layers.7": "0",
+        "layers.8": "0",
+        "layers.9": "0",
+        "layers.10": "0",
+        "layers.11": "0",
+        "layers.12": "0",
+        "layers.13": "0",
+        "layers.14": "0",
+        "layers.15": "0",
+        "layers.16": "0",
+        "layers.17": "0",
+        "layers.18": "0",
+        "layers.19": "1",
+        "layers.20": "1",
+        "layers.21": "1",
+        "layers.22": "1",
+        "layers.23": "1",
+        "layers.24": "1",
+        "layers.25": "1",
+        "layers.26": "1",
+        "layers.27": "1",
+        "layers.28": "1",
+        "layers.29": "1",
+        "layers.30": "1",
+        "layers.31": "1",
+        "layers.32": "1",
+        "layers.33": "1",
+        "layers.34": "1",
+        "layers.35": "1",
+        "norm": "1",
+        "rotary_emb": "1"
+      }
+    }
+  ],
+  "provider_llm_calls": 0
+}

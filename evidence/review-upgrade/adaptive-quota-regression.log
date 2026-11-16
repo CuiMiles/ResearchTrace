@@ -1,0 +1,19 @@
+F.......................................................                 [100%]
+=================================== FAILURES ===================================
+___________ test_observation_changes_second_plan_and_reaches_answer ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-cui/pytest-90/test_observation_changes_secon0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7544a404a630>
+
+    def test_observation_changes_second_plan_and_reaches_answer(tmp_path,monkeypatch):
+        monkeypatch.setattr(store,'DATA',tmp_path);store.migrate()
+        monkeypatch.setenv('RT_AGENT_PLANNING','true');monkeypatch.setenv('RT_DISABLE_DENSE','true')
+        pdf=io.BytesIO();c=canvas.Canvas(pdf);c.drawString(40,700,'The experiment trained using eight GPUs with gradient clipping.');c.save()
+>       uploaded=documents.upload_pdf('agent',pdf.getvalue(),'new.pdf',index_dense=False)
+                 ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'services.api.documents' has no attribute 'upload_pdf'
+
+tests/integration/test_adaptive_agent_upgrade.py:12: AttributeError
+=========================== short test summary info ============================
+FAILED tests/integration/test_adaptive_agent_upgrade.py::test_observation_changes_second_plan_and_reaches_answer
+1 failed, 55 passed in 10.91s

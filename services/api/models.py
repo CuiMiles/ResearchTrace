@@ -21,18 +21,110 @@ BASE = 'https://generativelanguage.googleapis.com/v1beta'
 class ModelError(Exception):
     pass
 
+class QuotaRefusal(ModelError):
+    """A local refusal. Only project/transient refusals permit another route."""
+    def __init__(self, message, *, scope, code):
+        super().__init__(message)
+        self.scope = scope
+        self.code = code
+
+class SentRequestError(ModelError):
+    """A sent request must remain accounted for and must not be retried here."""
+    def __init__(self, message, *, outcome, quota_id):
+        super().__init__(message)
+        self.outcome = outcome
+        self.quota_id = quota_id
+
+PROFILE_LIMITS = {'smoke': 'HYDROGEN_SMOKE_LIMIT',
+                  'evaluation': 'HYDROGEN_EVALUATION_LIMIT',
+                  'judging': 'HYDROGEN_JUDGING_LIMIT'}
+
+def _budget_number(name, default=None, minimum=0):
+    raw = os.getenv(name, str(default) if default is not None else '')
+    # Never echo the supplied value: operator configuration can contain secrets.
+    if not raw.isascii() or not raw.isdecimal() or len(raw) > 10:
+        raise QuotaRefusal(f'{name} 需要操作员配置显式整数预算', scope='global', code='budget_configuration')
+    value = int(raw)
+    if value < minimum or value > 2147483647:
+        raise QuotaRefusal(f'{name} 预算超出允许范围', scope='global', code='budget_configuration')
+    return value
+
+def budget_policy():
+    """Only server configuration selects a profile; no request payload can grant budget.
+
+    Selecting an explicitly funded profile starts it; exhaustion or deselection
+    stops it. Counters are lifetime totals, never reset by restarts or day changes.
+    RT_SMOKE_MODE=false alone no longer authorizes an unbounded core budget.
+    """
+    profile = os.getenv('RT_BUDGET_PROFILE', 'smoke')
+    if profile not in PROFILE_LIMITS:
+        raise QuotaRefusal('未知预算配置；允许 smoke/evaluation/judging', scope='global', code='budget_configuration')
+    return {'profile': profile,
+            'limit': _budget_number(PROFILE_LIMITS[profile], 4 if profile == 'smoke' else None,
+                                    0 if profile == 'smoke' else 1),
+            'workflow_limit': _budget_number('HYDROGEN_WORKFLOW_LIMIT', 2, 1),
+            'workspace_limit': _budget_number('HYDROGEN_SESSION_LIMIT', 2),
+            'runtime_soft_rpd': _budget_number('HYDROGEN_RUNTIME_SOFT_RPD', 16)}
+
+def _profile_used(c, profile):
+    # Untagged historical rows stay smoke. No UPDATE/backfill of the quota ledger.
+    return c.execute('''SELECT COUNT(*) FROM quota q LEFT JOIN quota_context x ON x.quota_id=q.id
+                        WHERE q.model=? AND COALESCE(x.profile,'smoke')=?''', (CORE, profile)).fetchone()[0]
+
+def _workflow_context(c, run_id, configured_limit):
+    prior = c.execute('''SELECT COALESCE(x.profile,'smoke') profile,
+                               MIN(COALESCE(x.workflow_limit,2)) workflow_limit
+                        FROM quota q LEFT JOIN quota_context x ON x.quota_id=q.id
+                        WHERE q.run_id=? GROUP BY COALESCE(x.profile,'smoke')
+                        ORDER BY MIN(q.started),MIN(q.rowid) LIMIT 1''', (run_id,)).fetchone()
+    return prior, min(configured_limit, prior['workflow_limit']) if prior else configured_limit
+
+def _global_budget(c, model, run_id, run, policy, now):
+    prior, workflow_limit = _workflow_context(c, run_id, policy['workflow_limit'])
+    if prior and prior['profile'] != policy['profile']:
+        raise QuotaRefusal('工作流预算配置已固定；切换配置不能追加调用', scope='global', code='workflow_profile')
+    if model == CORE:
+        if _profile_used(c, policy['profile']) >= policy['limit']:
+            message = ('Hydrogen 显式冒烟预算已用尽；管理员需配置后续预算' if policy['profile'] == 'smoke'
+                       else 'Hydrogen 当前配置的显式总预算已用尽')
+            raise QuotaRefusal(message, scope='global', code='profile_budget')
+        if run_id:
+            used = c.execute('SELECT COUNT(*) FROM quota WHERE model=? AND run_id=?', (CORE, run_id)).fetchone()[0]
+            if used >= workflow_limit:
+                raise QuotaRefusal('本工作流 Hydrogen 总调用上限已用尽', scope='global', code='workflow_budget')
+        if run:
+            used = c.execute('''SELECT COUNT(*) FROM quota q JOIN runs r ON r.id=q.run_id
+                                WHERE q.model=? AND r.workspace=? AND q.day=?''',
+                             (CORE, run['workspace'], quota_day(now))).fetchone()[0]
+            if used >= policy['workspace_limit']:
+                raise QuotaRefusal('本工作区 Hydrogen 日预算已用尽', scope='global', code='workspace_budget')
+    return workflow_limit
+
 def quota_day(now=None):
-    return datetime.fromtimestamp(now or time.time(), PACIFIC).date().isoformat()
+    return datetime.fromtimestamp(time.time() if now is None else now, PACIFIC).date().isoformat()
 
 def reset_at(now=None):
-    dt = datetime.fromtimestamp(now or time.time(), PACIFIC)
+    dt = datetime.fromtimestamp(time.time() if now is None else now, PACIFIC)
     return datetime.combine(dt.date()+timedelta(days=1),datetime.min.time(),PACIFIC).timestamp()
 
 def credentials():
-    return [(os.getenv('GEMINI_PROJECT_1','gemini-shared'),os.getenv('GEMINI_API_KEY','')),
-            (os.getenv('GEMINI_PROJECT_2','gemini-shared'),os.getenv('GEMINI_API_KEY2',''))]
+    first = os.getenv('GEMINI_PROJECT_1','').strip()
+    second = os.getenv('GEMINI_PROJECT_2','').strip()
+    # A missing project ID cannot manufacture an independent quota group.
+    shared = first or second or 'gemini-shared'
+    return [(first or shared,os.getenv('GEMINI_API_KEY','')),
+            (second or shared,os.getenv('GEMINI_API_KEY2',''))]
 
 def limits(model):
+    try:
+        overrides=json.loads(os.getenv('RT_MODEL_PROJECT_LIMITS','{}'))
+        entry=overrides.get(model)
+        if entry is not None:
+            if not isinstance(entry,list) or len(entry)!=3 or any(type(v) is not int or v<1 for v in entry):
+                raise ValueError
+            return tuple(entry)
+    except (ValueError,TypeError,AttributeError):
+        raise QuotaRefusal('项目模型额度配置无效',scope='global',code='budget_configuration') from None
     if model == CORE:
         return (5,250000,20)
     if 'embedding' in model:
@@ -40,36 +132,52 @@ def limits(model):
     return (15,250000,500)
 
 def reserve(project,model,tokens,run_id,now=None):
-    now = now or time.time()
+    now = time.time() if now is None else now
     rpm,tpm,rpd=limits(model)
     with db() as c:
         c.execute('BEGIN IMMEDIATE')
+        run = None
         if run_id:
             run=c.execute('SELECT workspace,status FROM runs WHERE id=?',(run_id,)).fetchone()
-            if run and run['status']=='cancelled':
-                raise ModelError('任务已取消；没有发出新的模型请求')
-        if tokens > min(tpm,96000):
-            raise ModelError('上下文超过本次请求安全预算；请缩小范围')
+            if not run:
+                raise QuotaRefusal('任务不存在；没有发出新的模型请求', scope='global', code='invalid_run')
+            if run['status']=='cancelled':
+                raise QuotaRefusal('任务已取消；没有发出新的模型请求', scope='global', code='cancelled')
+        policy = budget_policy()
+        try:
+            daily_caps=json.loads(os.getenv('RT_MODEL_DAILY_LIMITS','{}'))
+            if not isinstance(daily_caps,dict) or any(type(cap) is not int or cap<1 for cap in daily_caps.values()):
+                raise ValueError
+        except (ValueError,TypeError):
+            raise QuotaRefusal('模型当日总预算配置无效',scope='global',code='budget_configuration') from None
+        cap=daily_caps.get(model)
+        if cap is not None:
+            used=c.execute('SELECT count(*) FROM quota WHERE model=? AND day=?',(model,quota_day(now))).fetchone()[0]
+            if used>=cap:
+                raise QuotaRefusal('该模型当日授权总调用数已用尽，失败与未知请求也计入',scope='global',code='model_daily')
+        if model=='gemini-decision-1' and run_id:
+            decision_limit=int(os.getenv('RT_DECISION_WORKFLOW_LIMIT','3'))
+            if not 1<=decision_limit<=10:raise QuotaRefusal('Decision工作流预算无效',scope='global',code='budget_configuration')
+            used=c.execute('SELECT count(*) FROM quota WHERE model=? AND run_id=?',(model,run_id)).fetchone()[0]
+            if used>=decision_limit:raise QuotaRefusal('Decision工作流调用预算已用尽',scope='global',code='decision_workflow')
+        # Global/workspace/workflow guards precede every project-specific check.
+        workflow_limit = _global_budget(c, model, run_id, run, policy, now)
+        if type(tokens) is not int or tokens < 0 or tokens > min(tpm,96000):
+            raise QuotaRefusal('上下文超过本次请求安全预算；请缩小范围', scope='global', code='context_budget')
         minute=c.execute('SELECT COUNT(*),COALESCE(SUM(input_tokens),0) FROM quota WHERE project=? AND model=? AND started>?',(project,model,now-60)).fetchone()
         daily=c.execute('SELECT COUNT(*) FROM quota WHERE project=? AND model=? AND day=?',(project,model,quota_day(now))).fetchone()[0]
         active=c.execute("SELECT COUNT(*) FROM quota WHERE project=? AND model=? AND status='reserved' AND started>?",(project,model,now-300)).fetchone()[0]
-        if active >= 1 or minute[0]>=rpm or minute[1]+tokens>tpm:
-            raise ModelError('项目分钟额度/并发预算不足，请稍后恢复任务')
         if daily>=rpd:
-            raise ModelError('项目日额度已用尽；太平洋时间午夜复位')
-        if model == CORE:
-            # Global smoke budget persists across process restart; no automatic budget reset.
-            total=c.execute('SELECT COUNT(*) FROM quota WHERE model=?',(CORE,)).fetchone()[0]
-            if os.getenv('RT_SMOKE_MODE','true')=='true' and total>=int(os.getenv('HYDROGEN_SMOKE_LIMIT','4')):
-                raise ModelError('Hydrogen 显式冒烟预算已用尽；管理员需配置后续预算')
-            if os.getenv('RT_SMOKE_MODE','true')!='true' and daily>=int(os.getenv('HYDROGEN_RUNTIME_SOFT_RPD','16')):
-                raise ModelError('Hydrogen 常规项目日软预算已用尽；保留关键演示额度，不自动继续')
-            if run_id and run:
-                used=c.execute('SELECT COUNT(*) FROM quota q JOIN runs r ON r.id=q.run_id WHERE q.model=? AND r.workspace=? AND q.day=?',(CORE,run['workspace'],quota_day(now))).fetchone()[0]
-                if used>=int(os.getenv('HYDROGEN_SESSION_LIMIT','2')):
-                    raise ModelError('本工作区 Hydrogen 日预算已用尽')
+            raise QuotaRefusal('项目日额度已用尽；太平洋时间午夜复位', scope='project', code='project_daily')
+        if model == CORE and (policy['profile'] != 'smoke' or os.getenv('RT_SMOKE_MODE','true') != 'true'):
+            if daily >= policy['runtime_soft_rpd']:
+                raise QuotaRefusal('Hydrogen 常规项目日软预算已用尽；保留关键演示额度，不自动继续', scope='project', code='project_soft_daily')
+        if active >= 1 or minute[0]>=rpm or minute[1]+tokens>tpm:
+            raise QuotaRefusal('项目分钟额度/并发预算不足，请稍后恢复任务', scope='transient', code='project_window')
         qid=uid()
         c.execute('INSERT INTO quota(id,project,model,day,run_id,started,input_tokens,status) VALUES(?,?,?,?,?,?,?,?)',(qid,project,model,quota_day(now),run_id,now,tokens,'reserved'))
+        c.execute('INSERT INTO quota_context(quota_id,profile,workflow_limit) VALUES(?,?,?)',
+                  (qid,policy['profile'],workflow_limit))
         return qid
 
 def client():
@@ -77,61 +185,106 @@ def client():
 
 def _choose(model):
     seen=set()
+    keys=set()
     for project,key in credentials():
-        if not key or project in seen:
+        project = project.strip() or 'gemini-shared'
+        if not key or project in seen or key in keys:
             continue
         seen.add(project)
+        keys.add(key)
         state=one('SELECT * FROM provider_state WHERE project=? AND model=?',(project,model))
         if state and state['status']=='disabled':
             continue
         yield project,key
 
+def _local_refusal(exc):
+    if isinstance(exc, QuotaRefusal):
+        return exc
+    # Compatibility for old adapters/fixtures; this is only called around reserve,
+    # never around a sent request. Unknown ModelError messages fail closed.
+    text = str(exc)
+    for prefix, scope, code in [('项目日额度', 'project', 'project_daily'),
+                                ('project daily quota exhausted', 'project', 'project_daily'),
+                                ('项目分钟额度', 'transient', 'project_window')]:
+        if text.startswith(prefix):
+            return QuotaRefusal(text, scope=scope, code=code)
+    return None
+
 def request(model,method,body,run_id,estimate):
     # Conservative 1 token per UTF-8 byte reserve; correct with actual usage.
-    # No implicit retries, no alternate key from same project, no paid fallback.
-    chosen=next(_choose(model),None)
-    if not chosen:
-        raise ModelError('模型未配置或已停用；无可用免费路由')
-    project,key=chosen
+    # Retry only unsent local reservations; no sent retries or paid fallback.
     qid=None
     for attempt in range(15):
-        try:
-            qid=reserve(project,model,estimate,run_id)
+        refused = []
+        for project,key in _choose(model):
+            try:
+                qid=reserve(project,model,estimate,run_id)
+                break
+            except ModelError as exc:
+                local = _local_refusal(exc)
+                if local is None or local.scope == 'global':
+                    raise
+                refused.append(local)
+                if run_id:
+                    event(run_id,'quota_route_refused',{'project':project,'model':model,'scope':local.scope,'code':local.code})
+        if qid is not None:
             break
-        except ModelError as exc:
-            if '分钟额度' not in str(exc) or attempt==14:
-                raise
-            if run_id and attempt==0:
-                event(run_id,'quota_wait',{'project':project,'model':model,'message':'等待项目分钟窗口；尚未发送请求，不消耗请求次数'})
-            time.sleep(5)
-    if qid is None:
-        raise ModelError('未能预留项目额度')
+        if not refused:
+            raise QuotaRefusal('模型未配置或已停用；无可用免费路由', scope='global', code='no_route')
+        transient = next((exc for exc in refused if exc.scope == 'transient'), None)
+        if transient is None or attempt == 14:
+            raise transient or refused[-1]
+        if run_id and attempt==0:
+            event(run_id,'quota_wait',{'model':model,'scope':'transient','message':'等待项目分钟窗口；尚未发送请求，不消耗请求次数'})
+        time.sleep(5)
     if run_id:
-        event(run_id,'model_request',{'model':model,'project':project,'reserved_input_tokens':estimate,'method':method})
+        event(run_id,'model_request',{'model':model,'project':project,'quota_id':qid,'reserved_input_tokens':estimate,'method':method,
+                                      'core_calls':workflow_budget(run_id)})
     result=None
     status='unknown'
     detail=''
     usage={}
     try:
+        endpoint=f'{BASE}/models/{model}:{method}'
+        if method=='createDecision':
+            if model!='gemini-decision-1' or body.get('model')!=model:raise ValueError('Decision模型与请求不一致')
+            endpoint=BASE+'/decisions'
         with client() as c:
-            response=c.post(f'{BASE}/models/{model}:{method}',headers={'x-goog-api-key':key},json=body)
+            response=c.post(endpoint,headers={'x-goog-api-key':key},json=body)
         if response.status_code!=200:
             try:
-                error=response.json().get('error',{})
-                category=error.get('status','HTTP_ERROR')
+                payload=response.json()
+                error=payload.get('error',{}) if isinstance(payload,dict) else {}
+                if not isinstance(error,dict):
+                    error={}
+                category=error.get('status')
+                if category not in ('INVALID_ARGUMENT','UNAUTHENTICATED','PERMISSION_DENIED','NOT_FOUND',
+                                     'RESOURCE_EXHAUSTED','FAILED_PRECONDITION','ABORTED','OUT_OF_RANGE',
+                                     'UNIMPLEMENTED','INTERNAL','UNAVAILABLE','DATA_LOSS','DEADLINE_EXCEEDED'):
+                    category='HTTP_ERROR'
                 message=error.get('message','')
             except ValueError:
                 category='INVALID_RESPONSE'
                 message=''
-            if 'FreeTierOnly' in message or response.status_code in (401,403,404):
+            if (isinstance(message,str) and 'FreeTierOnly' in message) or response.status_code in (401,403,404):
                 status='disabled'
             else:
                 status='failed'
             # Only controlled categories exposed, never raw upstream URL/body/headers.
             detail=f'HTTP {response.status_code} {category}'
-            raise ModelError(f'{model} {detail}；请求已记账，无自动付费兜底')
+            raise SentRequestError(f'{model} {detail}；请求已记账，无自动付费兜底', outcome=status, quota_id=qid)
         result=response.json()
+        if not isinstance(result,dict):
+            raise ValueError('response must be an object')
         usage=result.get('usageMetadata',{})
+        if method=='createDecision':
+            actual=result.get('usage',{})
+            if not isinstance(actual,dict) or type(actual.get('total_input_tokens')) is not int or actual.get('total_output_tokens')!=0:
+                raise ValueError('Decision返回用量缺失或不符合零输出约定')
+            usage={'promptTokenCount':actual['total_input_tokens'],'candidatesTokenCount':0,'native_decision_usage':actual}
+        if not isinstance(usage,dict):
+            usage={}
+            raise ValueError('usage must be an object')
         trace_dir=store.DATA/'traces';trace_dir.mkdir(exist_ok=True,mode=0o700)
         trace_path=trace_dir/(qid+'.json')
         trace_path.write_text(json.dumps({'model_requested':model,'quota_id':qid,'received_at':time.time(),'response':result},ensure_ascii=False))
@@ -139,17 +292,31 @@ def request(model,method,body,run_id,estimate):
         result['_quota_id']=qid
         status='ok'
         return result,project
-    except httpx.HTTPError:
+    except httpx.HTTPError as error:
+        if run_id:event(run_id,'provider_transport_unknown',{'model':model,'quota_id':qid,'error_type':type(error).__name__,'automatic_retry':False})
         detail='网络超时或传输失败；上游消耗未知，保留预留账目'
-        raise ModelError(detail) from None
+        raise SentRequestError(detail, outcome='unknown', quota_id=qid) from None
     except ValueError:
         status='failed'
         detail='上游 JSON 无效'
-        raise ModelError(detail) from None
+        raise SentRequestError(detail, outcome='failed', quota_id=qid) from None
     finally:
         with db() as c:
-            c.execute('UPDATE quota SET status=?,input_tokens=?,output_tokens=?,usage=? WHERE id=?',(status,int(usage.get('promptTokenCount',estimate)),int(usage.get('candidatesTokenCount',0))+int(usage.get('thoughtsTokenCount',0)),json.dumps(usage),qid))
+            c.execute('UPDATE quota SET status=?,input_tokens=?,output_tokens=?,usage=? WHERE id=?',(status,_usage_count(usage,'promptTokenCount',estimate),_usage_count(usage,'candidatesTokenCount')+_usage_count(usage,'thoughtsTokenCount'),json.dumps(usage),qid))
             c.execute('INSERT OR REPLACE INTO provider_state VALUES(?,?,?,?,?)',(project,model,status,detail,time.time()))
+
+def _usage_count(usage, key, default=0):
+    value = usage.get(key, default)
+    return value if type(value) is int and 0 <= value <= 2147483647 else default
+
+def workflow_budget(run_id):
+    """Sanitized progress for an already authorized run; counts reservations too."""
+    policy = budget_policy()
+    with db() as c:
+        prior, limit = _workflow_context(c, run_id, policy['workflow_limit'])
+        used = c.execute('SELECT COUNT(*) FROM quota WHERE model=? AND run_id=?', (CORE,run_id)).fetchone()[0]
+    return {'profile':prior['profile'] if prior else policy['profile'],
+            'estimated_core_calls':1,'limit':limit,'used':used,'remaining':max(0,limit-used)}
 
 def generate(system,prompt,run_id,core=True):
     model=CORE if core else BATCH
@@ -182,8 +349,36 @@ def embed(texts,run_id,task='RETRIEVAL_DOCUMENT'):
 
 def provider_report():
     projects=list(dict.fromkeys(p for p,k in credentials() if k))
+    active = os.getenv('RT_BUDGET_PROFILE','smoke')
+    profiles=[]
+    with db() as c:
+        for profile, name in PROFILE_LIMITS.items():
+            used=_profile_used(c,profile)
+            try:
+                cap=_budget_number(name,4 if profile=='smoke' else None,0 if profile=='smoke' else 1)
+                error=None
+            except QuotaRefusal as exc:
+                cap=None
+                error=exc.code
+            profiles.append({'profile':profile,'active':profile==active,'configured':cap is not None,
+                             'limit':cap,'used':used,'remaining':max(0,cap-used) if cap is not None else None,
+                             'configuration_error':error})
+        # Aggregate caps only. Do not expose other workspaces' run IDs or payloads.
+        pinned=[dict(row) for row in c.execute('''SELECT profile,workflow_limit,COUNT(*) workflows FROM (
+            SELECT COALESCE(x.profile,'smoke') profile,MIN(COALESCE(x.workflow_limit,2)) workflow_limit
+            FROM quota q LEFT JOIN quota_context x ON x.quota_id=q.id WHERE q.run_id IS NOT NULL
+            GROUP BY q.run_id) GROUP BY profile,workflow_limit''')]
+    try:
+        policy=budget_policy()
+        config_error=None
+    except QuotaRefusal as exc:
+        policy=None
+        config_error=exc.code
     return {'configured':bool(projects),'paid_fallback':False,'reset_at':reset_at(),'remaining_balance':'未知；下列是本应用本地账目，其他业务用量未知',
-        'projects':projects,'models':[{'model':m,'rpm':limits(m)[0],'tpm':limits(m)[1],'rpd':limits(m)[2]} for m in (CORE,BATCH,EMBED)],
+        'projects':projects,'models':[{'model':m,'rpm':limits(m)[0],'tpm':limits(m)[1],'rpd':limits(m)[2]} for m in ((CORE,BATCH,EMBED,'gemini-decision-1') if os.getenv('RT_DECISION_ENABLED')=='true' else (CORE,BATCH,EMBED))],
         'status':rows('SELECT * FROM provider_state'),'usage':rows('SELECT project,model,day,COUNT(*) calls,SUM(input_tokens) input_tokens,SUM(output_tokens) output_tokens FROM quota GROUP BY project,model,day'),
-        'hydrogen_total_used':one('SELECT COUNT(*) n FROM quota WHERE model=?',(CORE,))['n'],'hydrogen_budget':int(os.getenv('HYDROGEN_SMOKE_LIMIT','4')),
-        'mode':'smoke' if os.getenv('RT_SMOKE_MODE','true')=='true' else 'interactive','runtime_soft_rpd':int(os.getenv('HYDROGEN_RUNTIME_SOFT_RPD','16'))}
+        'hydrogen_total_used':one('SELECT COUNT(*) n FROM quota WHERE model=?',(CORE,))['n'],
+        'hydrogen_budget':policy['limit'] if policy else None,'mode':active if active in PROFILE_LIMITS else 'invalid',
+        'profiles':profiles,'budget_configuration_error':config_error,
+        'workflow_limit':policy['workflow_limit'] if policy else None,'workflow_pinned_caps':pinned,
+        'runtime_soft_rpd':policy['runtime_soft_rpd'] if policy else None}

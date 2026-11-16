@@ -1,6 +1,7 @@
 """Page-checkpointed PDF ingestion. All content is data, never instructions."""
 import difflib
 import hashlib
+import io
 import json
 import os
 import re
@@ -71,62 +72,120 @@ def _decode(row):
 def upload_document(workspace, filename, content, index_dense=True):
     if not isinstance(content, bytes) or not content.startswith(b"%PDF-"):
         raise ValueError("只支持具有有效 PDF 文件头的文件")
-    if len(content) > MAX_BYTES:
-        raise ValueError("PDF 超出 70 MiB 上限")
+    return upload_document_file(workspace, filename, io.BytesIO(content), index_dense)
+
+
+def upload_document_file(workspace, filename, source, index_dense=True, *,
+                         batch_item_id=None, max_bytes=MAX_BYTES):
+    """Spool and validate one file; register bytes, run and batch item atomically.
+
+    The bytes API remains available to existing importers. Multipart callers pass
+    the already spooled file, so even fifty PDFs never become fifty byte strings.
+    Only upload registration changes here; parser snapshots remain untouched.
+    """
     filename = Path(filename.replace("\\", "/")).name[:240]
     if not filename or filename in (".", ".."):
         raise ValueError("无效文件名")
-    digest = hashlib.sha256(content).hexdigest()
-    existing = one("SELECT * FROM versions WHERE workspace=? AND sha256=?", (workspace, digest))
-    if existing and not existing["deleted"]:
-        run = one("SELECT id FROM runs WHERE workspace=? AND kind='parse' AND json_extract(payload,'$.version_id')=? ORDER BY created DESC LIMIT 1", (workspace, existing["id"]))
-        return {"document": _decode(existing), "duplicate": True, "run_id": run["id"] if run else None}
     target = DATA / "pdfs" / workspace
     target.mkdir(parents=True, exist_ok=True)
-    version_id = existing["id"] if existing else uid()
-    path = target / f"{version_id}.pdf"
-    temporary = target / f"{version_id}.tmp"
-    temporary.write_bytes(content)
+    temporary = target / f"{uid()}.tmp"
+    installed = None
     try:
-        doc = pdfium.PdfDocument(str(temporary))
-        page_count = len(doc)
-        doc.close()
-        if page_count < 1 or page_count > MAX_PAGES:
-            raise ValueError(f"PDF 页数必须为 1–{MAX_PAGES}")
-    except Exception as exc:
+        digest = hashlib.sha256()
+        size = 0
+        with temporary.open('xb') as output:
+            while True:
+                chunk = source.read(min(1024 * 1024, max_bytes - size + 1))
+                if not chunk:
+                    break
+                if size == 0 and not chunk.startswith(b'%PDF-'):
+                    raise ValueError("只支持具有有效 PDF 文件头的文件")
+                size += len(chunk)
+                if size > max_bytes:
+                    raise ValueError(f"PDF 超出 {max_bytes // (1024 * 1024)} MiB 上限")
+                digest.update(chunk)
+                output.write(chunk)
+            output.flush()
+            os.fsync(output.fileno())
+        if not size:
+            raise ValueError("只支持具有有效 PDF 文件头的文件")
+        try:
+            doc = pdfium.PdfDocument(str(temporary))
+            try:
+                page_count = len(doc)
+            finally:
+                doc.close()
+            if page_count < 1 or page_count > MAX_PAGES:
+                raise ValueError(f"PDF 页数必须为 1–{MAX_PAGES}")
+        except Exception as exc:
+            if isinstance(exc, ValueError):
+                raise
+            raise ValueError("PDF 损坏或已加密，无法读取；请提供可阅读的 PDF") from None
+        digest = digest.hexdigest()
+        now = time.time()
+        with db() as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            item = None
+            if batch_item_id:
+                item = conn.execute("SELECT i.*,b.status AS batch_status FROM batch_items i JOIN import_batches b ON b.id=i.batch_id AND b.workspace=i.workspace WHERE i.id=? AND i.workspace=?", (batch_item_id, workspace)).fetchone()
+                if not item or item['status'] != 'uploading' or item['batch_status'] not in ('uploading', 'active'):
+                    raise ValueError('批次文件已取消或不属于当前工作区')
+            existing = conn.execute("SELECT * FROM versions WHERE workspace=? AND sha256=?", (workspace, digest)).fetchone()
+            duplicate = bool(existing and not existing['deleted'])
+            owns_run = not duplicate
+            if duplicate:
+                version_id = existing['id']
+                prior = conn.execute("SELECT id,status FROM runs WHERE workspace=? AND kind='parse' AND json_extract(payload,'$.version_id')=? ORDER BY created DESC LIMIT 1", (workspace, version_id)).fetchone()
+                run_id = prior['id'] if prior else None
+                status = prior['status'] if prior else 'completed'
+            else:
+                pending = conn.execute("SELECT count(*) FROM runs WHERE workspace=? AND status IN ('queued','running')", (workspace,)).fetchone()[0]
+                total = conn.execute("SELECT count(*) FROM runs WHERE status IN ('queued','running')").fetchone()[0]
+                if not item and (pending >= 10 or total >= 30):
+                    raise ValueError("解析队列已满，请等待或取消已有任务")
+                version_id = existing['id'] if existing else uid()
+                path = Path(existing['path']) if existing else target / f"{version_id}.pdf"
+                # Identical reuploads must never overwrite the immutable original.
+                if not path.exists():
+                    temporary.replace(path)
+                    installed = path
+                    directory = os.open(target, os.O_RDONLY)
+                    try:
+                        os.fsync(directory)
+                    finally:
+                        os.close(directory)
+                status = 'waiting_batch' if item else 'queued'
+                if existing:
+                    conn.execute("UPDATE versions SET deleted=0,status=?,path=? WHERE id=? AND workspace=?", (status, str(path), version_id, workspace))
+                    for block in conn.execute("SELECT id,text FROM blocks WHERE version_id=? AND type NOT IN ('header','footer','figure') AND length(text)>0", (version_id,)).fetchall():
+                        if not conn.execute("SELECT 1 FROM block_fts WHERE id=?", (block['id'],)).fetchone():
+                            conn.execute("INSERT INTO block_fts(id,text) VALUES(?,?)", (block['id'], block['text']))
+                else:
+                    work_id = uid()
+                    title = Path(filename).stem
+                    conn.execute("INSERT INTO works(id,workspace,title,metadata) VALUES(?,?,?,?)", (work_id, workspace, title, _json({'identity_status': 'pending_parse'})))
+                    conn.execute("INSERT INTO versions(id,workspace,work_id,title,filename,sha256,path,status,page_count,created) VALUES(?,?,?,?,?,?,?,?,?,?)", (version_id, workspace, work_id, title, filename, digest, str(path), status, page_count, now))
+                run_id = uid()
+                payload = {'version_id': version_id}
+                if not index_dense:
+                    payload['index_dense'] = False
+                if item:
+                    payload.update(batch_id=item['batch_id'], batch_item_id=batch_item_id)
+                conn.execute("INSERT INTO runs(id,workspace,kind,status,payload,idempotency,created,updated) VALUES(?,?,?,?,?,?,?,?)", (run_id, workspace, 'parse', status, _json(payload), 'batch:' + batch_item_id if item else None, now, now))
+                conn.execute("INSERT INTO steps(run_id,event,data,created) VALUES(?,?,?,?)", (run_id, status, _json({'tool': 'parse_document', 'version_id': version_id, 'page_count': page_count}), now))
+            if item:
+                conn.execute("UPDATE batch_items SET sha256=?,version_id=?,run_id=?,owns_run=?,duplicate=?,status=?,error=NULL,updated=? WHERE id=? AND workspace=?", (digest, version_id, run_id, int(owns_run), int(duplicate), status, now, batch_item_id, workspace))
+                # Accepted files can proceed even if a later upload or API process
+                # dies. An uploading item without committed bytes is never admitted.
+                conn.execute("UPDATE import_batches SET status='active',updated=? WHERE id=? AND workspace=? AND status IN ('uploading','active')", (now, item['batch_id'], workspace))
+        installed = None  # The committed database now owns the immutable file.
+        return {'document': _decode(one('SELECT * FROM versions WHERE id=? AND workspace=?', (version_id, workspace))), 'run_id': run_id, 'duplicate': duplicate}
+    except BaseException:
+        if installed is not None:
+            installed.unlink(missing_ok=True)
+        raise
+    finally:
         temporary.unlink(missing_ok=True)
-        if isinstance(exc, ValueError):
-            raise
-        raise ValueError("PDF 损坏或已加密，无法读取；请提供可阅读的 PDF") from None
-    temporary.replace(path)
-    now = time.time()
-    title = Path(filename).stem
-    run_id = uid()
-    with db() as conn:
-        conn.execute("BEGIN IMMEDIATE")
-        pending = conn.execute("SELECT count(*) FROM runs WHERE workspace=? AND status IN ('queued','running')", (workspace,)).fetchone()[0]
-        total_pending = conn.execute("SELECT count(*) FROM runs WHERE status IN ('queued','running')").fetchone()[0]
-        if pending >= 10 or total_pending >= 30:
-            if not existing:
-                path.unlink(missing_ok=True)
-            raise ValueError("解析队列已满，请等待或取消已有任务")
-        if existing:
-            # Restoring identical bytes restores the original parse snapshot;
-            # old cited block IDs and boxes are never overwritten by a new parser.
-            conn.execute("UPDATE versions SET deleted=0,status='queued',dense_pages=0,path=? WHERE id=?", (str(path), version_id))
-            for block in conn.execute("SELECT id,text FROM blocks WHERE version_id=? AND type NOT IN ('header','footer','figure') AND length(text)>0", (version_id,)).fetchall():
-                if not conn.execute("SELECT 1 FROM block_fts WHERE id=?", (block["id"],)).fetchone():
-                    conn.execute("INSERT INTO block_fts(id,text) VALUES(?,?)", (block["id"], block["text"]))
-        else:
-            work_id = uid()
-            conn.execute("INSERT INTO works(id,workspace,title,metadata) VALUES(?,?,?,?)", (work_id, workspace, title, _json({"identity_status": "pending_parse"})))
-            conn.execute("INSERT INTO versions(id,workspace,work_id,title,filename,sha256,path,page_count,created) VALUES(?,?,?,?,?,?,?,?,?)", (version_id, workspace, work_id, title, filename, digest, str(path), page_count, now))
-        payload = {"version_id": version_id}
-        if not index_dense:
-            payload['index_dense'] = False
-        conn.execute("INSERT INTO runs(id,workspace,kind,status,payload,created,updated) VALUES(?,?,?,?,?,?,?)", (run_id, workspace, "parse", "queued", _json(payload), now, now))
-    event(run_id, "queued", {"tool": "parse_document", "version_id": version_id, "page_count": page_count})
-    return {"document": _decode(one("SELECT * FROM versions WHERE id=?", (version_id,))), "run_id": run_id, "duplicate": False}
 
 
 def _normalized(text):

@@ -1,0 +1,261 @@
+{
+  "started": 1794807854.5786533,
+  "live_http": true,
+  "requested_model": "gemini-3.5-flash-lite",
+  "cases": [
+    {
+      "name": "zh-to-en",
+      "source": {
+        "id": "7e08ebcfb69345eca100033ed0067130:0:3",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "version_id": "7e08ebcfb69345eca100033ed0067130",
+        "page_index": 0,
+        "bbox": "[0.04845449014291314, 0.22448688309428178, 0.942998994697802, 0.2850627086911513]",
+        "type": "paragraph",
+        "reading_order": 3,
+        "text": "基本的CRUD操作，⽐如⽤⼾可以上传PDF格式的论⽂，包括批量上传。上传之后需要对PDF进⾏ 的解析，把⽂字提取出来，另外也可以考虑更⾼级的⽂档解析，如识别⽂档的结构，识别公式、表格 和图表等。下⾯是⼀些功能的详细说明。\u0001",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": "{\"citation_markers\": [], \"layout\": \"single_column\", \"parse_id\": \"7e08ebcfb69345eca100033ed0067130\", \"parser_version\": \"pdfplumber-layout-v2\", \"models\": [], \"device\": \"cpu\"}",
+        "parse_id": "7e08ebcfb69345eca100033ed0067130"
+      },
+      "run": {
+        "id": "e0b10dc0193c4dcd94079ca402dbee25",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "translate",
+        "status": "completed",
+        "payload": {
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "version_id": "7e08ebcfb69345eca100033ed0067130",
+          "block_ids": [
+            "7e08ebcfb69345eca100033ed0067130:0:3"
+          ],
+          "parse_id": "7e08ebcfb69345eca100033ed0067130"
+        },
+        "result": {
+          "version_id": "7e08ebcfb69345eca100033ed0067130",
+          "parse_id": "7e08ebcfb69345eca100033ed0067130",
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "plan_version": "protected-utf8-v1",
+          "input_token_budget": 12000,
+          "output_token_budget": 8192,
+          "max_batch_items": 6,
+          "block_ids": [
+            "7e08ebcfb69345eca100033ed0067130:0:3"
+          ],
+          "translated": 1,
+          "total": 1,
+          "cache_hits": 0,
+          "actual_models": [
+            "gemini-3.5-flash-lite"
+          ]
+        },
+        "error": null,
+        "idempotency": "flash38-zh-to-en-f4eb6d1725a043f5a69c7da0efe13c29",
+        "created": 1794807854.7901704,
+        "updated": 1794807858.668769,
+        "steps": [
+          {
+            "id": 4639,
+            "event": "queued",
+            "data": {
+              "kind": "translate",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794807854.79537
+          },
+          {
+            "id": 4640,
+            "event": "started",
+            "data": {
+              "kind": "translate"
+            },
+            "created": 1794807854.956505
+          },
+          {
+            "id": 4641,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-shared",
+              "quota_id": "51715fd66432440f89b5c5ed05372499",
+              "reserved_input_tokens": 1890,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794807855.0296645
+          },
+          {
+            "id": 4642,
+            "event": "translation_progress",
+            "data": {
+              "version_id": "7e08ebcfb69345eca100033ed0067130",
+              "parse_id": "7e08ebcfb69345eca100033ed0067130",
+              "source_language": "zh",
+              "target_language": "en",
+              "glossary_version": "default",
+              "model": "gemini-3.5-flash-lite",
+              "plan_version": "protected-utf8-v1",
+              "input_token_budget": 12000,
+              "output_token_budget": 8192,
+              "max_batch_items": 6,
+              "block_ids": [
+                "7e08ebcfb69345eca100033ed0067130:0:3"
+              ],
+              "completed": 1,
+              "total": 1,
+              "requested_model": "gemini-3.5-flash-lite",
+              "actual_model": "gemini-3.5-flash-lite"
+            },
+            "created": 1794807858.663082
+          },
+          {
+            "id": 4643,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794807858.673937
+          }
+        ]
+      },
+      "translations": [
+        {
+          "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+          "version_id": "7e08ebcfb69345eca100033ed0067130",
+          "parse_id": "7e08ebcfb69345eca100033ed0067130",
+          "block_id": "7e08ebcfb69345eca100033ed0067130:0:3",
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "actual_model": "gemini-3.5-flash-lite",
+          "text": "Basic CRUD operations, such as allowing users to upload papers in PDF format, including batch uploads. After uploading, the PDF needs to be parsed to extract the text. Additionally, more advanced document parsing can be considered, such as recognizing document structure, formulas, tables, and charts. Below are detailed descriptions of some features.\u0001",
+          "created": 1794807858.663082,
+          "requested_model": "gemini-3.5-flash-lite",
+          "cache_origin": "direction_cache",
+          "integrity": "protected_spans_verified",
+          "page_index": 0
+        }
+      ],
+      "requests": [
+        {
+          "model": "gemini-3.5-flash-lite",
+          "status": "ok",
+          "input_tokens": 230,
+          "output_tokens": 112
+        }
+      ],
+      "status": "PASS",
+      "human_quality_review": "NOT RUN"
+    },
+    {
+      "name": "en-to-zh",
+      "source": {
+        "id": "95b9e428f36144c7925682db419ded0d:3:5",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "version_id": "95b9e428f36144c7925682db419ded0d",
+        "page_index": 3,
+        "bbox": "[0.5161908089692848, 0.07746174155768579, 0.8828660107244373, 0.5410461765788873]",
+        "type": "paragraph",
+        "reading_order": 5,
+        "text": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": "{\"citation_markers\": [], \"layout\": \"two_column\", \"parse_id\": \"95b9e428f36144c7925682db419ded0d\", \"parser_version\": \"pdfplumber-layout-v1\", \"models\": [], \"device\": \"cpu\"}",
+        "parse_id": "95b9e428f36144c7925682db419ded0d"
+      },
+      "run": {
+        "id": "c44c825a984249e49a4424c9f0aa8c3c",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "translate",
+        "status": "failed",
+        "payload": {
+          "source_language": "en",
+          "target_language": "zh-Hans",
+          "glossary_version": "default",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "block_ids": [
+            "95b9e428f36144c7925682db419ded0d:3:5"
+          ],
+          "parse_id": "95b9e428f36144c7925682db419ded0d"
+        },
+        "result": null,
+        "error": "译文含新增或未受保护的数字、公式、代码、引用；未保存此批次",
+        "idempotency": "flash38-en-to-zh-3fbde31c63284991822b981272f14e16",
+        "created": 1794807858.887732,
+        "updated": 1794807863.9991193,
+        "steps": [
+          {
+            "id": 4644,
+            "event": "queued",
+            "data": {
+              "kind": "translate",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794807858.893643
+          },
+          {
+            "id": 4645,
+            "event": "started",
+            "data": {
+              "kind": "translate"
+            },
+            "created": 1794807859.18936
+          },
+          {
+            "id": 4646,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-shared",
+              "quota_id": "e6c999dd42ef457ea4c5215123707897",
+              "reserved_input_tokens": 3185,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794807859.245215
+          },
+          {
+            "id": 4647,
+            "event": "failed",
+            "data": {
+              "error": "译文含新增或未受保护的数字、公式、代码、引用；未保存此批次"
+            },
+            "created": 1794807864.0065842
+          }
+        ]
+      },
+      "translations": [],
+      "requests": [
+        {
+          "model": "gemini-3.5-flash-lite",
+          "status": "ok",
+          "input_tokens": 644,
+          "output_tokens": 531
+        }
+      ],
+      "status": "FAIL",
+      "human_quality_review": "NOT RUN"
+    }
+  ],
+  "chinese_source_role": "用户资料包中的中文赛题要求，用于翻译完整性测试；不是中文科研论文质量样本",
+  "finished": 1794807865.993033
+}

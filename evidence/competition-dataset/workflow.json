@@ -452,7 +452,7 @@
     "source_note": "用户提供的测试资料包；包含赛题点名文件。未独立验证发布渠道，不自动宣称组委会签名原包。"
   },
   "test_execution_started": true,
-  "updated_at": "2026-11-15T18:00:52.352307+00:00",
+  "updated_at": 1794811758.5128572,
   "steps": [
     {
       "id": "inventory",
@@ -2406,6 +2406,18 @@
             "index_dense": false
           },
           "command": ".venv/bin/python scripts/validate_competition_dataset.py --resume"
+        },
+        {
+          "id": "upgrade-batch20",
+          "label": "真实20篇批量导入与稳定评审工作区",
+          "status": "PASS",
+          "summary": "同一请求20篇原资料+1损坏PDF；20篇ready，单项取消恢复与新浏览器重登录通过，批次模型调用0。",
+          "recorded_at": 1794811758.5124757,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/batch-live.json"
+            }
+          ]
         }
       ]
     },
@@ -4974,6 +4986,24 @@
             "runner_peak_rss_kib": null
           },
           "command": ".venv/bin/python scripts/validate_competition_followup.py"
+        },
+        {
+          "id": "upgrade-local-index",
+          "label": "Nemotron真实分代索引",
+          "status": "NOT RUN",
+          "summary": "真实tokenizer已完成原39份22950合格源块→23185片段；核心4份5330片段正在GPU构建，完整覆盖前不激活。",
+          "recorded_at": 1794811758.5125873,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/official-index-generation.json"
+            },
+            {
+              "path": "evidence/review-upgrade/core4-index-run.json"
+            },
+            {
+              "path": "evidence/review-upgrade/core4-index-first-failure.json"
+            }
+          ]
         }
       ]
     },
@@ -10899,6 +10929,21 @@
               "quote": "The results are presented in Table 8. In the table, M ASK means that we replace the target token with the [MASK] symbol for MLM; S AME means that we keep the target token as is; R ND means that we replace the target token with another random token. The numbers in the left part of the table repre- sent the probabilities of the specific strategies us"
             }
           ]
+        },
+        {
+          "id": "upgrade-core4-scope",
+          "label": "核心4份与拓展35份分层",
+          "status": "PASS",
+          "summary": "核心为v1/v7/原扫描/541页教材；全部保留原文件、不可变解析快照，拓展成绩单列。",
+          "recorded_at": 1794811758.5125582,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/source-scopes.json"
+            },
+            {
+              "path": "evidence/review-upgrade/baseline.json"
+            }
+          ]
         }
       ]
     },
@@ -10987,6 +11032,75 @@
             "paid_fallback": false
           },
           "command": ".venv/bin/python scripts/validate_competition_followup.py"
+        },
+        {
+          "id": "upgrade-grounding",
+          "label": "引用对抗反例和正文绑定",
+          "status": "PASS",
+          "summary": "空白引文、8→80数字矛盾、自由answer绕过均被拦截；定位和语义审查状态分开。",
+          "recorded_at": 1794811758.51266,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/probes-before.json"
+            },
+            {
+              "path": "evidence/review-upgrade/probes-after-grounding.json"
+            }
+          ]
+        },
+        {
+          "id": "upgrade-core4-qa",
+          "label": "核心4份真实问答与辅助审查",
+          "status": "FAIL",
+          "summary": "保留首次误拦截与复测：Adam已完成；作者和教材结果仍含待复核主张，扫描表格为部分完成，未冒称全部通过。",
+          "recorded_at": 1794811758.5127327,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/core4-qa-before-index.json"
+            },
+            {
+              "path": "evidence/review-upgrade/core4-qa-revalidated.json"
+            }
+          ]
+        },
+        {
+          "id": "upgrade-flash36",
+          "label": "Gemini3.6Flash真实双向翻译",
+          "status": "PASS",
+          "summary": "中文赛题段落→英文、BERT段落→中文各1真实调用完成；数字、公式变量和引用保护通过。中文样本不是科研论文，独立质量评测尚未完成。",
+          "recorded_at": 1794811758.512774,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/translation-flash36-live.json"
+            }
+          ]
+        },
+        {
+          "id": "upgrade-flash38",
+          "label": "Gemini3.8Flash失败记录",
+          "status": "FAIL",
+          "summary": "两个方向均传输超时，消耗未知已计账；不认定官方故障，不自动重试。模型不匹配尝试也保留。",
+          "recorded_at": 1794811758.5127962,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/translation-flash38-live.json"
+            },
+            {
+              "path": "evidence/review-upgrade/translation-flash36-model-mismatch.json"
+            }
+          ]
+        },
+        {
+          "id": "upgrade-decision",
+          "label": "Decision1真实原生API校准",
+          "status": "PASS",
+          "summary": "1次createDecision调用完成5个支持性反例+6个路由分类，11/11符合预期；小样本不等于系统准确率。",
+          "recorded_at": 1794811758.5128145,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/decision-live-calibration.json"
+            }
+          ]
         }
       ]
     },
@@ -11098,6 +11212,36 @@
             "events": 545
           },
           "command": ".venv/bin/python scripts/validate_competition_dataset.py --resume"
+        },
+        {
+          "id": "upgrade-gpu-runtime",
+          "label": "双卡BF16真实检索模型",
+          "status": "PASS",
+          "summary": "Embedding与Qwen真实GPU推理完成；Reranker跨卡device适配复测完成；本项目双服务协调实时选卡和2GiB余量。",
+          "recorded_at": 1794811758.5128317,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/retrieval-gpu-smoke-first.json"
+            },
+            {
+              "path": "evidence/review-upgrade/rerank-device-alignment-live.json"
+            }
+          ]
+        },
+        {
+          "id": "upgrade-regression",
+          "label": "升级自动回归与构建",
+          "status": "PASS",
+          "summary": "完整自动回归395通过；这是离线工程回归，不是395道真实模型质量题。",
+          "recorded_at": 1794811758.5128458,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/regression-progress6.log"
+            },
+            {
+              "path": "evidence/review-upgrade/frontend-progress6.log"
+            }
+          ]
         }
       ]
     },
@@ -11632,6 +11776,18 @@
             "status": "failed"
           },
           "command": ".venv/bin/python scripts/validate_competition_followup.py"
+        },
+        {
+          "id": "upgrade-discovery",
+          "label": "安全DNS路由与真实全文",
+          "status": "PASS",
+          "summary": "保留SSRF、TLS校验和DNS固定；真实新查询及100页全文下载解析完成，尚不代表Future Work自动闭环已验收。",
+          "recorded_at": 1794811758.5128224,
+          "evidence_files": [
+            {
+              "path": "evidence/review-upgrade/discovery-live-20261116T050427879151Z.json"
+            }
+          ]
         }
       ]
     },

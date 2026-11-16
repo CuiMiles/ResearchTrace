@@ -1,0 +1,77 @@
+........................................................................ [ 19%]
+........................................................................ [ 38%]
+........................................................................ [ 57%]
+........................................................................ [ 76%]
+.........F.............................................................. [ 95%]
+................                                                         [100%]
+=================================== FAILURES ===================================
+_____________ test_worker_checks_schedule_even_when_queue_is_busy ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7300aa542f30>
+
+    def test_worker_checks_schedule_even_when_queue_is_busy(monkeypatch):
+        import resource
+        from services.worker import main as worker
+        calls = []
+        monkeypatch.setattr(resource, 'setrlimit', lambda *a: None)
+        monkeypatch.setattr(worker.signal, 'signal', lambda *a: None)
+        monkeypatch.setattr(research, 'check_due_watches', lambda **kw: calls.append(kw))
+        monkeypatch.setattr(worker.time, 'monotonic', lambda: 100)
+        monkeypatch.setattr(worker, 'stopping', False)
+        def busy():
+            worker.stopping = True
+            return True
+        monkeypatch.setattr(worker, 'work_once', busy)
+>       worker.main()
+
+tests/unit/test_watch_recovery.py:207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def main():
+        import resource
+        global stopping
+        stopping=False
+        pool=os.getenv('RT_WORKER_POOL','all')
+        if pool not in ('all',*POOLS):raise ValueError('Unknown worker pool')
+        cap=int(os.getenv('RT_WORKER_AS_MB','1400'))*1024**2
+        resource.setrlimit(resource.RLIMIT_AS,(cap,cap))
+        store.migrate()
+        with worker_lock(pool):
+            recover(pool)
+            from services.api.batches import admit_pending,recover_pending_uploads
+            from services.api.research import check_due_watches,recover_watch_checks
+            if pool in ('all','documents'):recover_pending_uploads()
+            if pool in ('all','interactive'):recover_watch_checks()
+            signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
+            state={'pool':pool,'pid':os.getpid(),'busy':False,'phase':'idle'}
+            done=threading.Event()
+            def heartbeat():
+                target=store.DATA/f'worker-status-{pool}.json'
+                while not done.is_set():
+                    temp=target.with_suffix('.tmp')
+                    temp.write_text(json.dumps({**state,'timestamp':time.time()}))
+                    temp.chmod(0o600);temp.replace(target)
+                    done.wait(2)
+            thread=threading.Thread(target=heartbeat,daemon=True);thread.start()
+            watch_thread=None;last_watch=0
+            try:
+                while not stopping:
+                    if pool in ('all','interactive'):
+                        from services.api.dependencies import wake_dependencies
+                        wake_dependencies()
+                    if pool in ('all','documents'):admit_pending()
+                    if pool in ('all','interactive') and time.monotonic()-last_watch>30 and not (watch_thread and watch_thread.is_alive()):
+                        last_watch=time.monotonic()
+                        def watch():
+                            try:check_due_watches(limit=1)
+                            except Exception as exc:print('watch scheduler error: '+type(exc).__name__,flush=True)
+                        watch_thread=threading.Thread(target=watch,daemon=True);watch_thread.start()
+                    state.update(busy=True,phase='executing')
+>                   worked=work_once(pool=pool)
+                           ^^^^^^^^^^^^^^^^^^^^
+E                   TypeError: test_worker_checks_schedule_even_when_queue_is_busy.<locals>.busy() got an unexpected keyword argument 'pool'
+
+services/worker/main.py:101: TypeError
+=========================== short test summary info ============================
+FAILED tests/unit/test_watch_recovery.py::test_worker_checks_schedule_even_when_queue_is_busy
+1 failed, 375 passed in 74.66s (0:01:14)

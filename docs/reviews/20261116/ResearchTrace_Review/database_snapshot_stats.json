@@ -1,0 +1,122 @@
+{
+  "workspace_stats": [
+    {
+      "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+      "docs": 40,
+      "pages": 1987,
+      "dense_pages": 0
+    },
+    {
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "docs": 11,
+      "pages": 79,
+      "dense_pages": 38
+    },
+    {
+      "workspace": "9da627cf5cc14cbc9e2faa5284e939a3",
+      "docs": 1,
+      "pages": 2,
+      "dense_pages": 0
+    },
+    {
+      "workspace": "ab756e9ea2fa42a3ab0dae4603d12fc1",
+      "docs": 1,
+      "pages": 541,
+      "dense_pages": 0
+    },
+    {
+      "workspace": "c26327bdc84540f996ecd51cf64d96f0",
+      "docs": 1,
+      "pages": 2,
+      "dense_pages": 0
+    }
+  ],
+  "active_embeddings": [
+    {
+      "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+      "blocks": 25145,
+      "embedded": 0
+    },
+    {
+      "workspace": "181a93915777439094b0e90c620f829f",
+      "blocks": 1142,
+      "embedded": 512
+    },
+    {
+      "workspace": "9da627cf5cc14cbc9e2faa5284e939a3",
+      "blocks": 8,
+      "embedded": 0
+    },
+    {
+      "workspace": "ab756e9ea2fa42a3ab0dae4603d12fc1",
+      "blocks": 11361,
+      "embedded": 0
+    },
+    {
+      "workspace": "c26327bdc84540f996ecd51cf64d96f0",
+      "blocks": 8,
+      "embedded": 0
+    }
+  ],
+  "run_review": [
+    {
+      "kind": "audit",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "kind": "parse",
+      "status": "completed",
+      "count": 53
+    },
+    {
+      "kind": "parse",
+      "status": "partial",
+      "count": 1
+    },
+    {
+      "kind": "qa",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "kind": "reparse",
+      "status": "completed",
+      "count": 17
+    },
+    {
+      "kind": "reparse",
+      "status": "failed",
+      "count": 8
+    },
+    {
+      "kind": "translate",
+      "status": "completed",
+      "count": 1
+    },
+    {
+      "kind": "watch",
+      "status": "completed",
+      "count": 2
+    },
+    {
+      "kind": "watch",
+      "status": "failed",
+      "count": 2
+    }
+  ],
+  "active_engines": [
+    {
+      "engine": "mineru",
+      "count": 5
+    },
+    {
+      "engine": "native",
+      "count": 47
+    },
+    {
+      "engine": "paddleocr_vl",
+      "count": 2
+    }
+  ]
+}

@@ -14,6 +14,7 @@ import hashlib
 import io
 import json
 import math
+import os
 import re
 import time
 from typing import Annotated, Callable, Literal
@@ -27,10 +28,9 @@ BlockID = Annotated[str, StringConstraints(pattern=r'^[A-Za-z0-9][A-Za-z0-9_.:-]
 Question = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=1000)]
 MAX_ARGS = 256 * 1024
 MAX_RESULT = 192 * 1024
-AUDIT_BLOCKER = ('Hydrogen smoke budget exhausted: 4 requests already consumed; no new provider budget '
-                 'authorized. Existing jobs.audit also lacks a hard per-child provider budget. '
-                 'This persistent plan must remain blocked until upstream budget enforcement and '
-                 'explicit authorization are in place; migration does not reset the quota ledger.')
+AUDIT_BLOCKER = ('This tool has provider_budget=0: a parent tool plan does not authorize child model calls. '
+                 'Start an independently budgeted audit through the authenticated ideas/audits workflow. '
+                 'Original smoke ledger remains preserved; evaluation/judging budgets are separate.')
 
 
 class StrictModel(BaseModel):
@@ -270,28 +270,13 @@ def _retrieve(ctx, args, key):
     vids = list(dict.fromkeys(args.version_ids))
     for vid in vids:
         _version(ctx, vid)
-    tokens = re.findall(r'[A-Za-z0-9_]+|[\u4e00-\u9fff]+', args.question)
-    expanded = []
-    for token in tokens:
-        if re.fullmatch(r'[\u4e00-\u9fff]{4,}', token):
-            expanded.extend(token[i:i + 2] for i in range(min(len(token) - 1, 32)))
-        else:
-            expanded.append(token)
-    tokens = list(dict.fromkeys(expanded))[:32]
-    query = ' OR '.join('"' + t.replace('"', '""') + '"' for t in tokens)
-    if not query:
-        return {'mode': 'keyword', 'blocks': [], 'notice': 'No searchable terms'}
-    slots = ','.join('?' for _ in vids)
-    blocks = store.rows(f'SELECT b.*,bm25(block_fts) AS score FROM block_fts JOIN current_blocks b ON b.id=block_fts.id JOIN versions v ON v.id=b.version_id WHERE block_fts MATCH ? AND b.workspace=? AND v.deleted=0 AND b.version_id IN ({slots}) ORDER BY score LIMIT ?', (query, ctx.workspace, *vids, args.limit))
-    result = []
-    for block in blocks:
-        decoded = retrieval._decode(block)
-        if len(decoded['text']) > 4000:
-            decoded['text'] = decoded['text'][:4000]
-            decoded['text_truncated'] = True
-        result.append(decoded)
-    return {'mode': 'keyword', 'method': 'FTS5_BM25', 'blocks': result, 'version_ids': vids,
-            'notice': 'Local keyword retrieval only; dense-query embedding is outside this zero-provider tool budget'}
+    if os.getenv('RT_EMBED_PROVIDER')=='local':
+        return retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit)
+    from .sparse_index import search
+    blocks,expanded=search(ctx.workspace,vids,args.question,limit=args.limit)
+    return {'mode':'keyword','method':'FTS5_BM25','blocks':[retrieval._decode(b) for b in blocks],
+            'version_ids':vids,'query_term_expansion':expanded,
+            'notice':'本地关键词检索；未提交云端问题向量，不冒充语义召回'}
 
 
 def _compare(ctx, args, key):

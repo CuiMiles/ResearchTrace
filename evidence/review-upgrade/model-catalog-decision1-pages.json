@@ -1,0 +1,23 @@
+{
+  "time": 1794809003.1503203,
+  "generation_requests": 0,
+  "pages": [
+    {
+      "models": 64,
+      "has_next": false
+    }
+  ],
+  "matches": [
+    {
+      "name": "models/gemini-decision-1",
+      "version": "gemini-decision-1",
+      "displayName": "Gemini Decision 1",
+      "description": "Gemini Decision 1",
+      "inputTokenLimit": 262144,
+      "outputTokenLimit": 1,
+      "supportedGenerationMethods": [
+        "createDecision"
+      ]
+    }
+  ]
+}

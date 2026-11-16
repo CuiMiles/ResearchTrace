@@ -1,0 +1,3 @@
+{"model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16", "tokenizer_status": "PASS", "inference_status": "PASS"}
+{"model_id": "nvidia/Nemotron-3.5-Rerank-8B-BF16", "tokenizer_status": "PASS", "inference_status": "BLOCKED"}
+{"model_id": "Qwen/Qwen3-Embedding-8B", "tokenizer_status": "PASS", "inference_status": "PASS"}

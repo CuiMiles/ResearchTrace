@@ -1,0 +1,229 @@
+{
+  "status": "PASS",
+  "recorded_at": 1794805723.419212,
+  "scope": "P0-04 discovery DNS/proxy repair; owned files only; no commit",
+  "configuration": {
+    "optional_env": "RT_PUBLIC_DNS_RESOLVER",
+    "allowed_value": "https://dns.google/resolve",
+    "default": "system DNS; non-global including fake-IP remains rejected",
+    "verified_route": "operator HTTP proxy on current loopback 7897 -> TLS-authenticated fixed Google DoH -> validated public IP with original target Host and TLS SNI",
+    "project_env_changed": false,
+    "global_proxy_changed": false
+  },
+  "changes": [
+    "Strict operator-only resolver allowlist with TLS CA and hostname verification; A and AAAA checked without system fallback",
+    "Fix proxy CONNECT TLS SNI without relaxing certificate or IP validation; validate and pin every redirect",
+    "Crossref general discovery no longer requires has-references:true",
+    "Search status success/partial/failed, per-source status, cache_refreshed_at/cache_expires_at and returned_at; unsuccessful uncached attempts have null cache refresh time",
+    "Rate gates cover each arXiv/Crossref target request, including PDFs and redirects",
+    "Metadata and PDF provenance includes actual URL, network hops, TLS server name, fetch time and SHA-256",
+    "Single arXiv ID uses an exact one-record lookup; imported document response reflects its final work_id"
+  ],
+  "source_files": [
+    {
+      "path": "services/api/research.py",
+      "sha256": "60f118f4095cebfa1a4bffa80deb5cbc4be12d57d162cb7a98d0fb23983f7963"
+    },
+    {
+      "path": "tests/unit/test_discovery_route_upgrade.py",
+      "sha256": "0ba52ff302156a65a82ef40d3aca063523929537404fd24b521536d7d93e0107"
+    },
+    {
+      "path": "scripts/validate_repaired_discovery.py",
+      "sha256": "6fc9885745e7d6c0b03778267b99c8da9422d27bbf46bbbcd3f87581a30ca2f7"
+    }
+  ],
+  "tests": {
+    "status": "PASS",
+    "result": "101 passed, 1 warning in 18.93s",
+    "log": "evidence/review-upgrade/discovery-tests.log",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider tests/unit/test_discovery_route_upgrade.py tests/unit/test_watch_recovery.py tests/unit/test_research_charts.py tests/unit/test_tool_registry.py tests/integration/test_api_security.py -q"
+  },
+  "live": {
+    "status": "PASS",
+    "evidence": "evidence/review-upgrade/discovery-live-20261116T050543078725Z.json",
+    "queries": [
+      {
+        "query": "arxiv:2303.08774",
+        "sources": [
+          "arxiv"
+        ],
+        "status": "success",
+        "cached": false,
+        "source_url": "https://export.arxiv.org/api/query?id_list=2303.08774&max_results=1",
+        "sha256": "9249f022eed418ee4aaa0f178d7748f395ba0a19f8e51012260b8997c1e5198a",
+        "cache_refreshed_at": 1794805548.0984654
+      },
+      {
+        "query": "LoRA Low Rank Adaptation of Large Language Models",
+        "sources": [
+          "crossref"
+        ],
+        "status": "success",
+        "cached": false,
+        "source_url": "https://api.crossref.org/works?query.bibliographic=LoRA+Low+Rank+Adaptation+of+Large+Language+Models&rows=15",
+        "sha256": "9e8c8b6ddad7e625c280fa540b30af5f3c51e83702dcbe0d9bee17f0ac076066",
+        "cache_refreshed_at": 1794805554.4531744
+      }
+    ],
+    "oa_distribution": {
+      "source": "official arXiv public distribution",
+      "landing_url": "https://arxiv.org/abs/2303.08774",
+      "landing_sha256": "64462031e914474fd13672e77c7d138423230db6988da0002aa5b7b11894abdb",
+      "license_links": [
+        "http://arxiv.org/licenses/nonexclusive-distrib/1.0/"
+      ],
+      "identity": "arxiv:2303.08774"
+    },
+    "pdf": {
+      "source_url": "https://arxiv.org/pdf/2303.08774v6",
+      "final_url": "https://arxiv.org/pdf/2303.08774v6",
+      "sha256": "c33a66dadca2388d7b172d6293b00dc32b71110c6f38fafe0d41112e61be7774",
+      "fetched_at": 1794805574.031856,
+      "network": {
+        "resolver": "https://dns.google/resolve",
+        "operator_proxy": true,
+        "tls_verification": true,
+        "hops": [
+          {
+            "url": "https://arxiv.org/pdf/2303.08774v6",
+            "host": "arxiv.org",
+            "resolved_addresses": [
+              "151.101.67.42",
+              "151.101.3.42",
+              "151.101.195.42",
+              "151.101.131.42"
+            ],
+            "pinned_address": "151.101.67.42",
+            "status": 200,
+            "tls_server_name": "arxiv.org"
+          }
+        ]
+      }
+    },
+    "document": {
+      "id": "424125a9037140649de8e02bda5536a2",
+      "status": "ready",
+      "page_count": 100,
+      "parsed_pages": 100,
+      "dense_pages": 0,
+      "sha256": "c33a66dadca2388d7b172d6293b00dc32b71110c6f38fafe0d41112e61be7774"
+    },
+    "blocks": 1368,
+    "references": 85,
+    "workspace_isolation": "PASS",
+    "private_data_directory": "/tmp/researchtrace-discovery-f0g6jj1g",
+    "index_dense": false,
+    "models": 0,
+    "paid_apis": 0,
+    "openalex": 0,
+    "http_request_counts": {
+      "target_http": 6,
+      "trusted_doh_http": 12
+    },
+    "rate_evidence": {
+      "arxiv": {
+        "minimum_gap_seconds": 3.0,
+        "actual_start_intervals": [
+          11.382728099822998,
+          4.843464136123657,
+          4.487027883529663,
+          4.371931791305542
+        ]
+      },
+      "crossref": {
+        "minimum_gap_seconds": 1.0,
+        "actual_start_intervals": []
+      }
+    }
+  },
+  "retained_attempt_logs": [
+    {
+      "path": "evidence/review-upgrade/discovery-live-20261116T045919496914Z.json",
+      "status": "FAIL",
+      "http_request_counts": {
+        "target_http": 2,
+        "trusted_doh_http": 4
+      },
+      "errors": [
+        {
+          "source": "arxiv",
+          "error": "上游限流 429；Retry-After=未知；本次不自动重试"
+        }
+      ]
+    },
+    {
+      "path": "evidence/review-upgrade/discovery-live-20261116T050059985405Z.json",
+      "status": "FAIL",
+      "http_request_counts": {
+        "target_http": 1,
+        "trusted_doh_http": 2
+      },
+      "errors": [
+        {
+          "source": "arxiv",
+          "error": "上游限流 429；Retry-After=未知；本次不自动重试"
+        }
+      ]
+    },
+    {
+      "path": "evidence/review-upgrade/discovery-live-20261116T050211402742Z.json",
+      "status": "FAIL",
+      "http_request_counts": {
+        "target_http": 3,
+        "trusted_doh_http": 6
+      },
+      "errors": []
+    },
+    {
+      "path": "evidence/review-upgrade/discovery-live-20261116T050427879151Z.json",
+      "status": "FAIL",
+      "http_request_counts": {
+        "target_http": 1,
+        "trusted_doh_http": 2
+      },
+      "errors": [
+        {
+          "source": "arxiv",
+          "error": "公开数据源超时；未使用离线替代结果"
+        }
+      ]
+    },
+    {
+      "path": "evidence/review-upgrade/discovery-live-20261116T050543078725Z.json",
+      "status": "PASS",
+      "http_request_counts": {
+        "target_http": 6,
+        "trusted_doh_http": 12
+      },
+      "errors": []
+    }
+  ],
+  "limitations": {
+    "general_arxiv_title_search": {
+      "status": "BLOCKED",
+      "reason": "Actual arXiv title query returned 429; ID paths succeeded. No automatic retry or quota/rate bypass."
+    },
+    "other_arxiv_id": {
+      "status": "BLOCKED",
+      "reason": "LoRA ID attempt had a source timeout; no synthetic replacement."
+    },
+    "browser_ui": {
+      "status": "NOT RUN",
+      "reason": "Frontend integration belongs to main agent; actual authenticated API and workspace isolation were tested."
+    },
+    "public_deployment": {
+      "status": "NOT RUN"
+    },
+    "model_and_dense_live": {
+      "status": "NOT RUN",
+      "reason": "Explicitly excluded; model and embedding calls guarded, quota table empty."
+    }
+  },
+  "reproduce": ".venv/bin/python scripts/validate_repaired_discovery.py --resolver https://dns.google/resolve --proxy http://127.0.0.1:7897",
+  "operator_action_remaining": "Set optional RT_PUBLIC_DNS_RESOLVER in the intended project service process to opt in; this task did not alter running services or .env.",
+  "official_docs": [
+    "https://developers.google.com/speed/public-dns/docs/doh/json",
+    "https://www.encode.io/httpcore/extensions/"
+  ]
+}

@@ -1,0 +1,53 @@
+........................................................................ [ 19%]
+........................................................................ [ 38%]
+...............................................................sssss.... [ 58%]
+s....................................................................... [ 77%]
+...........................................F............................ [ 97%]
+...........                                                              [100%]
+=================================== FAILURES ===================================
+___________ test_native_reparse_old_reader_idempotency_and_workspace ___________
+
+api = <starlette.testclient.TestClient object at 0x7ef9707dc2c0>
+
+    def test_native_reparse_old_reader_idempotency_and_workspace(api):
+        b=io.BytesIO();p=canvas.Canvas(b);p.drawString(40,700,'Snapshot evidence key HELLO42 persists in original.');p.save()
+        u=api.post('/api/v1/documents?index_dense=false',files={'files':('new.pdf',b.getvalue())}).json()
+        vid=u['documents'][0]['id'];jobs.work_once()
+        before=api.get(f'/api/v1/documents/{vid}/pages/0').json()
+        oldid=before['blocks'][0]['id']
+        assert before['parse_id']==vid
+        body={'engine':'native','device':'cpu','idempotency_key':'test-revision'}
+        a=api.post(f'/api/v1/documents/{vid}/parses',json=body).json()
+        assert api.post(f'/api/v1/documents/{vid}/parses',json=body).json()['id']==a['id']
+        assert api.post(f'/api/v1/documents/{vid}/parses',json={**body,'engine':'mineru'}).status_code==422
+        jobs.work_once()
+        current=api.get(f'/api/v1/documents/{vid}/pages/0').json()
+        assert current['parse_id']==a['parse_id'] and current['blocks'][0]['id']!=oldid
+        assert api.get(f'/api/v1/documents/{vid}/pages/0?parse_id={vid}').json()==before
+        found=api.get(f'/api/v1/documents/{vid}/search?q=HELLO42').json()
+        assert found and all(b['parse_id']==a['parse_id'] for b in found)
+        assert api.get(f'/api/v1/documents/{vid}/blocks?parse_id={vid}').json()[0]['id']==oldid
+        assert api.get(f'/api/v1/documents/{vid}/pages/0?parse_id=unknown').status_code==422
+        assert len(api.get(f'/api/v1/documents/{vid}/parses').json())==2
+        assert store.one('SELECT count(*) n FROM quota')['n']==0
+        api.cookies.clear();api.post('/api/v1/auth/login',json={'code':'test-only-access'})
+>       assert api.get(f'/api/v1/documents/{vid}/parses').status_code==404
+E       AssertionError: assert 401 == 404
+E        +  where 401 = <Response [401 Unauthorized]>.status_code
+E        +    where <Response [401 Unauthorized]> = get('/api/v1/documents/1c8b28fe804e48f8ae6edf08c49ec305/parses')
+E        +      where get = <starlette.testclient.TestClient object at 0x7ef9707dc2c0>.get
+
+tests/integration/test_parse_snapshot_api.py:39: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/cui/projects/competition/传智杯2026/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/unit/test_watch_recovery.py::test_crash_recovery_uses_os_lock_and_preserves_schedule
+  /usr/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=1611071) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/test_parse_snapshot_api.py::test_native_reparse_old_reader_idempotency_and_workspace
+1 failed, 364 passed, 6 skipped, 2 warnings in 67.17s (0:01:07)

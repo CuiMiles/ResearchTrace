@@ -172,7 +172,7 @@ def test_audit_plan_is_atomically_blocked_and_worker_cannot_pick_it():
     plan = store.one('SELECT * FROM runs WHERE id=?', (result['result']['run_id'],))
     assert plan['kind'] == 'audit'
     assert plan['status'] == 'blocked'
-    assert '4 requests already consumed' in plan['error']
+    assert 'provider_budget=0' in plan['error']
     assert json.loads(plan['payload'])['provider_budget'] == 0
     assert jobs.work_once() is False
     assert not store.rows('SELECT * FROM quota')

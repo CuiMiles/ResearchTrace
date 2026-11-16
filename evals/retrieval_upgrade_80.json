@@ -1,0 +1,1766 @@
+{
+  "schema_version": 1,
+  "created": 1794810067.6154952,
+  "question_count": 80,
+  "core_questions": 50,
+  "expansion_questions": 30,
+  "gold_origin": "Codex directly read original PDF source text before retrieval scoring. Gold does not use tested model answers.",
+  "independent_human_review": "NOT RUN",
+  "limitations": [
+    "Chinese/English pairs are correlated and not80independent facts.",
+    "No-answer retrieval does not measure generation abstention.",
+    "Scan-table evidence is structured text/HTML,not claimed visual embedding evaluation."
+  ],
+  "scopes_file": "evals/review_upgrade_scopes.json",
+  "questions": [
+    {
+      "id": "RQ001",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "Transformer 使用了多少张什么型号的显卡？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "8 NVIDIA P100 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        }
+      ]
+    },
+    {
+      "id": "RQ002",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "Which GPU model and how many GPUs trained the Transformer?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "8 NVIDIA P100 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        }
+      ]
+    },
+    {
+      "id": "RQ003",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "Transformer base 模型训练多少步、多久？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "100000 steps,12 hours",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        }
+      ]
+    },
+    {
+      "id": "RQ004",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "How many steps and hours trained the base Transformer?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "100000 steps,12 hours",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        }
+      ]
+    },
+    {
+      "id": "RQ005",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "Transformer 编码器叠了多少层？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "6",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:1:8",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 1,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position- wise fully connected feed-forward network. We employ a residual connection around each of the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is LayerNorm(x + Sublayer(x)) , where Sublayer(x) is the function implemented by the sub-layer itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce outputs of dimension d model = 512 .",
+          "text_sha256": "c8d75ff482491e63bba0cf4998ce9c39dd971863dfc70464ff759d7ef8cc9af7"
+        }
+      ]
+    },
+    {
+      "id": "RQ006",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "How many layers are stacked in the Transformer encoder?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "6",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:1:8",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 1,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position- wise fully connected feed-forward network. We employ a residual connection around each of the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is LayerNorm(x + Sublayer(x)) , where Sublayer(x) is the function implemented by the sub-layer itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce outputs of dimension d model = 512 .",
+          "text_sha256": "c8d75ff482491e63bba0cf4998ce9c39dd971863dfc70464ff759d7ef8cc9af7"
+        }
+      ]
+    },
+    {
+      "id": "RQ007",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "原始 Transformer 的模型表示维度是多少？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "512",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:1:8",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 1,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position- wise fully connected feed-forward network. We employ a residual connection around each of the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is LayerNorm(x + Sublayer(x)) , where Sublayer(x) is the function implemented by the sub-layer itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce outputs of dimension d model = 512 .",
+          "text_sha256": "c8d75ff482491e63bba0cf4998ce9c39dd971863dfc70464ff759d7ef8cc9af7"
+        }
+      ]
+    },
+    {
+      "id": "RQ008",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "What is the original Transformer model dimension?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "512",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:1:8",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 1,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position- wise fully connected feed-forward network. We employ a residual connection around each of the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is LayerNorm(x + Sublayer(x)) , where Sublayer(x) is the function implemented by the sub-layer itself. To facilitate these residual connections, all sub-layers in the model, as well as the embedding layers, produce outputs of dimension d model = 512 .",
+          "text_sha256": "c8d75ff482491e63bba0cf4998ce9c39dd971863dfc70464ff759d7ef8cc9af7"
+        }
+      ]
+    },
+    {
+      "id": "RQ009",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "原始 Transformer 使用多少个注意力头？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "8",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:3:6",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 3,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Where the projections are parameter matrices W i Q ∈ R d model ×d k , W i K ∈ R d model ×d k and W i V ∈ R d model ×d v . In this work we employ h = 8 parallel attention layers, or heads. For each of these we use d k = d v = d model /h = 64 . Due to the reduced dimension of each head, the total computational cost is similar to that of single-head attention with full dimensionality.",
+          "text_sha256": "dc255690f10f5825bb19189e1701d1d3947eafbb82eb56fd4de6fd87f02c0d5f"
+        }
+      ]
+    },
+    {
+      "id": "RQ010",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "How many attention heads does the original Transformer use?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "8",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:3:6",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 3,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Where the projections are parameter matrices W i Q ∈ R d model ×d k , W i K ∈ R d model ×d k and W i V ∈ R d model ×d v . In this work we employ h = 8 parallel attention layers, or heads. For each of these we use d k = d v = d model /h = 64 . Due to the reduced dimension of each head, the total computational cost is similar to that of single-head attention with full dimensionality.",
+          "text_sha256": "dc255690f10f5825bb19189e1701d1d3947eafbb82eb56fd4de6fd87f02c0d5f"
+        }
+      ]
+    },
+    {
+      "id": "RQ011",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "Transformer 采用 Adam 的哪些 beta 参数？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "beta1=0.9 beta2=0.98",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:4",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We used the Adam optimizer [18] with β 1 = 0.9, β 2 = 0.98 and (cid:15) = 10 −9 . We varied the learning rate over the course of training, according to the formula:",
+          "text_sha256": "c64d271c33844139127141732629f72d3f311c411bd3eaa4ef3f895c4b387e87"
+        }
+      ]
+    },
+    {
+      "id": "RQ012",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "What Adam beta values does the Transformer use?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "beta1=0.9 beta2=0.98",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:4",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We used the Adam optimizer [18] with β 1 = 0.9, β 2 = 0.98 and (cid:15) = 10 −9 . We varied the learning rate over the course of training, according to the formula:",
+          "text_sha256": "c64d271c33844139127141732629f72d3f311c411bd3eaa4ef3f895c4b387e87"
+        }
+      ]
+    },
+    {
+      "id": "RQ013",
+      "group": "core",
+      "category": "authors",
+      "language": "zh",
+      "question": "按首页署名顺序，第六作者是谁、属于哪个机构？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "Aidan N. Gomez; University of Toronto",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:0:1",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 0,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Ashish Vaswani ∗ Noam Shazeer ∗ Niki Parmar ∗ Jakob Uszkoreit ∗ Google Brain Google Brain Google Research Google Research avaswani@google.com noam@google.com nikip@google.com usz@google.com",
+          "text_sha256": "88b05fed97ebd665c5c8e06ba0aaf4e86248c55a44fcda22f33e2a0d81602678"
+        },
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:0:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 0,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Llion Jones ∗ Aidan N. Gomez ∗† Łukasz Kaiser ∗ Google Research University of Toronto Google Brain llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+          "text_sha256": "02e2c7d3d1c3c9ec8747ca02eadf4d67d9ab6db307f1f72bc0323d3e731d4db7"
+        }
+      ]
+    },
+    {
+      "id": "RQ014",
+      "group": "core",
+      "category": "authors",
+      "language": "en",
+      "question": "Who is the sixth title-page author and what is the affiliation?",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "Aidan N. Gomez; University of Toronto",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:0:1",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 0,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Ashish Vaswani ∗ Noam Shazeer ∗ Niki Parmar ∗ Jakob Uszkoreit ∗ Google Brain Google Brain Google Research Google Research avaswani@google.com noam@google.com nikip@google.com usz@google.com",
+          "text_sha256": "88b05fed97ebd665c5c8e06ba0aaf4e86248c55a44fcda22f33e2a0d81602678"
+        },
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:0:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 0,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "Llion Jones ∗ Aidan N. Gomez ∗† Łukasz Kaiser ∗ Google Research University of Toronto Google Brain llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+          "text_sha256": "02e2c7d3d1c3c9ec8747ca02eadf4d67d9ab6db307f1f72bc0323d3e731d4db7"
+        }
+      ]
+    },
+    {
+      "id": "RQ015",
+      "group": "core",
+      "category": "version_sensitive",
+      "language": "zh",
+      "question": "v7使用多少张什么显卡训练？",
+      "version_ids": [
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "8 NVIDIA P100 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ016",
+      "group": "core",
+      "category": "version_sensitive",
+      "language": "en",
+      "question": "What GPU type and count trained Transformer v7?",
+      "version_ids": [
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "8 NVIDIA P100 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ017",
+      "group": "core",
+      "category": "comparison",
+      "language": "zh",
+      "question": "比较v1和v7的训练GPU数量与型号。",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533",
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "Both report8 NVIDIA P100 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        },
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ018",
+      "group": "core",
+      "category": "comparison",
+      "language": "en",
+      "question": "Compare training GPU counts and types in v1 and v7.",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533",
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "Both report8 NVIDIA P100 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        },
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ019",
+      "group": "core",
+      "category": "fact",
+      "language": "zh",
+      "question": "v7的大模型训练多少步、每步多久、共多久？",
+      "version_ids": [
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "300000 steps;1.0 seconds/step;3.5 days",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ020",
+      "group": "core",
+      "category": "fact",
+      "language": "en",
+      "question": "How many steps, seconds per step and days trained the big model in v7?",
+      "version_ids": [
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "300000 steps;1.0 seconds/step;3.5 days",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ021",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "zh",
+      "question": "扫描版表1中Self-Attention每层复杂度和顺序操作数是什么？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "O(n²d);O(1)",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:5:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 5,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.\n<table><tr><td>Layer Type</td><td>Complexity per Layer</td><td>Sequential Operations</td><td>Maximum Path Length</td></tr><tr><td>Self-Attention</td><td> $\\overline { { O ( n ^ { 2 } \\cdot d ) } }$ </td><td>O(1)</td><td>O(1)</td></tr><tr><td>Recurrent</td><td> $O ( n \\cdot d ^ { 2 } )$ </td><td>O(n)</td><td> $O ( n )$ </td></tr><tr><td>Convolutional</td><td> $O ( \\vec { k } \\cdot \\boldsymbol { n } \\cdot \\dot { d ^ { 2 } } )$ </td><td>O(1)</td><td> $O ( l o g _ { k } \\dot { ( } n ) )$ </td></tr><tr><td>Self-Attention (restricted)</td><td> $O ( r \\cdot n \\cdot d )$ </td><td>O(1)</td><td> $O ( n / r )$ </td></tr></table>",
+          "text_sha256": "cb5ecd00bbc033e21db1b9b67bd9d25111e4a84f44ed9423c25f58629d9a97d2"
+        }
+      ]
+    },
+    {
+      "id": "RQ022",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "en",
+      "question": "What are self-attention complexity and sequential operations in scanned Table1?",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "O(n²d);O(1)",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:5:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 5,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.\n<table><tr><td>Layer Type</td><td>Complexity per Layer</td><td>Sequential Operations</td><td>Maximum Path Length</td></tr><tr><td>Self-Attention</td><td> $\\overline { { O ( n ^ { 2 } \\cdot d ) } }$ </td><td>O(1)</td><td>O(1)</td></tr><tr><td>Recurrent</td><td> $O ( n \\cdot d ^ { 2 } )$ </td><td>O(n)</td><td> $O ( n )$ </td></tr><tr><td>Convolutional</td><td> $O ( \\vec { k } \\cdot \\boldsymbol { n } \\cdot \\dot { d ^ { 2 } } )$ </td><td>O(1)</td><td> $O ( l o g _ { k } \\dot { ( } n ) )$ </td></tr><tr><td>Self-Attention (restricted)</td><td> $O ( r \\cdot n \\cdot d )$ </td><td>O(1)</td><td> $O ( n / r )$ </td></tr></table>",
+          "text_sha256": "cb5ecd00bbc033e21db1b9b67bd9d25111e4a84f44ed9423c25f58629d9a97d2"
+        }
+      ]
+    },
+    {
+      "id": "RQ023",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "zh",
+      "question": "扫描版表1中Recurrent层需要多少次顺序操作？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "O(n)",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:5:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 5,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.\n<table><tr><td>Layer Type</td><td>Complexity per Layer</td><td>Sequential Operations</td><td>Maximum Path Length</td></tr><tr><td>Self-Attention</td><td> $\\overline { { O ( n ^ { 2 } \\cdot d ) } }$ </td><td>O(1)</td><td>O(1)</td></tr><tr><td>Recurrent</td><td> $O ( n \\cdot d ^ { 2 } )$ </td><td>O(n)</td><td> $O ( n )$ </td></tr><tr><td>Convolutional</td><td> $O ( \\vec { k } \\cdot \\boldsymbol { n } \\cdot \\dot { d ^ { 2 } } )$ </td><td>O(1)</td><td> $O ( l o g _ { k } \\dot { ( } n ) )$ </td></tr><tr><td>Self-Attention (restricted)</td><td> $O ( r \\cdot n \\cdot d )$ </td><td>O(1)</td><td> $O ( n / r )$ </td></tr></table>",
+          "text_sha256": "cb5ecd00bbc033e21db1b9b67bd9d25111e4a84f44ed9423c25f58629d9a97d2"
+        }
+      ]
+    },
+    {
+      "id": "RQ024",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "en",
+      "question": "How many sequential operations does a recurrent layer need in scanned Table1?",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "O(n)",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:5:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 5,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 1: Maximum path lengths, per-layer complexity and minimum number of sequential operations for different layer types. n is the sequence length, d is the representation dimension, k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention.\n<table><tr><td>Layer Type</td><td>Complexity per Layer</td><td>Sequential Operations</td><td>Maximum Path Length</td></tr><tr><td>Self-Attention</td><td> $\\overline { { O ( n ^ { 2 } \\cdot d ) } }$ </td><td>O(1)</td><td>O(1)</td></tr><tr><td>Recurrent</td><td> $O ( n \\cdot d ^ { 2 } )$ </td><td>O(n)</td><td> $O ( n )$ </td></tr><tr><td>Convolutional</td><td> $O ( \\vec { k } \\cdot \\boldsymbol { n } \\cdot \\dot { d ^ { 2 } } )$ </td><td>O(1)</td><td> $O ( l o g _ { k } \\dot { ( } n ) )$ </td></tr><tr><td>Self-Attention (restricted)</td><td> $O ( r \\cdot n \\cdot d )$ </td><td>O(1)</td><td> $O ( n / r )$ </td></tr></table>",
+          "text_sha256": "cb5ecd00bbc033e21db1b9b67bd9d25111e4a84f44ed9423c25f58629d9a97d2"
+        }
+      ]
+    },
+    {
+      "id": "RQ025",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "zh",
+      "question": "扫描版表2中base模型的英德、英法BLEU各是多少？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "27.3;38.1",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ026",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "en",
+      "question": "What EN-DE and EN-FR BLEU scores does base have in scanned Table2?",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "27.3;38.1",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ027",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "zh",
+      "question": "扫描版表2中big模型的英德、英法BLEU各是多少？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "28.4;41.0",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ028",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "en",
+      "question": "What EN-DE and EN-FR BLEU scores does big have in scanned Table2?",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "28.4;41.0",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ029",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "zh",
+      "question": "扫描版表2用什么单位衡量训练成本？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "FLOPs;not currency",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ030",
+      "group": "core",
+      "category": "structured_scan_table",
+      "language": "en",
+      "question": "What unit measures training cost in scanned Table2?",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "FLOPs;not currency",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ031",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材习题8.9要求在哪三个维度采样标准正态分布？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "25;100;500",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:150:6",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 150,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "Problem 8.9 Figure 8.13c shows the distribution of distances of samples of a standard normal distribution as the dimension increases. Empirically verify this finding by sampling from the standard normal distributions in 25, 100, and 500 dimensions and plotting a histogram of the distances from the center. What closed-form probability distribution describes these distances?",
+          "text_sha256": "d73bdf076db9804f901d70de4f9237616b058872c3fde9f5316990aa4571e43c"
+        }
+      ]
+    },
+    {
+      "id": "RQ032",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材比较的VGG和AlexNet分别有多少层？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "VGG19;AlexNet8",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:200:4",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 200,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "In principle, we can add as many layers as we want, and in the previous chapter, we saw that adding more layers to a convolutional network does improve performance; the VGG network (figure 10.17), which has nineteen layers, outperforms AlexNet (figure 10.16), which has eight layers. However, image classification performance decreases again as further layers are added (figure 11.2). This is surprising since models generally perform better as more capacity is added (figure 8.10). Indeed, the decrease is present for both the training set and the test set, which implies that the problem is training deeper networks rather than the inability of deeper networks to generalize. This phenomenon is not completely understood. One conjecture is that right after initialization, the loss gradients change unpredictably when we modify parameters in early network layers. With appropriate initialization of the weights (see section 7.5), the gradient of the loss with respect to these parameters will be reasonable (i.e., no exploding or vanishing gradients). However, the derivative assumes an infinitesimal change in the",
+          "text_sha256": "78ee9d99b664f4f83164c3c646b28beb945a38ea399f46435588ddddfbcfea0a"
+        }
+      ]
+    },
+    {
+      "id": "RQ033",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材为何把更深网络性能下降归因于训练困难而非泛化失败？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "Training and test performance both decrease",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:200:4",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 200,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "In principle, we can add as many layers as we want, and in the previous chapter, we saw that adding more layers to a convolutional network does improve performance; the VGG network (figure 10.17), which has nineteen layers, outperforms AlexNet (figure 10.16), which has eight layers. However, image classification performance decreases again as further layers are added (figure 11.2). This is surprising since models generally perform better as more capacity is added (figure 8.10). Indeed, the decrease is present for both the training set and the test set, which implies that the problem is training deeper networks rather than the inability of deeper networks to generalize. This phenomenon is not completely understood. One conjecture is that right after initialization, the loss gradients change unpredictably when we modify parameters in early network layers. With appropriate initialization of the weights (see section 7.5), the gradient of the loss with respect to these parameters will be reasonable (i.e., no exploding or vanishing gradients). However, the derivative assumes an infinitesimal change in the",
+          "text_sha256": "78ee9d99b664f4f83164c3c646b28beb945a38ea399f46435588ddddfbcfea0a"
+        }
+      ]
+    },
+    {
+      "id": "RQ034",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材归纳哪三类方法改善Transformer长序列复杂度？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "Smaller attention matrix;sparse attention;more efficient mechanism",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:250:1",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 250,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "Extending transformers to longer sequences: The complexity of the self-attention mech- anism increases quadratically with the sequence length. Some tasks like summarization or question answering may require long inputs, so this quadratic dependence limits performance. Three lines of work have attempted to address this problem. The first decreases the size of the attention matrix, the second makes the attention sparse, and the third modifies the attention mechanism to make it more eﬀicient. To decrease the size of the attention matrix, Liu et al. (2018b) introduced memory-compressed attention. This applies strided convolution to the keys and values, which reduces the number of positions in a very similar way to downsampling in a convolutional network. Attention is now applied between weighted combinations of neighboring positions, where the weights are learned. Along similar lines, Wang et al. (2020b) observed that the quantities in the attention mechanism are often low rank in practice and developed the LinFormer, which projects the keys and values onto a smaller subspace before computing the attention matrix. To make attention sparse, Liu et al. (2018b) proposed local attention, in which neighboring blocks of tokens only attend to one another. This creates a block diagonal interaction matrix (see figure 12.15). Information cannot pass from block to block, so such layers are typically alternated with full attention. Along the same lines, GPT3 (Brown et al., 2020) uses a convolutional interaction matrix and alternates this with full attention. Child et al. (2019) and Beltagy et al.",
+          "text_sha256": "fb67e0871e3238476f0ea1d1b2ad84fc7036b6fb77f668617578f80776833879"
+        }
+      ]
+    },
+    {
+      "id": "RQ035",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材中的LinFormer怎样减小注意力规模？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "Low rank;project keys and values to a smaller subspace",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:250:1",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 250,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "Extending transformers to longer sequences: The complexity of the self-attention mech- anism increases quadratically with the sequence length. Some tasks like summarization or question answering may require long inputs, so this quadratic dependence limits performance. Three lines of work have attempted to address this problem. The first decreases the size of the attention matrix, the second makes the attention sparse, and the third modifies the attention mechanism to make it more eﬀicient. To decrease the size of the attention matrix, Liu et al. (2018b) introduced memory-compressed attention. This applies strided convolution to the keys and values, which reduces the number of positions in a very similar way to downsampling in a convolutional network. Attention is now applied between weighted combinations of neighboring positions, where the weights are learned. Along similar lines, Wang et al. (2020b) observed that the quantities in the attention mechanism are often low rank in practice and developed the LinFormer, which projects the keys and values onto a smaller subspace before computing the attention matrix. To make attention sparse, Liu et al. (2018b) proposed local attention, in which neighboring blocks of tokens only attend to one another. This creates a block diagonal interaction matrix (see figure 12.15). Information cannot pass from block to block, so such layers are typically alternated with full attention. Along the same lines, GPT3 (Brown et al., 2020) uses a convolutional interaction matrix and alternates this with full attention. Child et al. (2019) and Beltagy et al.",
+          "text_sha256": "fb67e0871e3238476f0ea1d1b2ad84fc7036b6fb77f668617578f80776833879"
+        }
+      ]
+    },
+    {
+      "id": "RQ036",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材的progressive growing首先生成多大尺寸图像？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "4×4",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:300:3",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 300,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "The Wasserstein formulation makes GAN training more stable. However, further ma- chinery is needed to generate high-quality images. We now review progressive growing, minibatch discrimination, and truncation, which all improve output quality. In progressive growing (figure 15.9), we first train a GAN that synthesizes 4×4 images using an architecture similar to the DCGAN. Then we add subsequent layers to the generator, which upsample the representation and perform further processing to create",
+          "text_sha256": "309b9843cdb10ee5a0f37bdd32036d33a0ad44a740feade44a0cf35019b2069b"
+        }
+      ]
+    },
+    {
+      "id": "RQ037",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材的DQN将ATARI图像重塑为多大尺寸？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "84×84",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:400:3",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 400,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "Deep networks are ideally suited to making predictions from a high-dimensional state space, so they are a natural choice for the model in fitted Q-learning. In principle, they could take both state and action as input and predict the values, but in practice, the network takes only the state and simultaneously predicts the values for each action. The Deep Q-Network was a breakthrough reinforcement learning architecture that exploited deep networks to learn to play ATARI 2600 games. The observed data com- prises 220×160 images with 128 possible colors at each pixel (figure 19.13). This was reshaped to size 84×84, and only the brightness value was retained. Unfortunately, the full state is not observable from a single frame. For example, the velocity of game ob- jects is unknown. To help resolve this problem, the network ingests the last four frames at each time step to form s t . It maps these frames through three convolutional layers followed by a fully connected layer to predict the value of every action (figure 19.14). Several modifications were made to the standard training procedure. First, the re- wards (which were driven by the score in the game) were clipped to −1 for a negative change and +1 for a positive change. This compensates for the wide variation in scores between different games and allows the same learning rate to be used. Second, the system exploited experience replay. Rather than update the network based on the tu- ple < s t , a t , r t+1 , s t+1 > at the current step or with a batch of the last I tuples, all recent",
+          "text_sha256": "e1bbddd167a1ed210190ab5c756ec57c371edb7a61067051c568c7017b6a1025"
+        }
+      ]
+    },
+    {
+      "id": "RQ038",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材的DQN每步输入多少帧、使用多少卷积层？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "Last4frames;3convolutional layers",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:400:3",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 400,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "Deep networks are ideally suited to making predictions from a high-dimensional state space, so they are a natural choice for the model in fitted Q-learning. In principle, they could take both state and action as input and predict the values, but in practice, the network takes only the state and simultaneously predicts the values for each action. The Deep Q-Network was a breakthrough reinforcement learning architecture that exploited deep networks to learn to play ATARI 2600 games. The observed data com- prises 220×160 images with 128 possible colors at each pixel (figure 19.13). This was reshaped to size 84×84, and only the brightness value was retained. Unfortunately, the full state is not observable from a single frame. For example, the velocity of game ob- jects is unknown. To help resolve this problem, the network ingests the last four frames at each time step to form s t . It maps these frames through three convolutional layers followed by a fully connected layer to predict the value of every action (figure 19.14). Several modifications were made to the standard training procedure. First, the re- wards (which were driven by the score in the game) were clipped to −1 for a negative change and +1 for a positive change. This compensates for the wide variation in scores between different games and allows the same learning rate to be used. Second, the system exploited experience replay. Rather than update the network based on the tu- ple < s t , a t , r t+1 , s t+1 > at the current step or with a batch of the last I tuples, all recent",
+          "text_sha256": "e1bbddd167a1ed210190ab5c756ec57c371edb7a61067051c568c7017b6a1025"
+        }
+      ]
+    },
+    {
+      "id": "RQ039",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材末页索引将reparameterization trick指向哪些印刷页？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "339;347;printed page labels",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:540:1",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 540,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "conditional, 345 zero-padding, 164 decoder, 338 disentanglement, 342 encoder, 338 estimating probability, 340 factor VAE, 347 generation, 341 hierarchical model for posterior, 345 holes in latent space, 346 information preference problem, 346 modifying likelihood term, 345 normalizing flows, 345 PixelVAE, 345 posterior collapse, 346 relation to EM algorithm, 347 relation to other models, 345 reparameterization trick, 339, 347 resynthesis, 342 total correlation VAE, 346 VC dimension, 134 vector, 437, 443 dot product, 444 norm, 443 VEEGAN, 301 VGG, 176 VGG loss, 293 vision transformer DaViT, 232 ImageGPT, 229 multi-scale, 230 SWin, 232 ViT, 229 visualizing activations:, 184 ViT, 229 von Mises distribution, 74",
+          "text_sha256": "723d386e5ccc0e7c30d0486cc45dba43123977965802326a5cee31ffaa762b81"
+        }
+      ]
+    },
+    {
+      "id": "RQ040",
+      "group": "core",
+      "category": "long_document",
+      "language": "zh",
+      "question": "教材末页索引将VGG指向哪一印刷页？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "176;printed page label",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:540:1",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 540,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "conditional, 345 zero-padding, 164 decoder, 338 disentanglement, 342 encoder, 338 estimating probability, 340 factor VAE, 347 generation, 341 hierarchical model for posterior, 345 holes in latent space, 346 information preference problem, 346 modifying likelihood term, 345 normalizing flows, 345 PixelVAE, 345 posterior collapse, 346 relation to EM algorithm, 347 relation to other models, 345 reparameterization trick, 339, 347 resynthesis, 342 total correlation VAE, 346 VC dimension, 134 vector, 437, 443 dot product, 444 norm, 443 VEEGAN, 301 VGG, 176 VGG loss, 293 vision transformer DaViT, 232 ImageGPT, 229 multi-scale, 230 SWin, 232 ViT, 229 visualizing activations:, 184 ViT, 229 von Mises distribution, 74",
+          "text_sha256": "723d386e5ccc0e7c30d0486cc45dba43123977965802326a5cee31ffaa762b81"
+        }
+      ]
+    },
+    {
+      "id": "RQ041",
+      "group": "core",
+      "category": "false_premise",
+      "language": "zh",
+      "question": "Transformer v1作者为何使用80张GPU？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "False premise:8 GPUs",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+          "version_id": "e492d5c15f4444c08e9c335618e32533",
+          "page_index": 6,
+          "parse_id": "e492d5c15f4444c08e9c335618e32533",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+          "text_sha256": "6aba87a2937e941a0239fb5901ddbe09fbaf8a8e34f079b971be2be3fd188609"
+        }
+      ]
+    },
+    {
+      "id": "RQ042",
+      "group": "core",
+      "category": "false_premise",
+      "language": "zh",
+      "question": "Transformer v7的base为什么训练100万步？",
+      "version_ids": [
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "False premise:100000 steps",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+          "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "page_index": 6,
+          "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+          "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+          "text_sha256": "432fef0b24ee043a1eafc168eb903af77642737aafd97d26b621045c0ac01a59"
+        }
+      ]
+    },
+    {
+      "id": "RQ043",
+      "group": "core",
+      "category": "false_premise",
+      "language": "zh",
+      "question": "扫描表2的big英德BLEU为什么是284？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "False premise:28.4",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ044",
+      "group": "core",
+      "category": "false_premise",
+      "language": "zh",
+      "question": "教材为何说增加层数总能提升表现？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "False premise:deeper models can decrease training/test performance",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:200:4",
+          "version_id": "4452fbc0c75443578fb2a2987629c19c",
+          "page_index": 200,
+          "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+          "quote": "In principle, we can add as many layers as we want, and in the previous chapter, we saw that adding more layers to a convolutional network does improve performance; the VGG network (figure 10.17), which has nineteen layers, outperforms AlexNet (figure 10.16), which has eight layers. However, image classification performance decreases again as further layers are added (figure 11.2). This is surprising since models generally perform better as more capacity is added (figure 8.10). Indeed, the decrease is present for both the training set and the test set, which implies that the problem is training deeper networks rather than the inability of deeper networks to generalize. This phenomenon is not completely understood. One conjecture is that right after initialization, the loss gradients change unpredictably when we modify parameters in early network layers. With appropriate initialization of the weights (see section 7.5), the gradient of the loss with respect to these parameters will be reasonable (i.e., no exploding or vanishing gradients). However, the derivative assumes an infinitesimal change in the",
+          "text_sha256": "78ee9d99b664f4f83164c3c646b28beb945a38ea399f46435588ddddfbcfea0a"
+        }
+      ]
+    },
+    {
+      "id": "RQ045",
+      "group": "core",
+      "category": "false_premise",
+      "language": "zh",
+      "question": "扫描表2报告了多少美元训练费用？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "FLOPs only;currency not reported",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "926da65067b645fb838c9207064f1f24:7:0",
+          "version_id": "82451796b5294493b9e58f696fbb8adc",
+          "page_index": 7,
+          "parse_id": "926da65067b645fb838c9207064f1f24",
+          "quote": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost.\n<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">BLEU</td><td colspan=\"2\">Training Cost (FLOPs)</td></tr><tr><td>EN-DE</td><td>EN-FR</td><td>EN-DE</td><td>EN-FR</td></tr><tr><td>ByteNet16</td><td>23.75</td><td></td><td></td><td></td></tr><tr><td>[35] Deep-Att + PosUnk [</td><td></td><td>39.2</td><td></td><td> $1 . 0 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>GNMT + RL 34</td><td>24.6</td><td>39.92</td><td> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 4 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>ConvS2S 9</td><td>25.16</td><td>40.46</td><td> $9 . 6 \\cdot 1 0 ^ { 1 8 }$ </td><td> $1 . 5 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>MoE [29</td><td>26.03</td><td>40.56</td><td> $2 . 0 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 0 }$ </td></tr><tr><td>Deep-Att + PosUnk Ensemble [35]</td><td></td><td>40.4</td><td></td><td> $\\overline { { 8 . 0 \\cdot 1 0 ^ { 2 0 } } }$ </td></tr><tr><td>Ensemble [34]  $\\mathrm { G N M T } + \\mathrm { R L }$ </td><td>26.30</td><td>41.16</td><td> $1 . 8 \\cdot 1 0 ^ { 2 0 }$ </td><td> $1 . 1 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>ConvS2S Ensemble 9</td><td>26.36</td><td>41.29</td><td> $7 . 7 \\cdot 1 0 ^ { 1 9 }$ </td><td> $1 . 2 \\cdot 1 0 ^ { 2 1 }$ </td></tr><tr><td>Transformer (base model)</td><td>27.3</td><td>38.1</td><td colspan=\"2\"> $\\mathbf { 3 . 3 \\cdot 1 0 ^ { 1 8 } }$ </td></tr><tr><td>Transformer (big)</td><td>28.4</td><td>41.0</td><td colspan=\"2\"> $2 . 3 \\cdot 1 0 ^ { 1 9 }$ </td></tr></table>",
+          "text_sha256": "61485c13d063e5ebbe905540427b01712059df9bacf2750860b38bc92a3f8343"
+        }
+      ]
+    },
+    {
+      "id": "RQ046",
+      "group": "core",
+      "category": "unanswerable",
+      "language": "zh",
+      "question": "Transformer第六作者的血型是什么？",
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533"
+      ],
+      "expected_answer": "Insufficient evidence;do not invent",
+      "answerable": false,
+      "gold": []
+    },
+    {
+      "id": "RQ047",
+      "group": "core",
+      "category": "unanswerable",
+      "language": "zh",
+      "question": "v7作者购买P100的发票单价是多少？",
+      "version_ids": [
+        "dceae303ec2f41cbbc4d88f047db9424"
+      ],
+      "expected_answer": "Insufficient evidence;do not invent",
+      "answerable": false,
+      "gold": []
+    },
+    {
+      "id": "RQ048",
+      "group": "core",
+      "category": "unanswerable",
+      "language": "zh",
+      "question": "扫描论文作者的个人手机号是什么？",
+      "version_ids": [
+        "82451796b5294493b9e58f696fbb8adc"
+      ],
+      "expected_answer": "Insufficient evidence;do not invent",
+      "answerable": false,
+      "gold": []
+    },
+    {
+      "id": "RQ049",
+      "group": "core",
+      "category": "unanswerable",
+      "language": "zh",
+      "question": "教材作者的私人住宅地址是什么？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "Insufficient evidence;do not invent",
+      "answerable": false,
+      "gold": []
+    },
+    {
+      "id": "RQ050",
+      "group": "core",
+      "category": "unanswerable",
+      "language": "zh",
+      "question": "教材报告今天购买RTX3090的实时价格是多少？",
+      "version_ids": [
+        "4452fbc0c75443578fb2a2987629c19c"
+      ],
+      "expected_answer": "Insufficient evidence;do not invent",
+      "answerable": false,
+      "gold": []
+    },
+    {
+      "id": "RQ051",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "BERT 预训练随机选多少比例的位置进行预测？",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "15%",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:3:5",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 3,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+          "text_sha256": "9e94377c86ebb0952f9c8beb9f8adac22e12df0fe7a5a7756bdf572d9652d8ba"
+        }
+      ]
+    },
+    {
+      "id": "RQ052",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "What percentage of token positions is selected for prediction in BERT?",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "15%",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:3:5",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 3,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+          "text_sha256": "9e94377c86ebb0952f9c8beb9f8adac22e12df0fe7a5a7756bdf572d9652d8ba"
+        }
+      ]
+    },
+    {
+      "id": "RQ053",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "BERT 被选中的 token 如何按三个概率替换？",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "80% MASK,10% random,10% unchanged",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:3:5",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 3,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+          "text_sha256": "9e94377c86ebb0952f9c8beb9f8adac22e12df0fe7a5a7756bdf572d9652d8ba"
+        }
+      ]
+    },
+    {
+      "id": "RQ054",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "How are selected BERT tokens replaced in the three probability branches?",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "80% MASK,10% random,10% unchanged",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:3:5",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 3,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+          "text_sha256": "9e94377c86ebb0952f9c8beb9f8adac22e12df0fe7a5a7756bdf572d9652d8ba"
+        }
+      ]
+    },
+    {
+      "id": "RQ055",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "BERT base 的层数和隐藏维度是多少？",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "12 layers,768 hidden",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:2:24",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 2,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "Model Architecture BERT’s model architec- ture is a multi-layer bidirectional Transformer en- coder based on the original implementation de- scribed in Vaswani et al. (2017) and released in the tensor2tensor library. 1 Because the use of Transformers has become common and our im- plementation is almost identical to the original, we will omit an exhaustive background descrip- tion of the model architecture and refer readers to Vaswani et al. (2017) as well as excellent guides such as “The Annotated Transformer.” 2 In this work, we denote the number of layers (i.e., Transformer blocks) as L, the hidden size as H, and the number of self-attention heads as A. 3 We primarily report results on two model sizes: BERT BASE (L=12, H=768, A=12, Total Param- eters=110M) and BERT LARGE (L=24, H=1024, A=16, Total Parameters=340M). BERT BASE was chosen to have the same model size as OpenAI GPT for comparison purposes. Critically, however, the BERT Transformer uses bidirectional self-attention, while the GPT Trans- former uses constrained self-attention where every token can only attend to context to its left. 4",
+          "text_sha256": "118208b9c20a41b83d1eb9333400aa4f43f9bcd7e4670fd4d9271d320458c0fe"
+        }
+      ]
+    },
+    {
+      "id": "RQ056",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "What are the layer count and hidden size of BERT base?",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "12 layers,768 hidden",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:2:24",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 2,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "Model Architecture BERT’s model architec- ture is a multi-layer bidirectional Transformer en- coder based on the original implementation de- scribed in Vaswani et al. (2017) and released in the tensor2tensor library. 1 Because the use of Transformers has become common and our im- plementation is almost identical to the original, we will omit an exhaustive background descrip- tion of the model architecture and refer readers to Vaswani et al. (2017) as well as excellent guides such as “The Annotated Transformer.” 2 In this work, we denote the number of layers (i.e., Transformer blocks) as L, the hidden size as H, and the number of self-attention heads as A. 3 We primarily report results on two model sizes: BERT BASE (L=12, H=768, A=12, Total Param- eters=110M) and BERT LARGE (L=24, H=1024, A=16, Total Parameters=340M). BERT BASE was chosen to have the same model size as OpenAI GPT for comparison purposes. Critically, however, the BERT Transformer uses bidirectional self-attention, while the GPT Trans- former uses constrained self-attention where every token can only attend to context to its left. 4",
+          "text_sha256": "118208b9c20a41b83d1eb9333400aa4f43f9bcd7e4670fd4d9271d320458c0fe"
+        }
+      ]
+    },
+    {
+      "id": "RQ057",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "BERT 预训练用了哪些语料及其词数？",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "BooksCorpus800M and English Wikipedia2500M words",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:4:6",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 4,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "Pre-training data The pre-training procedure largely follows the existing literature on language model pre-training. For the pre-training corpus we use the BooksCorpus (800M words) (Zhu et al., 2015) and English Wikipedia (2,500M words). For Wikipedia we extract only the text passages and ignore lists, tables, and headers. It is criti- cal to use a document-level corpus rather than a shuffled sentence-level corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to extract long contiguous sequences.",
+          "text_sha256": "2823b2c96c295518dbd6e9340fe90bcaae58520b47c49c95110f1d4704dc9586"
+        }
+      ]
+    },
+    {
+      "id": "RQ058",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "Which pretraining corpora and word counts are reported for BERT?",
+      "version_ids": [
+        "95b9e428f36144c7925682db419ded0d"
+      ],
+      "expected_answer": "BooksCorpus800M and English Wikipedia2500M words",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "95b9e428f36144c7925682db419ded0d:4:6",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "page_index": 4,
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "quote": "Pre-training data The pre-training procedure largely follows the existing literature on language model pre-training. For the pre-training corpus we use the BooksCorpus (800M words) (Zhu et al., 2015) and English Wikipedia (2,500M words). For Wikipedia we extract only the text passages and ignore lists, tables, and headers. It is criti- cal to use a document-level corpus rather than a shuffled sentence-level corpus such as the Billion Word Benchmark (Chelba et al., 2013) in order to extract long contiguous sequences.",
+          "text_sha256": "2823b2c96c295518dbd6e9340fe90bcaae58520b47c49c95110f1d4704dc9586"
+        }
+      ]
+    },
+    {
+      "id": "RQ059",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "GPT-3 最大模型有多少参数？",
+      "version_ids": [
+        "dae6c78ff75f412a8969110847fa06ed"
+      ],
+      "expected_answer": "175 billion",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:0:10",
+          "version_id": "dae6c78ff75f412a8969110847fa06ed",
+          "page_index": 0,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "quote": "Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task. While typically task-agnostic in architecture, this method still requires task-specific fine-tuning datasets of thousands or tens of thousands of examples. By contrast, humans can generally perform a new language task from only a few examples or from simple instructions – something which current NLP systems still largely struggle to do. Here we show that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes even reaching competitiveness with prior state-of-the-art fine- tuning approaches. Specifically, we train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model. GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks, as well as several tasks that require on-the-fly reasoning or domain adaptation, such as unscrambling words, using a novel word in a sentence, or performing 3-digit arithmetic. At the same time, we also identify some datasets where GPT-3’s few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora. Finally,",
+          "text_sha256": "68de7d58568fefa08db683b502880b0c40b7df2c9c25a2ee6ebc5bea11a6ae5f"
+        }
+      ]
+    },
+    {
+      "id": "RQ060",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "How many parameters does the largest GPT-3 model have?",
+      "version_ids": [
+        "dae6c78ff75f412a8969110847fa06ed"
+      ],
+      "expected_answer": "175 billion",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:0:10",
+          "version_id": "dae6c78ff75f412a8969110847fa06ed",
+          "page_index": 0,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "quote": "Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task. While typically task-agnostic in architecture, this method still requires task-specific fine-tuning datasets of thousands or tens of thousands of examples. By contrast, humans can generally perform a new language task from only a few examples or from simple instructions – something which current NLP systems still largely struggle to do. Here we show that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes even reaching competitiveness with prior state-of-the-art fine- tuning approaches. Specifically, we train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model. GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks, as well as several tasks that require on-the-fly reasoning or domain adaptation, such as unscrambling words, using a novel word in a sentence, or performing 3-digit arithmetic. At the same time, we also identify some datasets where GPT-3’s few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora. Finally,",
+          "text_sha256": "68de7d58568fefa08db683b502880b0c40b7df2c9c25a2ee6ebc5bea11a6ae5f"
+        }
+      ]
+    },
+    {
+      "id": "RQ061",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "GPT-3 训练使用了多少 token？",
+      "version_ids": [
+        "dae6c78ff75f412a8969110847fa06ed"
+      ],
+      "expected_answer": "300 billion tokens",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+          "version_id": "dae6c78ff75f412a8969110847fa06ed",
+          "page_index": 7,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "quote": "Table 2.1: Sizes, architectures, and learning hyper-parameters (batch size in tokens and learning rate) of the models which we trained. All models were trained for a total of 300 billion tokens.",
+          "text_sha256": "cb060fc43e851d3c4589d430441e6e4c73874c7bf3b6de5b1c61e3744e57d801"
+        }
+      ]
+    },
+    {
+      "id": "RQ062",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "How many training tokens are reported for GPT-3?",
+      "version_ids": [
+        "dae6c78ff75f412a8969110847fa06ed"
+      ],
+      "expected_answer": "300 billion tokens",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+          "version_id": "dae6c78ff75f412a8969110847fa06ed",
+          "page_index": 7,
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "quote": "Table 2.1: Sizes, architectures, and learning hyper-parameters (batch size in tokens and learning rate) of the models which we trained. All models were trained for a total of 300 billion tokens.",
+          "text_sha256": "cb060fc43e851d3c4589d430441e6e4c73874c7bf3b6de5b1c61e3744e57d801"
+        }
+      ]
+    },
+    {
+      "id": "RQ063",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "CLIP 的图文配对训练集规模是多少？",
+      "version_ids": [
+        "da462b7a23bf4f91b00e1d79746166e9"
+      ],
+      "expected_answer": "400 million",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:0:3",
+          "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "page_index": 0,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "quote": "State-of-the-art computer vision systems are trained to predict a fixed set of predetermined object categories. This restricted form of super- vision limits their generality and usability since additional labeled data is needed to specify any other visual concept. Learning directly from raw text about images is a promising alternative which leverages a much broader source of supervision. We demonstrate that the simple pre-training task of predicting which caption goes with which im- age is an efficient and scalable way to learn SOTA image representations from scratch on a dataset of 400 million (image, text) pairs collected from the internet. After pre-training, natural language is used to reference learned visual concepts (or describe new ones) enabling zero-shot transfer of the model to downstream tasks. We study the performance of this approach by benchmark- ing on over 30 different existing computer vi- sion datasets, spanning tasks such as OCR, ac- tion recognition in videos, geo-localization, and many types of fine-grained object classification. The model transfers non-trivially to most tasks and is often competitive with a fully supervised baseline without the need for any dataset spe- cific training. For instance, we match the ac- curacy of the original ResNet-50 on ImageNet zero-shot without needing to use any of the 1.28 million training examples it was trained on. We release our code and pre-trained model weights at https://github.com/OpenAI/CLIP.",
+          "text_sha256": "50130d90e5c6360a26ee9736824cde3681f34766525a98776ffa462456240ff2"
+        }
+      ]
+    },
+    {
+      "id": "RQ064",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "How many image-text pairs are used to train CLIP?",
+      "version_ids": [
+        "da462b7a23bf4f91b00e1d79746166e9"
+      ],
+      "expected_answer": "400 million",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:0:3",
+          "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "page_index": 0,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "quote": "State-of-the-art computer vision systems are trained to predict a fixed set of predetermined object categories. This restricted form of super- vision limits their generality and usability since additional labeled data is needed to specify any other visual concept. Learning directly from raw text about images is a promising alternative which leverages a much broader source of supervision. We demonstrate that the simple pre-training task of predicting which caption goes with which im- age is an efficient and scalable way to learn SOTA image representations from scratch on a dataset of 400 million (image, text) pairs collected from the internet. After pre-training, natural language is used to reference learned visual concepts (or describe new ones) enabling zero-shot transfer of the model to downstream tasks. We study the performance of this approach by benchmark- ing on over 30 different existing computer vi- sion datasets, spanning tasks such as OCR, ac- tion recognition in videos, geo-localization, and many types of fine-grained object classification. The model transfers non-trivially to most tasks and is often competitive with a fully supervised baseline without the need for any dataset spe- cific training. For instance, we match the ac- curacy of the original ResNet-50 on ImageNet zero-shot without needing to use any of the 1.28 million training examples it was trained on. We release our code and pre-trained model weights at https://github.com/OpenAI/CLIP.",
+          "text_sha256": "50130d90e5c6360a26ee9736824cde3681f34766525a98776ffa462456240ff2"
+        }
+      ]
+    },
+    {
+      "id": "RQ065",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "CLIP 对比学习的 minibatch 大小是多少？",
+      "version_ids": [
+        "da462b7a23bf4f91b00e1d79746166e9"
+      ],
+      "expected_answer": "32768",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:4:12",
+          "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "page_index": 4,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "quote": "We train a series of 5 ResNets and 3 Vision Transformers. For the ResNets we train a ResNet-50, a ResNet-101, and then 3 more which follow EfficientNet-style model scaling and use approximately 4x, 16x, and 64x the compute of a ResNet-50. They are denoted as RN50x4, RN50x16, and RN50x64 respectively. For the Vision Transformers we train a ViT-B/32, a ViT-B/16, and a ViT-L/14. We train all models for 32 epochs. We use the Adam optimizer (Kingma & Ba, 2014) with decoupled weight decay regularization (Loshchilov & Hutter, 2017) applied to all weights that are not gains or biases, and decay the learning rate using a cosine schedule (Loshchilov & Hutter, 2016). Initial hyper- parameters were set using a combination of grid searches, random search, and manual tuning on the baseline ResNet- 50 model when trained for 1 epoch. Hyper-parameters were then adapted heuristically for larger models due to compu- tational constraints. The learnable temperature parameter τ was initialized to the equivalent of 0.07 from (Wu et al., 2018) and clipped to prevent scaling the logits by more than 100 which we found necessary to prevent training in- stability. We use a very large minibatch size of 32,768. Mixed-precision (Micikevicius et al., 2017) was used to ac- celerate training and save memory. To save additional mem- ory, gradient checkpointing (Griewank & Walther, 2000; Chen et al., 2016), half-precision Adam statistics (Dhariwal et al., 2020), and half-precision stochastically rounded text encoder weights were used. The calculation of embedding",
+          "text_sha256": "85141f0320f4d464c4e8f70b28f5119e51cb933b61c5c2bfe3a7b3c3714702f1"
+        }
+      ]
+    },
+    {
+      "id": "RQ066",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "What minibatch size does CLIP contrastive training use?",
+      "version_ids": [
+        "da462b7a23bf4f91b00e1d79746166e9"
+      ],
+      "expected_answer": "32768",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "da462b7a23bf4f91b00e1d79746166e9:4:12",
+          "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "page_index": 4,
+          "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+          "quote": "We train a series of 5 ResNets and 3 Vision Transformers. For the ResNets we train a ResNet-50, a ResNet-101, and then 3 more which follow EfficientNet-style model scaling and use approximately 4x, 16x, and 64x the compute of a ResNet-50. They are denoted as RN50x4, RN50x16, and RN50x64 respectively. For the Vision Transformers we train a ViT-B/32, a ViT-B/16, and a ViT-L/14. We train all models for 32 epochs. We use the Adam optimizer (Kingma & Ba, 2014) with decoupled weight decay regularization (Loshchilov & Hutter, 2017) applied to all weights that are not gains or biases, and decay the learning rate using a cosine schedule (Loshchilov & Hutter, 2016). Initial hyper- parameters were set using a combination of grid searches, random search, and manual tuning on the baseline ResNet- 50 model when trained for 1 epoch. Hyper-parameters were then adapted heuristically for larger models due to compu- tational constraints. The learnable temperature parameter τ was initialized to the equivalent of 0.07 from (Wu et al., 2018) and clipped to prevent scaling the logits by more than 100 which we found necessary to prevent training in- stability. We use a very large minibatch size of 32,768. Mixed-precision (Micikevicius et al., 2017) was used to ac- celerate training and save memory. To save additional mem- ory, gradient checkpointing (Griewank & Walther, 2000; Chen et al., 2016), half-precision Adam statistics (Dhariwal et al., 2020), and half-precision stochastically rounded text encoder weights were used. The calculation of embedding",
+          "text_sha256": "85141f0320f4d464c4e8f70b28f5119e51cb933b61c5c2bfe3a7b3c3714702f1"
+        }
+      ]
+    },
+    {
+      "id": "RQ067",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "Layer Normalization 在什么范围计算归一化统计量？",
+      "version_ids": [
+        "b6f5051290164b97a4d8cef5437b08ee"
+      ],
+      "expected_answer": "across all summed inputs in a layer for one training case",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "b6f5051290164b97a4d8cef5437b08ee:0:3",
+          "version_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "page_index": 0,
+          "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "quote": "Training state-of-the-art, deep neural networks is computationally expensive. One way to reduce the training time is to normalize the activities of the neurons. A recently introduced technique called batch normalization uses the distribution of the summed input to a neuron over a mini-batch of training cases to compute a mean and variance which are then used to normalize the summed input to that neuron on each training case. This significantly reduces the training time in feed- forward neural networks. However, the effect of batch normalization is dependent on the mini-batch size and it is not obvious how to apply it to recurrent neural net- works. In this paper, we transpose batch normalization into layer normalization by computing the mean and variance used for normalization from all of the summed inputs to the neurons in a layer on a single training case. Like batch normalization, we also give each neuron its own adaptive bias and gain which are applied after the normalization but before the non-linearity. Unlike batch normalization, layer normalization performs exactly the same computation at training and test times. It is also straightforward to apply to recurrent neural networks by computing the normalization statistics separately at each time step. Layer normalization is very effective at stabilizing the hidden state dynamics in recurrent networks. Empiri- cally, we show that layer normalization can substantially reduce the training time compared with previously published techniques.",
+          "text_sha256": "763cf59e1c4679c8748d222d8fb2784a940fc02668c2c66851b5e80caf270389"
+        }
+      ]
+    },
+    {
+      "id": "RQ068",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "Over what scope does Layer Normalization compute its normalization statistics?",
+      "version_ids": [
+        "b6f5051290164b97a4d8cef5437b08ee"
+      ],
+      "expected_answer": "across all summed inputs in a layer for one training case",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "b6f5051290164b97a4d8cef5437b08ee:0:3",
+          "version_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "page_index": 0,
+          "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+          "quote": "Training state-of-the-art, deep neural networks is computationally expensive. One way to reduce the training time is to normalize the activities of the neurons. A recently introduced technique called batch normalization uses the distribution of the summed input to a neuron over a mini-batch of training cases to compute a mean and variance which are then used to normalize the summed input to that neuron on each training case. This significantly reduces the training time in feed- forward neural networks. However, the effect of batch normalization is dependent on the mini-batch size and it is not obvious how to apply it to recurrent neural net- works. In this paper, we transpose batch normalization into layer normalization by computing the mean and variance used for normalization from all of the summed inputs to the neurons in a layer on a single training case. Like batch normalization, we also give each neuron its own adaptive bias and gain which are applied after the normalization but before the non-linearity. Unlike batch normalization, layer normalization performs exactly the same computation at training and test times. It is also straightforward to apply to recurrent neural networks by computing the normalization statistics separately at each time step. Layer normalization is very effective at stabilizing the hidden state dynamics in recurrent networks. Empiri- cally, we show that layer normalization can substantially reduce the training time compared with previously published techniques.",
+          "text_sha256": "763cf59e1c4679c8748d222d8fb2784a940fc02668c2c66851b5e80caf270389"
+        }
+      ]
+    },
+    {
+      "id": "RQ069",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "PPO 相对标准策略梯度允许怎样的 minibatch 更新？",
+      "version_ids": [
+        "12c74a3fa17f4e5a8435574d38e5c9f4"
+      ],
+      "expected_answer": "multiple epochs of minibatch updates",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "12c74a3fa17f4e5a8435574d38e5c9f4:0:4",
+          "version_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "page_index": 0,
+          "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "quote": "We propose a new family of policy gradient methods for reinforcement learning, which al- ternate between sampling data through interaction with the environment, and optimizing a “surrogate” objective function using stochastic gradient ascent. Whereas standard policy gra- dient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimiza- tion (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, includ- ing simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.",
+          "text_sha256": "4e95b48e82eeed8ff095bec9a494eea1cc9e751b87b4337493adac0651175a1d"
+        }
+      ]
+    },
+    {
+      "id": "RQ070",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "What kind of minibatch updates does PPO enable compared with standard policy gradients?",
+      "version_ids": [
+        "12c74a3fa17f4e5a8435574d38e5c9f4"
+      ],
+      "expected_answer": "multiple epochs of minibatch updates",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "12c74a3fa17f4e5a8435574d38e5c9f4:0:4",
+          "version_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "page_index": 0,
+          "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+          "quote": "We propose a new family of policy gradient methods for reinforcement learning, which al- ternate between sampling data through interaction with the environment, and optimizing a “surrogate” objective function using stochastic gradient ascent. Whereas standard policy gra- dient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimiza- tion (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, includ- ing simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.",
+          "text_sha256": "4e95b48e82eeed8ff095bec9a494eea1cc9e751b87b4337493adac0651175a1d"
+        }
+      ]
+    },
+    {
+      "id": "RQ071",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "FlashAttention 要减少哪两级存储之间的数据读写？",
+      "version_ids": [
+        "464f25034aa74104a944a67df1d0cca2"
+      ],
+      "expected_answer": "HBM and SRAM",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "464f25034aa74104a944a67df1d0cca2:0:9",
+          "version_id": "464f25034aa74104a944a67df1d0cca2",
+          "page_index": 0,
+          "parse_id": "464f25034aa74104a944a67df1d0cca2",
+          "quote": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO- aware—accounting for reads and writes between levels of GPU memory. We propose FlashAttention , an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention , showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3 × speedup on GPT-2 (seq. length 1K), and 2.4 × speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge",
+          "text_sha256": "799b5e98159b0241f258f05434cda1d6456aec12cc97ce0c1522d4e95a6e91f6"
+        }
+      ]
+    },
+    {
+      "id": "RQ072",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "Between which two GPU memory levels does FlashAttention reduce reads and writes?",
+      "version_ids": [
+        "464f25034aa74104a944a67df1d0cca2"
+      ],
+      "expected_answer": "HBM and SRAM",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "464f25034aa74104a944a67df1d0cca2:0:9",
+          "version_id": "464f25034aa74104a944a67df1d0cca2",
+          "page_index": 0,
+          "parse_id": "464f25034aa74104a944a67df1d0cca2",
+          "quote": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO- aware—accounting for reads and writes between levels of GPU memory. We propose FlashAttention , an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention , showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3 × speedup on GPT-2 (seq. length 1K), and 2.4 × speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge",
+          "text_sha256": "799b5e98159b0241f258f05434cda1d6456aec12cc97ce0c1522d4e95a6e91f6"
+        }
+      ]
+    },
+    {
+      "id": "RQ073",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "QLoRA 用多大显存的单卡微调多大模型？",
+      "version_ids": [
+        "93a4234ccaf6433c9f66f01322316fec"
+      ],
+      "expected_answer": "65B parameters on a48GB GPU",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "93a4234ccaf6433c9f66f01322316fec:0:5",
+          "version_id": "93a4234ccaf6433c9f66f01322316fec",
+          "page_index": 0,
+          "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+          "quote": "We present QL O RA, an efficient finetuning approach that reduces memory us- age enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QL O RA backpropagates gradi- ents through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters (LoRA). Our best model family, which we name Guanaco , outperforms all previous openly released models on the Vicuna benchmark, reaching 99.3% of the performance level of ChatGPT while only requiring 24 hours of finetuning on a single GPU. QL O RA introduces a number of innovations to save memory without sacrificing performance: (a) 4-bit NormalFloat (NF4), a new data type that is information theoretically optimal for normally distributed weights (b) Double Quantization to reduce the average memory footprint by quantizing the quantization constants, and (c) Paged Optimizers to manage memory spikes. We use QL O RA to finetune more than 1,000 models, providing a detailed analysis of instruction following and chatbot performance across 8 instruction datasets, multiple model types (LLaMA, T5), and model scales that would be infeasible to run with regular finetuning (e.g. 33B and 65B parameter models). Our results show that QLoRA finetuning on a small high-quality dataset leads to state-of-the-art results, even when using smaller models than the previous SoTA. We provide a detailed analysis of chatbot performance based on both human and GPT-4 evaluations showing that GPT-4 evaluations are a cheap and reasonable alternative to human evaluation. Fur-",
+          "text_sha256": "4b4b5a65b1665ec031540a7f46eb1f893cd81085328d51c5d7797970ee49effc"
+        }
+      ]
+    },
+    {
+      "id": "RQ074",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "What model size and single-GPU memory capacity does QLoRA finetuning demonstrate?",
+      "version_ids": [
+        "93a4234ccaf6433c9f66f01322316fec"
+      ],
+      "expected_answer": "65B parameters on a48GB GPU",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "93a4234ccaf6433c9f66f01322316fec:0:5",
+          "version_id": "93a4234ccaf6433c9f66f01322316fec",
+          "page_index": 0,
+          "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+          "quote": "We present QL O RA, an efficient finetuning approach that reduces memory us- age enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QL O RA backpropagates gradi- ents through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters (LoRA). Our best model family, which we name Guanaco , outperforms all previous openly released models on the Vicuna benchmark, reaching 99.3% of the performance level of ChatGPT while only requiring 24 hours of finetuning on a single GPU. QL O RA introduces a number of innovations to save memory without sacrificing performance: (a) 4-bit NormalFloat (NF4), a new data type that is information theoretically optimal for normally distributed weights (b) Double Quantization to reduce the average memory footprint by quantizing the quantization constants, and (c) Paged Optimizers to manage memory spikes. We use QL O RA to finetune more than 1,000 models, providing a detailed analysis of instruction following and chatbot performance across 8 instruction datasets, multiple model types (LLaMA, T5), and model scales that would be infeasible to run with regular finetuning (e.g. 33B and 65B parameter models). Our results show that QLoRA finetuning on a small high-quality dataset leads to state-of-the-art results, even when using smaller models than the previous SoTA. We provide a detailed analysis of chatbot performance based on both human and GPT-4 evaluations showing that GPT-4 evaluations are a cheap and reasonable alternative to human evaluation. Fur-",
+          "text_sha256": "4b4b5a65b1665ec031540a7f46eb1f893cd81085328d51c5d7797970ee49effc"
+        }
+      ]
+    },
+    {
+      "id": "RQ075",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "Llama 2 预训练使用多少 token？",
+      "version_ids": [
+        "d3d10ab463974076b8355839f401f7a5"
+      ],
+      "expected_answer": "2 trillion",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "d3d10ab463974076b8355839f401f7a5:4:4",
+          "version_id": "d3d10ab463974076b8355839f401f7a5",
+          "page_index": 4,
+          "parse_id": "d3d10ab463974076b8355839f401f7a5",
+          "quote": "Our training corpus includes a new mix of data from publicly available sources, which does not include data from Meta’s products or services. We made an effort to remove data from certain sites known to contain a high volume of personal information about private individuals. We trained on 2 trillion tokens of data as this provides a good performance–cost trade-off, up-sampling the most factual sources in an effort to increase knowledge and dampen hallucinations. We performed a variety of pretraining data investigations so that users can better understand the potential capabilities and limitations of our models; results can be found in Section 4.1.",
+          "text_sha256": "04d23973a745bdd91d88fbe29fab1997724eb54b91ebfe1eb099c11d69fe615f"
+        }
+      ]
+    },
+    {
+      "id": "RQ076",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "How many tokens are used to pretrain Llama 2?",
+      "version_ids": [
+        "d3d10ab463974076b8355839f401f7a5"
+      ],
+      "expected_answer": "2 trillion",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "d3d10ab463974076b8355839f401f7a5:4:4",
+          "version_id": "d3d10ab463974076b8355839f401f7a5",
+          "page_index": 4,
+          "parse_id": "d3d10ab463974076b8355839f401f7a5",
+          "quote": "Our training corpus includes a new mix of data from publicly available sources, which does not include data from Meta’s products or services. We made an effort to remove data from certain sites known to contain a high volume of personal information about private individuals. We trained on 2 trillion tokens of data as this provides a good performance–cost trade-off, up-sampling the most factual sources in an effort to increase knowledge and dampen hallucinations. We performed a variety of pretraining data investigations so that users can better understand the potential capabilities and limitations of our models; results can be found in Section 4.1.",
+          "text_sha256": "04d23973a745bdd91d88fbe29fab1997724eb54b91ebfe1eb099c11d69fe615f"
+        }
+      ]
+    },
+    {
+      "id": "RQ077",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "DeepSeek-V3 总参数与每 token 激活参数各是多少？",
+      "version_ids": [
+        "913d02c849dd4a599550df853e07a613"
+      ],
+      "expected_answer": "671B total37B activated",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "913d02c849dd4a599550df853e07a613:0:4",
+          "version_id": "913d02c849dd4a599550df853e07a613",
+          "page_index": 0,
+          "parse_id": "913d02c849dd4a599550df853e07a613",
+          "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token. To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architec- tures, which were thoroughly validated in DeepSeek-V2. Furthermore, DeepSeek-V3 pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance. We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities. Comprehensive evaluations reveal that DeepSeek-V3 outperforms other open-source models and achieves performance comparable to leading closed-source models. Despite its excellent performance, DeepSeek-V3 requires only 2.788M H800 GPU hours for its full training. In addition, its training process is remarkably stable. Throughout the entire training process, we did not experience any irrecoverable loss spikes or perform any rollbacks. The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3 .",
+          "text_sha256": "0d531150f3c4d4c47023f0bfb923134294369cb11e2a0cf0a7e32d0f3d3142dd"
+        }
+      ]
+    },
+    {
+      "id": "RQ078",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "What are the total and per-token activated parameter counts of DeepSeek-V3?",
+      "version_ids": [
+        "913d02c849dd4a599550df853e07a613"
+      ],
+      "expected_answer": "671B total37B activated",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "913d02c849dd4a599550df853e07a613:0:4",
+          "version_id": "913d02c849dd4a599550df853e07a613",
+          "page_index": 0,
+          "parse_id": "913d02c849dd4a599550df853e07a613",
+          "quote": "We present DeepSeek-V3, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token. To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architec- tures, which were thoroughly validated in DeepSeek-V2. Furthermore, DeepSeek-V3 pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance. We pre-train DeepSeek-V3 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities. Comprehensive evaluations reveal that DeepSeek-V3 outperforms other open-source models and achieves performance comparable to leading closed-source models. Despite its excellent performance, DeepSeek-V3 requires only 2.788M H800 GPU hours for its full training. In addition, its training process is remarkably stable. Throughout the entire training process, we did not experience any irrecoverable loss spikes or perform any rollbacks. The model checkpoints are available at https://github.com/deepseek-ai/DeepSeek-V3 .",
+          "text_sha256": "0d531150f3c4d4c47023f0bfb923134294369cb11e2a0cf0a7e32d0f3d3142dd"
+        }
+      ]
+    },
+    {
+      "id": "RQ079",
+      "group": "expansion",
+      "category": "fact",
+      "language": "zh",
+      "question": "Whisper 的训练音频小时数是多少？",
+      "version_ids": [
+        "2209b4a8f3454c179e785f68eba4d81f"
+      ],
+      "expected_answer": "680000 hours",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "2209b4a8f3454c179e785f68eba4d81f:0:3",
+          "version_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "page_index": 0,
+          "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "quote": "We study the capabilities of speech processing systems trained simply to predict large amounts of transcripts of audio on the internet. When scaled to 680,000 hours of multilingual and multitask supervision, the resulting models generalize well to standard benchmarks and are often competitive with prior fully supervised results but in a zero- shot transfer setting without the need for any fine- tuning. When compared to humans, the models approach their accuracy and robustness. We are releasing models and inference code to serve as a foundation for further work on robust speech processing.",
+          "text_sha256": "62ba1ddb75065067ef18d2732eb9b978e493df5b2acedf774f0967a5d327055e"
+        }
+      ]
+    },
+    {
+      "id": "RQ080",
+      "group": "expansion",
+      "category": "fact",
+      "language": "en",
+      "question": "How many hours of audio data are used to train Whisper?",
+      "version_ids": [
+        "2209b4a8f3454c179e785f68eba4d81f"
+      ],
+      "expected_answer": "680000 hours",
+      "answerable": true,
+      "gold": [
+        {
+          "block_id": "2209b4a8f3454c179e785f68eba4d81f:0:3",
+          "version_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "page_index": 0,
+          "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+          "quote": "We study the capabilities of speech processing systems trained simply to predict large amounts of transcripts of audio on the internet. When scaled to 680,000 hours of multilingual and multitask supervision, the resulting models generalize well to standard benchmarks and are often competitive with prior fully supervised results but in a zero- shot transfer setting without the need for any fine- tuning. When compared to humans, the models approach their accuracy and robustness. We are releasing models and inference code to serve as a foundation for further work on robust speech processing.",
+          "text_sha256": "62ba1ddb75065067ef18d2732eb9b978e493df5b2acedf774f0967a5d327055e"
+        }
+      ]
+    }
+  ]
+}

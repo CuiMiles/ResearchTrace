@@ -1,0 +1,236 @@
+{
+  "started": 1794807178.5682137,
+  "live_http": true,
+  "cases": [
+    {
+      "name": "training-hardware",
+      "question": "论文实际用了多少张什么型号的显卡训练？请说明base和big模型各训练多久。",
+      "run": {
+        "id": "80c745b0f8db42fa99b3d7f3e9906d66",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "failed",
+        "payload": {
+          "question": "论文实际用了多少张什么型号的显卡训练？请说明base和big模型各训练多久。",
+          "version_ids": [
+            "e492d5c15f4444c08e9c335618e32533"
+          ]
+        },
+        "result": null,
+        "error": "主张与证据中的数值或单位矛盾；结果已拦截",
+        "idempotency": "upgrade-training-hardware-2587d41c864947b6a51eee4fecda882d",
+        "created": 1794807178.6987317,
+        "updated": 1794807197.550479,
+        "steps": [
+          {
+            "id": 3730,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794807178.7054596
+          },
+          {
+            "id": 3731,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794807179.2358518
+          },
+          {
+            "id": 3732,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794807179.3357058
+          },
+          {
+            "id": 3733,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 55,
+              "dense_candidates": 0,
+              "evidence_blocks": 26
+            },
+            "created": 1794807179.4911842
+          },
+          {
+            "id": 3734,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "3677c27bf8b14e328400538bb316edfe",
+              "reserved_input_tokens": 17043,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794807179.5115225
+          },
+          {
+            "id": 3867,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794807197.5386875
+          },
+          {
+            "id": 3869,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794807197.5739188
+          }
+        ]
+      },
+      "requests": [
+        {
+          "id": "3677c27bf8b14e328400538bb316edfe",
+          "project": "gemini-shared",
+          "model": "gemini-4-hydrogen",
+          "day": "2026-11-15",
+          "status": "ok",
+          "input_tokens": 5625,
+          "output_tokens": 3618
+        }
+      ],
+      "new_requests": 1,
+      "prior_ledger_rows": 82
+    },
+    {
+      "name": "false-premise-no-answer",
+      "question": "为什么作者用了80张GPU？先核对这个前提，再说明论文是否报告训练总费用。不要把没有依据的数字当成事实。",
+      "run": {
+        "id": "b72a219b1a054e049aa4bd15d5fd7a8c",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "failed",
+        "payload": {
+          "question": "为什么作者用了80张GPU？先核对这个前提，再说明论文是否报告训练总费用。不要把没有依据的数字当成事实。",
+          "version_ids": [
+            "e492d5c15f4444c08e9c335618e32533"
+          ]
+        },
+        "result": null,
+        "error": "主张与证据中的数值或单位矛盾；结果已拦截",
+        "idempotency": "upgrade-false-premise-no-answer-4e195cc86c424a5a894e9caec3d2e4d7",
+        "created": 1794807198.0296106,
+        "updated": 1794807223.8144555,
+        "steps": [
+          {
+            "id": 3874,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794807198.038712
+          },
+          {
+            "id": 3876,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794807198.0883179
+          },
+          {
+            "id": 3877,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794807198.0948539
+          },
+          {
+            "id": 3879,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 34,
+              "dense_candidates": 0,
+              "evidence_blocks": 20
+            },
+            "created": 1794807198.1861348
+          },
+          {
+            "id": 3880,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "91b242f9bca342da9ca53e0590d951f1",
+              "reserved_input_tokens": 12463,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794807198.1999462
+          },
+          {
+            "id": 4088,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794807223.8098238
+          },
+          {
+            "id": 4089,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794807223.8170164
+          }
+        ]
+      },
+      "requests": [
+        {
+          "id": "91b242f9bca342da9ca53e0590d951f1",
+          "project": "gemini-shared",
+          "model": "gemini-4-hydrogen",
+          "day": "2026-11-15",
+          "status": "ok",
+          "input_tokens": 4046,
+          "output_tokens": 5003
+        }
+      ],
+      "new_requests": 1,
+      "prior_ledger_rows": 83
+    }
+  ],
+  "budget_authorization": "User: Hydrogen and gemini-3.8-flash each at most40/day, all outcomes counted; old smoke4 retained",
+  "finished": 1794807224.6078038
+}

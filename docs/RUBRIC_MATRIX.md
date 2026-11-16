@@ -4,12 +4,13 @@ This is a feature-to-evidence map, not a claimed contest score. Weights originat
 
 | Scoring direction | Implemented mechanism | Code | Evidence and limits |
 |---|---|---|---|
-| Agent / model technology (35%) | Durable fixed workflow, evidence retrieval, one combined synthesis, citation validation, public tool events, project quota reservation | `services/api/jobs.py`, `models.py`, `retrieval.py`, `services/worker/main.py` | Live model evidence in `evidence/`; exact call counts in TEST_REPORT. Citation location does not prove semantic support. Arbitrary code execution and open-ended tool loops are absent. |
-| Research scenario innovation (25%) | Immutable PDF versions and literal coordinate-bound evidence; old future-work source compared with discovered later candidates | `documents.py`, `jobs.audit`, `app.py`, reader UI | Random-name Transformer v1/v7 inputs in `evals/manifest.json`; actual version/live cases in TEST_REPORT. A related title is insufficient to declare an idea solved. No global-first claim. |
-| Engineering and robustness (10%) | WAL checkpoints, bounded queue, cancellation/resume, idempotency, SSRF defense, workspace authorization, fixed plotting template | `store.py`, `jobs.py`, `research.py`, `charts.py`, `app.py` | `tests/`, `docs/evidence/research_charts_tests.txt`, `research_charts_extra_tests.txt`. 2GiB target is a deployment constraint until a constrained run is recorded. |
-| Practical research loop (10%) | Upload → read → ask → open original quote → compare/search → save note or reproducible chart | `apps/web/`, API routes | Three new-input paths in DEMO_SCRIPT/HANDOFF; official scan and official textbook remain separately BLOCKED when absent. |
-| UI / UX (10%) | Document workbench, single-page PDF canvas, evidence inspector, version choices, aligned block translations and visible errors | `apps/web/src/` | Browser screenshots and actual tested sizes in TEST_REPORT. Source files alone do not establish a visual PASS. |
-| Academic value and reuse (10%) | Traceable sources, verified metadata, local citation centrality, reproducible CSV statistics/script, explicit unsupported claims | `research.py`, `charts.py`, export routes, docs | Live dual-source search: `docs/evidence/research_live.json`; actual 20-node/71-edge Crossref metadata graph: `graph_20_metadata.json`. This is not a 20-paper fulltext corpus or full-field authority score. |
+| AI技术深度（35%） | 结构解析、检索代际、混合召回与重排、有界工具、独立证据复核 | services/api/retrieval.py、index_generations.py、jobs.py、services/retrieval_runtime | 本地模型仅在真实推理、覆盖与评测通过后视为已部署；单元测试数不是回答准确率。 |
+| 产品功能和工程质量（30%） | 六类功能、不可变版本/解析快照、批次放行、恢复、预算、权限与安全 | services/api、services/worker、apps/web | 测试结果与发布阻塞见TEST_REPORT；公网与评审资源另行验收。 |
+| 创新性（15%） | 版本感知主张、结论与原文绑定、FutureWork时间和条件核查 | snapshots.py、evidence_validation.py、jobs.py | 开源组件如实归属；主张支持、全文发现和新颖性判断不能从相关性推导。 |
+| 用户体验（10%） | 内容优先阅读、证据状态、批量进度、双向翻译、可展开执行步骤 | apps/web/src | 浏览器实拍和状态矩阵才能证明交互通过。 |
+| 实用性（10%） | 新输入→真实检索/回答→原文定位→比较/笔记/可复现导出 | app.py、research.py、charts.py | 三条完整新输入演示、公网入口及正式材料仍按发布门槛逐项记录。 |
+
+权重来源：用户原资料包《科研小助手Agent-AI大模型.pdf》第6–7页。此表是功能与证据映射，不是官方得分或名次预测。模型/网络/费用配置和新测状态见最新HANDOFF，不复用旧主机结果冒充新测试。
 
 ## Six required functions
 

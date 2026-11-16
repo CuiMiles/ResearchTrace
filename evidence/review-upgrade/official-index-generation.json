@@ -1,0 +1,266 @@
+{
+  "id": "53ffb2e2e9c14cab81b122e9a4b50857",
+  "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+  "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+  "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+  "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6",
+  "manifest": {
+    "provider": {
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+      "kind": "embedding",
+      "dimension": 4096,
+      "dtype": "bfloat16",
+      "context_length": 32768,
+      "pooling": "mean",
+      "normalization": "l2",
+      "tokenizer": {
+        "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+        "sha256": "a6894cfe4b928580b45a3dadedf443778a71eb04d2339ef4b3526c59a23b5fc9"
+      },
+      "templates": {
+        "query": "model_chat_template(query: {text})",
+        "document": "model_chat_template(passage: {text})",
+        "sha256": "7fb10981445a4370aa951758f066ddbd1846fe26da85110f940b1433440d6c55"
+      },
+      "source_sha256": {
+        "tokenizer.json": "b78fc125e4896d169ab6683914ba1e9515eed36a65faffa2421d4cdb3061de02",
+        "tokenizer_config.json": "384291712b80958e8c039a8c8afc318a11b0a7d7231f082381050f9a0ea6cad0",
+        "chat_template.jinja": "7fb10981445a4370aa951758f066ddbd1846fe26da85110f940b1433440d6c55",
+        "config.json": "03b3e791b5c4e1f2d880394ad82d617c0406ff6b84fe134c33b0dd63efb4ab1d",
+        "processor_config.json": "a06f54b1cdc97ba9f114b9fa304c554ebfd2385ddbc3ffe5247d8e3782642c34",
+        "1_Pooling/config.json": "d742ebb19220beff3a54db52f8f65db6a078b51238ccd3deb8b80dc03684056c",
+        "config_sentence_transformers.json": "f38c4712d0f1d622942eb62421e85b3a67a399ce439f219af90c4ae405ad1e85",
+        "model.safetensors.index.json": "c90ef3f1417422145f18579f237b0093f944dc09db8dbc147c5be646319ab146"
+      },
+      "runtime_version": "researchtrace-retrieval-v1",
+      "truncation": "reject",
+      "attention_implementation": "sdpa",
+      "tokenizer_revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+      "query_template": "{\"chat_template\": \"{# nemo-mistral-retrieval-v1\\n   Derived from the Mistral Ministral-3 instruct chat template render_content\\n   macro and its image-before-text canonicalization. Retrieval adaptation:\\n   system content is the retrieval prefix; generation wrappers and BOS/EOS are\\n   deliberately omitted so message inference matches training token for token.\\n#}\\n{%- macro mark_user_text(text) -%}\\n{{- text | replace(\\\"[\\\", \\\"[‌\\\") | replace(\\\"<\\\", \\\"<‌\\\") -}}\\n{%- endmacro -%}\\n{%- macro render_text_content(content, context_name) -%}\\n{%- if content is string -%}\\n    {{- content -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\"\\\\n\\\\n\\\" }}{% endif -%}\\n            {{- block[\\\"text\\\"] -}}\\n            {%- set ns.has_output = true -%}\\n        {%- else -%}\\n            {{- raise_exception(context_name + \\\" may contain only text blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(context_name + \\\" must be a string or a list of text blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- macro render_user_content(content) -%}\\n{%- if content is string -%}\\n    {{- mark_user_text(content) -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- \\\"[IMG]\\\" -}}\\n            {%- set ns.has_output = true -%}\\n        {%- endif -%}\\n    {%- endfor -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- mark_user_text(block[\\\"text\\\"]) -}}\\n            {%- set ns.has_output = true -%}\\n        {%- elif block[\\\"type\\\"] not in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {{- raise_exception(\\\"User content supports only text and image blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(\\\"User content must be a string or a list of text and image blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- if not ((messages | length == 1 and messages[0][\\\"role\\\"] == \\\"user\\\")\\n    or (messages | length == 2\\n        and messages[0][\\\"role\\\"] == \\\"system\\\"\\n        and messages[1][\\\"role\\\"] == \\\"user\\\")) -%}\\n    {{- raise_exception(\\\"Retrieval inputs require one user message with an optional leading system prefix\\\") -}}\\n{%- endif -%}\\n{# Iterate messages so vLLM can trace message.content into the rendering macros. #}\\n{%- for message in messages -%}\\n    {%- if message[\\\"role\\\"] == \\\"system\\\" -%}\\n        {%- set prefix = render_text_content(message[\\\"content\\\"], \\\"System content\\\") -%}\\n        {{- prefix.rstrip(\\\" \\\") ~ \\\" \\\" -}}\\n    {%- else -%}\\n        {{- render_user_content(message[\\\"content\\\"]) -}}\\n    {%- endif -%}\\n{%- endfor -%}\", \"format\": \"model_chat_template(query: {text})\", \"tokenizer_sha256\": \"a6894cfe4b928580b45a3dadedf443778a71eb04d2339ef4b3526c59a23b5fc9\"}",
+      "document_template": "{\"chat_template\": \"{# nemo-mistral-retrieval-v1\\n   Derived from the Mistral Ministral-3 instruct chat template render_content\\n   macro and its image-before-text canonicalization. Retrieval adaptation:\\n   system content is the retrieval prefix; generation wrappers and BOS/EOS are\\n   deliberately omitted so message inference matches training token for token.\\n#}\\n{%- macro mark_user_text(text) -%}\\n{{- text | replace(\\\"[\\\", \\\"[‌\\\") | replace(\\\"<\\\", \\\"<‌\\\") -}}\\n{%- endmacro -%}\\n{%- macro render_text_content(content, context_name) -%}\\n{%- if content is string -%}\\n    {{- content -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\"\\\\n\\\\n\\\" }}{% endif -%}\\n            {{- block[\\\"text\\\"] -}}\\n            {%- set ns.has_output = true -%}\\n        {%- else -%}\\n            {{- raise_exception(context_name + \\\" may contain only text blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(context_name + \\\" must be a string or a list of text blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- macro render_user_content(content) -%}\\n{%- if content is string -%}\\n    {{- mark_user_text(content) -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- \\\"[IMG]\\\" -}}\\n            {%- set ns.has_output = true -%}\\n        {%- endif -%}\\n    {%- endfor -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- mark_user_text(block[\\\"text\\\"]) -}}\\n            {%- set ns.has_output = true -%}\\n        {%- elif block[\\\"type\\\"] not in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {{- raise_exception(\\\"User content supports only text and image blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(\\\"User content must be a string or a list of text and image blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- if not ((messages | length == 1 and messages[0][\\\"role\\\"] == \\\"user\\\")\\n    or (messages | length == 2\\n        and messages[0][\\\"role\\\"] == \\\"system\\\"\\n        and messages[1][\\\"role\\\"] == \\\"user\\\")) -%}\\n    {{- raise_exception(\\\"Retrieval inputs require one user message with an optional leading system prefix\\\") -}}\\n{%- endif -%}\\n{# Iterate messages so vLLM can trace message.content into the rendering macros. #}\\n{%- for message in messages -%}\\n    {%- if message[\\\"role\\\"] == \\\"system\\\" -%}\\n        {%- set prefix = render_text_content(message[\\\"content\\\"], \\\"System content\\\") -%}\\n        {{- prefix.rstrip(\\\" \\\") ~ \\\" \\\" -}}\\n    {%- else -%}\\n        {{- render_user_content(message[\\\"content\\\"]) -}}\\n    {%- endif -%}\\n{%- endfor -%}\", \"format\": \"model_chat_template(passage: {text})\", \"tokenizer_sha256\": \"a6894cfe4b928580b45a3dadedf443778a71eb04d2339ef4b3526c59a23b5fc9\"}",
+      "provenance_fingerprint": "sha256:b11d84892b6d5e0ddb90bee67c824b9927bce41c97eff66fd654940baf9cb13b",
+      "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6",
+      "tokenizer_ready": true,
+      "weights_ready": false,
+      "inference_verified": false
+    },
+    "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6",
+    "chunker": "source-spans-v1",
+    "snapshots": [
+      {
+        "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+        "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+        "sha256": "ebae72ea0e8a5eb2ecbccdb985aec6cc1254a7c4d29e6d4de7866db1e66c4855"
+      },
+      {
+        "version_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+        "parse_id": "115a8bd9918b47c49ad03dec3ac22d6c",
+        "sha256": "dfbac4e7035344b305c947481f2e7e8a02f7a24a563917eb6e47f6591d14c5ae"
+      },
+      {
+        "version_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+        "parse_id": "12c74a3fa17f4e5a8435574d38e5c9f4",
+        "sha256": "e78feadadbdbb0b601b3c2bcc81404722cd431a489b307545f9b7bea1e8c4f5b"
+      },
+      {
+        "version_id": "15624a22277749948d0faf32cfd20727",
+        "parse_id": "15624a22277749948d0faf32cfd20727",
+        "sha256": "dc8bace378a282ea78caa9b5959306202fbfa3b8cedaf8a66541a9af18f4d3bf"
+      },
+      {
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sha256": "eb81a65e0856bd38e855e1f1de6ee12e7c3eb92ae05c8270d345a475beb631d0"
+      },
+      {
+        "version_id": "2209b4a8f3454c179e785f68eba4d81f",
+        "parse_id": "2209b4a8f3454c179e785f68eba4d81f",
+        "sha256": "6337bde031b2f237547a977b022f831169a7e05b4d9047f29501166d83594566"
+      },
+      {
+        "version_id": "351427e9c87741d09c782f6003446878",
+        "parse_id": "351427e9c87741d09c782f6003446878",
+        "sha256": "b191b0a365a64b4ab2791d117069ed17a2933d03554a662ced58b37df52018f4"
+      },
+      {
+        "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+        "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+        "sha256": "ad07e47cedf437a4156419ce5d3076e08a3e59bbfd6dac7cc53df1009cdcbe7f"
+      },
+      {
+        "version_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+        "parse_id": "3ca21a0392f54c2dae1e029d437dc7d8",
+        "sha256": "e9a0d3128767db616085dc0f4e6e455e672e89af823e8ed1282793682787395a"
+      },
+      {
+        "version_id": "3f4fea8bed824d8a9345046cf0495095",
+        "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+        "sha256": "f340f6ace31abf7d0730ef461404279f40d3c890e9cc2daeb7068b3304afdbd6"
+      },
+      {
+        "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+        "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+        "sha256": "57d18c40bdbb4bc1ab69c078a304f97e31657b4f543c408d8a5520e672a3fab0"
+      },
+      {
+        "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+        "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+        "sha256": "e1fa0519ed8e09a676d56c983e99ead5effd7ef840ae86a186729287469bf883"
+      },
+      {
+        "version_id": "4452fbc0c75443578fb2a2987629c19c",
+        "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+        "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32"
+      },
+      {
+        "version_id": "464f25034aa74104a944a67df1d0cca2",
+        "parse_id": "464f25034aa74104a944a67df1d0cca2",
+        "sha256": "ca7f9fda10b90fc05dd291a3accc85e9c1a4a860b99b31928dab03ed3fcb14e4"
+      },
+      {
+        "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+        "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+        "sha256": "2d5d4690b43be8965a6b17ae28b370ab4b8774b2213c41111c1f584cc3c447a3"
+      },
+      {
+        "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+        "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+        "sha256": "8033c3e611aaa120cb7294085ebd6ee297ffae9ec02393b1c4f1593d7e6ee065"
+      },
+      {
+        "version_id": "61699b3f11364e119e79181e21359218",
+        "parse_id": "61699b3f11364e119e79181e21359218",
+        "sha256": "a41bd7877fd1a6bcbba096b2619618bd2f90e02488f2365644903eb2f7c6a494"
+      },
+      {
+        "version_id": "679e75bc46e24c9d97105631732a146f",
+        "parse_id": "679e75bc46e24c9d97105631732a146f",
+        "sha256": "481f1599468f95a07d05e97fafe55bbe786dc1624c6f881bcb4c7d14c933d083"
+      },
+      {
+        "version_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+        "parse_id": "6b4d8bfdfcd84c99aaa3d147bef54a88",
+        "sha256": "8ce7b83971a14508ca711a27c875c9b6914c4f6767cf3150fb1ca6c07aa056d6"
+      },
+      {
+        "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+        "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+        "sha256": "f457f08102eb381f2300e1653bf4c82a9aa5dce0eb8dba8fe744ccc2500c3755"
+      },
+      {
+        "version_id": "82451796b5294493b9e58f696fbb8adc",
+        "parse_id": "926da65067b645fb838c9207064f1f24",
+        "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d"
+      },
+      {
+        "version_id": "913d02c849dd4a599550df853e07a613",
+        "parse_id": "913d02c849dd4a599550df853e07a613",
+        "sha256": "a67e18a4ca6e2c81abc030239a3ee53705f656b79efab8ce1d6b5ac25630c2a5"
+      },
+      {
+        "version_id": "93a4234ccaf6433c9f66f01322316fec",
+        "parse_id": "93a4234ccaf6433c9f66f01322316fec",
+        "sha256": "33a4e757c19d6ea8d3cca8958fce8fe405e290272e135c99ee66065c775d5bd1"
+      },
+      {
+        "version_id": "95b9e428f36144c7925682db419ded0d",
+        "parse_id": "95b9e428f36144c7925682db419ded0d",
+        "sha256": "987545ffb087f1ece898142c403a516baeabeb70ce19089397fac6f7db12c3d4"
+      },
+      {
+        "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+        "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+        "sha256": "7d9f878c23b460e4566aa4ec9201b1abfb3b8faefb2b1356e411cb90fef72a12"
+      },
+      {
+        "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+        "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+        "sha256": "c1984bb50a5b90fddb895fdc3a0f72e5bc977148c9f63ef6040cbe7a3e1f0d98"
+      },
+      {
+        "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+        "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+        "sha256": "c33a66dadca2388d7b172d6293b00dc32b71110c6f38fafe0d41112e61be7774"
+      },
+      {
+        "version_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+        "parse_id": "a8ff140b0e3647e8bca38f4cf679b22a",
+        "sha256": "775ff8d09b6e5b06314135d87c194ce3535a821eeaee4be9051b331162c5fefd"
+      },
+      {
+        "version_id": "b6f5051290164b97a4d8cef5437b08ee",
+        "parse_id": "b6f5051290164b97a4d8cef5437b08ee",
+        "sha256": "c464f839fb8d59f7fde92f9b4caa67c2d1f2f196b88f93fb60502249df0aaef7"
+      },
+      {
+        "version_id": "ca715fafd401474eb2a0471c068cc3b2",
+        "parse_id": "ca715fafd401474eb2a0471c068cc3b2",
+        "sha256": "82d5b9634b3d2601b3eb494dcc9e2189132f5d6e479233b91c7ce411dbdfcfa4"
+      },
+      {
+        "version_id": "d3d10ab463974076b8355839f401f7a5",
+        "parse_id": "d3d10ab463974076b8355839f401f7a5",
+        "sha256": "1df284ce95f783002074bfe8f21d47c646b396ceb1736ea3ec0ea212fc070d91"
+      },
+      {
+        "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+        "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+        "sha256": "8bc106e62eeb6f6f15328e8af107df8eb66ce7ddc3ba694a2ef8ea743f829f0f"
+      },
+      {
+        "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+        "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+        "sha256": "6478b6e571a7d6fcd846d8ef77bfd60c285f1986abb8f475eedc43de403074f5"
+      },
+      {
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sha256": "97fd272f1fdfc18677462d0292f5fbf26ca86b4d1b485c2dba03269b643a0e83"
+      },
+      {
+        "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+        "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+        "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697"
+      },
+      {
+        "version_id": "e492d5c15f4444c08e9c335618e32533",
+        "parse_id": "e492d5c15f4444c08e9c335618e32533",
+        "sha256": "0a9bff1be3575cf9fe26a4a3d3a9175bc791ecec90de8b9deba4cff75d2b9476"
+      },
+      {
+        "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+        "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+        "sha256": "c531734c7d9ee647fda9b4f0e1a6abd6d58ad34e862bc945451b09032be3167e"
+      },
+      {
+        "version_id": "edde5f443792495d912ab3a74b543464",
+        "parse_id": "edde5f443792495d912ab3a74b543464",
+        "sha256": "73b3292bead3ac8896679d3ac8be87439756faf356566cbda3ccc8a3dc7d79d3"
+      },
+      {
+        "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+        "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+        "sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a"
+      }
+    ],
+    "max_tokens": 512,
+    "exclusions": [
+      "empty_text",
+      "header",
+      "footer"
+    ],
+    "context_is_source_evidence": false
+  },
+  "status": "staged",
+  "expected_blocks": 22950,
+  "covered_blocks": 22950,
+  "excluded_blocks": 2189,
+  "chunk_count": 23185,
+  "vector_count": 0,
+  "dimension": 4096,
+  "created": 1794808307.8226292,
+  "activated": null,
+  "error": null,
+  "coverage_complete": false
+}

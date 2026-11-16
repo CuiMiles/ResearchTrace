@@ -1,0 +1,6 @@
+{
+  "archive_name": "ResearchTrace_完整审阅包_20261116_115055_cc54691.zip",
+  "archive_sha256": "b03ff0a6a3b58b2d62c9a981347081553de7c33cecfa23a5a283da5a5906d522",
+  "commit_in_package": "cc54691",
+  "scope": "Source, supplied evidence/screenshots, read-only main database, isolated backend tests and adversarial probes. Not live GPU/provider/public-site certification."
+}

@@ -15,3 +15,8 @@ evals/files/
 evidence/private/
 科研小助手.rar
 evidence/competition-dataset/task-description.log
+ResearchTrace_Review_and_Upgrade_20261116.zip
+ResearchTrace_完整审阅包_*.zip
+services/retrieval_runtime/private/
+# Retain downloaded tokenizer caches locally; provision pinned revisions remotely.
+services/retrieval_runtime/vendor/**/tokenizer.json

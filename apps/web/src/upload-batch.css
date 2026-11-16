@@ -1,0 +1,28 @@
+.upload-batch-panel{border:1px solid #dce5ef;border-radius:8px;padding:16px;margin:16px 0;background:#fff;color:#172b4d;min-width:0;font-size:13px;line-height:1.6}
+.upload-batch-panel *{box-sizing:border-box}
+.upload-batch-panel .upload-batch-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.upload-batch-panel h3{margin:0;font-size:15px}
+.upload-batch-panel p{margin:6px 0;line-height:1.65;overflow-wrap:anywhere}
+.upload-batch-panel .upload-batch-outcomes,.upload-batch-panel .upload-batch-note{color:#64758b;font-size:12px}
+.upload-batch-panel .upload-batch-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:14px 0 10px}
+.upload-batch-panel label{display:inline-flex;align-items:center;flex-direction:row;gap:6px;font-size:12px;cursor:pointer}
+.upload-batch-panel input[type=checkbox]{width:16px;height:16px;padding:0;margin:0;accent-color:#315ebd;flex:none;cursor:pointer}
+.upload-batch-panel button{font:inherit;border:1px solid #d9e2ed;border-radius:5px;color:#315ebd;background:#fff;padding:5px 10px;cursor:pointer;line-height:1.5}
+.upload-batch-panel button:hover:enabled{background:#f0f5fc;border-color:#aebed3}
+.upload-batch-panel button:disabled,.upload-batch-panel input:disabled{cursor:not-allowed;opacity:.5}
+.upload-batch-panel button:focus-visible,.upload-batch-panel input:focus-visible{outline:3px solid #77b9e7;outline-offset:2px}
+.upload-batch-panel .upload-batch-files{list-style:none;margin:0;padding:0;max-height:340px;overflow:auto;overscroll-behavior:contain}
+.upload-batch-panel .upload-batch-file{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:4px 10px;padding:10px 3px;border-top:1px solid #edf1f6}
+.upload-batch-panel .upload-batch-filename{min-width:0;display:flex;flex-direction:column;gap:2px}
+.upload-batch-panel .upload-batch-filename>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.upload-batch-panel small{font-size:11px;color:#64758b;overflow-wrap:anywhere}
+.upload-batch-panel .upload-batch-status{font-size:12px;padding:2px 8px;border-radius:4px;background:#eef3fa;color:#36516c;white-space:nowrap}
+.upload-batch-panel .state-completed{color:#08705e;background:#e9f7f1}
+.upload-batch-panel .state-failed{color:#a32d35;background:#fff0f0}
+.upload-batch-panel .state-partial{color:#8a6114;background:#fff6df}
+.upload-batch-panel .state-waiting_batch{color:#6a578c;background:#f2eff9}
+.upload-batch-panel .state-cancelled{color:#64758b;background:#f0f2f5}
+.upload-batch-panel .upload-batch-error{padding:8px 10px;color:#a32d35;background:#fff0f0;border:1px solid #f1d2d6;border-radius:5px}
+.upload-batch-panel .upload-batch-file-error,.upload-batch-panel .upload-batch-file-note{grid-column:2/-1;font-size:12px;margin:2px 0;color:#a32d35}
+.upload-batch-panel .upload-batch-file-note{color:#64758b}
+@media(max-width:520px){.upload-batch-panel{padding:12px}.upload-batch-panel .upload-batch-actions{gap:8px}.upload-batch-panel .upload-batch-file{column-gap:7px}.upload-batch-panel .upload-batch-status{font-size:11px;padding:2px 5px}}

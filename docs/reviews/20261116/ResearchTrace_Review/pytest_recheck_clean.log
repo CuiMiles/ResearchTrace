@@ -1,0 +1,9 @@
+........................................................................ [ 50%]
+......................................................................   [100%]
+=============================== warnings summary ===============================
+tests/unit/test_watch_recovery.py::test_crash_recovery_uses_os_lock_and_preserves_schedule
+  /usr/lib/python3.13/multiprocessing/popen_fork.py:67: DeprecationWarning: This process (pid=1001) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+142 passed, 1 warning in 25.26s

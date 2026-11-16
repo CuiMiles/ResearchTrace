@@ -1,0 +1,10 @@
+{
+  "baseline_commit": "cc54691",
+  "backup": "data/backups/review-upgrade-20261116",
+  "block_count": 44033,
+  "block_content_hash": "ca11309ec93ef2ad6bc691b97994c59089b85f2f25a65ed8b8ba26c21eb3ff13",
+  "quota_rows": 82,
+  "quota_hash": "86c9493fd413fbf2da041261799c14ba70935c1a699499b10a866f0ac2c299eb",
+  "time": 1794804293.7363482,
+  "model_calls": 0
+}

@@ -1,0 +1,156 @@
+{
+  "started_from_failure": "c44c825a984249e49a4424c9f0aa8c3c",
+  "run": {
+    "id": "ea6c18e7f31a4282ab25cfa0049ece58",
+    "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+    "kind": "translate",
+    "status": "completed",
+    "payload": {
+      "source_language": "en",
+      "target_language": "zh-Hans",
+      "glossary_version": "source-integrity-v2",
+      "version_id": "95b9e428f36144c7925682db419ded0d",
+      "block_ids": [
+        "95b9e428f36144c7925682db419ded0d:3:5"
+      ],
+      "parse_id": "95b9e428f36144c7925682db419ded0d"
+    },
+    "result": {
+      "version_id": "95b9e428f36144c7925682db419ded0d",
+      "parse_id": "95b9e428f36144c7925682db419ded0d",
+      "source_language": "en",
+      "target_language": "zh-Hans",
+      "glossary_version": "source-integrity-v2",
+      "model": "gemini-3.5-flash-lite",
+      "plan_version": "protected-utf8-v2",
+      "input_token_budget": 12000,
+      "output_token_budget": 8192,
+      "max_batch_items": 6,
+      "block_ids": [
+        "95b9e428f36144c7925682db419ded0d:3:5"
+      ],
+      "translated": 1,
+      "total": 1,
+      "cache_hits": 0,
+      "actual_models": [
+        "gemini-3.5-flash-lite"
+      ]
+    },
+    "error": null,
+    "idempotency": "integrity-v2-3031e96dfc294cdb9164fd1f59052847",
+    "created": 1794808100.5276306,
+    "updated": 1794808104.3984203,
+    "steps": [
+      {
+        "id": 4648,
+        "event": "queued",
+        "data": {
+          "kind": "translate",
+          "message": "任务已持久化，等待单 worker 执行"
+        },
+        "created": 1794808100.5330086
+      },
+      {
+        "id": 4649,
+        "event": "started",
+        "data": {
+          "kind": "translate"
+        },
+        "created": 1794808100.9403625
+      },
+      {
+        "id": 4650,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-shared",
+          "quota_id": "b8c7bcbed9734994aea7f081bfcb7cbe",
+          "reserved_input_tokens": 3275,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "evaluation",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794808101.0214522
+      },
+      {
+        "id": 4651,
+        "event": "translation_progress",
+        "data": {
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "source_language": "en",
+          "target_language": "zh-Hans",
+          "glossary_version": "source-integrity-v2",
+          "model": "gemini-3.5-flash-lite",
+          "plan_version": "protected-utf8-v2",
+          "input_token_budget": 12000,
+          "output_token_budget": 8192,
+          "max_batch_items": 6,
+          "block_ids": [
+            "95b9e428f36144c7925682db419ded0d:3:5"
+          ],
+          "completed": 1,
+          "total": 1,
+          "requested_model": "gemini-3.5-flash-lite",
+          "actual_model": "gemini-3.5-flash-lite"
+        },
+        "created": 1794808104.3929284
+      },
+      {
+        "id": 4652,
+        "event": "completed",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794808104.4031317
+      }
+    ]
+  },
+  "source": {
+    "id": "95b9e428f36144c7925682db419ded0d:3:5",
+    "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+    "version_id": "95b9e428f36144c7925682db419ded0d",
+    "page_index": 3,
+    "bbox": "[0.5161908089692848, 0.07746174155768579, 0.8828660107244373, 0.5410461765788873]",
+    "type": "paragraph",
+    "reading_order": 5,
+    "text": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+    "source": "pdfplumber",
+    "quality": "native",
+    "metadata": "{\"citation_markers\": [], \"layout\": \"two_column\", \"parse_id\": \"95b9e428f36144c7925682db419ded0d\", \"parser_version\": \"pdfplumber-layout-v1\", \"models\": [], \"device\": \"cpu\"}",
+    "parse_id": "95b9e428f36144c7925682db419ded0d"
+  },
+  "translations": [
+    {
+      "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+      "version_id": "95b9e428f36144c7925682db419ded0d",
+      "parse_id": "95b9e428f36144c7925682db419ded0d",
+      "block_id": "95b9e428f36144c7925682db419ded0d:3:5",
+      "source_language": "en",
+      "target_language": "zh-Hans",
+      "glossary_version": "source-integrity-v2",
+      "model": "gemini-3.5-flash-lite",
+      "actual_model": "gemini-3.5-flash-lite",
+      "text": "为了训练深度双向表示，我们只需随机掩码输入标记的一部分百分比，然后预测那些被掩码的标记。我们将此过程称为“掩码语言模型”（MLM），尽管在文献中它通常被称为完形填空（Cloze）任务 (Taylor, 1953)。在这种情况下，与掩码标记对应的最终隐藏向量被输入到词汇表上的输出 softmax 中，就像在标准语言模型中一样。在我们所有的实验中，我们随机掩码每个序列中所有 WordPiece 标记的 15%。与去噪自编码器 (Vincent et al., 2008) 相比，我们仅预测被掩码的词，而不是重构整个输入。尽管这使我们能够获得一个双向预训练模型，但缺点是我们在预训练和微调之间造成了不匹配，因为 [MASK] 标记在微调期间不会出现。为了缓解这种情况，我们并不总是将“掩码”词替换为实际的 [MASK] 标记。训练数据生成器随机选择 15% 的标记位置进行预测。如果选择了第 i 个标记，我们将用以下方式替换第 i 个标记：(1) [MASK] 标记，占比 80%（2）；随机标记，占比 10%（3）；保持不变的第 i 个标记，占比 10%。然后，将使用 T i 通过交叉熵损失来预测原始标记。我们在附录 C.2 中比较了该过程的各种变体。",
+      "created": 1794808104.3929284,
+      "requested_model": "gemini-3.5-flash-lite",
+      "cache_origin": "direction_cache",
+      "integrity": "protected_spans_verified",
+      "page_index": 3
+    }
+  ],
+  "requests": [
+    {
+      "model": "gemini-3.5-flash-lite",
+      "status": "ok",
+      "input_tokens": 717,
+      "output_tokens": 621
+    }
+  ],
+  "live_http": true
+}

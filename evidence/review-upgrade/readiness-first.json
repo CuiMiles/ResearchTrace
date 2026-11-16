@@ -1,0 +1,46 @@
+{
+  "status": "BLOCKED",
+  "checked_at": 1794807180.0243626,
+  "valid_for_seconds": 15,
+  "provider_calls": 0,
+  "components": {
+    "database": {
+      "status": "PASS"
+    },
+    "worker_documents": {
+      "status": "PASS",
+      "busy": false,
+      "reason": null
+    },
+    "worker_interactive": {
+      "status": "BLOCKED",
+      "busy": null,
+      "reason": "worker_not_available"
+    },
+    "local_models": {
+      "status": "BLOCKED",
+      "reachable": false,
+      "reason": "模型服务未配置或当前不可达；未调用云端替代"
+    },
+    "index": {
+      "status": "BLOCKED",
+      "eligible_blocks": 22890,
+      "indexed_blocks": 0,
+      "semantic_ready_documents": 0,
+      "documents": 40
+    },
+    "analysis": {
+      "status": "NOT RUN",
+      "model": "gemini-4-hydrogen",
+      "configured": true,
+      "profile": "evaluation",
+      "local_daily_attempts": 5,
+      "reason": "此检查不发送模型请求；配置与账本不证明上游当前可用",
+      "paid_fallback": false
+    },
+    "public_https": {
+      "status": "NOT RUN",
+      "reason": "本地健康检查不能证明外网新浏览器可达"
+    }
+  }
+}

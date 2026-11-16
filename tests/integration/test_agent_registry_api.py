@@ -24,7 +24,9 @@ def test_agent_tools_catalog_pipeline_checkpoint_and_cancel(api):
  u=api.post('/api/v1/documents?index_dense=false',files={'files':('new.pdf',p.getvalue())}).json();jobs.work_once();vid=u['documents'][0]['id']
  run=api.post('/api/v1/agent/runs',json={'question':'Explain eight GPUs and graph source relationships','version_ids':[vid],'idempotency_key':'tool-wiring-new'}).json()
  jobs.work_once();result=api.get('/api/v1/runs/'+run['id']).json()
- assert result['status']=='completed',result.get('error')
+ assert result['status']=='partial',result.get('error')
+ assert result['result']['claims'][0]['review']['status']=='not_checked'
+ assert result['result']['answer_segments'][0]['claim_ids']==['claim-1']
  assert result['result']['model']=='UNIT_TEST_NO_PROVIDER'
  names=[s['data']['tool'] for s in result['steps'] if s['event']=='tool_finished']
  assert 'retrieve_evidence' in names and 'build_citation_graph' in names

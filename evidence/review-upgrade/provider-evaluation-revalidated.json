@@ -1,0 +1,2485 @@
+{
+  "live_http": true,
+  "reuses_saved_generation": true,
+  "started": 1794807302.7846076,
+  "cases": [
+    {
+      "name": "training-hardware",
+      "run": {
+        "id": "80c745b0f8db42fa99b3d7f3e9906d66",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "partial",
+        "payload": {
+          "question": "论文实际用了多少张什么型号的显卡训练？请说明base和big模型各训练多久。",
+          "version_ids": [
+            "e492d5c15f4444c08e9c335618e32533"
+          ]
+        },
+        "result": {
+          "answer": "该项主张未获原文支持：在《Attention Is All You Need》（v1，arxiv:1706.03762）中，作者在一台配备 8 张 NVIDIA P100 GPU 的机器上训练模型。\n\n对于采用文中所述超参数的 base 模型，每步训练耗时约 0.4 秒，总计训练 100,000 步或 12 小时。\n\n对于 big 模型（配置列于 Table 3 末行），每步训练时间为 1.0 秒，总计训练 300,000 步或 3.5 天；在 WMT 2014 英德翻译任务上，big 模型也在 8 张 P100 GPU 上训练了 3.5 天。\n\n在 WMT 2014 英法翻译任务上，该论文的 big 模型同样在 8 张 GPU 上训练了 3.5 天并取得 41.0 的 BLEU 分数。",
+          "answer_segments": [
+            {
+              "text": "该项主张未获原文支持：在《Attention Is All You Need》（v1，arxiv:1706.03762）中，作者在一台配备 8 张 NVIDIA P100 GPU 的机器上训练模型。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "对于采用文中所述超参数的 base 模型，每步训练耗时约 0.4 秒，总计训练 100,000 步或 12 小时。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "对于 big 模型（配置列于 Table 3 末行），每步训练时间为 1.0 秒，总计训练 300,000 步或 3.5 天；在 WMT 2014 英德翻译任务上，big 模型也在 8 张 P100 GPU 上训练了 3.5 天。",
+              "claim_ids": [
+                "c3"
+              ]
+            },
+            {
+              "text": "在 WMT 2014 英法翻译任务上，该论文的 big 模型同样在 8 张 GPU 上训练了 3.5 天并取得 41.0 的 BLEU 分数。",
+              "claim_ids": [
+                "c4"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "该项主张未获原文支持：在《Attention Is All You Need》（v1，arxiv:1706.03762）中，作者在一台配备 8 张 NVIDIA P100 GPU 的机器上训练模型。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.19313676969696963,
+                    0.8237985812205878,
+                    0.2608117696969697
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 61
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "insufficient",
+                "method": "independent_model_critic",
+                "reason": "原文（6:2）证实作者在一台配备 8 张 NVIDIA P100 GPU 的机器上训练模型，但所提供的原文片段中未出现论文标题《Attention Is All You Need》、版本 v1 及 arxiv:1706.03762 等信息，无法据此完全核验。",
+                "label": "证据不足或未检查",
+                "human_status": "unreviewed"
+              },
+              "original_text": "在《Attention Is All You Need》（v1，arxiv:1706.03762）中，作者在一台配备 8 张 NVIDIA P100 GPU 的机器上训练模型。",
+              "original_type": "source_fact"
+            },
+            {
+              "id": "c2",
+              "text": "对于采用文中所述超参数的 base 模型，每步训练耗时约 0.4 秒，总计训练 100,000 步或 12 小时。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.19313676969696963,
+                    0.8237985812205878,
+                    0.2608117696969697
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours.",
+                  "quote_span": {
+                    "start": 62,
+                    "end": 251
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "independent_model_critic",
+                "reason": "原文（6:2）明确说明采用文中超参数的 base 模型每步训练耗时约 0.4 秒，总计训练 100,000 步或 12 小时。",
+                "label": "机器复核支持",
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c3",
+              "text": "对于 big 模型（配置列于 Table 3 末行），每步训练时间为 1.0 秒，总计训练 300,000 步或 3.5 天；在 WMT 2014 英德翻译任务上，big 模型也在 8 张 P100 GPU 上训练了 3.5 天。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.19313676969696963,
+                    0.8237985812205878,
+                    0.2608117696969697
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+                  "quote_span": {
+                    "start": 252,
+                    "end": 399
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:6:17",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17593300653594773,
+                    0.8303589919191919,
+                    0.8238071275686275,
+                    0.9118079818181819
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "On the WMT 2014 English-to-German translation task, Our big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 days on 8 P100 GPUs.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 370
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "independent_model_critic",
+                "reason": "原文（6:2）说明列于 Table 3 末行的 big 模型每步耗时 1.0 秒、总计训练 300,000 步或 3.5 天；原文（6:17）亦证实其在 WMT 2014 英德翻译任务上于 8 张 P100 GPU 上训练了 3.5 天。",
+                "label": "机器复核支持",
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c4",
+              "text": "在 WMT 2014 英法翻译任务上，该论文的 big 模型同样在 8 张 GPU 上训练了 3.5 天并取得 41.0 的 BLEU 分数。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.23507516339869283,
+                    0.4558135373737374,
+                    0.7676259463986926,
+                    0.6612296989898989
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs",
+                  "quote_span": {
+                    "start": 723,
+                    "end": 893
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 7,
+                  "bbox": [
+                    0.17588398692810459,
+                    0.3416289702020202,
+                    0.8255642608660131,
+                    0.5336097494949494
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 95
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "independent_model_critic",
+                "reason": "结合原文（0:5）与（7:1），在 WMT 2014 英法翻译任务上取得 41.0 BLEU 分数的是论文的 big 模型，且该模型在 8 张 GPU 上训练了 3.5 天。",
+                "label": "机器复核支持",
+                "human_status": "unreviewed"
+              }
+            }
+          ],
+          "status": "partial",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "数值与出处规则已检查；语义未经独立复核的主张明确保留为待复核。",
+          "legacy_answer_replaced": false,
+          "model": "gemini-4-hydrogen",
+          "usage": {
+            "promptTokenCount": 5625,
+            "candidatesTokenCount": 1100,
+            "totalTokenCount": 9243,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 5625
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1100
+              }
+            ],
+            "thoughtsTokenCount": 2518,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "blocks": [
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.19313676969696963,
+                  0.8237985812205878,
+                  0.2608117696969697
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -22.489066100869387,
+                "rrf_score": 0.01639344262295082
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:17",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17593300653594773,
+                  0.8303589919191919,
+                  0.8238071275686275,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 17,
+                "text": "On the WMT 2014 English-to-German translation task, Our big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 days on 8 P100 GPUs. Even our base model surpasses all previously published models and ensembles, at a fraction of the training cost of any of the previous best models.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -16.809359425756117,
+                "rrf_score": 0.016129032258064516
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.17588398692810459,
+                  0.3416289702020202,
+                  0.8255642608660131,
+                  0.5336097494949494
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0, outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate P drop = 0.1, instead of 0.3. For the base models, we used a single model obtained by averaging the last 5 checkpoints, which were written at 10-minute intervals. For the big models, we averaged the last 20 checkpoints. We used beam search with a beam size of 4 and length penalty α = 0.6 [34]. These hyperparameters were chosen after experimentation on the development set. We set the maximum output length during inference to input length + 50, but terminate early when possible [34]. Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU 3 .",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "34"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -14.981739611450239,
+                "rrf_score": 0.015873015873015872
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.23507516339869283,
+                  0.4558135373737374,
+                  0.7676259463986926,
+                  0.6612296989898989
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -11.361664478280446,
+                "rrf_score": 0.015625
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.1759656862745098,
+                  0.813845103030303,
+                  0.5514352434640525,
+                  0.8264241434343435
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "This section describes the training regime for our models.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -9.758069890196282,
+                "rrf_score": 0.015384615384615385
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.17570588235294118,
+                  0.7853526787878788,
+                  0.8255616428366013,
+                  0.8874948505050504
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "To evaluate if the Transformer can generalize to other tasks we performed experiments on English constituency parsing. This task presents specific challenges: the output is subject to strong structural constraints and is significantly longer than the input. Furthermore, RNN sequence-to-sequence models have not been able to attain state-of-the-art results in small-data regimes [33]. We trained a 4-layer transformer with d model = 1024 on the Wall Street Journal (WSJ) portion of the Penn Treebank [23], about 40K training sentences. We also trained it in a semi-supervised setting, using the larger high-confidence and BerkleyParser corpora from with approximately 17M sentences",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "23",
+                    "33"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -8.331889450122066,
+                "rrf_score": 0.015151515151515152
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:1:0",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 1,
+                "bbox": [
+                  0.17588398692810459,
+                  0.0936266686868686,
+                  0.8263708366352935,
+                  0.24400873939393938
+                ],
+                "type": "paragraph",
+                "reading_order": 0,
+                "text": "computation [29], while also improving model performance in case of the latter. The fundamental constraint of sequential computation, however, remains. Attention mechanisms have become an integral part of compelling sequence modeling and transduc- tion models in various tasks, allowing modeling of dependencies without regard to their distance in the input or output sequences [2, 17]. In all but a few cases [25], however, such attention mechanisms are used in conjunction with a recurrent network. In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours on eight P100 GPUs.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "2, 17",
+                    "25",
+                    "29"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -8.203661860363148,
+                "rrf_score": 0.014925373134328358
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:10:0",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 10,
+                "bbox": [
+                  0.17647058823529413,
+                  0.0933373507575757,
+                  0.8235360256836602,
+                  0.11997969898989898
+                ],
+                "type": "paragraph",
+                "reading_order": 0,
+                "text": "[15] Łukasz Kaiser and Ilya Sutskever. Neural GPUs learn algorithms. In International Conference on Learning Representations (ICLR), 2016.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "15"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -8.023921582015284,
+                "rrf_score": 0.014705882352941176
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:9:1",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 9,
+                "bbox": [
+                  0.17570588235294118,
+                  0.1228564666666667,
+                  0.8261567384078425,
+                  0.3214809616161617
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "In this work, we presented the Transformer, the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention. For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art. In the former task our best model outperforms even all previously reported ensembles. We also provide an indication of the broader applicability of our models through experiments on English constituency parsing. We are excited about the future of attention-based models and plan to apply them to other tasks. We plan to extend the Transformer to problems involving input and output modalities other than text and to investigate local, restricted attention mechanisms to efficiently handle large inputs and outputs such as images, audio and video. Making generation less sequential is another research goals of ours. We intend to make the code we used to train and evaluate our models available soon.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -7.753082178300632,
+                "rrf_score": 0.014492753623188406
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:0",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.1759656862745098,
+                  0.0895761636363636,
+                  0.8235346862745095,
+                  0.3029822242424244
+                ],
+                "type": "caption",
+                "reading_order": 0,
+                "text": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [16] 23.75 Deep-Att + PosUnk [35] 39.2 1.0 · 10 20 GNMT + RL [34] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [29] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [35] 40.4 8.0 · 10 20 GNMT + RL Ensemble [34] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.0 2.3 · 10 19",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "16",
+                    "29",
+                    "34",
+                    "35",
+                    "9"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -7.0901066258476035,
+                "rrf_score": 0.014285714285714285
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:8:4",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 8,
+                "bbox": [
+                  0.17570588235294118,
+                  0.7269587393939394,
+                  0.8262364754202617,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 4,
+                "text": "[33]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens for the semi-supervised setting. We performed only a small number of experiments to select the dropout, both attention and residual (section 5.4), learning rates and beam size on the Section 22 development set, all other parameters remained unchanged from the English-to-German base translation model. During inference, we increased the maximum output length to input length + 300 . We used a beam size of 21 and α = 0.3 for both WSJ only and the semi-supervised setting. Our results in Table 4 show that despite the lack of task-specific tuning our model performs sur- prisingly well, yielding better results than all previously reported models with the exception of the Recurrent Neural Network Grammar [8]. In contrast to RNN sequence-to-sequence models [33], the Transformer outperforms the Berkeley- Parser [27] even when training only on the WSJ training set of 40K sentences.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "27",
+                    "33",
+                    "8"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -6.455319185210216,
+                "rrf_score": 0.014084507042253521
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:4",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7818414606060605,
+                  0.2781483921568627,
+                  0.79693641010101
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "5 Training",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.862514556763844,
+                "rrf_score": 0.013888888888888888
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:6",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.17647058823529413,
+                  0.8458769992424242,
+                  0.4077266267973857,
+                  0.8584560396464647
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "5.1 Training Data and Batching",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.504866616161285,
+                "rrf_score": 0.0136986301369863
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:8",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.47009510303030294,
+                  0.5424663039215688,
+                  0.4826741434343434
+                ],
+                "type": "paragraph",
+                "reading_order": 8,
+                "text": "We employ three types of regularization during training:",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.341922245493954,
+                "rrf_score": 0.013513513513513514
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:14",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7230734146464647,
+                  0.8235307916405228,
+                  0.7497031838383839
+                ],
+                "type": "equation",
+                "reading_order": 14,
+                "text": "Label Smoothing During training, we employed label smoothing of value (cid:15) ls = 0.1 [32]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "32"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.077530686501804,
+                "rrf_score": 0.013333333333333334
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.17570588235294118,
+                  0.8716809616161616,
+                  0.8262325421699348,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "3"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.607190259283999,
+                "rrf_score": 0.013157894736842105
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:8:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 8,
+                "bbox": [
+                  0.48460784313725486,
+                  0.5223522727272727,
+                  0.6674820261437909,
+                  0.6886477272727273
+                ],
+                "type": "table",
+                "reading_order": 7,
+                "text": "Training\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nsemi-supervised\nsemi-supervised\nsemi-supervised\nsemi-supervised\nsemi-supervised\ngenerative",
+                "source": "pdfplumber_table",
+                "quality": "table_review_required",
+                "metadata": {
+                  "cells": [
+                    [
+                      "Training"
+                    ],
+                    [
+                      "WSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative"
+                    ],
+                    [
+                      "WSJonly,discriminative"
+                    ],
+                    [
+                      "semi-supervised\nsemi-supervised\nsemi-supervised\nsemi-supervised"
+                    ],
+                    [
+                      "semi-supervised"
+                    ],
+                    [
+                      "generative"
+                    ]
+                  ],
+                  "reconstruction": "需与原图核对"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.425050075773969,
+                "rrf_score": 0.012987012987012988
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:3",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.1759656862745098,
+                  0.5774031838383838,
+                  0.8255577452222221,
+                  0.7415605070707071
+                ],
+                "type": "paragraph",
+                "reading_order": 3,
+                "text": "To evaluate the importance of different components of the Transformer, we varied our base model in different ways, measuring the change in performance on English-to-German translation on the development set, newstest2013. We used beam search as described in the previous section, but no checkpoint averaging. We present these results in Table 3. In Table 3 rows (A), we vary the number of attention heads and the attention key and value dimensions, keeping the amount of computation constant, as described in Section 3.2.2. While single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads. In Table 3 rows (B), we observe that reducing the attention key size d k hurts model quality. This suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial. We further observe in rows (C) and (D) that, as expected, bigger models are better, and dropout is very helpful in avoiding over-fitting.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.358093209618279,
+                "rrf_score": 0.01282051282051282
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7187125272727273,
+                  0.8241028008594771,
+                  0.9113266949494949
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [31, 2, 5]. Numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures [34, 22, 14]. Recurrent models typically factor computation along the symbol positions of the input and output sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden states h t , as a function of the previous hidden state h t−1 and the input for position t . This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples. Recent work has achieved significant improvements in computational efficiency through factorization tricks [19] and conditional ∗ Equal contribution. Listing order is random. † Work performed while at Google Brain.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "12",
+                    "19",
+                    "31, 2, 5",
+                    "34, 22, 14",
+                    "7"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.269019355968912,
+                "rrf_score": 0.012658227848101266
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:1:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 1,
+                "bbox": [
+                  0.1759656862745098,
+                  0.297804698989899,
+                  0.8235321467882349,
+                  0.3103837393939395
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "The goal of reducing sequential computation also forms the foundation of the Extended Neural GPU",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.072224442045689,
+                "rrf_score": 0.0125
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:1",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.16723179722222234,
+                  0.3807852820261438,
+                  0.17981083762626268
+                ],
+                "type": "heading",
+                "reading_order": 1,
+                "text": "5.2 Hardware and Schedule",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "neighbor_context": true
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:3",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.2805158881313131,
+                  0.28452898496732026,
+                  0.29309492853535346
+                ],
+                "type": "heading",
+                "reading_order": 3,
+                "text": "5.3 Optimizer",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "neighbor_context": true
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:16",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.8044540194444445,
+                  0.3579624630718955,
+                  0.8170330598484848
+                ],
+                "type": "heading",
+                "reading_order": 16,
+                "text": "6.1 Machine Translation",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "neighbor_context": true
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:18",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.49592973856209155,
+                  0.9369663151515152,
+                  0.5040691176470589,
+                  0.9495453555555555
+                ],
+                "type": "footer",
+                "reading_order": 18,
+                "text": "7",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu",
+                  "excluded_from_index": "printed_page_label"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "neighbor_context": true
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.17647058823529413,
+                  0.5520171507575757,
+                  0.33323502941176475,
+                  0.5645961911616162
+                ],
+                "type": "heading",
+                "reading_order": 2,
+                "text": "6.2 Model Variations",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "neighbor_context": true
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:4",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.463656862745098,
+                  0.4246558545454543,
+                  0.5363452601307189,
+                  0.4397508040404038
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "Abstract",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "neighbor_context": true
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                "score": -22.489066100869387
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:17",
+                "score": -16.809359425756117
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                "score": -14.981739611450239
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                "score": -11.361664478280446
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:5",
+                "score": -9.758069890196282
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:5",
+                "score": -8.331889450122066
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:0",
+                "score": -8.203661860363148
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:0",
+                "score": -8.023921582015284
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:9:1",
+                "score": -7.753082178300632
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:0",
+                "score": -7.0901066258476035
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:4",
+                "score": -6.455319185210216
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:4",
+                "score": -5.862514556763844
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:6",
+                "score": -5.504866616161285
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:8",
+                "score": -5.341922245493954
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:14",
+                "score": -5.077530686501804
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:7",
+                "score": -4.607190259283999
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:7",
+                "score": -4.425050075773969
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:3",
+                "score": -4.358093209618279
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                "score": -4.269019355968912
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:2",
+                "score": -4.072224442045689
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:9",
+                "score": -3.941794204471888
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:1",
+                "score": -3.9343712831516258
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:4",
+                "score": -3.857538518948169
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:6",
+                "score": -3.857538518948169
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:9:15",
+                "score": -3.857538518948169
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:11:1",
+                "score": -3.5189547249718243
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:0",
+                "score": -3.4517436980042566
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:0",
+                "score": -3.266247008279284
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:4:6",
+                "score": -3.0498241760629705
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:9",
+                "score": -3.0183187049868394
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:7",
+                "score": -2.977239869656788
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:5",
+                "score": -2.8382957518229235
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:6",
+                "score": -2.169076934917633
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:3",
+                "score": -2.09897937887331
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:3",
+                "score": -1.994668654258847
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:3",
+                "score": -1.9879114627826053
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:2",
+                "score": -1.9727965916064545
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:4",
+                "score": -1.7433031570376636
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:4:9",
+                "score": -1.72601104557298
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:2",
+                "score": -1.7158786880911356
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:2:0",
+                "score": -1.6635393315592546
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:3:7",
+                "score": -1.5907552472707926
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:3:6",
+                "score": -1.574901103720044
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:4:0",
+                "score": -1.4294637773042864
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:5",
+                "score": -1.4245482701355339
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:11",
+                "score": -1.3538225103407882
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:10",
+                "score": -1.3372249244982581
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:9:16",
+                "score": -1.3052214313016697
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:4:8",
+                "score": -1.292296841905682
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:9:9",
+                "score": -1.289787341031022
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:4:4",
+                "score": -1.1657261649965287
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:8",
+                "score": -1.0271176387974135
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:3:4",
+                "score": -1.0223042704633574
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:2",
+                "score": -0.9986337023994344
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:4:10",
+                "score": -0.8166212617375685
+              }
+            ],
+            "dense": [],
+            "mode": "keyword",
+            "notice": "当前使用对称分词的关键词索引；向量覆盖尚未完成",
+            "version_ids": [
+              "e492d5c15f4444c08e9c335618e32533"
+            ],
+            "method": "FTS5_BM25",
+            "dense_index": {
+              "status": "unindexed"
+            },
+            "rerank": {
+              "status": "NOT RUN"
+            },
+            "query_term_expansion": [
+              "train",
+              "trained",
+              "training",
+              "GPU",
+              "GPUs",
+              "accelerator",
+              "model",
+              "models"
+            ]
+          },
+          "artifact_id": "f9d06b1fe346456eb508b9df79de7bfd"
+        },
+        "error": null,
+        "idempotency": "upgrade-training-hardware-2587d41c864947b6a51eee4fecda882d",
+        "created": 1794807178.6987317,
+        "updated": 1794807322.9366114,
+        "steps": [
+          {
+            "id": 3730,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794807178.7054596
+          },
+          {
+            "id": 3731,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794807179.2358518
+          },
+          {
+            "id": 3732,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794807179.3357058
+          },
+          {
+            "id": 3733,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 55,
+              "dense_candidates": 0,
+              "evidence_blocks": 26
+            },
+            "created": 1794807179.4911842
+          },
+          {
+            "id": 3734,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "3677c27bf8b14e328400538bb316edfe",
+              "reserved_input_tokens": 17043,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794807179.5115225
+          },
+          {
+            "id": 3867,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794807197.5386875
+          },
+          {
+            "id": 3869,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794807197.5739188
+          },
+          {
+            "id": 4575,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794807303.2517326
+          },
+          {
+            "id": 4576,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794807303.2887385
+          },
+          {
+            "id": 4577,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 55,
+              "dense_candidates": 0,
+              "evidence_blocks": 26
+            },
+            "created": 1794807303.295883
+          },
+          {
+            "id": 4578,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794807303.3029938
+          },
+          {
+            "id": 4580,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "98608fd0030b45c593c02e9aefd86da8",
+              "reserved_input_tokens": 20569,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 2,
+                "remaining": 0
+              }
+            },
+            "created": 1794807303.3577387
+          },
+          {
+            "id": 4610,
+            "event": "evidence_review",
+            "data": {
+              "method": "independent_model_critic",
+              "claims": 4,
+              "status": "partial"
+            },
+            "created": 1794807322.9215558
+          },
+          {
+            "id": 4611,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794807322.9435656
+          }
+        ]
+      }
+    },
+    {
+      "name": "false-premise-no-answer",
+      "run": {
+        "id": "b72a219b1a054e049aa4bd15d5fd7a8c",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "completed",
+        "payload": {
+          "question": "为什么作者用了80张GPU？先核对这个前提，再说明论文是否报告训练总费用。不要把没有依据的数字当成事实。",
+          "version_ids": [
+            "e492d5c15f4444c08e9c335618e32533"
+          ]
+        },
+        "result": {
+          "answer": "关于“作者使用了80张GPU”及使用该数量GPU的原因，给定证据中缺乏依据，无法支持该数字前提。\n\n给定证据显示，作者在一台配备8张NVIDIA P100 GPU的机器上训练模型（基础模型每步约0.4秒，共训练100,000步或12小时；大模型每步1.0秒，共训练300,000步或3.5天）。\n\n关于训练成本，论文在正文中报告了相对训练成本（在WMT 2014英法翻译任务上，其大模型的训练成本不到此前最先进模型的1/4），并说明表2汇总对比了训练成本，且通过将训练时间、所用GPU数量与每张GPU的持续单精度浮点运算能力估计值相乘来估算训练模型所用的浮点运算次数。\n\n给定证据中未报告以货币金额计价的训练总费用，且文中提及汇总对比训练成本的表2（Table 2）及脚注3未包含在给定证据中，因此无法从给定证据确认具体的训练总费用或总浮点运算次数数值。",
+          "answer_segments": [
+            {
+              "text": "关于“作者使用了80张GPU”及使用该数量GPU的原因，给定证据中缺乏依据，无法支持该数字前提。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "给定证据显示，作者在一台配备8张NVIDIA P100 GPU的机器上训练模型（基础模型每步约0.4秒，共训练100,000步或12小时；大模型每步1.0秒，共训练300,000步或3.5天）。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "关于训练成本，论文在正文中报告了相对训练成本（在WMT 2014英法翻译任务上，其大模型的训练成本不到此前最先进模型的1/4），并说明表2汇总对比了训练成本，且通过将训练时间、所用GPU数量与每张GPU的持续单精度浮点运算能力估计值相乘来估算训练模型所用的浮点运算次数。",
+              "claim_ids": [
+                "c3"
+              ]
+            },
+            {
+              "text": "给定证据中未报告以货币金额计价的训练总费用，且文中提及汇总对比训练成本的表2（Table 2）及脚注3未包含在给定证据中，因此无法从给定证据确认具体的训练总费用或总浮点运算次数数值。",
+              "claim_ids": [
+                "c4"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "关于“作者使用了80张GPU”及使用该数量GPU的原因，给定证据中缺乏依据，无法支持该数字前提。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c2",
+              "text": "给定证据显示，作者在一台配备8张NVIDIA P100 GPU的机器上训练模型（基础模型每步约0.4秒，共训练100,000步或12小时；大模型每步1.0秒，共训练300,000步或3.5天）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.19313676969696963,
+                    0.8237985812205878,
+                    0.2608117696969697
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 399
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "independent_model_critic",
+                "reason": "所引原文（e492d5c15f4444c08e9c335618e32533:6:2）明确说明在一台配备8张NVIDIA P100 GPU的机器上训练模型，并给出了基础模型每步约0.4秒、共100,000步或12小时，以及大模型每步1.0秒、共300,000步或3.5天的训练细节，与主张完全一致。",
+                "label": "机器复核支持",
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c3",
+              "text": "关于训练成本，论文在正文中报告了相对训练成本（在WMT 2014英法翻译任务上，其大模型的训练成本不到此前最先进模型的1/4），并说明表2汇总对比了训练成本，且通过将训练时间、所用GPU数量与每张GPU的持续单精度浮点运算能力估计值相乘来估算训练模型所用的浮点运算次数。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 7,
+                  "bbox": [
+                    0.17588398692810459,
+                    0.3416289702020202,
+                    0.8255642608660131,
+                    0.5336097494949494
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0, outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 232
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 7,
+                  "bbox": [
+                    0.17588398692810459,
+                    0.3416289702020202,
+                    0.8255642608660131,
+                    0.5336097494949494
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU 3 .",
+                  "quote_span": {
+                    "start": 796,
+                    "end": 1155
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "independent_model_critic",
+                "reason": "所引原文（e492d5c15f4444c08e9c335618e32533:7:1）明确指出大模型在WMT 2014英法翻译任务上的训练成本不到此前最先进模型的1/4，说明表2汇总并对比了训练成本，并描述了以训练时间、GPU数量与单卡持续单精度浮点运算能力估计值相乘来估算训练浮点运算次数的方法，与主张完全一致。",
+                "label": "机器复核支持",
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c4",
+              "text": "给定证据中未报告以货币金额计价的训练总费用，且文中提及汇总对比训练成本的表2（Table 2）及脚注3未包含在给定证据中，因此无法从给定证据确认具体的训练总费用或总浮点运算次数数值。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            }
+          ],
+          "status": "ready",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "数值与出处规则已检查；语义未经独立复核的主张明确保留为待复核。",
+          "legacy_answer_replaced": false,
+          "model": "gemini-4-hydrogen",
+          "usage": {
+            "promptTokenCount": 4046,
+            "candidatesTokenCount": 977,
+            "totalTokenCount": 9049,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 4046
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 977
+              }
+            ],
+            "thoughtsTokenCount": 4026,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "blocks": [
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:4",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.463656862745098,
+                  0.4246558545454543,
+                  0.5363452601307189,
+                  0.4397508040404038
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "Abstract",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -14.07101949776206,
+                "rrf_score": 0.01639344262295082
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:6",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.17647058823529413,
+                  0.687715197979798,
+                  0.3117870431372549,
+                  0.7028101474747473
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "1 Introduction",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -13.891571874690532,
+                "rrf_score": 0.016129032258064516
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:0",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.3455686274509804,
+                  0.12554244772727277,
+                  0.6534204862745099,
+                  0.14727906388888898
+                ],
+                "type": "heading",
+                "reading_order": 0,
+                "text": "Attention Is All You Need",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -13.381005094018331,
+                "rrf_score": 0.015873015873015872
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:3",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.38892483660130717,
+                  0.3591630267676766,
+                  0.6110712820915032,
+                  0.38739229444444423
+                ],
+                "type": "paragraph",
+                "reading_order": 3,
+                "text": "Illia Polosukhin ∗ illia.polosukhin@gmail.com",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -13.21946370419716,
+                "rrf_score": 0.015625
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.20732352941176466,
+                  0.2960355015151514,
+                  0.7926707817320261,
+                  0.3380374964646463
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "Llion Jones ∗ Aidan N. Gomez ∗† Łukasz Kaiser ∗ Google Research University of Toronto Google Brain llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -10.87857104187781,
+                "rrf_score": 0.015384615384615385
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:1",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.1906552287581699,
+                  0.2329067136363636,
+                  0.8124391587254902,
+                  0.27490997121212113
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "Ashish Vaswani ∗ Noam Shazeer ∗ Niki Parmar ∗ Jakob Uszkoreit ∗ Google Brain Google Brain Google Research Google Research avaswani@google.com noam@google.com nikip@google.com usz@google.com",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -10.470318304104511,
+                "rrf_score": 0.015151515151515152
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.19313676969696963,
+                  0.8237985812205878,
+                  0.2608117696969697
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds, and the models were trained for 300,000 steps or 3.5 days.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -10.275939890070243,
+                "rrf_score": 0.014925373134328358
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.23507516339869283,
+                  0.4558135373737374,
+                  0.7676259463986926,
+                  0.6612296989898989
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -9.159403840971214,
+                "rrf_score": 0.014705882352941176
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.17588398692810459,
+                  0.3416289702020202,
+                  0.8255642608660131,
+                  0.5336097494949494
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0, outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate P drop = 0.1, instead of 0.3. For the base models, we used a single model obtained by averaging the last 5 checkpoints, which were written at 10-minute intervals. For the big models, we averaged the last 20 checkpoints. We used beam search with a beam size of 4 and length penalty α = 0.6 [34]. These hyperparameters were chosen after experimentation on the development set. We set the maximum output length during inference to input length + 50, but terminate early when possible [34]. Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU 3 .",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "34"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -6.780748832163719,
+                "rrf_score": 0.014492753623188406
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7187125272727273,
+                  0.8241028008594771,
+                  0.9113266949494949
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [31, 2, 5]. Numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures [34, 22, 14]. Recurrent models typically factor computation along the symbol positions of the input and output sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden states h t , as a function of the previous hidden state h t−1 and the input for position t . This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples. Recent work has achieved significant improvements in computational efficiency through factorization tricks [19] and conditional ∗ Equal contribution. Listing order is random. † Work performed while at Google Brain.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "12",
+                    "19",
+                    "31, 2, 5",
+                    "34, 22, 14",
+                    "7"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -6.314679288858284,
+                "rrf_score": 0.014285714285714285
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:7:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 7,
+                "bbox": [
+                  0.17570588235294118,
+                  0.7853526787878788,
+                  0.8255616428366013,
+                  0.8874948505050504
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "To evaluate if the Transformer can generalize to other tasks we performed experiments on English constituency parsing. This task presents specific challenges: the output is subject to strong structural constraints and is significantly longer than the input. Furthermore, RNN sequence-to-sequence models have not been able to attain state-of-the-art results in small-data regimes [33]. We trained a 4-layer transformer with d model = 1024 on the Wall Street Journal (WSJ) portion of the Penn Treebank [23], about 40K training sentences. We also trained it in a semi-supervised setting, using the larger high-confidence and BerkleyParser corpora from with approximately 17M sentences",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "23",
+                    "33"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -6.109629241034232,
+                "rrf_score": 0.014084507042253521
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:4",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7818414606060605,
+                  0.2781483921568627,
+                  0.79693641010101
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "5 Training",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.862514556763844,
+                "rrf_score": 0.013888888888888888
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:17",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17593300653594773,
+                  0.8303589919191919,
+                  0.8238071275686275,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 17,
+                "text": "On the WMT 2014 English-to-German translation task, Our big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 days on 8 P100 GPUs. Even our base model surpasses all previously published models and ensembles, at a fraction of the training cost of any of the previous best models.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.66058627090849,
+                "rrf_score": 0.0136986301369863
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:6",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.17647058823529413,
+                  0.8458769992424242,
+                  0.4077266267973857,
+                  0.8584560396464647
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "5.1 Training Data and Batching",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.504866616161285,
+                "rrf_score": 0.013513513513513514
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:6:8",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.47009510303030294,
+                  0.5424663039215688,
+                  0.4826741434343434
+                ],
+                "type": "paragraph",
+                "reading_order": 8,
+                "text": "We employ three types of regularization during training:",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.341922245493954,
+                "rrf_score": 0.013333333333333334
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.1759656862745098,
+                  0.813845103030303,
+                  0.5514352434640525,
+                  0.8264241434343435
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "This section describes the training regime for our models.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.26401467585166,
+                "rrf_score": 0.013157894736842105
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:5:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 5,
+                "bbox": [
+                  0.17570588235294118,
+                  0.8716809616161616,
+                  0.8262325421699348,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "3"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.607190259283999,
+                "rrf_score": 0.012987012987012988
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:8:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 8,
+                "bbox": [
+                  0.48460784313725486,
+                  0.5223522727272727,
+                  0.6674820261437909,
+                  0.6886477272727273
+                ],
+                "type": "table",
+                "reading_order": 7,
+                "text": "Training\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nsemi-supervised\nsemi-supervised\nsemi-supervised\nsemi-supervised\nsemi-supervised\ngenerative",
+                "source": "pdfplumber_table",
+                "quality": "table_review_required",
+                "metadata": {
+                  "cells": [
+                    [
+                      "Training"
+                    ],
+                    [
+                      "WSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative\nWSJonly,discriminative"
+                    ],
+                    [
+                      "WSJonly,discriminative"
+                    ],
+                    [
+                      "semi-supervised\nsemi-supervised\nsemi-supervised\nsemi-supervised"
+                    ],
+                    [
+                      "semi-supervised"
+                    ],
+                    [
+                      "generative"
+                    ]
+                  ],
+                  "reconstruction": "需与原图核对"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.425050075773969,
+                "rrf_score": 0.01282051282051282
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:1:0",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 1,
+                "bbox": [
+                  0.17588398692810459,
+                  0.0936266686868686,
+                  0.8263708366352935,
+                  0.24400873939393938
+                ],
+                "type": "paragraph",
+                "reading_order": 0,
+                "text": "computation [29], while also improving model performance in case of the latter. The fundamental constraint of sequential computation, however, remains. Attention mechanisms have become an integral part of compelling sequence modeling and transduc- tion models in various tasks, allowing modeling of dependencies without regard to their distance in the input or output sequences [2, 17]. In all but a few cases [25], however, such attention mechanisms are used in conjunction with a recurrent network. In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours on eight P100 GPUs.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "2, 17",
+                    "25",
+                    "29"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.081392054774213,
+                "rrf_score": 0.012658227848101266
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:1:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 1,
+                "bbox": [
+                  0.1759656862745098,
+                  0.297804698989899,
+                  0.8235321467882349,
+                  0.3103837393939395
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "The goal of reducing sequential computation also forms the foundation of the Extended Neural GPU",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -4.072224442045689,
+                "rrf_score": 0.0125
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:4",
+                "score": -14.07101949776206
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:6",
+                "score": -13.891571874690532
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:0",
+                "score": -13.381005094018331
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:3",
+                "score": -13.21946370419716
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:2",
+                "score": -10.87857104187781
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:1",
+                "score": -10.470318304104511
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:2",
+                "score": -10.275939890070243
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                "score": -9.159403840971214
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:1",
+                "score": -6.780748832163719
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                "score": -6.314679288858284
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:5",
+                "score": -6.109629241034232
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:4",
+                "score": -5.862514556763844
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:17",
+                "score": -5.66058627090849
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:6",
+                "score": -5.504866616161285
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:8",
+                "score": -5.341922245493954
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:5",
+                "score": -5.26401467585166
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:5:7",
+                "score": -4.607190259283999
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:7",
+                "score": -4.425050075773969
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:0",
+                "score": -4.081392054774213
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:1:2",
+                "score": -4.072224442045689
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:9",
+                "score": -3.941794204471888
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:10:0",
+                "score": -3.9147269913506193
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:14",
+                "score": -3.8992112573572055
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:4",
+                "score": -3.857538518948169
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:6",
+                "score": -3.857538518948169
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:9:15",
+                "score": -3.857538518948169
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:6:0",
+                "score": -3.4517436980042566
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:2",
+                "score": -2.907684586269918
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:4",
+                "score": -2.6697876079382876
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:7:0",
+                "score": -2.6599500974338808
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:9:1",
+                "score": -2.4671388608835843
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:3",
+                "score": -1.9879114627826053
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:6",
+                "score": -1.3140467519957317
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:8:1",
+                "score": -1.255018288278279
+              }
+            ],
+            "dense": [],
+            "mode": "keyword",
+            "notice": "当前使用对称分词的关键词索引；向量覆盖尚未完成",
+            "version_ids": [
+              "e492d5c15f4444c08e9c335618e32533"
+            ],
+            "method": "FTS5_BM25",
+            "dense_index": {
+              "status": "unindexed"
+            },
+            "rerank": {
+              "status": "NOT RUN"
+            },
+            "query_term_expansion": [
+              "author",
+              "authors",
+              "affiliation",
+              "train",
+              "trained",
+              "training"
+            ]
+          },
+          "artifact_id": "65831273d7664af5be926b5cff53fd3f"
+        },
+        "error": null,
+        "idempotency": "upgrade-false-premise-no-answer-4e195cc86c424a5a894e9caec3d2e4d7",
+        "created": 1794807198.0296106,
+        "updated": 1794807331.8376348,
+        "steps": [
+          {
+            "id": 3874,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794807198.038712
+          },
+          {
+            "id": 3876,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794807198.0883179
+          },
+          {
+            "id": 3877,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794807198.0948539
+          },
+          {
+            "id": 3879,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 34,
+              "dense_candidates": 0,
+              "evidence_blocks": 20
+            },
+            "created": 1794807198.1861348
+          },
+          {
+            "id": 3880,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "91b242f9bca342da9ca53e0590d951f1",
+              "reserved_input_tokens": 12463,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794807198.1999462
+          },
+          {
+            "id": 4088,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794807223.8098238
+          },
+          {
+            "id": 4089,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794807223.8170164
+          },
+          {
+            "id": 4612,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794807323.4584777
+          },
+          {
+            "id": 4613,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794807323.4656978
+          },
+          {
+            "id": 4614,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 34,
+              "dense_candidates": 0,
+              "evidence_blocks": 20
+            },
+            "created": 1794807323.4719813
+          },
+          {
+            "id": 4615,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794807323.4775348
+          },
+          {
+            "id": 4616,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "b47996596e864d3581d87bde7c2d050c",
+              "reserved_input_tokens": 14349,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 2,
+                "remaining": 0
+              }
+            },
+            "created": 1794807323.4977841
+          },
+          {
+            "id": 4617,
+            "event": "evidence_review",
+            "data": {
+              "method": "independent_model_critic",
+              "claims": 4,
+              "status": "ready"
+            },
+            "created": 1794807331.8233156
+          },
+          {
+            "id": 4618,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794807331.844324
+          }
+        ]
+      }
+    }
+  ],
+  "finished": 1794807332.1649928
+}

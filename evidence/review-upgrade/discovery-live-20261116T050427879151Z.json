@@ -1,0 +1,126 @@
+{
+  "started_at": 1794805467.879204,
+  "status": "FAIL",
+  "resolver_option": "RT_PUBLIC_DNS_RESOLVER",
+  "resolver": "https://dns.google/resolve",
+  "proxy_configuration_names": {
+    "process": [
+      "ALL_PROXY",
+      "HTTPS_PROXY",
+      "HTTP_PROXY",
+      "NO_PROXY",
+      "all_proxy",
+      "http_proxy",
+      "https_proxy",
+      "no_proxy"
+    ],
+    "project_env": [
+      "RT_PUBLIC_PROXY"
+    ]
+  },
+  "verified_route": {
+    "operator_proxy": true,
+    "current_loopback_7897": true,
+    "tls_certificate_verification": true,
+    "all_target_addresses_global": true
+  },
+  "private_workspace_directory": "/tmp/researchtrace-discovery-giiaadsp",
+  "root_dataset_opened": false,
+  "request_budget": {
+    "target_http": 12,
+    "trusted_doh_http": 48,
+    "automatic_retries": 0
+  },
+  "actual_http_requests": [
+    {
+      "at": 1794805468.4655051,
+      "kind": "trusted_doh_http",
+      "url": "https://dns.google/resolve?name=export.arxiv.org&type=1&cd=0&edns_client_subnet=0.0.0.0%2F0",
+      "host": "dns.google"
+    },
+    {
+      "at": 1794805470.4441955,
+      "kind": "trusted_doh_http",
+      "url": "https://dns.google/resolve?name=export.arxiv.org&type=28&cd=0&edns_client_subnet=0.0.0.0%2F0",
+      "host": "dns.google"
+    },
+    {
+      "at": 1794805471.4165745,
+      "kind": "target_http",
+      "url": "https://151.101.67.42/api/query?id_list=2106.09685&max_results=1",
+      "host": "export.arxiv.org"
+    }
+  ],
+  "public_operations": [
+    {
+      "source_url": "https://export.arxiv.org/api/query?id_list=2106.09685&max_results=1",
+      "started_at": 1794805468.4235368,
+      "status": "FAIL",
+      "error_type": "ValueError",
+      "error": "公开数据源超时；未使用离线替代结果",
+      "finished_at": 1794805507.7032168
+    }
+  ],
+  "queries": [
+    {
+      "results": [],
+      "errors": [
+        {
+          "source": "arxiv",
+          "error": "公开数据源超时；未使用离线替代结果"
+        }
+      ],
+      "cached": false,
+      "searched_at": 1794805468.423363,
+      "query": "arxiv:2106.09685",
+      "sources": [
+        "arxiv"
+      ],
+      "source_status": {
+        "arxiv": {
+          "status": "failed",
+          "checked_at": 1794805507.7032351
+        }
+      },
+      "status": "failed",
+      "cache_refreshed_at": null,
+      "cache_expires_at": null,
+      "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+      "returned_at": 1794805507.7052581
+    }
+  ],
+  "model_requests": 0,
+  "dense_index": false,
+  "paid_api_requests": 0,
+  "openalex_requests": 0,
+  "checks": {
+    "new_empty_workspace": "PASS",
+    "probe_completion": "FAIL",
+    "browser_ui": "NOT RUN"
+  },
+  "official_references": [
+    "https://developers.google.com/speed/public-dns/docs/doh/json",
+    "https://www.encode.io/httpcore/extensions/"
+  ],
+  "system_dns_readonly": {
+    "export.arxiv.org": [
+      "198.18.2.3"
+    ],
+    "api.crossref.org": [
+      "198.18.2.4"
+    ],
+    "arxiv.org": [
+      "198.18.2.130"
+    ],
+    "dns.google": [
+      "198.18.2.131"
+    ]
+  },
+  "workspace_id": "39d8206e93e140e09cd5f923cb2f9281",
+  "failure_type": "AssertionError",
+  "finished_at": 1794805507.7091644,
+  "http_request_counts": {
+    "target_http": 1,
+    "trusted_doh_http": 2
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "run_id": "11119179bc54434d8f5ed2b87438a5a2",
+  "started": 1794809707.638604,
+  "live_api": true,
+  "synthetic_counterexamples": true,
+  "source_quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs.",
+  "cases": [
+    {
+      "id": "correct",
+      "expected": "supported",
+      "actual": "supported",
+      "probability": 0.9984519604489455,
+      "confidence": 0.9984519604489455,
+      "status": "PASS"
+    },
+    {
+      "id": "wrong_count",
+      "expected": "contradicted",
+      "actual": "contradicted",
+      "probability": 0.9644959031450682,
+      "confidence": 0.9644959031450682,
+      "status": "PASS"
+    },
+    {
+      "id": "wrong_unit",
+      "expected": "insufficient",
+      "actual": "insufficient",
+      "probability": 0.5804140131190718,
+      "confidence": 0.5804140131190718,
+      "status": "PASS"
+    },
+    {
+      "id": "invented_cost",
+      "expected": "insufficient",
+      "actual": "insufficient",
+      "probability": 0.9595901508599707,
+      "confidence": 0.9595901508599707,
+      "status": "PASS"
+    },
+    {
+      "id": "negation",
+      "expected": "contradicted",
+      "actual": "contradicted",
+      "probability": 0.9883186465096078,
+      "confidence": 0.9883186465096078,
+      "status": "PASS"
+    },
+    {
+      "id": "route_qa",
+      "expected": "qa",
+      "actual": "qa",
+      "probability": 0.9942175631449455,
+      "confidence": 0.9942175631449455,
+      "status": "PASS"
+    },
+    {
+      "id": "route_translation",
+      "expected": "translation",
+      "actual": "translation",
+      "probability": 0.9970447297855303,
+      "confidence": 0.9970447297855303,
+      "status": "PASS"
+    },
+    {
+      "id": "route_compare",
+      "expected": "comparison",
+      "actual": "comparison",
+      "probability": 0.9917976607800496,
+      "confidence": 0.9917976607800496,
+      "status": "PASS"
+    },
+    {
+      "id": "route_future",
+      "expected": "future_work",
+      "actual": "future_work",
+      "probability": 0.9965881434470054,
+      "confidence": 0.9965881434470054,
+      "status": "PASS"
+    },
+    {
+      "id": "route_retrieval",
+      "expected": "retrieval",
+      "actual": "retrieval",
+      "probability": 0.9963293990663071,
+      "confidence": 0.9963293990663071,
+      "status": "PASS"
+    },
+    {
+      "id": "route_other",
+      "expected": "other",
+      "actual": "other",
+      "probability": 0.9943053235870418,
+      "confidence": 0.9943053235870418,
+      "status": "PASS"
+    }
+  ],
+  "response": {
+    "answers": {
+      "wrong_unit": {
+        "confidence": 0.5804140131190718,
+        "choice": "insufficient",
+        "probabilities": {
+          "insufficient": 0.5804140131190718,
+          "contradicted": 0.38131769371739416,
+          "supported": 0.03826829316353399
+        },
+        "type": "choice"
+      },
+      "route_translation": {
+        "confidence": 0.9970447297855303,
+        "choice": "translation",
+        "probabilities": {
+          "retrieval": 0.000203635485967088,
+          "translation": 0.9970447297855303,
+          "comparison": 8.280973000086728e-05,
+          "future_work": 0.00012058216577496964,
+          "qa": 0.0003874727201853201,
+          "other": 0.0021607701125415484
+        },
+        "type": "choice"
+      },
+      "correct": {
+        "confidence": 0.9984519604489455,
+        "choice": "supported",
+        "probabilities": {
+          "insufficient": 0.0010935837293514438,
+          "contradicted": 0.0004544558217030919,
+          "supported": 0.9984519604489455
+        },
+        "type": "choice"
+      },
+      "route_future": {
+        "confidence": 0.9965881434470054,
+        "choice": "future_work",
+        "probabilities": {
+          "comparison": 0.0002909729961246759,
+          "future_work": 0.9965881434470054,
+          "translation": 0.00012417321708243703,
+          "other": 0.002391741087070407,
+          "qa": 0.00024039557469773633,
+          "retrieval": 0.00036457367801933835
+        },
+        "type": "choice"
+      },
+      "route_other": {
+        "confidence": 0.9943053235870418,
+        "choice": "other",
+        "probabilities": {
+          "future_work": 0.002980151986130171,
+          "other": 0.9943053235870418,
+          "retrieval": 0.0002993828070576668,
+          "translation": 0.0006542717852603996,
+          "qa": 0.0012184905094073763,
+          "comparison": 0.0005423793251028783
+        },
+        "type": "choice"
+      },
+      "negation": {
+        "confidence": 0.9883186465096078,
+        "choice": "contradicted",
+        "probabilities": {
+          "contradicted": 0.9883186465096078,
+          "supported": 0.002470448214428457,
+          "insufficient": 0.009210905275963887
+        },
+        "type": "choice"
+      },
+      "route_qa": {
+        "confidence": 0.9942175631449455,
+        "choice": "qa",
+        "probabilities": {
+          "comparison": 0.00034924378880591734,
+          "retrieval": 0.00046000401844611933,
+          "translation": 0.0005315792568659919,
+          "qa": 0.9942175631449455,
+          "other": 0.004000834407379386,
+          "future_work": 0.0004407753835572033
+        },
+        "type": "choice"
+      },
+      "route_compare": {
+        "confidence": 0.9917976607800496,
+        "choice": "comparison",
+        "probabilities": {
+          "future_work": 0.0006116156226087625,
+          "retrieval": 0.00036225554844050375,
+          "other": 0.004361503079257373,
+          "qa": 0.0024715901373597764,
+          "translation": 0.00039537483228387315,
+          "comparison": 0.9917976607800496
+        },
+        "type": "choice"
+      },
+      "route_retrieval": {
+        "confidence": 0.9963293990663071,
+        "choice": "retrieval",
+        "probabilities": {
+          "comparison": 0.00011438906418382924,
+          "future_work": 0.0006070078565199584,
+          "other": 0.001609209343922966,
+          "retrieval": 0.9963293990663071,
+          "translation": 0.0002483710077660139,
+          "qa": 0.0010916236613000665
+        },
+        "type": "choice"
+      },
+      "invented_cost": {
+        "confidence": 0.9595901508599707,
+        "choice": "insufficient",
+        "probabilities": {
+          "supported": 0.010572265274919113,
+          "insufficient": 0.9595901508599707,
+          "contradicted": 0.029837583865110144
+        },
+        "type": "choice"
+      },
+      "wrong_count": {
+        "confidence": 0.9644959031450682,
+        "choice": "contradicted",
+        "probabilities": {
+          "contradicted": 0.9644959031450682,
+          "insufficient": 0.021187031088663676,
+          "supported": 0.01431706576626809
+        },
+        "type": "choice"
+      }
+    },
+    "model": "gemini-decision-1",
+    "usage": {
+      "total_tokens": 1671,
+      "total_input_tokens": 1671,
+      "input_tokens_by_modality": [
+        {
+          "modality": "text",
+          "tokens": 1671
+        }
+      ],
+      "total_output_tokens": 0
+    },
+    "project": "gemini-shared",
+    "quota_id": "32009aa0d32f4f94adb17e6293f81b0e"
+  },
+  "status": "PASS",
+  "finished": 1794809708.665824
+}

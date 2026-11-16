@@ -1,0 +1,74 @@
+[
+  {
+    "file": "AUDIT_REPORT.md",
+    "bytes": 24357
+  },
+  {
+    "file": "CODEX_UPGRADE_TASK.md",
+    "bytes": 19256
+  },
+  {
+    "file": "RELEASE_GATES.md",
+    "bytes": 3350
+  },
+  {
+    "file": "SOURCE_EVIDENCE.md",
+    "bytes": 66910
+  },
+  {
+    "file": "START_HERE.md",
+    "bytes": 2620
+  },
+  {
+    "file": "audit_environment.json",
+    "bytes": 430
+  },
+  {
+    "file": "browser_review.json",
+    "bytes": 412
+  },
+  {
+    "file": "browser_server.log",
+    "bytes": 407
+  },
+  {
+    "file": "database_snapshot_stats.json",
+    "bytes": 2205
+  },
+  {
+    "file": "deterministic_probes.json",
+    "bytes": 6572
+  },
+  {
+    "file": "evidence/supplied_graph.png",
+    "bytes": 509392
+  },
+  {
+    "file": "evidence/supplied_library.png",
+    "bytes": 168324
+  },
+  {
+    "file": "evidence/supplied_mineru_reader.png",
+    "bytes": 428963
+  },
+  {
+    "file": "evidence/supplied_reader_answer.png",
+    "bytes": 297440
+  },
+  {
+    "file": "pytest_recheck.log",
+    "bytes": 2302
+  },
+  {
+    "file": "pytest_recheck_clean.log",
+    "bytes": 631
+  },
+  {
+    "file": "review_scope.json",
+    "bytes": 377
+  },
+  {
+    "file": "run_audit_probes.py",
+    "bytes": 4535
+  }
+]

@@ -104,3 +104,12 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 - 本轮0供应商新请求，完整quota行未变：Hydrogen4次（65537输入/23309输出）、FlashLite22次（15068/14624）、embedding56次尝试（214761输入，含失败/未知）。Hydrogen原4次上限和付费兜底保护未改。公开检索真实检查仍被非公网DNS安全拒绝，测试追踪关闭；独立质量真值/新模型评测预算、公网HTTPS/评审运行与正式视频PDF仍未完成。
 
 三条本轮新输入演示：①资料包v7/v1改名上传→同论文版本比较，原扫描→Paddle/MinerU新快照→搜索高亮；②原教材541页→32页取消恢复→空白页核验→后半部与末页定位；③39份资料页数生成CSV→绘图与五类导出，并展示损坏PDF422。新增测试脚本只执行明确步骤；不要重跑任何会消费供应商配额的历史smoke脚本，不迁移/重置原账本。遗留10文件/请求上限未变，本次逐文件导入不声称20文件原子批量上传已验收。
+
+
+## 2026-11-16 审阅升级进行中（最新）
+
+审阅包基线cc54691，增量实现细节与当前PASS/FAIL/NOT RUN见 `docs/UPGRADE_STATUS_20261116.md`。核心集限定v1/v7/扫描版/541页教材，其余35份拓展。395项完整工程回归通过；真实20篇批量导入、3.6Flash双向翻译、Decision1原生11例校准与双卡本地模型已有证据。核心问答保留首次失败和复验partial；核心4索引仍在构建，未冒称全量向量完成。原smoke4与旧账本没有重置；本轮新增授权各模型每日40次，失败/unknown照计，付费兜底仍关闭。
+
+运行服务已拆成researchtrace-api、worker-documents、worker-interactive、parser，以及本项目loopback检索隧道；旧单worker单元已停用，旧源码/用户ZIP/RAR及未跟踪文件保留。所有新增结果见 `evidence/review-upgrade/`，管理员流程已追加真实运行记录。不要据此宣称公网、正式赛事视频/PDF或全部质量门槛完成。
+
+核心4索引已完成：run `e5d48e5600a947438dd3a5d0ca45c19d`，generation `fcdff7af26f44e369897bf3ee452089f`，5267合格源块→5330片段/5330向量，完整后已激活，云调用0。全39的staged代 `53ffb2e2e9c14cab81b122e9a4b50857` 有23185片段尚未构建全部向量。后续优先真实混合检索与核心4问答复验，并完成Qwen同切分对照、其余35拓展与公网/材料。

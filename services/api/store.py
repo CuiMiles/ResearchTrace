@@ -70,6 +70,32 @@ def migrate():
         c.execute("INSERT OR IGNORE INTO parses(id,version_id,workspace,engine,device,status,parsed_pages,page_count,created) SELECT id,id,workspace,'native','cpu',status,parsed_pages,page_count,created FROM versions")
         c.execute('INSERT OR IGNORE INTO active_parses SELECT id,id FROM versions')
         c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(2,?)',(time.time(),))
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS quota_context(quota_id TEXT PRIMARY KEY REFERENCES quota(id),profile TEXT NOT NULL CHECK(profile IN ('smoke','evaluation','judging')),workflow_limit INTEGER NOT NULL CHECK(workflow_limit>=1));
+        CREATE TABLE IF NOT EXISTS import_batches(id TEXT PRIMARY KEY,workspace TEXT NOT NULL,status TEXT NOT NULL,index_dense INTEGER NOT NULL,created REAL NOT NULL,updated REAL NOT NULL);
+        CREATE TABLE IF NOT EXISTS batch_items(id TEXT PRIMARY KEY,batch_id TEXT NOT NULL,workspace TEXT NOT NULL,ordinal INTEGER NOT NULL,filename TEXT NOT NULL,status TEXT NOT NULL,sha256 TEXT,version_id TEXT,run_id TEXT,owns_run INTEGER NOT NULL DEFAULT 0,duplicate INTEGER NOT NULL DEFAULT 0,error TEXT,created REAL NOT NULL,updated REAL NOT NULL,UNIQUE(batch_id,ordinal));
+        CREATE INDEX IF NOT EXISTS import_batches_workspace ON import_batches(workspace,created);
+        CREATE INDEX IF NOT EXISTS batch_items_order ON batch_items(batch_id,ordinal);
+        CREATE INDEX IF NOT EXISTS batch_items_admission ON batch_items(status,created);
+        ''')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(3,?)',(time.time(),))
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS index_generations(id TEXT PRIMARY KEY,workspace TEXT NOT NULL,model_id TEXT NOT NULL,revision TEXT NOT NULL,fingerprint TEXT NOT NULL,manifest TEXT NOT NULL,status TEXT NOT NULL,expected_blocks INTEGER NOT NULL DEFAULT 0,covered_blocks INTEGER NOT NULL DEFAULT 0,excluded_blocks INTEGER NOT NULL DEFAULT 0,chunk_count INTEGER NOT NULL DEFAULT 0,vector_count INTEGER NOT NULL DEFAULT 0,dimension INTEGER NOT NULL,created REAL NOT NULL,activated REAL,error TEXT);
+        CREATE TABLE IF NOT EXISTS retrieval_chunks(id TEXT PRIMARY KEY,generation_id TEXT NOT NULL REFERENCES index_generations(id),workspace TEXT NOT NULL,version_id TEXT NOT NULL,parse_id TEXT NOT NULL,ordinal INTEGER NOT NULL,text TEXT NOT NULL,retrieval_text TEXT NOT NULL,token_count INTEGER NOT NULL,kind TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS retrieval_spans(chunk_id TEXT NOT NULL REFERENCES retrieval_chunks(id),block_id TEXT NOT NULL,start INTEGER NOT NULL,end INTEGER NOT NULL,PRIMARY KEY(chunk_id,block_id,start,end));
+        CREATE TABLE IF NOT EXISTS retrieval_vectors(chunk_id TEXT PRIMARY KEY REFERENCES retrieval_chunks(id),dimension INTEGER NOT NULL,vector BLOB NOT NULL);
+        CREATE TABLE IF NOT EXISTS active_retrieval_indices(workspace TEXT NOT NULL,version_id TEXT NOT NULL,model_id TEXT NOT NULL,generation_id TEXT NOT NULL REFERENCES index_generations(id),PRIMARY KEY(workspace,version_id,model_id));
+        CREATE INDEX IF NOT EXISTS chunks_generation ON retrieval_chunks(generation_id,version_id);
+        CREATE INDEX IF NOT EXISTS spans_block ON retrieval_spans(block_id);
+        CREATE VIRTUAL TABLE IF NOT EXISTS sparse_blocks_v2 USING fts5(block_id UNINDEXED,text,tokenize='unicode61');
+        CREATE TABLE IF NOT EXISTS sparse_index_state(block_id TEXT PRIMARY KEY,text_sha256 TEXT NOT NULL);
+        ''')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(4,?)',(time.time(),))
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS review_accounts(id TEXT PRIMARY KEY,workspace TEXT NOT NULL UNIQUE,label TEXT NOT NULL,code_hash TEXT NOT NULL UNIQUE,created REAL NOT NULL,expires REAL NOT NULL,revoked INTEGER NOT NULL DEFAULT 0,last_login REAL);
+        CREATE TABLE IF NOT EXISTS translation_cache(workspace TEXT NOT NULL,version_id TEXT NOT NULL,parse_id TEXT NOT NULL,block_id TEXT NOT NULL,source_language TEXT NOT NULL CHECK(source_language IN ('auto','en','zh')),target_language TEXT NOT NULL CHECK(target_language IN ('en','zh-Hans')),glossary_version TEXT NOT NULL,model TEXT NOT NULL,actual_model TEXT NOT NULL,text TEXT NOT NULL,created REAL NOT NULL,PRIMARY KEY(workspace,version_id,parse_id,block_id,source_language,target_language,glossary_version,model));
+        ''')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(5,?)',(time.time(),))
 
 def one(sql, params=()):
     with db() as c:

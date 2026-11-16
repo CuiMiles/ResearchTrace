@@ -1,0 +1,7 @@
+{
+  "scope": "Fresh local browser check of supplied built bundle with isolated database copy. No worker or model requests. Not public deployment verification.",
+  "screenshots": [],
+  "page_errors": [],
+  "http_errors": [],
+  "exception": "Error: Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at http://127.0.0.1:18789/\nCall log:\n  - navigating to \"http://127.0.0.1:18789/\", waiting until \"networkidle\"\n"
+}

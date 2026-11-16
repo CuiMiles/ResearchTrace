@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
 from pathlib import Path
+from typing import Literal
 load_dotenv(Path(__file__).resolve().parents[2]/'.env')
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, UploadFile, File, Form, Query
@@ -27,6 +28,8 @@ async def lifespan(app):
     yield
 
 app=FastAPI(title='ResearchTrace API',version='1.0.0',lifespan=lifespan)
+from .upload_limits import UploadBodyLimit
+app.add_middleware(UploadBodyLimit)
 
 @app.middleware('http')
 async def security(request,call_next):
@@ -52,6 +55,10 @@ def session(request:Request):
     data=one('SELECT workspace,role FROM sessions WHERE token_hash=? AND expires>?',(hashlib.sha256(token.encode()).hexdigest(),time.time()))
     if not data:
         raise HTTPException(401,'请使用本地配置的访问码登录')
+    if data['role']=='reviewer':
+        account=one('SELECT revoked,expires FROM review_accounts WHERE workspace=?',(data['workspace'],))
+        if account and (account['revoked'] or account['expires']<=time.time()):
+            raise HTTPException(401,'评审入口已到期或已撤销')
     return data
 
 def admin(s=Depends(session)):
@@ -66,6 +73,7 @@ def version(vid,w):
     v.pop('path',None);v['metadata']=json.loads(v['metadata'])
     a=one('SELECT parse_id FROM active_parses WHERE version_id=?',(vid,))
     v['active_parse_id']=a['parse_id'] if a else vid
+    v['local_index']=local_index_status(w,vid)
     return v
 
 def block_decode(b):
@@ -107,8 +115,10 @@ def login(p:Login,request:Request,response:Response):
     if len(recent)>=10:
         raise HTTPException(429,'登录尝试过多，请稍后再试')
     LOGIN_ATTEMPTS[peer]=recent+[time.time()]
-    role=None
-    for name,label in [('RT_ADMIN_CODE','admin'),('RT_ACCESS_CODE','reviewer')]:
+    from .reviewer_accounts import lookup_reviewer
+    identity=lookup_reviewer(p.code)
+    role='reviewer' if identity else None
+    for name,label in ([] if identity else [('RT_ADMIN_CODE','admin'),('RT_ACCESS_CODE','reviewer')]):
         code=os.getenv(name,'')
         if code and hmac.compare_digest(p.code,code):
             role=label
@@ -120,10 +130,11 @@ def login(p:Login,request:Request,response:Response):
         prior=session(request)
     except HTTPException:
         pass
-    workspace=prior['workspace'] if prior else uid()
+    workspace=identity['workspace'] if identity else prior['workspace'] if prior else uid()
     execute('INSERT OR IGNORE INTO workspaces VALUES(?,?,?)',(workspace,'我的研究空间',time.time()))
     token=secrets.token_urlsafe(40)
-    execute('INSERT INTO sessions VALUES(?,?,?,?)',(hashlib.sha256(token.encode()).hexdigest(),workspace,role,time.time()+7*86400))
+    expires=min(time.time()+7*86400,identity['expires']) if identity else time.time()+7*86400
+    execute('INSERT INTO sessions VALUES(?,?,?,?)',(hashlib.sha256(token.encode()).hexdigest(),workspace,role,expires))
     response.set_cookie('rt_session',token,httponly=True,samesite='strict',secure=os.getenv('RT_SECURE_COOKIE','false')=='true',max_age=7*86400)
     return {'workspace':workspace,'role':role}
 
@@ -149,24 +160,39 @@ def health():
 def ready():
     return {'status':'ok' if one('SELECT 1 n') else 'unavailable'}
 
+@app.get('/api/v1/readiness')
+def judging_readiness(s=Depends(session)):
+    from .readiness import inspect
+    return inspect(s['workspace'])
+
 @app.post('/api/v1/documents')
 async def upload(files:list[UploadFile]=File(...),index_dense:bool=True,s=Depends(session)):
-    from .documents import upload_document
-    if len(files)>10:
-        raise HTTPException(413,'单次最多10个文件')
-    docs=[];runs=[]
-    for f in files:
-        content=await f.read(50*1024*1024+1)
-        if len(content)>50*1024*1024:
-            raise HTTPException(413,'PDF 上限50MB')
-        result=await asyncio.to_thread(upload_document,s['workspace'],f.filename or 'upload.pdf',content,index_dense=index_dense)
-        v=result.get('document') or result
-        if isinstance(v,dict) and v.get('id'):
-            v=version(v['id'],s['workspace'])
-        v['duplicate']=result.get('duplicate',False);docs.append(v)
-        if result.get('run_id'):
-            runs.append({'id':result['run_id'],'run_id':result['run_id'],'status':'queued'})
-    return {'documents':docs,'runs':runs}
+    from .batches import upload_batch
+    result=await upload_batch(s['workspace'],files,index_dense=index_dense)
+    result['documents']=[{**version(v['id'],s['workspace']),'duplicate':v.get('duplicate',False)} for v in result['documents']]
+    return result
+
+@app.get('/api/v1/batches/{batch_id}')
+def get_import_batch(batch_id:str,s=Depends(session)):
+    from .batches import get_batch
+    return get_batch(s['workspace'],batch_id)
+
+@app.get('/api/v1/batches')
+def list_import_batches(s=Depends(session)):
+    return rows('SELECT id,status,created,updated FROM import_batches WHERE workspace=? ORDER BY created DESC LIMIT 20',(s['workspace'],))
+
+class BatchSelection(BaseModel):
+    item_ids:list[str]|None=Field(default=None,max_length=50)
+
+@app.post('/api/v1/batches/{batch_id}/cancel')
+def cancel_import_batch(batch_id:str,p:BatchSelection=BatchSelection(),s=Depends(session)):
+    from .batches import cancel_batch
+    return cancel_batch(s['workspace'],batch_id,p.item_ids)
+
+@app.post('/api/v1/batches/{batch_id}/resume')
+def resume_import_batch(batch_id:str,p:BatchSelection=BatchSelection(),s=Depends(session)):
+    from .batches import resume_batch
+    return resume_batch(s['workspace'],batch_id,p.item_ids)
 
 @app.get('/api/v1/documents')
 def documents(s=Depends(session)):
@@ -174,7 +200,40 @@ def documents(s=Depends(session)):
 
 @app.get('/api/v1/documents/{vid}/status')
 def status(vid:str,s=Depends(session)):
-    return version(vid,s['workspace'])
+    v=version(vid,s['workspace'])
+    v['local_index']=local_index_status(s['workspace'],vid)
+    return v
+
+def local_index_status(workspace,vid):
+    model=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16')
+    generation=one('SELECT g.* FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id WHERE a.workspace=? AND a.version_id=? AND a.model_id=?',(workspace,vid,model))
+    expected=one("SELECT count(*) n FROM current_blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer')",(workspace,vid))['n']
+    covered=one('SELECT count(DISTINCT s.block_id) n FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id JOIN current_blocks b ON b.id=s.block_id WHERE c.workspace=? AND c.version_id=? AND c.generation_id=?',(workspace,vid,generation['id']))['n'] if generation else 0
+    return {'status':'ready' if generation and covered==expected and expected>0 else 'unindexed',
+            'generation_id':generation['id'] if generation else None,'model_id':model,
+            'indexed_blocks':covered,'eligible_blocks':expected,'semantic_ready':bool(generation and covered==expected and expected>0)}
+
+class IndexRequest(BaseModel):
+    version_ids:list[str]=Field(min_length=1,max_length=100)
+    generation_id:str|None=None
+    idempotency_key:str=Field(min_length=8,max_length=150)
+
+@app.post('/api/v1/indices/runs')
+def build_index(p:IndexRequest,s=Depends(session)):
+    for vid in p.version_ids:version(vid,s['workspace'])
+    return queue(s['workspace'],'index',p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
+
+@app.get('/api/v1/indices')
+def index_status(s=Depends(session)):
+    versions=rows('SELECT id FROM versions WHERE workspace=? AND deleted=0',(s['workspace'],))
+    return {'versions':[{'version_id':v['id'],**local_index_status(s['workspace'],v['id'])} for v in versions],
+            'generations':rows('SELECT id,model_id,revision,status,expected_blocks,covered_blocks,excluded_blocks,chunk_count,vector_count,dimension,created,activated,error FROM index_generations WHERE workspace=? ORDER BY created DESC',(s['workspace'],))}
+
+@app.post('/api/v1/indices/{generation_id}/activate')
+def activate_index(generation_id:str,s=Depends(session)):
+    from .index_generations import activate_generation,generation_status
+    activate_generation(s['workspace'],generation_id)
+    return generation_status(s['workspace'],generation_id)
 
 @app.get('/api/v1/documents/{vid}/file')
 def pdf(vid:str,s=Depends(session)):
@@ -231,15 +290,12 @@ def references(vid:str,parse_id:str|None=None,s=Depends(session)):
 
 @app.get('/api/v1/documents/{vid}/search')
 def search_document(vid:str,q:str=Query(default='',max_length=500),parse_id:str|None=None,s=Depends(session)):
-    import re
     version(vid,s['workspace'])
     from .snapshots import selected_parse
     snap=selected_parse(s['workspace'],vid,parse_id)
-    terms=re.findall(r'[\wβγδ]+',q,re.UNICODE)[:30]
-    if not terms:
-        return []
-    match=' OR '.join('"'+t.replace('"','""')+'"'+('*' if t.isascii() and len(t)>1 else '') for t in terms)
-    return [block_decode(b) for b in rows('SELECT b.*,COALESCE(m.parse_id,b.version_id) AS parse_id FROM block_fts JOIN blocks b ON b.id=block_fts.id LEFT JOIN block_parses m ON m.block_id=b.id WHERE block_fts MATCH ? AND b.workspace=? AND b.version_id=? AND COALESCE(m.parse_id,b.version_id)=? ORDER BY bm25(block_fts) LIMIT 50',(match,s['workspace'],vid,snap['id']))]
+    from .sparse_index import search
+    hits,_=search(s['workspace'],[vid],q,limit=50,parse_id=snap['id'])
+    return [block_decode(b) for b in hits]
 
 class OutlineEntry(BaseModel):
     title:str=Field(min_length=1,max_length=300)
@@ -284,7 +340,7 @@ def delete_document(vid:str,s=Depends(session)):
         c.execute('DELETE FROM block_fts WHERE id IN (SELECT id FROM blocks WHERE workspace=? AND version_id=?)',(s['workspace'],vid))
         c.execute('DELETE FROM embeddings WHERE workspace=? AND version_id=?',(s['workspace'],vid))
         c.execute('UPDATE versions SET deleted=1 WHERE id=?',(vid,))
-        c.execute("UPDATE runs SET status='cancelled' WHERE workspace=? AND status IN ('queued','running') AND payload LIKE ?",(s['workspace'],'%'+vid+'%'))
+        c.execute("UPDATE runs SET status='cancelled' WHERE workspace=? AND status IN ('queued','running','waiting_batch') AND payload LIKE ?",(s['workspace'],'%'+vid+'%'))
     return {'deleted':True,'history':'原引用保留不可用提示；不会指向其他版本'}
 
 class Compare(BaseModel):
@@ -296,6 +352,11 @@ def compare(p:Compare,s=Depends(session)):
     from .documents import compare_versions
     version(p.left,s['workspace']);version(p.right,s['workspace'])
     return compare_versions(s['workspace'],p.left,p.right)
+
+@app.post('/api/v1/versions/impact')
+def version_note_impact(p:Compare,s=Depends(session)):
+    from .version_impact import assess
+    return assess(s['workspace'],p.left,p.right)
 
 class Question(BaseModel):
     question:str=Field(min_length=1,max_length=6000)
@@ -321,6 +382,9 @@ def agent(p:Question,s=Depends(session)):
     return ask(p,s,'agent')
 
 class Translation(BaseModel):
+    source_language:Literal['auto','en','zh']='auto'
+    target_language:Literal['en','zh-Hans']='zh-Hans'
+    glossary_version:str=Field(default='default',pattern=r'^[A-Za-z0-9._:-]{1,100}$')
     version_id:str
     parse_id:str|None=None
     block_ids:list[str]|None=Field(default=None,max_length=100)
@@ -332,21 +396,17 @@ def translation(p:Translation,s=Depends(session)):
     return queue(s['workspace'],'translate',p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
 
 @app.get('/api/v1/translations/{vid}')
-def translations(vid:str,s=Depends(session)):
+def translations(vid:str,parse_id:str|None=None,source_language:str='auto',target_language:str='zh-Hans',glossary_version:str='default',s=Depends(session)):
     version(vid,s['workspace'])
-    return rows('SELECT block_id,text,model FROM translations WHERE workspace=? AND version_id=?',(s['workspace'],vid))
+    from .translation_service import load_translations
+    return load_translations(s['workspace'],vid,parse_id=parse_id,source_language=source_language,target_language=target_language,glossary_version=glossary_version)
 
 @app.get('/api/v1/translations/{vid}/export')
-def translation_export(vid:str,format:str='md',parse_id:str|None=None,s=Depends(session)):
-    v=version(vid,s['workspace'])
-    from .snapshots import selected_parse
-    revision=selected_parse(s['workspace'],vid,parse_id)
-    bs=rows('SELECT b.text source,t.text,t.model,b.page_index FROM blocks b LEFT JOIN block_parses bp ON bp.block_id=b.id LEFT JOIN translations t ON t.block_id=b.id AND t.workspace=b.workspace WHERE b.version_id=? AND b.workspace=? AND COALESCE(bp.parse_id,b.version_id)=? ORDER BY b.page_index,b.reading_order',(vid,s['workspace'],revision['id']))
-    text='# '+v['title']+'\n\n'
-    for b in bs:
-        text+=f"\n原文 p.{b['page_index']+1}\n\n{b['source']}\n\n译文（{b['model'] or '未完成'}）\n\n{b['text'] or '[尚未翻译]'}\n\n"
-    if format=='html':
-        return HTMLResponse('<!doctype html><meta charset="utf-8"><pre style="white-space:pre-wrap">'+html.escape(text)+'</pre>')
+def translation_export(vid:str,format:str='md',parse_id:str|None=None,source_language:str='auto',target_language:str='zh-Hans',glossary_version:str='default',s=Depends(session)):
+    version(vid,s['workspace'])
+    from .translation_service import export_translation
+    text=export_translation(s['workspace'],vid,parse_id=parse_id,source_language=source_language,target_language=target_language,glossary_version=glossary_version,format=format)
+    if format=='html':return HTMLResponse(text)
     return Response(text,media_type='text/markdown',headers={'Content-Disposition':'attachment; filename="translation.md"'})
 
 @app.get('/api/v1/runs')
@@ -385,18 +445,28 @@ async def events(rid:str,request:Request,after:int=0,s=Depends(session)):
 @app.post('/api/v1/runs/{rid}/cancel')
 def cancel(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
-    if r['status'] in ('queued','running','failed','partial'):
+    if r['payload'].get('batch_id') and r['payload'].get('batch_item_id'):
+        from .batches import cancel_batch
+        cancel_batch(s['workspace'],r['payload']['batch_id'],[r['payload']['batch_item_id']])
+        return run_get(rid,s['workspace'])
+    if r['status'] in ('queued','running','waiting_batch','waiting_children','failed','partial'):
         execute("UPDATE runs SET status='cancelled',updated=? WHERE id=?",(time.time(),rid))
         if r['kind'] in ('parse','parse_document','reparse'):
             execute("UPDATE parses SET status='cancelled' WHERE id=?",(r['payload'].get('parse_id',r['payload']['version_id']),))
     if r['kind']=='agent':
         from .tool_registry import ToolContext,cancel_tool_children
         cancel_tool_children(ToolContext(workspace=s['workspace'],run_id=rid))
+    from .dependencies import cancel_owned_children
+    cancel_owned_children(s['workspace'],rid)
     return run_get(rid,s['workspace'])
 
 @app.post('/api/v1/runs/{rid}/resume')
 def resume(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
+    if r['payload'].get('batch_id') and r['payload'].get('batch_item_id'):
+        from .batches import resume_batch
+        resume_batch(s['workspace'],r['payload']['batch_id'],[r['payload']['batch_item_id']])
+        return run_get(rid,s['workspace'])
     if r['kind']=='watch':
         raise HTTPException(409,'追踪检查请通过“立即检查”重试；不会将追踪任务加入解析队列')
     if r['status'] in ('cancelled','failed','partial'):
@@ -406,6 +476,9 @@ def resume(rid:str,s=Depends(session)):
             with run_execution_lock(rid) as acquired:
                 if not acquired:
                     raise HTTPException(409,'任务正在释放资源，请稍后恢复；不会重复启动解析或模型请求')
+                pending=c.execute("SELECT count(*) FROM runs WHERE workspace=? AND status IN ('queued','running')",(s['workspace'],)).fetchone()[0]
+                total=c.execute("SELECT count(*) FROM runs WHERE status IN ('queued','running')").fetchone()[0]
+                if pending>=6 or total>=30:raise HTTPException(429,'队列已满，恢复请求尚未入队')
                 current=c.execute('SELECT status FROM runs WHERE id=? AND workspace=?',(rid,s['workspace'])).fetchone()
                 if current['status'] in ('cancelled','failed','partial'):
                     c.execute("UPDATE runs SET status='queued',error=NULL,updated=? WHERE id=?",(time.time(),rid))
@@ -537,6 +610,27 @@ def export_artifact(aid:str,format:str='md',s=Depends(session)):
         return Response(text,media_type='application/x-bibtex')
     text=export_note(a['payload'],a['title'],format)
     return Response(text,media_type='text/html' if format=='html' else 'text/markdown',headers={'Content-Disposition':f'attachment; filename="research-note.{"html" if format=="html" else "md"}"'})
+
+class ReviewerCreate(BaseModel):
+    label:str=Field(min_length=1,max_length=120)
+    days:int=Field(default=7,ge=1,le=90)
+
+@app.get('/api/v1/admin/reviewers')
+def list_review_accounts(s=Depends(admin)):
+    from .reviewer_accounts import list_reviewers
+    return list_reviewers()
+
+@app.post('/api/v1/admin/reviewers')
+def create_review_account(p:ReviewerCreate,s=Depends(admin)):
+    from .reviewer_accounts import create_reviewer
+    return create_reviewer(p.label,p.days)
+
+@app.post('/api/v1/admin/reviewers/{account_id}/revoke')
+def revoke_review_account(account_id:str,s=Depends(admin)):
+    from .reviewer_accounts import revoke_reviewer
+    result=revoke_reviewer(account_id)
+    if result is None:raise HTTPException(404,'评审入口不存在')
+    return result
 
 @app.get('/api/v1/admin/providers')
 def providers(s=Depends(admin)):

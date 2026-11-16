@@ -19,6 +19,9 @@ def _decode(block):
 
 
 def index_dense(workspace, version_id, run_id):
+    if os.getenv('RT_EMBED_PROVIDER','gemini')=='local':
+        from .index_generations import build
+        return build(workspace,[version_id],run_id=run_id)
     if os.environ.get("ENABLE_DENSE", "true").lower() == "false" or os.environ.get("RT_DISABLE_DENSE", "false").lower() == "true":
         return {"status": "disabled", "model": None, "dense_pages": 0, "notice": "密集索引已关闭；仅使用关键词检索"}
     from .models import embed
@@ -87,57 +90,81 @@ def retrieve(workspace, version_ids, question, limit=16):
     allowed = rows(f"SELECT id FROM versions WHERE workspace=? AND deleted=0 AND id IN ({placeholders})", (workspace, *requested))
     if len(allowed) != len(requested):
         raise ValueError("检索版本不存在或不属于当前工作区")
-    tokens = re.findall(r"[A-Za-z][A-Za-z0-9_]*|[βγδε]\s*\d*|\d+(?:\.\d+)?|[\u4e00-\u9fff]+", question, re.UNICODE)
-    # Chinese segmentation supports meaningful local keyword search without pretending it is semantic.
-    expanded = []
-    for token in tokens:
-        if re.search(r"[\u4e00-\u9fff]", token) and len(token) > 3:
-            expanded.extend(token[i:i + 2] for i in range(len(token) - 1))
-        else:
-            expanded.append(re.sub(r"\s+", "", token))
-    # PDF text can separate β and its subscript; retrieve the source context
-    # while preserving the actual quote and symbol values for verification.
-    for token in list(expanded):
-        if re.fullmatch(r"[βγδε]\d+", token):
-            expanded.append(token[0])
-    query = " OR ".join('"' + t.replace('"', '""') + '"' + ('*' if re.fullmatch(r"[A-Za-z]{3,}", t) else '') for t in expanded[:40] if len(t) > 1 or t in ("β", "γ", "δ"))
-    sparse = []
-    if query:
-        sparse = rows(f"SELECT b.*,bm25(block_fts) AS sparse_score FROM block_fts JOIN current_blocks b ON b.id=block_fts.id JOIN versions v ON v.id=b.version_id WHERE block_fts MATCH ? AND b.workspace=? AND b.version_id IN ({placeholders}) AND v.deleted=0 ORDER BY sparse_score LIMIT ?", (query, workspace, *requested, limit * 3))
-    dense = []
-    notice = "当前使用关键词检索；密集索引未配置或未完成"
-    model = os.environ.get("GEMINI_EMBEDDING_MODEL", "gemini-embedding-001")
-    dense_rows = rows(f"SELECT e.block_id,e.model,e.dimension,e.vector FROM embeddings e JOIN current_blocks cb ON cb.id=e.block_id JOIN versions v ON v.id=e.version_id WHERE e.workspace=? AND e.version_id IN ({placeholders}) AND v.deleted=0 AND e.model=?", (workspace, *requested, model))
-    if dense_rows and os.environ.get("RT_DISABLE_DENSE", "false").lower() != "true":
+    from .sparse_index import search as sparse_search
+    sparse,expanded_terms=sparse_search(workspace,requested,question,limit=min(150,limit*3))
+    if len(requested)>1:
+        seen={b['id'] for b in sparse}
+        for vid in requested:
+            per_doc,_=sparse_search(workspace,[vid],question,limit=max(2,limit//len(requested)))
+            for item in per_doc:
+                if item['id'] not in seen:
+                    sparse.append(item);seen.add(item['id'])
+    dense=[];dense_metadata={'status':'unindexed'};reranker=None
+    notice='当前使用对称分词的关键词索引；向量覆盖尚未完成'
+    if os.getenv('RT_EMBED_PROVIDER','gemini')=='local':
         try:
-            from .models import embed
-            response = embed([question], "retrieval-query", task="RETRIEVAL_QUERY")
-            vector = np.asarray(response["vectors"][0], dtype=np.float32)
-            actual_model = response["model"].removeprefix("models/")
-            norms = float(np.linalg.norm(vector))
-            scored = []
-            for row in dense_rows:
-                if row["dimension"] != len(vector) or row["model"] != actual_model:
-                    continue
-                candidate = np.frombuffer(row["vector"], dtype=np.float32)
-                score = float(np.dot(vector, candidate) / max(norms * np.linalg.norm(candidate), 1e-9))
-                scored.append((row["block_id"], score))
-            scored.sort(key=lambda x: x[1], reverse=True)
-            for block_id, score in scored[:limit * 3]:
-                block = one("SELECT * FROM current_blocks WHERE id=? AND workspace=?", (block_id, workspace))
-                if block:
-                    dense.append({**block, "dense_score": score})
-            notice = "FTS5 与真实 embedding 余弦候选经 RRF 合并；覆盖率见版本详情"
+            from .embedding_providers import LocalRetrievalProvider
+            from .index_generations import dense_search
+            reranker=LocalRetrievalProvider()
+            if os.environ.get('RT_DISABLE_DENSE','false').lower()!='true':
+                dense,dense_metadata=dense_search(workspace,requested,question,limit=50,provider=reranker)
+                notice='本地模型独立索引与BM25经RRF融合；相关性不代表证据支持' if dense else '本地模型没有兼容的完整活动索引；当前为关键词降级'
         except Exception as exc:
-            notice = "密集查询不可用（" + type(exc).__name__ + "）；当前使用关键词检索"
+            dense_metadata={'status':'unavailable','reason':type(exc).__name__}
+            notice='本地向量服务不可用；仅关键词与明确标识的术语扩展，未调用云端替代'
+    else:
+        model=os.environ.get('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
+        # One joined read replaces a per-vector block lookup. This legacy index
+        # remains independent of model-fingerprinted local generations.
+        dense_rows=rows(f"SELECT cb.*,e.model,e.dimension,e.vector FROM embeddings e JOIN current_blocks cb ON cb.id=e.block_id JOIN versions v ON v.id=e.version_id WHERE e.workspace=? AND e.version_id IN ({placeholders}) AND v.deleted=0 AND e.model=?",(workspace,*requested,model))
+        if dense_rows and os.environ.get('RT_DISABLE_DENSE','false').lower()!='true':
+            try:
+                from .models import embed
+                response=embed([question],None,task='RETRIEVAL_QUERY')
+                vector=np.asarray(response['vectors'][0],dtype=np.float32)
+                actual_model=response['model'].removeprefix('models/')
+                compatible=[r for r in dense_rows if r['dimension']==len(vector) and r['model']==actual_model]
+                if compatible and np.isfinite(vector).all() and np.linalg.norm(vector)>0:
+                    matrix=np.stack([np.frombuffer(r['vector'],dtype=np.float32) for r in compatible])
+                    scores=(matrix@vector)/np.maximum(np.linalg.norm(matrix,axis=1)*np.linalg.norm(vector),1e-9)
+                    order=np.argsort(-scores)[:limit*3]
+                    dense=[{**{k:v for k,v in compatible[int(i)].items() if k!='vector'},'dense_score':float(scores[int(i)])} for i in order]
+                    dense_metadata={'status':'ready','model_id':actual_model,'dimension':len(vector),'provider':'gemini'}
+                    notice='Gemini独立索引与FTS5候选经RRF合并；覆盖率见版本详情'
+            except Exception as exc:
+                notice='密集查询不可用（'+type(exc).__name__+'）；当前为关键词检索'
     by_id = {}
     scores = {}
     for candidates in (sparse, dense):
-        for rank, block in enumerate(candidates):
+        seen=set();rank=0
+        for block in candidates:
+            if block['id'] in seen:continue
+            seen.add(block['id'])
             by_id[block["id"]] = block
             scores[block["id"]] = scores.get(block["id"], 0) + 1 / (60 + rank + 1)
-    picked = sorted(scores, key=scores.get, reverse=True)[:limit]
-    blocks = [{**_decode(by_id[k]), "rrf_score": scores[k]} for k in picked]
+            rank+=1
+    ordered=sorted(scores,key=scores.get,reverse=True)
+    rerank_metadata={'status':'NOT RUN'}
+    if reranker is not None and ordered and os.getenv('RT_ENABLE_RERANK','true')=='true':
+        try:
+            top=ordered[:50]
+            response=reranker.rerank(question,[by_id[k].get('retrieval_text',by_id[k]['text']) for k in top])
+            ranked=sorted(zip(top,response['scores']),key=lambda pair:pair[1],reverse=True)
+            ordered=[k for k,_ in ranked]+ordered[50:]
+            rerank_metadata={'status':'PASS','model_id':response.get('model_id'),'revision':response.get('revision'),'candidates':len(top),'score_semantics':'relevance_not_truth'}
+        except Exception as exc:
+            rerank_metadata={'status':'BLOCKED','reason':type(exc).__name__}
+    picked=[]
+    # Reserve evidence slots for each requested document before filling globally.
+    for vid in requested:
+        candidate=next((k for k in ordered if by_id[k]['version_id']==vid),None)
+        if candidate and candidate not in picked and len(picked)<limit:picked.append(candidate)
+    picked.extend(k for k in ordered if k not in picked)
+    picked=picked[:limit]
+    blocks=[{**_decode(by_id[k]),'rrf_score':scores[k]} for k in picked]
+    for block in blocks:
+        if 'span_start' in block:
+            block['evidence_text']=block['text'][block['span_start']:block['span_end']]
     # Adjacent blocks recover table headers/conditions without changing evidence identities.
     added = set(picked)
     for item in blocks[:max(1, limit // 3)]:
@@ -146,4 +173,4 @@ def retrieve(workspace, version_ids, question, limit=16):
             if neighbor["id"] not in added and len(blocks) < limit + 6:
                 blocks.append({**_decode(neighbor), "neighbor_context": True})
                 added.add(neighbor["id"])
-    return {"blocks": blocks, "sparse": [{"block_id": b["id"], "score": b["sparse_score"]} for b in sparse], "dense": [{"block_id": b["id"], "score": b["dense_score"]} for b in dense], "mode": "hybrid" if dense else "keyword", "notice": notice, "version_ids": requested, "method": "FTS5_BM25+cosine+RRF" if dense else "FTS5_BM25"}
+    return {"blocks": blocks, "sparse": [{"block_id": b["id"], "score": b["sparse_score"]} for b in sparse], "dense": [{"block_id": b["id"], "score": b["dense_score"]} for b in dense], "mode": "hybrid" if dense else "keyword", "notice": notice, "version_ids": requested, "method": "FTS5_BM25+cosine+RRF" if dense else "FTS5_BM25", "dense_index":dense_metadata, "rerank":rerank_metadata, "query_term_expansion":expanded_terms}

@@ -12,11 +12,13 @@ import json
 import os
 import re
 import socket
+import ssl
 import threading
 import time
 import urllib.parse
 import xml.etree.ElementTree as ET
 
+import certifi
 import httpx
 import networkx as nx
 
@@ -26,6 +28,105 @@ MAX_DOWNLOAD = 64 * 1024 * 1024
 USER_AGENT = 'ResearchTrace/0.1 (research assistant; bounded scholarly discovery)'
 _SOURCE_LOCK = threading.Lock()
 _NS = {'a': 'http://www.w3.org/2005/Atom', 'ar': 'http://arxiv.org/schemas/atom'}
+# Operator trust boundary, never a request parameter. Exact URLs prevent an
+# alternate host, credentials, port, path, query or redirect becoming SSRF.
+_TRUSTED_DOH_RESOLVERS = frozenset({'https://dns.google/resolve'})
+
+
+class _TargetTLSContext(ssl.SSLContext):
+    """Authenticate the original hostname even on httpcore's CONNECT path.
+
+    httpcore 1.0.x ignores sni_hostname in TunnelHTTPConnection. Override at the
+    actual TLS handshake, while CONNECT and the request URL retain the pinned IP.
+    No certificate checks or CA trust are disabled or inherited from proxy env.
+    """
+
+    def __new__(cls, hostname):
+        return super().__new__(cls, ssl.PROTOCOL_TLS_CLIENT)
+
+    def __init__(self, hostname):
+        self._target_hostname = hostname
+        self.load_verify_locations(cafile=certifi.where())
+
+    def wrap_socket(self, *args, **kwargs):
+        return super().wrap_socket(*args, **{**kwargs, 'server_hostname': self._target_hostname})
+
+    def wrap_bio(self, *args, **kwargs):
+        return super().wrap_bio(*args, **{**kwargs, 'server_hostname': self._target_hostname})
+
+
+def _public_addresses(addresses):
+    try:
+        valid = bool(addresses) and all(
+            '%' not in address and ipaddress.ip_address(address).is_global
+            for address in addresses
+        )
+    except (ValueError, TypeError):
+        valid = False
+    if not valid:
+        raise ValueError('内网、回环、链路本地和云元数据地址被禁止；DNS 必须全部为公网地址')
+    return list(dict.fromkeys(addresses))
+
+
+def _resolve_public(host: str, port: int) -> list[str]:
+    # Literal addresses never go through DoH, which must not disguise an unsafe
+    # literal as a public hostname. is_global also rejects proxy fake-IP ranges.
+    try:
+        literal = ipaddress.ip_address(host)
+    except ValueError:
+        literal = None
+    if literal is not None:
+        return _public_addresses([host])
+    resolver = os.getenv('RT_PUBLIC_DNS_RESOLVER', '')
+    if not resolver:
+        try:
+            return _public_addresses([x[4][0] for x in socket.getaddrinfo(host, port, type=socket.SOCK_STREAM)])
+        except OSError as exc:
+            raise ValueError('目标 DNS 解析失败') from exc
+    if resolver not in _TRUSTED_DOH_RESOLVERS:
+        raise ValueError('RT_PUBLIC_DNS_RESOLVER 必须为明确允许的固定 HTTPS 解析器')
+    # Validate the name as DNS data, never as a URL or resolver selection.
+    try:
+        name = host.encode('idna').decode('ascii').rstrip('.')
+    except UnicodeError as exc:
+        raise ValueError('DNS 主机名无效') from exc
+    if len(name) > 253 or not all(re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?', label) for label in name.split('.')):
+        raise ValueError('DNS 主机名无效')
+    proxy = os.getenv('RT_PUBLIC_PROXY') or os.getenv('RT_PROXY') or None
+    addresses = []
+    try:
+        # Only this fixed, operator-selected resolver may bootstrap by hostname
+        # via the operator proxy/system DNS. Its certificate and hostname are
+        # authenticated with the bundled public CA trust; redirects are refused.
+        # Scholarly targets below ALWAYS use validated IP + original Host/SNI.
+        with httpx.Client(proxy=proxy, trust_env=False, verify=True,
+                          timeout=httpx.Timeout(15, connect=8), follow_redirects=False) as client:
+            for record_type in (1, 28):
+                with client.stream('GET', resolver, params={'name': name, 'type': record_type, 'cd': '0', 'edns_client_subnet': '0.0.0.0/0'},
+                                   headers={'Accept': 'application/dns-json', 'Accept-Encoding': 'identity', 'User-Agent': USER_AGENT}) as response:
+                    if response.status_code != 200:
+                        raise ValueError('可信 DNS 解析失败或重定向被拒绝')
+                    content = bytearray()
+                    for chunk in response.iter_bytes():
+                        content.extend(chunk)
+                        if len(content) > 128 * 1024:
+                            raise ValueError('可信 DNS 响应超过安全上限')
+                data = json.loads(content)
+                if not isinstance(data, dict) or type(data.get('Status')) is not int or data['Status'] != 0 or data.get('TC'):
+                    raise ValueError('可信 DNS 响应失败或被截断')
+                answers = data.get('Answer', [])
+                if not isinstance(answers, list) or len(answers) > 128:
+                    raise ValueError('可信 DNS 响应记录无效')
+                for answer in answers:
+                    if not isinstance(answer, dict) or type(answer.get('type')) is not int:
+                        raise ValueError('可信 DNS 响应记录无效')
+                    if answer.get('type') in (1, 28):
+                        # Check ALL address records, including additional family
+                        # records and mixed public/private responses.
+                        addresses.extend(_public_addresses([answer.get('data')]))
+    except (httpx.HTTPError, json.JSONDecodeError, UnicodeDecodeError) as exc:
+        raise ValueError('可信 DNS 连接或响应失败；未回退到系统 DNS') from exc
+    return _public_addresses(addresses)
 
 
 def validate_public_url(url: str) -> tuple[urllib.parse.SplitResult, list[str]]:
@@ -35,21 +136,15 @@ def validate_public_url(url: str) -> tuple[urllib.parse.SplitResult, list[str]]:
     parsed = urllib.parse.urlsplit(url)
     if parsed.scheme not in ('http', 'https') or not parsed.hostname:
         raise ValueError('仅允许 HTTP(S) 公开地址')
-    if parsed.username or parsed.password or '\\' in url or any(ord(x) < 32 for x in url):
+    if '@' in parsed.netloc or '\\' in url or any(ord(x) < 32 for x in url):
         raise ValueError('URL 不允许认证信息、反斜线或控制字符')
     try:
-        port = parsed.port or (443 if parsed.scheme == 'https' else 80)
+        port = parsed.port if parsed.port is not None else (443 if parsed.scheme == 'https' else 80)
     except ValueError as exc:
         raise ValueError('端口无效') from exc
     if port not in (80, 443):
         raise ValueError('下载仅允许标准 HTTP(S) 端口')
-    try:
-        addresses = list(dict.fromkeys(x[4][0] for x in socket.getaddrinfo(parsed.hostname, port, type=socket.SOCK_STREAM)))
-    except OSError as exc:
-        raise ValueError('目标 DNS 解析失败') from exc
-    if not addresses or any(not ipaddress.ip_address(x).is_global for x in addresses):
-        raise ValueError('内网、回环、链路本地和云元数据地址被禁止')
-    return parsed, addresses
+    return parsed, _resolve_public(parsed.hostname, port)
 
 
 def fetch_public(url: str, max_bytes: int = MAX_DOWNLOAD) -> dict:
@@ -60,18 +155,27 @@ def fetch_public(url: str, max_bytes: int = MAX_DOWNLOAD) -> dict:
     """
     current = url
     proxy = os.getenv('RT_PUBLIC_PROXY') or os.getenv('RT_PROXY') or None
+    hops = []
     for _ in range(5):
         parsed, addresses = validate_public_url(current)
         host = parsed.hostname
-        port = parsed.port or (443 if parsed.scheme == 'https' else 80)
+        port = parsed.port if parsed.port is not None else (443 if parsed.scheme == 'https' else 80)
         address = addresses[0]
         host_header = host if port in (80, 443) else f'{host}:{port}'
         pinned = httpx.URL(current).copy_with(host=address)
+        tls_context = _TargetTLSContext(host)
+        source = 'arxiv' if host in ('arxiv.org', 'export.arxiv.org', 'www.arxiv.org') else ('crossref' if host == 'api.crossref.org' else None)
         try:
             with (
-                httpx.Client(timeout=httpx.Timeout(35, connect=15), proxy=proxy, trust_env=False, follow_redirects=False) as client,
+                source_window(source) if source else contextlib.nullcontext(),
+                httpx.Client(timeout=httpx.Timeout(35, connect=15), proxy=proxy, trust_env=False, verify=tls_context, follow_redirects=False) as client,
                 client.stream('GET', pinned, headers={'Host': host_header, 'User-Agent': USER_AGENT, 'Accept-Encoding': 'identity'}, extensions={'sni_hostname': host}) as response,
             ):
+                stream = getattr(response, 'extensions', {}).get('network_stream')
+                tls = stream.get_extra_info('ssl_object') if stream else None
+                hops.append({'url': current, 'host': host, 'resolved_addresses': addresses,
+                             'pinned_address': address, 'status': response.status_code,
+                             'tls_server_name': tls.server_hostname if tls else None})
                 if response.status_code in (301, 302, 303, 307, 308):
                     location = response.headers.get('location')
                     if not location:
@@ -91,7 +195,9 @@ def fetch_public(url: str, max_bytes: int = MAX_DOWNLOAD) -> dict:
                     if total > max_bytes:
                         raise ValueError('下载超过大小上限')
                     chunks.append(chunk)
-                return {'content': b''.join(chunks), 'content_type': response.headers.get('content-type', ''), 'url': current, 'status': response.status_code}
+                return {'content': b''.join(chunks), 'content_type': response.headers.get('content-type', ''), 'url': current, 'status': response.status_code,
+                        'network': {'resolver': os.getenv('RT_PUBLIC_DNS_RESOLVER') or 'system',
+                                    'operator_proxy': bool(proxy), 'tls_verification': True, 'hops': hops}}
         except httpx.TimeoutException as exc:
             raise ValueError('公开数据源超时；未使用离线替代结果') from exc
         except httpx.HTTPError as exc:
@@ -124,12 +230,12 @@ def _text(elem, name):
 
 def _arxiv(query: str, limit: int) -> list[dict]:
     identifier = re.search(r'(?:arxiv:|arxiv.org/(?:abs|pdf)/)?(\d{4}\.\d{4,5}(?:v\d+)?)', query, re.IGNORECASE)
-    params = {'id_list': identifier.group(1)} if identifier and len(query.split()) <= 2 else {'search_query': 'all:' + query, 'sortBy': 'relevance'}
-    params.update({'start': 0, 'max_results': limit})
+    params = ({'id_list': identifier.group(1), 'max_results': 1}
+              if identifier and len(query.split()) <= 2 else
+              {'search_query': 'all:' + query, 'sortBy': 'relevance', 'start': 0, 'max_results': limit})
     url = 'https://export.arxiv.org/api/query?' + urllib.parse.urlencode(params)
-    with source_window('arxiv'):
-        fetched = fetch_public(url, 5 * 1024 * 1024)
-    provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time()}
+    fetched = fetch_public(url, 5 * 1024 * 1024)
+    provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time(), 'metadata_network': fetched.get('network')}
     root = ET.fromstring(fetched['content'])
     result = []
     for entry in root.findall('a:entry', _NS):
@@ -147,10 +253,9 @@ def _arxiv(query: str, limit: int) -> list[dict]:
 
 def _crossref(query: str, limit: int) -> list[dict]:
     doi = re.fullmatch(r'(?:https?://(?:dx\.)?doi.org/)?(10\.\d{4,9}/\S+)', query.strip(), re.IGNORECASE)
-    url = 'https://api.crossref.org/works/' + urllib.parse.quote(doi.group(1), safe='') if doi else 'https://api.crossref.org/works?' + urllib.parse.urlencode({'query.bibliographic': query, 'rows': min(60, limit * 3), 'filter': 'has-references:true'})
-    with source_window('crossref'):
-        fetched = fetch_public(url, 8 * 1024 * 1024)
-    provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time()}
+    url = 'https://api.crossref.org/works/' + urllib.parse.quote(doi.group(1), safe='') if doi else 'https://api.crossref.org/works?' + urllib.parse.urlencode({'query.bibliographic': query, 'rows': min(60, limit * 3)})
+    fetched = fetch_public(url, 8 * 1024 * 1024)
+    provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time(), 'metadata_network': fetched.get('network')}
     data = json.loads(fetched['content'])['message']
     entries = data.get('items', []) if not doi else [data]
     result = []
@@ -200,21 +305,27 @@ def search_papers(workspace: str, query: str, sources=None, limit=10, *, fresh=F
     sources = list(dict.fromkeys(sources or ['arxiv', 'crossref']))
     if not sources or any(x not in ('arxiv', 'crossref') for x in sources):
         raise ValueError('不支持的数据源')
-    key = hashlib.sha256(json.dumps(['scholarly-v2', query, sorted(sources), limit], ensure_ascii=False).encode()).hexdigest()
+    key = hashlib.sha256(json.dumps(['scholarly-v3', query, sorted(sources), limit], ensure_ascii=False).encode()).hexdigest()
     cached = store.one('SELECT * FROM search_cache WHERE key=?', (key,))
     if not fresh and cached and time.time() - cached['created'] < 1800:
         payload = json.loads(cached['payload'])
         payload['cached'] = True
     else:
-        payload = {'results': [], 'errors': [], 'cached': False, 'searched_at': time.time(), 'query': query, 'sources': sources}
+        payload = {'results': [], 'errors': [], 'cached': False, 'searched_at': time.time(), 'query': query, 'sources': sources, 'source_status': {}}
         for source in sources:
             if cancel_check and cancel_check():
                 payload['errors'].append({'source': source, 'error': '检查已取消；未请求此来源'})
+                payload['source_status'][source] = {'status': 'failed', 'requested': False}
                 break
             try:
-                payload['results'].extend((_arxiv if source == 'arxiv' else _crossref)(query, limit))
+                found = (_arxiv if source == 'arxiv' else _crossref)(query, limit)
+                payload['results'].extend(found)
+                payload['source_status'][source] = {'status': 'success', 'result_count': len(found), 'fetched_at': time.time()}
             except (ValueError, OSError, ET.ParseError, KeyError, TypeError, json.JSONDecodeError) as exc:
                 payload['errors'].append({'source': source, 'error': str(exc)[:300]})
+                payload['source_status'][source] = {'status': 'failed', 'checked_at': time.time()}
+        successful = sum(x['status'] == 'success' for x in payload['source_status'].values())
+        payload['status'] = 'success' if not payload['errors'] else ('partial' if successful else 'failed')
         seen, unique = set(), []
         for item in payload['results']:
             identity = ('doi:' + item['doi'].lower()) if item.get('doi') else item['identity']
@@ -222,11 +333,16 @@ def search_papers(workspace: str, query: str, sources=None, limit=10, *, fresh=F
                 seen.add(identity)
                 unique.append(item)
         payload['results'] = unique
+        payload['cache_refreshed_at'] = None
+        payload['cache_expires_at'] = None
         # Failed-only searches are not cached as successful empty results.
         if unique or not payload['errors']:
-            store.execute('INSERT OR REPLACE INTO search_cache VALUES(?,?,?)', (key, json.dumps(payload, ensure_ascii=False), time.time()))
+            payload['cache_refreshed_at'] = time.time()
+            payload['cache_expires_at'] = payload['cache_refreshed_at'] + 1800
+            store.execute('INSERT OR REPLACE INTO search_cache VALUES(?,?,?)', (key, json.dumps(payload, ensure_ascii=False), payload['cache_refreshed_at']))
     payload['results'] = _rank(workspace, query, payload['results'])[:limit]
     payload['rank_scope'] = '候选集内启发式排序；时间显示为元数据年份，无全领域质量结论'
+    payload['returned_at'] = time.time()
     return payload
 
 
@@ -270,8 +386,12 @@ def import_paper(workspace: str, paper: dict, *, index_dense=True, metadata_only
             store.execute('UPDATE versions SET work_id=? WHERE id=? AND workspace=?', (work_id, version_id, workspace))
             if previous and previous != work_id:
                 store.execute('DELETE FROM works WHERE id=? AND workspace=? AND NOT EXISTS(SELECT 1 FROM versions WHERE work_id=?)', (previous, workspace, previous))
+            uploaded['document']['work_id'] = work_id
             result.update(uploaded)
-            result.update({'metadata_only': False, 'fulltext_status': '真实 PDF 已提交逐页处理；不代表全文已解析'})
+            result.update({'metadata_only': False, 'fulltext_status': '真实 PDF 已提交逐页处理；不代表全文已解析',
+                           'fulltext_provenance': {'source_url': paper['pdf_url'], 'final_url': response.get('url', paper['pdf_url']),
+                                                   'sha256': hashlib.sha256(response['content']).hexdigest(),
+                                                   'fetched_at': time.time(), 'network': response.get('network')}})
         except ValueError as exc:
             result['fulltext_status'] = str(exc)
     return result

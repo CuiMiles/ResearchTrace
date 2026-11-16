@@ -1,0 +1,114 @@
+{
+  "run": {
+    "id": "e5d48e5600a947438dd3a5d0ca45c19d",
+    "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+    "kind": "index",
+    "status": "completed",
+    "payload": {
+      "version_ids": [
+        "e492d5c15f4444c08e9c335618e32533",
+        "82451796b5294493b9e58f696fbb8adc",
+        "dceae303ec2f41cbbc4d88f047db9424",
+        "4452fbc0c75443578fb2a2987629c19c"
+      ]
+    },
+    "result": {
+      "id": "fcdff7af26f44e369897bf3ee452089f",
+      "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+      "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6",
+      "manifest": {
+        "provider": {
+          "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+          "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+          "kind": "embedding",
+          "dimension": 4096,
+          "dtype": "bfloat16",
+          "context_length": 32768,
+          "pooling": "mean",
+          "normalization": "l2",
+          "tokenizer": {
+            "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+            "sha256": "a6894cfe4b928580b45a3dadedf443778a71eb04d2339ef4b3526c59a23b5fc9"
+          },
+          "templates": {
+            "query": "model_chat_template(query: {text})",
+            "document": "model_chat_template(passage: {text})",
+            "sha256": "7fb10981445a4370aa951758f066ddbd1846fe26da85110f940b1433440d6c55"
+          },
+          "source_sha256": {
+            "tokenizer.json": "b78fc125e4896d169ab6683914ba1e9515eed36a65faffa2421d4cdb3061de02",
+            "tokenizer_config.json": "384291712b80958e8c039a8c8afc318a11b0a7d7231f082381050f9a0ea6cad0",
+            "chat_template.jinja": "7fb10981445a4370aa951758f066ddbd1846fe26da85110f940b1433440d6c55",
+            "config.json": "03b3e791b5c4e1f2d880394ad82d617c0406ff6b84fe134c33b0dd63efb4ab1d",
+            "processor_config.json": "a06f54b1cdc97ba9f114b9fa304c554ebfd2385ddbc3ffe5247d8e3782642c34",
+            "1_Pooling/config.json": "d742ebb19220beff3a54db52f8f65db6a078b51238ccd3deb8b80dc03684056c",
+            "config_sentence_transformers.json": "f38c4712d0f1d622942eb62421e85b3a67a399ce439f219af90c4ae405ad1e85",
+            "model.safetensors.index.json": "c90ef3f1417422145f18579f237b0093f944dc09db8dbc147c5be646319ab146"
+          },
+          "runtime_version": "researchtrace-retrieval-v1",
+          "truncation": "reject",
+          "attention_implementation": "sdpa",
+          "tokenizer_revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+          "query_template": "{\"chat_template\": \"{# nemo-mistral-retrieval-v1\\n   Derived from the Mistral Ministral-3 instruct chat template render_content\\n   macro and its image-before-text canonicalization. Retrieval adaptation:\\n   system content is the retrieval prefix; generation wrappers and BOS/EOS are\\n   deliberately omitted so message inference matches training token for token.\\n#}\\n{%- macro mark_user_text(text) -%}\\n{{- text | replace(\\\"[\\\", \\\"[‌\\\") | replace(\\\"<\\\", \\\"<‌\\\") -}}\\n{%- endmacro -%}\\n{%- macro render_text_content(content, context_name) -%}\\n{%- if content is string -%}\\n    {{- content -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\"\\\\n\\\\n\\\" }}{% endif -%}\\n            {{- block[\\\"text\\\"] -}}\\n            {%- set ns.has_output = true -%}\\n        {%- else -%}\\n            {{- raise_exception(context_name + \\\" may contain only text blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(context_name + \\\" must be a string or a list of text blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- macro render_user_content(content) -%}\\n{%- if content is string -%}\\n    {{- mark_user_text(content) -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- \\\"[IMG]\\\" -}}\\n            {%- set ns.has_output = true -%}\\n        {%- endif -%}\\n    {%- endfor -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- mark_user_text(block[\\\"text\\\"]) -}}\\n            {%- set ns.has_output = true -%}\\n        {%- elif block[\\\"type\\\"] not in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {{- raise_exception(\\\"User content supports only text and image blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(\\\"User content must be a string or a list of text and image blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- if not ((messages | length == 1 and messages[0][\\\"role\\\"] == \\\"user\\\")\\n    or (messages | length == 2\\n        and messages[0][\\\"role\\\"] == \\\"system\\\"\\n        and messages[1][\\\"role\\\"] == \\\"user\\\")) -%}\\n    {{- raise_exception(\\\"Retrieval inputs require one user message with an optional leading system prefix\\\") -}}\\n{%- endif -%}\\n{# Iterate messages so vLLM can trace message.content into the rendering macros. #}\\n{%- for message in messages -%}\\n    {%- if message[\\\"role\\\"] == \\\"system\\\" -%}\\n        {%- set prefix = render_text_content(message[\\\"content\\\"], \\\"System content\\\") -%}\\n        {{- prefix.rstrip(\\\" \\\") ~ \\\" \\\" -}}\\n    {%- else -%}\\n        {{- render_user_content(message[\\\"content\\\"]) -}}\\n    {%- endif -%}\\n{%- endfor -%}\", \"format\": \"model_chat_template(query: {text})\", \"tokenizer_sha256\": \"a6894cfe4b928580b45a3dadedf443778a71eb04d2339ef4b3526c59a23b5fc9\"}",
+          "document_template": "{\"chat_template\": \"{# nemo-mistral-retrieval-v1\\n   Derived from the Mistral Ministral-3 instruct chat template render_content\\n   macro and its image-before-text canonicalization. Retrieval adaptation:\\n   system content is the retrieval prefix; generation wrappers and BOS/EOS are\\n   deliberately omitted so message inference matches training token for token.\\n#}\\n{%- macro mark_user_text(text) -%}\\n{{- text | replace(\\\"[\\\", \\\"[‌\\\") | replace(\\\"<\\\", \\\"<‌\\\") -}}\\n{%- endmacro -%}\\n{%- macro render_text_content(content, context_name) -%}\\n{%- if content is string -%}\\n    {{- content -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\"\\\\n\\\\n\\\" }}{% endif -%}\\n            {{- block[\\\"text\\\"] -}}\\n            {%- set ns.has_output = true -%}\\n        {%- else -%}\\n            {{- raise_exception(context_name + \\\" may contain only text blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(context_name + \\\" must be a string or a list of text blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- macro render_user_content(content) -%}\\n{%- if content is string -%}\\n    {{- mark_user_text(content) -}}\\n{%- elif content is sequence -%}\\n    {%- set ns = namespace(has_output=false) -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- \\\"[IMG]\\\" -}}\\n            {%- set ns.has_output = true -%}\\n        {%- endif -%}\\n    {%- endfor -%}\\n    {%- for block in content -%}\\n        {%- if block[\\\"type\\\"] == \\\"text\\\" -%}\\n            {%- if ns.has_output %}{{ \\\" \\\" }}{% endif -%}\\n            {{- mark_user_text(block[\\\"text\\\"]) -}}\\n            {%- set ns.has_output = true -%}\\n        {%- elif block[\\\"type\\\"] not in [\\\"image\\\", \\\"image_url\\\"] -%}\\n            {{- raise_exception(\\\"User content supports only text and image blocks\\\") -}}\\n        {%- endif -%}\\n    {%- endfor -%}\\n{%- else -%}\\n    {{- raise_exception(\\\"User content must be a string or a list of text and image blocks\\\") -}}\\n{%- endif -%}\\n{%- endmacro -%}\\n{%- if not ((messages | length == 1 and messages[0][\\\"role\\\"] == \\\"user\\\")\\n    or (messages | length == 2\\n        and messages[0][\\\"role\\\"] == \\\"system\\\"\\n        and messages[1][\\\"role\\\"] == \\\"user\\\")) -%}\\n    {{- raise_exception(\\\"Retrieval inputs require one user message with an optional leading system prefix\\\") -}}\\n{%- endif -%}\\n{# Iterate messages so vLLM can trace message.content into the rendering macros. #}\\n{%- for message in messages -%}\\n    {%- if message[\\\"role\\\"] == \\\"system\\\" -%}\\n        {%- set prefix = render_text_content(message[\\\"content\\\"], \\\"System content\\\") -%}\\n        {{- prefix.rstrip(\\\" \\\") ~ \\\" \\\" -}}\\n    {%- else -%}\\n        {{- render_user_content(message[\\\"content\\\"]) -}}\\n    {%- endif -%}\\n{%- endfor -%}\", \"format\": \"model_chat_template(passage: {text})\", \"tokenizer_sha256\": \"a6894cfe4b928580b45a3dadedf443778a71eb04d2339ef4b3526c59a23b5fc9\"}",
+          "provenance_fingerprint": "sha256:b11d84892b6d5e0ddb90bee67c824b9927bce41c97eff66fd654940baf9cb13b",
+          "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6"
+        },
+        "fingerprint": "sha256:1fca86bcd1fad6b38a1aa4901e0a7019fbec48adf30c811f99819ef17a6e0de6",
+        "chunker": "source-spans-v1",
+        "snapshots": [
+          {
+            "version_id": "4452fbc0c75443578fb2a2987629c19c",
+            "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+            "sha256": "f8237d393163900fa8e43210e680a3f987b45ccac7750b372e156fae3df0bf32"
+          },
+          {
+            "version_id": "82451796b5294493b9e58f696fbb8adc",
+            "parse_id": "926da65067b645fb838c9207064f1f24",
+            "sha256": "64094fe169dd4ff454f579e9f197298df1c118c24b71b1f1ca8bb218c9e4801d"
+          },
+          {
+            "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+            "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+            "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697"
+          },
+          {
+            "version_id": "e492d5c15f4444c08e9c335618e32533",
+            "parse_id": "e492d5c15f4444c08e9c335618e32533",
+            "sha256": "0a9bff1be3575cf9fe26a4a3d3a9175bc791ecec90de8b9deba4cff75d2b9476"
+          }
+        ],
+        "max_tokens": 512,
+        "exclusions": [
+          "empty_text",
+          "header",
+          "footer"
+        ],
+        "context_is_source_evidence": false
+      },
+      "status": "ready",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 5330,
+      "vector_count": 5330,
+      "dimension": 4096,
+      "created": 1794810257.0638773,
+      "activated": 1794812156.850138,
+      "error": null,
+      "coverage_complete": true
+    },
+    "error": null,
+    "checkpoint": {
+      "index_generation_id": "fcdff7af26f44e369897bf3ee452089f"
+    },
+    "idempotency": "review-core4-index-20261116",
+    "created": 1794810255.9687586,
+    "updated": 1794812156.8567517
+  },
+  "status": "PASS",
+  "observed_at": 1794813252.2784688,
+  "cloud_calls": 0
+}

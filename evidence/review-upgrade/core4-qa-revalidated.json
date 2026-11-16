@@ -1,0 +1,2791 @@
+{
+  "phase": "revalidate_saved_outputs_after_locator_scientific_fix",
+  "started": 1794811200.8617485,
+  "cases": [
+    {
+      "name": "v1-sixth-author",
+      "run": {
+        "id": "5a41f8e9b5fa4f6ebf5df321cbbb9575",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "partial",
+        "payload": {
+          "question": "按论文首页列出的顺序，第六作者是谁、属于哪个机构？请依据完整作者顺序回答。",
+          "version_ids": [
+            "e492d5c15f4444c08e9c335618e32533"
+          ]
+        },
+        "result": {
+          "answer": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:1 按顺序列出的前四位作者及机构分别为：Ashish Vaswani（Google Brain）、Noam Shazeer（Google Brain）、Niki Parmar（Google Research）、Jakob Uszkoreit（Google Research）。\n\n论文首页块 e492d5c15f4444c08e9c335618e32533:0:2 按顺序列出的随后三位作者及机构分别为：Llion Jones（Google Research）、Aidan N. Gomez（University of Toronto，带 † 标记）、Łukasz Kaiser（Google Brain）。\n\n论文首页块 e492d5c15f4444c08e9c335618e32533:0:3 列出的第八位作者为 Illia Polosukhin，该处仅列出邮箱 illia.polosukhin@gmail.com，未列出所属机构。\n\n论文首页脚注注明“∗”表示贡献相同且排列顺序随机，“†”表示工作是在 Google Brain 期间完成的（Work performed while at Google Brain.）。\n\n按论文首页 blocks（:0:1、:0:2、:0:3）列出的完整作者顺序（1. Ashish Vaswani、2. Noam Shazeer、3. Niki Parmar、4. Jakob Uszkoreit、5. Llion Jones、6. Aidan N. Gomez、7. Łukasz Kaiser、8. Illia Polosukhin），第六作者是 Aidan N. Gomez，其署名机构为 University of Toronto，并附带脚注 † 说明该工作是在 Google Brain 期间完成的。",
+          "answer_segments": [
+            {
+              "text": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:1 按顺序列出的前四位作者及机构分别为：Ashish Vaswani（Google Brain）、Noam Shazeer（Google Brain）、Niki Parmar（Google Research）、Jakob Uszkoreit（Google Research）。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:2 按顺序列出的随后三位作者及机构分别为：Llion Jones（Google Research）、Aidan N. Gomez（University of Toronto，带 † 标记）、Łukasz Kaiser（Google Brain）。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:3 列出的第八位作者为 Illia Polosukhin，该处仅列出邮箱 illia.polosukhin@gmail.com，未列出所属机构。",
+              "claim_ids": [
+                "c3"
+              ]
+            },
+            {
+              "text": "论文首页脚注注明“∗”表示贡献相同且排列顺序随机，“†”表示工作是在 Google Brain 期间完成的（Work performed while at Google Brain.）。",
+              "claim_ids": [
+                "c4"
+              ]
+            },
+            {
+              "text": "按论文首页 blocks（:0:1、:0:2、:0:3）列出的完整作者顺序（1. Ashish Vaswani、2. Noam Shazeer、3. Niki Parmar、4. Jakob Uszkoreit、5. Llion Jones、6. Aidan N. Gomez、7. Łukasz Kaiser、8. Illia Polosukhin），第六作者是 Aidan N. Gomez，其署名机构为 University of Toronto，并附带脚注 † 说明该工作是在 Google Brain 期间完成的。",
+              "claim_ids": [
+                "c5"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:1 按顺序列出的前四位作者及机构分别为：Ashish Vaswani（Google Brain）、Noam Shazeer（Google Brain）、Niki Parmar（Google Research）、Jakob Uszkoreit（Google Research）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:1",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.1906552287581699,
+                    0.2329067136363636,
+                    0.8124391587254902,
+                    0.27490997121212113
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Ashish Vaswani ∗ Noam Shazeer ∗ Niki Parmar ∗ Jakob Uszkoreit ∗ Google Brain Google Brain Google Research Google Research avaswani@google.com noam@google.com nikip@google.com usz@google.com",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 189
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8128; confidence=0.8128。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.11308382451420498,
+                  "contradicted": 0.07415412034165038,
+                  "supported": 0.8127620551441446
+                },
+                "confidence": 0.8127620551441446
+              }
+            },
+            {
+              "id": "c2",
+              "text": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:2 按顺序列出的随后三位作者及机构分别为：Llion Jones（Google Research）、Aidan N. Gomez（University of Toronto，带 † 标记）、Łukasz Kaiser（Google Brain）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:2",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.20732352941176466,
+                    0.2960355015151514,
+                    0.7926707817320261,
+                    0.3380374964646463
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Llion Jones ∗ Aidan N. Gomez ∗† Łukasz Kaiser ∗ Google Research University of Toronto Google Brain llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 160
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7976; confidence=0.7976。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.08316562446537337,
+                  "supported": 0.7975814463782813,
+                  "insufficient": 0.1192529291563454
+                },
+                "confidence": 0.7975814463782813
+              }
+            },
+            {
+              "id": "c3",
+              "text": "论文首页块 e492d5c15f4444c08e9c335618e32533:0:3 列出的第八位作者为 Illia Polosukhin，该处仅列出邮箱 illia.polosukhin@gmail.com，未列出所属机构。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:3",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.38892483660130717,
+                    0.3591630267676766,
+                    0.6110712820915032,
+                    0.38739229444444423
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Illia Polosukhin ∗ illia.polosukhin@gmail.com",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 45
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7920; confidence=0.7920。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.06267804688228246,
+                  "insufficient": 0.1452823341767895,
+                  "supported": 0.7920396189409279
+                },
+                "confidence": 0.7920396189409279
+              }
+            },
+            {
+              "id": "c4",
+              "text": "论文首页脚注注明“∗”表示贡献相同且排列顺序随机，“†”表示工作是在 Google Brain 期间完成的（Work performed while at Google Brain.）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.17647058823529413,
+                    0.7187125272727273,
+                    0.8241028008594771,
+                    0.9113266949494949
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "∗ Equal contribution. Listing order is random. † Work performed while at Google Brain.",
+                  "quote_span": {
+                    "start": 1025,
+                    "end": 1111
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9400; confidence=0.9400。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.03683778641599955,
+                  "contradicted": 0.023119912840231096,
+                  "supported": 0.9400423007437694
+                },
+                "confidence": 0.9400423007437694
+              }
+            },
+            {
+              "id": "c5",
+              "text": "按论文首页 blocks（:0:1、:0:2、:0:3）列出的完整作者顺序（1. Ashish Vaswani、2. Noam Shazeer、3. Niki Parmar、4. Jakob Uszkoreit、5. Llion Jones、6. Aidan N. Gomez、7. Łukasz Kaiser、8. Illia Polosukhin），第六作者是 Aidan N. Gomez，其署名机构为 University of Toronto，并附带脚注 † 说明该工作是在 Google Brain 期间完成的。",
+              "type": "inference",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:1",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.1906552287581699,
+                    0.2329067136363636,
+                    0.8124391587254902,
+                    0.27490997121212113
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Ashish Vaswani ∗ Noam Shazeer ∗ Niki Parmar ∗ Jakob Uszkoreit ∗ Google Brain Google Brain Google Research Google Research",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 121
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:2",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.20732352941176466,
+                    0.2960355015151514,
+                    0.7926707817320261,
+                    0.3380374964646463
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Llion Jones ∗ Aidan N. Gomez ∗† Łukasz Kaiser ∗ Google Research University of Toronto Google Brain",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 98
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:3",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.38892483660130717,
+                    0.3591630267676766,
+                    0.6110712820915032,
+                    0.38739229444444423
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "Illia Polosukhin ∗ illia.polosukhin@gmail.com",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 45
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                  "version_id": "e492d5c15f4444c08e9c335618e32533",
+                  "page_index": 0,
+                  "bbox": [
+                    0.17647058823529413,
+                    0.7187125272727273,
+                    0.8241028008594771,
+                    0.9113266949494949
+                  ],
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "quote": "† Work performed while at Google Brain.",
+                  "quote_span": {
+                    "start": 1072,
+                    "end": 1111
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9619; confidence=0.9619。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.029999890612899375,
+                  "contradicted": 0.008084040333096008,
+                  "supported": 0.9619160690540047
+                },
+                "confidence": 0.9619160690540047
+              }
+            }
+          ],
+          "status": "partial",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+          "legacy_answer_replaced": false,
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 3833,
+              "total_input_tokens": 3833,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 3833
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "0d3464e13d5240e1a9cd91e32b9908a5",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "model": "gemini-4-hydrogen",
+          "usage": {
+            "promptTokenCount": 1980,
+            "candidatesTokenCount": 1792,
+            "totalTokenCount": 5824,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1980
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1792
+              }
+            ],
+            "thoughtsTokenCount": 2052,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "blocks": [
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:4",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.463656862745098,
+                  0.4246558545454543,
+                  0.5363452601307189,
+                  0.4397508040404038
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "Abstract",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -18.499664284363604,
+                "rrf_score": 0.01639344262295082
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:6",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.17647058823529413,
+                  0.687715197979798,
+                  0.3117870431372549,
+                  0.7028101474747473
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "1 Introduction",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -18.253687963548824,
+                "rrf_score": 0.016129032258064516
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:0",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.3455686274509804,
+                  0.12554244772727277,
+                  0.6534204862745099,
+                  0.14727906388888898
+                ],
+                "type": "heading",
+                "reading_order": 0,
+                "text": "Attention Is All You Need",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -17.55501092412012,
+                "rrf_score": 0.015873015873015872
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:3",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.38892483660130717,
+                  0.3591630267676766,
+                  0.6110712820915032,
+                  0.38739229444444423
+                ],
+                "type": "paragraph",
+                "reading_order": 3,
+                "text": "Illia Polosukhin ∗ illia.polosukhin@gmail.com",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -17.334320355803023,
+                "rrf_score": 0.015625
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:2",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.20732352941176466,
+                  0.2960355015151514,
+                  0.7926707817320261,
+                  0.3380374964646463
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "Llion Jones ∗ Aidan N. Gomez ∗† Łukasz Kaiser ∗ Google Research University of Toronto Google Brain llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -14.15714492851552,
+                "rrf_score": 0.015384615384615385
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:1",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.1906552287581699,
+                  0.2329067136363636,
+                  0.8124391587254902,
+                  0.27490997121212113
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "Ashish Vaswani ∗ Noam Shazeer ∗ Niki Parmar ∗ Jakob Uszkoreit ∗ Google Brain Google Brain Google Research Google Research avaswani@google.com noam@google.com nikip@google.com usz@google.com",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -13.607219306584152,
+                "rrf_score": 0.015151515151515152
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7187125272727273,
+                  0.8241028008594771,
+                  0.9113266949494949
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [31, 2, 5]. Numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures [34, 22, 14]. Recurrent models typically factor computation along the symbol positions of the input and output sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden states h t , as a function of the previous hidden state h t−1 and the input for position t . This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples. Recent work has achieved significant improvements in computational efficiency through factorization tricks [19] and conditional ∗ Equal contribution. Listing order is random. † Work performed while at Google Brain.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "12",
+                    "19",
+                    "31, 2, 5",
+                    "34, 22, 14",
+                    "7"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -6.001845545237563,
+                "rrf_score": 0.014925373134328358
+              },
+              {
+                "id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                "version_id": "e492d5c15f4444c08e9c335618e32533",
+                "page_index": 0,
+                "bbox": [
+                  0.23507516339869283,
+                  0.4558135373737374,
+                  0.7676259463986926,
+                  0.6612296989898989
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "e492d5c15f4444c08e9c335618e32533",
+                "sparse_score": -5.6050433446952965,
+                "rrf_score": 0.014705882352941176
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:4",
+                "score": -18.499664284363604
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:6",
+                "score": -18.253687963548824
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:0",
+                "score": -17.55501092412012
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:3",
+                "score": -17.334320355803023
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:2",
+                "score": -14.15714492851552
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:1",
+                "score": -13.607219306584152
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:7",
+                "score": -6.001845545237563
+              },
+              {
+                "block_id": "e492d5c15f4444c08e9c335618e32533:0:5",
+                "score": -5.6050433446952965
+              }
+            ],
+            "dense": [],
+            "mode": "keyword",
+            "notice": "当前使用对称分词的关键词索引；向量覆盖尚未完成",
+            "version_ids": [
+              "e492d5c15f4444c08e9c335618e32533"
+            ],
+            "method": "FTS5_BM25",
+            "dense_index": {
+              "status": "unindexed"
+            },
+            "rerank": {
+              "status": "NOT RUN"
+            },
+            "query_term_expansion": [
+              "author",
+              "authors",
+              "affiliation",
+              "affiliation",
+              "organization"
+            ]
+          },
+          "artifact_id": "16dc47b643d44cf78d78d12cc3161391"
+        },
+        "error": null,
+        "idempotency": "core4-v1-sixth-author-before-20261116",
+        "created": 1794810433.0714104,
+        "updated": 1794811205.4104605,
+        "steps": [
+          {
+            "id": 4679,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794810433.080759
+          },
+          {
+            "id": 4680,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794810433.2968972
+          },
+          {
+            "id": 4681,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794810433.3679597
+          },
+          {
+            "id": 4682,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 8,
+              "dense_candidates": 0,
+              "evidence_blocks": 8
+            },
+            "created": 1794810433.5409355
+          },
+          {
+            "id": 4683,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "bbb4c641c57f4c8b82f857630731d443",
+              "reserved_input_tokens": 6671,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794810433.5631409
+          },
+          {
+            "id": 4684,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794810452.4541185
+          },
+          {
+            "id": 4685,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794810452.4781666
+          },
+          {
+            "id": 4709,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794811201.3713052
+          },
+          {
+            "id": 4710,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794811201.4128935
+          },
+          {
+            "id": 4711,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 8,
+              "dense_candidates": 0,
+              "evidence_blocks": 8
+            },
+            "created": 1794811201.4193256
+          },
+          {
+            "id": 4712,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794811201.4258504
+          },
+          {
+            "id": 4713,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-shared",
+              "quota_id": "0d3464e13d5240e1a9cd91e32b9908a5",
+              "reserved_input_tokens": 9506,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794811201.4762437
+          },
+          {
+            "id": 4715,
+            "event": "decision_review",
+            "data": {
+              "claims": 5,
+              "status": "partial",
+              "quota_id": "0d3464e13d5240e1a9cd91e32b9908a5"
+            },
+            "created": 1794811205.403001
+          },
+          {
+            "id": 4716,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794811205.4128811
+          }
+        ]
+      },
+      "reused_saved_hydrogen_response": true
+    },
+    {
+      "name": "v7-adam",
+      "run": {
+        "id": "1e6564e8d7c8468a9e461579ce9385ee",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "completed",
+        "payload": {
+          "question": "v7采用Adam优化器时，beta1、beta2和epsilon各是什么？",
+          "version_ids": [
+            "dceae303ec2f41cbbc4d88f047db9424"
+          ]
+        },
+        "result": {
+          "answer": "v7采用Adam优化器时，beta1（β 1）为0.9。\n\nv7采用Adam优化器时，beta2（β 2）为0.98。\n\nv7采用Adam优化器时，epsilon（ϵ）为10^-9（原文写作 10 −9）。",
+          "answer_segments": [
+            {
+              "text": "v7采用Adam优化器时，beta1（β 1）为0.9。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "v7采用Adam优化器时，beta2（β 2）为0.98。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "v7采用Adam优化器时，epsilon（ϵ）为10^-9（原文写作 10 −9）。",
+              "claim_ids": [
+                "c3"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "v7采用Adam优化器时，beta1（β 1）为0.9。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:9",
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.7278991378787878,
+                    0.82353418515817,
+                    0.7560516686868687
+                  ],
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "quote": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 .",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 75
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9903; confidence=0.9903。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.007233817021068505,
+                  "contradicted": 0.0024700705866701703,
+                  "supported": 0.9902961123922615
+                },
+                "confidence": 0.9902961123922615
+              }
+            },
+            {
+              "id": "c2",
+              "text": "v7采用Adam优化器时，beta2（β 2）为0.98。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:9",
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.7278991378787878,
+                    0.82353418515817,
+                    0.7560516686868687
+                  ],
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "quote": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 .",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 75
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9957; confidence=0.9957。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9956848572961239,
+                  "insufficient": 0.0030405531817529166,
+                  "contradicted": 0.0012745895221233055
+                },
+                "confidence": 0.9956848572961239
+              }
+            },
+            {
+              "id": "c3",
+              "text": "v7采用Adam优化器时，epsilon（ϵ）为10^-9（原文写作 10 −9）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:9",
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.7278991378787878,
+                    0.82353418515817,
+                    0.7560516686868687
+                  ],
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "quote": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 .",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 75
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9151; confidence=0.9151。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9151092026481558,
+                  "insufficient": 0.0733401406093243,
+                  "contradicted": 0.011550656742519884
+                },
+                "confidence": 0.9151092026481558
+              }
+            }
+          ],
+          "status": "ready",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+          "legacy_answer_replaced": false,
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 1746,
+              "total_input_tokens": 1746,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 1746
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "2477a101f02442f4bdc53ddb83d8b0b9",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "model": "gemini-4-hydrogen",
+          "usage": {
+            "promptTokenCount": 1545,
+            "candidatesTokenCount": 634,
+            "totalTokenCount": 3536,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1545
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 634
+              }
+            ],
+            "thoughtsTokenCount": 1357,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "blocks": [
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:10:15",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 10,
+                "bbox": [
+                  0.17647058823529416,
+                  0.7300646234848486,
+                  0.8263812751375818,
+                  0.7429329818181818
+                ],
+                "type": "paragraph",
+                "reading_order": 15,
+                "text": "[20] Diederik Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In ICLR , 2015.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "20"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -12.372859062422739,
+                "rrf_score": 0.01639344262295082
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:9",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.7278991378787878,
+                  0.82353418515817,
+                  0.7560516686868687
+                ],
+                "type": "equation",
+                "reading_order": 9,
+                "text": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "20"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -9.31716903044929,
+                "rrf_score": 0.016129032258064516
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:8",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7032179083333333,
+                  0.28452898496732026,
+                  0.7157969487373738
+                ],
+                "type": "heading",
+                "reading_order": 8,
+                "text": "5.3 Optimizer",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -6.8971061445705715,
+                "rrf_score": 0.015873015873015872
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:10:14",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 10,
+                "bbox": [
+                  0.17647058823529413,
+                  0.6915774262626262,
+                  0.8263845245176467,
+                  0.7179304565656566
+                ],
+                "type": "paragraph",
+                "reading_order": 14,
+                "text": "[19] Yoon Kim, Carl Denton, Luong Hoang, and Alexander M. Rush. Structured attention networks. In International Conference on Learning Representations, 2017.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "19"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "neighbor_context": true
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:10:16",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 10,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7550658861111111,
+                  0.8235305647150326,
+                  0.7817082343434344
+                ],
+                "type": "paragraph",
+                "reading_order": 16,
+                "text": "[21] Oleksii Kuchaiev and Boris Ginsburg. Factorization tricks for LSTM networks. arXiv preprint arXiv:1703.10722, 2017.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "21"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "neighbor_context": true
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:10",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.26616339869281047,
+                  0.7792299459595959,
+                  0.8246199209150327,
+                  0.7972592686868687
+                ],
+                "type": "equation",
+                "reading_order": 10,
+                "text": "lrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "neighbor_context": true
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.6143981333333333,
+                  0.8235316909803917,
+                  0.6820731333333333
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "neighbor_context": true
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:10:15",
+                "score": -12.372859062422739
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:9",
+                "score": -9.31716903044929
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:8",
+                "score": -6.8971061445705715
+              }
+            ],
+            "dense": [],
+            "mode": "keyword",
+            "notice": "当前使用对称分词的关键词索引；向量覆盖尚未完成",
+            "version_ids": [
+              "dceae303ec2f41cbbc4d88f047db9424"
+            ],
+            "method": "FTS5_BM25",
+            "dense_index": {
+              "status": "unindexed"
+            },
+            "rerank": {
+              "status": "NOT RUN"
+            },
+            "query_term_expansion": [
+              "optimizer",
+              "optimization"
+            ]
+          },
+          "artifact_id": "3a386abba46a4754b40df46ebf2a50b1"
+        },
+        "error": null,
+        "idempotency": "core4-v7-adam-before-20261116",
+        "created": 1794810452.7300575,
+        "updated": 1794811207.4434023,
+        "steps": [
+          {
+            "id": 4686,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794810452.7349896
+          },
+          {
+            "id": 4687,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794810452.9991193
+          },
+          {
+            "id": 4688,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794810453.0060918
+          },
+          {
+            "id": 4689,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 3,
+              "dense_candidates": 0,
+              "evidence_blocks": 7
+            },
+            "created": 1794810453.0897703
+          },
+          {
+            "id": 4690,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "e17d0a11bddf47dbbbc1ca7febd438fb",
+              "reserved_input_tokens": 4830,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794810453.114128
+          },
+          {
+            "id": 4691,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794810464.7187119
+          },
+          {
+            "id": 4692,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794810464.7358527
+          },
+          {
+            "id": 4717,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794811206.4263961
+          },
+          {
+            "id": 4718,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794811206.4379096
+          },
+          {
+            "id": 4719,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 3,
+              "dense_candidates": 0,
+              "evidence_blocks": 7
+            },
+            "created": 1794811206.4548092
+          },
+          {
+            "id": 4720,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794811206.4693785
+          },
+          {
+            "id": 4721,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-shared",
+              "quota_id": "2477a101f02442f4bdc53ddb83d8b0b9",
+              "reserved_input_tokens": 4560,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794811206.4970858
+          },
+          {
+            "id": 4722,
+            "event": "decision_review",
+            "data": {
+              "claims": 3,
+              "status": "ready",
+              "quota_id": "2477a101f02442f4bdc53ddb83d8b0b9"
+            },
+            "created": 1794811207.4215393
+          },
+          {
+            "id": 4723,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794811207.4504576
+          }
+        ]
+      },
+      "reused_saved_hydrogen_response": true
+    },
+    {
+      "name": "book-tail",
+      "run": {
+        "id": "50ed278a57e0402ca1680403ea189766",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "qa",
+        "status": "partial",
+        "payload": {
+          "question": "教材末页索引里reparameterization trick对应哪些印刷页？注意区分PDF物理页与印刷页。",
+          "version_ids": [
+            "4452fbc0c75443578fb2a2987629c19c"
+          ]
+        },
+        "result": {
+          "answer": "在PDF物理页索引 page_index: 537 的教材末页索引中，reparameterization trick 对应的印刷页码为 339 和 347。\n\n在PDF物理页索引 page_index: 540 的索引条目中，同样列有 reparameterization trick, 339, 347。\n\n区分PDF物理页与印刷页方面，正文第17.7节页眉“17.7 The reparameterization trick 339”显示印刷页为 339，其所在的PDF物理页索引为 page_index: 352（对应书目《Understanding Deep Learning》，版本待确认）。\n\n此外，正文第18.5节页眉“18.5 Reparameterization of loss function 361”显示印刷页为 361，其所在的PDF物理页索引为 page_index: 374。\n\n基于 page_index: 352 对应印刷页 339 与 page_index: 374 对应印刷页 361（二者差值均为 13），可推断印刷页 347 对应PDF物理页索引 page_index: 360，且 page_index: 360 上确实包含“Reparameterization trick:”章节总结段落。\n\n给定证据中未提供 page_index: 360 的印刷页码页眉/页脚原文，也未提供索引页 page_index: 537 与 page_index: 540 自身的印刷页码原文，相关直接对应关系缺证据。",
+          "answer_segments": [
+            {
+              "text": "在PDF物理页索引 page_index: 537 的教材末页索引中，reparameterization trick 对应的印刷页码为 339 和 347。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "在PDF物理页索引 page_index: 540 的索引条目中，同样列有 reparameterization trick, 339, 347。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "区分PDF物理页与印刷页方面，正文第17.7节页眉“17.7 The reparameterization trick 339”显示印刷页为 339，其所在的PDF物理页索引为 page_index: 352（对应书目《Understanding Deep Learning》，版本待确认）。",
+              "claim_ids": [
+                "c3"
+              ]
+            },
+            {
+              "text": "此外，正文第18.5节页眉“18.5 Reparameterization of loss function 361”显示印刷页为 361，其所在的PDF物理页索引为 page_index: 374。",
+              "claim_ids": [
+                "c4"
+              ]
+            },
+            {
+              "text": "基于 page_index: 352 对应印刷页 339 与 page_index: 374 对应印刷页 361（二者差值均为 13），可推断印刷页 347 对应PDF物理页索引 page_index: 360，且 page_index: 360 上确实包含“Reparameterization trick:”章节总结段落。",
+              "claim_ids": [
+                "c5"
+              ]
+            },
+            {
+              "text": "给定证据中未提供 page_index: 360 的印刷页码页眉/页脚原文，也未提供索引页 page_index: 537 与 page_index: 540 自身的印刷页码原文，相关直接对应关系缺证据。",
+              "claim_ids": [
+                "c6"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "在PDF物理页索引 page_index: 537 的教材末页索引中，reparameterization trick 对应的印刷页码为 339 和 347。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:537:4",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 537,
+                  "bbox": [
+                    0.5588039215686275,
+                    0.1776504797979786,
+                    0.8008483026307189,
+                    0.7313929040404025
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "reparameterization trick, 339, 347",
+                  "quote_span": {
+                    "start": 288,
+                    "end": 322
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9790; confidence=0.9790。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.01357960329702001,
+                  "contradicted": 0.007447625329561328,
+                  "supported": 0.9789727713734186
+                },
+                "confidence": 0.9789727713734186
+              }
+            },
+            {
+              "id": "c2",
+              "text": "在PDF物理页索引 page_index: 540 的索引条目中，同样列有 reparameterization trick, 339, 347。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:540:1",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 540,
+                  "bbox": [
+                    0.15508823529411764,
+                    0.17765047979797988,
+                    0.6021301068954248,
+                    0.5967161363636369
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "reparameterization trick, 339, 347",
+                  "quote_span": {
+                    "start": 395,
+                    "end": 429
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9254; confidence=0.9254。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.018917727077402927,
+                  "insufficient": 0.0556571484010169,
+                  "supported": 0.9254251245215802
+                },
+                "confidence": 0.9254251245215802
+              }
+            },
+            {
+              "id": "c3",
+              "text": "区分PDF物理页与印刷页方面，正文第17.7节页眉“17.7 The reparameterization trick 339”显示印刷页为 339，其所在的PDF物理页索引为 page_index: 352（对应书目《Understanding Deep Learning》，版本待确认）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:352:0",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 352,
+                  "bbox": [
+                    0.15508823529411764,
+                    0.13578639141414142,
+                    0.7831992647058823,
+                    0.14836593686868682
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "17.7 The reparameterization trick 339",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 37
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8755; confidence=0.8755。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.8755172788809713,
+                  "insufficient": 0.105452289208372,
+                  "contradicted": 0.019030431910656585
+                },
+                "confidence": 0.8755172788809713
+              }
+            },
+            {
+              "id": "c4",
+              "text": "此外，正文第18.5节页眉“18.5 Reparameterization of loss function 361”显示印刷页为 361，其所在的PDF物理页索引为 page_index: 374。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:374:0",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 374,
+                  "bbox": [
+                    0.15508823529411764,
+                    0.13578639141414142,
+                    0.7831992647058823,
+                    0.14836593686868682
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "18.5 Reparameterization of loss function 361",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 44
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9716; confidence=0.9716。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9715527521609635,
+                  "insufficient": 0.018057465089655427,
+                  "contradicted": 0.010389782749380981
+                },
+                "confidence": 0.9715527521609635
+              }
+            },
+            {
+              "id": "c5",
+              "text": "基于 page_index: 352 对应印刷页 339 与 page_index: 374 对应印刷页 361（二者差值均为 13），可推断印刷页 347 对应PDF物理页索引 page_index: 360，且 page_index: 360 上确实包含“Reparameterization trick:”章节总结段落。",
+              "type": "inference",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:352:0",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 352,
+                  "bbox": [
+                    0.15508823529411764,
+                    0.13578639141414142,
+                    0.7831992647058823,
+                    0.14836593686868682
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "17.7 The reparameterization trick 339",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 37
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:374:0",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 374,
+                  "bbox": [
+                    0.15508823529411764,
+                    0.13578639141414142,
+                    0.7831992647058823,
+                    0.14836593686868682
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "18.5 Reparameterization of loss function 361",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 44
+                  },
+                  "status": "located_semantics_pending"
+                },
+                {
+                  "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:360:3",
+                  "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                  "page_index": 360,
+                  "bbox": [
+                    0.1550882352941175,
+                    0.4829391691919196,
+                    0.7785494489575162,
+                    0.578295964646465
+                  ],
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "quote": "Reparameterization trick: Consider computing an expectation of some function",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 76
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8722; confidence=0.8722。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.10223579638554733,
+                  "supported": 0.8722140524445688,
+                  "contradicted": 0.025550151169883892
+                },
+                "confidence": 0.8722140524445688
+              }
+            },
+            {
+              "id": "c6",
+              "text": "给定证据中未提供 page_index: 360 的印刷页码页眉/页脚原文，也未提供索引页 page_index: 537 与 page_index: 540 自身的印刷页码原文，相关直接对应关系缺证据。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            }
+          ],
+          "status": "partial",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+          "legacy_answer_replaced": false,
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 3276,
+              "total_input_tokens": 3276,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 3276
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "abf8cd027f3b4f8ab8aab74bf283692a",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "model": "gemini-4-hydrogen",
+          "usage": {
+            "promptTokenCount": 4900,
+            "candidatesTokenCount": 1271,
+            "totalTokenCount": 8860,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 4900
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1271
+              }
+            ],
+            "thoughtsTokenCount": 2689,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "blocks": [
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:7:22",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 7,
+                "bbox": [
+                  0.24299346405228756,
+                  0.5304606338383842,
+                  0.49480340522875815,
+                  0.5430401792929296
+                ],
+                "type": "heading",
+                "reading_order": 22,
+                "text": "17.7 The reparameterization trick",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -17.012404525380315,
+                "rrf_score": 0.01639344262295082
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:3",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.09734477124183005,
+                  0.6708197853535354,
+                  0.4113393886683007,
+                  0.6859144823232323
+                ],
+                "type": "heading",
+                "reading_order": 3,
+                "text": "17.7 The reparameterization trick",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -17.012404525380315,
+                "rrf_score": 0.016129032258064516
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:0",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.15508823529411764,
+                  0.13578639141414142,
+                  0.7831992647058823,
+                  0.14836593686868682
+                ],
+                "type": "heading",
+                "reading_order": 0,
+                "text": "17.7 The reparameterization trick 339",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -16.76188596518348,
+                "rrf_score": 0.015873015873015872
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:7",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.15508823529411792,
+                  0.824703058080808,
+                  0.9326991993464054,
+                  0.8676782575757576
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "to because draw the from backpropagation the intended Gaussian. algorithm does Now not we need can to compute pass down the the derivatives stochastic as branch. usual Reparameterization Notebook 17.2 This is known as the reparameterization trick (figure 17.11). trick",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -15.023721429133804,
+                "rrf_score": 0.015625
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:361:8",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 361,
+                "bbox": [
+                  0.21857516339869285,
+                  0.47092475252525257,
+                  0.842027008114379,
+                  0.4960813181818182
+                ],
+                "type": "paragraph",
+                "reading_order": 8,
+                "text": "Problem 17.5 The reparameterization trick computes the derivative of an expectation of a function f[x]:",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -14.425253784023136,
+                "rrf_score": 0.015384615384615385
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:360:3",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 360,
+                "bbox": [
+                  0.1550882352941175,
+                  0.4829391691919196,
+                  0.7785494489575162,
+                  0.578295964646465
+                ],
+                "type": "paragraph",
+                "reading_order": 3,
+                "text": "Reparameterization trick: Consider computing an expectation of some function, where the probability distribution with which the expectation is taken depends on some parameters. The reparameterization trick computes the derivative of this expectation with respect to these pa- rameters. This chapter introduced this as a method to differentiate through the sampling procedure approximating the expectation; there are alternative approaches (see problem 17.5), but the reparameterization trick gives an estimator that (usually) has low variance. This issue is discussed in Rezende et al. (2014), Kingma et al. (2015), and Roeder et al. (2017).",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -13.70578148119031,
+                "rrf_score": 0.015151515151515152
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:2",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.20184803921568625,
+                  0.5550548030303031,
+                  0.7317943837091506,
+                  0.6169436919191919
+                ],
+                "type": "caption",
+                "reading_order": 2,
+                "text": "Figure 17.11 Reparameterization trick. With the original architecture (fig- ure 17.9), we cannot easily backpropagate through the sampling step. The repa- rameterization trick removes the sampling step from the main pipeline; we draw from a standard normal and combine this with the predicted mean and covariance to get a sample from the variational distribution.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -11.60669122592924,
+                "rrf_score": 0.014925373134328358
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:7:30",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 7,
+                "bbox": [
+                  0.24299346405228756,
+                  0.6698722500000003,
+                  0.478361215625817,
+                  0.6824517954545457
+                ],
+                "type": "heading",
+                "reading_order": 30,
+                "text": "18.5 Reparameterization of loss",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -8.907906777313977,
+                "rrf_score": 0.014705882352941176
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:374:4",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 374,
+                "bbox": [
+                  0.09734477124182986,
+                  0.5338968055555559,
+                  0.47179801151143763,
+                  0.5489915025252529
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "18.5 Reparameterization of loss function",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -8.776732140777968,
+                "rrf_score": 0.014492753623188406
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:374:6",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 374,
+                "bbox": [
+                  0.08713888888888868,
+                  0.6880585176767678,
+                  0.39063010308986923,
+                  0.7018325075757578
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "18.5.1 Reparameterization of target",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -8.776732140777968,
+                "rrf_score": 0.014285714285714285
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:375:12",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 375,
+                "bbox": [
+                  0.15062581699346403,
+                  0.7696027095959597,
+                  0.4691984995539217,
+                  0.7833766994949495
+                ],
+                "type": "heading",
+                "reading_order": 12,
+                "text": "18.5.2 Reparameterization of network",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -8.776732140777968,
+                "rrf_score": 0.014084507042253521
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:374:0",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 374,
+                "bbox": [
+                  0.15508823529411764,
+                  0.13578639141414142,
+                  0.7831992647058823,
+                  0.14836593686868682
+                ],
+                "type": "heading",
+                "reading_order": 0,
+                "text": "18.5 Reparameterization of loss function 361",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -8.649364702005217,
+                "rrf_score": 0.013888888888888888
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:334:7",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 334,
+                "bbox": [
+                  0.15508823529411772,
+                  0.6768419469696969,
+                  0.7570381903382352,
+                  0.6894214924242424
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "Normalizing flows can model the posterior in VAEs using this trick (see chapter 17).",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -7.143600999008106,
+                "rrf_score": 0.0136986301369863
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:540:1",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 540,
+                "bbox": [
+                  0.15508823529411764,
+                  0.17765047979797988,
+                  0.6021301068954248,
+                  0.5967161363636369
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "conditional, 345 zero-padding, 164 decoder, 338 disentanglement, 342 encoder, 338 estimating probability, 340 factor VAE, 347 generation, 341 hierarchical model for posterior, 345 holes in latent space, 346 information preference problem, 346 modifying likelihood term, 345 normalizing flows, 345 PixelVAE, 345 posterior collapse, 346 relation to EM algorithm, 347 relation to other models, 345 reparameterization trick, 339, 347 resynthesis, 342 total correlation VAE, 346 VC dimension, 134 vector, 437, 443 dot product, 444 norm, 443 VEEGAN, 301 VGG, 176 VGG loss, 293 vision transformer DaViT, 232 ImageGPT, 229 multi-scale, 230 SWin, 232 ViT, 229 visualizing activations:, 184 ViT, 229 von Mises distribution, 74",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -6.819767165330485,
+                "rrf_score": 0.013513513513513514
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:539:4",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 539,
+                "bbox": [
+                  0.5588039215686275,
+                  0.1776504797979786,
+                  0.7802055858986928,
+                  0.30822244949494804
+                ],
+                "type": "paragraph",
+                "reading_order": 4,
+                "text": "functional, 426 run, 426 structural, 426 transport plan, 284 transpose, 443 transposed convolution, 172, 181 Tree-Parzen estimators, 136 triangular matrix, 446 TRPO, 398 truncation trick, 289 trust region policy optimization, 398",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -5.774348339580447,
+                "rrf_score": 0.013333333333333334
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:537:4",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 537,
+                "bbox": [
+                  0.5588039215686275,
+                  0.1776504797979786,
+                  0.8008483026307189,
+                  0.7313929040404025
+                ],
+                "type": "paragraph",
+                "reading_order": 4,
+                "text": "return, 375 reward, 375 rollout, 382 SARSA, 385 state value, 378 state-action value function, 379 state-value function, 379 tabular, 382–385 temporal difference method, 385 trajectory, 382 value, 375 with human feedback, 399 relational inductive bias, 248 ReLU, see rectified linear unit reparameterization trick, 339, 347 representational capacity, 134 ResDrop, 202 residual block, 189 order of operations, 191 residual connection, 189 in graph neural networks, 263, 266 why improves performance, 202 residual flow, 314–317, 324 iResNet, 315–317 iRevNet, 314–315 residual network, 186–206 as ensemble, 202 performance, 198 stable ResNet, 205 unraveling, 189 ResNet v1 & v2, 201 ResNet-200, 195 ResNeXt, 202 resynthesis, 342 return, 375 reverse-mode differentiation, 116 reward, 375 ridge regression, 140 RL, see reinforcement learning RMSProp, 93 RNN, 233 robust regression, 73 rollout, 382 rotation equivariance, 182 rotation invariance, 182 run transparency, 426",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -5.582295139240371,
+                "rrf_score": 0.013157894736842105
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:313:5",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 313,
+                "bbox": [
+                  0.21857516339869276,
+                  0.7114909368686868,
+                  0.8420406969771241,
+                  0.8672277828282827
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "Tricks for training GANs: Many heuristics improve the stability of training GANs and the quality of the final results. Marchesi (2017) first used the truncation trick (figure 15.10) to trade off the variability of GAN outputs relative to their quality. This was also proposed by Pieters & Wiering (2018) and Brock et al. (2019), who added a regularizer that encourages the weight matrices in the generator to be orthogonal. This means that truncating the latent variable has a closer relationship to truncating the output variance and improves sample quality. Other tricks include only using the gradients from the top K most realistic images (Sinha et al., 2020), label smoothing in the discriminator (Salimans et al., 2016), updating the discriminator using a history of generated images rather than the ones produced by the latest generator to avoid model “oscillation” (Salimans et al., 2016), and adding noise to the discriminator input (Arjovsky & Bottou, 2017). Kurach et al. (2019) present an overview of normalization and regularization in GANs. Chintala et al. (2020) provide further suggestions for training GANs.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -4.897699680643961,
+                "rrf_score": 0.012987012987012988
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:330:1",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 330,
+                "bbox": [
+                  0.15508823529411764,
+                  0.1756222500000001,
+                  0.7785888237712416,
+                  0.23348588636363657
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "of each weight matrix Ω must be less than one. A crude way to do this is to ensure that the absolute magnitudes of the weights Ω are small by clipping them. The Jacobian determinant cannot be computed easily, but its logarithm can be ap- proximated using a series of tricks.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -4.802655625574521,
+                "rrf_score": 0.01282051282051282
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:380:5",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 380,
+                "bbox": [
+                  0.15508823529411764,
+                  0.824703058080808,
+                  0.7786060341323527,
+                  0.8698496919191919
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "As for other generative models, the highest quality results result from applying a combi- nation of tricks and extensions to the basic model. First, it’s been noted that it also helps to estimate the variances σ t 2 of the reverse process as well as the mean (i.e., the widths",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -4.760493322443323,
+                "rrf_score": 0.012658227848101266
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:492:3",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 492,
+                "bbox": [
+                  0.15508823529411767,
+                  0.6822805303030306,
+                  0.7785748335294116,
+                  0.8024118434343437
+                ],
+                "type": "paragraph",
+                "reading_order": 3,
+                "text": "428 ~tijmen / csc321 / slides / lecture _ slides _ Henaff, M., Bruna, J., & LeCun, Y. (2015). Deep lec6.pdf. 93 convolutional networks on graph-structured Hinton, G., & van Camp, D. (1993). Keeping neu- data. arXiv:1506.05163. 262 ral networks simple by minimising the descrip- Henderson, Lemley, P., M. Li, A., X., & Liang, Jurafsky, P. (2023). D., Hashimoto, Foundation T., tion theory, length 5–13. of 159 weights. Computational learning models and fair use. arXiv:2303.15715. 429 Hinton, G., Vinyals, O., Dean, J., et al. (2015). Hendrycks, error linear D., units & Gimpel, (GELUs). K. arXiv:1606.08415. (2016). Gaussian Distilling arXiv:1503.02531, the knowledge 2(7). 416 in a neural network.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "sparse_score": -4.515555215618293,
+                "rrf_score": 0.0125
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:7:21",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 7,
+                "bbox": [
+                  0.24299346405228756,
+                  0.5152573510101013,
+                  0.49065218778758174,
+                  0.5278368964646467
+                ],
+                "type": "heading",
+                "reading_order": 21,
+                "text": "17.6 The variational autoencoder",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "neighbor_context": true
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:7:23",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 7,
+                "bbox": [
+                  0.24299346405228756,
+                  0.5456626540404044,
+                  0.49312590952287577,
+                  0.5582421994949498
+                ],
+                "type": "heading",
+                "reading_order": 23,
+                "text": "17.8 Applications . . . . . . . . .",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "two_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "neighbor_context": true
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:4",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.15508823529411764,
+                  0.703037654040404,
+                  0.7785897058823532,
+                  0.7458065934343434
+                ],
+                "type": "paragraph",
+                "reading_order": 4,
+                "text": "There is one more complication; the network involves a sampling step, and it is diﬀicult to differentiate through this stochastic component. However, differentiating past this step is necessary to update the parameters θ that precede it in the network.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "neighbor_context": true
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:1",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.4959052287581699,
+                  0.17877450000000009,
+                  0.7608853725490196,
+                  0.2533048030303033
+                ],
+                "type": "caption",
+                "reading_order": 1,
+                "text": "Figure 17.10 The VAE updates both fac- tors that determine the lower bound at each iteration. Both the parameters ϕ of the decoder and the parameters θ of the encoder are manipulated to increase this lower bound.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "neighbor_context": true
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:6",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.40543627450980413,
+                  0.7944431818181819,
+                  0.7785685098039218,
+                  0.8108823510101011
+                ],
+                "type": "equation",
+                "reading_order": 6,
+                "text": "z ∗ = µ + Σ 1/2 ϵ ∗ , (17.25)",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "neighbor_context": true
+              },
+              {
+                "id": "9a02fdf119ca4c4599e11a78b1a2299a:352:8",
+                "version_id": "4452fbc0c75443578fb2a2987629c19c",
+                "page_index": 352,
+                "bbox": [
+                  0.29296405228758204,
+                  0.9016318232323233,
+                  0.6453044264150329,
+                  0.9129525303030303
+                ],
+                "type": "paragraph",
+                "reading_order": 8,
+                "text": "Draft: please send errata to udlbookmail@gmail.com.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                  "parser_version": "pdfplumber-layout-v2",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "9a02fdf119ca4c4599e11a78b1a2299a",
+                "neighbor_context": true
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:7:22",
+                "score": -17.012404525380315
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:352:3",
+                "score": -17.012404525380315
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:352:0",
+                "score": -16.76188596518348
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:352:7",
+                "score": -15.023721429133804
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:361:8",
+                "score": -14.425253784023136
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:360:3",
+                "score": -13.70578148119031
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:352:2",
+                "score": -11.60669122592924
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:7:30",
+                "score": -8.907906777313977
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:374:4",
+                "score": -8.776732140777968
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:374:6",
+                "score": -8.776732140777968
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:375:12",
+                "score": -8.776732140777968
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:374:0",
+                "score": -8.649364702005217
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:334:7",
+                "score": -7.143600999008106
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:540:1",
+                "score": -6.819767165330485
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:539:4",
+                "score": -5.774348339580447
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:537:4",
+                "score": -5.582295139240371
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:313:5",
+                "score": -4.897699680643961
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:330:1",
+                "score": -4.802655625574521
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:380:5",
+                "score": -4.760493322443323
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:492:3",
+                "score": -4.515555215618293
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:480:3",
+                "score": -4.16274557432936
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:531:1",
+                "score": -3.9941083972174063
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:381:5",
+                "score": -3.636272956422481
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:265:2",
+                "score": -3.3491819090804715
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:462:4",
+                "score": -3.34727975192181
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:441:6",
+                "score": -3.229503271848573
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:312:2",
+                "score": -3.1180826640291914
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:355:1",
+                "score": -2.8256234336651542
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:498:1",
+                "score": -2.6962135364679205
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:327:7",
+                "score": -2.646357770158073
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:529:1",
+                "score": -2.548074686056807
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:511:3",
+                "score": -2.375433165535959
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:383:6",
+                "score": -2.356648263225099
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:302:1",
+                "score": -2.2602838212624454
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:425:4",
+                "score": -1.9611708119454565
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:499:1",
+                "score": -1.8576417110537478
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:332:4",
+                "score": -1.8512996620228537
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:497:4",
+                "score": -1.711097819602913
+              },
+              {
+                "block_id": "9a02fdf119ca4c4599e11a78b1a2299a:483:1",
+                "score": -1.6793037395973842
+              }
+            ],
+            "dense": [],
+            "mode": "keyword",
+            "notice": "当前使用对称分词的关键词索引；向量覆盖尚未完成",
+            "version_ids": [
+              "4452fbc0c75443578fb2a2987629c19c"
+            ],
+            "method": "FTS5_BM25",
+            "dense_index": {
+              "status": "unindexed"
+            },
+            "rerank": {
+              "status": "NOT RUN"
+            },
+            "query_term_expansion": []
+          },
+          "artifact_id": "03aea80ab6cd426ca29c102cc5f8c25c"
+        },
+        "error": null,
+        "idempotency": "core4-book-tail-before-20261116",
+        "created": 1794810483.5162816,
+        "updated": 1794811209.6411552,
+        "steps": [
+          {
+            "id": 4702,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794810483.5220993
+          },
+          {
+            "id": 4703,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794810483.86993
+          },
+          {
+            "id": 4704,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794810483.879712
+          },
+          {
+            "id": 4705,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 39,
+              "dense_candidates": 0,
+              "evidence_blocks": 26
+            },
+            "created": 1794810484.5797474
+          },
+          {
+            "id": 4706,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-shared",
+              "quota_id": "d2ef58f093a445349735836568264c70",
+              "reserved_input_tokens": 12819,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794810484.6003165
+          },
+          {
+            "id": 4707,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794810501.6922512
+          },
+          {
+            "id": 4708,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794810501.7138555
+          },
+          {
+            "id": 4724,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794811208.4691331
+          },
+          {
+            "id": 4725,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794811208.48121
+          },
+          {
+            "id": 4726,
+            "event": "retrieved",
+            "data": {
+              "mode": "keyword",
+              "sparse_candidates": 39,
+              "dense_candidates": 0,
+              "evidence_blocks": 26
+            },
+            "created": 1794811208.4894214
+          },
+          {
+            "id": 4727,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794811208.4955907
+          },
+          {
+            "id": 4728,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-shared",
+              "quota_id": "abf8cd027f3b4f8ab8aab74bf283692a",
+              "reserved_input_tokens": 8104,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794811208.529268
+          },
+          {
+            "id": 4733,
+            "event": "decision_review",
+            "data": {
+              "claims": 5,
+              "status": "partial",
+              "quota_id": "abf8cd027f3b4f8ab8aab74bf283692a"
+            },
+            "created": 1794811209.6152136
+          },
+          {
+            "id": 4734,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794811209.6499088
+          }
+        ]
+      },
+      "reused_saved_hydrogen_response": true
+    }
+  ],
+  "finished": 1794811210.0531251
+}

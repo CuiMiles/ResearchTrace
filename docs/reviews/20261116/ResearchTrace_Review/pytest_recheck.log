@@ -1,0 +1,38 @@
+..........F............................................................. [ 50%]
+......................................................................   [100%]
+=================================== FAILURES ===================================
+________ test_dense_provider_vectors_are_used_and_model_spaces_isolated ________
+
+isolated = PosixPath('/tmp/pytest-of-root/pytest-0/test_dense_provider_vectors_ar0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f02432cd6d0>
+
+    def test_dense_provider_vectors_are_used_and_model_spaces_isolated(isolated, monkeypatch):
+        uploaded, _ = parse_uploaded()
+        version_id = uploaded["document"]["id"]
+        block = store.one("SELECT * FROM blocks WHERE text LIKE '%eight GPUs%'")
+        import numpy as np
+        store.execute("INSERT INTO embeddings VALUES(?,?,?,?,?,?)", (block["id"], "alpha", version_id, "gemini-embedding-001", 2, np.asarray([1., 0.], dtype=np.float32).tobytes()))
+        # Explicit mock is isolated to unit coverage; this does not certify a live provider.
+        import sys
+        import types
+        monkeypatch.setitem(sys.modules, "services.api.models", types.SimpleNamespace(embed=lambda *args, **kwargs: {"model": "gemini-embedding-001", "dimension": 2, "vectors": [[1., 0.]]}))
+        result = retrieval.retrieve("alpha", [version_id], "something semantically equivalent")
+>       assert result["mode"] == "hybrid"
+E       AssertionError: assert 'keyword' == 'hybrid'
+E         
+E         - hybrid
+E         + keyword
+
+tests/unit/test_documents.py:193: AssertionError
+=============================== warnings summary ===============================
+tests/unit/test_watch_recovery.py::test_crash_recovery_uses_os_lock_and_preserves_schedule
+  /usr/lib/python3.13/multiprocessing/popen_fork.py:67: DeprecationWarning: This process (pid=688) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/unit/test_documents.py::test_dense_provider_vectors_are_used_and_model_spaces_isolated - AssertionError: assert 'keyword' == 'hybrid'
+  
+  - hybrid
+  + keyword
+1 failed, 141 passed, 1 warning in 27.94s

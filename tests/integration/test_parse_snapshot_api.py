@@ -10,6 +10,7 @@ def api(tmp_path,monkeypatch):
     for mod in (app,documents,store):monkeypatch.setattr(mod,'DATA',tmp_path)
     monkeypatch.setenv('RT_ACCESS_CODE','test-only-access')
     monkeypatch.setenv('RT_DISABLE_DENSE','true')
+    monkeypatch.setattr(app,'LOGIN_ATTEMPTS',{})
     with TestClient(app.app) as c:
         c.post('/api/v1/auth/login',json={'code':'test-only-access'})
         yield c

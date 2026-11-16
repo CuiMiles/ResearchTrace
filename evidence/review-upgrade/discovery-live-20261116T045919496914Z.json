@@ -1,0 +1,692 @@
+{
+  "started_at": 1794805159.4969738,
+  "status": "FAIL",
+  "resolver_option": "RT_PUBLIC_DNS_RESOLVER",
+  "resolver": "https://dns.google/resolve",
+  "proxy_configuration_names": {
+    "process": [
+      "ALL_PROXY",
+      "HTTPS_PROXY",
+      "HTTP_PROXY",
+      "NO_PROXY",
+      "all_proxy",
+      "http_proxy",
+      "https_proxy",
+      "no_proxy"
+    ],
+    "project_env": [
+      "RT_PUBLIC_PROXY"
+    ]
+  },
+  "verified_route": {
+    "operator_proxy": true,
+    "current_loopback_7897": true,
+    "tls_certificate_verification": true,
+    "all_target_addresses_global": true
+  },
+  "private_workspace_directory": "/tmp/researchtrace-discovery-ai1bhimf",
+  "root_dataset_opened": false,
+  "request_budget": {
+    "target_http": 12,
+    "trusted_doh_http": 48,
+    "automatic_retries": 0
+  },
+  "actual_http_requests": [
+    {
+      "at": 1794805160.1591763,
+      "kind": "trusted_doh_http",
+      "url": "https://dns.google/resolve?name=export.arxiv.org&type=1&cd=0&edns_client_subnet=0.0.0.0%2F0",
+      "host": "dns.google"
+    },
+    {
+      "at": 1794805161.2694252,
+      "kind": "trusted_doh_http",
+      "url": "https://dns.google/resolve?name=export.arxiv.org&type=28&cd=0&edns_client_subnet=0.0.0.0%2F0",
+      "host": "dns.google"
+    },
+    {
+      "at": 1794805161.586417,
+      "kind": "target_http",
+      "url": "https://151.101.195.42/api/query?search_query=all%3ARetrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&sortBy=relevance&start=0&max_results=5",
+      "host": "export.arxiv.org"
+    },
+    {
+      "at": 1794805195.1949334,
+      "kind": "trusted_doh_http",
+      "url": "https://dns.google/resolve?name=api.crossref.org&type=1&cd=0&edns_client_subnet=0.0.0.0%2F0",
+      "host": "dns.google"
+    },
+    {
+      "at": 1794805197.7908103,
+      "kind": "trusted_doh_http",
+      "url": "https://dns.google/resolve?name=api.crossref.org&type=28&cd=0&edns_client_subnet=0.0.0.0%2F0",
+      "host": "dns.google"
+    },
+    {
+      "at": 1794805198.1441598,
+      "kind": "target_http",
+      "url": "https://3.222.149.176/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+      "host": "api.crossref.org"
+    }
+  ],
+  "public_operations": [
+    {
+      "source_url": "https://export.arxiv.org/api/query?search_query=all%3ARetrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&sortBy=relevance&start=0&max_results=5",
+      "started_at": 1794805160.1106036,
+      "status": "FAIL",
+      "error_type": "ValueError",
+      "finished_at": 1794805195.1598952
+    },
+    {
+      "source_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+      "started_at": 1794805195.1604338,
+      "status": "PASS",
+      "final_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+      "http_status": 200,
+      "bytes": 78169,
+      "sha256": "24151f73cd74fa3a8cb5bde44d0683be461594a3c533a4392dd478c5e1377100",
+      "network": {
+        "resolver": "https://dns.google/resolve",
+        "operator_proxy": true,
+        "tls_verification": true,
+        "hops": [
+          {
+            "url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+            "host": "api.crossref.org",
+            "resolved_addresses": [
+              "3.222.149.176",
+              "44.218.25.202",
+              "100.51.192.124",
+              "18.232.36.41"
+            ],
+            "pinned_address": "3.222.149.176",
+            "status": 200,
+            "tls_server_name": "api.crossref.org"
+          }
+        ]
+      },
+      "finished_at": 1794805202.7149663
+    }
+  ],
+  "queries": [
+    {
+      "results": [
+        {
+          "identity": "doi:10.1002/9781394374717.ch03",
+          "title": "Retrieval‐Augmented Generation",
+          "authors": [],
+          "year": 2026,
+          "doi": "10.1002/9781394374717.ch03",
+          "url": "https://doi.org/10.1002/9781394374717.ch03",
+          "pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781394374717.ch03",
+          "source": "crossref",
+          "abstract": "",
+          "license": [
+            "http://doi.wiley.com/10.1002/tdm_license_1.1"
+          ],
+          "references": [
+            {
+              "key": "e_1_2_1_2_1",
+              "first-page": "9459",
+              "article-title": "Retrieval‐augmented generation for knowledge‐intensive NLP tasks",
+              "volume": "33",
+              "author": "Lewis Patrick",
+              "year": "2020",
+              "journal-title": "Advances in Neural Information Processing Systems"
+            },
+            {
+              "key": "e_1_2_1_3_1",
+              "unstructured": "VladimirKarpukhin BarlasOguz SewonMin Patrick SHLewis LedellWu SergeyEdunov DanqiChen andWen‐tauYih.Dense passage retrieval for open‐domain question answering. InEMNLP (1) pages6769–6781 2020."
+            },
+            {
+              "key": "e_1_2_1_4_1",
+              "unstructured": "ShitaoXiao ZhengLiu PeitianZhang andNiklasMuennighoff.C‐pack: Packaged resources to advance general Chinese embedding.arXiv preprint arXiv:2309.07597 2023."
+            },
+            {
+              "key": "e_1_2_1_5_1",
+              "first-page": "23716",
+              "article-title": "Flamingo: A visual language model for few‐shot learning",
+              "volume": "35",
+              "author": "Alayrac Jean‐Baptiste",
+              "year": "2022",
+              "journal-title": "Advances in Neural Information Processing Systems"
+            },
+            {
+              "key": "e_1_2_1_6_1",
+              "unstructured": "OpenAI.GPT‐4V(ision) system card September2023.https://openai.com/research/gpt‐4v‐system‐card. Accessed: 2024‐03‐04."
+            },
+            {
+              "key": "e_1_2_1_7_1",
+              "unstructured": "ZihanLiu WeiPing RajarshiRoy PengXu ChankyuLee MohammadShoeybi andBryanCatanzaro.ChatQA: Surpassing GPT‐4 on conversational QA and RAG.arXiv preprint arXiv:2401.10225 2024."
+            },
+            {
+              "key": "e_1_2_1_8_1",
+              "first-page": "157",
+              "article-title": "Lost in the middle: How language models use long contexts",
+              "volume": "12",
+              "author": "Liu Nelson F",
+              "year": "2024",
+              "journal-title": "Transactions of the Association for Computational Linguistics"
+            },
+            {
+              "key": "e_1_2_1_9_1",
+              "unstructured": "LlamaIndex.Storing—LlamaIndex documentation 2025.https://docs.llamaindex.ai/en/stable/module_guides/storing/#concept. Accessed: 2025‐06‐21."
+            },
+            {
+              "key": "e_1_2_1_10_1",
+              "unstructured": "Cohere.Cohere platform documentation 2024.https://docs.cohere.com. Accessed: 2025‐07‐05."
+            },
+            {
+              "key": "e_1_2_1_11_1",
+              "unstructured": "LeeXiong ChenyanXiong YeLi Kwok‐FungTang JialinLiu PaulBennett JunaidAhmed andArnoldOverwijk.Approximate nearest neighbor negative contrastive learning for dense text retrieval. InInternational Conference on Learning Representations 2021."
+            },
+            {
+              "key": "e_1_2_1_12_1",
+              "unstructured": "OmarKhattabandMateiZaharia.ColBERT: Efficient and effective passage search via contextualized late interaction over BERT. InProceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval pages39–48 2020."
+            },
+            {
+              "key": "e_1_2_1_13_1",
+              "unstructured": "GautierIzacard MathildeCaron LucasHosseini SebastianRiedel PiotrBojanowski ArmandJoulin andEdouardGrave.Unsupervised dense information retrieval with contrastive learning.Transactions on Machine Learning Research. arXiv preprint arXiv:2112.09118 2022."
+            },
+            {
+              "key": "e_1_2_1_14_1",
+              "unstructured": "JianlvChen ShitaoXiao PeitianZhang KunLuo DefuLian andZhengLiu.BGE M3‐embedding: Multi‐lingual multi‐functionality multi‐granularity text embeddings through self‐knowledge distillation InFindings of the association for computational linguistics: ACL pages2318–2335 2024."
+            },
+            {
+              "key": "e_1_2_1_15_1",
+              "unstructured": "ParthSarthi SalmanAbdullah AditiTuli ShubhKhanna AnnaGoldie andChristopher DManning.Raptor: Recursive abstractive processing for tree‐organized retrieval. InThe Twelfth International Conference on Learning Representations 2024."
+            },
+            {
+              "key": "e_1_2_1_16_1",
+              "unstructured": "YuWang NedimLipka Ryan ARossi AlexaSiu RuiyiZhang andTylerDerr.Knowledge graph prompting for multi‐document question answering. InProceedings of the AAAI Conference on Artificial Intelligence volume38 pages19206–19214 2024."
+            },
+            {
+              "key": "e_1_2_1_17_1",
+              "unstructured": "Gordon VCormack Charles LAClarke andStephanBuettcher.Reciprocal rank fusion outperforms condorcet and individual rank learning methods. InProceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval pages758–759.ACM 2009."
+            },
+            {
+              "key": "e_1_2_1_18_1",
+              "unstructured": "RodrigoNogueira WeiYang KyunghyunCho andJimmyLin.Multi‐stage document ranking with BERT.arXiv preprint arXiv:1910.14424 2019.https://arxiv.org/abs/1910.14424."
+            },
+            {
+              "key": "e_1_2_1_19_1",
+              "unstructured": "OmarKhattab KeshavSanthanam Xiang LisaLi DavidHall PercyLiang ChristopherPotts andChristopher DManning.ColBERTv2: Effective and efficient retrieval via lightweight late interaction.arXiv preprint arXiv:2112.01488 Dec2022.https://arxiv.org/abs/2112.01488."
+            },
+            {
+              "key": "e_1_2_1_20_1",
+              "unstructured": "ThibaultFormal KritiPopat AmirVeyseh NilsReimers SylvieShi LucasFayoux ElliottChoi.Cohere rerank: Scalable retrieval with large language models.Cohere Blog 2023.https://cohere.com/blog/rerank. Accessed: 2026‐03‐04."
+            },
+            {
+              "key": "e_1_2_1_21_1",
+              "unstructured": "IliasChalkidis ManosFergadiotis ProdromosMalakasiotis NikolaosAletras andIonAndroutsopoulos.Legal‐BERT: The muppets straight out of law school.arXiv preprint arXiv:2010.02559 Oct2020.https://arxiv.org/abs/2010.02559."
+            },
+            {
+              "key": "e_1_2_1_22_1",
+              "doi-asserted-by": "publisher",
+              "DOI": "10.1093/bioinformatics/btz682"
+            },
+            {
+              "key": "e_1_2_1_23_1",
+              "unstructured": "VictorSanh LysandreDebut JulienChaumond andThomasWolf.DistilBERT a distilled version of BERT: Smaller faster cheaper and lighter.arXiv preprint arXiv:1910.01108 Oct2019.https://arxiv.org/abs/1910.01108."
+            },
+            {
+              "key": "e_1_2_1_24_1",
+              "unstructured": "XiaoqiJiao YichunYin LifengShang XinJiang XiaoChen LinlinLi FangWang andQunLiu.TinyBERT: Distilling BERT for natural language understanding.arXiv preprint arXiv:1909.10351 Sep2020.https://arxiv.org/abs/1909.10351."
+            }
+          ],
+          "metadata_verified": true,
+          "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+          "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 0，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+          "metadata_source_sha256": "24151f73cd74fa3a8cb5bde44d0683be461594a3c533a4392dd478c5e1377100",
+          "metadata_fetched_at": 1794805202.7150087,
+          "metadata_network": {
+            "resolver": "https://dns.google/resolve",
+            "operator_proxy": true,
+            "tls_verification": true,
+            "hops": [
+              {
+                "url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+                "host": "api.crossref.org",
+                "resolved_addresses": [
+                  "3.222.149.176",
+                  "44.218.25.202",
+                  "100.51.192.124",
+                  "18.232.36.41"
+                ],
+                "pinned_address": "3.222.149.176",
+                "status": 200,
+                "tls_server_name": "api.crossref.org"
+              }
+            ]
+          },
+          "recommendation_score": 1.3,
+          "feedback": 0
+        },
+        {
+          "identity": "doi:10.1002/9781394374717.fmatter",
+          "title": "Advanced Retrieval‐Augmented Generation",
+          "authors": [],
+          "year": 2026,
+          "doi": "10.1002/9781394374717.fmatter",
+          "url": "https://doi.org/10.1002/9781394374717.fmatter",
+          "pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781394374717.fmatter",
+          "source": "crossref",
+          "abstract": "",
+          "license": [
+            "http://doi.wiley.com/10.1002/tdm_license_1.1"
+          ],
+          "references": [],
+          "metadata_verified": true,
+          "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+          "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 0，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+          "metadata_source_sha256": "24151f73cd74fa3a8cb5bde44d0683be461594a3c533a4392dd478c5e1377100",
+          "metadata_fetched_at": 1794805202.7150087,
+          "metadata_network": {
+            "resolver": "https://dns.google/resolve",
+            "operator_proxy": true,
+            "tls_verification": true,
+            "hops": [
+              {
+                "url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+                "host": "api.crossref.org",
+                "resolved_addresses": [
+                  "3.222.149.176",
+                  "44.218.25.202",
+                  "100.51.192.124",
+                  "18.232.36.41"
+                ],
+                "pinned_address": "3.222.149.176",
+                "status": 200,
+                "tls_server_name": "api.crossref.org"
+              }
+            ]
+          },
+          "recommendation_score": 0.8,
+          "feedback": 0
+        },
+        {
+          "identity": "doi:10.18653/v1/2026.findings-eacl.35",
+          "title": "Multilingual Retrieval-Augmented Generation for Knowledge-Intensive Question Answering Task",
+          "authors": [
+            "Leonardo Ranaldi"
+          ],
+          "year": 2026,
+          "doi": "10.18653/v1/2026.findings-eacl.35",
+          "url": "https://doi.org/10.18653/v1/2026.findings-eacl.35",
+          "pdf_url": null,
+          "source": "crossref",
+          "abstract": "",
+          "license": [],
+          "references": [],
+          "metadata_verified": true,
+          "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+          "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 6，库标题词重合 0，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+          "metadata_source_sha256": "24151f73cd74fa3a8cb5bde44d0683be461594a3c533a4392dd478c5e1377100",
+          "metadata_fetched_at": 1794805202.7150087,
+          "metadata_network": {
+            "resolver": "https://dns.google/resolve",
+            "operator_proxy": true,
+            "tls_verification": true,
+            "hops": [
+              {
+                "url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+                "host": "api.crossref.org",
+                "resolved_addresses": [
+                  "3.222.149.176",
+                  "44.218.25.202",
+                  "100.51.192.124",
+                  "18.232.36.41"
+                ],
+                "pinned_address": "3.222.149.176",
+                "status": 200,
+                "tls_server_name": "api.crossref.org"
+              }
+            ]
+          },
+          "recommendation_score": 0.8,
+          "feedback": 0
+        },
+        {
+          "identity": "doi:10.5121/csit.2026.1601307",
+          "title": "ADAPTIVE MULTI-STAGE VECTOR RETRIEVAL FOR RETRIEVAL-AUGMENTED GENERATION",
+          "authors": [
+            "Samsudeen Alabi Bankole",
+            "Yakub Kayode Saheed"
+          ],
+          "year": 2026,
+          "doi": "10.5121/csit.2026.1601307",
+          "url": "https://doi.org/10.5121/csit.2026.1601307",
+          "pdf_url": null,
+          "source": "crossref",
+          "abstract": "Retrieval-Augmented Generation (RAG) is the standard for grounding Large Language Models (LLMs), but its parts' embeddings, lexical scoring, query expansion, reranking, and adaptive sizing do not always compose additively. Under default configurations, adding naïve hybrid retrieval with Reciprocal Rank Fusion degrades NDCG@10 by up to 5.6% on scientific corpora; temperature-sampled query expansion with a small LLM further degrades it by 16.8%. To address this, we propose the Adaptive Multi-Stage Vector Retrieval (AMSVR) framework, prioritising weighted, drift-resistant composition over uniform fusion. Rather than a one-sizefits-all system, AMSVR offers tailored configurations: AMSVR-Scientific (dense + tuned hybrid) peaks at NDCG@10 = 0.7570 on SciFact, while AMSVR-Full (seven stages) targets broader, noisier corpora where Recall@100 matters most. We evaluate on three BEIR benchmarks (SciFact, NFCorpus, FIQA), release an offline configuration-diagnostic tool, and provide a per-corpus recipe for selecting which stages to enable.",
+          "license": [],
+          "references": [],
+          "metadata_verified": true,
+          "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+          "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 4，库标题词重合 0，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+          "metadata_source_sha256": "24151f73cd74fa3a8cb5bde44d0683be461594a3c533a4392dd478c5e1377100",
+          "metadata_fetched_at": 1794805202.7150087,
+          "metadata_network": {
+            "resolver": "https://dns.google/resolve",
+            "operator_proxy": true,
+            "tls_verification": true,
+            "hops": [
+              {
+                "url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+                "host": "api.crossref.org",
+                "resolved_addresses": [
+                  "3.222.149.176",
+                  "44.218.25.202",
+                  "100.51.192.124",
+                  "18.232.36.41"
+                ],
+                "pinned_address": "3.222.149.176",
+                "status": 200,
+                "tls_server_name": "api.crossref.org"
+              }
+            ]
+          },
+          "recommendation_score": 0.65,
+          "feedback": 0
+        },
+        {
+          "identity": "doi:10.1002/9781394374717.ch07",
+          "title": "Graph‐based Retrieval‐augmented Generation",
+          "authors": [],
+          "year": 2026,
+          "doi": "10.1002/9781394374717.ch07",
+          "url": "https://doi.org/10.1002/9781394374717.ch07",
+          "pdf_url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781394374717.ch07",
+          "source": "crossref",
+          "abstract": "",
+          "license": [
+            "http://doi.wiley.com/10.1002/tdm_license_1.1"
+          ],
+          "references": [
+            {
+              "key": "e_1_2_1_2_1",
+              "unstructured": "YingliZhou YaodongSu YouranSun ShuWang TaotaoWang RunyuanHe YongweiZhang SicongLiang XilinLiu YuchiMa et al.In‐depth analysis of graph‐based rag in a unified framework.arXiv preprint arXiv:2503.04338 2025."
+            },
+            {
+              "key": "e_1_2_1_3_1",
+              "unstructured": "QinggangZhang ShengyuanChen YuanchenBei ZhengYuan HuachiZhou ZijinHong JunnanDong HaoChen YiChang andXiaoHuang.A survey of graph retrieval‐augmented generation for customized large language models.arXiv preprint arXiv:2501.13958 2025."
+            },
+            {
+              "key": "e_1_2_1_4_1",
+              "unstructured": "ZhuoqunLi XuanangChen HaiyangYu HongyuLin YaojieLu QiaoyuTang FeiHuang XianpeiHan LeSun andYongbinLi.Structrag: Boosting knowledge intensive reasoning of LLMs via inference‐time hybrid information structurization.arXiv preprint arXiv:2410.08815 2024."
+            },
+            {
+              "key": "e_1_2_1_5_1",
+              "unstructured": "ZhaoleiGuo LanjingXia YixingYu TianshuAo andChaoHuang.LightRAG: Simple and fast retrieval‐augmented generation.arXiv preprint arXiv:2410.05779 2 2024."
+            },
+            {
+              "key": "e_1_2_1_6_1",
+              "unstructured": "ShilongLi YanchengHe HangyuGuo XingyuanBu GeBai JieLiu JiahengLiu XingweiQu YangguangLi WanliOuyang et al.Graphreader: Building graph‐based agent to enhance long‐context abilities of large language models.arXiv preprint arXiv:2406.14550 2024."
+            },
+            {
+              "key": "e_1_2_1_7_1",
+              "first-page": "6052",
+              "article-title": "Knowgpt: Knowledge graph based prompting for large language models",
+              "volume": "37",
+              "author": "Zhang Qinggang",
+              "year": "2024",
+              "journal-title": "Advances in Neural Information Processing Systems"
+            },
+            {
+              "key": "e_1_2_1_8_1",
+              "unstructured": "JiashuoSun ChengjinXu LumingyuanTang SaizhuoWang ChenLin YeyunGong Lionel MNi Heung‐YeungShum andJianGuo.Think‐on‐graph: Deep and responsible reasoning of large language model on knowledge graph.arXiv preprint arXiv:2307.07697 2023."
+            },
+            {
+              "key": "e_1_2_1_9_1",
+              "unstructured": "ShengjieMa ChengjinXu XuhuiJiang MuzhiLi HuarenQu andJianGuo.Think‐on‐graph 2.0: Deep and interpretable large language model reasoning with knowledge graph‐guided retrieval.arXiv e‐prints pages arXiv–2407 2024."
+            },
+            {
+              "key": "e_1_2_1_10_1",
+              "unstructured": "LinhaoLuo Yuan‐FangLi GholamrezaHaffari andShiruiPan.Reasoning on graphs: Faithful and interpretable large language model reasoning.arXiv preprint arXiv:2310.01061 2023."
+            },
+            {
+              "key": "e_1_2_1_11_1",
+              "unstructured": "HaozhenZhang TaoFeng andJiaxuanYou.Graph of records: Boosting retrieval augmented generation for long‐context summarization with graphs.arXiv preprint arXiv:2410.11001 2024."
+            },
+            {
+              "key": "e_1_2_1_12_1",
+              "unstructured": "JWu JZhu andYQi.Medical graph rag: Towards safe medical large language model via graph retrieval‐augmented generation.arXiv preprint arXiv:2408.04187 2024."
+            },
+            {
+              "key": "e_1_2_1_13_1",
+              "unstructured": "XiangyanLiu BoLan ZhiyuanHu YangLiu ZhichengZhang FeiWang MichaelShieh andWenmengZhou.Codexgraph: Bridging large language models and code repositories via code graph databases.arXiv preprint arXiv:2408.03910 2024."
+            },
+            {
+              "issue": "1",
+              "key": "e_1_2_1_14_1",
+              "first-page": "1",
+              "article-title": "Random walks on graphs: A survey",
+              "volume": "16",
+              "author": "Lovász László",
+              "year": "1996",
+              "journal-title": "Combinatorica"
+            },
+            {
+              "key": "e_1_2_1_15_1",
+              "unstructured": "LawrencePage SergeyBrin RajeevMotwani andTerryWinograd.The pagerank citation ranking: Bringing order to the web. Technical report Stanford Infolab 1999."
+            },
+            {
+              "key": "e_1_2_1_16_1",
+              "unstructured": "Taher HHaveliwala.Topic‐sensitive pagerank. InProceedings of the 11th International Conference on World Wide Web pages517–526 2002."
+            },
+            {
+              "issue": "1",
+              "key": "e_1_2_1_17_1",
+              "first-page": "4",
+              "article-title": "Random walks on graphs",
+              "volume": "2",
+              "author": "Lovász László",
+              "year": "1993",
+              "journal-title": "Combinatorics, Paul Erdos is Eighty"
+            },
+            {
+              "key": "e_1_2_1_18_1",
+              "first-page": "99",
+              "article-title": "Biased random walks on random graphs",
+              "volume": "91",
+              "author": "Arous G Ben",
+              "year": "2016",
+              "journal-title": "Probability and Statistical Physics in St. Petersburg"
+            },
+            {
+              "key": "e_1_2_1_19_1",
+              "unstructured": "JureLeskovec JonKleinberg andChristosFaloutsos.Graphs over time: Densification laws shrinking diameters and possible explanations. InProceedings of the Eleventh ACM SIGKDD International Conference on Knowledge Discovery in Data Mining pages177–187 2005."
+            },
+            {
+              "key": "e_1_2_1_20_1",
+              "unstructured": "JureLeskovecandChristosFaloutsos.Sampling from large graphs. InProceedings of the 12th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining pages631–636 2006."
+            },
+            {
+              "key": "e_1_2_1_21_1",
+              "unstructured": "JamesCook KrishnaramKenthapadi andNinaMishra.Group chats on twitter. InProceedings of the 22nd International Conference on World Wide Web pages225–236 2013."
+            },
+            {
+              "key": "e_1_2_1_22_1",
+              "unstructured": "AdityaGroverandJureLeskovec.node2vec: Scalable feature learning for networks. InProceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining pages855–864 2016."
+            },
+            {
+              "issue": "6",
+              "key": "e_1_2_1_23_1",
+              "first-page": "1087",
+              "article-title": "Equation of state calculations by fast computing machines",
+              "volume": "21",
+              "author": "Metropolis Nicholas",
+              "year": "1953",
+              "journal-title": "The Journal of Chemical Physics"
+            },
+            {
+              "issue": "1",
+              "key": "e_1_2_1_24_1",
+              "first-page": "97",
+              "article-title": "Monte carlo sampling methods using markov chains and their applications",
+              "volume": "57",
+              "author": "Hastings W Keith",
+              "year": "1970",
+              "journal-title": "Biometrika"
+            },
+            {
+              "key": "e_1_2_1_25_1",
+              "unstructured": "Wendy RanWei.On Estimation Problems in Network Sampling. PhD thesis The Ohio State University 2016."
+            },
+            {
+              "key": "e_1_2_1_26_1",
+              "unstructured": "ZijianLi QingyanGuo JiaweiShao LeiSong JiangBian JunZhang andRuiWang.Graph neural network enhanced retrieval for question answering of llms.arXiv preprint arXiv:2406.06572 2024."
+            },
+            {
+              "key": "e_1_2_1_27_1",
+              "unstructured": "YuxinDong ShuoWang HongyeZheng JiajingChen ZhenhongZhang andChihangWang.Advanced rag models with graph structures: Optimizing complex knowledge reasoning and text generation. In2024 5th International Symposium on Computer Engineering and Intelligent Communications (ISCEIC) pages626–630.IEEE 2024."
+            },
+            {
+              "key": "e_1_2_1_28_1",
+              "unstructured": "DarrenEdge HaTrinh NewmanCheng JoshuaBradley AlexChao ApurvaMody StevenTruitt DashaMetropolitansky Robert OsazuwaNess andJonathanLarson.From local to global: A graph rag approach to query‐focused summarization.arXiv preprint arXiv:2404.16130 2024."
+            },
+            {
+              "key": "e_1_2_1_29_1",
+              "unstructured": "YuWang NedimLipka Ryan ARossi AlexaSiu RuiyiZhang andTylerDerr.Knowledge graph prompting for multi‐document question answering. InProceedings of the AAAI Conference on Artificial Intelligence volume38 pages19206–19214 2024."
+            },
+            {
+              "key": "e_1_2_1_30_1",
+              "unstructured": "MengliangHe AiminZhou andXiaomingShi.Enhancing textbook question answering with knowledge graph‐augmented large language models. InThe 16th Asian Conference on Machine Learning (Conference Track) 2024."
+            },
+            {
+              "key": "e_1_2_1_31_1",
+              "unstructured": "FangyuLiu EhsanShareghi ZaiqiaoMeng MarcoBasaldella andNigelCollier.Self‐alignment pretraining for biomedical entity representations.arXiv preprint arXiv:2010.11784 2020."
+            },
+            {
+              "key": "e_1_2_1_32_1",
+              "unstructured": "ZhangyinFeng DayaGuo DuyuTang NanDuan XiaochengFeng MingGong LinjunShou BingQin TingLiu DaxinJiang et al.Codebert: A pre‐trained model for programming and natural languages. InFindings of the Association for Computational Linguistics: EMNLP 2020 pages1536–1547.Association for Computational Linguistics. November2020.https://aclanthology.org/2020.findings‐emnlp.139/."
+            },
+            {
+              "key": "e_1_2_1_33_1",
+              "first-page": "102860",
+              "article-title": "Insight at the right spot: Provide decisive subgraph information to graph llm with reinforcement learning",
+              "volume": "117",
+              "author": "Shen Tiesunlong",
+              "year": "2025",
+              "journal-title": "Information Fusion"
+            },
+            {
+              "key": "e_1_2_1_34_1",
+              "unstructured": "JinyoungPark MinseokJoo Joo‐KyungKim andHyunwoo JKim.Generative subgraph retrieval for knowledge graph‐grounded dialog generation.arXiv preprint arXiv:2410.09350 2024."
+            },
+            {
+              "key": "e_1_2_1_35_1",
+              "unstructured": "BowenJin ChulinXie JiaweiZhang Kashob KumarRoy YuZhang ZhengLi RuiruiLi XianfengTang SuhangWang YuMeng et al.Graph chain‐of‐thought: Augmenting large language models by reasoning on graphs.arXiv preprint arXiv:2404.07103 2024."
+            },
+            {
+              "key": "e_1_2_1_36_1",
+              "unstructured": "JianingWang QiushiSun XiangLi andMingGao.Boosting language models reasoning with chain‐of‐knowledge prompting.arXiv preprint arXiv:2306.06427 2023."
+            },
+            {
+              "key": "e_1_2_1_37_1",
+              "unstructured": "RuosongYe CaiqiZhang RunhuiWang ShuyuanXu andYongfengZhang.Language is all a graph needs.arXiv preprint arXiv:2308.07134 2023."
+            },
+            {
+              "key": "e_1_2_1_38_1",
+              "unstructured": "JiabinTang YuhaoYang WeiWei LeiShi LixinSu SuqiCheng DaweiYin andChaoHuang.Graphgpt: Graph instruction tuning for large language models. InProceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval pages491–500 2024."
+            },
+            {
+              "key": "e_1_2_1_39_1",
+              "unstructured": "RunjinChen TongZhao AjayJaiswal NeilShah andZhangyangWang.Llaga: Large language and graph assistant.arXiv preprint arXiv:2402.08170 2024."
+            }
+          ],
+          "metadata_verified": true,
+          "metadata_source_url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+          "reason": "Crossref 已登记元数据；候选需核对标题、作者和年份；PDF 可得性未验证；检索词重合 3，库标题词重合 0，反馈加权 +0；方法差异与证据充分程度尚需全文核查",
+          "metadata_source_sha256": "24151f73cd74fa3a8cb5bde44d0683be461594a3c533a4392dd478c5e1377100",
+          "metadata_fetched_at": 1794805202.7150087,
+          "metadata_network": {
+            "resolver": "https://dns.google/resolve",
+            "operator_proxy": true,
+            "tls_verification": true,
+            "hops": [
+              {
+                "url": "https://api.crossref.org/works?query.bibliographic=Retrieval+Augmented+Generation+for+Knowledge+Intensive+NLP+Tasks&rows=15",
+                "host": "api.crossref.org",
+                "resolved_addresses": [
+                  "3.222.149.176",
+                  "44.218.25.202",
+                  "100.51.192.124",
+                  "18.232.36.41"
+                ],
+                "pinned_address": "3.222.149.176",
+                "status": 200,
+                "tls_server_name": "api.crossref.org"
+              }
+            ]
+          },
+          "recommendation_score": 0.6333333333333333,
+          "feedback": 0
+        }
+      ],
+      "errors": [
+        {
+          "source": "arxiv",
+          "error": "上游限流 429；Retry-After=未知；本次不自动重试"
+        }
+      ],
+      "cached": false,
+      "searched_at": 1794805160.1103961,
+      "query": "Retrieval Augmented Generation for Knowledge Intensive NLP Tasks",
+      "sources": [
+        "arxiv",
+        "crossref"
+      ],
+      "source_status": {
+        "arxiv": {
+          "status": "failed",
+          "fetched_at": 1794805195.1599278
+        },
+        "crossref": {
+          "status": "success",
+          "result_count": 5,
+          "fetched_at": 1794805202.7181733
+        }
+      },
+      "status": "partial",
+      "cache_refreshed_at": 1794805202.7181804,
+      "cache_expires_at": 1794807002.7181804,
+      "rank_scope": "候选集内启发式排序；时间显示为元数据年份，无全领域质量结论",
+      "returned_at": 1794805202.7328198
+    }
+  ],
+  "model_requests": 0,
+  "dense_index": false,
+  "paid_api_requests": 0,
+  "openalex_requests": 0,
+  "checks": {
+    "new_empty_workspace": "PASS",
+    "probe_completion": "FAIL",
+    "browser_ui": "NOT RUN"
+  },
+  "official_references": [
+    "https://developers.google.com/speed/public-dns/docs/doh/json",
+    "https://www.encode.io/httpcore/extensions/"
+  ],
+  "system_dns_readonly": {
+    "export.arxiv.org": [
+      "198.18.2.3"
+    ],
+    "api.crossref.org": [
+      "198.18.2.4"
+    ],
+    "arxiv.org": [
+      "198.18.2.130"
+    ],
+    "dns.google": [
+      "198.18.2.131"
+    ]
+  },
+  "workspace_id": "d2fa52f6e3124178b7f442b7b57b8256",
+  "failure_type": "AssertionError",
+  "finished_at": 1794805202.740317,
+  "http_request_counts": {
+    "target_http": 2,
+    "trusted_doh_http": 4
+  }
+}

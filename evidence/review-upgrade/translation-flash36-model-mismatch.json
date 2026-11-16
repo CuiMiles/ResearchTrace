@@ -1,0 +1,275 @@
+{
+  "started": 1794808778.5563495,
+  "live_http": true,
+  "requested_model": "gemini-3.6-flash",
+  "cases": [
+    {
+      "name": "zh-to-en",
+      "source": {
+        "id": "7e08ebcfb69345eca100033ed0067130:0:3",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "version_id": "7e08ebcfb69345eca100033ed0067130",
+        "page_index": 0,
+        "bbox": "[0.04845449014291314, 0.22448688309428178, 0.942998994697802, 0.2850627086911513]",
+        "type": "paragraph",
+        "reading_order": 3,
+        "text": "基本的CRUD操作，⽐如⽤⼾可以上传PDF格式的论⽂，包括批量上传。上传之后需要对PDF进⾏ 的解析，把⽂字提取出来，另外也可以考虑更⾼级的⽂档解析，如识别⽂档的结构，识别公式、表格 和图表等。下⾯是⼀些功能的详细说明。\u0001",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": "{\"citation_markers\": [], \"layout\": \"single_column\", \"parse_id\": \"7e08ebcfb69345eca100033ed0067130\", \"parser_version\": \"pdfplumber-layout-v2\", \"models\": [], \"device\": \"cpu\"}",
+        "parse_id": "7e08ebcfb69345eca100033ed0067130"
+      },
+      "run": {
+        "id": "68dbd43d7a9c44d3849d1a87798b71ec",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "translate",
+        "status": "completed",
+        "payload": {
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "version_id": "7e08ebcfb69345eca100033ed0067130",
+          "block_ids": [
+            "7e08ebcfb69345eca100033ed0067130:0:3"
+          ],
+          "parse_id": "7e08ebcfb69345eca100033ed0067130"
+        },
+        "result": {
+          "version_id": "7e08ebcfb69345eca100033ed0067130",
+          "parse_id": "7e08ebcfb69345eca100033ed0067130",
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "plan_version": "protected-utf8-v2",
+          "input_token_budget": 12000,
+          "output_token_budget": 8192,
+          "max_batch_items": 6,
+          "block_ids": [
+            "7e08ebcfb69345eca100033ed0067130:0:3"
+          ],
+          "translated": 1,
+          "total": 1,
+          "cache_hits": 1,
+          "actual_models": [
+            "gemini-3.5-flash-lite"
+          ]
+        },
+        "error": null,
+        "idempotency": "flash36-zh-to-en-0419c50db2604471b7499b33bfe73c20",
+        "created": 1794808779.7873235,
+        "updated": 1794808780.0810251,
+        "steps": [
+          {
+            "id": 4653,
+            "event": "queued",
+            "data": {
+              "kind": "translate",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794808779.7922926
+          },
+          {
+            "id": 4654,
+            "event": "started",
+            "data": {
+              "kind": "translate"
+            },
+            "created": 1794808780.0322723
+          },
+          {
+            "id": 4655,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794808780.0872982
+          }
+        ]
+      },
+      "translations": [
+        {
+          "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+          "version_id": "7e08ebcfb69345eca100033ed0067130",
+          "parse_id": "7e08ebcfb69345eca100033ed0067130",
+          "block_id": "7e08ebcfb69345eca100033ed0067130:0:3",
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "actual_model": "gemini-3.5-flash-lite",
+          "text": "Basic CRUD operations, such as allowing users to upload papers in PDF format, including batch uploads. After uploading, the PDF needs to be parsed to extract the text. Additionally, more advanced document parsing can be considered, such as recognizing document structure, formulas, tables, and charts. Below are detailed descriptions of some features.\u0001",
+          "created": 1794807858.663082,
+          "requested_model": "gemini-3.5-flash-lite",
+          "cache_origin": "direction_cache",
+          "integrity": "protected_spans_verified",
+          "page_index": 0
+        }
+      ],
+      "requests": [],
+      "status": "FAIL",
+      "human_quality_review": "NOT RUN"
+    },
+    {
+      "name": "en-to-zh",
+      "source": {
+        "id": "95b9e428f36144c7925682db419ded0d:3:5",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "version_id": "95b9e428f36144c7925682db419ded0d",
+        "page_index": 3,
+        "bbox": "[0.5161908089692848, 0.07746174155768579, 0.8828660107244373, 0.5410461765788873]",
+        "type": "paragraph",
+        "reading_order": 5,
+        "text": "In order to train a deep bidirectional representa- tion, we simply mask some percentage of the input tokens at random, and then predict those masked tokens. We refer to this procedure as a “masked LM” (MLM), although it is often referred to as a Cloze task in the literature (Taylor, 1953). In this case, the final hidden vectors corresponding to the mask tokens are fed into an output softmax over the vocabulary, as in a standard LM. In all of our experiments, we mask 15% of all WordPiece to- kens in each sequence at random. In contrast to denoising auto-encoders (Vincent et al., 2008), we only predict the masked words rather than recon- structing the entire input. Although this allows us to obtain a bidirec- tional pre-trained model, a downside is that we are creating a mismatch between pre-training and fine-tuning, since the [MASK] token does not ap- pear during fine-tuning. To mitigate this, we do not always replace “masked” words with the ac- tual [MASK] token. The training data generator chooses 15% of the token positions at random for prediction. If the i-th token is chosen, we replace the i-th token with (1) the [MASK] token 80% of the time (2) a random token 10% of the time (3) the unchanged i-th token 10% of the time. Then, T i will be used to predict the original token with cross entropy loss. We compare variations of this procedure in Appendix C.2.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": "{\"citation_markers\": [], \"layout\": \"two_column\", \"parse_id\": \"95b9e428f36144c7925682db419ded0d\", \"parser_version\": \"pdfplumber-layout-v1\", \"models\": [], \"device\": \"cpu\"}",
+        "parse_id": "95b9e428f36144c7925682db419ded0d"
+      },
+      "run": {
+        "id": "741e528f908240d58fc453fc8ad45e01",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "translate",
+        "status": "completed",
+        "payload": {
+          "source_language": "en",
+          "target_language": "zh-Hans",
+          "glossary_version": "default",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "block_ids": [
+            "95b9e428f36144c7925682db419ded0d:3:5"
+          ],
+          "parse_id": "95b9e428f36144c7925682db419ded0d"
+        },
+        "result": {
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "source_language": "en",
+          "target_language": "zh-Hans",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "plan_version": "protected-utf8-v2",
+          "input_token_budget": 12000,
+          "output_token_budget": 8192,
+          "max_batch_items": 6,
+          "block_ids": [
+            "95b9e428f36144c7925682db419ded0d:3:5"
+          ],
+          "translated": 1,
+          "total": 1,
+          "cache_hits": 0,
+          "actual_models": [
+            "gemini-3.5-flash-lite"
+          ]
+        },
+        "error": null,
+        "idempotency": "flash36-en-to-zh-c571bf045fdc4056ad1e8ca634c3296b",
+        "created": 1794808780.8623407,
+        "updated": 1794808786.648803,
+        "steps": [
+          {
+            "id": 4656,
+            "event": "queued",
+            "data": {
+              "kind": "translate",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794808780.8679793
+          },
+          {
+            "id": 4657,
+            "event": "started",
+            "data": {
+              "kind": "translate"
+            },
+            "created": 1794808781.1043591
+          },
+          {
+            "id": 4658,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-shared",
+              "quota_id": "d7257da13d1044759c6ed082d55e7369",
+              "reserved_input_tokens": 3263,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "evaluation",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794808781.1622598
+          },
+          {
+            "id": 4659,
+            "event": "translation_progress",
+            "data": {
+              "version_id": "95b9e428f36144c7925682db419ded0d",
+              "parse_id": "95b9e428f36144c7925682db419ded0d",
+              "source_language": "en",
+              "target_language": "zh-Hans",
+              "glossary_version": "default",
+              "model": "gemini-3.5-flash-lite",
+              "plan_version": "protected-utf8-v2",
+              "input_token_budget": 12000,
+              "output_token_budget": 8192,
+              "max_batch_items": 6,
+              "block_ids": [
+                "95b9e428f36144c7925682db419ded0d:3:5"
+              ],
+              "completed": 1,
+              "total": 1,
+              "requested_model": "gemini-3.5-flash-lite",
+              "actual_model": "gemini-3.5-flash-lite"
+            },
+            "created": 1794808786.6426797
+          },
+          {
+            "id": 4660,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794808786.6539986
+          }
+        ]
+      },
+      "translations": [
+        {
+          "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+          "version_id": "95b9e428f36144c7925682db419ded0d",
+          "parse_id": "95b9e428f36144c7925682db419ded0d",
+          "block_id": "95b9e428f36144c7925682db419ded0d:3:5",
+          "source_language": "en",
+          "target_language": "zh-Hans",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "actual_model": "gemini-3.5-flash-lite",
+          "text": "为了训练深度双向表示，我们只需随机屏蔽输入标记的一定比例，然后预测这些被屏蔽的标记。我们将此过程称为“掩码语言模型”（MLM），尽管在文献中它通常被称为完形填空任务 (Taylor, 1953)。在这种情况下，对应于掩码标记的最终隐藏向量被输入到一个基于词汇表的输出 softmax 中，就像在标准语言模型中一样。在我们所有的实验中，我们在每个序列中随机屏蔽所有 WordPiece 标记的 15%。与降噪自编码器 (Vincent et al., 2008) 相比，我们只预测被屏蔽的单词，而不是重建整个输入。尽管这使我们能够获得一个双向预训练模型，但缺点是我们在预训练和微调之间造成了不匹配，因为 [MASK] 标记在微调期间不会出现。为了缓解这种情况，我们并不总是用实际的 [MASK] 标记替换“被屏蔽的”单词。训练数据生成器随机选择 15% 的标记位置进行预测。如果选择了第 i 个标记，我们将用以下内容替换第 i 个标记：(1) [MASK] 标记占 80% 的时间，(2) 随机标记占 10% 的时间，(3) 未改变的第 i 个标记占 10% 的时间。然后，将使用 T i 通过交叉熵损失来预测原始标记。我们在附录 C.2 中比较了此过程的各种变体。",
+          "created": 1794808786.6426797,
+          "requested_model": "gemini-3.5-flash-lite",
+          "cache_origin": "direction_cache",
+          "integrity": "protected_spans_verified",
+          "page_index": 3
+        }
+      ],
+      "requests": [
+        {
+          "model": "gemini-3.5-flash-lite",
+          "status": "ok",
+          "input_tokens": 712,
+          "output_tokens": 615
+        }
+      ],
+      "status": "FAIL",
+      "human_quality_review": "NOT RUN"
+    }
+  ],
+  "chinese_source_role": "用户资料包中的中文赛题要求，用于翻译完整性测试；不是中文科研论文质量样本",
+  "finished": 1794808786.9495647,
+  "status": "FAIL",
+  "failure_reason": "Initial private config edit used system Python without dotenv; service still used FlashLite. The model mismatch is recorded as FAIL, not Flash3.6 proof."
+}

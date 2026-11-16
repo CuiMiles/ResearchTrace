@@ -1,0 +1,17 @@
+{
+  "run": {
+    "id": "e5d48e5600a947438dd3a5d0ca45c19d",
+    "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+    "kind": "index",
+    "status": "failed",
+    "payload": "{\"version_ids\": [\"e492d5c15f4444c08e9c335618e32533\", \"82451796b5294493b9e58f696fbb8adc\", \"dceae303ec2f41cbbc4d88f047db9424\", \"4452fbc0c75443578fb2a2987629c19c\"]}",
+    "result": null,
+    "error": "本地检索服务暂不可用 HTTP 500",
+    "checkpoint": "{\"index_generation_id\": \"fcdff7af26f44e369897bf3ee452089f\"}",
+    "idempotency": "review-core4-index-20261116",
+    "created": 1794810255.9687586,
+    "updated": 1794810428.7497022
+  },
+  "observed_at": 1794811124.9860709,
+  "reason": "nvidia-smi subprocess telemetry timeout during model load; guard attempted to terminate only owned process; no vectors activated."
+}

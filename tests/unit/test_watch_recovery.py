@@ -200,7 +200,8 @@ def test_worker_checks_schedule_even_when_queue_is_busy(monkeypatch):
     monkeypatch.setattr(research, 'check_due_watches', lambda **kw: calls.append(kw))
     monkeypatch.setattr(worker.time, 'monotonic', lambda: 100)
     monkeypatch.setattr(worker, 'stopping', False)
-    def busy():
+    def busy(pool='all'):
+        assert pool=='all'
         worker.stopping = True
         return True
     monkeypatch.setattr(worker, 'work_once', busy)

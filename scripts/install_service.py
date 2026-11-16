@@ -4,7 +4,12 @@ from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 units=Path.home()/'.config/systemd/user'
 units.mkdir(parents=True,exist_ok=True)
-units_to_install=[('api','services.api.serve','512M','70%'),('worker','services.worker.main','896M','100%')]
+units_to_install=[('api','services.api.serve','512M','70%'),('worker-documents','services.worker.main','896M','100%'),('worker-interactive','services.worker.main','384M','70%')]
+legacy=units/'researchtrace-worker.service'
+if legacy.exists():
+    if f'WorkingDirectory={root}' not in legacy.read_text():
+        raise SystemExit('Existing legacy worker belongs to another checkout; stop for review')
+    subprocess.run(['systemctl','--user','disable','--now','researchtrace-worker.service'],check=True)
 if (root/'.tools/paddle-env/bin/python').exists() or (root/'.tools/mineru-env/bin/python').exists():
     units_to_install.append(('parser','services.parsing.server','5G','200%'))
 for name,module,memory,cpu in units_to_install:
@@ -27,6 +32,7 @@ CPUQuota={cpu}
 Environment=OPENBLAS_NUM_THREADS=1
 Environment=OMP_NUM_THREADS=1
 Environment=MKL_NUM_THREADS=1
+Environment=RT_WORKER_POOL={name.removeprefix('worker-') if name.startswith('worker-') else 'all'}
 NoNewPrivileges=true
 PrivateTmp=true
 UMask=0077

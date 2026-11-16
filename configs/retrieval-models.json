@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "revision": "781e779ee4ca9c2d2a4f38321993556baeab49a1",
+      "kind": "embedding",
+      "family": "nemotron",
+      "dimension": 4096,
+      "dtype": "bfloat16",
+      "context_length": 32768,
+      "pooling": "mean",
+      "normalization": "l2",
+      "query_template": "model_chat_template(query: {text})",
+      "document_template": "model_chat_template(passage: {text})"
+    },
+    {
+      "model_id": "nvidia/Nemotron-3.5-Rerank-8B-BF16",
+      "revision": "f88f8d9104726747791283ab156d2fcdb29e90a7",
+      "kind": "reranker",
+      "family": "nemotron",
+      "dimension": 1,
+      "dtype": "bfloat16",
+      "context_length": 32768,
+      "pooling": "mean+linear",
+      "normalization": "none",
+      "query_template": "model_chat_template(query: {query}, passage: {text})",
+      "document_template": "model_chat_template(query: {query}, passage: {text})"
+    },
+    {
+      "model_id": "Qwen/Qwen3-Embedding-8B",
+      "revision": "1d8ad4ca9b3dd8059ad90a75d4983776a23d44af",
+      "kind": "embedding",
+      "family": "qwen3",
+      "dimension": 4096,
+      "dtype": "bfloat16",
+      "context_length": 32768,
+      "pooling": "last_token",
+      "normalization": "l2",
+      "query_template": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery:{text}",
+      "document_template": "{text}"
+    }
+  ]
+}

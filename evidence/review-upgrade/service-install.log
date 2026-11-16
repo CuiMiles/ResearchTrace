@@ -1,0 +1,4 @@
+Removed "/home/cui/.config/systemd/user/default.target.wants/researchtrace-worker.service".
+Created symlink /home/cui/.config/systemd/user/default.target.wants/researchtrace-worker-documents.service → /home/cui/.config/systemd/user/researchtrace-worker-documents.service.
+Created symlink /home/cui/.config/systemd/user/default.target.wants/researchtrace-worker-interactive.service → /home/cui/.config/systemd/user/researchtrace-worker-interactive.service.
+ResearchTrace user services installed and started: api 512M, worker-documents 896M, worker-interactive 384M, parser 5G. Parser is optional; enhanced inference is outside lite memory target.

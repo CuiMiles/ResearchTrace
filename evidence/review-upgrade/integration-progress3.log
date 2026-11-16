@@ -1,0 +1,55 @@
+
+==================================== ERRORS ====================================
+___________ ERROR collecting tests/unit/test_worker_pool_upgrade.py ____________
+ImportError while importing test module '/home/cui/projects/competition/传智杯2026/tests/unit/test_worker_pool_upgrade.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_worker_pool_upgrade.py:9: in <module>
+    from services.api import jobs,store
+E   ModuleNotFoundError: No module named 'services'
+__________ ERROR collecting tests/unit/test_quota_routing_upgrade.py ___________
+ImportError while importing test module '/home/cui/projects/competition/传智杯2026/tests/unit/test_quota_routing_upgrade.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_quota_routing_upgrade.py:8: in <module>
+    from services.api import models, store
+E   ModuleNotFoundError: No module named 'services'
+______ ERROR collecting tests/unit/test_retrieval_generations_upgrade.py _______
+ImportError while importing test module '/home/cui/projects/competition/传智杯2026/tests/unit/test_retrieval_generations_upgrade.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_retrieval_generations_upgrade.py:7: in <module>
+    from services.api import documents,index_generations as indices,store,retrieval
+E   ModuleNotFoundError: No module named 'services'
+________ ERROR collecting tests/integration/test_agent_registry_api.py _________
+ImportError while importing test module '/home/cui/projects/competition/传智杯2026/tests/integration/test_agent_registry_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/integration/test_agent_registry_api.py:7: in <module>
+    from services.api import app,documents,jobs,models,store
+E   ModuleNotFoundError: No module named 'services'
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /home/cui/projects/competition/传智杯2026/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/unit/test_worker_pool_upgrade.py
+ERROR tests/unit/test_quota_routing_upgrade.py
+ERROR tests/unit/test_retrieval_generations_upgrade.py
+ERROR tests/integration/test_agent_registry_api.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 4 errors during collection !!!!!!!!!!!!!!!!!!!!
+1 warning, 4 errors in 0.44s

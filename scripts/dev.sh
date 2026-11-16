@@ -23,8 +23,10 @@ if [[ -f data/api.pid ]] && kill -0 "$(cat data/api.pid)" 2>/dev/null; then
   echo 'ResearchTrace API already running. See data/api.log.'
   exit 0
 fi
-nohup .venv/bin/python -m services.worker.main >data/worker.log 2>&1 </dev/null &
-echo $! >data/worker.pid
+for pool in documents interactive; do
+  RT_WORKER_POOL="$pool" nohup .venv/bin/python -m services.worker.main >"data/worker-$pool.log" 2>&1 </dev/null &
+  echo $! >"data/worker-$pool.pid"
+done
 nohup .venv/bin/python -m services.api.serve >data/api.log 2>&1 </dev/null &
 echo $! >data/api.pid
 for attempt in {1..30}; do

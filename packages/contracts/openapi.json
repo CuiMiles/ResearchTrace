@@ -121,6 +121,22 @@
         }
       }
     },
+    "/api/v1/readiness": {
+      "get": {
+        "summary": "Judging Readiness",
+        "operationId": "judging_readiness_api_v1_readiness_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/documents": {
       "post": {
         "summary": "Upload",
@@ -183,6 +199,153 @@
         }
       }
     },
+    "/api/v1/batches/{batch_id}": {
+      "get": {
+        "summary": "Get Import Batch",
+        "operationId": "get_import_batch_api_v1_batches__batch_id__get",
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Batch Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches": {
+      "get": {
+        "summary": "List Import Batches",
+        "operationId": "list_import_batches_api_v1_batches_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/{batch_id}/cancel": {
+      "post": {
+        "summary": "Cancel Import Batch",
+        "operationId": "cancel_import_batch_api_v1_batches__batch_id__cancel_post",
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Batch Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchSelection",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/batches/{batch_id}/resume": {
+      "post": {
+        "summary": "Resume Import Batch",
+        "operationId": "resume_import_batch_api_v1_batches__batch_id__resume_post",
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Batch Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchSelection",
+                "default": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/documents/{vid}/status": {
       "get": {
         "summary": "Status",
@@ -195,6 +358,95 @@
             "schema": {
               "type": "string",
               "title": "Vid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/indices/runs": {
+      "post": {
+        "summary": "Build Index",
+        "operationId": "build_index_api_v1_indices_runs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IndexRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/indices": {
+      "get": {
+        "summary": "Index Status",
+        "operationId": "index_status_api_v1_indices_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/indices/{generation_id}/activate": {
+      "post": {
+        "summary": "Activate Index",
+        "operationId": "activate_index_api_v1_indices__generation_id__activate_post",
+        "parameters": [
+          {
+            "name": "generation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Generation Id"
             }
           }
         ],
@@ -725,6 +977,42 @@
         }
       }
     },
+    "/api/v1/versions/impact": {
+      "post": {
+        "summary": "Version Note Impact",
+        "operationId": "version_note_impact_api_v1_versions_impact_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Compare"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/qa/runs": {
       "post": {
         "summary": "Qa",
@@ -862,6 +1150,52 @@
               "type": "string",
               "title": "Vid"
             }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
+            }
+          },
+          {
+            "name": "source_language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "auto",
+              "title": "Source Language"
+            }
+          },
+          {
+            "name": "target_language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "zh-Hans",
+              "title": "Target Language"
+            }
+          },
+          {
+            "name": "glossary_version",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "default",
+              "title": "Glossary Version"
+            }
           }
         ],
         "responses": {
@@ -924,6 +1258,36 @@
                 }
               ],
               "title": "Parse Id"
+            }
+          },
+          {
+            "name": "source_language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "auto",
+              "title": "Source Language"
+            }
+          },
+          {
+            "name": "target_language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "zh-Hans",
+              "title": "Target Language"
+            }
+          },
+          {
+            "name": "glossary_version",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "default",
+              "title": "Glossary Version"
             }
           }
         ],
@@ -1621,6 +1985,93 @@
         }
       }
     },
+    "/api/v1/admin/reviewers": {
+      "get": {
+        "summary": "List Review Accounts",
+        "operationId": "list_review_accounts_api_v1_admin_reviewers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Review Account",
+        "operationId": "create_review_account_api_v1_admin_reviewers_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewerCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/reviewers/{account_id}/revoke": {
+      "post": {
+        "summary": "Revoke Review Account",
+        "operationId": "revoke_review_account_api_v1_admin_reviewers__account_id__revoke_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/providers": {
       "get": {
         "summary": "Providers",
@@ -1779,6 +2230,27 @@
         ],
         "title": "Audit"
       },
+      "BatchSelection": {
+        "properties": {
+          "item_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item Ids"
+          }
+        },
+        "type": "object",
+        "title": "BatchSelection"
+      },
       "Body_chart_api_v1_charts_post": {
         "properties": {
           "file": {
@@ -1890,6 +2362,42 @@
           "paper"
         ],
         "title": "Import"
+      },
+      "IndexRequest": {
+        "properties": {
+          "version_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Version Ids"
+          },
+          "generation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generation Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version_ids",
+          "idempotency_key"
+        ],
+        "title": "IndexRequest"
       },
       "Login": {
         "properties": {
@@ -2067,6 +2575,28 @@
         ],
         "title": "Question"
       },
+      "ReviewerCreate": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Label"
+          },
+          "days": {
+            "type": "integer",
+            "maximum": 90.0,
+            "minimum": 1.0,
+            "title": "Days",
+            "default": 7
+          }
+        },
+        "type": "object",
+        "required": [
+          "label"
+        ],
+        "title": "ReviewerCreate"
+      },
       "Search": {
         "properties": {
           "query": {
@@ -2105,6 +2635,31 @@
       },
       "Translation": {
         "properties": {
+          "source_language": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "en",
+              "zh"
+            ],
+            "title": "Source Language",
+            "default": "auto"
+          },
+          "target_language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "zh-Hans"
+            ],
+            "title": "Target Language",
+            "default": "zh-Hans"
+          },
+          "glossary_version": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{1,100}$",
+            "title": "Glossary Version",
+            "default": "default"
+          },
           "version_id": {
             "type": "string",
             "title": "Version Id"
