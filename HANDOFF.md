@@ -140,3 +140,13 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 真实调用（开发密钥，单项目）：官方单篇 Q1–Q5 均得到带原文出处的正确回答（Q1 Aidan N. Gomez / University of Toronto）；多轮追问“其中 Adam…”在浏览器中通过；BERT 与 Transformer 编码器关系正确；GPT-1 上下文长度仍因关键词检索未召回而标“证据不足”，GPT-2 原文不在资料包中。开发日账本：Hydrogen 约 7 次、3.6 Flash 当日 20 次用尽、Flash Lite 若干，含失败与未知计数。
 
 仍未完成：语义向量索引（下一步启用 Gemini embedding 或本地 GPU 服务）、参考文献按重要性批量下载、综述生成、论文框架与结构图生成、中译英独立入口、推荐理由与代码线索增强、公网部署、正式视频与 PDF。需要团队完成的人工动作见计划第 10 节。
+
+## 2026-11-17 实际增量继续
+
+当前 `upgrade/complete-20261116` 继承 Claude `6b02876`，已合入文档版本/参考文献、阅读器划词、写作/图谱和ECS工作。先看 `docs/COMPLETION_20261117.md`、`evidence/completion-20261116/summary.json`，其中BLOCKED不能改成已完成。用户已配置researchtrace.sluna.xyz DNS，真实TLS、独立评审登录和文献库通过。
+
+仍有两个独立索引运行：云核心901片段记录于 `cloud-core-production.json`；本地full39运行 `bac8f0615125421191e1a8d6c150c460`，14466/23185的历史进度保留，另设受限CPU offload broker18989。先查实际PID/运行锁、显存及日志，不重复启动。旧失败/staged代均保留，不修改manifest伪造续建。云索引改切分必须与固定输入A/B分开报告。共享GPU每卡至少2GiB，只清理本项目进程。
+
+两凭据按用户声明的两个项目配置；实际Flash1日20已限流、Flash2探针成功。旧gemini-shared账本通过RT_LEGACY_PROJECT_MAP保守归入project1，原四次smoke和所有未知调用不重置。Embedding批量按文本条数计请求单位。源码、密钥、账本切换需防止两端同时对同模型花费且互相不知；ECS初始只读/无模型密钥，仍待最终启用。禁止把HTTP尝试数误当Embedding剩余额度。
+
+已完成实际6页技术PDF及6分钟1080p普通话视频，在deliverables；视频展示真实页面和有时间的历史结果，正式内容人工审阅仍未执行。团队姓名学校现在不需要。不要造v1.0-submission标签；发布门槛未全部关闭。

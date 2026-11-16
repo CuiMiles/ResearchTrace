@@ -1,0 +1,5 @@
+GPT2 import not ready; do not substitute another paper
+{'case': 'ln-reference', 'run': '6e6684ba492e4ed68e834ed43da768dd'}
+{'case': 'bert', 'run': '3f0f3dce62e14900bd8ac8ff258da245'}
+{'case': 'false-premise', 'run': 'c524e7fa8db145f5a8ab665024ad8453'}
+{'case': 'unreported-cost', 'run': '9839f927ff74432899c8810c5a4aa501'}

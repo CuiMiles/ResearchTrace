@@ -1,0 +1,10 @@
+{
+  "id": "fba37be3393b4fb6bf6aecaa27f0f3a3",
+  "chunk_count": 3217,
+  "expected_blocks": 5267,
+  "covered_blocks": 5267,
+  "status": "staged",
+  "source": "original core4 active snapshots",
+  "same_input_model_comparison": false,
+  "provider_calls": 0
+}

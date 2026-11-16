@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/home/cui/projects/competition/传智杯2026/services/api/future_work.py", line 119, in audit
+    comparisons=[{'version_id':c['id'],**compare_time(old,c)} for c in all_context]
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/temporal.py", line 30, in compare_time
+    after=candidate.get('publication_window') or publication_window(candidate,candidate.get('identity',''))
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/temporal.py", line 15, in publication_window
+    arxiv=str(metadata.get('arxiv_id') or identity.removeprefix('arxiv:'))
+                                          ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'removeprefix'

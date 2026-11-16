@@ -172,3 +172,7 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 | Gemini Decision 1 复核 | PASS（单次运行） | Adam 问题主张判定 supported，概率 0.986，1518 输入 token、0 输出；不可用时回退到生成模型复核（单测覆盖） |
 | 浏览器巡检 1440×900 | PASS | 工作台、文献库、卡片抽屉、阅读器、问答、图谱、比较、写作、检索、设置均无控制台错误；截图 `docs/images/` |
 | Docker Compose | BLOCKED | `docker compose config` 通过；镜像构建在沙箱因 Docker Hub 429 与代理拒绝 Debian 源而失败 |
+
+## 2026-11-17 completion（持续更新）
+
+继承Claude分支后基线516测试通过；综合集成607通过；配额/真实失败修复后611通过。后续最终回归见 `evidence/completion-20261116/final-after-live-fixes.log`，避免将阶段计数相加。真实浏览器32项、写作夹具23项、公网独立浏览器登录/文献读取分别有证据。6页PDF和360秒1080p普通话MP4已产生，视频不等同新输入验收。80题纯关键词已执行，Qwen核心对照保留；Nemotron/重排和Gemini完整对照不得写作已完成。真实问答、生成、Future Work与调用账本见completion目录，FAIL和待复核均保留。新增参考文献下载、全量云覆盖、公网生成切换以及人工准确性审核以最新运行记录为准，不能用这些单测数字代替。

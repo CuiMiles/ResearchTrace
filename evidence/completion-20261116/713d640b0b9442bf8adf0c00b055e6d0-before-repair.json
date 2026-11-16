@@ -1,0 +1,27 @@
+{
+  "status": "FAIL",
+  "run_status": "failed",
+  "error": "推荐理由与真实候选不一致",
+  "steps": [
+    {
+      "event": "queued",
+      "data": "{\"kind\": \"recommendation\", \"message\": \"任务已持久化，等待单 worker 执行\"}"
+    },
+    {
+      "event": "started",
+      "data": "{\"kind\": \"recommendation\"}"
+    },
+    {
+      "event": "recommendation_discovery",
+      "data": "{\"query\": \"language training efficient attention understanding\", \"order\": \"submittedDate\", \"source\": \"arxiv\"}"
+    },
+    {
+      "event": "model_request",
+      "data": "{\"model\": \"gemini-3.5-flash-lite\", \"project\": \"gemini-shared\", \"quota_id\": \"66a58b84d0e0469a878fb820d2093b56\", \"reserved_input_tokens\": 19711, \"method\": \"generateContent\", \"core_calls\": {\"profile\": \"evaluation\", \"estimated_core_calls\": 1, \"limit\": 2, \"used\": 0, \"remaining\": 2}}"
+    },
+    {
+      "event": "failed",
+      "data": "{\"error\": \"推荐理由与真实候选不一致\"}"
+    }
+  ]
+}

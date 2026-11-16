@@ -1,0 +1,1 @@
+FAIL: external speech service returned HTTP403. No audio produced. Original traceback retained privately. Replaced by successful local Windows Mandarin narration; see deliverables/video-evidence.json.

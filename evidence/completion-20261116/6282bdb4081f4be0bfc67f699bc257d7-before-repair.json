@@ -1,0 +1,43 @@
+{
+  "status": "FAIL",
+  "run_status": "failed",
+  "error": "5 validation errors for GraphSpec\nedges.1.target\n  Field required [type=missing, input_value={'source': 'B', 'label': '解析片段'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/missing\nedges.2.target\n  Field required [type=missing, input_value={'source': 'C', 'label': '向量数据'}, input_type=dict]\n    For further inf",
+  "steps": [
+    {
+      "event": "queued",
+      "data": "{\"kind\": \"writing\", \"message\": \"任务已持久化，等待单 worker 执行\"}"
+    },
+    {
+      "event": "started",
+      "data": "{\"kind\": \"writing\"}"
+    },
+    {
+      "event": "plan",
+      "data": "{\"workflow\": \"diagram\", \"model_role\": \"answer\", \"steps\": [\"选取原文或 idea\", \"生成有界 graph JSON\", \"严格 schema 检查\", \"生成四种可编辑源码\"]}"
+    },
+    {
+      "event": "writing_evidence",
+      "data": "{\"coverage\": [{\"version_id\": \"dceae303ec2f41cbbc4d88f047db9424\", \"parse_id\": \"dceae303ec2f41cbbc4d88f047db9424\", \"eligible_blocks\": 135, \"candidate_slots\": 4, \"context_bytes\": 929, \"status\": \"selected_excerpts\"}], \"budget_bytes\": 48000}"
+    },
+    {
+      "event": "model_request",
+      "data": "{\"model\": \"gemini-3.6-flash\", \"project\": \"gemini-shared\", \"quota_id\": \"ac6d86819e164c2e8ef5dd83931ca48c\", \"reserved_input_tokens\": 2857, \"method\": \"generateContent\", \"core_calls\": {\"profile\": \"evaluation\", \"estimated_core_calls\": 1, \"limit\": 2, \"used\": 0, \"remaining\": 2}}"
+    },
+    {
+      "event": "provider_quota_exhausted",
+      "data": "{\"model\": \"gemini-3.6-flash\", \"diagnostics\": [{\"quotaMetric\": \"generativelanguage.googleapis.com/generate_content_free_tier_requests\", \"quotaId\": \"GenerateRequestsPerDayPerProjectPerModel-FreeTier\", \"quotaValue\": \"20\"}, {\"retry_delay\": \"46318s\"}]}"
+    },
+    {
+      "event": "model_downgraded",
+      "data": "{\"from\": \"gemini-3.6-flash\", \"to\": \"gemini-3.5-flash-lite\", \"reason\": \"provider_failed\"}"
+    },
+    {
+      "event": "model_request",
+      "data": "{\"model\": \"gemini-3.5-flash-lite\", \"project\": \"gemini-shared\", \"quota_id\": \"982d655d200f4bf6a66df3485b7a4184\", \"reserved_input_tokens\": 2857, \"method\": \"generateContent\", \"core_calls\": {\"profile\": \"evaluation\", \"estimated_core_calls\": 1, \"limit\": 2, \"used\": 0, \"remaining\": 2}}"
+    },
+    {
+      "event": "failed",
+      "data": "{\"error\": \"5 validation errors for GraphSpec\\nedges.1.target\\n  Field required [type=missing, input_value={'source': 'B', 'label': '解析片段'}, input_type=dict]\\n    For further information visit https://errors.pydantic.dev/2.14/v/missing\\nedges.2.target\\n  Field required [type=missing, input_value={'source': 'C', 'label': '向量数据'}, input_type=dict]\\n    For further inf\"}"
+    }
+  ]
+}

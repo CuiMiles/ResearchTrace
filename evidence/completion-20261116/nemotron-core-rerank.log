@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/evaluate_retrieval_upgrade.py", line 164, in <module>
+    args=parser.parse_args();evaluate(args.model,args.scope,args.rerank)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/scripts/evaluate_retrieval_upgrade.py", line 112, in evaluate
+    queries=np.asarray([v for start in range(0,len(questions),32) for v in provider.embed([q['question'] for q in questions[start:start+32]],'RETRIEVAL_QUERY')['vectors']],dtype=np.float32)
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 181, in embed
+    response=self._call('/embed',{'model_id':self.model_id,'revision':desc['revision'],'texts':texts,'task':'query' if task=='RETRIEVAL_QUERY' else 'document'})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 130, in _call
+    raise RetrievalUnavailable('本地检索服务暂不可用 HTTP '+str(response.status_code))
+services.api.embedding_providers.RetrievalUnavailable: 本地检索服务暂不可用 HTTP 429

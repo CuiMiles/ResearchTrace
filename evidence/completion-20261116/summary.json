@@ -1,0 +1,324 @@
+{
+  "updated_at": "2026-11-16T19:34:35.481878+00:00",
+  "release_status": "BLOCKED",
+  "status_meaning": "P0 all-pass is not established",
+  "branch": "upgrade/complete-20261116",
+  "backend_tests": {
+    "final-regression.log": {
+      "status": "PASS",
+      "passed": 611,
+      "duration": "125.81s (0:02:05)"
+    },
+    "release-fix-regression.log": {
+      "status": "PASS",
+      "passed": 58,
+      "duration": "12.12s"
+    }
+  },
+  "frontend": {
+    "build": "PASS",
+    "actual_browser_checks": 32,
+    "actual_browser_status": "PASS"
+  },
+  "public_browser": {
+    "status": "PASS",
+    "tls_status": 200,
+    "reviewer_login": "PASS",
+    "workspace_isolated": true,
+    "documents": 41,
+    "browser_errors": [],
+    "provider_calls": 0,
+    "egress": "node01 proxy to public ECS; real TLS verification"
+  },
+  "indexes": [
+    {
+      "id": "65c9a6b50cc94942af343c98f6cafd56",
+      "model_id": "gemini-embedding-001",
+      "status": "building",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 901,
+      "vector_count": 206,
+      "error": null
+    },
+    {
+      "id": "8e56689127eb48938f3c9ed43b54dff7",
+      "model_id": "gemini-embedding-001",
+      "status": "staged",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 901,
+      "vector_count": 0,
+      "error": null
+    },
+    {
+      "id": "fba37be3393b4fb6bf6aecaa27f0f3a3",
+      "model_id": "gemini-embedding-001",
+      "status": "staged",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 3217,
+      "vector_count": 0,
+      "error": null
+    },
+    {
+      "id": "0cc2daf8fb76408abfafe131b79f950f",
+      "model_id": "gemini-embedding-001",
+      "status": "failed",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 5333,
+      "vector_count": 326,
+      "error": "SentRequestError"
+    },
+    {
+      "id": "3f854a405ca34336b6d4a4d78df95228",
+      "model_id": "gemini-embedding-001",
+      "status": "failed",
+      "expected_blocks": 22950,
+      "covered_blocks": 22950,
+      "excluded_blocks": 2189,
+      "chunk_count": 23221,
+      "vector_count": 970,
+      "error": "SentRequestError"
+    },
+    {
+      "id": "5265ec7fcd9c437198224fff0b49e58f",
+      "model_id": "gemini-embedding-001",
+      "status": "building",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 5330,
+      "vector_count": 128,
+      "error": null
+    },
+    {
+      "id": "489f2a23364e41caa3fc535395c488f4",
+      "model_id": "gemini-embedding-001",
+      "status": "failed",
+      "expected_blocks": 22950,
+      "covered_blocks": 22950,
+      "excluded_blocks": 2189,
+      "chunk_count": 23185,
+      "vector_count": 720,
+      "error": "QuotaRefusal"
+    },
+    {
+      "id": "fcdff7af26f44e369897bf3ee452089f",
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "status": "ready",
+      "expected_blocks": 5267,
+      "covered_blocks": 5267,
+      "excluded_blocks": 515,
+      "chunk_count": 5330,
+      "vector_count": 5330,
+      "error": null
+    },
+    {
+      "id": "53ffb2e2e9c14cab81b122e9a4b50857",
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "status": "failed",
+      "expected_blocks": 22950,
+      "covered_blocks": 22950,
+      "excluded_blocks": 2189,
+      "chunk_count": 23185,
+      "vector_count": 14466,
+      "error": "RetrievalUnavailable"
+    }
+  ],
+  "quota": [
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-3.6-flash",
+      "day": "2026-11-16",
+      "transport_attempts": 5,
+      "request_units": 5,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-4-hydrogen",
+      "day": "2026-11-16",
+      "transport_attempts": 7,
+      "request_units": 7,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-decision-1",
+      "day": "2026-11-16",
+      "transport_attempts": 6,
+      "request_units": 6,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-embedding-001",
+      "day": "2026-11-16",
+      "transport_attempts": 15,
+      "request_units": 206,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.5-flash-lite",
+      "day": "2026-11-15",
+      "transport_attempts": 26,
+      "request_units": 26,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.5-flash-lite",
+      "day": "2026-11-16",
+      "transport_attempts": 27,
+      "request_units": 27,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.6-flash",
+      "day": "2026-11-15",
+      "transport_attempts": 2,
+      "request_units": 2,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.6-flash",
+      "day": "2026-11-16",
+      "transport_attempts": 21,
+      "request_units": 21,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.8-flash",
+      "day": "2026-11-15",
+      "transport_attempts": 2,
+      "request_units": 2,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-4-hydrogen",
+      "day": "2026-11-15",
+      "transport_attempts": 13,
+      "request_units": 13,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-4-hydrogen",
+      "day": "2026-11-16",
+      "transport_attempts": 16,
+      "request_units": 16,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-decision-1",
+      "day": "2026-11-15",
+      "transport_attempts": 5,
+      "request_units": 5,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-decision-1",
+      "day": "2026-11-16",
+      "transport_attempts": 9,
+      "request_units": 9,
+      "conservative_legacy_rows": 0
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-embedding-001",
+      "day": "2026-11-15",
+      "transport_attempts": 56,
+      "request_units": 1730,
+      "conservative_legacy_rows": 54
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-embedding-001",
+      "day": "2026-11-16",
+      "transport_attempts": 69,
+      "request_units": 1073,
+      "conservative_legacy_rows": 3
+    }
+  ],
+  "quota_notice": "Legacy request units without a retained response use a conservative upper bound. They are not provider-certified totals. Old rows are retained; logical project slots follow the user-declared two projects and are not Google numeric project IDs.",
+  "materials": {
+    "technical_pdf": "deliverables/ResearchTrace_技术说明.pdf",
+    "pdf_pages": 6,
+    "video": {
+      "status": "PASS",
+      "file": "ResearchTrace_实际界面演示_1080p.mp4",
+      "width": 1920,
+      "height": 1080,
+      "duration_seconds": 360.0,
+      "actual_ui_frames": 720,
+      "capture_fps": 2,
+      "output_fps": 30,
+      "narration": "local Windows Microsoft Huihui Mandarin TTS",
+      "synthesis_live_model_calls": 0,
+      "scenes": [
+        {
+          "scene": "项目与证据流程",
+          "route": "/",
+          "http_status": 200,
+          "frames": 92
+        },
+        {
+          "scene": "文献、批量导入与版本选择",
+          "route": "/library",
+          "http_status": 200,
+          "frames": 89
+        },
+        {
+          "scene": "阅读与原文定位",
+          "route": "/read/dceae303ec2f41cbbc4d88f047db9424",
+          "http_status": 200,
+          "frames": 83
+        },
+        {
+          "scene": "扫描PDF与解析快照",
+          "route": "/read/82451796b5294493b9e58f696fbb8adc",
+          "http_status": 200,
+          "frames": 86
+        },
+        {
+          "scene": "长文档与任务持久化",
+          "route": "/read/4452fbc0c75443578fb2a2987629c19c",
+          "http_status": 200,
+          "frames": 88
+        },
+        {
+          "scene": "真实问答与第二道审查",
+          "route": "/runs/ebd46511b255427080fc1fc6eab7d3f8",
+          "http_status": 200,
+          "frames": 93
+        },
+        {
+          "scene": "引用图谱与研究建议核查",
+          "route": "/insights",
+          "http_status": 200,
+          "frames": 87
+        },
+        {
+          "scene": "写作导出与真实验收边界",
+          "route": "/studio",
+          "http_status": 200,
+          "frames": 102
+        }
+      ],
+      "scope": "Actual project UI and timestamped historical records; does not certify incomplete release gates"
+    }
+  }
+}

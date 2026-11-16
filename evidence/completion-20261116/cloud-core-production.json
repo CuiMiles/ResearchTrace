@@ -1,0 +1,10 @@
+{
+  "status": "NOT RUN",
+  "run_id": "f86afe748965488fb8fa6a89f79283e2",
+  "generation_id": "65c9a6b50cc94942af343c98f6cafd56",
+  "chunks": 901,
+  "source_blocks": 5267,
+  "chunker": "source-bundles-byte-bound-v1",
+  "model_comparison": "different chunker, not same-input model benchmark",
+  "uses_second_user_confirmed_project": true
+}

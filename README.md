@@ -107,3 +107,9 @@ docs/                技术文档、测试报告、决策记录
 ## 测试数据
 
 [四份核心测试 PDF](evals/pdfs/core/README.md)（Transformer v1/v7、扫描版、541 页《Understanding Deep Learning》）与[完整资料包](evals/pdfs/科研小助手/README.md)。
+
+### 2026-11-17 增量开发
+
+继续Claude分支的版本选择、参考文献、阅读器划词、写作图谱、云检索与ECS部署，详见[当前实施状态](docs/COMPLETION_20261117.md)。[公网入口](https://researchtrace.sluna.xyz)已验证HTTPS及独立评审登录；模型启用和完整索引以实际状态为准。项目仍有未关闭的发布门槛，不宣称正式提交完成。
+
+[技术PDF（6页）](deliverables/ResearchTrace_技术说明.pdf) · [实际界面演示（6分钟1080p普通话）](deliverables/ResearchTrace_实际界面演示_1080p.mp4)。演示中的历史任务不冒充实时生成；参赛要求、AI35/工程30/创新15/体验10/实用10评分和新Agent任务入口见[START_HERE](START_HERE.md)。

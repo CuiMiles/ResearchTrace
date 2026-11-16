@@ -1,0 +1,22 @@
+ Container researchtrace-api-1  Creating
+ Container researchtrace-worker-documents-1  Creating
+ Container researchtrace-worker-interactive-1  Creating
+ Container researchtrace-worker-interactive-1  Created
+ Container researchtrace-api-1  Created
+ Container researchtrace-worker-documents-1  Created
+ Container researchtrace-api-1  Starting
+ Container researchtrace-worker-documents-1  Starting
+ Container researchtrace-worker-interactive-1  Starting
+ Container researchtrace-api-1  Started
+ Container researchtrace-worker-interactive-1  Started
+ Container researchtrace-worker-documents-1  Started
+ Container researchtrace-worker-interactive-1  Waiting
+ Container researchtrace-api-1  Waiting
+ Container researchtrace-worker-documents-1  Waiting
+ Container researchtrace-worker-interactive-1  Healthy
+ Container researchtrace-worker-documents-1  Healthy
+ Container researchtrace-api-1  Healthy
+Created symlink /etc/systemd/system/timers.target.wants/researchtrace-backup.timer → /etc/systemd/system/researchtrace-backup.timer.
+{"status":"ok","service":"ResearchTrace"}
+ResearchTrace containers activated; public HTTPS/login need independent verification.
+
