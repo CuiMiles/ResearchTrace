@@ -291,9 +291,13 @@ def review_live(run,result,blocks,version_ids,question):
             from .decision_service import review
             return review(run,result,blocks,version_ids,question)
         except (models.ModelError,ValueError) as error:
-            result.update(status='partial',evidence_review='not_checked',publication_notice='辅助审查未完成；来源定位不代表事实获支持，请人工复核。')
-            store.event(run['id'],'decision_review_unavailable',{'error_type':type(error).__name__,'automatic_fallback':False})
-            return result
+            # Decision 1 is the default reviewer (typed probabilities, separate quota).
+            # When it is unavailable the generative critic may review instead, if allowed.
+            fallback=os.getenv('RT_DECISION_REVIEW_FALLBACK','true').lower()=='true'
+            store.event(run['id'],'decision_review_unavailable',{'error_type':type(error).__name__,'automatic_fallback':fallback})
+            if not fallback:
+                result.update(status='partial',evidence_review='not_checked',publication_notice='辅助审查未完成；来源定位不代表事实获支持，请人工复核。')
+                return result
     snap=json.loads(store.one('SELECT checkpoint FROM runs WHERE id=?',(run['id'],))['checkpoint'] or '{}')
     prompt={'question':question,'claims':[c for c in result['claims'] if c['type'] in ('source_fact','inference')],
                 'source_versions':source_context(run['workspace'],version_ids),

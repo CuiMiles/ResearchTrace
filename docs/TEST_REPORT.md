@@ -168,6 +168,7 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 | 官方单篇问题 Q1–Q5 | PASS（单次运行） | 第 6 作者 Aidan N. Gomez / University of Toronto；β1=0.9、β2=0.98；8 张 P100；BLEU 28.4 对 26.36；LN 参考文献 [1] Ba, Kiros, Hinton 2016。均带逐字引文；非独立人工评测 |
 | 多轮追问 | PASS | 浏览器内“其中 Adam 优化器…”在同一线程中正确回答，证据弹出并跳转第 7 页高亮 |
 | 多篇问题 | PARTIAL | BERT 与 Transformer 编码器关系正确；GPT-3 上下文 2048 与参数表正确，GPT-1 上下文 512 未召回（关键词检索），GPT-2 论文不在资料包 |
-| 错误前提（80 张 GPU） | NOT RUN | 两次因上游 503/额度未得到回答；数值规则单测仍拦截 80 对 8 |
+| 错误前提（80 张 GPU） | PASS（单次运行） | 回答“训练使用 8 张 NVIDIA P100，80 张的前提缺乏证据”，引用第 7 页原文；此前两次因上游 503/额度未得到回答 |
+| Gemini Decision 1 复核 | PASS（单次运行） | Adam 问题主张判定 supported，概率 0.986，1518 输入 token、0 输出；不可用时回退到生成模型复核（单测覆盖） |
 | 浏览器巡检 1440×900 | PASS | 工作台、文献库、卡片抽屉、阅读器、问答、图谱、比较、写作、检索、设置均无控制台错误；截图 `docs/images/` |
 | Docker Compose | BLOCKED | `docker compose config` 通过；镜像构建在沙箱因 Docker Hub 429 与代理拒绝 Debian 源而失败 |

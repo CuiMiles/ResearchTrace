@@ -19,6 +19,12 @@ const STATE_LABEL: Record<State, string> = {
   insufficient: '证据不足',
 };
 
+const REVIEWER: Record<string, string> = {
+  gemini_decision_1: 'Decision 1 复核',
+  independent_model_critic: '模型复核',
+  literal_source_quote: '逐字原文',
+};
+
 const KIND_LABEL: Record<string, string> = {
   inference: '模型推断',
   suggestion: '研究建议',
@@ -107,6 +113,9 @@ export function AnswerView({
                   <p>{claim.text}</p>
                   <div className="claim-foot">
                     <span className="claim-status">{STATE_LABEL[state]}</span>
+                    {REVIEWER[claim.review?.method ?? ''] && (
+                      <span className="claim-kind">{REVIEWER[claim.review?.method ?? '']}</span>
+                    )}
                     {KIND_LABEL[claim.type] && <span className="claim-kind inference">{KIND_LABEL[claim.type]}</span>}
                     {(claim.evidence ?? []).map((evidence, j) => (
                       <EvidenceChip

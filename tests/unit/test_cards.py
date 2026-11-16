@@ -210,3 +210,38 @@ def test_unavailable_reviewer_keeps_answer_as_review_pending(workspace_doc, monk
     reviewed = evidence_validation.review_live(record, result, [], [workspace_doc], 'q')
     assert reviewed['claims'][0]['review']['status'] == 'not_checked'
     assert '复核暂不可用' in reviewed['publication_notice']
+
+
+def test_decision_reviewer_failure_falls_back_to_generative_critic(workspace_doc, monkeypatch):
+    from services.api import decision_service, models
+    monkeypatch.setenv('RT_EVIDENCE_CRITIC', 'true')
+    monkeypatch.setenv('RT_EVIDENCE_REVIEW_PROVIDER', 'decision1')
+
+    def decision_down(*_a, **_k):
+        raise models.SentRequestError('HTTP 503', outcome='failed', quota_id='q')
+
+    critic_calls = []
+
+    def critic(system, prompt, rid, core=True, role=None, **_):
+        critic_calls.append(role)
+        return {'text': json.dumps({'reviews': [{'claim_id': 'c1', 'status': 'insufficient', 'reason': 'no quote given'}]}),
+                'model': 'FIXTURE_CRITIC', 'usage': {}}
+
+    monkeypatch.setattr(decision_service, 'review', decision_down)
+    monkeypatch.setattr(models, 'generate', critic)
+    run = jobs.queue('ws-card', 'qa', {'question': 'q', 'version_ids': [workspace_doc]}, 'decision-key-1')
+    record = {'id': run['id'], 'workspace': 'ws-card'}
+    result = {'claims': [{'id': 'c1', 'type': 'source_fact', 'text': 'x', 'evidence': [],
+                          'review': {'status': 'not_checked'}}], 'status': 'partial'}
+    evidence_validation.review_live(record, result, [], [workspace_doc], 'q')
+    assert critic_calls == ['verify']
+    events = [s['data'] for s in store.rows("SELECT data FROM steps WHERE run_id=? AND event='decision_review_unavailable'", (run['id'],))]
+    assert events and json.loads(events[0])['automatic_fallback'] is True
+
+    critic_calls.clear()
+    monkeypatch.setenv('RT_DECISION_REVIEW_FALLBACK', 'false')
+    other = jobs.queue('ws-card', 'qa', {'question': 'q', 'version_ids': [workspace_doc]}, 'decision-key-2')
+    fresh = {'claims': [{'id': 'c1', 'type': 'source_fact', 'text': 'x', 'evidence': [],
+                         'review': {'status': 'not_checked'}}], 'status': 'partial'}
+    kept = evidence_validation.review_live({'id': other['id'], 'workspace': 'ws-card'}, fresh, [], [workspace_doc], 'q')
+    assert critic_calls == [] and kept['evidence_review'] == 'not_checked'

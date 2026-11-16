@@ -21,3 +21,5 @@ UI: pale blue-gray #F4F7FB canvas, white paper, midnight navy #172B4D text, teal
 2026-11-16 最终重构计划：保留项目名“研证 ResearchTrace”，只调整定位语为“每个结论都能回到原文的科研智能体”（改名需改仓库、服务单元、证据与文档，不增加评分项）。保留 React/TypeScript/Vite、FastAPI、SQLite 与现有任务系统；前端在原 Vite 工程内按路由逐页重建，新增路由、服务端状态层、组件体系与由 OpenAPI 生成的类型；后端新增统一模型提供方接口（Gemini 原生、OpenAI 兼容云端、本地 OpenAI 兼容服务）与显式多角色状态机，不引入新数据库、队列或编排框架。计划文档用英文撰写以便与用户本次沟通一致，界面文案仍为中文。执行顺序、取舍清单与验收口径见 `docs/REFACTOR_PLAN.md`。
 
 2026-11-16 重构第一阶段：（1）前端未引入 Tailwind/Radix/TanStack Query，改为手写的设计令牌 CSS 与 React Router，以减少依赖与构建风险，效果同计划；（2）对话线程不新建表，复用 runs.payload.thread_id，历史只由服务器读取；（3）模型给出的自由正文与已核验主张不一致时，用主张文本替换（不发布未核验正文），不再整体拒绝；对应单测改为断言未核验句子不出现在发布结果中；（4）复核模型不可用时答案保留为“待复核”；（5）MiniMax M Plan 不接入产品路由；（6）沙箱内无法安全获取 arXiv 记录时不放宽 DNS 固定，文献卡片用 arXiv 编号推出首次提交年月。
+
+2026-11-16 Gemini Decision 1：恢复计划中的设定，作为默认主张复核器（`RT_EVIDENCE_REVIEW_PROVIDER=decision1`），独立额度、不占用回答模型；概率低于 0.9、置信度低于 0.8 或差值小于 0.25 时保留待复核；不可用时默认回退到生成模型复核（`RT_DECISION_REVIEW_FALLBACK`）。任务路由仍只在规划模式使用，简单问答不多花一次调用。

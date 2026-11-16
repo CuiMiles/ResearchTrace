@@ -132,6 +132,16 @@ export function describeStep(step: Step): Line {
       };
     case 'evidence_review':
       return { icon: ShieldCheck, tone: 'model', title: `独立复核 ${text(d.claims)} 条主张` };
+    case 'decision_review':
+      return { icon: ShieldCheck, tone: 'model', title: `Gemini Decision 1 复核 ${text(d.claims)} 条主张` };
+    case 'decision_review_unavailable':
+      return {
+        icon: TriangleAlert,
+        tone: 'warn',
+        title: d.automatic_fallback ? 'Decision 1 不可用，改由生成模型复核' : 'Decision 1 不可用，主张保留为待复核',
+      };
+    case 'quota_route_refused':
+      return { icon: TriangleAlert, tone: 'warn', title: `${text(d.model)} 额度不足，尝试下一路由`, detail: REASONS[text(d.code)] ?? text(d.code) };
     case 'evidence_review_unavailable':
       return { icon: TriangleAlert, tone: 'warn', title: '独立复核暂不可用，主张保留为待复核' };
     case 'agent_planning':

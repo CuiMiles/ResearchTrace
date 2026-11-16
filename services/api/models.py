@@ -131,6 +131,9 @@ def limits(model):
         return (5,250000,20)
     if 'embedding' in model:
         return (100,30000,1000)
+    if model == 'gemini-decision-1':
+        # Provider free tier recorded 2026-11-16: 200 RPM, 50K input TPM, 10K RPD.
+        return (200,50000,10000)
     if 'flash' in model and 'lite' not in model:
         # Team quota snapshot: the non-lite Flash tier shares Hydrogen's limits.
         return (5,250000,20)
