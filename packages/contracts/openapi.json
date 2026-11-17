@@ -3503,6 +3503,16 @@
             "title": "Pack Cloud",
             "default": false
           },
+          "chunks_only": {
+            "type": "boolean",
+            "title": "Chunks Only",
+            "default": false
+          },
+          "activate": {
+            "type": "boolean",
+            "title": "Activate",
+            "default": true
+          },
           "idempotency_key": {
             "type": "string",
             "maxLength": 150,

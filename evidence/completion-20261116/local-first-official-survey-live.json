@@ -1,5 +1,5 @@
 {
-  "status": "NOT RUN",
+  "status": "BLOCKED",
   "source": "actual public v12 local-first deployment",
   "manual_quality_review": "NOT RUN",
   "cases": [
@@ -1786,7 +1786,7 @@
     {
       "name": "survey20-new-combination",
       "run_id": "8345d430373b4c6793e290a44234a28d",
-      "status": "NOT RUN",
+      "status": "BLOCKED",
       "version_ids": [
         "766a29679f72469b8bd763b365ca918b",
         "351e8bec61ed4258ba96481ae80f5d3e",
@@ -1808,7 +1808,2662 @@
         "6e7f4f56e2e9432595279cf55ac398ea",
         "8f719edbdcbd44be8697d0faf5ec725a",
         "0b9a2256978a40e08546a6e9be2859f4"
-      ]
+      ],
+      "run": {
+        "id": "8345d430373b4c6793e290a44234a28d",
+        "workspace": "c68721f6255e43ec983e555fd4e5f4b5",
+        "kind": "writing",
+        "status": "partial",
+        "payload": {
+          "question": "基于这20篇论文原文写一份简短综述。每篇至少引用一个已有原文片段，覆盖研究问题、方法脉络、差异、局限、待研究点。事实主张保持原子化，优先用不含定量结果的简短方法描述，不把目录当结论；无法支持的内容明确缺证据。每篇引用必须来自它自己的version_id，不补全未做实验，不宣称全文已全部阅读。",
+          "version_ids": [
+            "766a29679f72469b8bd763b365ca918b",
+            "351e8bec61ed4258ba96481ae80f5d3e",
+            "f058aa75230f4858905fb3c43671ce66",
+            "83818aa75e3740c294efb6e2ad6965a2",
+            "b74e6ae4ded9495f88a8094aa9238265",
+            "5cd85f12f8244d869c91995051a8d379",
+            "9504906614f845008dc0e91664749e21",
+            "3b23817030d74a999f2862329d220779",
+            "70844f0c17fb4568b91e1d062c2424e4",
+            "74c2ec9db92241d59644afb15b0d5b02",
+            "68a8ee2cb760449ebe8399e1ae353a8b",
+            "263d3e23350c45b28c2fb6b0d4609d37",
+            "33bef9dbad7d412f9adf1f7994ccfa4e",
+            "3818a2e39faa49348163ccccd09d1590",
+            "bfde594774cc424d8689a5dba574377e",
+            "dcbf42d53e36497ba7ba198135a4c4ab",
+            "f5de36e6630b4509ac6942b74e243152",
+            "6e7f4f56e2e9432595279cf55ac398ea",
+            "8f719edbdcbd44be8697d0faf5ec725a",
+            "0b9a2256978a40e08546a6e9be2859f4"
+          ],
+          "context_budget": 48000,
+          "search_query": null,
+          "workflow": "survey",
+          "snapshots": [
+            {
+              "id": "766a29679f72469b8bd763b365ca918b",
+              "work_id": "9c9e2c8f304c4106af16947cf0232e42",
+              "title": "Attention Is All You Need",
+              "label": "v7",
+              "identity": "arxiv:1706.03762",
+              "parse_id": "766a29679f72469b8bd763b365ca918b"
+            },
+            {
+              "id": "351e8bec61ed4258ba96481ae80f5d3e",
+              "work_id": "71ece170b2ec4812a90f16ab118072ed",
+              "title": "Google's Neural Machine Translation System: Bridging the Gap between Human and Machine Translation",
+              "label": "v2",
+              "identity": "arxiv:1609.08144",
+              "parse_id": "351e8bec61ed4258ba96481ae80f5d3e"
+            },
+            {
+              "id": "f058aa75230f4858905fb3c43671ce66",
+              "work_id": "8a7de837c9b04165b851c901e7faf7c7",
+              "title": "Efficient Audio Enhancement with a Differentiable Psychoacoustic Loss",
+              "label": "v1",
+              "identity": "arxiv:2608.02918",
+              "parse_id": "f058aa75230f4858905fb3c43671ce66"
+            },
+            {
+              "id": "83818aa75e3740c294efb6e2ad6965a2",
+              "work_id": "ffe7a7ea15564b95ad7a42519851febd",
+              "title": "Unified Cross-modal Translation of Score Images, Symbolic Music, and Performance Audio",
+              "label": "v1",
+              "identity": "arxiv:2505.12863",
+              "parse_id": "83818aa75e3740c294efb6e2ad6965a2"
+            },
+            {
+              "id": "b74e6ae4ded9495f88a8094aa9238265",
+              "work_id": "bd93231d796a4b0e8862c68d67c951d7",
+              "title": "Diffusion-Based Audio Inpainting",
+              "label": "v3",
+              "identity": "arxiv:2305.15266",
+              "parse_id": "b74e6ae4ded9495f88a8094aa9238265"
+            },
+            {
+              "id": "5cd85f12f8244d869c91995051a8d379",
+              "work_id": "28b6a686c57f4a64b63eb49caabd088e",
+              "title": "Language Models are Unsupervised Multitask Learners",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "5cd85f12f8244d869c91995051a8d379"
+            },
+            {
+              "id": "9504906614f845008dc0e91664749e21",
+              "work_id": "0014b0cfc6a04dbfbd6bc163dbff0ddf",
+              "title": "科研⼩助⼿Agent\u0001",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "9504906614f845008dc0e91664749e21"
+            },
+            {
+              "id": "3b23817030d74a999f2862329d220779",
+              "work_id": "551b432a9b8e4a8e9e7da00c0df34ba3",
+              "title": "scan-page4-attention-crop",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "22017e768e11435daa05c3e47d82e505"
+            },
+            {
+              "id": "70844f0c17fb4568b91e1d062c2424e4",
+              "work_id": "4e7669a1c1ad4a1f9b318da7be9cdf43",
+              "title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "70844f0c17fb4568b91e1d062c2424e4"
+            },
+            {
+              "id": "74c2ec9db92241d59644afb15b0d5b02",
+              "work_id": "335e4876155b4a4da5318c4ebc06345e",
+              "title": "Improving Language Understanding by Generative Pre-Training",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "74c2ec9db92241d59644afb15b0d5b02"
+            },
+            {
+              "id": "68a8ee2cb760449ebe8399e1ae353a8b",
+              "work_id": "6b5c30aea6b64b428fdf5631e83808c1",
+              "title": "LLaMA: Open and Efficient Foundation Language Models",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "68a8ee2cb760449ebe8399e1ae353a8b"
+            },
+            {
+              "id": "263d3e23350c45b28c2fb6b0d4609d37",
+              "work_id": "4f1ceac76a424f22b8d7cac9c602fcb2",
+              "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+              "label": "v2",
+              "identity": "arxiv:2501.12948",
+              "parse_id": "263d3e23350c45b28c2fb6b0d4609d37"
+            },
+            {
+              "id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+              "work_id": "44fa122c8b3a48c0bf79e75ede50ccf0",
+              "title": "DeepSeek-V3 Technical Report Abstract",
+              "label": "v1",
+              "identity": "arxiv:2412.19437",
+              "parse_id": "33bef9dbad7d412f9adf1f7994ccfa4e"
+            },
+            {
+              "id": "3818a2e39faa49348163ccccd09d1590",
+              "work_id": "5c7cbab503004eeaac495f1d73384d6a",
+              "title": "Qwen2.5 Technical Report",
+              "label": "v2",
+              "identity": "arxiv:2412.15115",
+              "parse_id": "3818a2e39faa49348163ccccd09d1590"
+            },
+            {
+              "id": "bfde594774cc424d8689a5dba574377e",
+              "work_id": "d80969004dd444e5b45093880ea7b470",
+              "title": "The Llama Herd of Models",
+              "label": "v3",
+              "identity": "arxiv:2407.21783",
+              "parse_id": "bfde594774cc424d8689a5dba574377e"
+            },
+            {
+              "id": "dcbf42d53e36497ba7ba198135a4c4ab",
+              "work_id": "653843d49dd5418ab0e255659222114d",
+              "title": "Instruction Pre-Training: Language Models are Supervised Multitask Learners",
+              "label": "v2",
+              "identity": "arxiv:2406.14491",
+              "parse_id": "dcbf42d53e36497ba7ba198135a4c4ab"
+            },
+            {
+              "id": "f5de36e6630b4509ac6942b74e243152",
+              "work_id": "4b23697653b2447bbedc6a41441bd486",
+              "title": "Mistral 7B",
+              "label": "v1",
+              "identity": "arxiv:2310.06825",
+              "parse_id": "f5de36e6630b4509ac6942b74e243152"
+            },
+            {
+              "id": "6e7f4f56e2e9432595279cf55ac398ea",
+              "work_id": "5ba8dac9ae4047adb3ea6ef2b17a356a",
+              "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+              "label": "v2",
+              "identity": "arxiv:2307.09288",
+              "parse_id": "6e7f4f56e2e9432595279cf55ac398ea"
+            },
+            {
+              "id": "8f719edbdcbd44be8697d0faf5ec725a",
+              "work_id": "1c884d79cbf142d6a0bc33b387446d24",
+              "title": "Direct Preference Optimization: Your Language Model is Secretly Reward Model",
+              "label": "v3",
+              "identity": "arxiv:2305.18290",
+              "parse_id": "8f719edbdcbd44be8697d0faf5ec725a"
+            },
+            {
+              "id": "0b9a2256978a40e08546a6e9be2859f4",
+              "work_id": "71a80274e0a744c7b483a1623222ff9f",
+              "title": "QL RA: Efficient Finetuning of Quantized LLMs",
+              "label": "v1",
+              "identity": "arxiv:2305.14314",
+              "parse_id": "0b9a2256978a40e08546a6e9be2859f4"
+            }
+          ]
+        },
+        "result": {
+          "answer": "Transformer 旨在摒弃循环和卷积结构，提出仅依赖注意力机制的序列转导模型。\n\nGNMT 旨在解决神经机器翻译在训练与推理计算成本高昂以及稀有词缺乏鲁棒性的问题。\n\nGPT-1 旨在解决特定任务标记数据稀缺的问题，通过无监督生成式预训练结合有监督微调提升语言理解能力。\n\nBERT 旨在通过在所有层联合调节左右上下文，预训练深度双向语言表示。\n\nGPT-2 探索语言模型在无需显式任务监督的情况下直接学习多任务的能力。\n\nLLaMA 使用公开数据集在万亿级 token 上训练基础语言模型。\n\nLlama 2 预训练并微调了 7B 至 70B 参数规模的语言模型，并针对对话场景进行优化。\n\nQLoRA 通过冻结的 4-bit 量化预训练语言模型将梯度反向传播至低秩适配器（LoRA）。\n\nDPO 建立语言模型策略与奖励函数的映射，直接使用交叉熵损失根据偏好进行训练。\n\nMistral 7B 结合分组查询注意力（GQA）与滑动窗口注意力（SWA）以提高推理效率。\n\nInstruction Pre-Training 使用指令合成器将原始语料库扩充为指令-响应对进行预训练。\n\nLlama 3 提供了原生支持多语言、代码、推理和工具调用的基础模型体系。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\nDeepSeek-V3 采用 Multi-head Latent Attention (MLA) 和 DeepSeekMoE 架构，并使用无辅助损失的负载均衡策略。\n\nDeepSeek-R1 通过纯强化学习激励 LLM 的推理能力，无需人工标注的推理轨迹。\n\nAEROMamba P 将 AERO 架构中的注意力与 LSTM 层替换为 Mamba 状态空间模型，并引入基于 PAQM 的可微感知损失。\n\n缩放点积注意力在维度 d_k 较小时与加性注意力表现相似，通过乘以 1/sqrt(d_k) 缩放因子以防止点积过大造成梯度问题。\n\n音频转乐谱需要处理从声学信号到结构化视觉记号的复杂跨模态转换。\n\n基于扩散模型的 CQT-Diff+ 音频修复方法的性能局限于训练时见过的音频类型（如古典音乐）。\n\nQLoRA 未能在 33B 和 65B 规模下建立匹配 16-bit 全微调性能的结论。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\n针对缺乏完整实验数据与明确细节的非核心维度，其泛化边界与具体定量表现目前缺乏证据支持。",
+          "answer_segments": [
+            {
+              "text": "Transformer 旨在摒弃循环和卷积结构，提出仅依赖注意力机制的序列转导模型。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "GNMT 旨在解决神经机器翻译在训练与推理计算成本高昂以及稀有词缺乏鲁棒性的问题。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "GPT-1 旨在解决特定任务标记数据稀缺的问题，通过无监督生成式预训练结合有监督微调提升语言理解能力。",
+              "claim_ids": [
+                "c3"
+              ]
+            },
+            {
+              "text": "BERT 旨在通过在所有层联合调节左右上下文，预训练深度双向语言表示。",
+              "claim_ids": [
+                "c4"
+              ]
+            },
+            {
+              "text": "GPT-2 探索语言模型在无需显式任务监督的情况下直接学习多任务的能力。",
+              "claim_ids": [
+                "c5"
+              ]
+            },
+            {
+              "text": "LLaMA 使用公开数据集在万亿级 token 上训练基础语言模型。",
+              "claim_ids": [
+                "c6"
+              ]
+            },
+            {
+              "text": "Llama 2 预训练并微调了 7B 至 70B 参数规模的语言模型，并针对对话场景进行优化。",
+              "claim_ids": [
+                "c7"
+              ]
+            },
+            {
+              "text": "QLoRA 通过冻结的 4-bit 量化预训练语言模型将梯度反向传播至低秩适配器（LoRA）。",
+              "claim_ids": [
+                "c8"
+              ]
+            },
+            {
+              "text": "DPO 建立语言模型策略与奖励函数的映射，直接使用交叉熵损失根据偏好进行训练。",
+              "claim_ids": [
+                "c9"
+              ]
+            },
+            {
+              "text": "Mistral 7B 结合分组查询注意力（GQA）与滑动窗口注意力（SWA）以提高推理效率。",
+              "claim_ids": [
+                "c10"
+              ]
+            },
+            {
+              "text": "Instruction Pre-Training 使用指令合成器将原始语料库扩充为指令-响应对进行预训练。",
+              "claim_ids": [
+                "c11"
+              ]
+            },
+            {
+              "text": "Llama 3 提供了原生支持多语言、代码、推理和工具调用的基础模型体系。",
+              "claim_ids": [
+                "c12"
+              ]
+            },
+            {
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+              "claim_ids": [
+                "c13"
+              ]
+            },
+            {
+              "text": "DeepSeek-V3 采用 Multi-head Latent Attention (MLA) 和 DeepSeekMoE 架构，并使用无辅助损失的负载均衡策略。",
+              "claim_ids": [
+                "c14"
+              ]
+            },
+            {
+              "text": "DeepSeek-R1 通过纯强化学习激励 LLM 的推理能力，无需人工标注的推理轨迹。",
+              "claim_ids": [
+                "c15"
+              ]
+            },
+            {
+              "text": "AEROMamba P 将 AERO 架构中的注意力与 LSTM 层替换为 Mamba 状态空间模型，并引入基于 PAQM 的可微感知损失。",
+              "claim_ids": [
+                "c16"
+              ]
+            },
+            {
+              "text": "缩放点积注意力在维度 d_k 较小时与加性注意力表现相似，通过乘以 1/sqrt(d_k) 缩放因子以防止点积过大造成梯度问题。",
+              "claim_ids": [
+                "c17"
+              ]
+            },
+            {
+              "text": "音频转乐谱需要处理从声学信号到结构化视觉记号的复杂跨模态转换。",
+              "claim_ids": [
+                "c18"
+              ]
+            },
+            {
+              "text": "基于扩散模型的 CQT-Diff+ 音频修复方法的性能局限于训练时见过的音频类型（如古典音乐）。",
+              "claim_ids": [
+                "c19"
+              ]
+            },
+            {
+              "text": "QLoRA 未能在 33B 和 65B 规模下建立匹配 16-bit 全微调性能的结论。",
+              "claim_ids": [
+                "c20"
+              ]
+            },
+            {
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+              "claim_ids": [
+                "c21"
+              ]
+            },
+            {
+              "text": "针对缺乏完整实验数据与明确细节的非核心维度，其泛化边界与具体定量表现目前缺乏证据支持。",
+              "claim_ids": [
+                "c22"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "Transformer 旨在摒弃循环和卷积结构，提出仅依赖注意力机制的序列转导模型。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "766a29679f72469b8bd763b365ca918b:0:8",
+                  "version_id": "766a29679f72469b8bd763b365ca918b",
+                  "page_index": 0,
+                  "bbox": [
+                    0.2345702614379085,
+                    0.5216594969696969,
+                    0.7676259463986926,
+                    0.7270756585858587
+                  ],
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "quote": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 395
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9715; confidence=0.9715。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.971490414805327,
+                  "contradicted": 0.017946877691860506,
+                  "insufficient": 0.010562707502812511
+                },
+                "confidence": 0.971490414805327
+              }
+            },
+            {
+              "id": "c2",
+              "text": "GNMT 旨在解决神经机器翻译在训练与推理计算成本高昂以及稀有词缺乏鲁棒性的问题。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "351e8bec61ed4258ba96481ae80f5d3e:0:10",
+                  "version_id": "351e8bec61ed4258ba96481ae80f5d3e",
+                  "page_index": 0,
+                  "bbox": [
+                    0.15780228758169934,
+                    0.3900291434343434,
+                    0.844581005661699,
+                    0.5950687898989899
+                  ],
+                  "parse_id": "351e8bec61ed4258ba96481ae80f5d3e",
+                  "quote": "Neural Machine Translation (NMT) is an end-to-end learning approach for automated translation, with the potential to overcome many of the weaknesses of conventional phrase-based translation systems. Unfortunately, NMT systems are known to be computationally expensive both in training and in translation inference – sometimes prohibitively so in the case of very large data sets and large models. Several authors have also charged that NMT systems lack robustness, particularly when input sentences contain rare words.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 518
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9358; confidence=0.9358。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.04759006952884044,
+                  "supported": 0.9358421199711161,
+                  "contradicted": 0.016567810500043367
+                },
+                "confidence": 0.9358421199711161
+              }
+            },
+            {
+              "id": "c3",
+              "text": "GPT-1 旨在解决特定任务标记数据稀缺的问题，通过无监督生成式预训练结合有监督微调提升语言理解能力。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "74c2ec9db92241d59644afb15b0d5b02:0:4",
+                  "version_id": "74c2ec9db92241d59644afb15b0d5b02",
+                  "page_index": 0,
+                  "bbox": [
+                    0.23507516339869283,
+                    0.3386203555555556,
+                    0.7677765574692811,
+                    0.5578117696969697
+                  ],
+                  "parse_id": "74c2ec9db92241d59644afb15b0d5b02",
+                  "quote": "Natural language understanding comprises a wide range of diverse tasks such as textual entailment, question answering, semantic similarity assessment, and document classification. Although large unlabeled text corpora are abundant, labeled data for learning these specific tasks is scarce, making it challenging for discriminatively trained models to perform adequately. We demonstrate that large gains on these tasks can be realized by generative pre-training of a language model on a diverse corpus of unlabeled text, followed by discriminative fine-tuning on each specific task.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 581
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9498; confidence=0.9498。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.03247421709938021,
+                  "supported": 0.9498143775074902,
+                  "contradicted": 0.017711405393129577
+                },
+                "confidence": 0.9498143775074902
+              }
+            },
+            {
+              "id": "c4",
+              "text": "BERT 旨在通过在所有层联合调节左右上下文，预训练深度双向语言表示。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "70844f0c17fb4568b91e1d062c2424e4:0:4",
+                  "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+                  "page_index": 0,
+                  "bbox": [
+                    0.1495239183168815,
+                    0.29168219316062666,
+                    0.4590524166941049,
+                    0.6492094235588972
+                  ],
+                  "parse_id": "70844f0c17fb4568b91e1d062c2424e4",
+                  "quote": "We introduce a new language representa- tion model called BERT , which stands for B idirectional E ncoder R epresentations from T ransformers. Unlike recent language repre- sentation models (Peters et al., 2018a; Rad- ford et al., 2018), BERT is designed to pre- train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 393
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9135; confidence=0.9135。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.05140773551105051,
+                  "contradicted": 0.035116524051644935,
+                  "supported": 0.9134757404373046
+                },
+                "confidence": 0.9134757404373046
+              }
+            },
+            {
+              "id": "c5",
+              "text": "GPT-2 探索语言模型在无需显式任务监督的情况下直接学习多任务的能力。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "5cd85f12f8244d869c91995051a8d379:0:3",
+                  "version_id": "5cd85f12f8244d869c91995051a8d379",
+                  "page_index": 0,
+                  "bbox": [
+                    0.12256045751633987,
+                    0.24997894141414134,
+                    0.4432399471830067,
+                    0.6399304565656565
+                  ],
+                  "parse_id": "5cd85f12f8244d869c91995051a8d379",
+                  "quote": "Natural language processing tasks, such as ques- tion answering, machine translation, reading com- prehension, and summarization, are typically approached with supervised learning on task- specific datasets. We demonstrate that language models begin to learn these tasks without any ex- plicit supervision when trained on a new dataset of millions of webpages called WebText.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 375
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9168; confidence=0.9168。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.059090885687051516,
+                  "contradicted": 0.024113402231116667,
+                  "supported": 0.9167957120818319
+                },
+                "confidence": 0.9167957120818319
+              }
+            },
+            {
+              "id": "c6",
+              "text": "LLaMA 使用公开数据集在万亿级 token 上训练基础语言模型。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "68a8ee2cb760449ebe8399e1ae353a8b:0:4",
+                  "version_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+                  "page_index": 0,
+                  "bbox": [
+                    0.14706623482216655,
+                    0.28174859138367236,
+                    0.45992250369542875,
+                    0.4497855083205644
+                  ],
+                  "parse_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+                  "quote": "We introduce LLaMA, a collection of founda- tion language models ranging from 7B to 65B parameters. We train our models on trillions of tokens, and show that it is possible to train state-of-the-art models using publicly available datasets exclusively, without resorting to proprietary and inaccessible datasets.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 312
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8958; confidence=0.8958。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.89583801213963,
+                  "insufficient": 0.06928730489388252,
+                  "contradicted": 0.03487468296648753
+                },
+                "confidence": 0.89583801213963
+              }
+            },
+            {
+              "id": "c7",
+              "text": "Llama 2 预训练并微调了 7B 至 70B 参数规模的语言模型，并针对对话场景进行优化。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "6e7f4f56e2e9432595279cf55ac398ea:0:4",
+                  "version_id": "6e7f4f56e2e9432595279cf55ac398ea",
+                  "page_index": 0,
+                  "bbox": [
+                    0.1762516339869281,
+                    0.4957757575757576,
+                    0.8265935576535948,
+                    0.6047727272727274
+                  ],
+                  "parse_id": "6e7f4f56e2e9432595279cf55ac398ea",
+                  "quote": "In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 254
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9665; confidence=0.9665。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.012137381251242816,
+                  "supported": 0.96651721073909,
+                  "insufficient": 0.021345408009667194
+                },
+                "confidence": 0.96651721073909
+              }
+            },
+            {
+              "id": "c8",
+              "text": "QLoRA 通过冻结的 4-bit 量化预训练语言模型将梯度反向传播至低秩适配器（LoRA）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "0b9a2256978a40e08546a6e9be2859f4:0:5",
+                  "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+                  "page_index": 0,
+                  "bbox": [
+                    0.23430882352941176,
+                    0.358625406060606,
+                    0.7676309917924837,
+                    0.6329115171717171
+                  ],
+                  "parse_id": "0b9a2256978a40e08546a6e9be2859f4",
+                  "quote": "We present QL O RA, an efficient finetuning approach that reduces memory us- age enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QL O RA backpropagates gradi- ents through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters (LoRA).",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 326
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9579; confidence=0.9579。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.021831277839355876,
+                  "supported": 0.9579465645236489,
+                  "contradicted": 0.02022215763699523
+                },
+                "confidence": 0.9579465645236489
+              }
+            },
+            {
+              "id": "c9",
+              "text": "DPO 建立语言模型策略与奖励函数的映射，直接使用交叉熵损失根据偏好进行训练。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "8f719edbdcbd44be8697d0faf5ec725a:9:4",
+                  "version_id": "8f719edbdcbd44be8697d0faf5ec725a",
+                  "page_index": 9,
+                  "bbox": [
+                    0.17647058823529413,
+                    0.4849170727272727,
+                    0.8255577452222217,
+                    0.7110264161616162
+                  ],
+                  "parse_id": "8f719edbdcbd44be8697d0faf5ec725a",
+                  "quote": "DPO identifies a mapping between language model policies and reward functions that enables training a language model to satisfy human preferences directly , with a simple cross-entropy loss, without reinforcement learning or loss of generality.",
+                  "quote_span": {
+                    "start": 361,
+                    "end": 605
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9643; confidence=0.9643。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.013057625360946035,
+                  "supported": 0.96430396320394,
+                  "insufficient": 0.022638411435113998
+                },
+                "confidence": 0.96430396320394
+              }
+            },
+            {
+              "id": "c10",
+              "text": "Mistral 7B 结合分组查询注意力（GQA）与滑动窗口注意力（SWA）以提高推理效率。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "f5de36e6630b4509ac6942b74e243152:0:3",
+                  "version_id": "f5de36e6630b4509ac6942b74e243152",
+                  "page_index": 0,
+                  "bbox": [
+                    0.23425980392156867,
+                    0.4616607595959596,
+                    0.7669637265163397,
+                    0.6120564358585858
+                  ],
+                  "parse_id": "f5de36e6630b4509ac6942b74e243152",
+                  "quote": "We introduce Mistral 7B, a 7–billion-parameter language model engineered for superior performance and efficiency. Mistral 7B outperforms the best open 13B model (Llama 2) across all evaluated benchmarks, and the best released 34B model (Llama 1) in reasoning, mathematics, and code generation. Our model leverages grouped-query attention (GQA) for faster inference, coupled with sliding window attention (SWA) to effectively handle sequences of arbitrary length with a reduced inference cost.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 492
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9381; confidence=0.9381。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9380593441669584,
+                  "insufficient": 0.025719070141584265,
+                  "contradicted": 0.0362215856914574
+                },
+                "confidence": 0.9380593441669584
+              }
+            },
+            {
+              "id": "c11",
+              "text": "Instruction Pre-Training 使用指令合成器将原始语料库扩充为指令-响应对进行预训练。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dcbf42d53e36497ba7ba198135a4c4ab:0:4",
+                  "version_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+                  "page_index": 0,
+                  "bbox": [
+                    0.1472006262641195,
+                    0.28995156326836047,
+                    0.45992481306822386,
+                    0.642594545130599
+                  ],
+                  "parse_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+                  "quote": "In this paper, we explore supervised multitask pre- training by proposing Instruction Pre-Training, a framework that scalably augments massive raw corpora with instruction-response pairs to pre-train LMs. The instruction-response pairs are generated by an efficient instruc- tion synthesizer built on open-source mod- els.",
+                  "quote_span": {
+                    "start": 270,
+                    "end": 592
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9518; confidence=0.9518。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.03342960963329962,
+                  "contradicted": 0.01475551548772764,
+                  "supported": 0.9518148748789726
+                },
+                "confidence": 0.9518148748789726
+              }
+            },
+            {
+              "id": "c12",
+              "text": "Llama 3 提供了原生支持多语言、代码、推理和工具调用的基础模型体系。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "bfde594774cc424d8689a5dba574377e:0:3",
+                  "version_id": "bfde594774cc424d8689a5dba574377e",
+                  "page_index": 0,
+                  "bbox": [
+                    0.14288888888888887,
+                    0.23603712121212128,
+                    0.8588023116420915,
+                    0.39956565656565657
+                  ],
+                  "parse_id": "bfde594774cc424d8689a5dba574377e",
+                  "quote": "This paper presents a new set of foundation models, called Llama 3. It is a herd of language models that natively support multilinguality, coding, reasoning, and tool usage.",
+                  "quote_span": {
+                    "start": 78,
+                    "end": 251
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9678; confidence=0.9678。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.015615187751674186,
+                  "supported": 0.9677687760219059,
+                  "insufficient": 0.016616036226419863
+                },
+                "confidence": 0.9677687760219059
+              }
+            },
+            {
+              "id": "c13",
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c14",
+              "text": "DeepSeek-V3 采用 Multi-head Latent Attention (MLA) 和 DeepSeekMoE 架构，并使用无辅助损失的负载均衡策略。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "33bef9dbad7d412f9adf1f7994ccfa4e:0:4",
+                  "version_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+                  "page_index": 0,
+                  "bbox": [
+                    0.11812671769061747,
+                    0.3201398161279977,
+                    0.884175083967437,
+                    0.5376419838696266
+                  ],
+                  "parse_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+                  "quote": "To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architec- tures, which were thoroughly validated in DeepSeek-V2. Furthermore, DeepSeek-V3 pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance.",
+                  "quote_span": {
+                    "start": 135,
+                    "end": 492
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8563; confidence=0.8563。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.04734633686480179,
+                  "supported": 0.8562515575857537,
+                  "insufficient": 0.09640210554944445
+                },
+                "confidence": 0.8562515575857537
+              }
+            },
+            {
+              "id": "c15",
+              "text": "DeepSeek-R1 通过纯强化学习激励 LLM 的推理能力，无需人工标注的推理轨迹。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "263d3e23350c45b28c2fb6b0d4609d37:0:5",
+                  "version_id": "263d3e23350c45b28c2fb6b0d4609d37",
+                  "page_index": 0,
+                  "bbox": [
+                    0.11849461426296376,
+                    0.34454442955730563,
+                    0.8840076286116022,
+                    0.5790868282079606
+                  ],
+                  "parse_id": "263d3e23350c45b28c2fb6b0d4609d37",
+                  "quote": "Here we show that the reasoning abilities of LLMs can be incentivized through pure reinforcement learning (RL), obviating the need for human-labeled reasoning trajectories.",
+                  "quote_span": {
+                    "start": 491,
+                    "end": 663
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9850; confidence=0.9850。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9850173157629682,
+                  "contradicted": 0.006398032643076292,
+                  "insufficient": 0.008584651593955554
+                },
+                "confidence": 0.9850173157629682
+              }
+            },
+            {
+              "id": "c16",
+              "text": "AEROMamba P 将 AERO 架构中的注意力与 LSTM 层替换为 Mamba 状态空间模型，并引入基于 PAQM 的可微感知损失。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "f058aa75230f4858905fb3c43671ce66:0:4",
+                  "version_id": "f058aa75230f4858905fb3c43671ce66",
+                  "page_index": 0,
+                  "bbox": [
+                    0.08000653594771241,
+                    0.20826083030303022,
+                    0.4902380679738561,
+                    0.5408913858585856
+                  ],
+                  "parse_id": "f058aa75230f4858905fb3c43671ce66",
+                  "quote": "Initially, with the aim of address- ing bandwidth extension, this work proposes AEROMamba P , an efficient variant of the AERO super-resolution architecture where attention and LSTM layers are replaced by the Mamba state-space model, and which incorporates a newly developed differentiable perceptual loss derived from the Perceptual Audio Quality Measure (PAQM).",
+                  "quote_span": {
+                    "start": 91,
+                    "end": 454
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9495; confidence=0.9495。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.022110008811481584,
+                  "supported": 0.9494562288694287,
+                  "insufficient": 0.02843376231908966
+                },
+                "confidence": 0.9494562288694287
+              }
+            },
+            {
+              "id": "c17",
+              "text": "缩放点积注意力在维度 d_k 较小时与加性注意力表现相似，通过乘以 1/sqrt(d_k) 缩放因子以防止点积过大造成梯度问题。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "74f79aa6f4ae43a5a265e3fa8f577766",
+                  "version_id": "3b23817030d74a999f2862329d220779",
+                  "page_index": 0,
+                  "bbox": [
+                    0.11778115501519756,
+                    0.6052173913043478,
+                    0.8799392097264438,
+                    0.8017391304347826
+                  ],
+                  "parse_id": "22017e768e11435daa05c3e47d82e505",
+                  "quote": "While for small values of $d_k$ the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of $d_k$ [3]. We suspect this to be caused by the dot products growing too large in magnitude to result in useful gradients after applying the softmax function. To counteract this, we scale the dot product by $1/\\sqrt{d_k}$.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 381
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7843; confidence=0.7843。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.7843494886704937,
+                  "contradicted": 0.13031090620221125,
+                  "insufficient": 0.08533960512729505
+                },
+                "confidence": 0.7843494886704937
+              }
+            },
+            {
+              "id": "c18",
+              "text": "音频转乐谱需要处理从声学信号到结构化视觉记号的复杂跨模态转换。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "83818aa75e3740c294efb6e2ad6965a2:8:5",
+                  "version_id": "83818aa75e3740c294efb6e2ad6965a2",
+                  "page_index": 8,
+                  "bbox": [
+                    0.08000653594771241,
+                    0.7514181588383837,
+                    0.4902318954248368,
+                    0.9191855070707071
+                  ],
+                  "parse_id": "83818aa75e3740c294efb6e2ad6965a2",
+                  "quote": "Converting audio recordings into sheet music requires nav- igating the complex transformation from acoustic signals to structured visual notation.",
+                  "quote_span": {
+                    "start": 29,
+                    "end": 175
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9194; confidence=0.9194。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9193775648358213,
+                  "contradicted": 0.01718260258673359,
+                  "insufficient": 0.063439832577445
+                },
+                "confidence": 0.9193775648358213
+              }
+            },
+            {
+              "id": "c19",
+              "text": "基于扩散模型的 CQT-Diff+ 音频修复方法的性能局限于训练时见过的音频类型（如古典音乐）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "b74e6ae4ded9495f88a8094aa9238265:9:6",
+                  "version_id": "b74e6ae4ded9495f88a8094aa9238265",
+                  "page_index": 9,
+                  "bbox": [
+                    0.07370542635658915,
+                    0.6048586482758619,
+                    0.4752992937123172,
+                    0.9534877670498083
+                  ],
+                  "parse_id": "b74e6ae4ded9495f88a8094aa9238265",
+                  "quote": "One limitation of the method presented in this paper is that the performance is limited to the types of audio record- ings seen during the training, in this case, classical music.",
+                  "quote_span": {
+                    "start": 373,
+                    "end": 552
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9494; confidence=0.9494。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.026185055985385706,
+                  "insufficient": 0.024397102579230324,
+                  "supported": 0.9494178414353839
+                },
+                "confidence": 0.9494178414353839
+              }
+            },
+            {
+              "id": "c20",
+              "text": "QLoRA 未能在 33B 和 65B 规模下建立匹配 16-bit 全微调性能的结论。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "0b9a2256978a40e08546a6e9be2859f4:14:4",
+                  "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+                  "page_index": 14,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.5292668202020202,
+                    0.8235361948039215,
+                    0.5831678303030302
+                  ],
+                  "parse_id": "0b9a2256978a40e08546a6e9be2859f4",
+                  "quote": "We have shown evidence that our method, QL O RA, can replicate 16-bit full finetuning performance with a 4-bit base model and Low-rank Adapters (LoRA). Despite this evidence, we did not establish that QL O RA can match full 16-bit finetuning performance at 33B and 65B scales.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 276
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9710; confidence=0.9710。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.021347794532152804,
+                  "supported": 0.9710472626732811,
+                  "insufficient": 0.007604942794565956
+                },
+                "confidence": 0.9710472626732811
+              }
+            },
+            {
+              "id": "c21",
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c22",
+              "text": "针对缺乏完整实验数据与明确细节的非核心维度，其泛化边界与具体定量表现目前缺乏证据支持。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            }
+          ],
+          "status": "partial",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "部分文献缺少已引用原文，或当前只有书目；未覆盖部分不能当作全文结论。",
+          "legacy_answer_replaced": true,
+          "unchecked_prose_replaced": 0,
+          "sections": [
+            {
+              "key": "research_question",
+              "title": "研究问题",
+              "claim_ids": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "source_claims": [
+                {
+                  "id": "c1",
+                  "text": "Transformer 旨在摒弃循环和卷积结构，提出仅依赖注意力机制的序列转导模型。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "766a29679f72469b8bd763b365ca918b:0:8",
+                      "version_id": "766a29679f72469b8bd763b365ca918b",
+                      "page_index": 0,
+                      "bbox": [
+                        0.2345702614379085,
+                        0.5216594969696969,
+                        0.7676259463986926,
+                        0.7270756585858587
+                      ],
+                      "parse_id": "766a29679f72469b8bd763b365ca918b",
+                      "quote": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 395
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9715; confidence=0.9715。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.971490414805327,
+                      "contradicted": 0.017946877691860506,
+                      "insufficient": 0.010562707502812511
+                    },
+                    "confidence": 0.971490414805327
+                  }
+                },
+                {
+                  "id": "c2",
+                  "text": "GNMT 旨在解决神经机器翻译在训练与推理计算成本高昂以及稀有词缺乏鲁棒性的问题。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "351e8bec61ed4258ba96481ae80f5d3e:0:10",
+                      "version_id": "351e8bec61ed4258ba96481ae80f5d3e",
+                      "page_index": 0,
+                      "bbox": [
+                        0.15780228758169934,
+                        0.3900291434343434,
+                        0.844581005661699,
+                        0.5950687898989899
+                      ],
+                      "parse_id": "351e8bec61ed4258ba96481ae80f5d3e",
+                      "quote": "Neural Machine Translation (NMT) is an end-to-end learning approach for automated translation, with the potential to overcome many of the weaknesses of conventional phrase-based translation systems. Unfortunately, NMT systems are known to be computationally expensive both in training and in translation inference – sometimes prohibitively so in the case of very large data sets and large models. Several authors have also charged that NMT systems lack robustness, particularly when input sentences contain rare words.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 518
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9358; confidence=0.9358。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.04759006952884044,
+                      "supported": 0.9358421199711161,
+                      "contradicted": 0.016567810500043367
+                    },
+                    "confidence": 0.9358421199711161
+                  }
+                },
+                {
+                  "id": "c3",
+                  "text": "GPT-1 旨在解决特定任务标记数据稀缺的问题，通过无监督生成式预训练结合有监督微调提升语言理解能力。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "74c2ec9db92241d59644afb15b0d5b02:0:4",
+                      "version_id": "74c2ec9db92241d59644afb15b0d5b02",
+                      "page_index": 0,
+                      "bbox": [
+                        0.23507516339869283,
+                        0.3386203555555556,
+                        0.7677765574692811,
+                        0.5578117696969697
+                      ],
+                      "parse_id": "74c2ec9db92241d59644afb15b0d5b02",
+                      "quote": "Natural language understanding comprises a wide range of diverse tasks such as textual entailment, question answering, semantic similarity assessment, and document classification. Although large unlabeled text corpora are abundant, labeled data for learning these specific tasks is scarce, making it challenging for discriminatively trained models to perform adequately. We demonstrate that large gains on these tasks can be realized by generative pre-training of a language model on a diverse corpus of unlabeled text, followed by discriminative fine-tuning on each specific task.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 581
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9498; confidence=0.9498。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.03247421709938021,
+                      "supported": 0.9498143775074902,
+                      "contradicted": 0.017711405393129577
+                    },
+                    "confidence": 0.9498143775074902
+                  }
+                },
+                {
+                  "id": "c4",
+                  "text": "BERT 旨在通过在所有层联合调节左右上下文，预训练深度双向语言表示。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "70844f0c17fb4568b91e1d062c2424e4:0:4",
+                      "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+                      "page_index": 0,
+                      "bbox": [
+                        0.1495239183168815,
+                        0.29168219316062666,
+                        0.4590524166941049,
+                        0.6492094235588972
+                      ],
+                      "parse_id": "70844f0c17fb4568b91e1d062c2424e4",
+                      "quote": "We introduce a new language representa- tion model called BERT , which stands for B idirectional E ncoder R epresentations from T ransformers. Unlike recent language repre- sentation models (Peters et al., 2018a; Rad- ford et al., 2018), BERT is designed to pre- train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 393
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9135; confidence=0.9135。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.05140773551105051,
+                      "contradicted": 0.035116524051644935,
+                      "supported": 0.9134757404373046
+                    },
+                    "confidence": 0.9134757404373046
+                  }
+                },
+                {
+                  "id": "c5",
+                  "text": "GPT-2 探索语言模型在无需显式任务监督的情况下直接学习多任务的能力。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "5cd85f12f8244d869c91995051a8d379:0:3",
+                      "version_id": "5cd85f12f8244d869c91995051a8d379",
+                      "page_index": 0,
+                      "bbox": [
+                        0.12256045751633987,
+                        0.24997894141414134,
+                        0.4432399471830067,
+                        0.6399304565656565
+                      ],
+                      "parse_id": "5cd85f12f8244d869c91995051a8d379",
+                      "quote": "Natural language processing tasks, such as ques- tion answering, machine translation, reading com- prehension, and summarization, are typically approached with supervised learning on task- specific datasets. We demonstrate that language models begin to learn these tasks without any ex- plicit supervision when trained on a new dataset of millions of webpages called WebText.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 375
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9168; confidence=0.9168。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.059090885687051516,
+                      "contradicted": 0.024113402231116667,
+                      "supported": 0.9167957120818319
+                    },
+                    "confidence": 0.9167957120818319
+                  }
+                }
+              ],
+              "text": "Transformer 旨在摒弃循环和卷积结构，提出仅依赖注意力机制的序列转导模型。\n\nGNMT 旨在解决神经机器翻译在训练与推理计算成本高昂以及稀有词缺乏鲁棒性的问题。\n\nGPT-1 旨在解决特定任务标记数据稀缺的问题，通过无监督生成式预训练结合有监督微调提升语言理解能力。\n\nBERT 旨在通过在所有层联合调节左右上下文，预训练深度双向语言表示。\n\nGPT-2 探索语言模型在无需显式任务监督的情况下直接学习多任务的能力。"
+            },
+            {
+              "key": "methods",
+              "title": "方法脉络",
+              "claim_ids": [
+                "c6",
+                "c7",
+                "c8",
+                "c9",
+                "c10",
+                "c11",
+                "c12",
+                "c13",
+                "c14",
+                "c15",
+                "c16"
+              ],
+              "source_claims": [
+                {
+                  "id": "c6",
+                  "text": "LLaMA 使用公开数据集在万亿级 token 上训练基础语言模型。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "68a8ee2cb760449ebe8399e1ae353a8b:0:4",
+                      "version_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+                      "page_index": 0,
+                      "bbox": [
+                        0.14706623482216655,
+                        0.28174859138367236,
+                        0.45992250369542875,
+                        0.4497855083205644
+                      ],
+                      "parse_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+                      "quote": "We introduce LLaMA, a collection of founda- tion language models ranging from 7B to 65B parameters. We train our models on trillions of tokens, and show that it is possible to train state-of-the-art models using publicly available datasets exclusively, without resorting to proprietary and inaccessible datasets.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 312
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8958; confidence=0.8958。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.89583801213963,
+                      "insufficient": 0.06928730489388252,
+                      "contradicted": 0.03487468296648753
+                    },
+                    "confidence": 0.89583801213963
+                  }
+                },
+                {
+                  "id": "c7",
+                  "text": "Llama 2 预训练并微调了 7B 至 70B 参数规模的语言模型，并针对对话场景进行优化。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "6e7f4f56e2e9432595279cf55ac398ea:0:4",
+                      "version_id": "6e7f4f56e2e9432595279cf55ac398ea",
+                      "page_index": 0,
+                      "bbox": [
+                        0.1762516339869281,
+                        0.4957757575757576,
+                        0.8265935576535948,
+                        0.6047727272727274
+                      ],
+                      "parse_id": "6e7f4f56e2e9432595279cf55ac398ea",
+                      "quote": "In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 254
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9665; confidence=0.9665。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.012137381251242816,
+                      "supported": 0.96651721073909,
+                      "insufficient": 0.021345408009667194
+                    },
+                    "confidence": 0.96651721073909
+                  }
+                },
+                {
+                  "id": "c8",
+                  "text": "QLoRA 通过冻结的 4-bit 量化预训练语言模型将梯度反向传播至低秩适配器（LoRA）。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "0b9a2256978a40e08546a6e9be2859f4:0:5",
+                      "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+                      "page_index": 0,
+                      "bbox": [
+                        0.23430882352941176,
+                        0.358625406060606,
+                        0.7676309917924837,
+                        0.6329115171717171
+                      ],
+                      "parse_id": "0b9a2256978a40e08546a6e9be2859f4",
+                      "quote": "We present QL O RA, an efficient finetuning approach that reduces memory us- age enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. QL O RA backpropagates gradi- ents through a frozen, 4-bit quantized pretrained language model into Low Rank Adapters (LoRA).",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 326
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9579; confidence=0.9579。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.021831277839355876,
+                      "supported": 0.9579465645236489,
+                      "contradicted": 0.02022215763699523
+                    },
+                    "confidence": 0.9579465645236489
+                  }
+                },
+                {
+                  "id": "c9",
+                  "text": "DPO 建立语言模型策略与奖励函数的映射，直接使用交叉熵损失根据偏好进行训练。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "8f719edbdcbd44be8697d0faf5ec725a:9:4",
+                      "version_id": "8f719edbdcbd44be8697d0faf5ec725a",
+                      "page_index": 9,
+                      "bbox": [
+                        0.17647058823529413,
+                        0.4849170727272727,
+                        0.8255577452222217,
+                        0.7110264161616162
+                      ],
+                      "parse_id": "8f719edbdcbd44be8697d0faf5ec725a",
+                      "quote": "DPO identifies a mapping between language model policies and reward functions that enables training a language model to satisfy human preferences directly , with a simple cross-entropy loss, without reinforcement learning or loss of generality.",
+                      "quote_span": {
+                        "start": 361,
+                        "end": 605
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9643; confidence=0.9643。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.013057625360946035,
+                      "supported": 0.96430396320394,
+                      "insufficient": 0.022638411435113998
+                    },
+                    "confidence": 0.96430396320394
+                  }
+                },
+                {
+                  "id": "c10",
+                  "text": "Mistral 7B 结合分组查询注意力（GQA）与滑动窗口注意力（SWA）以提高推理效率。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "f5de36e6630b4509ac6942b74e243152:0:3",
+                      "version_id": "f5de36e6630b4509ac6942b74e243152",
+                      "page_index": 0,
+                      "bbox": [
+                        0.23425980392156867,
+                        0.4616607595959596,
+                        0.7669637265163397,
+                        0.6120564358585858
+                      ],
+                      "parse_id": "f5de36e6630b4509ac6942b74e243152",
+                      "quote": "We introduce Mistral 7B, a 7–billion-parameter language model engineered for superior performance and efficiency. Mistral 7B outperforms the best open 13B model (Llama 2) across all evaluated benchmarks, and the best released 34B model (Llama 1) in reasoning, mathematics, and code generation. Our model leverages grouped-query attention (GQA) for faster inference, coupled with sliding window attention (SWA) to effectively handle sequences of arbitrary length with a reduced inference cost.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 492
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9381; confidence=0.9381。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.9380593441669584,
+                      "insufficient": 0.025719070141584265,
+                      "contradicted": 0.0362215856914574
+                    },
+                    "confidence": 0.9380593441669584
+                  }
+                },
+                {
+                  "id": "c11",
+                  "text": "Instruction Pre-Training 使用指令合成器将原始语料库扩充为指令-响应对进行预训练。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "dcbf42d53e36497ba7ba198135a4c4ab:0:4",
+                      "version_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+                      "page_index": 0,
+                      "bbox": [
+                        0.1472006262641195,
+                        0.28995156326836047,
+                        0.45992481306822386,
+                        0.642594545130599
+                      ],
+                      "parse_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+                      "quote": "In this paper, we explore supervised multitask pre- training by proposing Instruction Pre-Training, a framework that scalably augments massive raw corpora with instruction-response pairs to pre-train LMs. The instruction-response pairs are generated by an efficient instruc- tion synthesizer built on open-source mod- els.",
+                      "quote_span": {
+                        "start": 270,
+                        "end": 592
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9518; confidence=0.9518。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.03342960963329962,
+                      "contradicted": 0.01475551548772764,
+                      "supported": 0.9518148748789726
+                    },
+                    "confidence": 0.9518148748789726
+                  }
+                },
+                {
+                  "id": "c12",
+                  "text": "Llama 3 提供了原生支持多语言、代码、推理和工具调用的基础模型体系。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "bfde594774cc424d8689a5dba574377e:0:3",
+                      "version_id": "bfde594774cc424d8689a5dba574377e",
+                      "page_index": 0,
+                      "bbox": [
+                        0.14288888888888887,
+                        0.23603712121212128,
+                        0.8588023116420915,
+                        0.39956565656565657
+                      ],
+                      "parse_id": "bfde594774cc424d8689a5dba574377e",
+                      "quote": "This paper presents a new set of foundation models, called Llama 3. It is a herd of language models that natively support multilinguality, coding, reasoning, and tool usage.",
+                      "quote_span": {
+                        "start": 78,
+                        "end": 251
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9678; confidence=0.9678。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.015615187751674186,
+                      "supported": 0.9677687760219059,
+                      "insufficient": 0.016616036226419863
+                    },
+                    "confidence": 0.9677687760219059
+                  }
+                },
+                {
+                  "id": "c13",
+                  "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                },
+                {
+                  "id": "c14",
+                  "text": "DeepSeek-V3 采用 Multi-head Latent Attention (MLA) 和 DeepSeekMoE 架构，并使用无辅助损失的负载均衡策略。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "33bef9dbad7d412f9adf1f7994ccfa4e:0:4",
+                      "version_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+                      "page_index": 0,
+                      "bbox": [
+                        0.11812671769061747,
+                        0.3201398161279977,
+                        0.884175083967437,
+                        0.5376419838696266
+                      ],
+                      "parse_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+                      "quote": "To achieve efficient inference and cost-effective training, DeepSeek-V3 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architec- tures, which were thoroughly validated in DeepSeek-V2. Furthermore, DeepSeek-V3 pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance.",
+                      "quote_span": {
+                        "start": 135,
+                        "end": 492
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8563; confidence=0.8563。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.04734633686480179,
+                      "supported": 0.8562515575857537,
+                      "insufficient": 0.09640210554944445
+                    },
+                    "confidence": 0.8562515575857537
+                  }
+                },
+                {
+                  "id": "c15",
+                  "text": "DeepSeek-R1 通过纯强化学习激励 LLM 的推理能力，无需人工标注的推理轨迹。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "263d3e23350c45b28c2fb6b0d4609d37:0:5",
+                      "version_id": "263d3e23350c45b28c2fb6b0d4609d37",
+                      "page_index": 0,
+                      "bbox": [
+                        0.11849461426296376,
+                        0.34454442955730563,
+                        0.8840076286116022,
+                        0.5790868282079606
+                      ],
+                      "parse_id": "263d3e23350c45b28c2fb6b0d4609d37",
+                      "quote": "Here we show that the reasoning abilities of LLMs can be incentivized through pure reinforcement learning (RL), obviating the need for human-labeled reasoning trajectories.",
+                      "quote_span": {
+                        "start": 491,
+                        "end": 663
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9850; confidence=0.9850。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.9850173157629682,
+                      "contradicted": 0.006398032643076292,
+                      "insufficient": 0.008584651593955554
+                    },
+                    "confidence": 0.9850173157629682
+                  }
+                },
+                {
+                  "id": "c16",
+                  "text": "AEROMamba P 将 AERO 架构中的注意力与 LSTM 层替换为 Mamba 状态空间模型，并引入基于 PAQM 的可微感知损失。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "f058aa75230f4858905fb3c43671ce66:0:4",
+                      "version_id": "f058aa75230f4858905fb3c43671ce66",
+                      "page_index": 0,
+                      "bbox": [
+                        0.08000653594771241,
+                        0.20826083030303022,
+                        0.4902380679738561,
+                        0.5408913858585856
+                      ],
+                      "parse_id": "f058aa75230f4858905fb3c43671ce66",
+                      "quote": "Initially, with the aim of address- ing bandwidth extension, this work proposes AEROMamba P , an efficient variant of the AERO super-resolution architecture where attention and LSTM layers are replaced by the Mamba state-space model, and which incorporates a newly developed differentiable perceptual loss derived from the Perceptual Audio Quality Measure (PAQM).",
+                      "quote_span": {
+                        "start": 91,
+                        "end": 454
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9495; confidence=0.9495。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.022110008811481584,
+                      "supported": 0.9494562288694287,
+                      "insufficient": 0.02843376231908966
+                    },
+                    "confidence": 0.9494562288694287
+                  }
+                }
+              ],
+              "text": "LLaMA 使用公开数据集在万亿级 token 上训练基础语言模型。\n\nLlama 2 预训练并微调了 7B 至 70B 参数规模的语言模型，并针对对话场景进行优化。\n\nQLoRA 通过冻结的 4-bit 量化预训练语言模型将梯度反向传播至低秩适配器（LoRA）。\n\nDPO 建立语言模型策略与奖励函数的映射，直接使用交叉熵损失根据偏好进行训练。\n\nMistral 7B 结合分组查询注意力（GQA）与滑动窗口注意力（SWA）以提高推理效率。\n\nInstruction Pre-Training 使用指令合成器将原始语料库扩充为指令-响应对进行预训练。\n\nLlama 3 提供了原生支持多语言、代码、推理和工具调用的基础模型体系。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\nDeepSeek-V3 采用 Multi-head Latent Attention (MLA) 和 DeepSeekMoE 架构，并使用无辅助损失的负载均衡策略。\n\nDeepSeek-R1 通过纯强化学习激励 LLM 的推理能力，无需人工标注的推理轨迹。\n\nAEROMamba P 将 AERO 架构中的注意力与 LSTM 层替换为 Mamba 状态空间模型，并引入基于 PAQM 的可微感知损失。"
+            },
+            {
+              "key": "differences",
+              "title": "差异与适用条件",
+              "claim_ids": [
+                "c17",
+                "c18"
+              ],
+              "source_claims": [
+                {
+                  "id": "c17",
+                  "text": "缩放点积注意力在维度 d_k 较小时与加性注意力表现相似，通过乘以 1/sqrt(d_k) 缩放因子以防止点积过大造成梯度问题。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "74f79aa6f4ae43a5a265e3fa8f577766",
+                      "version_id": "3b23817030d74a999f2862329d220779",
+                      "page_index": 0,
+                      "bbox": [
+                        0.11778115501519756,
+                        0.6052173913043478,
+                        0.8799392097264438,
+                        0.8017391304347826
+                      ],
+                      "parse_id": "22017e768e11435daa05c3e47d82e505",
+                      "quote": "While for small values of $d_k$ the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of $d_k$ [3]. We suspect this to be caused by the dot products growing too large in magnitude to result in useful gradients after applying the softmax function. To counteract this, we scale the dot product by $1/\\sqrt{d_k}$.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 381
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.7843; confidence=0.7843。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.7843494886704937,
+                      "contradicted": 0.13031090620221125,
+                      "insufficient": 0.08533960512729505
+                    },
+                    "confidence": 0.7843494886704937
+                  }
+                },
+                {
+                  "id": "c18",
+                  "text": "音频转乐谱需要处理从声学信号到结构化视觉记号的复杂跨模态转换。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "83818aa75e3740c294efb6e2ad6965a2:8:5",
+                      "version_id": "83818aa75e3740c294efb6e2ad6965a2",
+                      "page_index": 8,
+                      "bbox": [
+                        0.08000653594771241,
+                        0.7514181588383837,
+                        0.4902318954248368,
+                        0.9191855070707071
+                      ],
+                      "parse_id": "83818aa75e3740c294efb6e2ad6965a2",
+                      "quote": "Converting audio recordings into sheet music requires nav- igating the complex transformation from acoustic signals to structured visual notation.",
+                      "quote_span": {
+                        "start": 29,
+                        "end": 175
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9194; confidence=0.9194。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.9193775648358213,
+                      "contradicted": 0.01718260258673359,
+                      "insufficient": 0.063439832577445
+                    },
+                    "confidence": 0.9193775648358213
+                  }
+                }
+              ],
+              "text": "缩放点积注意力在维度 d_k 较小时与加性注意力表现相似，通过乘以 1/sqrt(d_k) 缩放因子以防止点积过大造成梯度问题。\n\n音频转乐谱需要处理从声学信号到结构化视觉记号的复杂跨模态转换。"
+            },
+            {
+              "key": "limitations",
+              "title": "局限",
+              "claim_ids": [
+                "c19",
+                "c20"
+              ],
+              "source_claims": [
+                {
+                  "id": "c19",
+                  "text": "基于扩散模型的 CQT-Diff+ 音频修复方法的性能局限于训练时见过的音频类型（如古典音乐）。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "b74e6ae4ded9495f88a8094aa9238265:9:6",
+                      "version_id": "b74e6ae4ded9495f88a8094aa9238265",
+                      "page_index": 9,
+                      "bbox": [
+                        0.07370542635658915,
+                        0.6048586482758619,
+                        0.4752992937123172,
+                        0.9534877670498083
+                      ],
+                      "parse_id": "b74e6ae4ded9495f88a8094aa9238265",
+                      "quote": "One limitation of the method presented in this paper is that the performance is limited to the types of audio record- ings seen during the training, in this case, classical music.",
+                      "quote_span": {
+                        "start": 373,
+                        "end": 552
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9494; confidence=0.9494。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.026185055985385706,
+                      "insufficient": 0.024397102579230324,
+                      "supported": 0.9494178414353839
+                    },
+                    "confidence": 0.9494178414353839
+                  }
+                },
+                {
+                  "id": "c20",
+                  "text": "QLoRA 未能在 33B 和 65B 规模下建立匹配 16-bit 全微调性能的结论。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "0b9a2256978a40e08546a6e9be2859f4:14:4",
+                      "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+                      "page_index": 14,
+                      "bbox": [
+                        0.17570588235294118,
+                        0.5292668202020202,
+                        0.8235361948039215,
+                        0.5831678303030302
+                      ],
+                      "parse_id": "0b9a2256978a40e08546a6e9be2859f4",
+                      "quote": "We have shown evidence that our method, QL O RA, can replicate 16-bit full finetuning performance with a 4-bit base model and Low-rank Adapters (LoRA). Despite this evidence, we did not establish that QL O RA can match full 16-bit finetuning performance at 33B and 65B scales.",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 276
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9710; confidence=0.9710。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.021347794532152804,
+                      "supported": 0.9710472626732811,
+                      "insufficient": 0.007604942794565956
+                    },
+                    "confidence": 0.9710472626732811
+                  }
+                }
+              ],
+              "text": "基于扩散模型的 CQT-Diff+ 音频修复方法的性能局限于训练时见过的音频类型（如古典音乐）。\n\nQLoRA 未能在 33B 和 65B 规模下建立匹配 16-bit 全微调性能的结论。"
+            },
+            {
+              "key": "future_work",
+              "title": "待研究点",
+              "claim_ids": [
+                "c21",
+                "c22"
+              ],
+              "source_claims": [
+                {
+                  "id": "c21",
+                  "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                },
+                {
+                  "id": "c22",
+                  "text": "针对缺乏完整实验数据与明确细节的非核心维度，其泛化边界与具体定量表现目前缺乏证据支持。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                }
+              ],
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。\n\n针对缺乏完整实验数据与明确细节的非核心维度，其泛化边界与具体定量表现目前缺乏证据支持。"
+            }
+          ],
+          "bibliography": [],
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 13566,
+              "total_input_tokens": 13566,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 13566
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "89f5d136a37c4c5795b6511ffc8d16b6",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "markdown": "## 研究问题\n\nTransformer 旨在摒弃循环和卷积结构，提出仅依赖注意力机制的序列转导模型。\n\nGNMT 旨在解决神经机器翻译在训练与推理计算成本高昂以及稀有词缺乏鲁棒性的问题。\n\nGPT-1 旨在解决特定任务标记数据稀缺的问题，通过无监督生成式预训练结合有监督微调提升语言理解能力。\n\nBERT 旨在通过在所有层联合调节左右上下文，预训练深度双向语言表示。\n\nGPT-2 探索语言模型在无需显式任务监督的情况下直接学习多任务的能力。\n\n## 方法脉络\n\nLLaMA 使用公开数据集在万亿级 token 上训练基础语言模型。\n\nLlama 2 预训练并微调了 7B 至 70B 参数规模的语言模型，并针对对话场景进行优化。\n\nQLoRA 通过冻结的 4-bit 量化预训练语言模型将梯度反向传播至低秩适配器（LoRA）。\n\nDPO 建立语言模型策略与奖励函数的映射，直接使用交叉熵损失根据偏好进行训练。\n\nMistral 7B 结合分组查询注意力（GQA）与滑动窗口注意力（SWA）以提高推理效率。\n\nInstruction Pre-Training 使用指令合成器将原始语料库扩充为指令-响应对进行预训练。\n\nLlama 3 提供了原生支持多语言、代码、推理和工具调用的基础模型体系。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\nDeepSeek-V3 采用 Multi-head Latent Attention (MLA) 和 DeepSeekMoE 架构，并使用无辅助损失的负载均衡策略。\n\nDeepSeek-R1 通过纯强化学习激励 LLM 的推理能力，无需人工标注的推理轨迹。\n\nAEROMamba P 将 AERO 架构中的注意力与 LSTM 层替换为 Mamba 状态空间模型，并引入基于 PAQM 的可微感知损失。\n\n## 差异与适用条件\n\n缩放点积注意力在维度 d_k 较小时与加性注意力表现相似，通过乘以 1/sqrt(d_k) 缩放因子以防止点积过大造成梯度问题。\n\n音频转乐谱需要处理从声学信号到结构化视觉记号的复杂跨模态转换。\n\n## 局限\n\n基于扩散模型的 CQT-Diff+ 音频修复方法的性能局限于训练时见过的音频类型（如古典音乐）。\n\nQLoRA 未能在 33B 和 65B 规模下建立匹配 16-bit 全微调性能的结论。\n\n## 待研究点\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\n针对缺乏完整实验数据与明确细节的非核心维度，其泛化边界与具体定量表现目前缺乏证据支持。",
+          "citation_coverage": [
+            {
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "cited": true
+            },
+            {
+              "version_id": "351e8bec61ed4258ba96481ae80f5d3e",
+              "cited": true
+            },
+            {
+              "version_id": "f058aa75230f4858905fb3c43671ce66",
+              "cited": true
+            },
+            {
+              "version_id": "83818aa75e3740c294efb6e2ad6965a2",
+              "cited": true
+            },
+            {
+              "version_id": "b74e6ae4ded9495f88a8094aa9238265",
+              "cited": true
+            },
+            {
+              "version_id": "5cd85f12f8244d869c91995051a8d379",
+              "cited": true
+            },
+            {
+              "version_id": "9504906614f845008dc0e91664749e21",
+              "cited": false
+            },
+            {
+              "version_id": "3b23817030d74a999f2862329d220779",
+              "cited": true
+            },
+            {
+              "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+              "cited": true
+            },
+            {
+              "version_id": "74c2ec9db92241d59644afb15b0d5b02",
+              "cited": true
+            },
+            {
+              "version_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+              "cited": true
+            },
+            {
+              "version_id": "263d3e23350c45b28c2fb6b0d4609d37",
+              "cited": true
+            },
+            {
+              "version_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+              "cited": true
+            },
+            {
+              "version_id": "3818a2e39faa49348163ccccd09d1590",
+              "cited": false
+            },
+            {
+              "version_id": "bfde594774cc424d8689a5dba574377e",
+              "cited": true
+            },
+            {
+              "version_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+              "cited": true
+            },
+            {
+              "version_id": "f5de36e6630b4509ac6942b74e243152",
+              "cited": true
+            },
+            {
+              "version_id": "6e7f4f56e2e9432595279cf55ac398ea",
+              "cited": true
+            },
+            {
+              "version_id": "8f719edbdcbd44be8697d0faf5ec725a",
+              "cited": true
+            },
+            {
+              "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+              "cited": true
+            }
+          ],
+          "workflow": "survey",
+          "model": "gemini-3.6-flash",
+          "usage": {
+            "promptTokenCount": 35036,
+            "candidatesTokenCount": 6046,
+            "totalTokenCount": 49443,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 35036
+              }
+            ],
+            "thoughtsTokenCount": 8361,
+            "serviceTier": "standard"
+          },
+          "coverage": [
+            {
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "parse_id": "766a29679f72469b8bd763b365ca918b",
+              "eligible_blocks": 153,
+              "candidate_slots": 6,
+              "context_bytes": 2400,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "351e8bec61ed4258ba96481ae80f5d3e",
+              "parse_id": "351e8bec61ed4258ba96481ae80f5d3e",
+              "eligible_blocks": 209,
+              "candidate_slots": 6,
+              "context_bytes": 2400,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "f058aa75230f4858905fb3c43671ce66",
+              "parse_id": "f058aa75230f4858905fb3c43671ce66",
+              "eligible_blocks": 205,
+              "candidate_slots": 6,
+              "context_bytes": 2400,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "83818aa75e3740c294efb6e2ad6965a2",
+              "parse_id": "83818aa75e3740c294efb6e2ad6965a2",
+              "eligible_blocks": 230,
+              "candidate_slots": 6,
+              "context_bytes": 1377,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "b74e6ae4ded9495f88a8094aa9238265",
+              "parse_id": "b74e6ae4ded9495f88a8094aa9238265",
+              "eligible_blocks": 238,
+              "candidate_slots": 6,
+              "context_bytes": 1584,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "5cd85f12f8244d869c91995051a8d379",
+              "parse_id": "5cd85f12f8244d869c91995051a8d379",
+              "eligible_blocks": 356,
+              "candidate_slots": 6,
+              "context_bytes": 2034,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "9504906614f845008dc0e91664749e21",
+              "parse_id": "9504906614f845008dc0e91664749e21",
+              "eligible_blocks": 95,
+              "candidate_slots": 6,
+              "context_bytes": 1238,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "3b23817030d74a999f2862329d220779",
+              "parse_id": "22017e768e11435daa05c3e47d82e505",
+              "eligible_blocks": 5,
+              "candidate_slots": 4,
+              "context_bytes": 1257,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+              "parse_id": "70844f0c17fb4568b91e1d062c2424e4",
+              "eligible_blocks": 272,
+              "candidate_slots": 6,
+              "context_bytes": 1956,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "74c2ec9db92241d59644afb15b0d5b02",
+              "parse_id": "74c2ec9db92241d59644afb15b0d5b02",
+              "eligible_blocks": 138,
+              "candidate_slots": 6,
+              "context_bytes": 1819,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+              "parse_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+              "eligible_blocks": 344,
+              "candidate_slots": 6,
+              "context_bytes": 1713,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "263d3e23350c45b28c2fb6b0d4609d37",
+              "parse_id": "263d3e23350c45b28c2fb6b0d4609d37",
+              "eligible_blocks": 855,
+              "candidate_slots": 6,
+              "context_bytes": 2052,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+              "parse_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+              "eligible_blocks": 805,
+              "candidate_slots": 6,
+              "context_bytes": 1085,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "3818a2e39faa49348163ccccd09d1590",
+              "parse_id": "3818a2e39faa49348163ccccd09d1590",
+              "eligible_blocks": 240,
+              "candidate_slots": 6,
+              "context_bytes": 2400,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "bfde594774cc424d8689a5dba574377e",
+              "parse_id": "bfde594774cc424d8689a5dba574377e",
+              "eligible_blocks": 881,
+              "candidate_slots": 6,
+              "context_bytes": 1366,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+              "parse_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+              "eligible_blocks": 343,
+              "candidate_slots": 6,
+              "context_bytes": 1953,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "f5de36e6630b4509ac6942b74e243152",
+              "parse_id": "f5de36e6630b4509ac6942b74e243152",
+              "eligible_blocks": 77,
+              "candidate_slots": 6,
+              "context_bytes": 2007,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "6e7f4f56e2e9432595279cf55ac398ea",
+              "parse_id": "6e7f4f56e2e9432595279cf55ac398ea",
+              "eligible_blocks": 695,
+              "candidate_slots": 6,
+              "context_bytes": 2284,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "8f719edbdcbd44be8697d0faf5ec725a",
+              "parse_id": "8f719edbdcbd44be8697d0faf5ec725a",
+              "eligible_blocks": 294,
+              "candidate_slots": 6,
+              "context_bytes": 2400,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+              "parse_id": "0b9a2256978a40e08546a6e9be2859f4",
+              "eligible_blocks": 259,
+              "candidate_slots": 6,
+              "context_bytes": 1978,
+              "status": "selected_excerpts"
+            }
+          ],
+          "search": null,
+          "role": "core_analysis",
+          "model_downgraded_from": [
+            {
+              "model": "gemini-4-hydrogen",
+              "reason": "provider_failed"
+            }
+          ],
+          "artifact_id": "ae2224256ac14e109722b3a0a8d65eb0"
+        },
+        "error": null,
+        "idempotency": "new-20-paper-evidence-selection-survey-20261117",
+        "created": 1794894032.8110807,
+        "updated": 1794894117.5019445,
+        "steps": [
+          {
+            "id": 10535,
+            "event": "queued",
+            "data": {
+              "kind": "writing",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794894032.8165085
+          },
+          {
+            "id": 10537,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794894033.008204
+          },
+          {
+            "id": 10538,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794894033.0448654
+          },
+          {
+            "id": 10542,
+            "event": "writing_evidence",
+            "data": {
+              "coverage": [
+                {
+                  "version_id": "766a29679f72469b8bd763b365ca918b",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "eligible_blocks": 153,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "351e8bec61ed4258ba96481ae80f5d3e",
+                  "parse_id": "351e8bec61ed4258ba96481ae80f5d3e",
+                  "eligible_blocks": 209,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "f058aa75230f4858905fb3c43671ce66",
+                  "parse_id": "f058aa75230f4858905fb3c43671ce66",
+                  "eligible_blocks": 205,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "83818aa75e3740c294efb6e2ad6965a2",
+                  "parse_id": "83818aa75e3740c294efb6e2ad6965a2",
+                  "eligible_blocks": 230,
+                  "candidate_slots": 6,
+                  "context_bytes": 1377,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "b74e6ae4ded9495f88a8094aa9238265",
+                  "parse_id": "b74e6ae4ded9495f88a8094aa9238265",
+                  "eligible_blocks": 238,
+                  "candidate_slots": 6,
+                  "context_bytes": 1584,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "5cd85f12f8244d869c91995051a8d379",
+                  "parse_id": "5cd85f12f8244d869c91995051a8d379",
+                  "eligible_blocks": 356,
+                  "candidate_slots": 6,
+                  "context_bytes": 2034,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9504906614f845008dc0e91664749e21",
+                  "parse_id": "9504906614f845008dc0e91664749e21",
+                  "eligible_blocks": 95,
+                  "candidate_slots": 6,
+                  "context_bytes": 1238,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3b23817030d74a999f2862329d220779",
+                  "parse_id": "22017e768e11435daa05c3e47d82e505",
+                  "eligible_blocks": 5,
+                  "candidate_slots": 4,
+                  "context_bytes": 1257,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+                  "parse_id": "70844f0c17fb4568b91e1d062c2424e4",
+                  "eligible_blocks": 272,
+                  "candidate_slots": 6,
+                  "context_bytes": 1956,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "74c2ec9db92241d59644afb15b0d5b02",
+                  "parse_id": "74c2ec9db92241d59644afb15b0d5b02",
+                  "eligible_blocks": 138,
+                  "candidate_slots": 6,
+                  "context_bytes": 1819,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+                  "parse_id": "68a8ee2cb760449ebe8399e1ae353a8b",
+                  "eligible_blocks": 344,
+                  "candidate_slots": 6,
+                  "context_bytes": 1713,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "263d3e23350c45b28c2fb6b0d4609d37",
+                  "parse_id": "263d3e23350c45b28c2fb6b0d4609d37",
+                  "eligible_blocks": 855,
+                  "candidate_slots": 6,
+                  "context_bytes": 2052,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+                  "parse_id": "33bef9dbad7d412f9adf1f7994ccfa4e",
+                  "eligible_blocks": 805,
+                  "candidate_slots": 6,
+                  "context_bytes": 1085,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3818a2e39faa49348163ccccd09d1590",
+                  "parse_id": "3818a2e39faa49348163ccccd09d1590",
+                  "eligible_blocks": 240,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "bfde594774cc424d8689a5dba574377e",
+                  "parse_id": "bfde594774cc424d8689a5dba574377e",
+                  "eligible_blocks": 881,
+                  "candidate_slots": 6,
+                  "context_bytes": 1366,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+                  "parse_id": "dcbf42d53e36497ba7ba198135a4c4ab",
+                  "eligible_blocks": 343,
+                  "candidate_slots": 6,
+                  "context_bytes": 1953,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "f5de36e6630b4509ac6942b74e243152",
+                  "parse_id": "f5de36e6630b4509ac6942b74e243152",
+                  "eligible_blocks": 77,
+                  "candidate_slots": 6,
+                  "context_bytes": 2007,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "6e7f4f56e2e9432595279cf55ac398ea",
+                  "parse_id": "6e7f4f56e2e9432595279cf55ac398ea",
+                  "eligible_blocks": 695,
+                  "candidate_slots": 6,
+                  "context_bytes": 2284,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "8f719edbdcbd44be8697d0faf5ec725a",
+                  "parse_id": "8f719edbdcbd44be8697d0faf5ec725a",
+                  "eligible_blocks": 294,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "0b9a2256978a40e08546a6e9be2859f4",
+                  "parse_id": "0b9a2256978a40e08546a6e9be2859f4",
+                  "eligible_blocks": 259,
+                  "candidate_slots": 6,
+                  "context_bytes": 1978,
+                  "status": "selected_excerpts"
+                }
+              ],
+              "budget_bytes": 48000
+            },
+            "created": 1794894036.3774543
+          },
+          {
+            "id": 10551,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-project-2",
+              "quota_id": "a54875820a5c45fab77fa23a392153ba",
+              "reserved_input_tokens": 80501,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794894041.076294
+          },
+          {
+            "id": 10555,
+            "event": "model_downgraded",
+            "data": {
+              "from": "gemini-4-hydrogen",
+              "to": "gemini-3.6-flash",
+              "reason": "provider_failed"
+            },
+            "created": 1794894043.2208042
+          },
+          {
+            "id": 10556,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.6-flash",
+              "project": "gemini-project-2",
+              "quota_id": "7e8b1f2576834adfa0da90d97d2968f7",
+              "reserved_input_tokens": 80501,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794894043.2446613
+          },
+          {
+            "id": 10641,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794894099.1517713
+          },
+          {
+            "id": 10653,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "0fdbc9bab387467c9a2d5328ffda0a54",
+              "reserved_input_tokens": 5561,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794894105.790591
+          },
+          {
+            "id": 10668,
+            "event": "writing_claim_repaired",
+            "data": {
+              "claim_ids": [
+                "c11",
+                "c13",
+                "c21"
+              ],
+              "model": "gemini-3.5-flash-lite",
+              "original_response_retained": true,
+              "max_repairs": 1,
+              "still_rejected_claim_ids": [
+                "c13",
+                "c21"
+              ],
+              "unsupported_text_published": false
+            },
+            "created": 1794894114.8091078
+          },
+          {
+            "id": 10670,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-project-2",
+              "quota_id": "89f5d136a37c4c5795b6511ffc8d16b6",
+              "reserved_input_tokens": 37278,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794894115.6567707
+          },
+          {
+            "id": 10674,
+            "event": "decision_review",
+            "data": {
+              "claims": 19,
+              "status": "partial",
+              "quota_id": "89f5d136a37c4c5795b6511ffc8d16b6"
+            },
+            "created": 1794894117.440334
+          },
+          {
+            "id": 10675,
+            "event": "writing_saved",
+            "data": {
+              "artifact_id": "ae2224256ac14e109722b3a0a8d65eb0",
+              "kind": "survey"
+            },
+            "created": 1794894117.4909232
+          },
+          {
+            "id": 10676,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794894117.52188
+          }
+        ]
+      }
     }
   ]
 }
