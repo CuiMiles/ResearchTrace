@@ -330,19 +330,30 @@ def main():
                     ready()
                     # DOM Range selects PDF.js's real extracted span, not a fake
                     # text overlay; native mouse selection is checked below too.
-                    return page.locator(".textLayer").evaluate(
+                    return page.locator('.pdf-page[data-page-index="0"] .textLayer').evaluate(
                         """el=>{const span=[...el.querySelectorAll('span')].find(s=>s.textContent.includes('Attention Is All You Need')); if(!span)throw Error('real PDF title not found'); const r=document.createRange();r.selectNodeContents(span);const s=getSelection();s.removeAllRanges();s.addRange(r);return s.toString()}"""
                     )
 
                 selected = select_title()
                 page.get_by_role("region", name="选段操作").wait_for()
                 assert selected == "Attention Is All You Need"
-                checks.append("real PDF text selection opens contextual toolbar")
-                # Toolbar is in document flow, above the scrollable PDF.
+                checks.append("real PDF text selection opens floating selection card")
+                # The card floats next to the selection inside the PDF viewport
+                # and never covers the selected glyphs themselves.
                 bar = page.get_by_role("region", name="选段操作").bounding_box()
                 pdf = page.locator(".pdf-scroller").bounding_box()
-                assert bar["y"] + bar["height"] <= pdf["y"] + 1
-                checks.append("selection toolbar does not overlay PDF")
+                chosen = page.evaluate(
+                    "(()=>{const r=getSelection().getRangeAt(0).getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}})()"
+                )
+                overlap = not (
+                    bar["y"] >= chosen["y"] + chosen["height"] - 1
+                    or bar["y"] + bar["height"] <= chosen["y"] + 1
+                    or bar["x"] >= chosen["x"] + chosen["width"]
+                    or bar["x"] + bar["width"] <= chosen["x"]
+                )
+                assert not overlap, (bar, chosen)
+                assert pdf["x"] <= bar["x"] and bar["x"] + bar["width"] <= pdf["x"] + pdf["width"] + 1
+                checks.append("selection card sits beside, not over, the selected text")
                 page.get_by_role("button", name="就此提问", exact=True).click()
                 question = page.locator("#question")
                 assert (
@@ -365,33 +376,59 @@ def main():
                     "explanation uses existing QA endpoint with selected-text constraints"
                 )
                 page.get_by_role("button", name="翻译选段", exact=True).click()
-                page.get_by_text("本次任务结果已保存", exact=False).wait_for(
-                    timeout=10000
-                )
+                page.get_by_text("翻译完成", exact=True).wait_for(timeout=10000)
+                assert "FIXTURE 译文" in page.locator(".sp-result").inner_text()
                 assert len(model_calls) == 1
                 page.get_by_role("button", name="翻译选段", exact=True).click()
-                page.get_by_text("持久缓存命中 · 未新增模型请求", exact=False).wait_for(
-                    timeout=10000
-                )
+                page.locator('[data-cache="hit"]').wait_for(timeout=10000)
+                assert page.locator('[data-cache="hit"]').inner_text() == "来自翻译缓存"
                 assert len(model_calls) == 1
                 checks.append(
-                    "real new text-translation handler caches repeat selection persistently"
+                    "selection translation shows inline; repeat is a labelled persistent cache hit"
                 )
                 # Keyboard Tab/Enter and Escape work without mouse positioning.
                 page.get_by_role("button", name="就此提问", exact=True).focus()
                 page.keyboard.press("Enter")
-                assert question.evaluate("el=>el===document.activeElement")
+                page.wait_for_function("document.activeElement?.id === 'question'", timeout=3000)
                 page.get_by_role("button", name="翻译选段", exact=True).focus()
                 page.keyboard.press("Escape")
                 assert page.get_by_role("region", name="选段操作").count() == 0
                 checks.append("keyboard Enter/Escape contextual actions")
+                # Continuous reading: the wheel moves through pages, no page buttons needed.
+                scroller = page.locator(".reader-pdf .pdf-scroller").bounding_box()
+                page.mouse.move(
+                    scroller["x"] + scroller["width"] / 2,
+                    scroller["y"] + scroller["height"] / 2,
+                )
+                for _ in range(8):
+                    page.mouse.wheel(0, 800)
+                    page.wait_for_timeout(120)
+                page_input = page.get_by_role("spinbutton", name="页码", exact=True)
+                page.wait_for_function(
+                    "Number(document.querySelector('.page-control input').value) > 2"
+                )
+                checks.append(
+                    f"mouse wheel scrolls continuously to page {page_input.input_value()}"
+                )
+                page_input.fill("1")
+                page.wait_for_function(
+                    "document.querySelector('.reader-pdf .pdf-scroller').scrollTop < 5"
+                )
+                # 中英对照 keeps the real PDF layout on the left, aligned blocks on the right.
+                page.get_by_role("button", name="中英对照", exact=True).click()
+                page.locator('.translation-pane [data-block="v1-block"]').wait_for()
+                assert page.locator(".reader-pdf .pdf-page canvas").count() >= 1
+                page.locator(".reader-pdf .textLayer span").first.wait_for()
+                checks.append("bilingual view keeps original PDF beside aligned paragraphs")
+                page.get_by_role("button", name="原文", exact=True).click()
+                ready()
                 # Same page transform on canvas and text for zoom + all rotations.
                 for _ in range(2):
                     page.get_by_role("button", name="放大", exact=True).click()
                 for angle in (90, 180, 270, 0):
                     page.get_by_role("button", name="旋转页面", exact=True).click()
                     ready()
-                    dims = page.locator(".pdf-page-surface").evaluate(
+                    dims = page.locator('.pdf-page[data-page-index="0"] .pdf-page-surface').evaluate(
                         """el=>{const c=el.querySelector('canvas').getBoundingClientRect(),t=el.querySelector('.textLayer').getBoundingClientRect();return {canvas:[c.width,c.height,c.x,c.y],text:[t.width,t.height,t.x,t.y],angle:el.querySelector('.textLayer').dataset.mainRotation}}"""
                     )
                     assert dims["angle"] == str(angle), dims
@@ -452,12 +489,15 @@ def main():
                 ready()
                 page.get_by_role("spinbutton", name="页码", exact=True).fill("541")
                 ready()
-                assert page.locator(".pdf-page-surface canvas").count() == 1
+                page.locator('.pdf-page[data-page-index="540"] canvas').wait_for(timeout=30000)
+                rendered = page.locator(".pdf-page-surface canvas").count()
+                assert 1 <= rendered <= 4, rendered
+                assert page.locator(".pdf-page").count() == 541
                 checks.append(
-                    "541-page real book last physical page; single canvas/text surface"
+                    f"541-page real book: continuous layout, last page rendered, only {rendered} canvases live"
                 )
                 page.locator("[data-fixture-version=scan]").click()
-                page.get_by_text("此页没有 PDF 文字层", exact=False).wait_for(
+                page.get_by_text("此页没有可选择的文字", exact=False).wait_for(
                     timeout=30000
                 )
                 assert page.locator(".textLayer span").count() == 0

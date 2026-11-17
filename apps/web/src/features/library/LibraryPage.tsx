@@ -28,6 +28,13 @@ export function LibraryPage() {
   const [filter, setFilter] = useState('');
   const [selected, setSelected] = useState<string[]>([]);
   const [cardFor, setCardFor] = useState<Version | null>(null);
+  const [hiddenBatch, setHiddenBatch] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('rt-hidden-batch');
+    } catch {
+      return null;
+    }
+  });
   const needle = filter.trim().toLowerCase();
   const shown = ws.versions.filter(
     (v) => !needle || [v.title, v.filename, v.label, JSON.stringify(v.metadata)].join(' ').toLowerCase().includes(needle),
@@ -39,7 +46,7 @@ export function LibraryPage() {
       <div className="page-heading">
         <div>
           <h1>文献库</h1>
-          <p>每个版本单独保存、不可变；同一论文的不同版本自动关联，旧结论始终指向原版本。</p>
+          <p>导入的论文都在这里；同一论文的不同版本会自动归在一起，原文始终保留。</p>
         </div>
         <button className="primary-button" disabled={ws.uploading} onClick={ws.openUpload}>
           <UploadCloud size={16} />
@@ -47,8 +54,23 @@ export function LibraryPage() {
         </button>
       </div>
 
-      {ws.batchId && (
-        <div style={{ marginBottom: 18 }}>
+      {ws.batchId && ws.batchId !== hiddenBatch && (
+        <div className="batch-panel-wrap">
+          <button
+            className="icon-button batch-dismiss"
+            aria-label="收起导入记录"
+            title="收起导入记录"
+            onClick={() => {
+              setHiddenBatch(ws.batchId);
+              try {
+                localStorage.setItem('rt-hidden-batch', ws.batchId ?? '');
+              } catch {
+                /* per-viewer convenience only */
+              }
+            }}
+          >
+            <X size={15} />
+          </button>
           <UploadBatchPanel batchId={ws.batchId} />
         </div>
       )}
@@ -102,7 +124,7 @@ export function LibraryPage() {
           <div className="document-table-head">
             <span />
             <span>文献与版本</span>
-            <span>解析与索引</span>
+            <span>状态</span>
             <span>导入时间</span>
             <span />
           </div>
@@ -121,11 +143,11 @@ export function LibraryPage() {
 
       {cardFor && (
         <div className="drawer-backdrop" onClick={() => setCardFor(null)}>
-          <aside className="side-drawer wide" onClick={(e) => e.stopPropagation()} aria-label="解析结果">
+          <aside className="side-drawer wide" onClick={(e) => e.stopPropagation()} aria-label="论文概览">
             <div className="section-heading">
               <h2>
                 <ListTree size={17} />
-                解析结果
+                论文概览
               </h2>
               <div className="run-actions">
                 <button className="small-button" onClick={() => ws.openDocument(cardFor.id)}>
@@ -159,6 +181,7 @@ function DocumentRow({
   onCard: () => void;
 }) {
   const progress = v.page_count ? Math.round((v.parsed_pages / v.page_count) * 100) : 0;
+  const parsing = !v.page_count || v.parsed_pages < v.page_count;
   const notice = v.metadata.version_notice ? String(v.metadata.version_notice) : '';
   const year = v.metadata.year ? String(v.metadata.year) : '';
   return (
@@ -180,18 +203,23 @@ function DocumentRow({
       </button>
       <div className="document-status">
         <Badge status={v.status} />
-        <div className="progress-line" aria-label={`解析 ${progress}%`}>
-          <i style={{ width: `${progress}%` }} />
-        </div>
-        <span>
-          解析 {v.parsed_pages}/{v.page_count || '?'} 页
-          {v.local_index?.semantic_ready ? ' · 语义索引就绪' : v.local_index?.status === 'running' ? ' · 语义索引构建中' : ['queued', 'waiting_batch'].includes(v.local_index?.status ?? '') ? ' · 语义索引排队中' : v.local_index?.status === 'failed' ? ' · 语义索引失败，查看任务记录' : v.status === 'ready' ? ' · 语义索引未完成' : ''}
-        </span>
+        {parsing ? (
+          <>
+            <div className="progress-line" aria-label={`解析 ${progress}%`}>
+              <i style={{ width: `${progress}%` }} />
+            </div>
+            <span>
+              正在解析 {v.parsed_pages}/{v.page_count || '?'} 页
+            </span>
+          </>
+        ) : (
+          v.page_count > 0 && <span>{v.page_count} 页</span>
+        )}
       </div>
       <time>{date(v.created)}</time>
       <div className="document-actions">
         <button className="small-button" onClick={onCard} disabled={v.status !== 'ready'}>
-          解析结果
+          概览
         </button>
         <DocumentMenu version={v} />
       </div>

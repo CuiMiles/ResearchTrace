@@ -1,5 +1,6 @@
 """Real authenticated UI checks. No model calls; codes/cookies stay in data/."""
 import json
+import re
 import os
 from pathlib import Path
 import sys
@@ -95,14 +96,15 @@ def main():
             page.get_by_role('button',name='退出专注',exact=True).click()
             passed('reader_focus_and_snapshot_'+label,{'version_id':vid,'index_progress':page.locator('.index-progress').inner_text()})
         page.get_by_label('页码',exact=True).fill('541');page.get_by_label('页码',exact=True).press('Tab')
-        expect(page.locator('.reader-footer')).to_contain_text('物理页 541')
-        expect(page.locator('.pdf-sheet canvas').first).to_be_visible(timeout=30000)
+        expect(page.locator('.reader-footer')).to_contain_text('第 541 页')
+        expect(page.locator('.pdf-page[data-page-index="540"] canvas')).to_be_visible(timeout=30000)
         page.screenshot(path=str(OUT/'book-page541.png'),full_page=True)
         passed('book_physical_page541_renders')
         page.get_by_role('button',name='中英对照',exact=True).click()
-        page.get_by_label('翻译目标语言',exact=True).select_option('en')
-        expect(page.get_by_label('翻译目标语言',exact=True)).to_have_value('en')
-        page.get_by_label('翻译目标语言',exact=True).select_option('zh-Hans')
+        targets=page.get_by_role('group',name='翻译目标语言',exact=True)
+        targets.get_by_role('button',name='English',exact=True).click()
+        expect(targets.get_by_role('button',name='English',exact=True)).to_have_class(re.compile('active'))
+        targets.get_by_role('button',name='中文',exact=True).click()
         passed('translation_direction_select_without_generation')
         assert not report['page_errors'],report['page_errors']
         report.update(status='PASS',finished=time.time());save();browser.close()

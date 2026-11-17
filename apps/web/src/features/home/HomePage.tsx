@@ -71,7 +71,7 @@ export function HomePage() {
             <b>{ws.versions.length}</b> 篇文献
           </span>
           <span>
-            <b>{pages}</b> 页已解析
+            <b>{pages}</b> 页原文
           </span>
           <span>
             <b>{questions.length}</b> 次近期提问
@@ -135,7 +135,7 @@ export function HomePage() {
                 <span>
                   <strong style={{ fontFamily: 'var(--font-paper)' }}>{v.title}</strong>
                   <small>
-                    {v.label} · {v.parsed_pages}/{v.page_count || '?'} 页 · {date(v.created)}
+                    {v.label} · {v.parsed_pages < v.page_count ? `正在解析 ${v.parsed_pages}/${v.page_count} 页` : `${v.page_count} 页`} · {date(v.created)}
                   </small>
                 </span>
                 <Badge status={v.status} />

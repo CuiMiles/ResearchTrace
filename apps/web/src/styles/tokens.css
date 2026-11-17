@@ -1,32 +1,32 @@
 /*
  * 研证 ResearchTrace design tokens.
- * A quiet reading room: warm paper canvas, ink text, one brand blue.
+ * A quiet reading room: cool neutral canvas, white paper, ink text, one brand blue.
  * Colour beyond that is reserved for evidence state and agent activity.
  */
 :root {
   /* Surfaces */
-  --canvas: #f6f5f1;
+  --canvas: #f5f6f8;
   --surface: #ffffff;
-  --surface-2: #fbfaf7;
-  --sunken: #f0eee8;
-  --rail: #131a29;
-  --rail-2: #1c2436;
-  --rail-ink: #c9d1e1;
-  --rail-ink-strong: #ffffff;
+  --surface-2: #f9fafb;
+  --sunken: #f0f2f5;
+  --rail: #fbfbfc;
+  --rail-2: #f0f2f6;
+  --rail-ink: #4b5565;
+  --rail-ink-strong: #111827;
 
   /* Ink */
-  --ink: #1b2333;
-  --ink-2: #3a4456;
-  --muted: #6b7384;
-  --faint: #9aa1ae;
-  --line: #e6e2da;
-  --line-strong: #d4cfc4;
+  --ink: #18202f;
+  --ink-2: #3b4455;
+  --muted: #687083;
+  --faint: #9aa1af;
+  --line: #e6e8ec;
+  --line-strong: #d3d7de;
 
   /* Brand */
-  --brand: #2f55b5;
-  --brand-ink: #1f3f8f;
-  --brand-soft: #eaf0fb;
-  --brand-line: #c8d6f2;
+  --brand: #3b5bdb;
+  --brand-ink: #2c47b8;
+  --brand-soft: #eef2fe;
+  --brand-line: #c9d4f8;
 
   /* Evidence states */
   --ok: #0e8f7e;
@@ -55,14 +55,15 @@
   --radius-lg: 12px;
   --shadow-pop: 0 12px 32px rgba(19, 26, 41, 0.14), 0 2px 6px rgba(19, 26, 41, 0.08);
   --shadow-card: 0 1px 2px rgba(19, 26, 41, 0.05);
-  --focus: 0 0 0 3px rgba(47, 85, 181, 0.28);
+  --focus: 0 0 0 3px rgba(59, 91, 219, 0.24);
 
   /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --fast: 150ms;
 
   /* Layout */
-  --rail-width: 228px;
-  --topbar-height: 56px;
+  --rail-width: 220px;
+  --pdf-backdrop: #eceef2;
+  --topbar-height: 52px;
   --right-width: 380px;
 }

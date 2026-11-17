@@ -63,3 +63,7 @@ export { default as TriangleAlert } from 'lucide-react/dist/esm/icons/triangle-a
 export { default as Wand2 } from 'lucide-react/dist/esm/icons/wand-2.js';
 export { default as Workflow } from 'lucide-react/dist/esm/icons/workflow.js';
 export { default as Info } from 'lucide-react/dist/esm/icons/info.js';
+export { default as Copy } from 'lucide-react/dist/esm/icons/copy.js';
+export { default as PanelLeft } from 'lucide-react/dist/esm/icons/panel-left.js';
+export { default as PanelRight } from 'lucide-react/dist/esm/icons/panel-right.js';
+export { default as Columns2 } from 'lucide-react/dist/esm/icons/columns-2.js';

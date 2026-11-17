@@ -24,7 +24,8 @@ with sync_playwright() as p:
     page.get_by_test_id('evidence-highlight').wait_for(timeout=30000)
     page.locator('.pdf-loading').wait_for(state='hidden',timeout=60000)
     assert page.get_by_role('spinbutton',name='页码').input_value()=='7'
-    assert page.locator('canvas').count()==1
+    # Continuous reader: the evidence page is rendered; only nearby pages hold canvases.
+    assert page.locator('.pdf-page[data-page-index="6"] canvas').count()==1 and page.locator('canvas').count()<=4
     assert not page.evaluate('document.documentElement.scrollWidth>window.innerWidth')
     page.screenshot(path=OUT/'citation-1440.png',full_page=True)
     before=page.get_by_test_id('evidence-highlight').bounding_box()
@@ -39,7 +40,7 @@ with sync_playwright() as p:
     page.set_viewport_size({'width':1280,'height':800})
     page.screenshot(path=OUT/'reader-1280.png',full_page=True)
     assert not page.evaluate('document.documentElement.scrollWidth>window.innerWidth')
-    report.append({'case':'C03,D06','status':'PASS','version':'Transformer v7','physical_page':7,'canvas_count':1,'rotation':90,'zoom':110,'bbox_before':before,'bbox_after':after})
+    report.append({'case':'C03,D06','status':'PASS','version':'Transformer v7','physical_page':7,'canvas_count':'<=4 (continuous, lazily rendered)','rotation':90,'zoom':110,'bbox_before':before,'bbox_after':after})
     page.get_by_role('button',name='写作与绘图',exact=True).click()
     page.get_by_label('上传 CSV').set_input_files(ROOT/'evals/files/metrics_a.csv')
     button=page.get_by_role('button',name=re.compile('生成.*图|绘制'))

@@ -39,7 +39,6 @@ import { HomePage } from './features/home/HomePage';
 import { LibraryPage } from './features/library/LibraryPage';
 import { ChatPage } from './features/chat/ChatPage';
 import { Reader } from './Reader';
-import { ReferenceTools } from './components/ReferenceTools';
 
 const ComparePage = lazy(() => import('./Research').then((m) => ({ default: m.ComparePage })));
 const SearchPage = lazy(() => import('./Research').then((m) => ({ default: m.SearchPage })));
@@ -119,12 +118,23 @@ function Shell() {
   const title = TITLES.find(([pattern]) => pattern.test(location.pathname))?.[1] ?? '';
   const reading = location.pathname.startsWith('/read') || location.pathname.startsWith('/chat');
   const lastRead = localStorage.getItem('rt-version');
+  const readingId = location.pathname.startsWith('/read')
+    ? decodeURIComponent(location.pathname.split('/')[2] ?? '') || lastRead
+    : null;
+  const readingVersion = readingId ? ws.versions.find((v) => v.id === readingId) : undefined;
+  const [configNoticeHidden, setConfigNoticeHidden] = useState(() => {
+    try {
+      return sessionStorage.getItem('rt-hide-config-notice') === '1';
+    } catch {
+      return false;
+    }
+  });
   useEffect(() => setMobileNav(false), [location.pathname]);
 
   return (
     <ModelConfig.Provider value={ws.capability}>
       <div
-        className={`app-shell ${location.pathname.startsWith('/read') ? 'compact' : ''}`}
+        className={`app-shell ${location.pathname.startsWith('/read') ? 'compact' : ''} ${reading ? 'reading' : ''}`}
         onDragOver={(e) => {
           if (e.dataTransfer.types.includes('Files')) {
             e.preventDefault();
@@ -203,21 +213,25 @@ function Shell() {
               >
                 <Menu size={18} />
               </button>
-              <span>研究工作区</span>
-              <span className="breadcrumb-slash">/</span>
-              <strong className="truncate">{title}</strong>
+              {readingVersion ? (
+                <>
+                  <NavLink to="/library" className="breadcrumb-link">
+                    文献库
+                  </NavLink>
+                  <span className="breadcrumb-slash">/</span>
+                  <strong className="truncate paper-crumb" title={readingVersion.title}>
+                    {readingVersion.title || readingVersion.filename}
+                  </strong>
+                  {readingVersion.label && readingVersion.label.length <= 12 && (
+                    <span className="crumb-chip">{readingVersion.label}</span>
+                  )}
+                  {readingVersion.page_count > 0 && <span className="crumb-meta">{readingVersion.page_count} 页</span>}
+                </>
+              ) : (
+                <strong className="truncate">{title}</strong>
+              )}
             </div>
             <div className="topbar-actions">
-              {ws.capability && (
-                <span className="model-pill" title="核心分析模型（服务器配置）">
-                  <FlaskConical size={13} />
-                  {ws.capability.model_configured ? ws.capability.core_model : '模型未配置'}
-                </span>
-              )}
-              <span className="connected">
-                <span />
-                数据持久化
-              </span>
               <button className="task-button" onClick={() => setDrawer(true)}>
                 <Clock3 size={16} />
                 <span>任务</span>
@@ -241,9 +255,23 @@ function Shell() {
               </button>
             </div>
           )}
-          {ws.capability && !ws.capability.model_configured && (
+          {ws.capability && !ws.capability.model_configured && !configNoticeHidden && (
             <div className="notice missing-config" role="status">
-              服务器尚未配置模型密钥：导入、解析、阅读、检索和绘图可用；问答与翻译暂不可用。
+              <span>AI 问答与翻译暂未开通；导入、阅读、检索和绘图可以正常使用。</span>
+              <button
+                className="icon-button"
+                aria-label="关闭提示"
+                onClick={() => {
+                  setConfigNoticeHidden(true);
+                  try {
+                    sessionStorage.setItem('rt-hide-config-notice', '1');
+                  } catch {
+                    /* per-tab convenience only */
+                  }
+                }}
+              >
+                <X size={15} />
+              </button>
             </div>
           )}
           <main className={`main-content ${reading ? 'reader-content' : ''}`}>
@@ -306,9 +334,6 @@ function ReaderRoute() {
   }, [version?.id]);
   if (!ws.loaded) return <div className="page-content"><Busy>载入文献</Busy></div>;
   return (
-    <>
-    {version && <ReferenceTools key={version.id} versionId={version.id}
-      onEvidence={(e) => void ws.openEvidence(e)} />}
     <Reader
       key={version?.id ?? 'empty'}
       versions={ws.versions}
@@ -321,7 +346,6 @@ function ReaderRoute() {
       refresh={() => void ws.refresh()}
       startUpload={ws.openUpload}
     />
-    </>
   );
 }
 
