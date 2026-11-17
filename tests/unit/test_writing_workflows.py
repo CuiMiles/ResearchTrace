@@ -193,6 +193,22 @@ def test_one_received_claim_repair_is_strict_and_does_not_regenerate(monkeypatch
     assert calls == ['deep', 'light']
 
 
+def test_repair_still_contradicting_source_becomes_explicit_gap(monkeypatch):
+    paper(); run = run_for(); block = writing.collect_evidence(run)['blocks'][0]
+    original = manuscript(block); original['claims'][0]['text'] = '80 GPUs'
+    calls = []
+    def generate(system, prompt, rid, **kwargs):
+        calls.append(kwargs['role'])
+        return response(original if kwargs['role'] == 'deep' else {'claims': [original['claims'][0]]})
+    monkeypatch.setattr(models, 'generate', generate)
+    monkeypatch.setattr(writing, 'review_live', lambda run, result, *args: result)
+    result = writing.survey(run)
+    assert calls == ['deep', 'light']
+    assert result['claims'][0]['type'] == 'insufficient' and not result['claims'][0]['evidence']
+    assert '80 GPUs' not in result['answer']
+    assert '80 GPUs' in writing._snapshot(run)['writing_response']['text']
+
+
 def test_cancel_during_model_retains_receipt_no_artifact(monkeypatch):
     paper(); run = run_for(); block = writing.collect_evidence(run)['blocks'][0]
     def generate(*a, **kw):

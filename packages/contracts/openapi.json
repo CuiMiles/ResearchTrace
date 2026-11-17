@@ -1979,6 +1979,53 @@
         }
       }
     },
+    "/api/v1/ideas/audits/{rid}/revalidate": {
+      "post": {
+        "summary": "Revalidate Audit",
+        "operationId": "revalidate_audit_api_v1_ideas_audits__rid__revalidate_post",
+        "parameters": [
+          {
+            "name": "rid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Rid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuditRevalidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/charts": {
       "post": {
         "summary": "Chart",
@@ -3154,6 +3201,22 @@
           "idempotency_key"
         ],
         "title": "Audit"
+      },
+      "AuditRevalidation": {
+        "properties": {
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "idempotency_key"
+        ],
+        "title": "AuditRevalidation"
       },
       "BatchSelection": {
         "properties": {

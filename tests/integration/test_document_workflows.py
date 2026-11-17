@@ -188,6 +188,20 @@ def test_malformed_classification_is_not_rebilled(fixture, monkeypatch):
     assert analyze(fixture[0])['classification_status'] == 'not_run'
 
 
+def test_conflicting_duplicate_reference_is_uncertain_and_receipt_reused(fixture, monkeypatch):
+    from services.api import models
+    report = analyze(fixture[0]);calls = []
+    items = [{'ref_id': r['id'], 'label': 'background', 'context_block_ids': [r['contexts'][0]['block_id']]} for r in report['references']]
+    items.append({**items[0], 'label': 'method_dependency'})
+    monkeypatch.setattr(models, 'generate', lambda *a, **k: calls.append(1) or {'model': 'fixture-lite', 'text': json.dumps({'items': items})})
+    run = fixture[0].post(f"/api/v1/reference-analyses/{report['id']}/classify", json={'idempotency_key': 'conflicting-classification'}).json()
+    assert dispatch(run['id'])['classified'] == 3
+    result = analyze(fixture[0])['references'][0]['classification']
+    assert result['label'] == 'uncertain' and result['context_block_ids'] == []
+    assert '冲突' in result['reason']
+    assert dispatch(run['id'])['classified'] == 3 and calls == [1]
+
+
 def test_unknown_model_request_never_replayed(fixture, monkeypatch):
     from services.api import models
     report = analyze(fixture[0])

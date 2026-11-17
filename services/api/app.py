@@ -651,6 +651,19 @@ def audit(p:Audit,s=Depends(session)):
         raise HTTPException(404,'建议原文不存在')
     return queue(s['workspace'],'audit',p.model_dump(exclude={'idempotency_key'}),p.idempotency_key)
 
+class AuditRevalidation(BaseModel):
+    model_config={'extra':'forbid'}
+    idempotency_key:str=Field(min_length=8,max_length=150)
+
+@app.post('/api/v1/ideas/audits/{rid}/revalidate')
+def revalidate_audit(rid:str,p:AuditRevalidation,s=Depends(session)):
+    run_get(rid,s['workspace'])
+    from .future_work import queue_revalidation
+    try:
+        return queue_revalidation(s['workspace'],rid,p.idempotency_key)
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from None
+
 @app.post('/api/v1/charts')
 async def chart(file:UploadFile=File(...),spec:str=Form('{}'),s=Depends(session)):
     from .charts import create_chart

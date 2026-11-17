@@ -21,6 +21,46 @@ class CoverageAssessment(BaseModel):
     claim_ids:list[str]=Field(min_length=1,max_length=12)
 
 
+def queue_revalidation(workspace, source_id, idempotency):
+    from .jobs import queue
+    source=store.one("SELECT * FROM runs WHERE id=? AND workspace=? AND kind='audit'",(source_id,workspace))
+    if not source or source['status'] not in ('completed','partial','failed'):
+        raise ValueError('仅能复核本空间已结束的研究核查任务')
+    if store.one("SELECT 1 FROM quota WHERE run_id=? AND status IN ('reserved','unknown') LIMIT 1",(source_id,)):
+        raise ValueError('原核查有结果未知的供应商调用，请先核对回执；不通过复核入口重发')
+    snap=json.loads(source['checkpoint'] or '{}')
+    if not snap.get('model_response') or not snap.get('audit_evidence'):
+        raise ValueError('原任务没有已收到的分析与全文证据，无法免生成复核')
+    original=json.loads(source['payload'])
+    payload={key:original[key] for key in ('version_id','block_id','question','search_query') if key in original}
+    payload['analysis_source_run_id']=source_id
+    return queue(workspace,'audit',payload,idempotency)
+
+
+def reuse_analysis(run, snap):
+    """Reuse an authenticated, received analysis; no old budgets or tools copy."""
+    source_id=run['payload'].get('analysis_source_run_id')
+    if not source_id or 'model_response' in snap:return snap
+    source=store.one("SELECT * FROM runs WHERE id=? AND workspace=? AND kind='audit'",(source_id,run['workspace']))
+    if not source or source['status'] not in ('completed','partial','failed'):
+        raise ValueError('原分析不存在、越权或尚未结束')
+    if store.one("SELECT 1 FROM quota WHERE run_id=? AND status IN ('reserved','unknown') LIMIT 1",(source_id,)):
+        raise ValueError('原分析仍有结果未知的请求，不重复执行审查')
+    original=json.loads(source['payload']);saved=json.loads(source['checkpoint'] or '{}')
+    if any(original.get(key)!=run['payload'].get(key) for key in ('version_id','block_id','question','search_query')):
+        raise ValueError('复核的原文或问题范围已变化，不能复用原分析')
+    if not saved.get('model_response') or not saved.get('audit_evidence'):
+        raise ValueError('原分析回执不完整，不重发可能已消耗的请求')
+    allowed={'search','audit_search_query','audit_search_response','audit_downloads','audit_evidence','model_response'}
+    copied={key:value for key,value in saved.items() if key in allowed or key.startswith('decision_review_response_')}
+    copied['analysis_receipt_reused_from']=source_id
+    from .jobs import checkpoint
+    checkpoint(run,copied)
+    store.event(run['id'],'analysis_receipt_reused',{'source_run_id':source_id,'new_generation_calls':0,
+                'notice':'复用已收到的历史分析，只执行新的条件复核；不冒充新输入或重新生成。'})
+    return {**snap,**copied}
+
+
 def coverage_matrix(raw,validated,contexts,comparisons,source_version_ids=()):
     """Classification cannot promote a claim rejected by the evidence reviewer."""
     claims={c['id']:c for c in validated.get('claims',[])}
@@ -77,6 +117,7 @@ def audit(run):
     block=store.one('SELECT b.*,COALESCE(bp.parse_id,b.version_id) AS parse_id FROM blocks b LEFT JOIN block_parses bp ON bp.block_id=b.id JOIN versions v ON v.id=b.version_id WHERE b.id=? AND b.workspace=? AND b.version_id=? AND v.deleted=0',(p['block_id'],w,p['version_id']))
     if not block:raise ValueError('旧建议来源不存在或已删除')
     snap=json.loads(store.one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'] or '{}')
+    snap=reuse_analysis(run,snap)
     old=source_context(w,[p['version_id']])[0]
     if 'search' not in snap:
         query=planned_query(run,block,snap)
@@ -132,6 +173,9 @@ def audit(run):
             'search_query':snap.get('audit_search_query',p.get('search_query') or p['question'][:350]),
             'search':search,'downloads':downloads,'excluded_by_time':excluded,'time_comparisons':comparisons,
             'scope_notice':'仅覆盖本次检索来源及可访问全文；日期区间重叠和未知记录不当作已确认后续工作。没有全球首次结论。'}
+    if p.get('analysis_source_run_id'):
+        result.update(analysis_source_run_id=p['analysis_source_run_id'],analysis_response_reused=True,
+                      generation_notice='本次复核复用历史分析及逐字证据，未重新调用生成模型。')
     if not available:
         result.update(answer='当前检索范围内没有可用于判断的、更晚且已完成解析的全文证据。候选标题或摘要不能证明问题已被解决。',
                       status='partial',claims=[],model=None,coverage='insufficient')
@@ -157,13 +201,22 @@ def audit(run):
         from .answer_cycle import _checked
         validated=_checked(run,response,evidence,[p['version_id']]+available,p['question'])
         matrix=coverage_matrix(json.loads(response['text']),validated,[c for c in all_context if c['id'] in available],comparisons,[p['version_id']])
+        from .coverage_review import review as review_coverage
+        matrix=review_coverage(run,matrix,block)
+        if any(row.get('coverage_review') and (row['coverage_review']['status']!='reviewed' or row['category']!=row['factual_gate_category']) for row in matrix):
+            validated.update(status='partial',publication_notice='覆盖条件审查调整了类别或尚未确认；方法事实不能外推为完整解决，请核对条件表。')
         result.update(validated,model=response['model'],usage=response['usage'],coverage_matrix=matrix)
     with store.db() as conn:
         conn.execute('BEGIN IMMEDIATE')
         current=conn.execute('SELECT status FROM runs WHERE id=? AND workspace=?',(rid,w)).fetchone()
         if not current or current['status']=='cancelled':return {}
-        existing=conn.execute("SELECT id FROM artifacts WHERE workspace=? AND run_id=? AND kind='idea_audit'",(w,rid)).fetchone()
-        aid=existing['id'] if existing else store.uid()
-        if not existing:conn.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?)',(aid,w,rid,'idea_audit',p['question'][:100],json.dumps(result,ensure_ascii=False),time.time()))
+        existing=conn.execute("SELECT id,payload FROM artifacts WHERE workspace=? AND run_id=? AND kind='idea_audit' ORDER BY created DESC LIMIT 1",(w,rid)).fetchone()
+        # A strengthened review may change a result on explicit resume. Keep the
+        # previous artifact available rather than silently overwriting it.
+        previous=json.loads(existing['payload']) if existing else None
+        changed=previous is not None and previous.get('coverage_matrix')!=result.get('coverage_matrix')
+        aid=store.uid() if not existing or changed else existing['id']
+        if changed:result['revalidated_from']=existing['id']
+        if not existing or changed:conn.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?)',(aid,w,rid,'idea_audit',p['question'][:100],json.dumps(result,ensure_ascii=False),time.time()))
     result['artifact_id']=aid
     return result

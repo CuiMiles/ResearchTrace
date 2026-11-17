@@ -408,11 +408,24 @@ def repair_rejected_claims(run, data, blocks, version_ids, workflow):
     if len(repairs.claims) != len(wanted) or {c.id for c in repairs.claims} != wanted:
         raise ValueError('修复返回了缺失、重复或未知主张；结果已拦截')
     by_id = {c.id: c for c in repairs.claims}
+    rejected = []
+    for cid, claim in list(by_id.items()):
+        try:
+            validate_answer({'claims': [claim.model_dump()]}, blocks,
+                            workspace=run['workspace'], version_ids=version_ids)
+        except ValueError:
+            # A failed repair cannot make an unsupported assertion public or
+            # trigger an unbounded generation loop. Preserve both receipts and
+            # leave an explicit gap in the manuscript and citation coverage.
+            by_id[cid] = Claim(id=cid, text='该项主张未通过原文校验，需要补充证据后再核查。',
+                              type='insufficient', evidence=[])
+            rejected.append(cid)
     parsed.claims = [by_id.get(c.id, c) for c in parsed.claims]
     parsed.answer = ''
     parsed.answer_segments = None  # reconstructed from validated claims below
     store.event(run['id'], 'writing_claim_repaired', {'claim_ids': sorted(wanted),
-                'model': receipt['model'], 'original_response_retained': True, 'max_repairs': 1})
+                'model': receipt['model'], 'original_response_retained': True, 'max_repairs': 1,
+                'still_rejected_claim_ids': sorted(rejected), 'unsupported_text_published': False})
     return parsed.model_dump()
 
 
