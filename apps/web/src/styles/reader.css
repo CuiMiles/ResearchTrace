@@ -771,3 +771,7 @@ body.dragging-split .reader-body iframe, body.dragging-split .pdf-scroller { poi
   .reader-body.parallel .split-handle { display: none; }
   .reader-translation { border-left: 0; }
 }
+
+/* Formulas from parsed text, rendered by KaTeX. */
+.tp-block .math-inline .katex { font-size: 1.02em; }
+.tp-block .math-display { display: block; margin: 6px 0; overflow-x: auto; overflow-y: hidden; }

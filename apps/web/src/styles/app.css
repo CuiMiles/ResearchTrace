@@ -822,6 +822,8 @@ input[type='checkbox'] {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
+  /* clip: unlike hidden, scrollIntoView / find-in-page cannot shift the frame. */
+  overflow: clip;
 }
 .main-content.reader-content {
   display: flex;

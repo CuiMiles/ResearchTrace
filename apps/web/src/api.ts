@@ -12,7 +12,15 @@ export const key=()=>crypto.randomUUID();
 export const date=(value?:number)=>value?new Date(value*1000).toLocaleString('zh-CN',{hour12:false}):'尚未执行';
 export const errorMessage=(error:unknown)=>error instanceof Error?error.message:String(error);
 
+// Sequential pages, stopping at the first short one: most papers need a single
+// request, and empty tail requests no longer occupy the browser's six HTTP/1.1
+// connections while page text and the PDF itself are loading.
 export async function documentBlocks(versionId:string,max=2000,parseId?:string){
- const pages=await Promise.all(Array.from({length:Math.ceil(max/500)},(_,i)=>api<import('./types').Block[]>(`/documents/${versionId}/blocks?offset=${i*500}&limit=500${parseId?`&parse_id=${encodeURIComponent(parseId)}`:''}`)));
- return pages.flat();
+ const out:import('./types').Block[]=[];
+ for(let offset=0;offset<max;offset+=500){
+  const page=await api<import('./types').Block[]>(`/documents/${versionId}/blocks?offset=${offset}&limit=500${parseId?`&parse_id=${encodeURIComponent(parseId)}`:''}`);
+  out.push(...page);
+  if(page.length<500)break;
+ }
+ return out;
 }

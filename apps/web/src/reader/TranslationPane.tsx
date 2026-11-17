@@ -5,6 +5,7 @@ import type { Block, Page, Translation } from '../types';
 import { Busy } from '../ui';
 import { Languages, MessageSquare } from '../icons';
 import { PdfCrop } from './PdfCrop';
+import { MathText } from './MathText';
 import type { ViewAnchor } from '../PdfReader';
 import { startPolling } from '../app/poll';
 
@@ -181,7 +182,7 @@ function PaneBlock({ block, pdf, translation, focused, canTranslate, busy, onHov
     onClick={e => { if (!(e.target as Element).closest('button') && window.getSelection()?.isCollapsed !== false) onSelect(block); }}
     onKeyDown={e => { if (e.key === 'Enter' && e.target === e.currentTarget) onSelect(block); }}>
     {crop ? <PdfCrop pdf={pdf!} pageIndex={block.page_index} bbox={block.bbox} label={block.type === 'figure' ? '原文图' : block.type === 'table' ? '原文表格' : '原文公式'} />
-      : <p lang={text ? undefined : 'en'}>{text ?? block.text}</p>}
+      : <p lang={text ? undefined : 'en'}><MathText text={text ?? block.text} /></p>}
     {!crop && <div className="tp-tools">
       {!text && <span className="tp-tag">原文</span>}
       {markers.slice(0, 6).map((marker, i) => <button key={i} className="tp-cite" title="跳到参考文献" onClick={() => onCitation(block, marker)}>[{marker.replace(/[[\]]/g, '')}]</button>)}
