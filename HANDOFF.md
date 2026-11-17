@@ -1,5 +1,27 @@
 # ResearchTrace handoff
 
+## 当前状态（2026-11-18，最新；以下更早章节为历史记录）
+
+- 公网：https://researchtrace.sluna.xyz （阿里云 ECS 2核2GB）。生效版本见 `docker ps`；本轮依次部署 v13–v16，
+  v17（公式渲染/页面文字加载/阅读框固定）与 v18（引文图谱短标题匹配）已构建，激活状态以本节末尾记录为准。
+  回滚镜像保留 `researchtrace:completion-v13…v18`；激活前备份：`backup-20261117T162214371067Z`（v16 前）、pre-v17 备份。
+- 部署流程（本机无法直连 ECS，经 GPU 服务器 node01 中转）：`scripts/deploy_ecs.py --relay gpu upload/exec`；
+  ECS 上 `systemd-run` 执行「基于上一镜像构建 → `backup.py --max-pause 150` → 激活（activate.sh 去掉内置备份）」。
+  Workbench 单次执行 30 秒超时，长任务必须用 systemd-run，不要用 nohup。
+- 模型角色（ECS `private/runtime.env`，只列模型名）：DEEP=gemini-4-hydrogen→gemini-3.6-flash；
+  ANSWER=hydrogen→3.6-flash→3.5-flash-lite；LIGHT=3.5-flash-lite；VERIFY=3.6-flash。付费兜底关闭，失败重试照常记账，账本从未重置。
+- 检索模型在 node01：`researchtrace-embed.service` / `researchtrace-rerank.service`（用户级 systemd），drop-in
+  `split-across-cards.conf` 设 `RT_RETRIEVAL_SINGLE_GPU=0`，嵌入 2 卡各约 8.3 GB、重排 4 卡各约 4.2 GB，给共享用户留余量。
+  `researchtrace-warm@embed/rerank.timer` 每 90 秒保温（runner 空闲 120 秒会退出）。旧的 `researchtrace-retrieval-warm.timer`
+  仍在但无害，可人工 `systemctl --user disable --now` 后删除（自动模式下删除单元被拦截，未执行）。
+- 演示账号「视频演示空间」（30 天）：访问码只在 ECS `/opt/researchtrace/private/demo-video-account-20261118.json`
+  与本机被忽略的 `data-migrated/completion-deployment/` 同名文件（0600）。资料库精选 10 篇（Attention v7、扫描版、
+  541 页教材、BERT、GPT-1、T5、ViT、LayerNorm、Pre-LN、FlashAttention），其余为软删除；4 个解析错的标题已按论文首页人工更正。
+- 视频：`docs/DEMO_SCRIPT.md`（8 分钟顺序、操作与台词、录制前检查清单）。
+
+剩余人工/待办：版本修订总结在 01:56 遇服务方 503（hydrogen 与 3.6-flash 均失败，4 次请求已记账），需错峰重试；
+问答、写作的演示结果待预生成；技术文档 LaTeX 截图待更新；录制视频。
+
 First live milestone is running on http://127.0.0.1:18970 and server LAN http://10.184.17.163:18970 (not a verified public URL). Login with RT_ACCESS_CODE / distinct RT_ADMIN_CODE from ignored .env. Own user services researchtrace-api / researchtrace-worker, restart via systemctl --user restart researchtrace-api researchtrace-worker. ./scripts/dev.sh installs/starts only these own units. Other services/proxies were not modified.
 
 Verified: two Flash Lite credential probes, actual768-dimensional embedding, newly uploaded Transformer v7 fifteen pages parsed and densely indexed, real Hydrogen answer with located exact quotes. Saved evidence in evidence/live_qa_result.json. Renamed v7/v1 linked from content; old citations stay originalversion. Full eight-page BitNet translation120/120 nonemptysourceblocks through20 actual FlashLite batches. Shared project limits count keys together; paid routes absent; Hydrogen initialglobalbudget4, currently1used at this milestone (re-read ledger for current usage).
