@@ -169,7 +169,15 @@ def request_summary(p: SummaryRequest, s=Depends(_session)):
         raise HTTPException(404, str(error)) from None
     pair = hashlib.sha256(f"{older}|{newer}".encode()).hexdigest()[:32]
     payload = {"older": older, "newer": newer, "order_known": known}
-    idempotency = f"version-summary:{pair}" + (f":retry-{p.retry}" if p.retry else "")
+    base = f"version-summary:{pair}"
+    # A finished summary of this exact pair (from the first request or a later
+    # retry) is the answer; asking again shows it instead of calling a model.
+    done = store.one("SELECT id,status FROM runs WHERE workspace=? AND kind='version_summary' AND status='completed' "
+                     "AND (idempotency=? OR idempotency LIKE ?) ORDER BY created DESC LIMIT 1",
+                     (s["workspace"], base, base + ":retry-%"))
+    if done:
+        return {"id": done["id"], "run_id": done["id"], "status": done["status"], "reused": True}
+    idempotency = base + (f":retry-{p.retry}" if p.retry else "")
     try:
         return queue(s["workspace"], "version_summary", payload, idempotency)
     except ValueError as error:

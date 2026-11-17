@@ -108,3 +108,18 @@ def test_other_workspace_versions_are_not_found(api):
     store.execute("INSERT INTO versions(id,workspace,title,filename,sha256,path,status,created) VALUES('x','other','t','x.pdf','x','none.pdf','ready',0)")
     seed(workspace(), 'mine', 'v1', 1, OLD)
     assert api.post('/api/v1/versions/summary', json={'left': 'mine', 'right': 'x'}).status_code == 404
+
+
+def test_a_successful_retry_is_what_the_next_request_shows(api):
+    ws = workspace()
+    seed(ws, 'v7', 'v7', 7, NEW)
+    seed(ws, 'v1', 'v1', 1, OLD)
+    first = api.post('/api/v1/versions/summary', json={'left': 'v1', 'right': 'v7'}).json()
+    store.execute("UPDATE runs SET status='failed' WHERE id=?", (first['id'],))  # provider 503
+    retry = api.post('/api/v1/versions/summary', json={'left': 'v1', 'right': 'v7', 'retry': 1}).json()
+    assert retry['id'] != first['id']
+    # Still running: a plain request returns the failed original (the UI offers retry).
+    assert api.post('/api/v1/versions/summary', json={'left': 'v1', 'right': 'v7'}).json()['id'] == first['id']
+    store.execute("UPDATE runs SET status='completed' WHERE id=?", (retry['id'],))
+    shown = api.post('/api/v1/versions/summary', json={'left': 'v7', 'right': 'v1'}).json()
+    assert shown['id'] == retry['id'] and shown['reused']

@@ -25,7 +25,7 @@ interface Summary {
   labels: { older: string; newer: string }; order_known: boolean; considered_changes: number; total_changes: number;
   model?: string; status?: string; reason?: string;
 }
-type SummaryState = { state: 'idle' } | { state: 'running'; runId: string } | { state: 'done'; summary: Summary; runId: string }
+type SummaryState = { state: 'idle' } | { state: 'running'; runId: string } | { state: 'done'; summary: Summary; runId: string; finished?: number }
   | { state: 'failed'; message: string; attempt: number };
 
 const KIND: Record<string, string> = { modified: '修改', added: '新增', deleted: '删除', unchanged: '未变' };
@@ -67,11 +67,11 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
     if (!runningId) return;
     let live = true;
     const stop = startPolling(async () => {
-      const run = await api<{ status: string; error?: string | null; result?: unknown }>(`/runs/${runningId}`);
+      const run = await api<{ status: string; error?: string | null; result?: unknown; updated?: number }>(`/runs/${runningId}`);
       if (!live) return null;
       if (['queued', 'running', 'waiting_children', 'waiting_batch'].includes(run.status)) return 1500;
       const result = parseObject<Summary | null>(run.result, null);
-      if (run.status === 'completed' || (run.status === 'partial' && result)) setSummary({ state: 'done', summary: result!, runId: runningId });
+      if (run.status === 'completed' || (run.status === 'partial' && result)) setSummary({ state: 'done', summary: result!, runId: runningId, finished: run.updated });
       else setSummary({ state: 'failed', message: run.error || '总结没有完成，可以稍后重试。', attempt });
       return null;
     }, 800);
@@ -165,7 +165,7 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
       {summary.state === 'running' && <div className="vc-summary pending"><Busy>正在对照两个版本的真实差异段落撰写总结…</Busy></div>}
       {summary.state === 'failed' && <div className="vc-summary failed"><p>{summary.message}</p>
         <button className="text-button" onClick={() => void summarize(summary.attempt + 1)}>重试</button></div>}
-      {summary.state === 'done' && <SummaryView summary={summary.summary} />}
+      {summary.state === 'done' && <SummaryView summary={summary.summary} finished={summary.finished} />}
 
       {diff && <details className="vc-changes">
         <summary><ChevronDown size={14} />查看逐段差异（{diff.changes.length} 处）</summary>
@@ -192,7 +192,7 @@ function VersionCard({ tag, version, newer }: { tag: string; version: ChoiceVers
   </article>;
 }
 
-function SummaryView({ summary }: { summary: Summary }) {
+function SummaryView({ summary, finished }: { summary: Summary; finished?: number }) {
   const { older, newer } = summary.labels;
   const page = (ref: SummaryRef) => [ref.old_page && `${older} 第 ${ref.old_page} 页`, ref.new_page && `${newer} 第 ${ref.new_page} 页`]
     .filter(Boolean).join(' → ');
@@ -204,6 +204,6 @@ function SummaryView({ summary }: { summary: Summary }) {
       <strong>{point.title}</strong><span>{point.detail}</span>
       <span className="vc-refs">{point.refs.map((ref) => <em key={ref.id} className={`vc-chip ${ref.kind}`}>{KIND[ref.kind] ?? ref.kind} · {page(ref)}</em>)}</span>
     </li>)}</ol>
-    <p className="vc-footnote">由模型（{summary.model ?? '未知模型'}）只依据两版之间真实的段落差异撰写，每条都标出了对应页码，可在下方逐段差异中核对；共比较 {summary.total_changes} 处差异，其中 {summary.considered_changes} 处实质改动用于总结。</p>
+    <p className="vc-footnote">{finished ? `生成于 ${new Date(finished * 1000).toLocaleString('zh-CN', { hour12: false })}；` : ''}由模型（{summary.model ?? '未知模型'}）只依据两版之间真实的段落差异撰写，每条都标出了对应页码，可在下方逐段差异中核对；共比较 {summary.total_changes} 处差异，其中 {summary.considered_changes} 处实质改动用于总结。</p>
   </div>;
 }
