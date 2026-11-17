@@ -35,6 +35,7 @@ const QUICK_QUESTIONS = ['这篇论文主要解决什么问题，贡献是什么
 function stored(name: string, fallback: string) {
   try { return localStorage.getItem(name) ?? fallback; } catch { return fallback; }
 }
+function clampSplit(value: number) { return Math.round(Math.max(0.25, Math.min(0.75, value)) * 1000) / 1000; }
 function store(name: string, value: string) {
   try { localStorage.setItem(name, value); } catch { /* per-viewer convenience only */ }
 }
@@ -82,6 +83,9 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   const [returnPage, setReturn] = useState<number | null>(null);
   const [returnEvidence, setReturnEvidence] = useState<Evidence | null>(null);
   const [rightWidth, setRightWidth] = useState(() => Number(stored('rt-right-width', '380')) || 380);
+  // 中英对照: share of the width given to the original PDF (dragged by the user).
+  const [split, setSplit] = useState(() => clampSplit(Number(stored('rt-parallel-split', '0.5')) || 0.5));
+  const bodyRef = useRef<HTMLDivElement>(null);
   const [leftOpen, setLeftOpen] = useState(() => stored('rt-reader-left', '1') === '1');
   const [assistantOpen, setAssistantOpen] = useState(() => stored('rt-reader-assistant', '1') === '1');
   const [mobileSide, setMobileSide] = useState(false);
@@ -237,6 +241,32 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
       beforeParallel.current = null;
     }
   };
+  function dragSplit(e: React.PointerEvent) {
+    const host = bodyRef.current;
+    if (!host || e.button !== 0) return;
+    e.preventDefault();
+    const rect = host.getBoundingClientRect();
+    let last = split;
+    document.body.classList.add('dragging-split');
+    const move = (ev: PointerEvent) => { last = clampSplit((ev.clientX - rect.left) / rect.width); setSplit(last); };
+    const end = () => {
+      document.body.classList.remove('dragging-split');
+      store('rt-parallel-split', String(last));
+      window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', end); window.removeEventListener('pointercancel', end);
+    };
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end);
+  }
+  function setSplitAndStore(value: number) { const next = clampSplit(value); setSplit(next); store('rt-parallel-split', String(next)); }
+  function keySplit(e: React.KeyboardEvent) {
+    const step = e.shiftKey ? 0.1 : 0.02;
+    if (e.key === 'ArrowLeft') setSplitAndStore(split - step);
+    else if (e.key === 'ArrowRight') setSplitAndStore(split + step);
+    else if (e.key === 'Home') setSplitAndStore(0.25);
+    else if (e.key === 'End') setSplitAndStore(0.75);
+    else if (e.key === 'Enter') setSplitAndStore(0.5);
+    else return;
+    e.preventDefault();
+  }
   function resize(e: React.PointerEvent) {
     const start = e.clientX; const initial = rightWidth;
     const move = (ev: PointerEvent) => { const w = Math.max(300, Math.min(640, initial + start - ev.clientX)); setRightWidth(w); store('rt-right-width', String(w)); };
@@ -457,7 +487,8 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
         {showLocated && <div className="reader-note located"><span className="teal-dot" />已定位到第 {highlight!.page_index + 1} 页<span className="truncate">{highlight!.quote.slice(0, 90)}</span>
           <button className="icon-button" aria-label="关闭定位提示" onClick={() => setDismissedHighlight(`${highlight!.block_id}:${highlight!.page_index}`)}><X size={14} /></button></div>}
       </div>}
-      <div className={`reader-body ${mode}`}>
+      <div ref={bodyRef} className={`reader-body ${mode}`}
+        style={mode === 'parallel' ? { ['--split' as string]: `${(split * 100).toFixed(1)}%` } : undefined}>
         <div className="reader-pdf">
           <PdfReader ref={pdfRef} doc={doc} version={version} pageIndex={pageIndex} zoom={zoom} rotation={rotation}
             highlight={highlight?.parse_id && highlight.parse_id !== parseId ? null : highlight} hoverBox={mode === 'parallel' ? hoverBox : null}
@@ -465,6 +496,10 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
             onViewport={mode === 'parallel' ? onPdfViewport : undefined} onActivate={() => { activeSide.current = 'pdf'; }}
             onPagePoint={mode === 'parallel' ? onPagePoint : undefined} />
         </div>
+        {mode === 'parallel' && <div className="split-handle" role="separator" aria-orientation="vertical" tabIndex={0}
+          aria-label="调整原文与译文的宽度" aria-valuemin={25} aria-valuemax={75} aria-valuenow={Math.round(split * 100)}
+          title="拖动调整原文与译文宽度；双击恢复各占一半" onPointerDown={dragSplit} onKeyDown={keySplit}
+          onDoubleClick={() => setSplitAndStore(0.5)}><span /></div>}
         {mode === 'parallel' && <div className="reader-translation">
           <div className="translation-head">
             <span className="th-title">译文</span>

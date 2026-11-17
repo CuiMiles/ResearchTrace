@@ -89,9 +89,17 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
   useEffect(() => {
     const el = scroller.current;
     if (!el) return;
-    const observer = new ResizeObserver(entries => setContainerWidth(entries[0].contentRect.width));
+    // While the bilingual split is being dragged, re-fit once the pointer pauses
+    // instead of re-rendering every page canvas on every frame.
+    let timer: number | undefined;
+    const observer = new ResizeObserver(entries => {
+      const width = entries[0].contentRect.width;
+      window.clearTimeout(timer);
+      if (document.body.classList.contains('dragging-split')) timer = window.setTimeout(() => setContainerWidth(width), 140);
+      else setContainerWidth(width);
+    });
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); window.clearTimeout(timer); };
   }, []);
 
   // Base page size from page 1; differently sized pages correct themselves when rendered.

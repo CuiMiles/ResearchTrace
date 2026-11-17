@@ -422,6 +422,27 @@ def main():
                 assert page.locator(".reader-pdf .pdf-page canvas").count() >= 1
                 page.locator(".reader-pdf .textLayer span").first.wait_for()
                 checks.append("bilingual view keeps original PDF beside aligned paragraphs")
+                # The split between original and translation is user-adjustable.
+                handle = page.get_by_role("separator", name="调整原文与译文的宽度")
+                pdf_width = lambda: page.locator(".reader-pdf").bounding_box()["width"]
+                before = pdf_width()
+                box = handle.bounding_box()
+                page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+                page.mouse.down()
+                page.mouse.move(box["x"] - 160, box["y"] + box["height"] / 2, steps=8)
+                page.mouse.up()
+                page.wait_for_timeout(300)
+                dragged = pdf_width()
+                assert dragged < before - 100, (before, dragged)
+                assert page.evaluate("localStorage.getItem('rt-parallel-split')") is not None
+                handle.focus()
+                page.keyboard.press("ArrowRight")
+                assert pdf_width() > dragged
+                handle.dblclick()
+                page.wait_for_timeout(200)
+                assert int(handle.get_attribute("aria-valuenow")) == 50
+                page.locator(".reader-pdf .pdf-page canvas").first.wait_for()
+                checks.append("bilingual split drags, moves with arrow keys and resets on double-click")
                 page.get_by_role("button", name="原文", exact=True).click()
                 ready()
                 # Same page transform on canvas and text for zoom + all rotations.
