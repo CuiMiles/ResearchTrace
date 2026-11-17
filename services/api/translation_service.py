@@ -56,6 +56,11 @@ OUTPUT_TOKEN_BUDGET = 8192  # models.generate(core=False)'s output cap
 REQUEST_OVERHEAD_TOKENS = 1024  # same UTF-8-byte reservation as models.generate
 MAX_BATCH_ITEMS = 6
 MAX_RESPONSE_BYTES = 512 * 1024
+# Rejected segments are retried alone: routine model first, then the core model.
+REPAIR_ROLES = ('light', 'deep')
+REPAIR_NOTE = (' A previous answer for this block altered, dropped or duplicated a placeholder.'
+               ' Copy every __RT_PH_...__ token verbatim exactly once; do not write numbers,'
+               ' formulas or citations yourself. (repair {attempt})')
 PLAN_VERSION = 'protected-utf8-v2'
 _EXCLUDED_TYPES = {'header', 'footer', 'figure'}
 _TOKEN = re.compile(r'__RT_PH_[A-Za-z0-9_]+?__')
@@ -456,10 +461,17 @@ def translate(run: Mapping[str, Any]) -> dict[str, Any]:
     actual_models = {row['model'] for row in cached if row['block_id'] in selected_ids}
     initial_hits = sum(block['id'] in cached_ids for block in blocks)
 
+    failed_blocks: set[str] = set()
+
     def result(is_cancelled: bool = False) -> dict[str, Any]:
-        return {**context, 'translated': sum(block['id'] in cached_ids for block in blocks),
-                'total': len(blocks), 'cache_hits': initial_hits, 'actual_models': sorted(actual_models),
-                **({'cancelled': True} if is_cancelled else {})}
+        out = {**context, 'translated': sum(block['id'] in cached_ids for block in blocks),
+               'total': len(blocks), 'cache_hits': initial_hits, 'actual_models': sorted(actual_models),
+               **({'cancelled': True} if is_cancelled else {})}
+        if failed_blocks and not is_cancelled:
+            out.update(status='partial', failed_blocks=sorted(failed_blocks),
+                       reason=f'{len(failed_blocks)} 段译文改动了公式、数字或引用，未通过保护校验，没有保存；'
+                              '对照视图中仍显示原文，可单独重试。')
+        return out
 
     if store.cancelled(rid):
         return result(True)
@@ -480,50 +492,66 @@ def translate(run: Mapping[str, Any]) -> dict[str, Any]:
         if value.get('source_hash') != all_segments[key].source_hash:
             raise ValueError('翻译分段 checkpoint 与原文或 token 预算不一致')
         restore_protected(value['text'], all_segments[key].plan)
-    remaining = [segment for segment in all_segments.values() if segment.request_id not in pending]
+    rejected = set(saved.get('translation_rejected', [])) & set(all_segments)
+    remaining = [segment for segment in all_segments.values()
+                 if segment.request_id not in pending and segment.request_id not in rejected]
     batches = plan_batches(remaining, system)
-    for batch in batches:
-        if store.cancelled(rid):
-            return result(True)
-        batch_prompt=_prompt([segment.item for segment in batch])
-        response_key=hashlib.sha256((system+batch_prompt).encode()).hexdigest()
-        row=store.one('SELECT checkpoint FROM runs WHERE id=?',(rid,))
-        responses=json.loads(row['checkpoint'] or '{}').get('translation_responses',{})
-        response=responses.get(response_key)
+    from .jobs import checkpoint
+
+    def call(batch: Sequence[TranslationSegment], system_text: str, role: str) -> Mapping[str, Any]:
+        """One billed request per distinct prompt; a received response is kept before use."""
+        batch_prompt = _prompt([segment.item for segment in batch])
+        response_key = hashlib.sha256((system_text + batch_prompt).encode()).hexdigest()
+        row = store.one('SELECT checkpoint FROM runs WHERE id=?', (rid,))
+        responses = json.loads(row['checkpoint'] or '{}').get('translation_responses', {})
+        response = responses.get(response_key)
         if response is None:
-            response=models.generate(system,batch_prompt,rid,role='light')
-            # Preserve a received response before validating it. Recovery must
-            # not silently issue the same billed batch after a local failure.
-            from .jobs import checkpoint
-            responses[response_key]=response
-            checkpoint(run,{'translation_responses':responses})
-        if store.cancelled(rid):
-            return result(True)
-        raw = response.get('text')
-        if not isinstance(raw, str) or len(raw.encode('utf-8')) > MAX_RESPONSE_BYTES:
-            raise ValueError('翻译返回非文本或超出响应预算；未保存此批次')
-        try:
-            data = json.loads(raw)
-        except (ValueError, TypeError) as error:
-            raise ValueError('翻译返回无效 JSON；未保存此批次') from error
-        output = data.get('translations') if isinstance(data, dict) else None
-        expected = {segment.request_id for segment in batch}
-        if (not isinstance(output, list) or len(output) != len(expected)
-                or any(not isinstance(item, dict) or not isinstance(item.get('block_id'), str)
-                       or not isinstance(item.get('text'), str) or not item['text'].strip() for item in output)
-                or {item['block_id'] for item in output} != expected):
-            raise ValueError('翻译返回缺段、重段或空段，已保留此前完成段，可恢复补译')
+            response = models.generate(system_text, batch_prompt, rid, role=role)
+            # Recovery must replay a received response, never re-issue the request.
+            responses[response_key] = response
+            checkpoint(run, {'translation_responses': responses})
+        return response
+
+    def accept(batch: Sequence[TranslationSegment], response: Mapping[str, Any]):
+        """Validate every segment on its own: a damaged one never blocks its neighbours."""
         actual_model = response.get('model')
         if not isinstance(actual_model, str) or not actual_model:
             raise ValueError('翻译返回缺少实际模型标识；未保存此批次')
-        output_by_id = {item['block_id']: item['text'] for item in output}
-        staged = dict(pending)
+        raw = response.get('text')
+        output = None
+        if isinstance(raw, str) and len(raw.encode('utf-8')) <= MAX_RESPONSE_BYTES:
+            try:
+                data = json.loads(raw)
+            except (ValueError, TypeError):
+                data = None
+            output = data.get('translations') if isinstance(data, dict) else None
+        texts: dict[str, list[str]] = {}
+        for item in output if isinstance(output, list) else []:
+            if isinstance(item, dict) and isinstance(item.get('block_id'), str) \
+                    and isinstance(item.get('text'), str) and item['text'].strip():
+                texts.setdefault(item['block_id'], []).append(item['text'])
+        good: dict[str, dict[str, str]] = {}
+        bad: list[TranslationSegment] = []
         for segment in batch:
-            text = _aligned_whitespace(segment.text, output_by_id[segment.request_id])
-            restore_protected(text, segment.plan)
-            staged[segment.request_id] = {
-                'text': text, 'model': actual_model, 'source_hash': segment.source_hash,
-            }
+            found = texts.get(segment.request_id, [])
+            if len(found) != 1:  # missing, duplicated or emptied
+                bad.append(segment)
+                continue
+            text = _aligned_whitespace(segment.text, found[0])
+            try:
+                restore_protected(text, segment.plan)
+            except ValueError:
+                bad.append(segment)
+                continue
+            good[segment.request_id] = {'text': text, 'model': actual_model, 'source_hash': segment.source_hash}
+        if bad:
+            rejected.update(segment.request_id for segment in bad)
+            checkpoint(run, {'translation_rejected': sorted(rejected)})
+        return good, bad, actual_model
+
+    def commit(good: Mapping[str, Mapping[str, str]], actual_model: str) -> bool:
+        nonlocal pending
+        staged = {**pending, **good}
         completed = []
         for block_id, segments in parts.items():
             if block_id in cached_ids or not all(segment.request_id in staged for segment in segments):
@@ -537,8 +565,39 @@ def translate(run: Mapping[str, Any]) -> dict[str, Any]:
                 staged.pop(segment.request_id)
         coverage = sum(block['id'] in cached_ids for block in blocks) + len(completed)
         if not _persist_batch(run, context, completed, staged, coverage, len(blocks), actual_model):
-            return result(True)
+            return False
         pending = staged
         actual_models.add(actual_model)
         cached_ids.update(block['block_id'] for block in completed)
+        return True
+
+    for batch in batches:
+        if store.cancelled(rid):
+            return result(True)
+        response = call(batch, system, 'light')
+        if store.cancelled(rid):
+            return result(True)
+        good, _bad, actual_model = accept(batch, response)
+        if not commit(good, actual_model):
+            return result(True)
+    # Repair rejected segments one at a time with an explicit reminder: first the
+    # routine model, then once the core model. Each attempt is its own (ledgered)
+    # request, bounded, and replayed from the checkpoint on recovery.
+    for request_id in sorted(rejected):
+        segment = all_segments[request_id]
+        if request_id in pending or segment.block_id in cached_ids:
+            continue
+        for attempt, role in enumerate(REPAIR_ROLES, 1):
+            if store.cancelled(rid):
+                return result(True)
+            try:
+                response = call([segment], system + REPAIR_NOTE.format(attempt=attempt), role)
+            except models.QuotaRefusal:
+                break
+            good, _bad, actual_model = accept([segment], response)
+            if good:
+                if not commit(good, actual_model):
+                    return result(True)
+                break
+    failed_blocks.update(block_id for block_id in parts if block_id not in cached_ids)
     return result()

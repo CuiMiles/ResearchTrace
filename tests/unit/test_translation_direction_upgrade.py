@@ -321,36 +321,78 @@ def test_oversized_utf8_block_uses_bounded_segments_and_recovers_partial_block(m
     assert translation.estimate_input_tokens('中', []) > translation.estimate_input_tokens('a', [])
 
 
+def corrupt(items, corruption):
+    """Damage the last item of a fixture batch the way a model might."""
+    output = [{'block_id': item['block_id'], 'text': item['text']} for item in items]
+    if corruption == 'missing':
+        output.pop()
+    elif corruption == 'duplicate':
+        output.append(dict(output[-1]))
+    elif corruption == 'foreign_id':
+        output[-1]['block_id'] = 'foreign'
+    elif corruption == 'empty':
+        output[-1]['text'] = ' '
+    elif corruption == 'wrong_shape':
+        output[-1] = None
+    elif corruption == 'bad_placeholder':
+        output[-1]['text'] = 'lost all protected source spans'
+    return '{bad' if corruption == 'invalid_json' else json.dumps({'translations': output})
+
+
 @pytest.mark.parametrize('corruption', ['missing', 'duplicate', 'foreign_id', 'empty', 'wrong_shape', 'bad_placeholder', 'invalid_json'])
-def test_bad_batch_is_atomic_and_never_marked_complete(monkeypatch, corruption):
-    seed(['First 17 [2].', 'Second 18 [3].'])
+def test_damaged_segment_is_never_saved_neighbours_are_and_recovery_never_rebills(monkeypatch, corruption):
+    first, second = seed(['First 17 [2].', 'Second 18 [3].'])
+    run = make_run()
+    calls = []
+
+    def generate(system, prompt, rid, core=False, role=None, **_):
+        items = json.loads(prompt)
+        calls.append({'role': role, 'system': system, 'ids': [item['block_id'] for item in items]})
+        return {'model': 'FIXTURE_NOT_LIVE', 'text': corrupt(items, corruption)}
+
+    monkeypatch.setattr(models, 'generate', generate)
+    result = translation.translate(run)
+    cached = {row['block_id'] for row in translation.load_translations('w', 'v')}
+    if corruption == 'invalid_json':
+        assert cached == set() and result['failed_blocks'] == [first, second]
+    else:
+        assert cached == {first} and result['failed_blocks'] == [second]
+    assert result['status'] == 'partial' and '未通过保护校验' in result['reason']
+    repairs = calls[1:]
+    # Bounded repair: each rejected block alone, routine model then core model, distinct prompts.
+    assert [c['role'] for c in repairs] == ['light', 'deep'] * len(result['failed_blocks'])
+    assert all(len(c['ids']) == 1 for c in repairs)
+    assert len({c['system'] for c in repairs}) == 2 and calls[0]['system'] not in {c['system'] for c in repairs}
+    assert not saved_checkpoint(run).get('translation_pending_segments')
+    monkeypatch.setattr(models, 'generate', lambda *a, **kw: pytest.fail('A received response must never be billed again'))
+    again = translation.translate(run)
+    assert again['failed_blocks'] == result['failed_blocks']
+
+
+def test_repair_saves_verified_text_and_core_refusal_is_reported_not_raised(monkeypatch):
+    fixed, refused, fine = seed(['Fixed 17 [2].', 'Refused 18 [3].', 'Fine 19 [4].'])
     run = make_run()
 
     def generate(system, prompt, rid, core=False, role=None, **_):
-        core = core if role is None else role != 'light'  # role-based routing
         items = json.loads(prompt)
-        output = [{'block_id': item['block_id'], 'text': item['text']} for item in items]
-        if corruption == 'missing':
-            output.pop()
-        elif corruption == 'duplicate':
-            output[1] = dict(output[0])
-        elif corruption == 'foreign_id':
-            output[1]['block_id'] = 'foreign'
-        elif corruption == 'empty':
-            output[1]['text'] = ' '
-        elif corruption == 'wrong_shape':
-            output[1] = None
-        elif corruption == 'bad_placeholder':
-            output[1]['text'] = 'lost all protected source spans'
-        return {'model': 'FIXTURE_NOT_LIVE', 'text': '{bad' if corruption == 'invalid_json' else json.dumps({'translations': output})}
+        if len(items) > 1:  # first pass: both of the first two blocks lose their placeholders
+            output = [{'block_id': item['block_id'],
+                       'text': item['text'] if item['block_id'].endswith('b2') else 'damaged'} for item in items]
+            return {'model': 'FIXTURE_NOT_LIVE', 'text': json.dumps({'translations': output})}
+        item = items[0]
+        if item['block_id'].endswith('b0') and role == 'deep':
+            return {'model': 'FIXTURE_CORE', 'text': json.dumps({'translations': [{'block_id': item['block_id'], 'text': item['text']}]})}
+        if role == 'deep':
+            raise models.QuotaRefusal('Hydrogen 当前配置的显式总预算已用尽', scope='global', code='profile_budget')
+        return {'model': 'FIXTURE_NOT_LIVE', 'text': json.dumps({'translations': [{'block_id': item['block_id'], 'text': 'still damaged'}]})}
 
     monkeypatch.setattr(models, 'generate', generate)
-    with pytest.raises(ValueError):
-        translation.translate(run)
-    assert store.one('SELECT count(*) n FROM translation_cache')['n'] == 0
-    assert not saved_checkpoint(run).get('translation_pending_segments')
-    monkeypatch.setattr(models,'generate',lambda *a,**kw:pytest.fail('A received invalid response must not be silently billed again'))
-    with pytest.raises(ValueError):translation.translate(run)
+    result = translation.translate(run)
+    rows = {row['block_id']: row for row in translation.load_translations('w', 'v')}
+    assert set(rows) == {fixed, fine}
+    assert rows[fixed]['text'] == 'Fixed 17 [2].' and rows[fixed]['model'] == 'FIXTURE_CORE'
+    assert result['status'] == 'partial' and result['failed_blocks'] == [refused]
+    assert result['translated'] == 2 and result['total'] == 3
 
 
 @pytest.mark.parametrize('during_request', [False, True])
