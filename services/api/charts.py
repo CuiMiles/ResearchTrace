@@ -54,10 +54,19 @@ from matplotlib import font_manager
 plt.rcParams["text.usetex"] = False
 plt.rcParams["mathtext.default"] = "regular"
 plt.rcParams["axes.formatter.use_mathtext"] = False
-font = Path("/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf")
-if font.exists():
-    font_manager.fontManager.addfont(str(font))
-    plt.rcParams["font.family"] = ["DejaVu Sans", font_manager.FontProperties(fname=str(font)).get_name()]
+# Chinese titles and labels need a CJK-capable fallback. The container image ships
+# Droid Sans Fallback; other hosts usually have Noto Sans CJK or WenQuanYi instead.
+for font in map(Path, (
+    "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+)):
+    if font.exists():
+        font_manager.fontManager.addfont(str(font))
+        plt.rcParams["font.family"] = ["DejaVu Sans", font_manager.FontProperties(fname=str(font)).get_name()]
+        break
 plt.rcParams["axes.unicode_minus"] = False
 csv_path = Path(sys.argv[1])
 spec_path = Path(sys.argv[2])
