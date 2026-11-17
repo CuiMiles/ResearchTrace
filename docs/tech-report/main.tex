@@ -1,0 +1,29 @@
+% !TEX program = xelatex
+% 研证 ResearchTrace 技术文档（赛题 2.3）
+% 编译：./build.sh   （等价于 latexmk -xelatex main.tex，输出复制到 deliverables/）
+\documentclass[11pt,a4paper,fontset=none,scheme=chinese,zihao=false]{ctexart}
+\usepackage{rtstyle}
+
+% ====== 提交前可修改的信息 ======
+\newcommand{\rtTitle}{研证 ResearchTrace}
+\newcommand{\rtSubtitle}{每个结论都能回到原文的科研智能体}
+\newcommand{\rtContest}{第九届传智杯 · AI 大模型创新应用挑战赛}
+\newcommand{\rtTrack}{科研小助手 Agent}
+\newcommand{\rtDemoURL}{https://researchtrace.sluna.xyz}
+\newcommand{\rtRepoURL}{https://github.com/CuiMiles/ResearchTrace}
+\newcommand{\rtDate}{2026 年 11 月}
+\newcommand{\rtTeam}{}        % 例如：XX 大学 · XX 团队；留空则封面不显示该行
+\newcommand{\rtMembers}{}     % 例如：张三、李四、王五；留空则不显示
+% =================================
+
+\begin{document}
+\input{chapters/00-cover}
+\input{chapters/01-overview}
+\input{chapters/02-requirements}
+\input{chapters/03-architecture}
+\input{chapters/04-ai}
+\input{chapters/05-features}
+\input{chapters/06-testing}
+\input{chapters/07-innovation}
+\input{chapters/08-conclusion}
+\end{document}

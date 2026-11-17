@@ -1,0 +1,105 @@
+\section{项目概述}
+
+\subsection{项目背景：科研助手的“可信度缺口”}
+
+大模型让“读论文、问论文、写综述”变得前所未有地容易，但科研场景对答案的要求与日常问答不同——\kw{一条无法核对出处的结论，对研究者几乎没有价值}。我们在调研与实际使用中反复遇到三类典型失效：
+
+\begin{itemize}
+  \item \textbf{结论无法回到原文。}回答看起来正确，却没有页码和原句；即便附了“引用”，也常常是相关但不支持该结论的段落，研究者仍需通读全文复核。
+  \item \textbf{同一论文的不同版本被混用。}arXiv 论文常有多个版本（如 \emph{Attention Is All You Need} 的 v1 与 v7 在超参数与实验结果上存在差异），助手却把它们当作同一份文本，结论张冠李戴。
+  \item \textbf{过期的 Future Work 被当成新方向。}旧论文“未来工作”中的设想，很可能早已被后续研究覆盖；助手若不结合发表时间与后续文献核查，就会把“已有人做过”说成“值得尝试的新 idea”。
+\end{itemize}
+
+\subsection{产品定位与核心理念}
+
+\textbf{研证 ResearchTrace} 是一个面向科研全流程的智能体平台，覆盖赛题要求的文档管理与解析、知识问答、阅读与翻译、检索与推荐、图谱与综述、写作与绘图六大模块。它的设计围绕一条贯穿始终的主线：
+
+\begin{keybox}{核心理念：每个结论都能回到原文}
+系统产出的每一条事实性结论，都被拆解为\kw{原子主张}，并绑定到\kw{具体论文版本、物理页码、文本块坐标与逐字引文}；每条主张经过确定性校验与独立模型复核后，以“证据灯”的形式呈现给用户：\tagbox[rtteal]{已核对支持}\ \tagbox[rtamber]{待复核}\ \tagbox[rtrose]{与原文矛盾}\ \tagbox[rtmuted]{证据不足}。查不到就明确说缺证据，绝不编造来源。
+\end{keybox}
+
+图~\ref{fig:evidence-chain} 给出了这条“证据链”的对象模型：用户看到的每句话，都可以沿着链条一键跳转到 PDF 中被高亮的原句。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[node distance=5mm]
+  \node[boxN,minimum width=20mm,minimum height=13mm](ans){\faIcon{comment-dots}\\[-1pt]回答};
+  \node[boxB,right=of ans,minimum width=23.5mm,minimum height=13mm](claim){\faIcon{stream}\\[-1pt]原子主张};
+  \node[boxB,right=of claim,minimum width=23.5mm,minimum height=13mm](quote){\faIcon{quote-left}\\[-1pt]逐字引文};
+  \node[boxT,right=of quote,minimum width=23.5mm,minimum height=13mm](block){\faIcon{th-large}\\[-1pt]文本块 + 坐标};
+  \node[boxT,right=of block,minimum width=22mm,minimum height=13mm](page){\faIcon{file-alt}\\[-1pt]物理页};
+  \node[boxV,right=of page,minimum width=22mm,minimum height=13mm](ver){\faIcon{code-branch}\\[-1pt]论文版本};
+  \foreach \a/\b in {ans/claim,claim/quote,quote/block,block/page,page/ver}\draw[flowB](\a)--(\b);
+  \node[lbl,below=1.5mm of ans]{用户所见};
+  \node[lbl,below=1.5mm of claim]{一句话一个事实\\类型：事实 / 推断};
+  \node[lbl,below=1.5mm of quote]{必须在原文中\\逐字出现};
+  \node[lbl,below=1.5mm of block]{归一化 bbox\\PDF 内高亮定位};
+  \node[lbl,below=1.5mm of page]{页码与印刷\\页标分离};
+  \node[lbl,below=1.5mm of ver]{不可变快照\\v1 / v7 互不混用};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},rtmuted]([yshift=-14mm]claim.south west)--([yshift=-14mm]ver.south east)
+    node[midway,below=6pt,font=\footnotesize,text=rtblueD]{确定性校验（身份 / 逐字 / 数值单位）＋ 独立模型复核（支持 / 矛盾 / 不足）};
+\end{tikzpicture}
+\caption{研证的证据链对象模型：从回答到原文坐标的完整可追溯路径}
+\label{fig:evidence-chain}
+\end{figure}
+
+\subsection{功能全景}
+
+平台以“版本—证据—主张”数据底座为核心，向上支撑六大功能模块（图~\ref{fig:panorama}），并已部署至公网演示环境。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+  % 中心
+  \node[solidB,circle,minimum size=27mm,align=center,font=\small\heavy,inner sep=1pt](core){证据底座\\[-2pt]{\scriptsize\cjklight 版本 · 快照 · 块}\\[-3pt]{\scriptsize\cjklight 主张 · 引文}};
+  \draw[rtblue!30,line width=5pt](core)circle(18.5mm);
+  % 六模块（显式坐标，便于微调）
+  \newcommand{\rtmod}[6]{\node[#1,minimum width=47mm,minimum height=15mm,inner ysep=4pt](#2)at(#3){%
+      {\heavy\faIcon{#4}\hspace{0.35em}#5}\\[-1pt]\sublines{#6}};
+    \draw[flowB,<->,shorten >=2pt,shorten <=2pt](core)--(#2);}
+  \rtmod{boxT}{mQA}{0,31mm}{comments}{知识问答}{单篇 / 多篇 / 多轮\\逐句证据灯}
+  \rtmod{boxR}{mGR}{0,-31mm}{project-diagram}{图谱与综述}{真实引用图 · PageRank\\综述 · Future Work 核查}
+  \rtmod{boxB}{mDOC}{-56mm,15mm}{file-upload}{文档管理与解析}{批量上传 · 去重 · 版本识别\\原生 / 扫描 / 541 页长书}
+  \rtmod{boxA}{mSR}{-56mm,-15mm}{search}{检索与推荐}{arXiv / Crossref 入库\\追踪 · 日 / 周推荐 · 反馈}
+  \rtmod{boxV}{mRD}{56mm,15mm}{language}{阅读与翻译}{原版阅读 · 目录树 · 引用跳转\\中英对照双向滚动}
+  \rtmod{boxB}{mWR}{56mm,-15mm}{pen-nib}{写作与绘图}{论文框架 · 架构图代码\\CSV 成图 · 中译英}
+\end{tikzpicture}
+\caption{功能全景：六大模块共享同一证据底座}
+\label{fig:panorama}
+\end{figure}
+
+\subsection{关键成果一览}
+
+以下数据全部来自仓库中保留的真实运行记录与测试日志（\code{evidence/} 目录），详见第~\ref{sec:testing}~章。
+
+\vspace{2pt}
+\noindent
+\begin{minipage}[t]{0.238\linewidth}\stattile{39}{篇 / 1,986 页}{赛题资料包全量解析就绪，含扫描版与 541 页教材}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtteal]{23,185}{向量}{本地 8B 嵌入模型全量索引，覆盖 22,950 个原文块}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtviolet]{75\,/\,75}{题}{有答案检索题的标准证据经重排全部进入 Top-20}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtamber]{645}{项}{后端自动化测试全部通过，另有 32 项真实浏览器检查}\end{minipage}
+
+\vspace{5pt}
+\noindent
+\begin{minipage}[t]{0.238\linewidth}\stattile{88}{秒}{541 页教材原生解析完成（5,315 个文本块）}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtteal]{11}{个}{白名单 Agent 工具，全部带 Schema 校验与预算}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtviolet]{160}{条}{引用图谱有向边，全部来自真实参考文献条目}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtamber]{2C\,/\,2G}{}{轻量云主机即可部署，HTTPS 公网长期可用}\end{minipage}
+
+\subsection{与评分维度的对应}
+
+\begin{table}[H]
+\centering\small
+\caption{本文档各章节与赛题评分维度的对应关系}
+\begin{tabularx}{\linewidth}{P{31mm}cLP{22mm}}
+\toprule
+\rthead \hd{评分维度} & \hd{权重} & \hd{本项目的主要支撑} & \hd{对应章节}\\
+\midrule
+AI 技术深度 & 35\% & 多引擎文档智能解析；BM25 + 向量 + RRF + 重排的混合检索；有界多角色 Agent；确定性校验 + 独立复核的证据闭环；\textbf{本地 8B 嵌入与重排模型部署} & 第 4 章\\
+\rtzebra 产品功能与工程质量 & 30\% & 六类功能完整落地；不可变版本与解析快照；任务持久化、幂等、可取消、可恢复；配额账本；645 项自动化测试 & 第 3、5、6 章\\
+创新性 & 15\% & 版本感知证据链；逐句证据灯；带时间与条件的 Future Work 核查；索引代际原子切换 & 第 7 章\\
+\rtzebra 用户体验 & 10\% & 内容优先的阅读器；一键跳转高亮；公开可读的执行时间线；390--1920 px 响应式 & 第 5 章\\
+实用性 & 10\% & 真实论文全流程可用；公网在线演示；2 核 2 GB 低成本部署；无密钥也可用的降级模式 & 第 5、6 章\\
+\bottomrule
+\end{tabularx}
+\end{table}

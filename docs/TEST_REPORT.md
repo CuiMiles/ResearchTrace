@@ -197,3 +197,17 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 压力下完整种子复制写锁56.522秒，API未OOM，但交互Worker空闲唤醒遇SQLite BUSY重启1次；现已增加仅队列忙错误的等待保护，不能重发任务中的未知请求。云35预检也因写锁失败，769次元数据HTTP尝试/0Embedding单位，旧回执保留，需确认reserved/unknown再恢复。
 
 最终v12回归：645 passed in 135.80s，worker-safe-final-regression.log。公网RT_EMBED_PROVIDER=auto，主检索本地Nemotron，认证回环18990/18991，云只做独立代际备用。35云预检写锁留下的一条reserved已有同quota_id原生计数回执，核对后补记ok/0Embedding单位，无请求重发、无账本重置；cloud-preflight-receipt-recovered.json。
+
+## 2026-11-17 技术文档会话补充
+
+| 项目 | 状态 | 证据与范围 |
+|---|---|---|
+| 后端全量回归（Python 3.13.18，无 `.env`） | PASS | 645 passed、1 skipped（含新增标题回归用例）；修复 `cards.layout_title` 与 `charts.py` 字体回退之后执行 |
+| 标题提取逐篇核对 | PASS | 资料包 37 篇原生 PDF 首页标题全部正确，含此前出错的 2205.14135v2（FlashAttention） |
+| 前端构建 | PASS | `npm ci && npm run build`，发布 177 个文件；主包 1,072 kB 的体积告警仍在 |
+| 本地无密钥浏览器巡检 | PASS | 20 篇导入就绪（651 页）；八个路由无页面异常；390 px 下仅首页有 1 px 横向溢出 |
+| 带开发者 `.env` 运行测试 | FAIL | 6–7 项索引相关用例受 `.env` 影响失败；移除 `.env` 后全部通过，测试隔离待修 |
+| 技术文档 PDF | PASS | `deliverables/ResearchTrace_技术文档.pdf`，27 页，XeLaTeX 可重复编译 |
+| 演示视频（新版） | NOT RUN | 本会话未制作 |
+
+本会话模型调用 0 次；公网站点从本云端环境不可达，未做公网复测。

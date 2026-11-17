@@ -1,0 +1,209 @@
+\section{系统架构设计}\label{sec:arch}
+
+\subsection{总体架构}
+
+系统采用“\kw{前后端分离 + 持久化任务队列 + 可插拔智能服务}”的分层架构（图~\ref{fig:arch}）。核心服务只依赖 CPU 与 SQLite，可在 2 核 2 GB 的云主机上独立运行；GPU 上的本地检索模型与重型版面解析引擎作为可选的旁路服务接入，不可用时自动降级，不影响主流程。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 用法：\layer{下沿y}{上沿y}{填充色}{描边色}{层名}{右上角技术标注}
+  \newcommand{\layer}[6]{%
+    \fill[#3,rounded corners=4pt](0,#1)rectangle(128,#2);
+    \draw[#4!60,line width=0.6pt,rounded corners=4pt](0,#1)rectangle(128,#2);
+    \node[rotate=90,font=\footnotesize\heavy,text=#4!85!black]at(4,{(#1+#2)/2}){#5};
+    \node[font=\scriptsize,text=rtmuted,anchor=south east,inner sep=1pt]at(127,#2+0.4){#6};}
+  % 用法：\cell[样式]{中心x}{中心y}{宽mm}{标题}{小字说明}
+  \newcommand{\cell}[6][box]{\node[#1,text width=#4mm-3mm,minimum height=11.5mm,inner xsep=1.5mm,inner ysep=1.5pt,font=\footnotesize,align=flush center]at(#2,#3){#5\\[-2.5pt]{\scriptsize\color{rtmuted}#6}};}
+  % 表现层
+  \layer{108}{125}{rtblueL}{rtblue}{表现层}{React 18 · TypeScript · Vite · React Router}
+  \cell{18}{116.5}{18.5}{工作台}{文献库}
+  \cell{37.9}{116.5}{18.5}{阅读器}{PDF.js}
+  \cell{57.8}{116.5}{18.5}{证据问答}{执行时间线}
+  \cell{77.7}{116.5}{18.5}{引用图谱}{Cytoscape}
+  \cell{97.6}{116.5}{18.5}{写作工坊}{绘图代码}
+  \cell{117.5}{116.5}{18.5}{管理}{配额看板}
+  % 接口层
+  \layer{85}{102}{rttealL}{rtteal}{接口层}{FastAPI · Pydantic · Uvicorn}
+  \cell{23.25}{93.5}{29}{会话鉴权}{工作区隔离 · CSP}
+  \cell{54.7}{93.5}{31.5}{REST API · 80+}{Schema 校验 · 幂等}
+  \cell{86.4}{93.5}{29.5}{SSE 事件流}{断线可续传}
+  \cell{114.4}{93.5}{24.5}{OpenAPI}{契约导出}
+  % 任务层
+  \layer{62}{79}{rtamberL}{rtamber}{任务层}{长文解析不阻塞交互问答}
+  \cell{26.5}{70.5}{35.5}{持久化任务队列}{幂等 · 可取消 · 可恢复}
+  \cell{66}{70.5}{37}{Worker · 文档池}{解析 · 索引 · 翻译 · 下载}
+  \cell{106.5}{70.5}{40.5}{Worker · 交互池}{问答 · Agent · 综述 · 绘图}
+  \draw[flow](44.25,70.5)--(47.5,70.5);
+  % 智能层
+  \layer{27}{56}{rtvioletL}{rtviolet}{智能层}{项目 AI 核心（第 4 章）}
+  \cell[boxV]{22.5}{47.5}{27.5}{文档智能解析}{多引擎 · 快照}
+  \cell[boxV]{51.5}{47.5}{27.5}{混合检索}{BM25 · 向量 · 重排}
+  \cell[boxV]{80.5}{47.5}{27.5}{证据核验}{确定性 + 独立复核}
+  \cell[boxV]{110.6}{47.5}{29.7}{有界 Agent}{11 个白名单工具}
+  \cell[boxV]{22.5}{34.5}{27.5}{模型调度}{角色链 · 自动降级}
+  \cell[boxV]{51.5}{34.5}{27.5}{配额账本}{RPM / TPM / RPD}
+  \cell[boxV]{80.5}{34.5}{27.5}{图谱与统计}{PageRank · CSV}
+  \cell[boxV]{110.6}{34.5}{29.7}{翻译与写作工作流}{占位保护 · 来源核验}
+  % 数据层
+  \layer{4}{21}{rtpaper}{rtmuted}{数据层}{唯一事实来源 · 单文件可备份}
+  \cell{30}{12.5}{42.5}{SQLite（WAL）}{元数据 · 块 · FTS5 · 任务 · 配额}
+  \cell{74.5}{12.5}{42.5}{向量与索引代际}{float32 · 模型指纹 · 原子激活}
+  \cell{111}{12.5}{26.5}{私有文件存储}{PDF · 产物 · 备份}
+  % 层间箭头
+  \foreach \ya/\yb in {108/102,85/79,62/56,27/21}\draw[flow,<->](64,\ya)--(64,\yb);
+  % ---- 右侧：外部与可选服务 ----
+  \draw[rtline,line width=0.7pt,rounded corners=4pt,dashed,fill=white](135,4)rectangle(167,125);
+  \node[font=\footnotesize\heavy,text=rtnavy]at(151,120.5){外部与可选服务};
+  \newcommand{\ext}[5]{\node[#1,text width=25mm,minimum height=22mm,inner xsep=1mm,font=\footnotesize,align=flush center]at(151,#2){{\large\faIcon{#3}}\\[1pt]{\heavy #4}\\[-1pt]\sublines{#5}};}
+  \ext{boxB}{103}{cloud}{云端大模型}{Gemini 生成 · 判别\\Embedding 备用}
+  \ext{boxT}{77.5}{microchip}{本地检索服务}{Nemotron 8B · GPU\\Embed + Rerank}
+  \ext{boxA}{52}{file-image}{版面解析服务}{MinerU 4.2\\PaddleOCR / VL}
+  \ext{boxR}{26.5}{globe}{学术数据源}{arXiv · Crossref\\SSRF 安全下载}
+  \draw[flowD,<->,line width=1pt](128,41.5)--node[above,font=\scriptsize,text=rtmuted,inner sep=1.5pt]{适配}(135,41.5);
+\end{tikzpicture}
+\caption{研证总体架构：五层核心 + 可插拔的外部与可选服务（虚线为可降级的旁路依赖）}
+\label{fig:arch}
+\end{figure}
+
+各层职责如下：
+
+\begin{itemize}
+  \item \textbf{表现层}：单页应用，按路由拆分为工作台、文献库、阅读器、证据问答、版本与比较、检索与推荐、图谱与核查、写作工坊、资源与配额九个工作区；PDF 渲染、图谱布局与 DOT 排版在浏览器端完成。
+  \item \textbf{接口层}：FastAPI 提供带鉴权的 REST 与 SSE 接口。所有请求体由 Pydantic 模型校验，OpenAPI 文档由代码自动导出并作为前后端契约的唯一事实来源。
+  \item \textbf{任务层}：所有耗时操作（解析、索引、问答、翻译、综述、下载）都以持久化任务的形式入队，由两个独立的 Worker 池消费，保证长文解析不会阻塞交互式问答。
+  \item \textbf{智能层}：项目的 AI 核心，包括解析、检索、核验、智能体、模型调度与配额治理，详见第~\ref{sec:ai}~章。
+  \item \textbf{数据层}：SQLite（WAL 模式）作为唯一事实来源，保存元数据、文本块、全文索引、向量、任务与配额账本；PDF 原件与生成产物保存在按工作区鉴权的私有目录。
+\end{itemize}
+
+\subsection{技术栈与选型理由}
+
+\begin{table}[H]
+\centering\small
+\caption{技术栈与选型理由}
+\begin{tabularx}{\linewidth}{P{20mm}P{50mm}L}
+\toprule
+\rthead \hd{层次} & \hd{技术} & \hd{选型理由}\\
+\midrule
+前端 & React 18、TypeScript 5.7、Vite 6、React Router 6 & 类型系统保证与后端契约一致；按路由懒加载重型模块（图谱、绘图）\\
+\rtzebra 阅读与渲染 & PDF.js 4、KaTeX、Mermaid 11、Viz.js、Cytoscape.js、DOMPurify & 浏览器端原版渲染 PDF 并叠加高亮层；公式与图表本地渲染；所有模型输出经消毒后展示\\
+后端 & Python 3.12、FastAPI、Pydantic 2、Uvicorn & 异步接口 + 声明式 Schema；自动生成 OpenAPI\\
+\rtzebra 存储 & SQLite（WAL）+ FTS5、本地文件 & 零运维、单文件备份；WAL 支持读写并发；FTS5 内置 BM25，足以支撑轻量部署\\
+文档解析 & pdfplumber、PaddleOCR 3.7（PP-OCRv5）、PaddleOCR-VL 1.6、MinerU 4.2 & 原生文字层优先，扫描件与复杂版面按需调用 OCR / 版面模型，结果归一化为统一的块结构\\
+\rtzebra 检索模型 & Nemotron-3.5-Embed-8B、Nemotron-3.5-Rerank-8B、Qwen3-Embedding-8B（本地）；gemini-embedding-001（云端备用） & 本地部署保证数据不出域且无调用费用；云端索引作为独立代际的备用路径\\
+生成模型 & Gemini 4 Hydrogen、Gemini 3.6 Flash、Gemini 3.5 Flash Lite、Gemini Decision 1 & 按角色分工：深度分析 / 常规回答 / 轻量批处理 / 主张判别，兼顾质量与额度\\
+\rtzebra 部署 & Docker Compose、Nginx / Caddy（HTTPS）、systemd 定时备份、GitHub Actions 工作流 & 非 root 容器、资源上限、自动证书；每日一致性快照备份\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{核心数据模型}
+
+数据模型的设计目标是让“版本”和“证据”成为一等公民（图~\ref{fig:datamodel}）。三个关键设计：
+
+\begin{itemize}
+  \item \textbf{作品（Work）与版本（Version）分离}：一篇论文是一个作品，v1、v7 是它的两个不可变版本。旧结论永远指向产生它的那个版本。
+  \item \textbf{解析快照（Parse）不可变}：同一版本可以被不同引擎多次解析，每次产生独立快照；已有文本块的 ID、文字与坐标永不改写，更换解析引擎不会破坏历史引用。
+  \item \textbf{索引代际（Index Generation）}：每次向量索引构建是一个独立代际，绑定模型指纹与切分方式，完整构建并校验后才原子切换为“活动索引”。
+\end{itemize}
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm,
+  ent/.style={box,text width=24mm,minimum height=11.5mm,font=\footnotesize,inner xsep=0.8mm,inner ysep=1.5pt,align=flush center},
+  rel/.style={flow,line width=0.7pt},
+  card/.style={font=\scriptsize,text=rtmuted,inner sep=1.2pt}]
+  \newcommand{\ent}[5]{\node[#1,ent](#2)at(#3){#4\\[-2.5pt]{\scriptsize #5}};}
+  % 文档主干
+  \ent{boxN}{ws}{0,42}{工作区}{Workspace}
+  \ent{boxB}{work}{33,42}{作品}{Work}
+  \ent{boxB}{ver}{66,42}{版本}{Version}
+  \ent{boxB}{parse}{99,42}{解析快照}{Parse}
+  \ent{boxB}{block}{132,42}{文本块}{Block · bbox}
+  \draw[rel](ws)--node[card,above]{1:N}(work);
+  \draw[rel](work)--node[card,above]{1:N}(ver);
+  \draw[rel](ver)--node[card,above]{1:N}(parse);
+  \draw[rel](parse)--node[card,above]{1:N}(block);
+  % 引用图
+  \ent{boxR}{ref}{66,63}{参考文献条目}{Reference}
+  \ent{boxR}{edge}{33,63}{引用边}{Citation Edge}
+  \draw[rel](ver)--node[card,right]{1:N}(ref);
+  \draw[rel](ref)--node[card,above]{匹配}(edge);
+  \draw[rel](edge)--node[card,right]{指向}(work);
+  % 检索
+  \ent{boxT}{gen}{66,21}{索引代际}{Generation}
+  \ent{boxT}{chunk}{99,21}{检索片段}{Chunk}
+  \ent{boxT}{vec}{132,21}{向量 / FTS5}{Vector}
+  \draw[rel](gen)--node[card,above]{1:N}(chunk);
+  \draw[rel](chunk)--node[card,above]{1:1}(vec);
+  \draw[rel](block.south)++(-6,0)--++(0,-4.5)-|node[card,pos=0.2,above]{覆盖}(chunk.north);
+  % 运行与证据
+  \ent{boxA}{quota}{0,21}{配额账本}{Quota}
+  \ent{boxA}{run}{0,0}{任务运行}{Run}
+  \ent{boxA}{step}{33,0}{执行步骤}{Step}
+  \ent{boxV}{claim}{66,0}{原子主张}{Claim}
+  \ent{boxV}{evi}{99,0}{证据}{Evidence}
+  \draw[rel](run)--node[card,above]{1:N}(step);
+  \draw[rel](step)--node[card,above]{产出}(claim);
+  \draw[rel](claim)--node[card,above]{1:N}(evi);
+  \draw[rel](run)--node[card,right]{预留 / 结算}(quota);
+  \draw[flowB,line width=1.1pt](evi.east)--(149.5,0)--(149.5,42)--(block.east);
+  \node[rotate=90,font=\scriptsize\heavy,text=rtblueD]at(153.5,21){绑定：版本 + 块 + 页 + 坐标};
+  % 图例
+  \node[font=\scriptsize,text=rtmuted,anchor=west]at(84,65){\dotmark{rtblue}\,文档主干\quad\dotmark{rtteal}\,检索索引\quad\dotmark{rtrose}\,引用图};
+  \node[font=\scriptsize,text=rtmuted,anchor=west]at(84,60){\dotmark{rtamber}\,任务与配额\quad\dotmark{rtviolet}\,主张与证据};
+\end{tikzpicture}
+\caption{核心数据模型（简化）：证据通过“版本 + 块 + 页 + 坐标”绑定到不可变的原文}
+\label{fig:datamodel}
+\end{figure}
+
+\subsection{任务执行与恢复模型}
+
+所有耗时操作遵循同一套生命周期（图~\ref{fig:run-state}）。入队时以“工作区 + 幂等键”做事务检查，同一请求不会重复执行；执行过程中每完成一页解析、一批翻译或一次模型响应就写入检查点，进程重启后从检查点继续，\kw{已经付费的模型响应不会被重复请求}。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm,
+  st/.style={box,rounded corners=6pt,minimum height=9.5mm,font=\footnotesize,inner xsep=2.4mm},
+  tl/.style={font=\scriptsize,text=rtmuted,inner sep=1.5pt}]
+  \node[st,boxN](submit)at(0,0){提交请求};
+  \node[st,boxA](queued)at(34,0){排队 queued};
+  \node[st,boxB](running)at(72,0){执行 running};
+  \node[st,boxT,minimum width=29mm](done)at(111,12){完成 completed};
+  \node[st,boxA,minimum width=29mm](partial)at(111,0){部分完成 partial};
+  \node[st,boxR,minimum width=29mm](failed)at(111,-12){失败 failed};
+  \node[st,boxR](cancel)at(72,-17){已取消 cancelled};
+  \node[st,rounded corners=3.5pt,align=center](sse)at(146.5,0){SSE 事件流\\[-2pt]{\scriptsize\color{rtmuted}按事件 ID 续传}};
+  \draw[flow](submit)--node[tl,above]{幂等检查}(queued);
+  \draw[flow](queued)--node[tl,above]{认领}(running);
+  \draw[flow](running.east)--++(4,0)|-(done.west);
+  \draw[flow](running)--(partial);
+  \draw[flow](running.east)--++(4,0)|-(failed.west);
+  \draw[flow](running)--node[tl,right]{用户取消}(cancel);
+  \draw[flow]([xshift=-5mm]running.north)..controls +(-3,9) and +(3,9)..node[tl,above]{检查点：逐页 / 逐批}([xshift=5mm]running.north);
+  \draw[flowD](cancel.west)-|node[tl,pos=0.3,above]{恢复}(queued.south);
+  \draw[flowD](failed.south)--++(0,-9.5)-|node[tl,pos=0.25,below]{重试 / 恢复：跳过已完成的页与批次，已返回的模型响应直接复用}([xshift=-5mm]queued.south);
+  \draw[flowD](done.east)-|([xshift=-3mm]sse.north);\draw[flowD](partial)--(sse);\draw[flowD](failed.east)-|([xshift=-3mm]sse.south);
+\end{tikzpicture}
+\caption{持久化任务的状态机：幂等、可取消、可恢复、可观测}
+\label{fig:run-state}
+\end{figure}
+
+\subsection{安全设计}
+
+\begin{table}[H]
+\centering\small
+\caption{主要安全威胁与防护措施}
+\begin{tabularx}{\linewidth}{P{35mm}L}
+\toprule
+\rthead \hd{威胁} & \hd{防护措施}\\
+\midrule
+提示注入（PDF / 网页 / CSV 中夹带指令） & 所有外部内容在提示词中显式标注为“不可信数据”；模型没有宿主 Shell 权限，只能调用带 Schema 校验的白名单工具\\
+\rtzebra SSRF 与内网探测 & 下载器逐跳校验重定向目标，解析全部 DNS 结果并拒绝私网、回环与云元数据地址；连接固定到已校验的公网 IP 并保留原始 TLS SNI\\
+越权访问 & 会话 Cookie（HttpOnly、SameSite=Strict、HTTPS 下 Secure）；工作区隔离贯穿文档、任务、缓存与产物；跨工作区访问一律返回 404\\
+\rtzebra 恶意渲染（XSS） & Markdown、HTML 与 Mermaid 输出经 DOMPurify 消毒；启用 CSP；绘图只执行固定模板，不运行模型生成的代码\\
+密钥泄露 & 模型密钥只存在于服务器环境变量；前端与日志仅显示脱敏状态；仓库附带公开审计脚本\\
+\rtzebra 资源滥用 & 登录限速；队列长度上限；单任务与单工作区的模型调用上限；绘图子进程限制内存、CPU 与时长\\
+\bottomrule
+\end{tabularx}
+\end{table}

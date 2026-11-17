@@ -1,0 +1,50 @@
+\clearpage
+\section{总结与展望}
+
+\subsection{总结}
+
+研证 ResearchTrace 围绕“\kw{每个结论都能回到原文}”这一主线，完整实现了赛题要求的六类功能，并在 AI 技术上形成了四个相互支撑的支柱：
+
+\begin{itemize}
+  \item \textbf{文档智能}：多引擎路由解析与不可变快照，覆盖原生 PDF、扫描件与 541 页长书，赛题资料包 39 篇 / 1,986 页全量解析就绪；
+  \item \textbf{高级 RAG}：本地部署的 8B 嵌入与重排模型，配合 BM25 与 RRF 的三段式检索，在 75 道有答案评测题上 Hit@20 达到 100\%；
+  \item \textbf{可信生成}：原子主张、逐字引文、确定性核验与异构模型复核构成的证据闭环；
+  \item \textbf{有界智能体}：白名单工具、预算护栏与公开执行记录保证的可控自治。
+\end{itemize}
+
+工程上，系统具备持久化可恢复的任务体系、事务化的配额治理、贯穿全链路的安全防护与 645 项自动化测试，并已在 2 核轻量云主机上以 HTTPS 公网服务的形式稳定运行。
+
+\subsection{展望}
+
+后续工作按“评测—体验—生态”三条线推进（图~\ref{fig:roadmap}）。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \draw[rtline,line width=1.6pt,-{Stealth[length=7pt,width=6pt]}](-2,0)--(168,0);
+  \newcommand{\phase}[5]{% x 颜色 标题 时间 内容
+    \fill[white](#1,0)circle(2.8);\draw[#2,line width=1.4pt](#1,0)circle(2.8);\fill[#2](#1,0)circle(1.3);
+    \node[font=\footnotesize\heavy,text=#2!80!black,anchor=south]at(#1,4){#3};
+    \node[font=\tiny,text=rtmuted,anchor=south]at(#1,9.3){#4};
+    \node[box,draw=#2!45,fill=#2!7,text width=47mm,align=left,font=\scriptsize,inner sep=5.5pt,anchor=north]at(#1,-6){#5};}
+  \phase{27}{rtblue}{评测与质量}{近期}{%
+    \textbullet\ 扩充独立人工标注的问答评测集，报告端到端准确率与引用支持率\\[1pt]
+    \textbullet\ 多嵌入模型在完整题集上的同条件对照\\[1pt]
+    \textbullet\ 综述与 Future Work 结论的专家抽检}
+  \phase{83}{rtteal}{体验与能力}{中期}{%
+    \textbullet\ 保留原版式的双语对照 PDF 导出\\[1pt]
+    \textbullet\ 引入 GROBID 增强作者、机构与参考文献元数据\\[1pt]
+    \textbullet\ 版面模型的 GPU 加速与流式回答输出}
+  \phase{139}{rtviolet}{协作与生态}{远期}{%
+    \textbullet\ 多用户协同过滤推荐与团队共享文献库\\[1pt]
+    \textbullet\ 更多学术数据源与引文管理工具互通\\[1pt]
+    \textbullet\ 面向实验室的私有化一键部署包}
+\end{tikzpicture}
+\caption{后续路线图}
+\label{fig:roadmap}
+\end{figure}
+
+我们相信，科研助手的价值不在于“替研究者下结论”，而在于\kw{让每一个结论都经得起研究者的核对}。研证将沿着这一方向持续迭代。
+
+\vspace{0.6em}
+{\small\color{rtmuted}\noindent\textbf{第三方组件说明}\quad 本项目使用的 BM25、RRF、PageRank 等算法，PDF.js、Cytoscape.js、Mermaid、PaddleOCR、MinerU 等开源组件，以及 Gemini、Nemotron、Qwen 等模型均归其原作者所有，许可信息见仓库 \code{THIRD\_PARTY\_NOTICES.md}。本项目的贡献在于“版本—证据—主张”的可追溯机制、核验闭环与工程集成。\par}
