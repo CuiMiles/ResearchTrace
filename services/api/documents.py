@@ -264,6 +264,16 @@ def _box(words, width, height):
     return [max(0., min(1., min(w["x0"] for w in words) / width)), max(0., min(1., min(w["top"] for w in words) / height)), max(0., min(1., max(w["x1"] for w in words) / width)), max(0., min(1., max(w["bottom"] for w in words) / height))]
 
 
+def _numbered_heading(text, size, body_size, appendix=True):
+    """'3.2 Attention', 'References', 'Abstract' in at least body-size type.
+
+    A footnote such as '4 To illustrate why the dot products get large, ...'
+    has the same shape but smaller type and runs on like a sentence.
+    """
+    pattern = r"^(?:\d{1,2}(?:\.\d{1,2})*\s+[A-Z]|References\s*$|Abstract\s*$" + (r"|Appendix\s+)" if appendix else ")")
+    return bool(re.match(pattern, text)) and size >= body_size * 0.95 and len(text) <= 100
+
+
 def _make_blocks(words, width, height, version_id, page_index, source, quality):
     """Infer a genuine middle gutter; fully read each column before next."""
     if not words:
@@ -303,10 +313,19 @@ def _make_blocks(words, width, height, version_id, page_index, source, quality):
         paragraphs = []
         current = []
         previous = None
+        last_heading = None  # (size, text) of the line that just closed a heading
         for line in lines:
             line.sort(key=lambda w: w["x0"])
             text = " ".join(w["text"] for w in line)
-            heading = len(text) < 150 and (max(w.get("size", 10) for w in line) > body_size * 1.13 or re.match(r"^(?:\d{1,2}(?:\.\d{1,2})*\s+[A-Z]|References\s*$|Abstract\s*$|Appendix\s+)", text))
+            size = max(w.get("size", 10) for w in line)
+            # Large type that wraps mid-sentence (e.g. a licence notice above the
+            # title) continues the previous line rather than starting a heading.
+            if (last_heading and paragraphs and last_heading[0] > body_size * 1.13 and text[:1].islower()
+                    and abs(size - last_heading[0]) < 0.6 and not re.search(r"[.:!?]$", last_heading[1])):
+                paragraphs[-1].extend(line)
+                last_heading, previous = (size, text), line
+                continue
+            heading = len(text) < 150 and (size > body_size * 1.13 or _numbered_heading(text, size, body_size))
             ref_start = bool(re.match(r"^\[\d+\]", text))
             if current and (heading or ref_start or previous is not None and line[0]["top"] - max(w["bottom"] for w in previous) > max(6, body_size * .7) or sum(len(w["text"]) for w in current) > 1300):
                 paragraphs.append(current)
@@ -315,6 +334,7 @@ def _make_blocks(words, width, height, version_id, page_index, source, quality):
             if heading:
                 paragraphs.append(current)
                 current = []
+            last_heading = (size, text) if heading else None
             previous = line
         if current:
             paragraphs.append(current)
@@ -324,7 +344,10 @@ def _make_blocks(words, width, height, version_id, page_index, source, quality):
             if not text:
                 continue
             sizes = [w.get("size", 10) for w in paragraph]
-            is_heading = len(text) < 150 and (max(sizes) > body_size * 1.13 or bool(re.match(r"^(?:\d{1,2}(?:\.\d{1,2})*\s+[A-Z]|References\s*$|Abstract\s*$)", text)))
+            is_heading = len(text) < 150 and (max(sizes) > body_size * 1.13 or _numbered_heading(text, max(sizes), body_size, appendix=False))
+            # A full sentence in large type is a notice or lead paragraph, not a title.
+            if is_heading and len(text.split()) >= 14 and text.rstrip().endswith('.'):
+                is_heading = False
             kind = "heading" if is_heading else "paragraph"
             if re.search(r"[=∑∏∫≤≥]", text) and len(text) < 500:
                 kind = "equation"

@@ -406,3 +406,37 @@ def test_empty_extraction_does_not_hide_nonblank_content(isolated, monkeypatch, 
 
 if __name__ == "__main__":
     run_document_acceptance()
+
+
+def _line(text, top, size):
+    words, x = [], 60
+    for token in text.split():
+        width = len(token) * size * 0.5
+        words.append({"text": token, "x0": x, "x1": x + width, "top": top, "bottom": top + size, "size": size})
+        x += width + size * 0.3
+    return words
+
+
+def _body(top, count=30):
+    return [w for i in range(count) for w in _line("plain body text of the paper continues here", top + i * 13, 10)]
+
+
+def test_large_type_notice_is_one_paragraph_and_title_stays_a_heading():
+    # arXiv v7 of "Attention Is All You Need" prints a licence notice above the title.
+    words = (_line("Provided proper attribution is provided, Google hereby grants permission to", 60, 12)
+             + _line("reproduce the tables and figures in this paper solely for use in journalistic or", 76, 12)
+             + _line("scholarly works.", 92, 12)
+             + _line("Attention Is All You Need", 130, 17) + _body(170))
+    blocks = documents._make_blocks(words, 600, 800, "v", 0, "fixture", "native")
+    notice = [b for b in blocks if b["text"].startswith("Provided proper attribution")]
+    assert len(notice) == 1 and notice[0]["type"] == "paragraph" and notice[0]["text"].endswith("scholarly works.")
+    assert [b["type"] for b in blocks if b["text"] == "Attention Is All You Need"] == ["heading"]
+
+
+def test_numbered_footnote_is_not_a_section_heading():
+    words = (_line("3.2 Attention", 80, 10) + _body(100, 20)
+             + _line("4 To illustrate why the dot products get large, assume that the components of q and k are independent random", 700, 8))
+    blocks = documents._make_blocks(words, 600, 800, "v", 0, "fixture", "native")
+    kinds = {b["text"][:20]: b["type"] for b in blocks}
+    assert kinds["3.2 Attention"] == "heading"
+    assert kinds["4 To illustrate why "] != "heading"
