@@ -179,3 +179,19 @@ def test_watch_check_persists_and_deduplicates(monkeypatch):
     assert len(store.rows('SELECT * FROM runs WHERE workspace=?', ('alpha',))) == 2
     with pytest.raises(ValueError):
         research.check_watch('beta', 'watch1')
+
+
+def test_short_title_without_a_card_uses_the_papers_first_page_and_arxiv_year():
+    store.execute('INSERT INTO works VALUES(?,?,?,?,?)', ('t2', 'delta', 'Attention Is All You Need', 'arxiv:1706.03762', json.dumps({'arxiv_id': '1706.03762'})))
+    store.execute('INSERT INTO works VALUES(?,?,?,?,?)', ('s2', 'delta', 'A citing paper with a long enough title', 'local:s2', '{}'))
+    for wid in ('t2', 's2'):
+        store.execute('INSERT INTO versions(id,workspace,work_id,title,filename,sha256,path,status,created) VALUES(?,?,?,?,?,?,?,?,?)', (wid + 'v', 'delta', wid, wid, wid + '.pdf', 'sha-' + wid, '/unused', 'ready', 1))
+    store.execute('INSERT INTO blocks VALUES(?,?,?,?,?,?,?,?,?,?,?)', ('fp', 'delta', 't2v', 0, '[0,0,1,1]', 'paragraph', 1, 'Ashish Vaswani∗ Google Brain avaswani@google.com', 'native', 'ok', '{}'))
+    refs = [('good', '[VSP + 17] Ashish Vaswani, Noam Shazeer, and Niki Parmar. Attention is all you need. In NIPS, 2017.'),
+            ('initials', '[62] A. Vaswani, N. Shazeer, and N. Parmar. Attention is all you need. In NIPS, 2017.'),
+            ('other-author', 'J. Doe, A. Vaswani. Attention is all you need, again. 2017.'),
+            ('other-year', 'Ashish Vaswani. Attention is all you need. Talk, 2020.')]
+    for ref_id, text in refs:
+        store.execute('INSERT INTO refs VALUES(?,?,?,?,?,?,?,?,?)', (ref_id, 'delta', 's2v', 'b-' + ref_id, 5, '[1]', text, None, '{}'))
+    edges = build_graph('delta')['edges']
+    assert sorted((e['ref_id'], e['target'], e['method']) for e in edges) == [('good', 't2', 'reference_title_first_author_year'), ('initials', 't2', 'reference_title_first_author_year')]

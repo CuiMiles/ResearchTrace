@@ -411,36 +411,67 @@ def normalize_identity(value):
     return value.rstrip('.,;')
 
 
-def _work_signature(workspace: str, work_id: str):
-    """First-author surname and year from the work's own document card."""
+def _work_signature(workspace: str, work_id: str, metadata: dict | None = None):
+    """(first-author surname, year, first-page text) used to confirm short-title matches.
+
+    The document card is preferred. Without one, the year comes from the work's
+    arXiv identifier and the first page of its live version supplies the author
+    names, so a reference's first author can be checked against the paper itself.
+    """
+    surname, year = None, None
     for row in store.rows('SELECT c.card FROM document_cards c JOIN versions v ON v.id=c.version_id '
                           'WHERE v.workspace=? AND v.work_id=? AND v.deleted=0 ORDER BY c.updated DESC', (workspace, work_id)):
         card = json.loads(row['card'])
         authors = card.get('authors') or []
         name = authors[0].get('name', '') if authors and isinstance(authors[0], dict) else ''
         parts = name.split()
-        surname = re.sub(r'[^\w]', '', parts[-1].lower()) if parts else ''
+        surname = re.sub(r'[^\w]', '', parts[-1].lower()) if parts else None
         year = card.get('year', {}).get('value') if isinstance(card.get('year'), dict) else None
-        if len(surname) >= 3:
-            return surname, str(year) if year else None
-    return None, None
+        if surname and len(surname) >= 3:
+            break
+        surname = None
+    metadata = metadata or {}
+    if not year:
+        year = metadata.get('year')
+    arxiv = re.match(r'(\d{2})(\d{2})\.\d{4,5}', str(metadata.get('arxiv_id') or ''))
+    if not year and arxiv:
+        year = 2000 + int(arxiv.group(1))
+    first_page = ''
+    if not surname:
+        live = store.one('SELECT id FROM versions WHERE workspace=? AND work_id=? AND deleted=0 ORDER BY created DESC LIMIT 1', (workspace, work_id))
+        if live:
+            text = ' '.join(b['text'] for b in store.rows('SELECT text FROM blocks WHERE version_id=? AND page_index=0 ORDER BY reading_order LIMIT 60', (live['id'],)))
+            first_page = re.sub(r'[^\w]', '', text.lower())
+    return surname, str(year) if year else None, first_page
+
+
+def _reference_first_author(text: str) -> str:
+    """Surname of the first author as written at the start of a reference entry."""
+    head = re.sub(r'^\s*(\[[^\]]{1,24}\]|\(?\d{1,3}[.)\]]?)\s*', '', text)
+    first = re.split(r',| and ', head, maxsplit=1)[0].split()
+    return re.sub(r'[^\w]', '', first[-1].lower()) if first else ''
 
 
 def _title_hit(work, norm: str, text: str, signatures: dict):
     """Match a reference to a local work by its title.
 
     Long titles (24+ normalized characters) are distinctive on their own. Short
-    ones such as "Attention Is All You Need" must also carry the work's first
-    author surname and year in the same reference, so a generic phrase alone
-    never creates an edge.
+    ones such as "Attention Is All You Need" also need the same reference to
+    carry the work's year and its first author (from the document card, or found
+    on the paper's own first page), so a generic phrase alone never creates an edge.
     """
     title = re.sub(r'[^\w]', '', work['title'].lower())
     if len(title) >= 24:
         return 'reference_unique_full_title' if title in norm else None
     if len(title) < 12 or title not in norm:
         return None
-    surname, year = signatures.get(work['id']) or (None, None)
-    if surname and surname in norm and year and re.search(r'(?<!\d)' + year + r'(?!\d)', text):
+    surname, year, first_page = signatures.get(work['id']) or (None, None, '')
+    if not year or not re.search(r'(?<!\d)(' + year + '|' + year[2:] + r')(?!\d)', text):
+        return None
+    if surname:
+        return 'reference_title_first_author_year' if surname in norm else None
+    author = _reference_first_author(text)
+    if len(author) >= 3 and author in first_page:
         return 'reference_title_first_author_year'
     return None
 
@@ -458,7 +489,7 @@ def build_graph(workspace: str) -> dict:
     edges = []
     refs = store.rows("SELECT r.*,v.work_id FROM refs r JOIN versions v ON v.id=r.version_id LEFT JOIN active_parses a ON a.version_id=v.id WHERE r.workspace=? AND v.deleted=0 AND COALESCE(json_extract(r.metadata,'$.parse_id'),r.version_id)=COALESCE(a.parse_id,r.version_id)", (workspace,))
     known_sources = {w['id'] for w in works}
-    signatures = {w['id']: _work_signature(workspace, w['id']) for w in works}
+    signatures = {w['id']: _work_signature(workspace, w['id'], json.loads(w['metadata'])) for w in works}
     for ref in refs:
         if ref['work_id'] not in known_sources:
             continue
