@@ -321,7 +321,7 @@ def work_once(pool='all'):
         with db() as c:
             c.execute('BEGIN IMMEDIATE')
             kinds={'documents':('parse','parse_document','reparse','index','card'),
-                   'interactive':('qa','agent','writing','translate','text_translation','audit','recommendation','reference_classify','reference_download','reference_import')}
+                   'interactive':('qa','agent','writing','translate','text_translation','version_summary','audit','recommendation','reference_classify','reference_download','reference_import')}
             if pool not in ('all',*kinds):raise ValueError('未知执行池')
             allowed=kinds.get(pool)
             where=' AND kind IN ('+','.join('?' for _ in allowed)+')' if allowed else ''
@@ -356,6 +356,9 @@ def work_once(pool='all'):
             elif run['kind']=='text_translation':
                 from .text_translation import handle
                 result=handle(run)
+            elif run['kind']=='version_summary':
+                from .version_summary import handle as summarize_versions
+                result=summarize_versions(run)
             elif run['kind']=='recommendation':
                 from .recommendations import run as recommend
                 result=recommend(run)

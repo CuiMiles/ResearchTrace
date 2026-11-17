@@ -131,6 +131,10 @@ class Supervisor:
         mode=self.mode;budget=self.gpu_budget
         if mode=='cuda_auto':
             try:
+                # Shared GPUs: RT_RETRIEVAL_SINGLE_GPU=0 keeps every card at or below the
+                # per-card budget by always splitting the model across cards.
+                if os.getenv('RT_RETRIEVAL_SINGLE_GPU','1')=='0':
+                    raise RuntimeError('single-card placement disabled by operator')
                 gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,budget*2,self.gpu_reserve,1)
                 mode='cuda';budget*=2
             except RuntimeError:

@@ -149,7 +149,7 @@ def version_choices(workspace, incoming_id):
     choices = {r['version_id']: r for r in store.rows('SELECT * FROM document_version_choices WHERE workspace=? AND work_id=?',
                                                      (workspace, incoming['work_id']))}
     def public(v):
-        return {k: v[k] for k in ('id', 'title', 'filename', 'label', 'status')} | {
+        return {k: v[k] for k in ('id', 'title', 'filename', 'label', 'status', 'page_count')} | {
             'is_current': v['id'] == current,
             'retrieval_excluded': bool(choices.get(v['id'], {}).get('retrieval_excluded', 0)),
             'version_number': _version_number(v)}
@@ -157,7 +157,20 @@ def version_choices(workspace, incoming_id):
             'versions': [public(v) for v in peers], 'newer_version_id': _newer(peers),
             'requires_choice': len(peers) > 1,
             'version_notice': _object(incoming['metadata']).get('version_notice', ''),
+            'basis': _match_basis(incoming),
             'notice': '仅选择当前版本和新检索范围；原 PDF、解析快照和历史引用均保留。'}
+
+
+def _match_basis(version):
+    """Why two uploads were treated as one work, in reviewer-facing words."""
+    identity = version.get('identity') or ''
+    status = _object(version['metadata']).get('identity_status', '')
+    where = '首页正文' if status.endswith('frontmatter') else 'PDF 元数据'
+    if identity.startswith('arxiv:'):
+        return f'两份文件{where}中的 arXiv 编号都是 {identity[6:]}（依据 PDF 内容识别，不看文件名）'
+    if identity.startswith('doi:'):
+        return f'两份文件{where}中的 DOI 都是 {identity[4:]}（依据 PDF 内容识别，不看文件名）'
+    return '标题与作者高度一致，需要你确认是否为同一作品'
 
 
 @router.get('/versions/{vid}/choices')

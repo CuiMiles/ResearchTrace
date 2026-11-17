@@ -236,3 +236,34 @@ def test_no_application_provider_keys_pass_to_runner(provisioned, monkeypatch):
     assert captured["HF_HUB_OFFLINE"] == "1"
     assert captured["CUDA_VISIBLE_DEVICES"] == ""
     assert os.getpid() not in guard.members(-1)
+
+
+@pytest.mark.parametrize("single", ["1", "0"])
+def test_cuda_auto_can_be_kept_split_on_shared_gpus(provisioned, monkeypatch, single):
+    from services.retrieval_runtime import supervisor
+    catalog, spec, _, _ = provisioned
+    descriptor = catalog.descriptor(spec)
+    descriptor["weights_ready"] = True
+    monkeypatch.setattr(catalog, "descriptor", lambda spec: descriptor)
+    monkeypatch.setenv("RT_RETRIEVAL_EXECUTION_MODE", "cuda_auto")
+    monkeypatch.setenv("RT_RETRIEVAL_GPU_MAX_MIB", "10240")
+    monkeypatch.setenv("RT_RETRIEVAL_SINGLE_GPU", single)
+    monkeypatch.setattr(guard, "memory_available_mib", lambda: 200000)
+    claims = []
+    def claim(root, share, reserve, count):
+        claims.append((share, count))
+        return [{"uuid": f"GPU-{i}", "index": i} for i in range(count)], []
+    monkeypatch.setattr(guard, "claim_gpus", claim)
+    captured = {}
+    class FakeProcess:
+        pid = 99999999
+    monkeypatch.setattr(supervisor.subprocess, "Popen", lambda *a, **kw: captured.update(kw["env"]) or FakeProcess())
+    monkeypatch.setattr(supervisor.threading, "Thread", lambda **kw: type("T", (), {"start": lambda self: None})())
+    manager = supervisor.Supervisor(catalog)
+    monkeypatch.setattr(manager, "_line", lambda proc: {"ready": True})
+    manager._launch(spec)
+    if single == "1":
+        assert claims[0] == (20480, 1) and captured["RT_RETRIEVAL_EXECUTION_MODE"] == "cuda"
+    else:  # never one card at double budget: split, each card within 10240 MiB
+        assert claims == [(10240, 2)] and captured["RT_RETRIEVAL_EXECUTION_MODE"] == "cuda_sharded"
+        assert int(captured["RT_RETRIEVAL_GPU_MAX_MIB"]) <= 10240

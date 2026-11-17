@@ -3097,6 +3097,45 @@
         }
       }
     },
+    "/api/v1/versions/summary": {
+      "post": {
+        "tags": [
+          "versions"
+        ],
+        "summary": "Request Summary",
+        "operationId": "request_summary_api_v1_versions_summary_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SummaryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/{path}": {
       "get": {
         "summary": "Frontend",
@@ -3845,6 +3884,35 @@
           "query"
         ],
         "title": "Search"
+      },
+      "SummaryRequest": {
+        "properties": {
+          "left": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Left"
+          },
+          "right": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Right"
+          },
+          "retry": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 0.0,
+            "title": "Retry",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "left",
+          "right"
+        ],
+        "title": "SummaryRequest"
       },
       "TextTranslationRequest": {
         "properties": {

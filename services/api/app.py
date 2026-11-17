@@ -803,6 +803,8 @@ from .document_workflows import router as document_workflow_router
 app.include_router(document_workflow_router)
 from .writing_workflows import router as writing_workflow_router
 app.include_router(writing_workflow_router)
+from .version_summary import router as version_summary_router
+app.include_router(version_summary_router)
 
 dist=ROOT/'apps/web/dist'
 app.mount('/assets',PrecompressedStatic(directory=dist/'assets',immutable=True),name='assets')

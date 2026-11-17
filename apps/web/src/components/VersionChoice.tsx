@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { api, errorMessage, key } from '../api';
+import { api, errorMessage, key, parseObject } from '../api';
+import { startPolling } from '../app/poll';
 import type { Change, Version } from '../types';
+import { Busy } from '../ui';
+import { ArrowLeft, ChevronDown, FileText, Sparkles, X } from '../icons';
+import '../styles/version-choice.css';
 
-type ChoiceVersion = Pick<Version, 'id' | 'title' | 'label' | 'filename' | 'status'> & {
+type ChoiceVersion = Pick<Version, 'id' | 'title' | 'label' | 'filename' | 'status' | 'page_count'> & {
   version_number: number | null; is_current: boolean; retrieval_excluded: boolean;
 };
 interface Choices {
   incoming: ChoiceVersion; versions: ChoiceVersion[]; work_id: string;
-  newer_version_id: string | null; requires_choice: boolean; notice: string; version_notice: string;
+  newer_version_id: string | null; requires_choice: boolean; notice: string; version_notice: string; basis?: string;
 }
 interface Props {
   pendingIds: string[];
@@ -15,22 +19,35 @@ interface Props {
   onDismiss: (id: string) => void;
   onResolved: () => Promise<void>;
 }
+interface SummaryRef { id: string; kind: string; old_page?: number; new_page?: number }
+interface Summary {
+  overall: string; points: { title: string; detail: string; refs: SummaryRef[] }[];
+  labels: { older: string; newer: string }; order_known: boolean; considered_changes: number; total_changes: number;
+  model?: string; status?: string; reason?: string;
+}
+type SummaryState = { state: 'idle' } | { state: 'running'; runId: string } | { state: 'done'; summary: Summary; runId: string }
+  | { state: 'failed'; message: string; attempt: number };
 
-/** Polls only uploaded versions: identity matching completes asynchronously. */
+const KIND: Record<string, string> = { modified: '修改', added: '新增', deleted: '删除', unchanged: '未变' };
+
+/** Shown when an upload turns out to be another version of a paper already in the library. */
 export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: Props) {
   const [choices, setChoices] = useState<Choices | null>(null);
   const [peerId, setPeerId] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [retry, setRetry] = useState(0);
-  const [diff, setDiff] = useState<{ counts: Record<string, number>; changes: Change[]; notice: string } | null>(null);
+  const [diff, setDiff] = useState<{ counts: Record<string, number>; changes: Change[] } | null>(null);
   const [loadingDiff, setLoadingDiff] = useState(false);
+  const [summary, setSummary] = useState<SummaryState>({ state: 'idle' });
+  const [attempt, setAttempt] = useState(0);
   const dialog = useRef<HTMLDialogElement>(null);
   const requestKeys = useRef<Record<string, string>>({});
   const incomingId = pendingIds.find((id) => versions.some((v) => v.id === id && ['ready', 'partial'].includes(v.status)));
+
   useEffect(() => {
     let disposed = false;
-    setChoices(null); setDiff(null); setError('');
+    setChoices(null); setDiff(null); setError(''); setSummary({ state: 'idle' });
     if (!incomingId) return;
     void api<Choices>(`/versions/${encodeURIComponent(incomingId)}/choices`).then((result) => {
       if (disposed) return;
@@ -44,8 +61,28 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
   useEffect(() => {
     if (choices && !dialog.current?.open) dialog.current?.showModal();
   }, [choices]);
-  if (!choices) return error ? <div role="alert">版本选择未载入：{error} <button onClick={() => setRetry((n) => n + 1)}>重试版本识别</button></div> : null;
+  // Follow a queued summary until the worker saves it.
+  const runningId = summary.state === 'running' ? summary.runId : '';
+  useEffect(() => {
+    if (!runningId) return;
+    let live = true;
+    const stop = startPolling(async () => {
+      const run = await api<{ status: string; error?: string | null; result?: unknown }>(`/runs/${runningId}`);
+      if (!live) return null;
+      if (['queued', 'running', 'waiting_children', 'waiting_batch'].includes(run.status)) return 1500;
+      const result = parseObject<Summary | null>(run.result, null);
+      if (run.status === 'completed' || (run.status === 'partial' && result)) setSummary({ state: 'done', summary: result!, runId: runningId });
+      else setSummary({ state: 'failed', message: run.error || '总结没有完成，可以稍后重试。', attempt });
+      return null;
+    }, 800);
+    return () => { live = false; stop(); };
+  }, [runningId, attempt]);
+
+  if (!choices) return error ? <div role="alert" className="vc-load-error">版本识别结果没有载入：{error} <button className="text-button" onClick={() => setRetry((n) => n + 1)}>重试</button></div> : null;
   const newer = choices.versions.find((v) => v.id === choices.newer_version_id);
+  const peer = choices.versions.find((v) => v.id === peerId);
+  const others = choices.versions.filter((v) => v.id !== choices.incoming.id);
+
   async function resolve(action: 'keep_newer' | 'both' | 'replace') {
     if (!choices) return;
     setBusy(true); setError('');
@@ -66,36 +103,107 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
     catch (e) { setError(errorMessage(e)); }
     finally { setLoadingDiff(false); }
   }
-  return <dialog ref={dialog} aria-labelledby="version-choice-title" onCancel={(e) => e.preventDefault()}
-    style={{ width: 'min(760px, calc(100vw - 32px))', maxHeight: '85vh', overflow: 'auto', padding: 24,
-      border: '1px solid #b8c6d6', borderRadius: 14, color: '#172b4d', background: 'white' }}>
-    <h2 id="version-choice-title">检测到同一论文的不同版本</h2>
-    <p>本次上传：{choices.incoming.title} · {choices.incoming.label}（{choices.incoming.filename}）</p>
-    <label>库中版本 <select value={peerId} disabled={busy} onChange={(e) => { setPeerId(e.target.value); setDiff(null); }}>
-      {choices.versions.filter((v) => v.id !== choices.incoming.id).map((v) =>
-        <option key={v.id} value={v.id}>{v.label} · {v.filename}{v.is_current ? ' · 当前版本' : ''}</option>)}
-    </select></label>
-    <p>{choices.version_notice || choices.notice}</p>
-    <p>“保留较新”或“用本次替换”会将其他版本排除出新检索；原 PDF 和历史引用仍可阅读。“两个都保留”恢复此作品所有版本参与检索。</p>
-    {!newer && <p role="status">版本先后尚无可靠依据，不按上传时间或文件名猜测。</p>}
-    {error && <p role="alert">{error}</p>}
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBlock: 16 }}>
-      <button disabled={busy || !newer} onClick={() => void resolve('keep_newer')}>
-        保留较新版本{newer ? ` ${newer.label}（推荐）` : '（顺序未知）'}
-      </button>
-      <button disabled={busy} onClick={() => void resolve('both')}>两个都保留</button>
-      <button disabled={busy} onClick={() => void resolve('replace')}>用本次版本替换</button>
-      <button disabled={busy || loadingDiff} onClick={() => void compare()}>{loadingDiff ? '正在比较…' : '查看差异'}</button>
-      <button disabled={busy} onClick={() => { dialog.current?.close(); onDismiss(choices.incoming.id); }}>稍后选择</button>
+  async function summarize(next = attempt) {
+    if (!choices) return;
+    setError('');
+    try {
+      const run = await api<{ id: string }>('/versions/summary', { left: peerId, right: choices.incoming.id, retry: next });
+      setAttempt(next);
+      setSummary({ state: 'running', runId: run.id });
+      if (!diff) void compare();
+    } catch (e) { setSummary({ state: 'failed', message: errorMessage(e), attempt: next }); }
+  }
+  const later = () => { dialog.current?.close(); onDismiss(choices.incoming.id); };
+
+  return <dialog ref={dialog} className="vc-dialog" aria-labelledby="version-choice-title" onCancel={(e) => { e.preventDefault(); later(); }}>
+    <header className="vc-head">
+      <span className="vc-eyebrow"><Sparkles size={13} />版本识别</span>
+      <h2 id="version-choice-title">库里已有这篇论文的另一个版本</h2>
+      {choices.basis && <p className="vc-basis">{choices.basis}</p>}
+      <button className="icon-button vc-close" aria-label="稍后决定" onClick={later}><X size={16} /></button>
+    </header>
+
+    <div className="vc-pair">
+      <VersionCard tag="刚刚上传" version={choices.incoming} newer={newer?.id === choices.incoming.id} />
+      <span className="vc-vs" aria-hidden="true"><ArrowLeft size={15} /></span>
+      {others.length > 1
+        ? <label className="vc-card vc-select"><span className="vc-tag">库中版本</span>
+          <select value={peerId} disabled={busy} onChange={(e) => { setPeerId(e.target.value); setDiff(null); setSummary({ state: 'idle' }); }}>
+            {others.map((v) => <option key={v.id} value={v.id}>{v.label} · {v.filename}{v.is_current ? ' · 当前' : ''}</option>)}
+          </select></label>
+        : peer && <VersionCard tag="库中已有" version={peer} newer={newer?.id === peer.id} />}
     </div>
-    {diff && <section aria-label="真实版本差异"><p>{diff.notice}</p>
-      <p>{Object.entries(diff.counts).map(([name, count]) => `${name}: ${count}`).join(' · ')}</p>
-      {diff.changes.slice(0, 50).map((change, i) => <details key={i}>
-        <summary>{change.kind} · {change.before ? `原版本第 ${change.before.page_index + 1} 页` : ''} → {change.after ? `本次第 ${change.after.page_index + 1} 页` : ''}</summary>
-        {change.before && <blockquote style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{change.before.text}</blockquote>}
-        {change.after && <blockquote style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{change.after.text}</blockquote>}
-      </details>)}
-      {diff.changes.length > 50 && <p>共 {diff.changes.length} 项，弹窗展示前 50 项；完整比较请进入“版本与比较”。</p>}
-    </section>}
+
+    {newer
+      ? <p className="vc-recommend">{newer.id === choices.incoming.id
+        ? `本次上传的 ${newer.label} 更新，建议用它作为当前版本；旧版本仍可随时阅读和比较。`
+        : `库中已有更新的 ${newer.label}，建议保留它作为当前版本；本次的 ${choices.incoming.label} 仍会保存，可随时阅读和比较。`}</p>
+      : <p className="vc-recommend neutral">无法从内容判断哪个版本更新，请根据需要选择；不会按上传时间或文件名猜测。</p>}
+
+    {error && <p role="alert" className="vc-error">{error}</p>}
+    <div className="vc-actions">
+      <button className="primary-button" disabled={busy || !newer} onClick={() => void resolve('keep_newer')}>
+        {newer ? `保留较新的 ${newer.label}（推荐）` : '保留较新版本'}
+      </button>
+      <button className="small-button" disabled={busy} onClick={() => void resolve('both')}>两个都保留</button>
+      <button className="small-button" disabled={busy} onClick={() => void resolve('replace')}>用本次上传替换</button>
+      <button className="text-button" disabled={busy} onClick={later}>稍后决定</button>
+    </div>
+    <p className="vc-footnote">“保留较新”或“替换”只决定以后检索用哪个版本；两份原文、解析结果和历史引用都会保留。</p>
+
+    <section className="vc-diff" aria-label="两个版本的差异">
+      <div className="vc-diff-head">
+        <h3>两个版本改了什么</h3>
+        <div className="vc-diff-actions">
+          {!diff && <button className="text-button" disabled={loadingDiff} onClick={() => void compare()}>{loadingDiff ? '正在比较…' : '逐段比较'}</button>}
+          {summary.state === 'idle' && <button className="small-button vc-ai" onClick={() => void summarize()}><Sparkles size={13} />AI 总结主要修订</button>}
+        </div>
+      </div>
+      {diff && <p className="vc-counts">{(['modified', 'added', 'deleted', 'unchanged'] as const).filter((k) => diff.counts[k] !== undefined)
+        .map((k) => <span key={k} className={`vc-chip ${k}`}>{KIND[k]} {diff.counts[k]} 段</span>)}</p>}
+
+      {summary.state === 'running' && <div className="vc-summary pending"><Busy>正在对照两个版本的真实差异段落撰写总结…</Busy></div>}
+      {summary.state === 'failed' && <div className="vc-summary failed"><p>{summary.message}</p>
+        <button className="text-button" onClick={() => void summarize(summary.attempt + 1)}>重试</button></div>}
+      {summary.state === 'done' && <SummaryView summary={summary.summary} />}
+
+      {diff && <details className="vc-changes">
+        <summary><ChevronDown size={14} />查看逐段差异（{diff.changes.length} 处）</summary>
+        {diff.changes.slice(0, 50).map((change, i) => <div key={i} className={`vc-change ${change.kind}`}>
+          <p className="vc-change-head"><span className={`vc-chip ${change.kind}`}>{KIND[change.kind] ?? change.kind}</span>
+            {change.before && <span>库中版本第 {change.before.page_index + 1} 页</span>}
+            {change.before && change.after && <span aria-hidden="true">→</span>}
+            {change.after && <span>本次上传第 {change.after.page_index + 1} 页</span>}</p>
+          {change.before && <blockquote className="before">{change.before.text}</blockquote>}
+          {change.after && <blockquote className="after">{change.after.text}</blockquote>}
+        </div>)}
+        {diff.changes.length > 50 && <p className="vc-footnote">这里列出前 50 处；完整比较可在「版本与比较」页查看。</p>}
+      </details>}
+    </section>
   </dialog>;
+}
+
+function VersionCard({ tag, version, newer }: { tag: string; version: ChoiceVersion; newer: boolean }) {
+  return <article className={`vc-card ${newer ? 'newer' : ''}`}>
+    <span className="vc-tag">{tag}{newer && <b>较新</b>}</span>
+    <strong className="vc-label">{version.label}</strong>
+    <span className="vc-file"><FileText size={13} />{version.filename}</span>
+    <span className="vc-meta">{version.page_count ? `${version.page_count} 页` : ''}{version.is_current ? ' · 当前检索版本' : ''}</span>
+  </article>;
+}
+
+function SummaryView({ summary }: { summary: Summary }) {
+  const { older, newer } = summary.labels;
+  const page = (ref: SummaryRef) => [ref.old_page && `${older} 第 ${ref.old_page} 页`, ref.new_page && `${newer} 第 ${ref.new_page} 页`]
+    .filter(Boolean).join(' → ');
+  if (!summary.points.length) return <div className="vc-summary"><p>{summary.reason || '没有可以总结的实质修订。'}</p></div>;
+  return <div className="vc-summary">
+    <p className="vc-summary-title"><Sparkles size={14} />{summary.order_known ? `从 ${older} 到 ${newer} 的主要修订` : `${older} 与 ${newer} 的主要差异`}</p>
+    {summary.overall && <p className="vc-overall">{summary.overall}</p>}
+    <ol>{summary.points.map((point, i) => <li key={i}>
+      <strong>{point.title}</strong><span>{point.detail}</span>
+      <span className="vc-refs">{point.refs.map((ref) => <em key={ref.id} className={`vc-chip ${ref.kind}`}>{KIND[ref.kind] ?? ref.kind} · {page(ref)}</em>)}</span>
+    </li>)}</ol>
+    <p className="vc-footnote">由模型（{summary.model ?? '未知模型'}）只依据两版之间真实的段落差异撰写，每条都标出了对应页码，可在下方逐段差异中核对；共比较 {summary.total_changes} 处差异，其中 {summary.considered_changes} 处实质改动用于总结。</p>
+  </div>;
 }
