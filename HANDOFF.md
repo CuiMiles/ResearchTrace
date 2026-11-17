@@ -18,9 +18,17 @@
   与本机被忽略的 `data-migrated/completion-deployment/` 同名文件（0600）。资料库精选 10 篇（Attention v7、扫描版、
   541 页教材、BERT、GPT-1、T5、ViT、LayerNorm、Pre-LN、FlashAttention），其余为软删除；4 个解析错的标题已按论文首页人工更正。
 - 视频：`docs/DEMO_SCRIPT.md`（8 分钟顺序、操作与台词、录制前检查清单）。
+- **评委账号（原 reviewer 账号）已精简**：保留 10 篇精选论文，其余 36 篇（含 v1）软删除，可恢复。删 v1 是为了让评委自己上传 v1，
+  完整体验 3.1；重新上传会复用同一版本，Hydrogen 修订总结立即显示。4 个乱码标题已更正，v7 目录按解析标题重建（去掉版权声明和脚注误判，共 30 条）。
+  已预生成：v1→v7 修订总结（gemini-4-hydrogen）、单篇问答（Hydrogen）、跨篇 Post-LN/Pre-LN 问答（降级到 3.6-flash，结果为部分完成）。
+  录视频请用评委账号（`docs/DEMO_SCRIPT.md`）；「视频演示空间」账号没有这些预生成结果。
+- GPU（2026-11-18）：0/3/4/5 号卡留给其他任务。embed 通过 drop-in `visible-cards-2-7.conf`（内容为
+  `RT_RETRIEVAL_GPU_ALLOW=1,2,6,7`）只放在 1/2/6/7 号卡，每卡约 4.3 GB；rerank 因显存不足未启动。
+  不需要时执行 `systemctl --user stop researchtrace-warm@embed.timer researchtrace-embed.service` 释放。
+- ECS 磁盘已清理：删除 v2–v17 镜像和更早的备份，保留 v18 起的镜像与最新两份备份，使用率 72% → 49%。
+- 解析修复（640b365，v21）：页脚注释、图表坐标、大字号版权声明不再被识别为标题；只对新解析生效，已在库的文档用目录修正处理。
 
-剩余人工/待办：版本修订总结在 01:56 遇服务方 503（hydrogen 与 3.6-flash 均失败，4 次请求已记账），需错峰重试；
-问答、写作的演示结果待预生成；技术文档 LaTeX 截图待更新；录制视频。
+剩余人工/待办：录制视频（评委账号，录完删除重新上传的 v1）。写作结果没有预生成。跨篇 BERT/GPT 问答两次网络超时，未完成。
 
 First live milestone is running on http://127.0.0.1:18970 and server LAN http://10.184.17.163:18970 (not a verified public URL). Login with RT_ACCESS_CODE / distinct RT_ADMIN_CODE from ignored .env. Own user services researchtrace-api / researchtrace-worker, restart via systemctl --user restart researchtrace-api researchtrace-worker. ./scripts/dev.sh installs/starts only these own units. Other services/proxies were not modified.
 

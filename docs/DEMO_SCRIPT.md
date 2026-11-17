@@ -1,7 +1,7 @@
 # 8 分钟演示视频：顺序、操作与台词
 
-录制环境：公网 https://researchtrace.sluna.xyz ，使用「视频演示空间」访问码（私有文件
-`data-migrated/completion-deployment/demo-video-account-20261118.json`，不要出镜）。
+录制环境：公网 https://researchtrace.sluna.xyz ，使用**评委账号**（与评委相同的访问码，不要出镜；预生成结果都在这个账号里）。
+录完后在文献库删除录制时重新上传的 v1，恢复「库里只有 v7」的状态，评委才能自己完整测试 3.1。
 浏览器 1920×1080、缩放 100%，提前登录并打开一次每篇论文（让 PDF 进入浏览器缓存）。
 资料库只有 10 篇精选论文：Attention v7（矢量版）、Attention 扫描版、Understanding Deep
 Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transformer、FlashAttention。
@@ -83,13 +83,13 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 2. 进入「问答」页，跨篇提问（录制前已生成）：
    「Post-LN 和 Pre-LN Transformer 在训练稳定性上有什么区别？请对比 Layer Normalization 原论文和 Pre-LN 论文。」
 
-> 跨多篇论文时，回答会分别标出每条论据来自哪一篇、哪一页；某个点找不到证据时，
-> 系统直接写「缺少证据」，而不是编一个看似合理的答案。
+> 跨多篇论文时，回答会分别标出每条论据来自哪一篇、哪一页。注意最后一句：2016 年的 Layer Norm
+> 原论文确实没有讨论 Pre-LN，系统直接写「缺少证据」，而不是编一个看似合理的答案。
 
 3. 进入「图谱」页，以 Attention 为中心。
 
-> 引文图谱的每条边都来自论文真实的参考文献解析，不是模型猜的。可以看到 BERT、GPT、T5、
-> ViT 都引用了 Transformer，点击节点即可打开对应论文。
+> 引文图谱的每条边都来自论文真实的参考文献解析，不是模型猜的。可以看到 BERT、GPT-1、T5、
+> Pre-LN 和 FlashAttention 都引用了 Transformer，点击节点即可打开对应论文。
 
 4. 进入「写作」页，选「相关工作」模板，基于库中 3–4 篇论文（录制前已生成，显示生成时间）。
 
