@@ -323,7 +323,9 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
       {currentStatus === 'empty' && <p role="status" className="selection-notice">此页没有可选择的文字（扫描页或图片）。切换到「中英对照」可查看识别出的文字。</p>}
     </div>}
     {!ready && !doc.error && <div className="pdf-pages"><div className="pdf-page pdf-sheet placeholder" style={{ width: Math.min(containerWidth - PAD * 2, 760), height: Math.min(containerWidth - PAD * 2, 760) * 1.3 }}>
-      <div className="pdf-loading"><Busy>正在载入原文</Busy></div>
+      <div className="pdf-loading"><Busy>{doc.id === version.id && doc.progress !== undefined && doc.progress < 1
+        ? `正在载入原文 ${Math.round(doc.progress * 100)}%`
+        : '正在载入原文'}</Busy></div>
     </div></div>}
     {ready && <div className="pdf-pages" ref={pagesHost} style={{ height: layout.total, minWidth: layout.maxWidth + PAD * 2 }}>
       {pages.map((page, i) => <div className="pdf-page-slot" key={i} style={{ top: layout.tops[i], height: layout.heights[i] }}>{page}</div>)}

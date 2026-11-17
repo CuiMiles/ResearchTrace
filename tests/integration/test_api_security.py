@@ -75,3 +75,20 @@ def test_outline_correction_is_scoped_and_preserves_original(api,monkeypatch):
     assert store.one('SELECT text FROM blocks WHERE id=?',(original['id'],))['text']==original['text']
     assert api.patch('/api/v1/documents/'+vid,json={'outline':[{'title':'伪造','page_index':0,'block_id':'other-workspace-block'}]}).status_code==422
     assert api.get('/api/v1/documents/'+vid+'/search',params={'q':'GPU'}).json()
+
+def test_polled_list_is_slim_and_pdf_is_privately_cacheable(api,monkeypatch):
+    from services.api import retrieval
+    monkeypatch.setattr(retrieval,'index_dense',lambda *a:{'status':'UNIT_FIXTURE_NO_MODEL'})
+    api.post('/api/v1/auth/login',json={'code':'fixture-reviewer'})
+    uploaded=api.post('/api/v1/documents',files={'files':('slim.pdf',pdf_bytes())}).json()
+    vid=uploaded['documents'][0]['id'];rid=uploaded['runs'][0]['id']
+    documents.parse_document(store.one('SELECT * FROM runs WHERE id=?',(rid,)))
+    assert api.patch('/api/v1/documents/'+vid,json={'outline':[{'title':'第一节','page_index':0,'block_id':None}]}).status_code==200
+    listed=next(v for v in api.get('/api/v1/documents').json() if v['id']==vid)
+    assert 'outline' not in listed['metadata'] and listed['metadata']['outline_count']==1
+    assert api.get(f'/api/v1/documents/{vid}/status').json()['metadata']['outline'][0]['title']=='第一节'
+    pdf=api.get(f'/api/v1/documents/{vid}/file')
+    assert pdf.headers['cache-control']=='private, max-age=86400'
+    assert api.get('/api/v1/documents').headers['cache-control']=='no-store'
+    api.post('/api/v1/auth/logout')
+    assert api.get(f'/api/v1/documents/{vid}/file').status_code==401

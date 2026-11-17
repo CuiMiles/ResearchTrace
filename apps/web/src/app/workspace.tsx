@@ -12,6 +12,8 @@ import { api, errorMessage, parseObject } from '../api';
 import type { ModelCapability } from '../ModelConfig';
 import type { Block, Evidence, Run, Session, Version } from '../types';
 import { VersionChoice } from '../components/VersionChoice';
+import { activeRun } from '../RunPanel';
+import { startPolling, type Poller } from './poll';
 
 interface UploadResult {
   documents: Version[];
@@ -82,7 +84,8 @@ export function WorkspaceProvider({
     setVersionChoiceIds((current) => current.filter((candidate) => candidate !== id));
   }, []);
 
-  const refresh = useCallback(async () => {
+  // Returns whether anything is still running, so the poller can pick its pace.
+  const load = useCallback(async (): Promise<boolean> => {
     try {
       const [docs, recent, batches] = await Promise.all([
         api<Version[]>('/documents'),
@@ -99,21 +102,24 @@ export function WorkspaceProvider({
         })),
       );
       setLoaded(true);
+      return recent.some(activeRun) || docs.some((d) => d.status === 'queued' || d.status === 'parsing');
     } catch (e) {
       setError(errorMessage(e));
+      return false;
     }
   }, []);
+  const poller = useRef<Poller | null>(null);
+  const refresh = useCallback(async () => { if (await load()) poller.current?.soon(4000); }, [load]);
 
   useEffect(() => {
     void api<ModelCapability>('/capabilities')
       .then(setCapability)
       .catch((e) => setError(errorMessage(e)));
-    void refresh();
-    const timer = window.setInterval(() => {
-      if (document.visibilityState === 'visible') void refresh();
-    }, 4000);
-    return () => window.clearInterval(timer);
-  }, [session.workspace, refresh]);
+    // Fast while something is running, slow when idle; never overlapping.
+    const stop = startPolling(async () => ((await load()) ? 4000 : 20000));
+    poller.current = stop;
+    return () => { poller.current = null; stop(); };
+  }, [session.workspace, load]);
 
   const upload = useCallback(
     async (files: FileList | File[] | null) => {

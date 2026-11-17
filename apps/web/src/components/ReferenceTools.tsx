@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { api, errorMessage, key } from '../api';
+import { startPolling } from '../app/poll';
 import type { Evidence, Run } from '../types';
 
 interface Context { block_id: string; version_id: string; parse_id: string; page_index: number; bbox: number[]; quote: string; section: string; count: number; }
@@ -58,9 +59,8 @@ export function ReferenceTools({ versionId, parseId, onEvidence, onImported }: {
         }
       } catch (e) { if (active) setError(errorMessage(e)); }
     }
-    void poll();
-    const timer = window.setInterval(() => { if (document.visibilityState === 'visible') void poll(); }, 3000);
-    return () => { active = false; window.clearInterval(timer); };
+    const stop = startPolling(async () => { await poll(); return 3000; });
+    return () => { active = false; stop(); };
   }, [runId, batchId, versionId, query, onImported]);
   async function perform(action: string) {
     setBusy(true); setError('');

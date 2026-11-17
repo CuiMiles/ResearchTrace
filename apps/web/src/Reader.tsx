@@ -111,10 +111,31 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   const translationRuns = usePageTranslationRuns(() => { loadTranslations(); refresh(); });
 
   // ── data ────────────────────────────────────────────────────────────────
+  // The polled document list carries only an outline count; fetch the entries
+  // for this document (again when parsing finishes or after a manual edit).
+  const outlineCount = Number(parseObject<Record<string, unknown>>(version.metadata, {}).outline_count ?? 0);
+  const [storedOutline, setStoredOutline] = useState<{ loaded: boolean; expected: boolean; items?: OutlineEntry[] }>({ loaded: false, expected: false });
+  const [outlineRevision, setOutlineRevision] = useState(0);
+  useEffect(() => {
+    if (historical) return;
+    let live = true;
+    setStoredOutline(previous => ({ ...previous, expected: outlineCount > 0 }));
+    void api<Version>(`/documents/${version.id}/status`)
+      .then(v => {
+        const items = parseObject<Record<string, unknown>>(v.metadata, {}).outline;
+        if (live) setStoredOutline({ loaded: true, expected: outlineCount > 0, items: Array.isArray(items) ? items as OutlineEntry[] : undefined });
+      })
+      .catch(() => { if (live) setStoredOutline(previous => ({ ...previous, loaded: true })); });
+    return () => { live = false; };
+  }, [version.id, version.status, outlineCount, historical, outlineRevision]);
   useEffect(() => { setSelection(null); setSelectionTask(null); setQuestionSelection(null); selectionRequest.current += 1; }, [version.id, parseId]);
   useEffect(() => { setSelectedParse(''); setQuestion(''); setReturn(null); setReturnEvidence(null); setQuery(''); setSearchResults([]); setError(''); }, [version.id]);
   useEffect(() => { setBlocks([]); setReferences([]); setOutlineEditing(false); setFocusBlock(highlight && highlight.parse_id === parseId ? highlight.block_id : null); setSearchResults([]); }, [version.id, parseId]);
+  // Wait for the first snapshot list: fetching before parseId is known downloads
+  // every block twice (the first answer is discarded when parseId arrives).
+  const parsesKnown = snapshots.length > 0 || !parsesLoading;
   useEffect(() => {
+    if (!parsesKnown) return;
     let live = true;
     Promise.all([
       documentBlocks(version.id, 2000, parseId),
@@ -127,7 +148,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
       setTranslations(t);
     }).catch(e => live && setError(errorMessage(e)));
     return () => { live = false; };
-  }, [version.id, version.parsed_pages, parseId, snapshotProgress, targetLanguage]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [version.id, version.parsed_pages, parseId, snapshotProgress, targetLanguage, parsesKnown]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (highlight && highlight.version_id === version.id) { setPage(highlight.page_index); setFocusBlock(highlight.block_id); setSelectedParse(highlight.parse_id ?? ''); }
   }, [highlight, version.id]);
@@ -229,7 +250,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
     setOutlineSaving(true); setError('');
     try {
       await api(`/documents/${version.id}`, { outline: outlineDraft.map(h => ({ ...h, title: h.title.trim() })).filter(h => h.title) }, 'PATCH');
-      setOutlineEditing(false); refresh();
+      setOutlineEditing(false); setOutlineRevision(n => n + 1); refresh();
     } catch (e) { setError(errorMessage(e)); } finally { setOutlineSaving(false); }
   }
   async function ask(text = question) {
@@ -315,7 +336,8 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   };
 
   // ── derived ─────────────────────────────────────────────────────────────
-  const outline = (!historical ? (parseObject<Record<string, unknown>>(version.metadata, {}).outline as OutlineEntry[] | undefined) : undefined)
+  const outline = (!historical ? storedOutline.items : undefined)
+    ?? (!historical && storedOutline.expected && !storedOutline.loaded ? [] : undefined)
     ?? blocks.filter(b => b.type === 'heading').map((b): OutlineEntry => ({ title: b.text, page_index: b.page_index, block_id: b.id, level: 1 }));
   // The section being read: last heading that starts on or before the current page.
   const currentSection = outline.reduce((found, h, i) => (h.page_index <= pageIndex ? i : found), -1);

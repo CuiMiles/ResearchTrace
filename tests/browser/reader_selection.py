@@ -303,6 +303,8 @@ def main():
                             ]
                         elif resource in ("references", "search"):
                             data = []
+                        elif resource == "status":
+                            data = next(v for v in versions if v["id"] == vid)
                         elif resource == "pages":
                             data = {
                                 "page_index": int(parts[4]),

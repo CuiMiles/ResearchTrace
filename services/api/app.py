@@ -15,7 +15,7 @@ load_dotenv(Path(__file__).resolve().parents[2]/'.env')
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, UploadFile, File, Form, Query
 from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
+from .static_assets import PrecompressedStatic
 from pydantic import BaseModel, Field
 from .store import ROOT, DATA, artifact, db, execute, migrate, one, rows, uid
 from .jobs import bibliography, export_note, queue
@@ -45,7 +45,7 @@ async def security(request,call_next):
     response.headers['X-Content-Type-Options']='nosniff'
     response.headers['Referrer-Policy']='same-origin'
     response.headers['X-Frame-Options']='DENY'
-    if request.url.path.startswith('/api'):
+    if request.url.path.startswith('/api') and 'cache-control' not in response.headers:
         response.headers['Cache-Control']='no-store'
     response.headers['Content-Security-Policy']="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
     return response
@@ -201,6 +201,11 @@ def documents(s=Depends(session)):
     indexes=index_status_map(s['workspace'])
     for v in found:
         v.pop('path',None);v['metadata']=json.loads(v['metadata']);v['local_index']=indexes[v['id']]
+        # The list is polled; full outlines (a 500-page book has hundreds of
+        # entries) made it ~0.5 MB. The reader loads its own via /status.
+        outline=v['metadata'].pop('outline',None)
+        if outline is not None:
+            v['metadata']['outline_count']=len(outline) if isinstance(outline,list) else 0
     return found
 
 @app.get('/api/v1/documents/{vid}/status')
@@ -285,7 +290,10 @@ def pdf(vid:str,s=Depends(session)):
     path=Path(v['path']).resolve()
     if not path.is_relative_to(DATA) or not path.is_file():
         raise HTTPException(404,'原文文件已缺失')
-    return FileResponse(path,media_type='application/pdf',filename=vid+'.pdf',content_disposition_type='inline')
+    # A version's bytes never change (versions are content-addressed), so the
+    # browser may keep its own copy; 'private' keeps shared proxies out.
+    return FileResponse(path,media_type='application/pdf',filename=vid+'.pdf',content_disposition_type='inline',
+                        headers={'Cache-Control':'private, max-age=86400'})
 
 class ParseRequest(BaseModel):
     engine:str=Field(pattern='^(native|paddleocr|paddleocr_vl|mineru)$')
@@ -797,8 +805,8 @@ from .writing_workflows import router as writing_workflow_router
 app.include_router(writing_workflow_router)
 
 dist=ROOT/'apps/web/dist'
-app.mount('/assets',StaticFiles(directory=dist/'assets',check_dir=False),name='assets')
-app.mount('/vendor',StaticFiles(directory=dist/'vendor',check_dir=False),name='vendor')
+app.mount('/assets',PrecompressedStatic(directory=dist/'assets',immutable=True),name='assets')
+app.mount('/vendor',PrecompressedStatic(directory=dist/'vendor',immutable=False),name='vendor')
 
 @app.get('/{path:path}')
 def frontend(path:str):

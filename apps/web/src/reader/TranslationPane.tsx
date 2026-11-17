@@ -6,6 +6,7 @@ import { Busy } from '../ui';
 import { Languages, MessageSquare } from '../icons';
 import { PdfCrop } from './PdfCrop';
 import type { ViewAnchor } from '../PdfReader';
+import { startPolling } from '../app/poll';
 
 export interface TranslationPaneHandle {
   scrollToAnchor: (page: number, y: number) => void;
@@ -199,14 +200,14 @@ export function usePageTranslationRuns(onDone: () => void) {
     if (!runs.length) return;
     let live = true;
     let tick = 0;
-    const timer = window.setInterval(async () => {
+    const stop = startPolling(async () => {
       tick += 1;
       // Long (whole-paper) runs save page by page; show progress as it lands.
       if (tick % 3 === 0) done.current();
       for (const run of runs) {
         try {
           const state = await api<{ status: string; error?: string | null }>(`/runs/${run.id}`);
-          if (!live) return;
+          if (!live) return null;
           if (!['queued', 'running', 'waiting_children', 'waiting_batch'].includes(state.status)) {
             setRuns(list => list.filter(r => r.id !== run.id));
             if (state.status === 'failed') setError(state.error || '翻译没有完成，请稍后重试。');
@@ -214,8 +215,9 @@ export function usePageTranslationRuns(onDone: () => void) {
           }
         } catch (e) { if (live) setError(errorMessage(e)); }
       }
+      return 1500;
     }, 1500);
-    return () => { live = false; window.clearInterval(timer); };
+    return () => { live = false; stop(); };
   }, [runs]);
   const pages = useMemo(() => new Set(runs.flatMap(r => r.pages)), [runs]);
   return { pages, track: (id: string, list: number[]) => setRuns(r => [...r, { id, pages: list }]), error, clearError: () => setError(''), active: runs.length > 0 };

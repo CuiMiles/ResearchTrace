@@ -10,6 +10,7 @@ import type { Evidence, Result, Run, Step } from './types';
 import { Badge, Busy, Disclosure, Empty, ErrorBox } from './ui';
 import { AgentTimeline } from './components/AgentTimeline';
 import { AnswerView } from './components/AnswerView';
+import { startPolling } from './app/poll';
 
 export const activeRun = (run: Run) =>
   ['queued', 'running', 'waiting_batch', 'waiting_children'].includes(run.status);
@@ -57,24 +58,26 @@ export function RunDetail({
   useEffect(() => {
     let live = true;
     let source: EventSource | null = null;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    const refresh = async () => {
+    let stopPolling: (() => void) | undefined;
+    const refresh = async (): Promise<boolean> => {
       try {
         const next = await api<Run>(`/runs/${runId}`);
-        if (!live) return;
+        if (!live) return false;
         setRun({ ...next, result: parseObject(next.result, null), payload: parseObject(next.payload, {}) });
         setSteps((next.steps ?? []).slice(-200));
         if (!activeRun(next)) {
           source?.close();
-          if (timer) clearInterval(timer);
+          stopPolling?.();
           onUpdate?.();
+          return false;
         }
+        return true;
       } catch (e) {
         if (live) setError(errorMessage(e));
+        return live;
       }
     };
-    void refresh();
-    timer = setInterval(refresh, 2500);
+    stopPolling = startPolling(async () => ((await refresh()) ? 2500 : null));
     source = new EventSource(endpoint(`/runs/${runId}/events`), { withCredentials: true });
     const receive = (event: MessageEvent) => {
       try {
@@ -94,7 +97,7 @@ export function RunDetail({
     return () => {
       live = false;
       source?.close();
-      if (timer) clearInterval(timer);
+      stopPolling?.();
     };
   }, [runId]);
 
