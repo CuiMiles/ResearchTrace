@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "tls_status": 200,
+  "reviewer_login": "PASS",
+  "workspace_isolated": true,
+  "documents": 46,
+  "semantic_ready_documents": 39,
+  "browser_errors": [],
+  "provider_calls": 0,
+  "egress": "node01 proxy to public ECS; real TLS verification"
+}

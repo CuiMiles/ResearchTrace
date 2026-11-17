@@ -1,0 +1,3 @@
+{"name": "image-scope", "status": "BLOCKED", "categories": ["insufficient"], "requests": {"gemini-decision-1": 1}}
+{"name": "attention-conditions", "status": "BLOCKED", "categories": ["insufficient"], "requests": {"gemini-decision-1": 1}}
+{"name": "universal-no-proof", "status": "BLOCKED", "categories": ["insufficient", "insufficient", "insufficient"], "requests": {}}

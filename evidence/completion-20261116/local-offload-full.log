@@ -26,3 +26,17 @@ Traceback (most recent call last):
   File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 144, in _call
     raise RetrievalUnavailable('本地检索服务暂不可用 HTTP '+str(response.status_code))
 services.api.embedding_providers.RetrievalUnavailable: 本地检索服务暂不可用 HTTP 503
+{"run": "bac8f0615125421191e1a8d6c150c460", "status": "FAIL", "error": "\u672c\u5730\u68c0\u7d22\u670d\u52a1\u6682\u4e0d\u53ef\u7528 HTTP 503"}
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/run_index_live.py", line 23, in <module>
+    result=index_generations.build(run['workspace'],p['version_ids'],provider=configured_provider(p.get('provider'),rid),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/index_generations.py", line 227, in build
+    response=provider.embed([b['retrieval_text'] for b in batch],'RETRIEVAL_DOCUMENT')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 195, in embed
+    response=self._call('/embed',{'model_id':self.model_id,'revision':desc['revision'],'texts':texts,'task':'query' if task=='RETRIEVAL_QUERY' else 'document'},timeout=min(60,max(5,int(os.getenv('RT_RETRIEVAL_QUERY_TIMEOUT','15')))) if task=='RETRIEVAL_QUERY' else None)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 144, in _call
+    raise RetrievalUnavailable('本地检索服务暂不可用 HTTP '+str(response.status_code))
+services.api.embedding_providers.RetrievalUnavailable: 本地检索服务暂不可用 HTTP 503

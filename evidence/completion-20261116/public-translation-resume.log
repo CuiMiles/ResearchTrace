@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/rt-translation-resume.py", line 20, in <module>
+    parse=wait(c,up['run_id']);assert parse['status']=='completed'
+                 ~~^^^^^^^^^^
+KeyError: 'run_id'

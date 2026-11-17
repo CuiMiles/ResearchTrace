@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "step": 1,
+      "title": "压缩包与文件清单",
+      "status": "PASS"
+    },
+    {
+      "step": 2,
+      "title": "上传与版本识别",
+      "status": "PASS"
+    },
+    {
+      "step": 3,
+      "title": "原生 / OCR 结构解析",
+      "status": "PASS"
+    },
+    {
+      "step": 4,
+      "title": "检查点与全文索引",
+      "status": "PASS"
+    },
+    {
+      "step": 5,
+      "title": "阅读与原文锚点",
+      "status": "PASS"
+    },
+    {
+      "step": 6,
+      "title": "问答 / 比较 / 翻译",
+      "status": "PASS"
+    },
+    {
+      "step": 7,
+      "title": "检索与订阅追踪",
+      "status": "PASS"
+    },
+    {
+      "step": 8,
+      "title": "引用图谱与综述",
+      "status": "PASS"
+    },
+    {
+      "step": 9,
+      "title": "CSV 绘图与导出",
+      "status": "PASS"
+    },
+    {
+      "step": 10,
+      "title": "恢复与安全验证",
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/completion-20261116/public-semantic-qa.json",
+      "status": "PASS",
+      "http": 206
+    },
+    {
+      "path": "evidence/completion-20261116/public-541-pressure.json",
+      "status": "PASS",
+      "http": 206
+    },
+    {
+      "path": "deliverables/ResearchTrace_技术说明.pdf",
+      "status": "PASS",
+      "http": 206
+    },
+    {
+      "path": "deliverables/ResearchTrace_实际界面演示_1080p.mp4",
+      "status": "PASS",
+      "http": 206
+    }
+  ],
+  "provider_calls": 0,
+  "browser_errors": [],
+  "selected_step_retained": true,
+  "tls_status": 200
+}

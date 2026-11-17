@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/rt-public-semantic-qa.py", line 10, in <module>
+    docs=c.get('/documents');docs.raise_for_status();d=next(v for v in docs.json() if v['filename']=='1706.03762v7.pdf')
+                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration

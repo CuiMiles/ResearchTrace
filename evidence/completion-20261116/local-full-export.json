@@ -1,0 +1,1 @@
+{"status": "PASS", "generation_id": "53ffb2e2e9c14cab81b122e9a4b50857", "counts": {"index_generations": 1, "retrieval_chunks": 23185, "retrieval_spans": 23185, "retrieval_vectors": 23185, "active_retrieval_indices": 39, "runs": 1, "steps": 1476}, "bytes": 226160148, "provider_calls": 0, "ledger_rows_exported": 0, "exported_at": 1794891795.7194228}

@@ -1,0 +1,1814 @@
+{
+  "status": "NOT RUN",
+  "source": "actual public v12 local-first deployment",
+  "manual_quality_review": "NOT RUN",
+  "cases": [
+    {
+      "name": "adam-official",
+      "run_id": "53569c0aa1ff4a499123d4b548893313",
+      "status": "PASS",
+      "version_ids": [
+        "766a29679f72469b8bd763b365ca918b"
+      ],
+      "run": {
+        "id": "53569c0aa1ff4a499123d4b548893313",
+        "workspace": "c68721f6255e43ec983e555fd4e5f4b5",
+        "kind": "qa",
+        "status": "completed",
+        "payload": {
+          "question": "论文中 Adam 优化器的 beta1 和 beta2 分别设置为多少？只给出一条包含两个值、与原文实验条件一致的事实。",
+          "version_ids": [
+            "766a29679f72469b8bd763b365ca918b"
+          ]
+        },
+        "result": {
+          "answer": "论文在实验中使用 Adam 优化器时，β1 设置为 0.9，β2 设置为 0.98。",
+          "answer_segments": [
+            {
+              "text": "论文在实验中使用 Adam 优化器时，β1 设置为 0.9，β2 设置为 0.98。",
+              "claim_ids": [
+                "c1"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "论文在实验中使用 Adam 优化器时，β1 设置为 0.9，β2 设置为 0.98。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                  "version_id": "766a29679f72469b8bd763b365ca918b",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.7278991378787878,
+                    0.82353418515817,
+                    0.7560516686868687
+                  ],
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "quote": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 .",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 75
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9774; confidence=0.9774。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.003476604889502864,
+                  "insufficient": 0.019086165884184696,
+                  "supported": 0.9774372292263124
+                },
+                "confidence": 0.9774372292263124
+              }
+            }
+          ],
+          "status": "ready",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+          "legacy_answer_replaced": false,
+          "unchecked_prose_replaced": 0,
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 789,
+              "total_input_tokens": 789,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 789
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "7f691ecf6ba941ba9c0ab3a35b663199",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "model": "gemini-3.6-flash",
+          "usage": {
+            "promptTokenCount": 4647,
+            "candidatesTokenCount": 187,
+            "totalTokenCount": 5779,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 4647
+              }
+            ],
+            "thoughtsTokenCount": 945,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "rewritten_queries": [
+              "Adam optimizer beta1 beta2 hyperparameters",
+              "Adam optimizer learning rate warmup hyperparameters"
+            ],
+            "blocks": [
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.7278991378787878,
+                  0.82353418515817,
+                  0.7560516686868687
+                ],
+                "type": "equation",
+                "reading_order": 9,
+                "text": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "20"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 158,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.06430053288858155,
+                "evidence_text": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7032179083333333,
+                  0.28452898496732026,
+                  0.7157969487373738
+                ],
+                "type": "heading",
+                "reading_order": 8,
+                "text": "5.3 Optimizer",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 13,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.06350006400409626,
+                "evidence_text": "5.3 Optimizer"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:7",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.6143981333333333,
+                  0.8235316909803917,
+                  0.6820731333333333
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 398,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.04642338900734423,
+                "evidence_text": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days)."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:5",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.17588398692810459,
+                  0.5277403050505051,
+                  0.8255642608660131,
+                  0.7952347494949495
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "On the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 days on 8 P100 GPUs. Even our base model surpasses all previously published models and ensembles, at a fraction of the training cost of any of the competitive models. On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0 , outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate P drop = 0.1, instead of 0.3. For the base models, we used a single model obtained by averaging the last 5 checkpoints, which were written at 10-minute intervals. For the big models, we averaged the last 20 checkpoints. We used beam search with a beam size of 4 and length penalty α = 0.6 [38]. These hyperparameters were chosen after experimentation on the development set. We set the maximum output length during inference to input length + 50 , but terminate early when possible [38]. Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "38"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "8c70024e721547a7985f8ea753eb1d68",
+                "span_start": 0,
+                "span_end": 1617,
+                "retrieval_text": "Title: Attention Is All You Need\nOn the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 days on 8 P100 GPUs. Even our base model surpasses all previously published models and ensembles, at a fraction of the training cost of any of the competitive models. On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0 , outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate P drop = 0.1, instead of 0.3. For the base models, we used a single model obtained by averaging the last 5 checkpoints, which were written at 10-minute intervals. For the big models, we averaged the last 20 checkpoints. We used beam search with a beam size of 4 and length penalty α = 0.6 [38]. These hyperparameters were chosen after experimentation on the development set. We set the maximum output length during inference to input length + 50 , but terminate early when possible [38]. Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained\n\nsingle-precision floating-point capacity of each GPU 5 .\n\n6.2 Model Variations\n\nTo evaluate the importance of different components of the Transformer, we varied our base model in different ways, measuring the change in performance on English-to-German translation on the\n\n5 We used values of 2.8, 3.7, 6.0 and 9.5 TFLOPS for K80, K40, M40 and P100, respectively.",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6394153833389282,
+                "rrf_score": 0.037658227848101265,
+                "evidence_text": "On the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 . The configuration of this model is listed in the bottom line of Table 3. Training took 3.5 days on 8 P100 GPUs. Even our base model surpasses all previously published models and ensembles, at a fraction of the training cost of any of the competitive models. On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0 , outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model. The Transformer (big) model trained for English-to-French used dropout rate P drop = 0.1, instead of 0.3. For the base models, we used a single model obtained by averaging the last 5 checkpoints, which were written at 10-minute intervals. For the big models, we averaged the last 20 checkpoints. We used beam search with a beam size of 4 and length penalty α = 0.6 [38]. These hyperparameters were chosen after experimentation on the development set. We set the maximum output length during inference to input length + 50 , but terminate early when possible [38]. Table 2 summarizes our results and compares our translation quality and training costs to other model architectures from the literature. We estimate the number of floating point operations used to train a model by multiplying the training time, the number of GPUs used, and an estimate of the sustained"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:11",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.1759656862745098,
+                  0.8111996772727272,
+                  0.8255618197202614,
+                  0.8516034363636363
+                ],
+                "type": "equation",
+                "reading_order": 11,
+                "text": "This corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 225,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.031054405392392875,
+                "evidence_text": "This corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 ."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:10",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.26616339869281047,
+                  0.7792299459595959,
+                  0.8246199209150327,
+                  0.7972592686868687
+                ],
+                "type": "equation",
+                "reading_order": 10,
+                "text": "lrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 83,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.030776515151515152,
+                "evidence_text": "lrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:1",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.17647058823529413,
+                  0.34466740328282824,
+                  0.8235316909803916,
+                  0.39953398636363635
+                ],
+                "type": "equation",
+                "reading_order": 1,
+                "text": "Residual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 .",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "33"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "98a3af0504094abcaf0481aede9c63a6",
+                "span_start": 0,
+                "span_end": 310,
+                "retrieval_text": "Title: Attention Is All You Need\nTable 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19\n\nResidual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 .\n\nLabel Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n\n6 Results\n\n6.1 Machine Translation",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6496064066886902,
+                "rrf_score": 0.026540946394272742,
+                "evidence_text": "Residual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 ."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:10:15",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 10,
+                "bbox": [
+                  0.17647058823529416,
+                  0.7300646234848486,
+                  0.8263812751375818,
+                  0.7429329818181818
+                ],
+                "type": "paragraph",
+                "reading_order": 15,
+                "text": "[20] Diederik Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In ICLR , 2015.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "20"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "5b59429a73ca4ef08b8dffe293a6adf5",
+                "span_start": 0,
+                "span_end": 94,
+                "retrieval_text": "Title: Attention Is All You Need\n[15] Rafal Jozefowicz, Oriol Vinyals, Mike Schuster, Noam Shazeer, and Yonghui Wu. Exploring the limits of language modeling. arXiv preprint arXiv:1602.02410 , 2016.\n\n[16] Łukasz Kaiser and Samy Bengio. Can active memory replace attention? In Advances in Neural Information Processing Systems, (NIPS) , 2016.\n\n[17] Łukasz Kaiser and Ilya Sutskever. Neural GPUs learn algorithms. In International Conference on Learning Representations (ICLR), 2016.\n\n[18] Nal Kalchbrenner, Lasse Espeholt, Karen Simonyan, Aaron van den Oord, Alex Graves, and Ko- ray Kavukcuoglu. Neural machine translation in linear time. arXiv preprint arXiv:1610.10099v2 , 2017.\n\n[19] Yoon Kim, Carl Denton, Luong Hoang, and Alexander M. Rush. Structured attention networks. In International Conference on Learning Representations, 2017.\n\n[20] Diederik Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In ICLR , 2015.\n\n[21] Oleksii Kuchaiev and Boris Ginsburg. Factorization tricks for LSTM networks. arXiv preprint arXiv:1703.10722, 2017.\n\n[22] Zhouhan Lin, Minwei Feng, Cicero Nogueira dos Santos, Mo Yu, Bing Xiang, Bowen Zhou, and Yoshua Bengio. A structured self-attentive sentence embedding. arXiv preprint arXiv:1703.03130 , 2017.\n\n[23] Minh-Thang Luong, Quoc V. Le, Ilya Sutskever, Oriol Vinyals, and Lukasz Kaiser. Multi-task sequence to sequence learning. arXiv preprint arXiv:1511.06114, 2015.\n\n[24] Minh-Thang Luong, Hieu Pham, and Christopher D Manning. Effective approaches to attention- based neural machine translation. arXiv preprint arXiv:1508.04025, 2015.\n\n[25] Mitchell P Marcus, Mary Ann Marcinkiewicz, and Beatrice Santorini. Building a large annotated corpus of english: The penn treebank. Computational linguistics, 19(2):313–330, 1993.\n\n[26] David McClosky, Eugene Charniak, and Mark Johnson. Effective self-training for parsing. In Proceedings of the Human Language Technology Conference of the NAACL, Main Conference, pages 152–159. ACL, June 2006.",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.653988242149353,
+                "rrf_score": 0.021344542524870395,
+                "evidence_text": "[20] Diederik Kingma and Jimmy Ba. Adam: A method for stochastic optimization. In ICLR , 2015."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:8:6",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 8,
+                "bbox": [
+                  0.17570588235294118,
+                  0.8372137898989899,
+                  0.8235260990980389,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 6,
+                "text": "[37]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens for the semi-supervised setting. We performed only a small number of experiments to select the dropout, both attention and residual (section 5.4), learning rates and beam size on the Section 22 development set, all other parameters remained unchanged from the English-to-German base translation model. During inference, we",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "37"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "e3e40bf6dfe045e69e8863c8181038ae",
+                "span_start": 0,
+                "span_end": 419,
+                "retrieval_text": "Title: Attention Is All You Need\nTo evaluate if the Transformer can generalize to other tasks we performed experiments on English constituency parsing. This task presents specific challenges: the output is subject to strong structural constraints and is significantly longer than the input. Furthermore, RNN sequence-to-sequence models have not been able to attain state-of-the-art results in small-data regimes [37]. We trained a 4-layer transformer with d model = 1024 on the Wall Street Journal (WSJ) portion of the Penn Treebank [25], about 40K training sentences. We also trained it in a semi-supervised setting, using the larger high-confidence and BerkleyParser corpora from with approximately 17M sentences\n\n[37]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens for the semi-supervised setting. We performed only a small number of experiments to select the dropout, both attention and residual (section 5.4), learning rates and beam size on the Section 22 development set, all other parameters remained unchanged from the English-to-German base translation model. During inference, we\n\ntrain\nN d d h d d P ϵ\nmodel ff k v drop ls steps\n6 512 2048 8 64 64 0.1 0.1 100K\n1 512 512\n4 128 128\n16 32 32\n32 16 16\n16\n32\n2\n4\n8\n256 32 32\n1024 128 128\n1024\n4096\n0.0\n0.2\n0.0\n0.2\npositionalembeddinginsteadofsinusoids\n6 1024 4096 16 0.3 300K",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6243210434913635,
+                "rrf_score": 0.021249076127124907,
+                "evidence_text": "[37]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens for the semi-supervised setting. We performed only a small number of experiments to select the dropout, both attention and residual (section 5.4), learning rates and beam size on the Section 22 development set, all other parameters remained unchanged from the English-to-German base translation model. During inference, we"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:1:5",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 1,
+                "bbox": [
+                  0.1759656862745098,
+                  0.5051228808080809,
+                  0.8262372205882346,
+                  0.7588433353535353
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "[16], ByteNet [18] and ConvS2S [9], all of which use convolutional neural networks as basic building block, computing hidden representations in parallel for all input and output positions. In these models, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, linearly for ConvS2S and logarithmically for ByteNet. This makes it more difficult to learn dependencies between distant positions [12]. In the Transformer this is reduced to a constant number of operations, albeit at the cost of reduced effective resolution due to averaging attention-weighted positions, an effect we counteract with Multi-Head Attention as described in section 3.2. Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence. Self-attention has been used successfully in a variety of tasks including reading comprehension, abstractive summarization, textual entailment and learning task-independent sentence representations [4, 27, 28, 22]. End-to-end memory networks are based on a recurrent attention mechanism instead of sequence- aligned recurrence and have been shown to perform well on simple-language question answering and language modeling tasks [34]. To the best of our knowledge, however, the Transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequence-",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "12",
+                    "16",
+                    "18",
+                    "34",
+                    "4, 27, 28, 22",
+                    "9"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "600eeb70805943349efb4935a6ef4e3a",
+                "span_start": 0,
+                "span_end": 1539,
+                "retrieval_text": "Title: Attention Is All You Need\nThe goal of reducing sequential computation also forms the foundation of the Extended Neural GPU\n\n[16], ByteNet [18] and ConvS2S [9], all of which use convolutional neural networks as basic building block, computing hidden representations in parallel for all input and output positions. In these models, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, linearly for ConvS2S and logarithmically for ByteNet. This makes it more difficult to learn dependencies between distant positions [12]. In the Transformer this is reduced to a constant number of operations, albeit at the cost of reduced effective resolution due to averaging attention-weighted positions, an effect we counteract with Multi-Head Attention as described in section 3.2. Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence. Self-attention has been used successfully in a variety of tasks including reading comprehension, abstractive summarization, textual entailment and learning task-independent sentence representations [4, 27, 28, 22]. End-to-end memory networks are based on a recurrent attention mechanism instead of sequence- aligned recurrence and have been shown to perform well on simple-language question answering and language modeling tasks [34]. To the best of our knowledge, however, the Transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequence-\n\naligned RNNs or convolution. In the following sections, we will describe the Transformer, motivate self-attention and discuss its advantages over models such as [17, 18] and [9].\n\n3 Model Architecture",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.5995211005210876,
+                "rrf_score": 0.01713036800756099,
+                "evidence_text": "[16], ByteNet [18] and ConvS2S [9], all of which use convolutional neural networks as basic building block, computing hidden representations in parallel for all input and output positions. In these models, the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions, linearly for ConvS2S and logarithmically for ByteNet. This makes it more difficult to learn dependencies between distant positions [12]. In the Transformer this is reduced to a constant number of operations, albeit at the cost of reduced effective resolution due to averaging attention-weighted positions, an effect we counteract with Multi-Head Attention as described in section 3.2. Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence. Self-attention has been used successfully in a variety of tasks including reading comprehension, abstractive summarization, textual entailment and learning task-independent sentence representations [4, 27, 28, 22]. End-to-end memory networks are based on a recurrent attention mechanism instead of sequence- aligned recurrence and have been shown to perform well on simple-language question answering and language modeling tasks [34]. To the best of our knowledge, however, the Transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequence-"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:5:7",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 5,
+                "bbox": [
+                  0.17456535947712418,
+                  0.6580875272727273,
+                  0.8262313602352936,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "In this section we compare various aspects of self-attention layers to the recurrent and convolu- tional layers commonly used for mapping one variable-length sequence of symbol representations (x 1 , ..., x n ) to another sequence of equal length (z 1 , ..., z n ) , with x i , z i ∈ R d , such as a hidden layer in a typical sequence transduction encoder or decoder. Motivating our use of self-attention we consider three desiderata. One is the total computational complexity per layer. Another is the amount of computation that can be parallelized, as measured by the minimum number of sequential operations required. The third is the path length between long-range dependencies in the network. Learning long-range dependencies is a key challenge in many sequence transduction tasks. One key factor affecting the ability to learn such dependencies is the length of the paths forward and backward signals have to traverse in the network. The shorter these paths between any combination of positions in the input and output sequences, the easier it is to learn long-range dependencies [12]. Hence we also compare the maximum path length between any two input and output positions in networks composed of the different layer types. As noted in Table 1, a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O(n) sequential operations. In terms of computational complexity, self-attention layers are faster than recurrent layers when the sequence",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "12"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "eb3de89c5fda49f39d6bcc0f279afc8b",
+                "span_start": 0,
+                "span_end": 1531,
+                "retrieval_text": "Title: Attention Is All You Need\nIn this section we compare various aspects of self-attention layers to the recurrent and convolu- tional layers commonly used for mapping one variable-length sequence of symbol representations (x 1 , ..., x n ) to another sequence of equal length (z 1 , ..., z n ) , with x i , z i ∈ R d , such as a hidden layer in a typical sequence transduction encoder or decoder. Motivating our use of self-attention we consider three desiderata. One is the total computational complexity per layer. Another is the amount of computation that can be parallelized, as measured by the minimum number of sequential operations required. The third is the path length between long-range dependencies in the network. Learning long-range dependencies is a key challenge in many sequence transduction tasks. One key factor affecting the ability to learn such dependencies is the length of the paths forward and backward signals have to traverse in the network. The shorter these paths between any combination of positions in the input and output sequences, the easier it is to learn long-range dependencies [12]. Hence we also compare the maximum path length between any two input and output positions in networks composed of the different layer types. As noted in Table 1, a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O(n) sequential operations. In terms of computational complexity, self-attention layers are faster than recurrent layers when the sequence\n\nlength n is smaller than the representation dimensionality d, which is most often the case with sentence representations used by state-of-the-art models in machine translations, such as word-piece",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.5949239730834961,
+                "rrf_score": 0.016912103083294983,
+                "evidence_text": "In this section we compare various aspects of self-attention layers to the recurrent and convolu- tional layers commonly used for mapping one variable-length sequence of symbol representations (x 1 , ..., x n ) to another sequence of equal length (z 1 , ..., z n ) , with x i , z i ∈ R d , such as a hidden layer in a typical sequence transduction encoder or decoder. Motivating our use of self-attention we consider three desiderata. One is the total computational complexity per layer. Another is the amount of computation that can be parallelized, as measured by the minimum number of sequential operations required. The third is the path length between long-range dependencies in the network. Learning long-range dependencies is a key challenge in many sequence transduction tasks. One key factor affecting the ability to learn such dependencies is the length of the paths forward and backward signals have to traverse in the network. The shorter these paths between any combination of positions in the input and output sequences, the easier it is to learn long-range dependencies [12]. Hence we also compare the maximum path length between any two input and output positions in networks composed of the different layer types. As noted in Table 1, a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O(n) sequential operations. In terms of computational complexity, self-attention layers are faster than recurrent layers when the sequence"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:5",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.4715483858585859,
+                  0.8262325421699348,
+                  0.5667726282828283
+                ],
+                "type": "paragraph",
+                "reading_order": 5,
+                "text": "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "3",
+                    "38"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 591,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.01639344262295082,
+                "evidence_text": "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:6",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.5879161406565657,
+                  0.3807852820261438,
+                  0.6004951810606062
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "5.2 Hardware and Schedule",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 25,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.016129032258064516,
+                "evidence_text": "5.2 Hardware and Schedule"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:12",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.8727482113636363,
+                  0.31619116960784316,
+                  0.8853272517676768
+                ],
+                "type": "heading",
+                "reading_order": 12,
+                "text": "5.4 Regularization",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 18,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.014705882352941176,
+                "evidence_text": "5.4 Regularization"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:6:13",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.8992289414141413,
+                  0.5424663039215688,
+                  0.9118079818181819
+                ],
+                "type": "paragraph",
+                "reading_order": 13,
+                "text": "We employ three types of regularization during training:",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "b9d6145f0f3d4bbb8f5132e4939e8016",
+                "span_start": 0,
+                "span_end": 56,
+                "retrieval_text": "Title: Attention Is All You Need\nWe trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding [3], which has a shared source- target vocabulary of about 37000 tokens. For English-French, we used the significantly larger WMT 2014 English-French dataset consisting of 36M sentences and split tokens into a 32000 word-piece vocabulary [38]. Sentence pairs were batched together by approximate sequence length. Each training batch contained a set of sentence pairs containing approximately 25000 source tokens and 25000 target tokens.\n\n5.2 Hardware and Schedule\n\nWe trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).\n\n5.3 Optimizer\n\nWe used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 . We varied the learning rate over the course of training, according to the formula:\n\nlrate = d −0.5 model · min(step _ num −0.5 , step _ num · warmup _ steps −1.5 ) (3)\n\nThis corresponds to increasing the learning rate linearly for the first warmup _ steps training steps, and decreasing it thereafter proportionally to the inverse square root of the step number. We used warmup _ steps = 4000 .\n\n5.4 Regularization\n\nWe employ three types of regularization during training:",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6923871040344238,
+                "rrf_score": 0.014492753623188406,
+                "evidence_text": "We employ three types of regularization during training:"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:0",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.1759656862745098,
+                  0.0895761636363636,
+                  0.8235346862745095,
+                  0.30340015353535355
+                ],
+                "type": "caption",
+                "reading_order": 0,
+                "text": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "18",
+                    "32",
+                    "38",
+                    "39",
+                    "9"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "98a3af0504094abcaf0481aede9c63a6",
+                "span_start": 0,
+                "span_end": 704,
+                "retrieval_text": "Title: Attention Is All You Need\nTable 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19\n\nResidual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 .\n\nLabel Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n\n6 Results\n\n6.1 Machine Translation",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6496064066886902,
+                "rrf_score": 0.012195121951219513,
+                "evidence_text": "Table 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:2",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.17647058823529413,
+                  0.4178006873737373,
+                  0.8235225460522875,
+                  0.44443045656565655
+                ],
+                "type": "equation",
+                "reading_order": 2,
+                "text": "Label Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "36"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "98a3af0504094abcaf0481aede9c63a6",
+                "span_start": 0,
+                "span_end": 186,
+                "retrieval_text": "Title: Attention Is All You Need\nTable 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19\n\nResidual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 .\n\nLabel Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n\n6 Results\n\n6.1 Machine Translation",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6496064066886902,
+                "rrf_score": 0.011904761904761904,
+                "evidence_text": "Label Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:3",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.17647058823529413,
+                  0.4684412080808081,
+                  0.26654481568627447,
+                  0.4835361575757575
+                ],
+                "type": "heading",
+                "reading_order": 3,
+                "text": "6 Results",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "98a3af0504094abcaf0481aede9c63a6",
+                "span_start": 0,
+                "span_end": 9,
+                "retrieval_text": "Title: Attention Is All You Need\nTable 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19\n\nResidual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 .\n\nLabel Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n\n6 Results\n\n6.1 Machine Translation",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6496064066886902,
+                "rrf_score": 0.011764705882352941,
+                "evidence_text": "6 Results"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:4",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.17647058823529413,
+                  0.5013050295454545,
+                  0.3579624630718955,
+                  0.513884069949495
+                ],
+                "type": "heading",
+                "reading_order": 4,
+                "text": "6.1 Machine Translation",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "98a3af0504094abcaf0481aede9c63a6",
+                "span_start": 0,
+                "span_end": 23,
+                "retrieval_text": "Title: Attention Is All You Need\nTable 2: The Transformer achieves better BLEU scores than previous state-of-the-art models on the English-to-German and English-to-French newstest2014 tests at a fraction of the training cost. BLEU Training Cost (FLOPs) Model EN-DE EN-FR EN-DE EN-FR ByteNet [18] 23.75 Deep-Att + PosUnk [39] 39.2 1.0 · 10 20 GNMT + RL [38] 24.6 39.92 2.3 · 10 19 1.4 · 10 20 ConvS2S [9] 25.16 40.46 9.6 · 10 18 1.5 · 10 20 MoE [32] 26.03 40.56 2.0 · 10 19 1.2 · 10 20 Deep-Att + PosUnk Ensemble [39] 40.4 8.0 · 10 20 GNMT + RL Ensemble [38] 26.30 41.16 1.8 · 10 20 1.1 · 10 21 ConvS2S Ensemble [9] 26.36 41.29 7.7 · 10 19 1.2 · 10 21 Transformer (base model) 27.3 38.1 3.3 · 10 18 Transformer (big) 28.4 41.8 2.3 · 10 19\n\nResidual Dropout We apply dropout [33] to the output of each sub-layer, before it is added to the sub-layer input and normalized. In addition, we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks. For the base model, we use a rate of P drop = 0.1 .\n\nLabel Smoothing During training, we employed label smoothing of value ϵ ls = 0.1 [36]. This hurts perplexity, as the model learns to be more unsure, but improves accuracy and BLEU score.\n\n6 Results\n\n6.1 Machine Translation",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6496064066886902,
+                "rrf_score": 0.011627906976744186,
+                "evidence_text": "6.1 Machine Translation"
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:8:0",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 8,
+                "bbox": [
+                  0.1759656862745098,
+                  0.0895761636363636,
+                  0.8235349467320259,
+                  0.14347717373737376
+                ],
+                "type": "caption",
+                "reading_order": 0,
+                "text": "Table 3: Variations on the Transformer architecture. Unlisted values are identical to those of the base model. All metrics are on the English-to-German translation development set, newstest2013. Listed perplexities are per-wordpiece, according to our byte-pair encoding, and should not be compared to per-word perplexities.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "chunk_id": "9e2cd241d42b41f2adcdb9edd9359d3c",
+                "span_start": 0,
+                "span_end": 323,
+                "retrieval_text": "Title: Attention Is All You Need\nTable 3: Variations on the Transformer architecture. Unlisted values are identical to those of the base model. All metrics are on the English-to-German translation development set, newstest2013. Listed perplexities are per-wordpiece, according to our byte-pair encoding, and should not be compared to per-word perplexities.\n\nN d model d ff h d k d v P drop ϵ ls steps train (dev) PPL BLEU (dev) params ×10 6 base 6 512 2048 8 64 64 0.1 0.1 100K 4.92 25.8 65 1 512 512 5.29 24.9 (A) 16 4 128 32 128 32 5.00 4.91 25.5 25.8 32 16 16 5.01 25.4\n\n(B) 16 32 5.16 5.01 25.1 25.4 58 60 2 6.11 23.7 36 4 5.19 25.3 50 8 4.88 25.5 80 (C) 256 32 32 5.75 24.5 28 1024 128 128 4.66 26.0 168 1024 5.12 25.4 53 4096 4.75 26.2 90 0.0 5.77 24.6 (D) 0.2 0.0 4.95 4.67 25.5 25.3 0.2 5.47 25.7 (E) positional embedding instead of sinusoids 4.92 25.7 big 6 1024 4096 16 0.3 300K 4.33 26.4 213\n\ndevelopment set, newstest2013. We used beam search as described in the previous section, but no checkpoint averaging. We present these results in Table 3. In Table 3 rows (A), we vary the number of attention heads and the attention key and value dimensions, keeping the amount of computation constant, as described in Section 3.2.2. While single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads. In Table 3 rows (B), we observe that reducing the attention key size d k hurts model quality. This suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial. We further observe in rows (C) and (D) that, as expected, bigger models are better, and dropout is very helpful in avoiding over-fitting. In row (E) we replace our sinusoidal positional encoding with learned positional embeddings [9], and observe nearly identical results to the base model.\n\n6.3 English Constituency Parsing",
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "dense_score": 0.6463525295257568,
+                "rrf_score": 0.01020408163265306,
+                "evidence_text": "Table 3: Variations on the Transformer architecture. Unlisted values are identical to those of the base model. All metrics are on the English-to-German translation development set, newstest2013. Listed perplexities are per-wordpiece, according to our byte-pair encoding, and should not be compared to per-word perplexities."
+              },
+              {
+                "id": "766a29679f72469b8bd763b365ca918b:7:6",
+                "version_id": "766a29679f72469b8bd763b365ca918b",
+                "page_index": 7,
+                "bbox": [
+                  0.17647058823529413,
+                  0.7948239151515151,
+                  0.5342755718954249,
+                  0.8090087393939394
+                ],
+                "type": "paragraph",
+                "reading_order": 6,
+                "text": "single-precision floating-point capacity of each GPU 5 .",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "766a29679f72469b8bd763b365ca918b",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "766a29679f72469b8bd763b365ca918b",
+                "neighbor_context": true
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:15",
+                "score": -12.660811717688734
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "score": -11.134880399998842
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "score": -8.918148031198642
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "score": -11.134880399998842
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "score": -11.134880399998842
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "score": -8.918148031198642
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "score": -8.918148031198642
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:15",
+                "score": -6.412705222650824
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:7",
+                "score": -3.9022978004541344
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:7",
+                "score": -3.9022978004541344
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:5",
+                "score": -1.544390268892788
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:5",
+                "score": -1.544390268892788
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "score": -18.041503575811817
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "score": -18.041503575811817
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:11",
+                "score": -15.865727660240449
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:11",
+                "score": -15.865727660240449
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "score": -8.918148031198642
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "score": -8.918148031198642
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:10",
+                "score": -8.22699618809253
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:10",
+                "score": -8.22699618809253
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:15",
+                "score": -6.412705222650824
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:6",
+                "score": -4.914404575062226
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:6",
+                "score": -4.914404575062226
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:7",
+                "score": -3.9022978004541344
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:7",
+                "score": -3.9022978004541344
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:1",
+                "score": -3.304532809432263
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:1",
+                "score": -3.2825134750981078
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:1",
+                "score": -3.2825134750981078
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:12",
+                "score": -3.217881079926061
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:14",
+                "score": -3.0961017308427796
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:7",
+                "score": -3.019910246453213
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:7",
+                "score": -3.019910246453213
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:4",
+                "score": -2.9473786647899196
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:18",
+                "score": -2.9124039065119613
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:10",
+                "score": -2.878249462625409
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:0",
+                "score": -2.7492834925357763
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:6",
+                "score": -2.689039481404727
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:5",
+                "score": -2.6790139642001227
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:5",
+                "score": -2.6790139642001227
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:8",
+                "score": -2.6598968239982703
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:5",
+                "score": -0.8543584773289004
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:7",
+                "score": -0.8066244977090266
+              }
+            ],
+            "dense": [
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:5",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:6",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:7",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:8",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:9",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:10",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:11",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:12",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:13",
+                "score": 0.6923871040344238
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:10",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:11",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:12",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:13",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:14",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:15",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:16",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:17",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:18",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:19",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:0",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:1",
+                "score": 0.653988242149353
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:0",
+                "score": 0.6496064066886902
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:1",
+                "score": 0.6496064066886902
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:2",
+                "score": 0.6496064066886902
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:3",
+                "score": 0.6496064066886902
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:4",
+                "score": 0.6496064066886902
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:11",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:0",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:1",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:2",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:3",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:4",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:5",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:6",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:7",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:8",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:10:9",
+                "score": 0.6478694081306458
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:0",
+                "score": 0.6463525295257568
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:1",
+                "score": 0.6463525295257568
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:2",
+                "score": 0.6463525295257568
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:3",
+                "score": 0.6463525295257568
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:4",
+                "score": 0.6463525295257568
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:12:3",
+                "score": 0.6436537504196167
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:5",
+                "score": 0.6394153833389282
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:6",
+                "score": 0.6394153833389282
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:7",
+                "score": 0.6394153833389282
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:8",
+                "score": 0.6394153833389282
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:7:9",
+                "score": 0.6394153833389282
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:0",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:1",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:2",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:3",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:4",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:5",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:6",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:7",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:8",
+                "score": 0.6377410292625427
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:9",
+                "score": 0.6359942555427551
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:0:10",
+                "score": 0.6359942555427551
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:0",
+                "score": 0.6359942555427551
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:2",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:3",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:4",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:5",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:6",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:7",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:8",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:9",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:10",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:11",
+                "score": 0.6344721913337708
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:13:4",
+                "score": 0.6313843727111816
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:13:5",
+                "score": 0.6313843727111816
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:14:0",
+                "score": 0.6313843727111816
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:14:1",
+                "score": 0.6313843727111816
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:14:2",
+                "score": 0.6313843727111816
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:14:4",
+                "score": 0.6313843727111816
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:3",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:4",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:5",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:6",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:7",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:8",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:9",
+                "score": 0.6296373605728149
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:12:4",
+                "score": 0.6280897855758667
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:13:0",
+                "score": 0.6280897855758667
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:13:1",
+                "score": 0.6280897855758667
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:13:2",
+                "score": 0.6280897855758667
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:14:5",
+                "score": 0.6271345615386963
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:14:6",
+                "score": 0.6271345615386963
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:1",
+                "score": 0.625988245010376
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:2",
+                "score": 0.625988245010376
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:3",
+                "score": 0.625988245010376
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:3",
+                "score": 0.6255843043327332
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:4",
+                "score": 0.6255843043327332
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:5",
+                "score": 0.6255843043327332
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:6",
+                "score": 0.6255843043327332
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:8",
+                "score": 0.6244134902954102
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:9",
+                "score": 0.6244134902954102
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:0",
+                "score": 0.6244134902954102
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:1",
+                "score": 0.6244134902954102
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:2",
+                "score": 0.6244134902954102
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:3",
+                "score": 0.6244134902954102
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:5",
+                "score": 0.6243210434913635
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:6",
+                "score": 0.6243210434913635
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:8:8",
+                "score": 0.6243210434913635
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:7",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:8",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:9",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:10",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:11",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:0",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:1",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:2",
+                "score": 0.6205118894577026
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:6",
+                "score": 0.6147982478141785
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:7",
+                "score": 0.6147982478141785
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:8",
+                "score": 0.6147982478141785
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:9",
+                "score": 0.6147982478141785
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:10",
+                "score": 0.6147982478141785
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:0",
+                "score": 0.6147982478141785
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:13:4",
+                "score": 0.6132773160934448
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:12",
+                "score": 0.6131619811058044
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:13",
+                "score": 0.6131619811058044
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:14",
+                "score": 0.6131619811058044
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:11:15",
+                "score": 0.6131619811058044
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:12:0",
+                "score": 0.6131619811058044
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:12:1",
+                "score": 0.6131619811058044
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:1",
+                "score": 0.6108870506286621
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:2",
+                "score": 0.6108870506286621
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:3",
+                "score": 0.6108870506286621
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:4",
+                "score": 0.6108870506286621
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:4",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:5",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:2:6",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:0",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:1",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:2",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:3",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:4",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:3:5",
+                "score": 0.6063173413276672
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:0",
+                "score": 0.6001846790313721
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:1",
+                "score": 0.6001846790313721
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:9:2",
+                "score": 0.6001846790313721
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:1",
+                "score": 0.6000568866729736
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:2",
+                "score": 0.6000568866729736
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:3",
+                "score": 0.6000568866729736
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:4",
+                "score": 0.6000568866729736
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:5",
+                "score": 0.6000568866729736
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:4:6",
+                "score": 0.6000568866729736
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:4",
+                "score": 0.5995211005210876
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:5",
+                "score": 0.5995211005210876
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:6",
+                "score": 0.5995211005210876
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:1:7",
+                "score": 0.5995211005210876
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:5:7",
+                "score": 0.5949239730834961
+              },
+              {
+                "block_id": "766a29679f72469b8bd763b365ca918b:6:0",
+                "score": 0.5949239730834961
+              }
+            ],
+            "mode": "hybrid",
+            "notice": "Gemini独立代际向量与BM25经RRF融合；本地服务可用时优先使用其独立索引",
+            "version_ids": [
+              "766a29679f72469b8bd763b365ca918b"
+            ],
+            "method": "FTS5_BM25+cosine+RRF",
+            "dense_index": {
+              "status": "ready",
+              "model_id": "gemini-embedding-001",
+              "revision": "gemini-api-v1beta-768-v1",
+              "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+              "dimension": 768,
+              "method": "bounded_exact_matrix",
+              "scope_complete": true,
+              "covered_version_ids": [
+                "766a29679f72469b8bd763b365ca918b"
+              ],
+              "missing_version_ids": [],
+              "provider": "gemini",
+              "local_fallback": {
+                "status": "unavailable",
+                "reason": "RetrievalUnavailable"
+              }
+            },
+            "rerank": {
+              "status": "NOT RUN"
+            },
+            "query_term_expansion": [
+              "optimizer",
+              "optimization"
+            ]
+          },
+          "artifact_id": "bdc0cc07e7b14811b4cff82a3c3e543c"
+        },
+        "error": null,
+        "idempotency": "local-first-official-adam-20261117",
+        "created": 1794893975.9648924,
+        "updated": 1794894031.4591928,
+        "steps": [
+          {
+            "id": 10478,
+            "event": "queued",
+            "data": {
+              "kind": "qa",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794893975.9774864
+          },
+          {
+            "id": 10479,
+            "event": "started",
+            "data": {
+              "kind": "qa"
+            },
+            "created": 1794893976.2327414
+          },
+          {
+            "id": 10480,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794893976.8064394
+          },
+          {
+            "id": 10481,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "b8745f6123cb45eb8fa80626fb2a1a96",
+              "reserved_input_tokens": 1809,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794893976.8983243
+          },
+          {
+            "id": 10482,
+            "event": "query_rewritten",
+            "data": {
+              "queries": [
+                "Adam optimizer beta1 beta2 hyperparameters",
+                "Adam optimizer learning rate warmup hyperparameters"
+              ]
+            },
+            "created": 1794893983.1559353
+          },
+          {
+            "id": 10488,
+            "event": "retrieved",
+            "data": {
+              "mode": "hybrid",
+              "sparse_candidates": 42,
+              "dense_candidates": 154,
+              "evidence_blocks": 21
+            },
+            "created": 1794894001.7775996
+          },
+          {
+            "id": 10490,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.6-flash",
+              "project": "gemini-project-2",
+              "quota_id": "92a31716e21d45bcbaf884df9073947e",
+              "reserved_input_tokens": 14344,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794894001.885716
+          },
+          {
+            "id": 10526,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794894029.8292947
+          },
+          {
+            "id": 10527,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-project-2",
+              "quota_id": "7f691ecf6ba941ba9c0ab3a35b663199",
+              "reserved_input_tokens": 2117,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794894029.9123583
+          },
+          {
+            "id": 10532,
+            "event": "decision_review",
+            "data": {
+              "claims": 1,
+              "status": "ready",
+              "quota_id": "7f691ecf6ba941ba9c0ab3a35b663199"
+            },
+            "created": 1794894031.410133
+          },
+          {
+            "id": 10533,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794894031.4731648
+          }
+        ]
+      }
+    },
+    {
+      "name": "survey20-new-combination",
+      "run_id": "8345d430373b4c6793e290a44234a28d",
+      "status": "NOT RUN",
+      "version_ids": [
+        "766a29679f72469b8bd763b365ca918b",
+        "351e8bec61ed4258ba96481ae80f5d3e",
+        "f058aa75230f4858905fb3c43671ce66",
+        "83818aa75e3740c294efb6e2ad6965a2",
+        "b74e6ae4ded9495f88a8094aa9238265",
+        "5cd85f12f8244d869c91995051a8d379",
+        "9504906614f845008dc0e91664749e21",
+        "3b23817030d74a999f2862329d220779",
+        "70844f0c17fb4568b91e1d062c2424e4",
+        "74c2ec9db92241d59644afb15b0d5b02",
+        "68a8ee2cb760449ebe8399e1ae353a8b",
+        "263d3e23350c45b28c2fb6b0d4609d37",
+        "33bef9dbad7d412f9adf1f7994ccfa4e",
+        "3818a2e39faa49348163ccccd09d1590",
+        "bfde594774cc424d8689a5dba574377e",
+        "dcbf42d53e36497ba7ba198135a4c4ab",
+        "f5de36e6630b4509ac6942b74e243152",
+        "6e7f4f56e2e9432595279cf55ac398ea",
+        "8f719edbdcbd44be8697d0faf5ec725a",
+        "0b9a2256978a40e08546a6e9be2859f4"
+      ]
+    }
+  ]
+}

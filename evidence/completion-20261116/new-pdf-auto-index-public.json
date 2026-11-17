@@ -1,0 +1,805 @@
+{
+  "status": "PASS",
+  "input_kind": "new self-authored test PDF, not contest source",
+  "input_text": "The Aster trial used 6 GPUs for 2 hours. Cost was not measured.",
+  "started": 1794892521.2800066,
+  "manual_quality_review": "NOT RUN",
+  "upload": {
+    "id": "300baffe91b2462ba51edfd9c72e2985",
+    "status": "active",
+    "index_dense": true,
+    "created": 1794892522.5747154,
+    "updated": 1794892522.5908237,
+    "batch_id": "300baffe91b2462ba51edfd9c72e2985",
+    "items": [
+      {
+        "id": "c88540c8938244c380f78b746ab11313",
+        "batch_id": "300baffe91b2462ba51edfd9c72e2985",
+        "ordinal": 0,
+        "filename": "aster-new-input-20261117.pdf",
+        "status": "queued",
+        "sha256": "b9ab065d378d31a1d6f0840e596445c1117c0067b512b058f22488f84707c767",
+        "version_id": "2d0528e4477b48efad31824c9365e9a3",
+        "run_id": "50f570fc1b9444cda491ff74929f9d6b",
+        "owns_run": true,
+        "duplicate": false,
+        "error": null,
+        "created": 1794892522.5747154,
+        "updated": 1794892522.6414316
+      }
+    ],
+    "errors": [],
+    "documents": [
+      {
+        "id": "2d0528e4477b48efad31824c9365e9a3",
+        "workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+        "work_id": "32b3471192c140f7a6a5ca4de5a95402",
+        "title": "aster-new-input-20261117",
+        "filename": "aster-new-input-20261117.pdf",
+        "sha256": "b9ab065d378d31a1d6f0840e596445c1117c0067b512b058f22488f84707c767",
+        "status": "queued",
+        "page_count": 1,
+        "parsed_pages": 0,
+        "dense_pages": 0,
+        "label": "版本待确认",
+        "identity": null,
+        "metadata": {},
+        "created": 1794892522.5908237,
+        "deleted": 0,
+        "active_parse_id": "2d0528e4477b48efad31824c9365e9a3",
+        "local_index": {
+          "status": "running",
+          "generation_id": null,
+          "model_id": "gemini-embedding-001",
+          "indexed_blocks": 0,
+          "eligible_blocks": 0,
+          "semantic_ready": false,
+          "providers": [
+            {
+              "status": "unindexed",
+              "generation_id": null,
+              "model_id": "gemini-embedding-001",
+              "indexed_blocks": 0,
+              "eligible_blocks": 0,
+              "semantic_ready": false
+            }
+          ],
+          "pending_run_id": "14135964a4ef47e88a345cc0bcf99b0d"
+        },
+        "duplicate": false
+      }
+    ],
+    "runs": [
+      {
+        "id": "50f570fc1b9444cda491ff74929f9d6b",
+        "run_id": "50f570fc1b9444cda491ff74929f9d6b",
+        "status": "queued"
+      }
+    ],
+    "counts": {
+      "queued": 1
+    }
+  },
+  "parse_run": {
+    "id": "50f570fc1b9444cda491ff74929f9d6b",
+    "workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+    "kind": "parse",
+    "status": "completed",
+    "payload": {
+      "version_id": "2d0528e4477b48efad31824c9365e9a3",
+      "batch_id": "300baffe91b2462ba51edfd9c72e2985",
+      "batch_item_id": "c88540c8938244c380f78b746ab11313"
+    },
+    "result": {
+      "version_id": "2d0528e4477b48efad31824c9365e9a3",
+      "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+      "status": "ready",
+      "parsed_pages": 1,
+      "references": 0,
+      "failed_pages": [],
+      "suppressed_margin_blocks": 0,
+      "document_card": {
+        "title_source": "pdf_layout",
+        "authors": 1
+      },
+      "dense_index": {
+        "status": "waiting_batch",
+        "run_id": "14135964a4ef47e88a345cc0bcf99b0d",
+        "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+        "provider": "gemini"
+      }
+    },
+    "error": null,
+    "idempotency": "batch:c88540c8938244c380f78b746ab11313",
+    "created": 1794892522.5908237,
+    "updated": 1794892528.0747716,
+    "steps": [
+      {
+        "id": 9600,
+        "event": "waiting_batch",
+        "data": {
+          "tool": "parse_document",
+          "version_id": "2d0528e4477b48efad31824c9365e9a3",
+          "page_count": 1
+        },
+        "created": 1794892522.5908237
+      },
+      {
+        "id": 9601,
+        "event": "queued",
+        "data": {
+          "batch_id": "300baffe91b2462ba51edfd9c72e2985",
+          "tool": "parse_document"
+        },
+        "created": 1794892522.6414316
+      },
+      {
+        "id": 9602,
+        "event": "started",
+        "data": {
+          "kind": "parse"
+        },
+        "created": 1794892522.991814
+      },
+      {
+        "id": 9603,
+        "event": "parse_started",
+        "data": {
+          "tool": "parse_document",
+          "version_id": "2d0528e4477b48efad31824c9365e9a3",
+          "checkpoint_pages": 0
+        },
+        "created": 1794892523.0303683
+      },
+      {
+        "id": 9604,
+        "event": "page_indexed",
+        "data": {
+          "tool": "parse_document",
+          "page_index": 0,
+          "parsed_pages": 1,
+          "page_count": 1,
+          "blocks": 2,
+          "quality": "native",
+          "source": "pdfplumber"
+        },
+        "created": 1794892524.654457
+      },
+      {
+        "id": 9605,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "5cfaa1ad58314e2a980a011f5296b194",
+          "reserved_input_tokens": 1731,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794892525.1078207
+      },
+      {
+        "id": 9606,
+        "event": "document_card",
+        "data": {
+          "title_source": "pdf_layout",
+          "authors": 1,
+          "with_affiliation": 0,
+          "outline_entries": 0,
+          "notes": []
+        },
+        "created": 1794892528.0535321
+      },
+      {
+        "id": 9608,
+        "event": "completed",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794892528.0782633
+      }
+    ]
+  },
+  "index_run": {
+    "id": "14135964a4ef47e88a345cc0bcf99b0d",
+    "workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+    "kind": "index",
+    "status": "completed",
+    "payload": {
+      "version_ids": [
+        "2d0528e4477b48efad31824c9365e9a3"
+      ],
+      "provider": "gemini",
+      "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+      "expected_parse_id": "2d0528e4477b48efad31824c9365e9a3",
+      "auto_index": true,
+      "parent_run_id": "50f570fc1b9444cda491ff74929f9d6b"
+    },
+    "result": {
+      "id": "5544fdd6e7574ab3a9394757d7a65c84",
+      "workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+      "model_id": "gemini-embedding-001",
+      "revision": "gemini-api-v1beta-768-v1",
+      "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+      "manifest": {
+        "provider": {
+          "model_id": "gemini-embedding-001",
+          "revision": "gemini-api-v1beta-768-v1",
+          "tokenizer_revision": "utf8-byte-upper-bound-v1",
+          "query_template": "taskType=RETRIEVAL_QUERY: {text}",
+          "document_template": "taskType=RETRIEVAL_DOCUMENT: {text}",
+          "pooling": "provider_managed",
+          "normalization": "l2",
+          "dimension": 768,
+          "dtype": "float32",
+          "provider": "gemini",
+          "immutable_weights_revision_available": false,
+          "token_count_kind": "conservative_utf8_byte_upper_bound"
+        },
+        "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+        "chunker": "token-checked-source-bundles-v2",
+        "snapshots": [
+          {
+            "version_id": "2d0528e4477b48efad31824c9365e9a3",
+            "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+            "sha256": "b9ab065d378d31a1d6f0840e596445c1117c0067b512b058f22488f84707c767"
+          }
+        ],
+        "max_tokens": 2000,
+        "exclusions": [
+          "empty_text",
+          "header",
+          "footer"
+        ],
+        "context_is_source_evidence": false,
+        "input_byte_limit": 4096,
+        "token_count_kind": "conservative_byte_bound_or_native_countTokens",
+        "identical_retrieval_inputs": false,
+        "source_spans_preserved": true,
+        "count_payload_role": "user",
+        "internal_token_margin": 48
+      },
+      "status": "ready",
+      "expected_blocks": 2,
+      "covered_blocks": 2,
+      "excluded_blocks": 0,
+      "chunk_count": 1,
+      "vector_count": 1,
+      "dimension": 768,
+      "created": 1794892528.4545112,
+      "activated": 1794892529.608945,
+      "error": null,
+      "coverage_complete": true
+    },
+    "error": null,
+    "idempotency": "parsed-index:2d0528e4477b48efad31824c9365e9a3:2d0528e4477b48efad31824c9365e9a3",
+    "created": 1794892528.0646489,
+    "updated": 1794892529.6191475,
+    "steps": [
+      {
+        "id": 9607,
+        "event": "index_waiting_admission",
+        "data": {
+          "parse_run_id": "50f570fc1b9444cda491ff74929f9d6b",
+          "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+          "provider": "gemini",
+          "notice": "解析完成可阅读；语义索引为独立持久任务，按队列预算执行。"
+        },
+        "created": 1794892528.0693197
+      },
+      {
+        "id": 9609,
+        "event": "queued",
+        "data": {
+          "notice": "索引已按全局30/工作区6任务上限入队；解析任务优先。"
+        },
+        "created": 1794892528.0906425
+      },
+      {
+        "id": 9610,
+        "event": "started",
+        "data": {
+          "kind": "index"
+        },
+        "created": 1794892528.0994375
+      },
+      {
+        "id": 9611,
+        "event": "index_chunks",
+        "data": {
+          "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+          "covered_blocks": 2,
+          "excluded_blocks": 0
+        },
+        "created": 1794892528.4900613
+      },
+      {
+        "id": 9612,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-embedding-001",
+          "project": "gemini-project-2",
+          "quota_id": "67dd7b7a042940f7a2b3f496f8b6ce52",
+          "reserved_input_tokens": 256,
+          "method": "batchEmbedContents",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794892528.5232325
+      },
+      {
+        "id": 9613,
+        "event": "index_embedding",
+        "data": {
+          "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+          "vector_count": 1,
+          "chunk_count": 1,
+          "model_id": "gemini-embedding-001",
+          "cloud_requests": 1,
+          "execution": {}
+        },
+        "created": 1794892529.5830429
+      },
+      {
+        "id": 9614,
+        "event": "completed",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794892529.6265132
+      }
+    ]
+  },
+  "document_status": {
+    "id": "2d0528e4477b48efad31824c9365e9a3",
+    "workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+    "work_id": "32b3471192c140f7a6a5ca4de5a95402",
+    "title": "Aster trial: independent input check, 17 November 2026 The Aster trial used 6 GPUs for 2 hours. Cost was not measured.",
+    "filename": "aster-new-input-20261117.pdf",
+    "sha256": "b9ab065d378d31a1d6f0840e596445c1117c0067b512b058f22488f84707c767",
+    "status": "ready",
+    "page_count": 1,
+    "parsed_pages": 1,
+    "dense_pages": 0,
+    "label": "版本待确认",
+    "identity": null,
+    "metadata": {
+      "parser": "pdfplumber-layout-v2",
+      "title_source": "pdf_frontmatter",
+      "author": "anonymous",
+      "pdf_metadata_title": "",
+      "first_page_text_fingerprint": "2a5ffd5bc3b23fc8e32bdac6b9050ea5527801cf77fd8a97be63babb6c931c76",
+      "identity_status": "uncertain",
+      "same_work_candidates": [],
+      "outline": [],
+      "active_parse_id": "2d0528e4477b48efad31824c9365e9a3",
+      "card_version": "card-v1"
+    },
+    "created": 1794892522.5908237,
+    "deleted": 0,
+    "active_parse_id": "2d0528e4477b48efad31824c9365e9a3",
+    "local_index": {
+      "status": "ready",
+      "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+      "model_id": "gemini-embedding-001",
+      "indexed_blocks": 2,
+      "eligible_blocks": 2,
+      "semantic_ready": true,
+      "providers": [
+        {
+          "status": "ready",
+          "generation_id": "5544fdd6e7574ab3a9394757d7a65c84",
+          "model_id": "gemini-embedding-001",
+          "indexed_blocks": 2,
+          "eligible_blocks": 2,
+          "semantic_ready": true
+        }
+      ]
+    }
+  },
+  "qa_run_id": "4a435cf48f784dfb9c04d364be4decec",
+  "qa_run": {
+    "id": "4a435cf48f784dfb9c04d364be4decec",
+    "workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+    "kind": "qa",
+    "status": "completed",
+    "payload": {
+      "question": "这份新资料的 Aster 试验用了多少张 GPU？只回答一条原文明确说明的事实。",
+      "version_ids": [
+        "2d0528e4477b48efad31824c9365e9a3"
+      ]
+    },
+    "result": {
+      "answer": "Aster 试验使用了 6 张 GPU。",
+      "answer_segments": [
+        {
+          "text": "Aster 试验使用了 6 张 GPU。",
+          "claim_ids": [
+            "c1"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Aster 试验使用了 6 张 GPU。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+              "version_id": "2d0528e4477b48efad31824c9365e9a3",
+              "page_index": 0,
+              "bbox": [
+                0.058796295363021764,
+                0.12160000038009733,
+                0.6402748575617752,
+                0.13585364735384617
+              ],
+              "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+              "quote": "The Aster trial used 6 GPUs for 2 hours.",
+              "quote_span": {
+                "start": 0,
+                "end": 40
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9844; confidence=0.9844。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "contradicted": 0.004134676149458548,
+              "supported": 0.9843797944433412,
+              "insufficient": 0.01148552940720022
+            },
+            "confidence": 0.9843797944433412
+          }
+        }
+      ],
+      "status": "ready",
+      "evidence_review": "machine_reviewed",
+      "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+      "legacy_answer_replaced": false,
+      "unchecked_prose_replaced": 0,
+      "decision_review": {
+        "model": "gemini-decision-1",
+        "usage": {
+          "total_tokens": 877,
+          "total_input_tokens": 877,
+          "input_tokens_by_modality": [
+            {
+              "modality": "text",
+              "tokens": 877
+            }
+          ],
+          "total_output_tokens": 0
+        },
+        "quota_id": "087ab1c7967e4e2c9c3a8de22aa7175a",
+        "thresholds": {
+          "probability": 0.9,
+          "confidence": 0.8,
+          "margin": 0.25
+        },
+        "human_status": "unreviewed"
+      },
+      "model": "gemini-3.6-flash",
+      "usage": {
+        "promptTokenCount": 944,
+        "candidatesTokenCount": 107,
+        "totalTokenCount": 1768,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 944
+          }
+        ],
+        "thoughtsTokenCount": 717,
+        "serviceTier": "standard"
+      },
+      "retrieval": {
+        "rewritten_queries": [
+          "Aster trial GPU count hardware usage",
+          "Aster trial number of GPUs used",
+          "Aster trial hardware configuration GPUs"
+        ],
+        "blocks": [
+          {
+            "id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+            "version_id": "2d0528e4477b48efad31824c9365e9a3",
+            "page_index": 0,
+            "bbox": [
+              0.058796295363021764,
+              0.12160000038009733,
+              0.6402748575617752,
+              0.13585364735384617
+            ],
+            "type": "paragraph",
+            "reading_order": 1,
+            "text": "The Aster trial used 6 GPUs for 2 hours. Cost was not measured.",
+            "source": "pdfplumber",
+            "quality": "native",
+            "metadata": {
+              "citation_markers": [],
+              "layout": "single_column",
+              "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+              "parser_version": "pdfplumber-layout-v2",
+              "models": [],
+              "device": "cpu"
+            },
+            "chunk_id": "93d116051c70bd2749b0f78d098b566891bb7909b593200e1bbe8a799c0e8f52",
+            "span_start": 0,
+            "span_end": 63,
+            "retrieval_text": "Title: Aster trial: independent input check, 17 November 2026 The Aster trial used 6 GPUs for 2 hours. Cost was not measAster trial: independent input check, 17 November 2026\n\nThe Aster trial used 6 GPUs for 2 hours. Cost was not measured.",
+            "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+            "dense_score": 0.796902060508728,
+            "rrf_score": 0.0817028027498678,
+            "evidence_text": "The Aster trial used 6 GPUs for 2 hours. Cost was not measured."
+          },
+          {
+            "id": "2d0528e4477b48efad31824c9365e9a3:0:0",
+            "version_id": "2d0528e4477b48efad31824c9365e9a3",
+            "page_index": 0,
+            "bbox": [
+              0.058796295363021764,
+              0.08596588294572528,
+              0.556293589053541,
+              0.10021952991947411
+            ],
+            "type": "paragraph",
+            "reading_order": 0,
+            "text": "Aster trial: independent input check, 17 November 2026",
+            "source": "pdfplumber",
+            "quality": "native",
+            "metadata": {
+              "citation_markers": [],
+              "layout": "single_column",
+              "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+              "parser_version": "pdfplumber-layout-v2",
+              "models": [],
+              "device": "cpu"
+            },
+            "chunk_id": "93d116051c70bd2749b0f78d098b566891bb7909b593200e1bbe8a799c0e8f52",
+            "span_start": 0,
+            "span_end": 54,
+            "retrieval_text": "Title: Aster trial: independent input check, 17 November 2026 The Aster trial used 6 GPUs for 2 hours. Cost was not measAster trial: independent input check, 17 November 2026\n\nThe Aster trial used 6 GPUs for 2 hours. Cost was not measured.",
+            "parse_id": "2d0528e4477b48efad31824c9365e9a3",
+            "dense_score": 0.796902060508728,
+            "rrf_score": 0.08090957165520889,
+            "evidence_text": "Aster trial: independent input check, 17 November 2026"
+          }
+        ],
+        "sparse": [
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+            "score": -15.677770355300376
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:0",
+            "score": -10.386430718717119
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+            "score": -25.93612277380378
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:0",
+            "score": -21.364534275097157
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+            "score": -30.853463411870976
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:0",
+            "score": -21.364534275097157
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+            "score": -26.691582587048078
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:0",
+            "score": -21.364534275097157
+          }
+        ],
+        "dense": [
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:0",
+            "score": 0.796902060508728
+          },
+          {
+            "block_id": "2d0528e4477b48efad31824c9365e9a3:0:1",
+            "score": 0.796902060508728
+          }
+        ],
+        "mode": "hybrid",
+        "notice": "Gemini独立代际向量与BM25经RRF融合；本地服务可用时优先使用其独立索引",
+        "version_ids": [
+          "2d0528e4477b48efad31824c9365e9a3"
+        ],
+        "method": "FTS5_BM25+cosine+RRF",
+        "dense_index": {
+          "status": "ready",
+          "model_id": "gemini-embedding-001",
+          "revision": "gemini-api-v1beta-768-v1",
+          "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+          "dimension": 768,
+          "method": "bounded_exact_matrix",
+          "scope_complete": true,
+          "covered_version_ids": [
+            "2d0528e4477b48efad31824c9365e9a3"
+          ],
+          "missing_version_ids": [],
+          "provider": "gemini",
+          "local_fallback": null
+        },
+        "rerank": {
+          "status": "NOT RUN"
+        },
+        "query_term_expansion": []
+      },
+      "artifact_id": "75ac1c857827456fbd75653833692bc3"
+    },
+    "error": null,
+    "idempotency": "aster-fresh-input-auto-index-20261117",
+    "created": 1794892536.971987,
+    "updated": 1794892546.6474967,
+    "steps": [
+      {
+        "id": 9615,
+        "event": "queued",
+        "data": {
+          "kind": "qa",
+          "message": "任务已持久化，等待单 worker 执行"
+        },
+        "created": 1794892536.9793086
+      },
+      {
+        "id": 9616,
+        "event": "started",
+        "data": {
+          "kind": "qa"
+        },
+        "created": 1794892537.304193
+      },
+      {
+        "id": 9617,
+        "event": "plan",
+        "data": {
+          "tools": [
+            "retrieve_evidence",
+            "synthesize",
+            "validate_citations",
+            "save_artifact"
+          ],
+          "model_budget": 2,
+          "description": "检索具体版本，综合原文，绑定主张并核验引用"
+        },
+        "created": 1794892537.7957647
+      },
+      {
+        "id": 9618,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "2a0410557443430aae10ec11f21f15d5",
+          "reserved_input_tokens": 1860,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794892537.8900151
+      },
+      {
+        "id": 9619,
+        "event": "query_rewritten",
+        "data": {
+          "queries": [
+            "Aster trial GPU count hardware usage",
+            "Aster trial number of GPUs used",
+            "Aster trial hardware configuration GPUs"
+          ]
+        },
+        "created": 1794892539.4470549
+      },
+      {
+        "id": 9620,
+        "event": "retrieved",
+        "data": {
+          "mode": "hybrid",
+          "sparse_candidates": 8,
+          "dense_candidates": 2,
+          "evidence_blocks": 2
+        },
+        "created": 1794892540.9762084
+      },
+      {
+        "id": 9621,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.6-flash",
+          "project": "gemini-project-2",
+          "quota_id": "9e7069188554454691c7e302aa614c4c",
+          "reserved_input_tokens": 3932,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794892541.0055342
+      },
+      {
+        "id": 9622,
+        "event": "validating",
+        "data": {
+          "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+        },
+        "created": 1794892545.4611855
+      },
+      {
+        "id": 9623,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-decision-1",
+          "project": "gemini-project-2",
+          "quota_id": "087ab1c7967e4e2c9c3a8de22aa7175a",
+          "reserved_input_tokens": 2500,
+          "method": "createDecision",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794892545.5268025
+      },
+      {
+        "id": 9624,
+        "event": "decision_review",
+        "data": {
+          "claims": 1,
+          "status": "ready",
+          "quota_id": "087ab1c7967e4e2c9c3a8de22aa7175a"
+        },
+        "created": 1794892546.6069577
+      },
+      {
+        "id": 9625,
+        "event": "completed",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794892546.656636
+      }
+    ]
+  },
+  "finished": 1794892547.3842895
+}

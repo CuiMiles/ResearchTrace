@@ -1,0 +1,1 @@
+{"status": "BLOCKED", "unknowns": [{"quota_id": "340a4dde37c244b9ab40b99029669b5f", "status": "reserved", "received_private_trace_exists": true, "total_tokens": 1206, "native_count_receipt": true}], "embedding_units": 0, "ledger_reset": false}

@@ -1,0 +1,1 @@
+[{"key_comment_matches_project": true, "restrictive_options": "restrict,port-forwarding,command=\"/bin/false\",permitopen=\"127.0.0.1:1\",permitlisten=\"127.0.0.1:18985\",permitlisten=\"127.0.0.1:18986\",permitlisten=\"127.0.0.1:18987\" "}]

@@ -1,0 +1,6 @@
+0
+{"status": "PASS", "generation_id": "53ffb2e2e9c14cab81b122e9a4b50857", "vectors": 23185, "source_blocks": 22950, "documents": 39, "counts": {"index_generations": 1, "retrieval_chunks": 23185, "retrieval_spans": 23185, "retrieval_vectors": 23185, "active_retrieval_indices": 39, "runs": 1, "steps": 662}, "provider_calls": 0, "ledger_rows_changed": 0, "writer_seconds": 16.903}
+0
+ ---> 09ad8914b417
+Successfully built 09ad8914b417
+Successfully tagged researchtrace:completion-v10

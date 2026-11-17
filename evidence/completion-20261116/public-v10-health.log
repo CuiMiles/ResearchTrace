@@ -1,0 +1,5 @@
+/opt/researchtrace/releases/completion-v10-20261117
+researchtrace-worker-interactive-1 Up 38 seconds
+researchtrace-worker-documents-1 Up 38 seconds
+researchtrace-api-1 Up 38 seconds (healthy)
+{"status":"ok","service":"ResearchTrace"}

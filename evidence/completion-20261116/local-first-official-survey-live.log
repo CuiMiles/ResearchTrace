@@ -1,0 +1,1 @@
+{"name": "adam-official", "status": "PASS", "run_id": "53569c0aa1ff4a499123d4b548893313", "answer": "论文在实验中使用 Adam 优化器时，β1 设置为 0.9，β2 设置为 0.98。"}

@@ -452,7 +452,7 @@
     "source_note": "用户提供的测试资料包；包含赛题点名文件。未独立验证发布渠道，不自动宣称组委会签名原包。"
   },
   "test_execution_started": true,
-  "updated_at": "2026-11-16T19:34:35.481878+00:00",
+  "updated_at": "2026-11-17T05:41:42.863406+00:00",
   "steps": [
     {
       "id": "inventory",
@@ -10947,14 +10947,16 @@
         },
         {
           "id": "completion-indices",
-          "label": "Separate cloud/local generations; incomplete generations never activated",
-          "status": "NOT RUN",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "label": "Full39 local generation and immutable source spans verified; cloud/core4 separate",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
           "evidence_files": [
-            "evidence/completion-20261116/summary.json"
+            "evidence/completion-20261116/summary.json",
+            "evidence/completion-20261116/local-full-final-activation.json",
+            "evidence/review-upgrade/retrieval-nemotron-all-rerank.json"
           ],
           "screenshots": [],
           "command": "scripts/collect_completion_evidence.py"
@@ -11120,13 +11122,55 @@
           "id": "completion-official",
           "label": "Official questions, traps and translation; consult individual outcomes",
           "status": "BLOCKED",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
           "evidence_files": [
             "evidence/completion-20261116/official-live.json",
             "evidence/completion-20261116/feature-live.json"
+          ],
+          "screenshots": [],
+          "command": "scripts/collect_completion_evidence.py"
+        },
+        {
+          "id": "completion-public-semantic",
+          "label": "Public new-reviewer cloud retrieval and supported answer",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
+          "summary": "Scope is this exact recorded case; independent human quality review remains separate.",
+          "files": [],
+          "counts": {},
+          "evidence_files": [
+            "evidence/completion-20261116/public-semantic-qa.json"
+          ],
+          "screenshots": [],
+          "command": "scripts/collect_completion_evidence.py"
+        },
+        {
+          "id": "completion-public-agent",
+          "label": "Actual tools, observation feedback and cost evidence gap",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
+          "summary": "Scope is this exact recorded case; independent human quality review remains separate.",
+          "files": [],
+          "counts": {},
+          "evidence_files": [
+            "evidence/completion-20261116/agent-public.json"
+          ],
+          "screenshots": [],
+          "command": "scripts/collect_completion_evidence.py"
+        },
+        {
+          "id": "completion-public-new-input",
+          "label": "New PDF upload, separate durable index, real cloud QA",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
+          "summary": "Scope is this exact recorded case; independent human quality review remains separate.",
+          "files": [],
+          "counts": {},
+          "evidence_files": [
+            "evidence/completion-20261116/new-pdf-auto-index-public.json"
           ],
           "screenshots": [],
           "command": "scripts/collect_completion_evidence.py"
@@ -11276,13 +11320,27 @@
           "id": "completion-regression",
           "label": "Backend regression, quota-item units and independent public browser",
           "status": "PASS",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
           "evidence_files": [
-            "evidence/completion-20261116/final-regression.log",
-            "evidence/completion-20261116/public-browser/report.json"
+            "evidence/completion-20261116/final-validated-regression.log",
+            "evidence/completion-20261116/public-final-browser/report.json"
+          ],
+          "screenshots": [],
+          "command": "scripts/collect_completion_evidence.py"
+        },
+        {
+          "id": "completion-public-pressure",
+          "label": "541 original pages, parallel CSV and old snapshot; 59 checks",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
+          "summary": "Scope is this exact recorded case; independent human quality review remains separate.",
+          "files": [],
+          "counts": {},
+          "evidence_files": [
+            "evidence/completion-20261116/public-541-pressure.json"
           ],
           "screenshots": [],
           "command": "scripts/collect_completion_evidence.py"
@@ -11777,7 +11835,7 @@
           "id": "completion-writing",
           "label": "20-paper survey and Future Work actual receipts",
           "status": "BLOCKED",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
@@ -11852,12 +11910,26 @@
           "id": "completion-recommendations",
           "label": "Real arXiv discovery and schema-repaired recommendation reasons",
           "status": "PASS",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
           "evidence_files": [
             "evidence/completion-20261116/feature-repair-live.json"
+          ],
+          "screenshots": [],
+          "command": "scripts/collect_completion_evidence.py"
+        },
+        {
+          "id": "completion-public-references",
+          "label": "40 references classified; conflicts explicitly uncertain",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
+          "summary": "Scope is this exact recorded case; independent human quality review remains separate.",
+          "files": [],
+          "counts": {},
+          "evidence_files": [
+            "evidence/completion-20261116/reference-classification-public.json"
           ],
           "screenshots": [],
           "command": "scripts/collect_completion_evidence.py"
@@ -12043,7 +12115,7 @@
           "id": "completion-materials",
           "label": "Actual diagram schema repair, 6-page PDF and 6-minute 1080p recording",
           "status": "PASS",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
@@ -12278,12 +12350,26 @@
           "id": "completion-browser",
           "label": "Actual core4 PDF/UI rendering across four widths",
           "status": "PASS",
-          "finished": "2026-11-16T19:34:35.481878+00:00",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
           "summary": "New completion-stage records; historical failures and machine/human review distinctions retained.",
           "files": [],
           "counts": {},
           "evidence_files": [
             "evidence/completion-20261116/browser/report.json"
+          ],
+          "screenshots": [],
+          "command": "scripts/collect_completion_evidence.py"
+        },
+        {
+          "id": "completion-public-translation",
+          "label": "New Chinese PDF full English translation and export",
+          "status": "PASS",
+          "finished": "2026-11-17T05:41:42.863406+00:00",
+          "summary": "Scope is this exact recorded case; independent human quality review remains separate.",
+          "files": [],
+          "counts": {},
+          "evidence_files": [
+            "evidence/completion-20261116/translation-public.json"
           ],
           "screenshots": [],
           "command": "scripts/collect_completion_evidence.py"

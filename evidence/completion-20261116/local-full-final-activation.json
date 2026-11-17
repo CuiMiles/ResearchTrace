@@ -1,0 +1,1 @@
+{"status": "PASS", "previous_status": "failed", "previous_vector_count": 14466, "ready_vectors": 23185, "documents": 39, "immutable_source_spans_checked": 23185, "same_manifest_verified": true, "provider_calls": 0, "ledger_rows_changed": 0, "activation": "atomic"}

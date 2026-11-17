@@ -1,0 +1,1058 @@
+{
+  "status": "BLOCKED",
+  "cases": [
+    {
+      "name": "survey20-one-repair-strict-validation",
+      "run_id": "38b4a193501440f58cd3a95c74836863",
+      "status": "FAIL",
+      "run": {
+        "id": "38b4a193501440f58cd3a95c74836863",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "writing",
+        "status": "failed",
+        "payload": {
+          "question": "按选定20篇逐篇给出至少一条本篇摘录支持的短主张，再按研究问题、方法、差异、局限和未来工作组织。每篇独立保留原文引用，quote尽量不超过180英文字符，不重复标题数字、年份和作者排序；条件不足的明确insufficient，不凭元数据编造实验。至少20条原子主张，每项只归一个章节。",
+          "version_ids": [
+            "dceae303ec2f41cbbc4d88f047db9424",
+            "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+            "3a013a663fd849ff9b6068654d8db7ce",
+            "61699b3f11364e119e79181e21359218",
+            "42bd2e6ae5c840178e5cfb422a0d5d5a",
+            "dae6c78ff75f412a8969110847fa06ed",
+            "47b66a19b9a444a59f7180c3c79fa4d3",
+            "3f4fea8bed824d8a9345046cf0495095",
+            "da462b7a23bf4f91b00e1d79746166e9",
+            "0057f1a88e864a7aaae219ff98f7a6db",
+            "9bb90453cf834fd1b83c3593b6b4cb2d",
+            "9be4b0b9d82b48efb62e9df9f947c637",
+            "464f25034aa74104a944a67df1d0cca2",
+            "6ccdeca3f4d44e588e81e3e1abface94",
+            "4bc46336dcf44b0392ea7f16e6a87a6f",
+            "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+            "3fdbfb3b1c234530883333f9c6b93bc3",
+            "fb01f0adc8ff42f7aa58f536f74c3ac0",
+            "d3d10ab463974076b8355839f401f7a5",
+            "d503f5dfee294ef1a1cfc62e04e84a6c"
+          ],
+          "context_budget": 48000,
+          "search_query": null,
+          "workflow": "survey",
+          "snapshots": [
+            {
+              "id": "dceae303ec2f41cbbc4d88f047db9424",
+              "work_id": "36eca0577d4b4818896c4542a30b17c8",
+              "title": "Attention Is All You Need",
+              "label": "v7",
+              "identity": "arxiv:1706.03762",
+              "parse_id": "dceae303ec2f41cbbc4d88f047db9424"
+            },
+            {
+              "id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+              "work_id": "f30f70e07bb64e14b7acbdcaea8fc95d",
+              "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+              "label": "v3",
+              "identity": "arxiv:1910.02054",
+              "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3"
+            },
+            {
+              "id": "3a013a663fd849ff9b6068654d8db7ce",
+              "work_id": "c2ce82ea9b094c39862af4d44c1588bf",
+              "title": "Exploring the Limits of Transfer Learning with Unified Text-to-Text Transformer",
+              "label": "v4",
+              "identity": "arxiv:1910.10683",
+              "parse_id": "3a013a663fd849ff9b6068654d8db7ce"
+            },
+            {
+              "id": "61699b3f11364e119e79181e21359218",
+              "work_id": "ca636f5d0a194aaf91116372638db6f2",
+              "title": "Scaling Laws for Neural Language Models",
+              "label": "v1",
+              "identity": "arxiv:2001.08361",
+              "parse_id": "61699b3f11364e119e79181e21359218"
+            },
+            {
+              "id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+              "work_id": "b5cfb6b7f8e34edd84e0336af4ab7f21",
+              "title": "On Layer Normalization in the Transformer Architecture",
+              "label": "v2",
+              "identity": "arxiv:2002.04745",
+              "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a"
+            },
+            {
+              "id": "dae6c78ff75f412a8969110847fa06ed",
+              "work_id": "346153a7feaf48a19edf8de5d1a303a1",
+              "title": "Language Models are Few-Shot Learners",
+              "label": "v4",
+              "identity": "arxiv:2005.14165",
+              "parse_id": "dae6c78ff75f412a8969110847fa06ed"
+            },
+            {
+              "id": "47b66a19b9a444a59f7180c3c79fa4d3",
+              "work_id": "08e7652535be429187789352557c98c0",
+              "title": "Emergent Abilities of Large Language Models",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3"
+            },
+            {
+              "id": "3f4fea8bed824d8a9345046cf0495095",
+              "work_id": "b33c0d9f25904143b5c989477f9199bb",
+              "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+              "label": "v3",
+              "identity": "arxiv:2101.03961",
+              "parse_id": "3f4fea8bed824d8a9345046cf0495095"
+            },
+            {
+              "id": "da462b7a23bf4f91b00e1d79746166e9",
+              "work_id": "3f05df2bca5f4412bb695ee895e06902",
+              "title": "Learning Transferable Visual Models From Natural Language Supervision",
+              "label": "v1",
+              "identity": "arxiv:2103.00020",
+              "parse_id": "da462b7a23bf4f91b00e1d79746166e9"
+            },
+            {
+              "id": "0057f1a88e864a7aaae219ff98f7a6db",
+              "work_id": "e2bfab6421cc4ed692b7266724ccbfc0",
+              "title": "Evaluating Large Language Models Trained on Code",
+              "label": "v2",
+              "identity": "arxiv:2107.03374",
+              "parse_id": "0057f1a88e864a7aaae219ff98f7a6db"
+            },
+            {
+              "id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+              "work_id": "c9b5be1f1ac4472196c51bfb4aa08054",
+              "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+              "label": "v6",
+              "identity": "arxiv:2201.11903",
+              "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d"
+            },
+            {
+              "id": "9be4b0b9d82b48efb62e9df9f947c637",
+              "work_id": "1017dd11e8b444b581aa49be6890c0bc",
+              "title": "Training language models to follow instructions with human feedback",
+              "label": "v1",
+              "identity": "arxiv:2203.02155",
+              "parse_id": "9be4b0b9d82b48efb62e9df9f947c637"
+            },
+            {
+              "id": "464f25034aa74104a944a67df1d0cca2",
+              "work_id": "75c8085ee02846f089d11811c2d792fc",
+              "title": "FlashAttention Fast and Memory-Efficient Exact Attention with IO-Awareness",
+              "label": "v2",
+              "identity": "arxiv:2205.14135",
+              "parse_id": "464f25034aa74104a944a67df1d0cca2"
+            },
+            {
+              "id": "6ccdeca3f4d44e588e81e3e1abface94",
+              "work_id": "c3ba3ce3c1ec423fa499985a852bbe62",
+              "title": "Emergent Abilities of Large Language Models",
+              "label": "v2",
+              "identity": "arxiv:2206.07682",
+              "parse_id": "6ccdeca3f4d44e588e81e3e1abface94"
+            },
+            {
+              "id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+              "work_id": "d43182ede6d64a1ba4bb35701adfd135",
+              "title": "BLOOM: 176B-Parameter Open-Access Multilingual Language Model",
+              "label": "v4",
+              "identity": "arxiv:2211.05100",
+              "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f"
+            },
+            {
+              "id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+              "work_id": "4075c28a972d4430a13fac173a2207a3",
+              "title": "GPT-4 Technical Report",
+              "label": "v6",
+              "identity": "arxiv:2303.08774",
+              "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39"
+            },
+            {
+              "id": "3fdbfb3b1c234530883333f9c6b93bc3",
+              "work_id": "d504ff07e8ba4abe9b5976538587578b",
+              "title": "RWKV: Reinventing RNNs for the Transformer Era",
+              "label": "v2",
+              "identity": "arxiv:2305.13048",
+              "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3"
+            },
+            {
+              "id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+              "work_id": "d449d58eeced43aca40dc8f0b0de4ec1",
+              "title": "Direct Preference Optimization: Your Language Model is Secretly Reward Model",
+              "label": "v3",
+              "identity": "arxiv:2305.18290",
+              "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0"
+            },
+            {
+              "id": "d3d10ab463974076b8355839f401f7a5",
+              "work_id": "2489862023034f22a5d2b591167c22be",
+              "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+              "label": "v2",
+              "identity": "arxiv:2307.09288",
+              "parse_id": "d3d10ab463974076b8355839f401f7a5"
+            },
+            {
+              "id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+              "work_id": "9f2e3b06be804901b8bd53ea7452d73c",
+              "title": "Instruction Pre-Training: Language Models are Supervised Multitask Learners",
+              "label": "v2",
+              "identity": "arxiv:2406.14491",
+              "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c"
+            }
+          ]
+        },
+        "result": null,
+        "error": "主张与证据中的数值或单位矛盾；结果已拦截",
+        "idempotency": "public-survey20-each-paper-evidence-20261117",
+        "created": 1794860393.6309605,
+        "updated": 1794885788.376428,
+        "steps": [
+          {
+            "id": 7235,
+            "event": "queued",
+            "data": {
+              "kind": "writing",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794860393.6377897
+          },
+          {
+            "id": 7259,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794860413.7736387
+          },
+          {
+            "id": 7260,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794860413.8076305
+          },
+          {
+            "id": 7261,
+            "event": "writing_evidence",
+            "data": {
+              "coverage": [
+                {
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "eligible_blocks": 135,
+                  "candidate_slots": 6,
+                  "context_bytes": 1810,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "eligible_blocks": 191,
+                  "candidate_slots": 6,
+                  "context_bytes": 1918,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "eligible_blocks": 617,
+                  "candidate_slots": 6,
+                  "context_bytes": 788,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "61699b3f11364e119e79181e21359218",
+                  "parse_id": "61699b3f11364e119e79181e21359218",
+                  "eligible_blocks": 383,
+                  "candidate_slots": 6,
+                  "context_bytes": 481,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "eligible_blocks": 295,
+                  "candidate_slots": 6,
+                  "context_bytes": 1659,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "eligible_blocks": 621,
+                  "candidate_slots": 6,
+                  "context_bytes": 1601,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "eligible_blocks": 325,
+                  "candidate_slots": 6,
+                  "context_bytes": 592,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "eligible_blocks": 402,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "eligible_blocks": 869,
+                  "candidate_slots": 6,
+                  "context_bytes": 210,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "eligible_blocks": 660,
+                  "candidate_slots": 6,
+                  "context_bytes": 1699,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "eligible_blocks": 509,
+                  "candidate_slots": 6,
+                  "context_bytes": 1525,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "eligible_blocks": 519,
+                  "candidate_slots": 6,
+                  "context_bytes": 1048,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "464f25034aa74104a944a67df1d0cca2",
+                  "parse_id": "464f25034aa74104a944a67df1d0cca2",
+                  "eligible_blocks": 367,
+                  "candidate_slots": 6,
+                  "context_bytes": 1007,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "eligible_blocks": 331,
+                  "candidate_slots": 6,
+                  "context_bytes": 592,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+                  "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+                  "eligible_blocks": 697,
+                  "candidate_slots": 6,
+                  "context_bytes": 582,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "eligible_blocks": 1138,
+                  "candidate_slots": 6,
+                  "context_bytes": 870,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "eligible_blocks": 461,
+                  "candidate_slots": 6,
+                  "context_bytes": 1038,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "eligible_blocks": 285,
+                  "candidate_slots": 6,
+                  "context_bytes": 1027,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "d3d10ab463974076b8355839f401f7a5",
+                  "parse_id": "d3d10ab463974076b8355839f401f7a5",
+                  "eligible_blocks": 657,
+                  "candidate_slots": 6,
+                  "context_bytes": 824,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "eligible_blocks": 327,
+                  "candidate_slots": 6,
+                  "context_bytes": 1572,
+                  "status": "selected_excerpts"
+                }
+              ],
+              "budget_bytes": 48000
+            },
+            "created": 1794860417.1209981
+          },
+          {
+            "id": 7262,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-project-2",
+              "quota_id": "22d83b6672354ca9acb903e5ab2aa5e3",
+              "reserved_input_tokens": 66939,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860421.0035613
+          },
+          {
+            "id": 7263,
+            "event": "model_downgraded",
+            "data": {
+              "from": "gemini-4-hydrogen",
+              "to": "gemini-3.6-flash",
+              "reason": "unusable_output"
+            },
+            "created": 1794860482.224531
+          },
+          {
+            "id": 7264,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.6-flash",
+              "project": "gemini-project-2",
+              "quota_id": "05b6cf5b38af4c06b24cb99d44fe0557",
+              "reserved_input_tokens": 66939,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860482.2467873
+          },
+          {
+            "id": 7265,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794860562.7065225
+          },
+          {
+            "id": 7266,
+            "event": "failed",
+            "data": {
+              "error": "5 validation errors for Manuscript\nsections.0.title\n  Extra inputs are not permitted [type=extra_forbidden, input_value='研究问题', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/extra_forbidden\nsections.1.title\n  Extra inputs are not permitted [type=extra_forbidden, input_value='方法脉络', input_type=str]\n    For furt"
+            },
+            "created": 1794860562.7274692
+          },
+          {
+            "id": 7300,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794860969.608808
+          },
+          {
+            "id": 7301,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794860969.6480668
+          },
+          {
+            "id": 7302,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794860969.756033
+          },
+          {
+            "id": 7303,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794860970.0456953
+          },
+          {
+            "id": 8279,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794861811.4548218
+          },
+          {
+            "id": 8280,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794861811.5864074
+          },
+          {
+            "id": 8281,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794861811.8833978
+          },
+          {
+            "id": 8283,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "f60684bd382846ffb5e80593e8bef073",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794861818.4614484
+          },
+          {
+            "id": 8284,
+            "event": "failed",
+            "data": {
+              "error": "gemini-3.5-flash-lite HTTP 400 INVALID_ARGUMENT；请求已记账，无自动付费兜底"
+            },
+            "created": 1794861819.42687
+          },
+          {
+            "id": 8288,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794885186.2198317
+          },
+          {
+            "id": 8289,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794885186.350088
+          },
+          {
+            "id": 8290,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794885186.461741
+          },
+          {
+            "id": 8291,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "20166fda4ffd4a4b83420b98b81bd09c",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794885191.884708
+          },
+          {
+            "id": 8293,
+            "event": "failed",
+            "data": {
+              "error": "gemini-3.5-flash-lite HTTP 400 INVALID_ARGUMENT；请求已记账，无自动付费兜底"
+            },
+            "created": 1794885193.6999598
+          },
+          {
+            "id": 8307,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794885511.9259212
+          },
+          {
+            "id": 8308,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794885511.9569519
+          },
+          {
+            "id": 8309,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794885512.0702736
+          },
+          {
+            "id": 8310,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "d6433fb936ed4b0caef2b20c0dbf4ccc",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794885517.398381
+          },
+          {
+            "id": 8311,
+            "event": "provider_request_invalid",
+            "data": {
+              "mentioned_fields": [],
+              "unknown_name": false,
+              "unsupported": false,
+              "schema_too_complex": true
+            },
+            "created": 1794885518.7033126
+          },
+          {
+            "id": 8312,
+            "event": "failed",
+            "data": {
+              "error": "gemini-3.5-flash-lite HTTP 400 INVALID_ARGUMENT；请求已记账，无自动付费兜底"
+            },
+            "created": 1794885518.737037
+          },
+          {
+            "id": 8317,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794885756.915496
+          },
+          {
+            "id": 8318,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794885756.94729
+          },
+          {
+            "id": 8319,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794885757.0803556
+          },
+          {
+            "id": 8320,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "79a4f424ea4444ec81207b3946d31b6d",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794885784.3412914
+          },
+          {
+            "id": 8321,
+            "event": "writing_claim_repaired",
+            "data": {
+              "claim_ids": [
+                "c1",
+                "c15",
+                "c18",
+                "c3"
+              ],
+              "model": "gemini-3.5-flash-lite",
+              "original_response_retained": true,
+              "max_repairs": 1
+            },
+            "created": 1794885788.0593028
+          },
+          {
+            "id": 8322,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794885788.3820374
+          }
+        ]
+      }
+    },
+    {
+      "name": "reference-classification-batched12",
+      "run_id": "35bf5d35cf1e4a5ea0cfd535a23b14ad",
+      "status": "FAIL",
+      "run": {
+        "id": "35bf5d35cf1e4a5ea0cfd535a23b14ad",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "reference_classify",
+        "status": "failed",
+        "payload": {
+          "analysis_id": "90d7072e048144dc8840c1dc6bc28a76"
+        },
+        "result": {
+          "status": "partial",
+          "reason": "Lite批次未完成；已收到的批次保留，未知请求不重发，明确失败可手动恢复。"
+        },
+        "error": "模型返回了未知或重复引用；未发布分类",
+        "idempotency": "public-reference-batches12-20261117",
+        "created": 1794861818.3087707,
+        "updated": 1794885816.6778836,
+        "steps": [
+          {
+            "id": 8282,
+            "event": "queued",
+            "data": {
+              "kind": "reference_classify",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794861818.3214204
+          },
+          {
+            "id": 8285,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794861819.445576
+          },
+          {
+            "id": 8286,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "3599adafac7d4b339bafe91a2b6215c9",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794861819.4857156
+          },
+          {
+            "id": 8287,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794861820.0980673
+          },
+          {
+            "id": 8294,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794885193.7189279
+          },
+          {
+            "id": 8295,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "889efe45a7cd4bb5a169fa90feb209d1",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885193.7713034
+          },
+          {
+            "id": 8296,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794885196.7978275
+          },
+          {
+            "id": 8313,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794885518.757595
+          },
+          {
+            "id": 8314,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "ce18643e0b504e9eb2a4dbc648fc706c",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885518.8031502
+          },
+          {
+            "id": 8315,
+            "event": "provider_request_invalid",
+            "data": {
+              "mentioned_fields": [],
+              "unknown_name": false,
+              "unsupported": false,
+              "schema_too_complex": true
+            },
+            "created": 1794885523.1678345
+          },
+          {
+            "id": 8316,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794885523.2050276
+          },
+          {
+            "id": 8323,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794885788.3996336
+          },
+          {
+            "id": 8324,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "7d0bf69c87c24c03906ce3ca44189b45",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885788.432486
+          },
+          {
+            "id": 8325,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "1edb33327db3421982f1e1e701b7d6b1",
+              "reserved_input_tokens": 15527,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885792.9489202
+          },
+          {
+            "id": 8326,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "5c37e3f1052f44eb9763d2243b6e00b5",
+              "reserved_input_tokens": 15161,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885797.138797
+          },
+          {
+            "id": 8330,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "fad59bc2d20c48919dc1ccd32a770405",
+              "reserved_input_tokens": 5355,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885801.1794932
+          },
+          {
+            "id": 8332,
+            "event": "provider_overload_retry",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "wait_seconds": 4
+            },
+            "created": 1794885804.5699944
+          },
+          {
+            "id": 8348,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "5efa95c863a84f11b53ec3ab2e65b869",
+              "reserved_input_tokens": 5355,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885808.5954335
+          },
+          {
+            "id": 8367,
+            "event": "failed",
+            "data": {
+              "error": "模型返回了未知或重复引用；未发布分类"
+            },
+            "created": 1794885816.6844957
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{'name': 'reference-classification', 'status': 'BLOCKED'}
+{'name': 'reference-download-top1', 'status': 'PASS'}
+{'name': 'agent-observation-loop', 'status': 'PASS'}
+{'name': 'survey20-per-paper', 'status': 'FAIL'}

@@ -1,0 +1,13 @@
+/researchtrace-worker-interactive-1 false 1 0
+/researchtrace-worker-documents-1 false 0 0
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/services/worker/main.py", line 112, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/app/services/worker/main.py", line 92, in main
+    wake_dependencies()
+  File "/app/services/api/dependencies.py", line 28, in wake_dependencies
+    conn.execute('BEGIN IMMEDIATE')
+sqlite3.OperationalError: database is locked

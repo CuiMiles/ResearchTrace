@@ -1,0 +1,16 @@
+{'project': 'gemini-project-2', 'model': 'gemini-3.5-flash-lite', 'day': '2026-11-16', 'attempts': 13, 'units': 13}
+{'project': 'gemini-project-2', 'model': 'gemini-3.6-flash', 'day': '2026-11-16', 'attempts': 11, 'units': 11}
+{'project': 'gemini-project-2', 'model': 'gemini-4-hydrogen', 'day': '2026-11-16', 'attempts': 13, 'units': 13}
+{'project': 'gemini-project-2', 'model': 'gemini-decision-1', 'day': '2026-11-16', 'attempts': 15, 'units': 15}
+{'project': 'gemini-project-2', 'model': 'gemini-embedding-001', 'day': '2026-11-16', 'attempts': 66, 'units': 901}
+{'project': 'gemini-shared', 'model': 'gemini-3.5-flash-lite', 'day': '2026-11-15', 'attempts': 26, 'units': 26}
+{'project': 'gemini-shared', 'model': 'gemini-3.5-flash-lite', 'day': '2026-11-16', 'attempts': 27, 'units': 27}
+{'project': 'gemini-shared', 'model': 'gemini-3.6-flash', 'day': '2026-11-15', 'attempts': 2, 'units': 2}
+{'project': 'gemini-shared', 'model': 'gemini-3.6-flash', 'day': '2026-11-16', 'attempts': 21, 'units': 21}
+{'project': 'gemini-shared', 'model': 'gemini-3.8-flash', 'day': '2026-11-15', 'attempts': 2, 'units': 2}
+{'project': 'gemini-shared', 'model': 'gemini-4-hydrogen', 'day': '2026-11-15', 'attempts': 13, 'units': 13}
+{'project': 'gemini-shared', 'model': 'gemini-4-hydrogen', 'day': '2026-11-16', 'attempts': 16, 'units': 16}
+{'project': 'gemini-shared', 'model': 'gemini-decision-1', 'day': '2026-11-15', 'attempts': 5, 'units': 5}
+{'project': 'gemini-shared', 'model': 'gemini-decision-1', 'day': '2026-11-16', 'attempts': 9, 'units': 9}
+{'project': 'gemini-shared', 'model': 'gemini-embedding-001', 'day': '2026-11-15', 'attempts': 56, 'units': 1730}
+{'project': 'gemini-shared', 'model': 'gemini-embedding-001', 'day': '2026-11-16', 'attempts': 69, 'units': 1073}

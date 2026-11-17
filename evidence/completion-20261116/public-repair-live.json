@@ -1,0 +1,1388 @@
+{
+  "cases": [
+    {
+      "name": "survey20-received-response-revalidation",
+      "run_id": "38b4a193501440f58cd3a95c74836863",
+      "status": "FAIL",
+      "run": {
+        "id": "38b4a193501440f58cd3a95c74836863",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "writing",
+        "status": "failed",
+        "payload": {
+          "question": "按选定20篇逐篇给出至少一条本篇摘录支持的短主张，再按研究问题、方法、差异、局限和未来工作组织。每篇独立保留原文引用，quote尽量不超过180英文字符，不重复标题数字、年份和作者排序；条件不足的明确insufficient，不凭元数据编造实验。至少20条原子主张，每项只归一个章节。",
+          "version_ids": [
+            "dceae303ec2f41cbbc4d88f047db9424",
+            "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+            "3a013a663fd849ff9b6068654d8db7ce",
+            "61699b3f11364e119e79181e21359218",
+            "42bd2e6ae5c840178e5cfb422a0d5d5a",
+            "dae6c78ff75f412a8969110847fa06ed",
+            "47b66a19b9a444a59f7180c3c79fa4d3",
+            "3f4fea8bed824d8a9345046cf0495095",
+            "da462b7a23bf4f91b00e1d79746166e9",
+            "0057f1a88e864a7aaae219ff98f7a6db",
+            "9bb90453cf834fd1b83c3593b6b4cb2d",
+            "9be4b0b9d82b48efb62e9df9f947c637",
+            "464f25034aa74104a944a67df1d0cca2",
+            "6ccdeca3f4d44e588e81e3e1abface94",
+            "4bc46336dcf44b0392ea7f16e6a87a6f",
+            "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+            "3fdbfb3b1c234530883333f9c6b93bc3",
+            "fb01f0adc8ff42f7aa58f536f74c3ac0",
+            "d3d10ab463974076b8355839f401f7a5",
+            "d503f5dfee294ef1a1cfc62e04e84a6c"
+          ],
+          "context_budget": 48000,
+          "search_query": null,
+          "workflow": "survey",
+          "snapshots": [
+            {
+              "id": "dceae303ec2f41cbbc4d88f047db9424",
+              "work_id": "36eca0577d4b4818896c4542a30b17c8",
+              "title": "Attention Is All You Need",
+              "label": "v7",
+              "identity": "arxiv:1706.03762",
+              "parse_id": "dceae303ec2f41cbbc4d88f047db9424"
+            },
+            {
+              "id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+              "work_id": "f30f70e07bb64e14b7acbdcaea8fc95d",
+              "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+              "label": "v3",
+              "identity": "arxiv:1910.02054",
+              "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3"
+            },
+            {
+              "id": "3a013a663fd849ff9b6068654d8db7ce",
+              "work_id": "c2ce82ea9b094c39862af4d44c1588bf",
+              "title": "Exploring the Limits of Transfer Learning with Unified Text-to-Text Transformer",
+              "label": "v4",
+              "identity": "arxiv:1910.10683",
+              "parse_id": "3a013a663fd849ff9b6068654d8db7ce"
+            },
+            {
+              "id": "61699b3f11364e119e79181e21359218",
+              "work_id": "ca636f5d0a194aaf91116372638db6f2",
+              "title": "Scaling Laws for Neural Language Models",
+              "label": "v1",
+              "identity": "arxiv:2001.08361",
+              "parse_id": "61699b3f11364e119e79181e21359218"
+            },
+            {
+              "id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+              "work_id": "b5cfb6b7f8e34edd84e0336af4ab7f21",
+              "title": "On Layer Normalization in the Transformer Architecture",
+              "label": "v2",
+              "identity": "arxiv:2002.04745",
+              "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a"
+            },
+            {
+              "id": "dae6c78ff75f412a8969110847fa06ed",
+              "work_id": "346153a7feaf48a19edf8de5d1a303a1",
+              "title": "Language Models are Few-Shot Learners",
+              "label": "v4",
+              "identity": "arxiv:2005.14165",
+              "parse_id": "dae6c78ff75f412a8969110847fa06ed"
+            },
+            {
+              "id": "47b66a19b9a444a59f7180c3c79fa4d3",
+              "work_id": "08e7652535be429187789352557c98c0",
+              "title": "Emergent Abilities of Large Language Models",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3"
+            },
+            {
+              "id": "3f4fea8bed824d8a9345046cf0495095",
+              "work_id": "b33c0d9f25904143b5c989477f9199bb",
+              "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+              "label": "v3",
+              "identity": "arxiv:2101.03961",
+              "parse_id": "3f4fea8bed824d8a9345046cf0495095"
+            },
+            {
+              "id": "da462b7a23bf4f91b00e1d79746166e9",
+              "work_id": "3f05df2bca5f4412bb695ee895e06902",
+              "title": "Learning Transferable Visual Models From Natural Language Supervision",
+              "label": "v1",
+              "identity": "arxiv:2103.00020",
+              "parse_id": "da462b7a23bf4f91b00e1d79746166e9"
+            },
+            {
+              "id": "0057f1a88e864a7aaae219ff98f7a6db",
+              "work_id": "e2bfab6421cc4ed692b7266724ccbfc0",
+              "title": "Evaluating Large Language Models Trained on Code",
+              "label": "v2",
+              "identity": "arxiv:2107.03374",
+              "parse_id": "0057f1a88e864a7aaae219ff98f7a6db"
+            },
+            {
+              "id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+              "work_id": "c9b5be1f1ac4472196c51bfb4aa08054",
+              "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+              "label": "v6",
+              "identity": "arxiv:2201.11903",
+              "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d"
+            },
+            {
+              "id": "9be4b0b9d82b48efb62e9df9f947c637",
+              "work_id": "1017dd11e8b444b581aa49be6890c0bc",
+              "title": "Training language models to follow instructions with human feedback",
+              "label": "v1",
+              "identity": "arxiv:2203.02155",
+              "parse_id": "9be4b0b9d82b48efb62e9df9f947c637"
+            },
+            {
+              "id": "464f25034aa74104a944a67df1d0cca2",
+              "work_id": "75c8085ee02846f089d11811c2d792fc",
+              "title": "FlashAttention Fast and Memory-Efficient Exact Attention with IO-Awareness",
+              "label": "v2",
+              "identity": "arxiv:2205.14135",
+              "parse_id": "464f25034aa74104a944a67df1d0cca2"
+            },
+            {
+              "id": "6ccdeca3f4d44e588e81e3e1abface94",
+              "work_id": "c3ba3ce3c1ec423fa499985a852bbe62",
+              "title": "Emergent Abilities of Large Language Models",
+              "label": "v2",
+              "identity": "arxiv:2206.07682",
+              "parse_id": "6ccdeca3f4d44e588e81e3e1abface94"
+            },
+            {
+              "id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+              "work_id": "d43182ede6d64a1ba4bb35701adfd135",
+              "title": "BLOOM: 176B-Parameter Open-Access Multilingual Language Model",
+              "label": "v4",
+              "identity": "arxiv:2211.05100",
+              "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f"
+            },
+            {
+              "id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+              "work_id": "4075c28a972d4430a13fac173a2207a3",
+              "title": "GPT-4 Technical Report",
+              "label": "v6",
+              "identity": "arxiv:2303.08774",
+              "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39"
+            },
+            {
+              "id": "3fdbfb3b1c234530883333f9c6b93bc3",
+              "work_id": "d504ff07e8ba4abe9b5976538587578b",
+              "title": "RWKV: Reinventing RNNs for the Transformer Era",
+              "label": "v2",
+              "identity": "arxiv:2305.13048",
+              "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3"
+            },
+            {
+              "id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+              "work_id": "d449d58eeced43aca40dc8f0b0de4ec1",
+              "title": "Direct Preference Optimization: Your Language Model is Secretly Reward Model",
+              "label": "v3",
+              "identity": "arxiv:2305.18290",
+              "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0"
+            },
+            {
+              "id": "d3d10ab463974076b8355839f401f7a5",
+              "work_id": "2489862023034f22a5d2b591167c22be",
+              "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+              "label": "v2",
+              "identity": "arxiv:2307.09288",
+              "parse_id": "d3d10ab463974076b8355839f401f7a5"
+            },
+            {
+              "id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+              "work_id": "9f2e3b06be804901b8bd53ea7452d73c",
+              "title": "Instruction Pre-Training: Language Models are Supervised Multitask Learners",
+              "label": "v2",
+              "identity": "arxiv:2406.14491",
+              "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c"
+            }
+          ]
+        },
+        "result": null,
+        "error": "主张与证据中的数值或单位矛盾；结果已拦截",
+        "idempotency": "public-survey20-each-paper-evidence-20261117",
+        "created": 1794860393.6309605,
+        "updated": 1794860970.0394292,
+        "steps": [
+          {
+            "id": 7235,
+            "event": "queued",
+            "data": {
+              "kind": "writing",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794860393.6377897
+          },
+          {
+            "id": 7259,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794860413.7736387
+          },
+          {
+            "id": 7260,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794860413.8076305
+          },
+          {
+            "id": 7261,
+            "event": "writing_evidence",
+            "data": {
+              "coverage": [
+                {
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "eligible_blocks": 135,
+                  "candidate_slots": 6,
+                  "context_bytes": 1810,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "eligible_blocks": 191,
+                  "candidate_slots": 6,
+                  "context_bytes": 1918,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "eligible_blocks": 617,
+                  "candidate_slots": 6,
+                  "context_bytes": 788,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "61699b3f11364e119e79181e21359218",
+                  "parse_id": "61699b3f11364e119e79181e21359218",
+                  "eligible_blocks": 383,
+                  "candidate_slots": 6,
+                  "context_bytes": 481,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "eligible_blocks": 295,
+                  "candidate_slots": 6,
+                  "context_bytes": 1659,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "eligible_blocks": 621,
+                  "candidate_slots": 6,
+                  "context_bytes": 1601,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "eligible_blocks": 325,
+                  "candidate_slots": 6,
+                  "context_bytes": 592,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "eligible_blocks": 402,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "eligible_blocks": 869,
+                  "candidate_slots": 6,
+                  "context_bytes": 210,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "eligible_blocks": 660,
+                  "candidate_slots": 6,
+                  "context_bytes": 1699,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "eligible_blocks": 509,
+                  "candidate_slots": 6,
+                  "context_bytes": 1525,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "eligible_blocks": 519,
+                  "candidate_slots": 6,
+                  "context_bytes": 1048,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "464f25034aa74104a944a67df1d0cca2",
+                  "parse_id": "464f25034aa74104a944a67df1d0cca2",
+                  "eligible_blocks": 367,
+                  "candidate_slots": 6,
+                  "context_bytes": 1007,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "eligible_blocks": 331,
+                  "candidate_slots": 6,
+                  "context_bytes": 592,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+                  "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+                  "eligible_blocks": 697,
+                  "candidate_slots": 6,
+                  "context_bytes": 582,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "eligible_blocks": 1138,
+                  "candidate_slots": 6,
+                  "context_bytes": 870,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "eligible_blocks": 461,
+                  "candidate_slots": 6,
+                  "context_bytes": 1038,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "eligible_blocks": 285,
+                  "candidate_slots": 6,
+                  "context_bytes": 1027,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "d3d10ab463974076b8355839f401f7a5",
+                  "parse_id": "d3d10ab463974076b8355839f401f7a5",
+                  "eligible_blocks": 657,
+                  "candidate_slots": 6,
+                  "context_bytes": 824,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "eligible_blocks": 327,
+                  "candidate_slots": 6,
+                  "context_bytes": 1572,
+                  "status": "selected_excerpts"
+                }
+              ],
+              "budget_bytes": 48000
+            },
+            "created": 1794860417.1209981
+          },
+          {
+            "id": 7262,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-project-2",
+              "quota_id": "22d83b6672354ca9acb903e5ab2aa5e3",
+              "reserved_input_tokens": 66939,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860421.0035613
+          },
+          {
+            "id": 7263,
+            "event": "model_downgraded",
+            "data": {
+              "from": "gemini-4-hydrogen",
+              "to": "gemini-3.6-flash",
+              "reason": "unusable_output"
+            },
+            "created": 1794860482.224531
+          },
+          {
+            "id": 7264,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.6-flash",
+              "project": "gemini-project-2",
+              "quota_id": "05b6cf5b38af4c06b24cb99d44fe0557",
+              "reserved_input_tokens": 66939,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860482.2467873
+          },
+          {
+            "id": 7265,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794860562.7065225
+          },
+          {
+            "id": 7266,
+            "event": "failed",
+            "data": {
+              "error": "5 validation errors for Manuscript\nsections.0.title\n  Extra inputs are not permitted [type=extra_forbidden, input_value='研究问题', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/extra_forbidden\nsections.1.title\n  Extra inputs are not permitted [type=extra_forbidden, input_value='方法脉络', input_type=str]\n    For furt"
+            },
+            "created": 1794860562.7274692
+          },
+          {
+            "id": 7300,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794860969.608808
+          },
+          {
+            "id": 7301,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794860969.6480668
+          },
+          {
+            "id": 7302,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794860969.756033
+          },
+          {
+            "id": 7303,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794860970.0456953
+          }
+        ]
+      }
+    },
+    {
+      "name": "agent-error-feedback",
+      "run_id": "34ad563d1bfd4f7b97c3aa738a29088c",
+      "status": "PASS",
+      "run": {
+        "id": "34ad563d1bfd4f7b97c3aa738a29088c",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "agent",
+        "status": "completed",
+        "payload": {
+          "question": "先检索训练设备与时长，根据实际原文再决定是否补查美元费用。已发现的原文事实与未报告的费用分开说明，不估算。工具参数须满足查询列表最多4项。最多三条简短主张。",
+          "version_ids": [
+            "dceae303ec2f41cbbc4d88f047db9424"
+          ]
+        },
+        "result": {
+          "answer": "训练设备为单台配备 8 块 NVIDIA P100 GPU 的机器。\n\n基础模型训练时长为 12 小时（100,000 步），大模型训练时长为 3.5 天（300,000 步）。\n\n当前给定证据中未报告训练的美元费用，缺证据，无法给出具体金额。",
+          "answer_segments": [
+            {
+              "text": "训练设备为单台配备 8 块 NVIDIA P100 GPU 的机器。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "基础模型训练时长为 12 小时（100,000 步），大模型训练时长为 3.5 天（300,000 步）。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "当前给定证据中未报告训练的美元费用，缺证据，无法给出具体金额。",
+              "claim_ids": [
+                "c3"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "训练设备为单台配备 8 块 NVIDIA P100 GPU 的机器。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.6143981333333333,
+                    0.8235316909803917,
+                    0.6820731333333333
+                  ],
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "quote": "We trained our models on one machine with 8 NVIDIA P100 GPUs.",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 61
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9875; confidence=0.9875。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.987537959647601,
+                  "contradicted": 0.0036147117263945383,
+                  "insufficient": 0.008847328626004474
+                },
+                "confidence": 0.987537959647601
+              }
+            },
+            {
+              "id": "c2",
+              "text": "基础模型训练时长为 12 小时（100,000 步），大模型训练时长为 3.5 天（300,000 步）。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "page_index": 6,
+                  "bbox": [
+                    0.17570588235294118,
+                    0.6143981333333333,
+                    0.8235316909803917,
+                    0.6820731333333333
+                  ],
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "quote": "We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+                  "quote_span": {
+                    "start": 183,
+                    "end": 398
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9609; confidence=0.9609。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.9608729579517422,
+                  "insufficient": 0.027806778399956194,
+                  "contradicted": 0.011320263648301607
+                },
+                "confidence": 0.9608729579517422
+              }
+            },
+            {
+              "id": "c3",
+              "text": "当前给定证据中未报告训练的美元费用，缺证据，无法给出具体金额。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            }
+          ],
+          "status": "ready",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+          "legacy_answer_replaced": false,
+          "unchecked_prose_replaced": 0,
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 1349,
+              "total_input_tokens": 1349,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 1349
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "96734a3fe0e048189926773581c04ebf",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "model": "gemini-4-hydrogen",
+          "usage": {
+            "promptTokenCount": 6400,
+            "candidatesTokenCount": 411,
+            "totalTokenCount": 8376,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 6400
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 411
+              }
+            ],
+            "thoughtsTokenCount": 1565,
+            "serviceTier": "standard"
+          },
+          "retrieval": {
+            "blocks": [
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:2",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.37832504646464643,
+                  0.2781483921568627,
+                  0.3934199959595959
+                ],
+                "type": "heading",
+                "reading_order": 2,
+                "text": "5 Training",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -3.7327851593218346,
+                "rrf_score": 0.01639344262295082
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:6",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17647058823529413,
+                  0.5879161406565657,
+                  0.3807852820261438,
+                  0.6004951810606062
+                ],
+                "type": "heading",
+                "reading_order": 6,
+                "text": "5.2 Hardware and Schedule",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -8.831571250352354,
+                "rrf_score": 0.03252247488101534
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17570588235294118,
+                  0.6143981333333333,
+                  0.8235316909803917,
+                  0.6820731333333333
+                ],
+                "type": "paragraph",
+                "reading_order": 7,
+                "text": "We trained our models on one machine with 8 NVIDIA P100 GPUs. For our base models using the hyperparameters described throughout the paper, each training step took about 0.4 seconds. We trained the base models for a total of 100,000 steps or 12 hours. For our big models,(described on the bottom line of table 3), step time was 1.0 seconds. The big models were trained for 300,000 steps (3.5 days).",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -5.438817311503096,
+                "rrf_score": 0.04839549075403121
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:1:2",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 1,
+                "bbox": [
+                  0.1759656862745098,
+                  0.3797074767676767,
+                  0.8263708366352935,
+                  0.43360848686868686
+                ],
+                "type": "paragraph",
+                "reading_order": 2,
+                "text": "In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output. The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours on eight P100 GPUs.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "sparse_score": -6.173980606145684,
+                "rrf_score": 0.04744784801534369
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:1",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.17588398692810459,
+                  0.12117464848484838,
+                  0.8255684078088235,
+                  0.3542019212121212
+                ],
+                "type": "paragraph",
+                "reading_order": 1,
+                "text": "[38] and byte-pair [31] representations. To improve computational performance for tasks involving very long sequences, self-attention could be restricted to considering only a neighborhood of size r in the input sequence centered around the respective output position. This would increase the maximum path length to O(n/r). We plan to investigate this approach further in future work. A single convolutional layer with kernel width k < n does not connect all pairs of input and output positions. Doing so requires a stack of O(n/k) convolutional layers in the case of contiguous kernels, or O(log k (n)) in the case of dilated convolutions [18], increasing the length of the longest paths between any two positions in the network. Convolutional layers are generally more expensive than recurrent layers, by a factor of k. Separable convolutions [6], however, decrease the complexity considerably, to O(k · n · d + n · d 2 ). Even with k = n, however, the complexity of a separable convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer, the approach we take in our model. As side benefit, self-attention could yield more interpretable models. We inspect attention distributions from our models and present and discuss examples in the appendix. Not only do individual attention heads clearly learn to perform different tasks, many appear to exhibit behavior related to the syntactic and semantic structure of the sentences.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [
+                    "18",
+                    "31",
+                    "38",
+                    "6"
+                  ],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "neighbor_context": true
+              },
+              {
+                "id": "dceae303ec2f41cbbc4d88f047db9424:6:3",
+                "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "page_index": 6,
+                "bbox": [
+                  0.1759656862745098,
+                  0.41134384040404043,
+                  0.5514352434640525,
+                  0.42392288080808077
+                ],
+                "type": "paragraph",
+                "reading_order": 3,
+                "text": "This section describes the training regime for our models.",
+                "source": "pdfplumber",
+                "quality": "native",
+                "metadata": {
+                  "citation_markers": [],
+                  "layout": "single_column",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parser_version": "pdfplumber-layout-v1",
+                  "models": [],
+                  "device": "cpu"
+                },
+                "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                "neighbor_context": true
+              }
+            ],
+            "sparse": [
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "score": -13.233705721285634
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:6",
+                "score": -9.750105050252403
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:5",
+                "score": -8.83453880931756
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:5",
+                "score": -8.222406331367601
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:9",
+                "score": -6.59952815515242
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:11",
+                "score": -6.5280812805585136
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:1:2",
+                "score": -5.603274349301129
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:0:8",
+                "score": -5.193678532186155
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:9:1",
+                "score": -4.943120104350309
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:9",
+                "score": -4.903975706684659
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:1:1",
+                "score": -4.859965303602179
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:10:13",
+                "score": -4.608500667824031
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:2",
+                "score": -3.7327851593218346
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:2",
+                "score": -3.7327851593218346
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:4",
+                "score": -3.500826103295667
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:4",
+                "score": -3.500826103295667
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:13",
+                "score": -3.395331433680709
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:13",
+                "score": -3.395331433680709
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:3",
+                "score": -3.3449329581646627
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:3",
+                "score": -3.3449329581646627
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:6",
+                "score": -8.831571250352354
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:6",
+                "score": -8.831571250352354
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:1:2",
+                "score": -4.76442971050263
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:1:2",
+                "score": -4.76442971050263
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "score": -4.197107902011758
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "score": -4.197107902011758
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:9",
+                "score": -9.093130362650683
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:9",
+                "score": -9.093130362650683
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:1:2",
+                "score": -6.173980606145684
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:1:2",
+                "score": -6.173980606145684
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "score": -5.438817311503096
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:6:7",
+                "score": -5.438817311503096
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:5",
+                "score": -2.1534401347230943
+              },
+              {
+                "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:5",
+                "score": -2.1534401347230943
+              }
+            ],
+            "dense": [],
+            "mode": "agent_observations",
+            "notice": "证据来自规划器真实工具观察；没有额外固定工具步骤。"
+          },
+          "artifact_id": "2aa8e987642042f5a590849c5f19f28b"
+        },
+        "error": null,
+        "idempotency": "public-agent-after-error-feedback-20261117",
+        "created": 1794860970.3066502,
+        "updated": 1794861007.089755,
+        "steps": [
+          {
+            "id": 7304,
+            "event": "queued",
+            "data": {
+              "kind": "agent",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794860970.3133962
+          },
+          {
+            "id": 7306,
+            "event": "started",
+            "data": {
+              "kind": "agent"
+            },
+            "created": 1794860970.5627222
+          },
+          {
+            "id": 7307,
+            "event": "plan",
+            "data": {
+              "tools": [
+                "retrieve_evidence",
+                "synthesize",
+                "validate_citations",
+                "save_artifact"
+              ],
+              "model_budget": 2,
+              "description": "检索具体版本，综合原文，绑定主张并核验引用"
+            },
+            "created": 1794860970.954368
+          },
+          {
+            "id": 7308,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-project-2",
+              "quota_id": "8528cd79619245c68dc04785f1745198",
+              "reserved_input_tokens": 1044,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794860971.042568
+          },
+          {
+            "id": 7309,
+            "event": "decision_route",
+            "data": {
+              "route": "qa",
+              "top_option": "qa",
+              "probabilities": {
+                "future_work": 0.03732739698150938,
+                "comparison": 0.003097588807711026,
+                "translation": 0.004150300609219606,
+                "other": 0.04261402337729167,
+                "retrieval": 0.10789612751739698,
+                "qa": 0.8049145627068713
+              },
+              "confidence": 0.8049145627068713,
+              "model": "gemini-decision-1",
+              "advisory": true,
+              "scope_and_budget_checked_by_program": true
+            },
+            "created": 1794860972.2769165
+          },
+          {
+            "id": 7310,
+            "event": "agent_planning",
+            "data": {
+              "round": 1,
+              "model_role": "planner",
+              "max_tool_steps": 10
+            },
+            "created": 1794860972.3035438
+          },
+          {
+            "id": 7311,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "090018cabd0c4c4dbd3b71e4ee750c86",
+              "reserved_input_tokens": 10020,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794860972.3243039
+          },
+          {
+            "id": 7312,
+            "event": "agent_plan",
+            "data": {
+              "round": 1,
+              "summary": "检索训练设备与时长相关证据",
+              "actions": 1,
+              "phase": "execute"
+            },
+            "created": 1794860978.8130283
+          },
+          {
+            "id": 7313,
+            "event": "tool_started",
+            "data": {
+              "call_id": "plan-0-retrieve_training_details",
+              "limit": 10,
+              "tool": "retrieve_evidence",
+              "used": 1
+            },
+            "created": 1794860978.8238688
+          },
+          {
+            "id": 7314,
+            "event": "tool_finished",
+            "data": {
+              "call_id": "plan-0-retrieve_training_details",
+              "code": null,
+              "result_artifact_id": "c17c398ecc9d4672a91f7a8c62302c94",
+              "status": "PASS",
+              "summary": "retrieve_evidence: PASS; 6 blocks; mode=keyword",
+              "tool": "retrieve_evidence"
+            },
+            "created": 1794860994.5135212
+          },
+          {
+            "id": 7315,
+            "event": "agent_observed",
+            "data": {
+              "round": 1,
+              "tools_completed": 1,
+              "needs_replan": true
+            },
+            "created": 1794860994.5278683
+          },
+          {
+            "id": 7316,
+            "event": "agent_planning",
+            "data": {
+              "round": 2,
+              "model_role": "planner",
+              "max_tool_steps": 10
+            },
+            "created": 1794860994.553503
+          },
+          {
+            "id": 7317,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "e14244b7bf5b435b9d9ea988849f2e70",
+              "reserved_input_tokens": 19391,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794860994.5754404
+          },
+          {
+            "id": 7318,
+            "event": "agent_plan",
+            "data": {
+              "round": 2,
+              "summary": "已获取论文关于训练设备、步骤与时长的确切记录，且原文未提及美元费用。",
+              "actions": 0,
+              "phase": "complete"
+            },
+            "created": 1794860996.6433787
+          },
+          {
+            "id": 7319,
+            "event": "agent_observed",
+            "data": {
+              "round": 2,
+              "tools_completed": 0,
+              "needs_replan": false
+            },
+            "created": 1794860996.6593997
+          },
+          {
+            "id": 7320,
+            "event": "retrieved",
+            "data": {
+              "mode": "agent_observations",
+              "sparse_candidates": 34,
+              "dense_candidates": 0,
+              "evidence_blocks": 6
+            },
+            "created": 1794860996.6822772
+          },
+          {
+            "id": 7321,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-project-2",
+              "quota_id": "aee1e75c090543d9aedd19efe495d04d",
+              "reserved_input_tokens": 15836,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860996.7113087
+          },
+          {
+            "id": 7322,
+            "event": "validating",
+            "data": {
+              "message": "核验非空引文、快照、原文跨度、数值单位与正文绑定；未执行独立语义审查不标支持"
+            },
+            "created": 1794861005.9359298
+          },
+          {
+            "id": 7323,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-project-2",
+              "quota_id": "96734a3fe0e048189926773581c04ebf",
+              "reserved_input_tokens": 3707,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794861005.9817462
+          },
+          {
+            "id": 7324,
+            "event": "decision_review",
+            "data": {
+              "claims": 2,
+              "status": "ready",
+              "quota_id": "96734a3fe0e048189926773581c04ebf"
+            },
+            "created": 1794861007.071384
+          },
+          {
+            "id": 7325,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794861007.0983188
+          }
+        ]
+      }
+    },
+    {
+      "name": "reference-classification-after-503",
+      "run_id": "e220b53b70fc45a8a124fffb68f49b7a",
+      "status": "BLOCKED",
+      "run": {
+        "id": "e220b53b70fc45a8a124fffb68f49b7a",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "reference_classify",
+        "status": "partial",
+        "payload": {
+          "analysis_id": "90d7072e048144dc8840c1dc6bc28a76"
+        },
+        "result": {
+          "status": "partial",
+          "reason": "Lite 请求失败或状态未知；请查看调用账本，不自动重试。"
+        },
+        "error": null,
+        "idempotency": "public-reference-new-after-definite-503-20261117",
+        "created": 1794860970.4363627,
+        "updated": 1794861026.2482715,
+        "steps": [
+          {
+            "id": 7305,
+            "event": "queued",
+            "data": {
+              "kind": "reference_classify",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794860970.4430163
+          },
+          {
+            "id": 7326,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794861007.1168115
+          },
+          {
+            "id": 7327,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "9b84da4c033f4a6d80b1751b136f34a1",
+              "reserved_input_tokens": 60652,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794861007.1528354
+          },
+          {
+            "id": 7328,
+            "event": "provider_overload_retry",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "wait_seconds": 4
+            },
+            "created": 1794861014.7181892
+          },
+          {
+            "id": 7329,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "e8c162c6306d438299ef4fa1765ea142",
+              "reserved_input_tokens": 60652,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794861018.73904
+          },
+          {
+            "id": 7330,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794861026.2554047
+          }
+        ]
+      }
+    }
+  ],
+  "status": "BLOCKED"
+}
