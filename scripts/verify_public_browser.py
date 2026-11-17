@@ -2,8 +2,10 @@
 import json,os
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-ROOT=Path(__file__).resolve().parents[1];out=ROOT/'evidence/completion-20261116/public-browser';out.mkdir(exist_ok=True)
-a=json.loads((ROOT/'data/completion-seeded-reviewer.json').read_text())
+ROOT=Path(__file__).resolve().parents[1];out=ROOT/os.getenv('RT_PUBLIC_EVIDENCE_DIR','evidence/completion-20261116/public-browser');out.mkdir(exist_ok=True)
+a=json.loads((ROOT/os.getenv('RT_REVIEWER_FILE','data/completion-seeded-reviewer.json')).read_text())
+libraries=ROOT/'.tools/browser-libs/root/usr/lib/x86_64-linux-gnu'
+if libraries.is_dir():os.environ['LD_LIBRARY_PATH']=str(libraries)+(':'+os.environ['LD_LIBRARY_PATH'] if os.getenv('LD_LIBRARY_PATH') else '')
 # The access code is only read into the browser; no traces or screenshots of it.
 with sync_playwright() as p:
  b=p.chromium.launch(executable_path=str(ROOT/'apps/web/.browser-runtime/chrome-linux/chrome'),headless=True,args=['--no-sandbox','--proxy-server=http://127.0.0.1:18987'])

@@ -95,6 +95,7 @@ def backup(data: Path, destination: Path, env: Path | None = None,
                         continue
                     _private_copy(source, staging / source.name, deadline)
                 gate.rollback()
+            writer_pause=time.monotonic()-started
             with closing(sqlite3.connect(staging / DATABASE)) as verify:
                 if verify.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
                     raise ValueError("SQLite integrity check failed")
@@ -115,7 +116,8 @@ def backup(data: Path, destination: Path, env: Path | None = None,
                 _private_copy(env, staging / "runtime.env", time.monotonic() + 5)
             summary = {"status": "PASS", "created": datetime.now(timezone.utc).isoformat(),
                        "source_data": str(data), "sqlite_integrity": "ok", "row_counts": counts,
-                       "writer_pause_seconds": round(time.monotonic() - started, 3),
+                       "writer_pause_seconds": round(writer_pause, 3),
+                       "total_elapsed_seconds":round(time.monotonic()-started,3),
                        "environment_included": env is not None, "quota_reset": False}
             (staging / "backup.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2))
             os.chmod(staging / "backup.json", 0o600)

@@ -240,7 +240,9 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
             if run_id:
                 progress=store.one('SELECT vector_count,chunk_count FROM index_generations WHERE id=?',(gid,))
                 calls=store.one('SELECT count(*) n FROM quota WHERE run_id=?',(run_id,))['n'] if desc.get('provider')=='gemini' else 0
-                store.event(run_id,'index_embedding',{'generation_id':gid,**progress,'model_id':desc['model_id'],'cloud_requests':calls})
+                execution={k:v for k,v in response.get('execution',{}).items() if k in (
+                    'mode','elapsed_seconds','peak_rss_mib','peak_gpu_mib','gpu_reserve_mib','gpu_budget_mib','selected_gpus','per_gpu_peak_mib')}
+                store.event(run_id,'index_embedding',{'generation_id':gid,**progress,'model_id':desc['model_id'],'cloud_requests':calls,'execution':execution})
         count=store.one('SELECT count(*) n FROM retrieval_chunks WHERE generation_id=?',(gid,))['n']
         actual=store.one('SELECT vector_count FROM index_generations WHERE id=?',(gid,))['vector_count']
         if not expected or expected!=covered or actual!=count:

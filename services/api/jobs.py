@@ -270,7 +270,7 @@ def qa(run):
     blocks=ret.get('blocks',[])
     event(rid,'retrieved',{'mode':ret.get('mode'),'sparse_candidates':len(ret.get('sparse',[])),'dense_candidates':len(ret.get('dense',[])),'evidence_blocks':len(blocks)})
     if not blocks:
-        return {'answer':'本次检索未找到可用原文证据。请完成解析、调整问题或联网检索。','claims':[{'text':'证据不足','type':'insufficient','evidence':[]}],'model':None,'retrieval':ret}
+        return {'status':'partial','answer':'本次检索未找到可用原文证据。请完成解析、调整问题或联网检索。','claims':[{'text':'证据不足','type':'insufficient','evidence':[]}],'model':None,'retrieval':ret}
     if cancelled(rid):
         return {}
     if 'model_response' not in snap:

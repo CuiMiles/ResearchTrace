@@ -325,6 +325,18 @@ def request(model,method,body,run_id,estimate):
                 status='failed'
             # Only controlled categories exposed, never raw upstream URL/body/headers.
             detail=f'HTTP {response.status_code} {category}'
+            if response.status_code == 400:
+                # Only fixed vocabulary is retained from an upstream message;
+                # arbitrary text can echo input, credentials or private URLs.
+                message = message if isinstance(message, str) else ''
+                words = ('responseJsonSchema','responseSchema','$defs','$ref','additionalProperties',
+                         'minLength','maxLength','default','anyOf','required','properties','type')
+                diagnostic = {'mentioned_fields': [w for w in words if w in message],
+                              'unknown_name': 'Unknown name' in message,
+                              'unsupported': 'not supported' in message.lower(),
+                              'schema_too_complex': 'complex' in message.lower()}
+                usage['request_diagnostics'] = diagnostic
+                if run_id:event(run_id, 'provider_request_invalid', diagnostic)
             if response.status_code==429:
                 # Retain machine-readable quota diagnostics without upstream
                 # messages, signed URLs, keys or arbitrary response text.
@@ -489,7 +501,9 @@ def _generate_once(model, system, prompt, run_id, json_output=True,response_sche
     if json_output:
         config['responseMimeType'] = 'application/json'
     if response_schema:
-        config['responseSchema']=response_schema
+        # Pydantic emits JSON Schema ($defs/$ref), rather than the distinct
+        # OpenAPI Schema object accepted by responseSchema.
+        config['responseJsonSchema']=provider_json_schema(response_schema)
     payload={'systemInstruction':{'parts':[{'text':system}]},'contents':[{'role':'user','parts':[{'text':prompt}]}],
              'generationConfig':config}
     data,project=request(model,'generateContent',payload,run_id,text_bytes+1024)
@@ -503,6 +517,27 @@ def _generate_once(model, system, prompt, run_id, json_output=True,response_sche
     if not text:
         raise ModelError('模型未返回可用内容')
     return {'text':text,'model':data.get('modelVersion',model),'requested_model':model,'usage':data.get('usageMetadata',{}),'project':project}
+
+
+def provider_json_schema(schema):
+    """Gemini's documented JSON Schema subset; publication validation stays full.
+
+    See https://ai.google.dev/api/generate-content#v1beta.GenerationConfig .
+    Bounds, regexes and defaults remain enforced by Pydantic locally. Large
+    nested array bounds can exhaust the provider's schema grammar compiler.
+    """
+    allowed={'$id','$defs','$ref','$anchor','type','format','title','description','enum',
+             'items','prefixItems','anyOf','oneOf',
+             'properties','additionalProperties','required','propertyOrdering'}
+    if isinstance(schema,list):return [provider_json_schema(v) for v in schema]
+    if not isinstance(schema,dict):return schema
+    result={}
+    for key,value in schema.items():
+        if key not in allowed:continue
+        result[key]={name:provider_json_schema(item) for name,item in value.items()} if key in ('properties','$defs') else provider_json_schema(value)
+    if result.get('type')=='object' and result.get('properties'):
+        result['propertyOrdering']=list(result['properties'])
+    return result
 
 def embed(texts,run_id,task='RETRIEVAL_DOCUMENT'):
     if not texts:

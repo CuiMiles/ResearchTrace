@@ -95,6 +95,16 @@ def test_atomic_persisted_budget_replays_and_preserves_qa_checkpoint():
     assert len(store.rows("SELECT * FROM steps WHERE run_id='run-alpha' AND event='tool_finished'")) == 2
 
 
+def test_planner_receives_query_limit_error_without_echoing_rejected_inputs():
+    result = registry.execute_tool(context('too-many-queries'), 'retrieve_evidence',
+        {'version_ids': ['alpha-v1'], 'question': 'training', 'queries': ['private-input'] * 5})
+    assert result['status'] == 'FAIL'
+    error = result['result']['validation_errors'][0]
+    assert error['path'] == ['queries'] and error['type'] == 'too_long'
+    assert '4' in error['message']
+    assert 'private-input' not in json.dumps(result)
+
+
 def test_concurrent_callers_cannot_exceed_ten_attempts():
     def attempt(i):
         return registry.execute_tool(context(f'parallel-{i}'), 'save_artifact', note())

@@ -109,8 +109,9 @@ class SaveArtifact(StrictModel):
 
 
 class ToolError(ValueError):
-    def __init__(self, code, message):
+    def __init__(self, code, message, details=None):
         self.code = code
+        self.details = details
         super().__init__(message)
 
 
@@ -536,8 +537,12 @@ def execute_tool(ctx: ToolContext, name: str, args: dict) -> dict:
             raise ToolError('unknown_tool', 'Tool is not registered')
         try:
             parsed = spec.model.model_validate(args)
-        except ValidationError:
-            raise ToolError('invalid_arguments', 'Arguments failed the registered schema (extra fields are forbidden)') from None
+        except ValidationError as exc:
+            # Feedback must identify the failed constraint so the next plan can
+            # repair it. Never include rejected input, URLs or exception reprs.
+            details = [{'path': list(e['loc']), 'type': e['type'], 'message': e['msg']}
+                       for e in exc.errors(include_input=False, include_url=False)[:12]]
+            raise ToolError('invalid_arguments', 'Arguments failed the registered schema', details) from None
         _check(ctx)
         result = spec.handler(ctx, parsed, f'tool:{ctx.run_id}:{call_id}')
         if len(_dump(result).encode()) > MAX_RESULT:
@@ -550,6 +555,9 @@ def execute_tool(ctx: ToolContext, name: str, args: dict) -> dict:
         message = str(exc) if isinstance(exc, ToolError) else 'Tool failed; no provider request was authorized'
         status = 'BLOCKED' if code in ('cancelled', 'budget_exhausted', 'indeterminate_call', 'run_not_active') else 'FAIL'
         if reserved:
-            return _finish(ctx, call_id, name, status, {'reason': message}, code)
+            result = {'reason': message}
+            if isinstance(exc, ToolError) and exc.details:
+                result['validation_errors'] = exc.details
+            return _finish(ctx, call_id, name, status, result, code)
         return {'tool': name[:80] if isinstance(name, str) else 'invalid', 'call_id': call_id,
                 'status': status, 'code': code, 'summary': message, 'result': {}, 'replayed': False}

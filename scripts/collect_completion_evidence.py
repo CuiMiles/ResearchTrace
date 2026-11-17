@@ -21,7 +21,7 @@ def refresh(name):
  d['updated_at']=datetime.now(timezone.utc).isoformat();d['status']='FAIL' if any(c.get('status')=='FAIL' for c in d.get('cases',[])) else 'BLOCKED' if any(c.get('status') in ('BLOCKED','NOT RUN') for c in d.get('cases',[])) else 'PASS'
  d['status_meaning']='Execution and machine checks only; manual factual quality is separate'
  save(path,d)
-for n in ['official-live.json','feature-live.json','future-live.json','future-focused-live.json']:refresh(n)
+for n in ['official-live.json','feature-live.json','future-live.json','future-focused-live.json','future-targeted-live.json']:refresh(n)
 summary={'updated_at':datetime.now(timezone.utc).isoformat(),'release_status':'BLOCKED','status_meaning':'P0 all-pass is not established',
  'branch':'upgrade/complete-20261116','backend_tests':{},'frontend':{'build':'PASS','actual_browser_checks':32,'actual_browser_status':json.loads((OUT/'browser/report.json').read_text())['status']},
  'public_browser':json.loads((OUT/'public-browser/report.json').read_text()),
@@ -30,19 +30,26 @@ summary={'updated_at':datetime.now(timezone.utc).isoformat(),'release_status':'B
  sum(CASE WHEN u.source='legacy_upper_bound' THEN 1 ELSE 0 END) conservative_legacy_rows FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id GROUP BY q.project,q.model,q.day'''),
  'quota_notice':'Legacy request units without a retained response use a conservative upper bound. They are not provider-certified totals. Old rows are retained; logical project slots follow the user-declared two projects and are not Google numeric project IDs.',
  'materials':{'technical_pdf':'deliverables/ResearchTrace_技术说明.pdf','pdf_pages':6,'video':json.loads((ROOT/'deliverables/video-evidence.json').read_text())}}
-for log in ['final-regression.log','release-fix-regression.log']:
+for log in ['final-regression.log','release-fix-regression.log','pre-deploy-final-regression.log','final-validated-regression.log','jsonschema-routing-regression.log','final-current-regression.log']:
  text=(OUT/log).read_text() if (OUT/log).exists() else ''
  m=re.search(r'(\d+) passed in ([^\n]+)',text)
  summary['backend_tests'][log]={'status':'PASS','passed':int(m[1]),'duration':m[2]} if m else {'status':'NOT RUN'}
+summary['public_runtime_reports']={}
+for name in ['public-generation-live.json','public-feature-suite.json','public-repair-live.json',
+             'public-v5-repairs.json','jsonschema-live-repairs.json','public-seed-copy.json',
+             'public-semantic-qa.json','public-final-browser/report.json','public-runtime.json']:
+ path=OUT/name
+ if path.exists():summary['public_runtime_reports'][name]=json.loads(path.read_text())
+summary['deployment_notice']='ECS owns generation and embedding spending after ledger import. Local provider spending is disabled. Core4 cloud generation is ready; full39 local generation remains separately reported.'
 save(OUT/'summary.json',summary)
 p=ROOT/'evidence/competition-dataset/workflow.json';d=json.loads(p.read_text())
 items={'reader':('completion-browser','Actual core4 PDF/UI rendering across four widths','PASS',['evidence/completion-20261116/browser/report.json']),
  'analysis':('completion-official','Official questions, traps and translation; consult individual outcomes','BLOCKED',['evidence/completion-20261116/official-live.json','evidence/completion-20261116/feature-live.json']),
  'graph':('completion-writing','20-paper survey and Future Work actual receipts','BLOCKED',['evidence/completion-20261116/feature-live.json','evidence/completion-20261116/future-live.json']),
- 'snapshots':('completion-indices','Separate cloud/local generations; incomplete generations never activated','NOT RUN',['evidence/completion-20261116/summary.json']),
+ 'snapshots':('completion-indices','Core4 cloud/local generations ready; full39 remains incomplete','BLOCKED',['evidence/completion-20261116/summary.json','evidence/completion-20261116/core-cloud-public-import.log','evidence/completion-20261116/public-seed-copy.json']),
  'discovery':('completion-recommendations','Real arXiv discovery and schema-repaired recommendation reasons','PASS',['evidence/completion-20261116/feature-repair-live.json']),
  'export':('completion-materials','Actual diagram schema repair, 6-page PDF and 6-minute 1080p recording','PASS',['evidence/completion-20261116/feature-repair-live.json','deliverables/ResearchTrace_技术说明.pdf','deliverables/ResearchTrace_实际界面演示_1080p.mp4']),
- 'recovery':('completion-regression','Backend regression, quota-item units and independent public browser','PASS',['evidence/completion-20261116/final-regression.log','evidence/completion-20261116/public-browser/report.json'])}
+ 'recovery':('completion-regression','Backend regression, quota-item units and independent public browser','PASS',['evidence/completion-20261116/final-validated-regression.log','evidence/completion-20261116/public-final-browser/report.json'])}
 for step in d['steps']:
  if step['id'] not in items:continue
  rid,label,status,paths=items[step['id']]

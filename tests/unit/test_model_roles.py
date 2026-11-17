@@ -66,6 +66,23 @@ def test_invalid_role_configuration_fails_closed(monkeypatch):
     assert caught.value.code == 'budget_configuration'
 
 
+def test_pydantic_json_schema_uses_json_schema_api_field(monkeypatch):
+    from services.api.writing_workflows import ClaimRepairs
+    schema = ClaimRepairs.model_json_schema()
+    assert '$defs' in schema
+    bodies = []
+    def request(model, method, body, run_id, estimate):
+        bodies.append(body)
+        return {'candidates': [{'finishReason': 'STOP', 'content': {'parts': [{'text': '{"claims":[]}'}]}}]}, 'fixture'
+    monkeypatch.setattr(models, 'request', request)
+    models._generate_once(LITE, 's', 'p', None, response_schema=schema)
+    config = bodies[0]['generationConfig']
+    assert config['responseJsonSchema'] == models.provider_json_schema(schema) and 'responseSchema' not in config
+    assert 'default' not in config['responseJsonSchema']['$defs']['Claim']['properties']['id']
+    # Provider hints cannot remove local validation constraints.
+    assert schema['$defs']['Claim']['properties']['id']['anyOf'][0]['maxLength'] == 100
+
+
 def test_exhausted_daily_quota_downgrades_with_label(monkeypatch):
     monkeypatch.setenv('RT_MODEL_DEEP', f'{models.CORE},{FLASH}')
     monkeypatch.setenv('RT_MODEL_DAILY_LIMITS', json.dumps({models.CORE: 1}))

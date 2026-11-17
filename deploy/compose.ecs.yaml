@@ -13,6 +13,9 @@ x-app: &app
     MKL_NUM_THREADS: "1"
   volumes:
     - /opt/researchtrace/data:/app/data
+    - /opt/researchtrace/public-evidence/evidence:/app/evidence:ro
+    - /opt/researchtrace/public-evidence/validation:/app/apps/web/validation:ro
+    - /opt/researchtrace/public-evidence/deliverables:/app/deliverables:ro
   # Existing authenticated SSH reverse tunnels bind ECS loopback only. The app
   # uses that network namespace and still binds only 127.0.0.1:18970.
   network_mode: host

@@ -395,8 +395,42 @@ def _cancelled(run):
     return False
 
 
-def classify_reference_run(run):
+def _classification_responses(run, report, prompt_refs):
+    """Small persisted batches; resuming never repeats a received/unknown send."""
     from . import models
+    responses = []
+    for offset in range(0, len(prompt_refs), 12):
+        batch = prompt_refs[offset:offset + 12]
+        key = 'classification' if len(prompt_refs) <= 12 else f'classification:{offset // 12}'
+        state = _step(run['id'], key)
+        if _cancelled(run):return None, '任务已取消'
+        if state and state['status'] in ('started', 'unknown'):
+            return None, '上次模型请求状态未知；不会自动重复调用。'
+        if state and state['status'] == 'received':
+            response = _object(state['payload'])
+        else:
+            _save_step(run['id'], key, 'started')
+            attempted = time.time()
+            try:
+                response = models.generate(CLASSIFY_SYSTEM, json.dumps({'version_id': report['version_id'],
+                    'parse_id': report['parse_id'], 'references': batch}, ensure_ascii=False),
+                    run['id'], role='light', json_output=True, response_schema=Classifications.model_json_schema())
+            except models.ModelError:
+                uncertain = store.one("SELECT 1 FROM quota WHERE run_id=? AND status IN ('reserved','unknown') LIMIT 1", (run['id'],))
+                # No receipt/no ledger may also be an interrupted adapter send.
+                known = store.one("SELECT 1 FROM quota WHERE run_id=? AND started>=? AND status IN ('ok','failed','disabled','failed_output') LIMIT 1", (run['id'], attempted))
+                _save_step(run['id'], key, 'unknown' if uncertain or not known else 'failed')
+                return None, 'Lite批次未完成；已收到的批次保留，未知请求不重发，明确失败可手动恢复。'
+            _save_step(run['id'], key, 'received', response)
+        parsed = Classifications.model_validate_json(response['text'])
+        allowed = {r['ref_id'] for r in batch}
+        if any(item.ref_id not in allowed for item in parsed.items):
+            raise ValueError('分类结果超出本批次引用范围；未发布分类')
+        responses.append((parsed, response['model']))
+    return responses, None
+
+
+def classify_reference_run(run):
     report = analysis_report(run['workspace'], run['payload']['analysis_id'])
     if _cancelled(run):
         return {'status': 'cancelled'}
@@ -405,31 +439,23 @@ def classify_reference_run(run):
         return {'status': 'partial', 'reason': '上次模型请求状态未知；不会自动重复调用。'}
     refs = []
     prompt_refs = []
-    prompt_size = 0
     for ref in report['references'][:MAX_CLASSIFICATIONS]:
-        candidate = {'ref_id': ref['id'], 'reference_text': ref['text'][:700],
-                     'contexts': [dict(x, quote=x['quote'][:700]) for x in ref['contexts'][:3]]}
-        size = len(json.dumps(candidate, ensure_ascii=False))
-        if prompt_size + size > 60000:
-            break
+        candidate = {'ref_id': ref['id'], 'reference_text': ref['text'][:500],
+                     'contexts': [dict(x, quote=x['quote'][:500]) for x in ref['contexts'][:3]]}
         refs.append(ref)
         prompt_refs.append(candidate)
-        prompt_size += size
     if not refs:
         return {'status': 'completed', 'analysis_id': report['id'], 'classified': 0}
     if state and state['status'] == 'received':
         response = _object(state['payload'])
+        data = Classifications.model_validate_json(response['text'])
+        item_models = {item.ref_id: response['model'] for item in data.items}
     else:
-        prompt = {'version_id': report['version_id'], 'parse_id': report['parse_id'], 'references': prompt_refs}
-        _save_step(run['id'], 'classification', 'started')
-        try:
-            response = models.generate(CLASSIFY_SYSTEM, json.dumps(prompt, ensure_ascii=False), run['id'], role='light', json_output=True)
-        except models.ModelError:
-            _save_step(run['id'], 'classification', 'unknown')
-            return {'status': 'partial', 'reason': 'Lite 请求失败或状态未知；请查看调用账本，不自动重试。'}
-        # Receipt persisted before schema validation so a bad response is not billed twice.
-        _save_step(run['id'], 'classification', 'received', response)
-    data = Classifications.model_validate_json(response['text'])
+        batches, reason = _classification_responses(run, report, prompt_refs)
+        if batches is None:return {'status': 'partial', 'reason': reason}
+        data = Classifications(items=[item for batch, _ in batches for item in batch.items])
+        item_models = {item.ref_id: model for batch, model in batches for item in batch.items}
+        response = {'model': ', '.join(dict.fromkeys(model for _, model in batches))}
     by_id = {r['id']: r for r in refs}
     seen = set()
     for item in data.items:
@@ -443,7 +469,7 @@ def classify_reference_run(run):
         r['classification'] = {'status': 'not_run', 'label': 'uncertain'}
     for item in data.items:
         by_id[item.ref_id]['classification'] = {'status': 'model_assisted', 'label': item.label,
-                                                'context_block_ids': item.context_block_ids, 'model': response['model'], 'run_id': run['id']}
+                                                'context_block_ids': item.context_block_ids, 'model': item_models[item.ref_id], 'run_id': run['id']}
     report['classification_status'] = 'completed' if len(seen) == len(report['references']) else 'partial'
     with store.db() as c:
         if _cancelled(run):

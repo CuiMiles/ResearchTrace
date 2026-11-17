@@ -171,7 +171,7 @@ def test_light_classification_once_bound_to_context(fixture, monkeypatch):
     assert client.post(f"/api/v1/reference-analyses/{report['id']}/classify", json=body).json()['id'] == run['id']
     assert dispatch(run['id'])['status'] == 'completed'
     assert dispatch(run['id'])['classified'] == 3
-    assert len(calls) == 1 and calls[0][2] == {'role': 'light', 'json_output': True}
+    assert len(calls) == 1 and calls[0][2] == {'role': 'light', 'json_output': True, 'response_schema': dw.Classifications.model_json_schema()}
     assert '不可信数据' in calls[0][0]
     assert analyze(client)['references'][0]['classification']['model'] == 'fixture-lite'
 
@@ -195,6 +195,26 @@ def test_unknown_model_request_never_replayed(fixture, monkeypatch):
     dw._save_step(run['id'], 'classification', 'started')
     monkeypatch.setattr(models, 'generate', lambda *a, **k: pytest.fail('unknown request replayed'))
     assert dispatch(run['id'])['status'] == 'partial'
+
+
+def test_batched_classifier_keeps_received_first_batch_and_never_replays_unknown(fixture, monkeypatch):
+    from services.api import models
+    report = analyze(fixture[0])
+    queued = fixture[0].post(f"/api/v1/reference-analyses/{report['id']}/classify", json={'idempotency_key': 'batch-classify'}).json()
+    run = store.one('SELECT * FROM runs WHERE id=?', (queued['id'],))
+    run['payload'] = json.loads(run['payload'])
+    entries = [{'ref_id': str(i), 'reference_text': 'fixture', 'contexts': []} for i in range(13)]
+    calls = []
+    def generate(system, prompt, rid, **kwargs):
+        refs = json.loads(prompt)['references'];calls.append(len(refs))
+        if len(refs) == 1:raise models.ModelError('fixture indeterminate send')
+        return {'model': 'fixture-lite', 'text': json.dumps({'items': [{'ref_id': r['ref_id'], 'label': 'uncertain', 'context_block_ids': []} for r in refs]})}
+    monkeypatch.setattr(models, 'generate', generate)
+    assert dw._classification_responses(run, report, entries)[0] is None
+    assert calls == [12, 1]
+    assert dw._step(run['id'], 'classification:0')['status'] == 'received'
+    assert dw._classification_responses(run, report, entries)[0] is None
+    assert calls == [12, 1]
 
 
 def queue_batch(client, report, **extra):

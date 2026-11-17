@@ -144,6 +144,23 @@ def test_received_invalid_json_checkpoint_prevents_rebill(monkeypatch):
     assert writing._snapshot(run)['writing_response']['text'] == 'invalid JSON'
 
 
+def test_received_display_titles_are_verified_without_dropping_other_fields():
+    paper(); run = run_for(); block = writing.collect_evidence(run)['blocks'][0]
+    data = manuscript(block)
+    for section in data['sections']:
+        section['title'] = dict(writing.SECTIONS['survey'])[section['key']]
+    result = writing.validate_manuscript(data, [block], 'w', ['v1'], 'survey', [])
+    assert result['sections'][0]['title'] == '研究问题'
+    assert data['sections'][0]['title'] == '研究问题'  # retained received receipt
+    data['sections'][0]['title'] = '80 GPUs'
+    with pytest.raises(ValueError, match='标题'):
+        writing.validate_manuscript(data, [block], 'w', ['v1'], 'survey', [])
+    data['sections'][0]['title'] = '研究问题'
+    data['sections'][0]['extra_fact'] = '80 GPUs'
+    with pytest.raises(ValueError):
+        writing.validate_manuscript(data, [block], 'w', ['v1'], 'survey', [])
+
+
 def test_unknown_send_resume_does_not_repeat(monkeypatch):
     paper(); run = run_for()
     calls = []
@@ -154,6 +171,26 @@ def test_unknown_send_resume_does_not_repeat(monkeypatch):
     with pytest.raises(models.ModelError): writing.survey(run)
     with pytest.raises(ValueError, match='不重发'): writing.survey(run)
     assert calls == [1]
+
+
+def test_one_received_claim_repair_is_strict_and_does_not_regenerate(monkeypatch):
+    paper(); run = run_for(); block = writing.collect_evidence(run)['blocks'][0]
+    original = manuscript(block); original['claims'][0]['text'] = '80 GPUs'
+    original['answer_segments'][0]['text'] = '80 GPUs'
+    calls = []
+    def generate(system, prompt, rid, **kwargs):
+        calls.append(kwargs['role'])
+        if kwargs['role'] == 'deep':return response(original)
+        assert json.loads(prompt)['rejected'][0]['claim']['id'] == 'c0'
+        return response({'claims': [manuscript(block)['claims'][0]]}, 'fixture-lite')
+    monkeypatch.setattr(models, 'generate', generate)
+    monkeypatch.setattr(writing, 'review_live', lambda run, result, *args: result)
+    result = writing.survey(run)
+    assert '80 GPUs' not in result['answer']
+    assert calls == ['deep', 'light']
+    assert writing._snapshot(run)['writing_response']['text'] == json.dumps(original)
+    writing.survey(run)
+    assert calls == ['deep', 'light']
 
 
 def test_cancel_during_model_retains_receipt_no_artifact(monkeypatch):
