@@ -145,7 +145,8 @@ def who(s=Depends(session)):
 @app.get('/api/v1/capabilities')
 def capabilities(s=Depends(session)):
     from .models import CORE,BATCH,credentials
-    return {'model_configured':any(bool(key) for _,key in credentials()),'core_model':CORE,'batch_model':BATCH,'paid_fallback':False}
+    return {'model_configured':any(bool(key) for _,key in credentials()) and os.getenv('RT_PROVIDER_MODE','all') not in ('embedding_only','disabled'),
+            'core_model':CORE,'batch_model':BATCH,'paid_fallback':False,'provider_mode':os.getenv('RT_PROVIDER_MODE','all')}
 
 @app.post('/api/v1/auth/logout')
 def logout(request:Request,response:Response,s=Depends(session)):
@@ -196,31 +197,73 @@ def resume_import_batch(batch_id:str,p:BatchSelection=BatchSelection(),s=Depends
 
 @app.get('/api/v1/documents')
 def documents(s=Depends(session)):
-    return [version(v['id'],s['workspace']) for v in rows('SELECT id FROM versions WHERE workspace=? AND deleted=0 ORDER BY created DESC',(s['workspace'],))]
+    found=rows('SELECT v.*,COALESCE(a.parse_id,v.id) active_parse_id FROM versions v LEFT JOIN active_parses a ON a.version_id=v.id WHERE v.workspace=? AND v.deleted=0 ORDER BY v.created DESC',(s['workspace'],))
+    indexes=index_status_map(s['workspace'])
+    for v in found:
+        v.pop('path',None);v['metadata']=json.loads(v['metadata']);v['local_index']=indexes[v['id']]
+    return found
 
 @app.get('/api/v1/documents/{vid}/status')
 def status(vid:str,s=Depends(session)):
     v=version(vid,s['workspace'])
-    v['local_index']=local_index_status(s['workspace'],vid)
     return v
 
 def local_index_status(workspace,vid):
-    model=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16')
-    generation=one('SELECT g.* FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id WHERE a.workspace=? AND a.version_id=? AND a.model_id=?',(workspace,vid,model))
-    expected=one("SELECT count(*) n FROM current_blocks WHERE workspace=? AND version_id=? AND length(trim(text))>0 AND type NOT IN ('header','footer')",(workspace,vid))['n']
-    covered=one('SELECT count(DISTINCT s.block_id) n FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id JOIN current_blocks b ON b.id=s.block_id WHERE c.workspace=? AND c.version_id=? AND c.generation_id=?',(workspace,vid,generation['id']))['n'] if generation else 0
-    return {'status':'ready' if generation and covered==expected and expected>0 else 'unindexed',
-            'generation_id':generation['id'] if generation else None,'model_id':model,
-            'indexed_blocks':covered,'eligible_blocks':expected,'semantic_ready':bool(generation and covered==expected and expected>0)}
+    return index_status_map(workspace,[vid]).get(vid,{'status':'unindexed','semantic_ready':False,'indexed_blocks':0,'eligible_blocks':0})
+
+def index_status_map(workspace,version_ids=None):
+    # Use the exact chunker's Unicode whitespace policy. SQLite length(TEXT)
+    # stops at an embedded NUL in some PDFs and undercounts valid source spans.
+    if version_ids is not None and not version_ids:return {}
+    scope=' AND version_id IN ('+','.join('?' for _ in version_ids)+')' if version_ids is not None else ''
+    args=(workspace,*(version_ids or []));counts={}
+    with db() as c:
+        for row in c.execute("SELECT version_id,text FROM current_blocks WHERE workspace=? AND type NOT IN ('header','footer')"+scope,args):
+            if row['text'].strip():counts[row['version_id']]=counts.get(row['version_id'],0)+1
+    mode=os.getenv('RT_EMBED_PROVIDER','gemini');local=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16');cloud=os.getenv('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
+    models=[cloud] if mode=='gemini' else [local,cloud] if mode=='auto' else [local]
+    coverage=rows('''SELECT a.version_id,a.model_id,g.id generation_id,g.status,count(DISTINCT b.id) covered
+       FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id
+       LEFT JOIN retrieval_chunks c ON c.generation_id=g.id AND c.version_id=a.version_id AND c.workspace=a.workspace
+       LEFT JOIN retrieval_spans s ON s.chunk_id=c.id
+       LEFT JOIN current_blocks b ON b.id=s.block_id AND b.workspace=a.workspace AND b.version_id=a.version_id
+       WHERE a.workspace=?'''+scope.replace('version_id','a.version_id')+' GROUP BY a.version_id,a.model_id,g.id',args)
+    lookup={(r['version_id'],r['model_id']):r for r in coverage};result={};pending={}
+    for r in rows("SELECT id,status,payload FROM runs WHERE workspace=? AND kind='index' AND status IN ('queued','running','waiting_batch','failed','partial') ORDER BY created DESC",(workspace,)):
+        payload=json.loads(r['payload'])
+        for vid in payload.get('version_ids',[]):
+            if vid not in pending:pending[vid]=r
+    for v in rows('SELECT id FROM versions WHERE workspace=? AND deleted=0'+scope.replace('version_id','id'),args):
+        providers=[];expected=counts.get(v['id'],0)
+        for model in models:
+            r=lookup.get((v['id'],model));covered=r['covered'] if r else 0
+            ready=bool(r and r['status']=='ready' and covered==expected and expected>0)
+            providers.append({'status':'ready' if ready else 'unindexed','generation_id':r['generation_id'] if r else None,'model_id':model,
+                              'indexed_blocks':covered,'eligible_blocks':expected,'semantic_ready':ready})
+        chosen=next((p for p in providers if p['semantic_ready']),providers[0])
+        item={**chosen,'providers':providers}
+        if not chosen['semantic_ready'] and v['id'] in pending:
+            run=pending[v['id']]
+            item.update(status=run['status'],pending_run_id=run['id'])
+        result[v['id']]=item
+    return result
 
 class IndexRequest(BaseModel):
     version_ids:list[str]=Field(min_length=1,max_length=100)
     generation_id:str|None=None
+    provider:Literal['local','gemini']|None=None
+    source_generation_id:str|None=None
+    pack_cloud:bool=False
+    chunks_only:bool=False
+    activate:bool=True
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/indices/runs')
 def build_index(p:IndexRequest,s=Depends(session)):
-    for vid in p.version_ids:version(vid,s['workspace'])
+    # Ownership requires one bounded lookup, not 35 full-library index joins.
+    ids=set(p.version_ids);marks=','.join('?' for _ in ids)
+    found=rows('SELECT id FROM versions WHERE workspace=? AND deleted=0 AND id IN ('+marks+')',(s['workspace'],*ids))
+    if len(found)!=len(ids):raise HTTPException(404,'文档不存在或无权限')
     return queue(s['workspace'],'index',p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
 
 @app.get('/api/v1/indices')
@@ -287,6 +330,37 @@ def references(vid:str,parse_id:str|None=None,s=Depends(session)):
     from .snapshots import selected_parse
     snap=selected_parse(s['workspace'],vid,parse_id)
     return rows("SELECT * FROM refs WHERE workspace=? AND version_id=? AND COALESCE(json_extract(metadata,'$.parse_id'),version_id)=?",(s['workspace'],vid,snap['id']))
+
+@app.get('/api/v1/documents/{vid}/card')
+def document_card(vid:str,s=Depends(session)):
+    """Structured metadata of the active snapshot; every field names its source."""
+    version(vid,s['workspace'])
+    from .cards import get_card
+    card=get_card(s['workspace'],vid)
+    if card is None:
+        return {'status':'missing','version_id':vid}
+    return {'status':'ready',**card}
+
+class CardRequest(BaseModel):
+    idempotency_key:str=Field(min_length=8,max_length=150)
+
+@app.post('/api/v1/documents/{vid}/card')
+def rebuild_card(vid:str,p:CardRequest,s=Depends(session)):
+    """Queue a rebuild of the document card (live record lookup and one light-model call)."""
+    version(vid,s['workspace'])
+    return queue(s['workspace'],'card',{'version_id':vid},p.idempotency_key)
+
+@app.get('/api/v1/documents/{vid}/outline')
+def document_outline(vid:str,s=Depends(session)):
+    """Hierarchical outline: PDF bookmarks when present, else numbered headings."""
+    v=version(vid,s['workspace'])
+    from .cards import get_card, outline_tree
+    card=get_card(s['workspace'],vid)
+    entries=(card or {}).get('outline')
+    if entries is None:
+        meta=v['metadata'] if isinstance(v['metadata'],dict) else json.loads(v['metadata'] or '{}')
+        entries=[{**e,'level':e.get('level',1)} for e in meta.get('outline',[])]
+    return {'source':'document_card' if card else 'legacy_headings','tree':outline_tree(entries)}
 
 @app.get('/api/v1/documents/{vid}/search')
 def search_document(vid:str,q:str=Query(default='',max_length=500),parse_id:str|None=None,s=Depends(session)):
@@ -362,11 +436,34 @@ class Question(BaseModel):
     question:str=Field(min_length=1,max_length=6000)
     version_ids:list[str]=Field(min_length=1,max_length=20)
     idempotency_key:str=Field(min_length=8,max_length=150)
+    # Conversation thread: earlier turns are read server-side from this workspace's runs.
+    thread_id:str|None=Field(default=None,pattern=r'^[A-Za-z0-9_-]{8,64}$')
 
 def ask(p,s,kind):
     for v in p.version_ids:
         version(v,s['workspace'])
-    return queue(s['workspace'],kind,p.model_dump(exclude={'idempotency_key'}),p.idempotency_key)
+    return queue(s['workspace'],kind,p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
+
+@app.get('/api/v1/chat/threads')
+def chat_threads(s=Depends(session)):
+    """Conversation threads derived from question runs that carry a thread_id."""
+    found=rows("""SELECT json_extract(payload,'$.thread_id') AS thread_id,MIN(created) AS created,MAX(updated) AS updated,
+                         COUNT(*) AS turns FROM runs WHERE workspace=? AND kind IN ('qa','agent')
+                         AND json_extract(payload,'$.thread_id') IS NOT NULL GROUP BY 1 ORDER BY updated DESC LIMIT 50""",(s['workspace'],))
+    for thread in found:
+        first=one("""SELECT payload FROM runs WHERE workspace=? AND json_extract(payload,'$.thread_id')=?
+                      ORDER BY created LIMIT 1""",(s['workspace'],thread['thread_id']))
+        payload=json.loads(first['payload'])
+        thread.update(title=payload['question'][:80],version_ids=payload['version_ids'])
+    return found
+
+@app.get('/api/v1/chat/threads/{thread_id}')
+def chat_thread(thread_id:str,s=Depends(session)):
+    ids=rows("""SELECT id FROM runs WHERE workspace=? AND kind IN ('qa','agent') AND json_extract(payload,'$.thread_id')=?
+                 ORDER BY created""",(s['workspace'],thread_id))
+    if not ids:
+        raise HTTPException(404,'对话不存在或无权限')
+    return {'thread_id':thread_id,'runs':[run_get(r['id'],s['workspace']) for r in ids[-30:]]}
 
 @app.post('/api/v1/qa/runs')
 def qa(p:Question,s=Depends(session)):
@@ -445,6 +542,10 @@ async def events(rid:str,request:Request,after:int=0,s=Depends(session)):
 @app.post('/api/v1/runs/{rid}/cancel')
 def cancel(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
+    if r['kind']=='reference_download':
+        from .document_workflows import cancel_reference_downloads
+        cancel_reference_downloads(s['workspace'],rid)
+        return run_get(rid,s['workspace'])
     if r['payload'].get('batch_id') and r['payload'].get('batch_item_id'):
         from .batches import cancel_batch
         cancel_batch(s['workspace'],r['payload']['batch_id'],[r['payload']['batch_item_id']])
@@ -463,12 +564,18 @@ def cancel(rid:str,s=Depends(session)):
 @app.post('/api/v1/runs/{rid}/resume')
 def resume(rid:str,s=Depends(session)):
     r=run_get(rid,s['workspace'])
+    if r['kind']=='reference_download':
+        from .document_workflows import resume_reference_downloads
+        resume_reference_downloads(s['workspace'],rid)
+        return run_get(rid,s['workspace'])
     if r['payload'].get('batch_id') and r['payload'].get('batch_item_id'):
         from .batches import resume_batch
         resume_batch(s['workspace'],r['payload']['batch_id'],[r['payload']['batch_item_id']])
         return run_get(rid,s['workspace'])
     if r['kind']=='watch':
         raise HTTPException(409,'追踪检查请通过“立即检查”重试；不会将追踪任务加入解析队列')
+    if r['status'] in ('cancelled','failed','partial') and one("SELECT 1 FROM quota WHERE run_id=? AND status IN ('reserved','unknown') LIMIT 1",(rid,)):
+        raise HTTPException(409,'此任务有已发送但结果未知的请求，已保留计账；需核对上游回执，不能直接恢复重发。')
     if r['status'] in ('cancelled','failed','partial'):
         from .store import run_execution_lock
         with db() as c:
@@ -563,6 +670,19 @@ def audit(p:Audit,s=Depends(session)):
         raise HTTPException(404,'建议原文不存在')
     return queue(s['workspace'],'audit',p.model_dump(exclude={'idempotency_key'}),p.idempotency_key)
 
+class AuditRevalidation(BaseModel):
+    model_config={'extra':'forbid'}
+    idempotency_key:str=Field(min_length=8,max_length=150)
+
+@app.post('/api/v1/ideas/audits/{rid}/revalidate')
+def revalidate_audit(rid:str,p:AuditRevalidation,s=Depends(session)):
+    run_get(rid,s['workspace'])
+    from .future_work import queue_revalidation
+    try:
+        return queue_revalidation(s['workspace'],rid,p.idempotency_key)
+    except ValueError as exc:
+        raise HTTPException(422,str(exc)) from None
+
 @app.post('/api/v1/charts')
 async def chart(file:UploadFile=File(...),spec:str=Form('{}'),s=Depends(session)):
     from .charts import create_chart
@@ -616,11 +736,12 @@ class ReviewerCreate(BaseModel):
     label:str=Field(min_length=1,max_length=120)
     days:int=Field(default=7,ge=1,le=90)
     workspace_id:str|None=Field(default=None,min_length=1,max_length=100)
+    seed_workspace_id:str|None=Field(default=None,min_length=1,max_length=100)
 
 @app.get('/api/v1/admin/reviewer-workspaces')
-def review_workspace_choices(s=Depends(admin)):
+def review_workspace_choices(include_bound:bool=False,s=Depends(admin)):
     from .reviewer_accounts import available_workspaces
-    return available_workspaces()
+    return available_workspaces(include_bound=include_bound)
 
 @app.get('/api/v1/admin/reviewers')
 def list_review_accounts(s=Depends(admin)):
@@ -630,7 +751,7 @@ def list_review_accounts(s=Depends(admin)):
 @app.post('/api/v1/admin/reviewers')
 def create_review_account(p:ReviewerCreate,s=Depends(admin)):
     from .reviewer_accounts import create_reviewer
-    return create_reviewer(p.label,p.days,p.workspace_id)
+    return create_reviewer(p.label,p.days,p.workspace_id,p.seed_workspace_id)
 
 @app.post('/api/v1/admin/reviewers/{account_id}/revoke')
 def revoke_review_account(account_id:str,s=Depends(admin)):
@@ -664,6 +785,16 @@ def admin_evidence_file(path:str=Query(...,min_length=1),s=Depends(admin)):
     if target.suffix.lower()=='.svg':
         headers['Content-Security-Policy']='sandbox'
     return FileResponse(target,media_type=MEDIA_TYPES[target.suffix.lower()],headers=headers)
+
+from . import recommendations as recommendation_api
+recommendation_api.register(session)
+app.include_router(recommendation_api.router)
+from .text_translation import router as text_translation_router
+app.include_router(text_translation_router)
+from .document_workflows import router as document_workflow_router
+app.include_router(document_workflow_router)
+from .writing_workflows import router as writing_workflow_router
+app.include_router(writing_workflow_router)
 
 dist=ROOT/'apps/web/dist'
 app.mount('/assets',StaticFiles(directory=dist/'assets',check_dir=False),name='assets')

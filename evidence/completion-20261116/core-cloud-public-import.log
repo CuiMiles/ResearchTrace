@@ -1,0 +1,2 @@
+{"status": "PASS", "vectors": 901, "covered_blocks": 5267, "generation_attempts_preserved": 173, "embedding_ledger_imported": 191, "provider_calls": 0}
+{"status":"ok","service":"ResearchTrace"}

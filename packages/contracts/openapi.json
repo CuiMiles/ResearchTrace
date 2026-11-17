@@ -795,6 +795,128 @@
         }
       }
     },
+    "/api/v1/documents/{vid}/card": {
+      "get": {
+        "summary": "Document Card",
+        "description": "Structured metadata of the active snapshot; every field names its source.",
+        "operationId": "document_card_api_v1_documents__vid__card_get",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Rebuild Card",
+        "description": "Queue a rebuild of the document card (live record lookup and one light-model call).",
+        "operationId": "rebuild_card_api_v1_documents__vid__card_post",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{vid}/outline": {
+      "get": {
+        "summary": "Document Outline",
+        "description": "Hierarchical outline: PDF bookmarks when present, else numbered headings.",
+        "operationId": "document_outline_api_v1_documents__vid__outline_get",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/documents/{vid}/search": {
       "get": {
         "summary": "Search Document",
@@ -991,6 +1113,60 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat/threads": {
+      "get": {
+        "summary": "Chat Threads",
+        "description": "Conversation threads derived from question runs that carry a thread_id.",
+        "operationId": "chat_threads_api_v1_chat_threads_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat/threads/{thread_id}": {
+      "get": {
+        "summary": "Chat Thread",
+        "operationId": "chat_thread_api_v1_chat_threads__thread_id__get",
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1803,6 +1979,53 @@
         }
       }
     },
+    "/api/v1/ideas/audits/{rid}/revalidate": {
+      "post": {
+        "summary": "Revalidate Audit",
+        "operationId": "revalidate_audit_api_v1_ideas_audits__rid__revalidate_post",
+        "parameters": [
+          {
+            "name": "rid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Rid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuditRevalidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/charts": {
       "post": {
         "summary": "Chart",
@@ -1960,6 +2183,44 @@
               "type": "string",
               "default": "md",
               "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/reviewer-workspaces": {
+      "get": {
+        "summary": "Review Workspace Choices",
+        "operationId": "review_workspace_choices_api_v1_admin_reviewer_workspaces_get",
+        "parameters": [
+          {
+            "name": "include_bound",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Include Bound"
             }
           }
         ],
@@ -2158,6 +2419,684 @@
         }
       }
     },
+    "/api/v1/recommendations": {
+      "get": {
+        "summary": "Current",
+        "operationId": "current_api_v1_recommendations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/recommendations/config": {
+      "post": {
+        "summary": "Configure",
+        "operationId": "configure_api_v1_recommendations_config_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Configure"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/recommendations/refresh": {
+      "post": {
+        "summary": "Refresh",
+        "operationId": "refresh_api_v1_recommendations_refresh_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/text/translations": {
+      "post": {
+        "tags": [
+          "text translation"
+        ],
+        "summary": "Enqueue",
+        "operationId": "enqueue_api_v1_text_translations_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TextTranslationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/versions/{vid}/choices": {
+      "get": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Get Version Choices",
+        "operationId": "get_version_choices_api_v1_versions__vid__choices_get",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/versions/resolve": {
+      "post": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Resolve Version",
+        "operationId": "resolve_version_api_v1_versions_resolve_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResolveVersion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{vid}/reference-analysis": {
+      "post": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Post Reference Analysis",
+        "operationId": "post_reference_analysis_api_v1_documents__vid__reference_analysis_post",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeReferences"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Get Reference Analysis",
+        "operationId": "get_reference_analysis_api_v1_documents__vid__reference_analysis_get",
+        "parameters": [
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Vid"
+            }
+          },
+          {
+            "name": "parse_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Parse Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference-analyses/{analysis_id}/classify": {
+      "post": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Queue Classification",
+        "operationId": "queue_classification_api_v1_reference_analyses__analysis_id__classify_post",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassifyReferences"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference-analyses/{analysis_id}/downloads": {
+      "post": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Queue Download",
+        "operationId": "queue_download_api_v1_reference_analyses__analysis_id__downloads_post",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadReferences"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference-downloads/{parent_id}": {
+      "get": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Get Reference Downloads",
+        "operationId": "get_reference_downloads_api_v1_reference_downloads__parent_id__get",
+        "parameters": [
+          {
+            "name": "parent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Parent Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference-downloads/{parent_id}/cancel": {
+      "post": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Cancel Downloads",
+        "operationId": "cancel_downloads_api_v1_reference_downloads__parent_id__cancel_post",
+        "parameters": [
+          {
+            "name": "parent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Parent Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference-downloads/{parent_id}/resume": {
+      "post": {
+        "tags": [
+          "document-workflows"
+        ],
+        "summary": "Resume Downloads",
+        "operationId": "resume_downloads_api_v1_reference_downloads__parent_id__resume_post",
+        "parameters": [
+          {
+            "name": "parent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Parent Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/writing/surveys": {
+      "post": {
+        "tags": [
+          "writing"
+        ],
+        "summary": "Start Survey",
+        "operationId": "start_survey_api_v1_writing_surveys_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WritingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/writing/outlines": {
+      "post": {
+        "tags": [
+          "writing"
+        ],
+        "summary": "Start Outline",
+        "operationId": "start_outline_api_v1_writing_outlines_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WritingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/writing/diagrams": {
+      "post": {
+        "tags": [
+          "writing"
+        ],
+        "summary": "Start Diagram",
+        "operationId": "start_diagram_api_v1_writing_diagrams_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WritingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/writing/artifacts/{artifact_id}/export": {
+      "get": {
+        "tags": [
+          "writing"
+        ],
+        "summary": "Export Writing",
+        "operationId": "export_writing_api_v1_writing_artifacts__artifact_id__export_get",
+        "parameters": [
+          {
+            "name": "artifact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Artifact Id"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "md",
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/{path}": {
       "get": {
         "summary": "Frontend",
@@ -2198,6 +3137,26 @@
   },
   "components": {
     "schemas": {
+      "AnalyzeReferences": {
+        "properties": {
+          "parse_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parse Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AnalyzeReferences"
+      },
       "Audit": {
         "properties": {
           "version_id": {
@@ -2214,6 +3173,19 @@
             "minLength": 1,
             "title": "Question"
           },
+          "search_query": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 350,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Search Query"
+          },
           "idempotency_key": {
             "type": "string",
             "maxLength": 150,
@@ -2229,6 +3201,22 @@
           "idempotency_key"
         ],
         "title": "Audit"
+      },
+      "AuditRevalidation": {
+        "properties": {
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "idempotency_key"
+        ],
+        "title": "AuditRevalidation"
       },
       "BatchSelection": {
         "properties": {
@@ -2287,6 +3275,37 @@
         ],
         "title": "Body_upload_api_v1_documents_post"
       },
+      "CardRequest": {
+        "properties": {
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "idempotency_key"
+        ],
+        "title": "CardRequest"
+      },
+      "ClassifyReferences": {
+        "properties": {
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "idempotency_key"
+        ],
+        "title": "ClassifyReferences"
+      },
       "Compare": {
         "properties": {
           "left": {
@@ -2304,6 +3323,74 @@
           "right"
         ],
         "title": "Compare"
+      },
+      "Configure": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 350,
+            "title": "Query",
+            "default": ""
+          },
+          "interval_hours": {
+            "type": "integer",
+            "maximum": 168.0,
+            "minimum": 24.0,
+            "title": "Interval Hours",
+            "default": 24
+          },
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "Configure"
+      },
+      "DownloadReferences": {
+        "properties": {
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "all",
+              "top"
+            ],
+            "title": "Mode",
+            "default": "top"
+          },
+          "top_n": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Top N",
+            "default": 5
+          },
+          "max_items": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Max Items",
+            "default": 20
+          },
+          "index_dense": {
+            "type": "boolean",
+            "title": "Index Dense",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "idempotency_key"
+        ],
+        "title": "DownloadReferences"
       },
       "Feedback": {
         "properties": {
@@ -2384,6 +3471,47 @@
               }
             ],
             "title": "Generation Id"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "local",
+                  "gemini"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
+          "source_generation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Generation Id"
+          },
+          "pack_cloud": {
+            "type": "boolean",
+            "title": "Pack Cloud",
+            "default": false
+          },
+          "chunks_only": {
+            "type": "boolean",
+            "title": "Chunks Only",
+            "default": false
+          },
+          "activate": {
+            "type": "boolean",
+            "title": "Activate",
+            "default": true
           },
           "idempotency_key": {
             "type": "string",
@@ -2565,6 +3693,18 @@
             "maxLength": 150,
             "minLength": 8,
             "title": "Idempotency Key"
+          },
+          "thread_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{8,64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thread Id"
           }
         },
         "type": "object",
@@ -2574,6 +3714,53 @@
           "idempotency_key"
         ],
         "title": "Question"
+      },
+      "ResolveVersion": {
+        "properties": {
+          "incoming_version_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Incoming Version Id"
+          },
+          "existing_version_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Existing Version Id"
+          },
+          "work_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Work Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "keep_newer",
+              "both",
+              "replace"
+            ],
+            "title": "Action"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "incoming_version_id",
+          "existing_version_id",
+          "work_id",
+          "action",
+          "idempotency_key"
+        ],
+        "title": "ResolveVersion"
       },
       "ReviewerCreate": {
         "properties": {
@@ -2589,6 +3776,32 @@
             "minimum": 1.0,
             "title": "Days",
             "default": 7
+          },
+          "workspace_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Workspace Id"
+          },
+          "seed_workspace_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed Workspace Id"
           }
         },
         "type": "object",
@@ -2632,6 +3845,99 @@
           "query"
         ],
         "title": "Search"
+      },
+      "TextTranslationRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 12000,
+            "minLength": 1,
+            "title": "Text"
+          },
+          "target_language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "zh-Hans"
+            ],
+            "title": "Target Language",
+            "default": "zh-Hans"
+          },
+          "source_language": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "en",
+              "zh"
+            ],
+            "title": "Source Language",
+            "default": "auto"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 8,
+            "title": "Idempotency Key"
+          },
+          "version_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version Id"
+          },
+          "parse_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parse Id"
+          },
+          "block_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Block Id"
+          },
+          "page_index": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Index"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text",
+          "idempotency_key"
+        ],
+        "title": "TextTranslationRequest"
       },
       "Translation": {
         "properties": {
@@ -2783,6 +4089,57 @@
           "enabled"
         ],
         "title": "WatchPatch"
+      },
+      "WritingRequest": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "maxLength": 3000,
+            "minLength": 1,
+            "title": "Question"
+          },
+          "version_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Version Ids"
+          },
+          "context_budget": {
+            "type": "integer",
+            "maximum": 64000.0,
+            "minimum": 12000.0,
+            "title": "Context Budget",
+            "default": 48000
+          },
+          "idempotency_key": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Idempotency Key"
+          },
+          "search_query": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Search Query"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question",
+          "idempotency_key"
+        ],
+        "title": "WritingRequest"
       }
     }
   }

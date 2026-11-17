@@ -1,0 +1,115 @@
+{
+  "derived_from": "evidence/completion-20261116/public-generation-live.json",
+  "source_case": "new-chinese-full-pdf",
+  "status_meaning": "Execution and machine checks only; independent human quality review NOT RUN",
+  "name": "new-chinese-full-pdf",
+  "run_id": "f442ab547b154b2387d4a4e92ccdfd62",
+  "version_id": "c953aceb5538423798d459b40568c231",
+  "parse_run_id": "745f94478c0d4afc868f1901af18a693",
+  "input_source": "self-authored Chinese PDF, not official core4",
+  "status": "PASS",
+  "run": {
+    "id": "f442ab547b154b2387d4a4e92ccdfd62",
+    "workspace": "f20a63ff2556421ebcc616d0fdf17c5e",
+    "kind": "translate",
+    "status": "completed",
+    "payload": {
+      "source_language": "zh",
+      "target_language": "en",
+      "glossary_version": "default",
+      "version_id": "c953aceb5538423798d459b40568c231",
+      "parse_id": "c953aceb5538423798d459b40568c231"
+    },
+    "result": {
+      "version_id": "c953aceb5538423798d459b40568c231",
+      "parse_id": "c953aceb5538423798d459b40568c231",
+      "source_language": "zh",
+      "target_language": "en",
+      "glossary_version": "default",
+      "model": "gemini-3.6-flash",
+      "plan_version": "protected-utf8-v2",
+      "input_token_budget": 12000,
+      "output_token_budget": 8192,
+      "max_batch_items": 6,
+      "block_ids": null,
+      "translated": 6,
+      "total": 6,
+      "cache_hits": 0,
+      "actual_models": [
+        "gemini-3.5-flash-lite"
+      ]
+    },
+    "error": null,
+    "idempotency": "public-full-chinese-to-english-20261117",
+    "created": 1794859787.2236502,
+    "updated": 1794859789.5693698,
+    "steps": [
+      {
+        "id": 7225,
+        "event": "queued",
+        "data": {
+          "kind": "translate",
+          "message": "任务已持久化，等待单 worker 执行"
+        },
+        "created": 1794859787.2315338
+      },
+      {
+        "id": 7226,
+        "event": "started",
+        "data": {
+          "kind": "translate"
+        },
+        "created": 1794859787.4320982
+      },
+      {
+        "id": 7227,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "2704916d6b93431f8efcef4c1872235e",
+          "reserved_input_tokens": 2250,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794859787.4988887
+      },
+      {
+        "id": 7228,
+        "event": "translation_progress",
+        "data": {
+          "version_id": "c953aceb5538423798d459b40568c231",
+          "parse_id": "c953aceb5538423798d459b40568c231",
+          "source_language": "zh",
+          "target_language": "en",
+          "glossary_version": "default",
+          "model": "gemini-3.5-flash-lite",
+          "plan_version": "protected-utf8-v2",
+          "input_token_budget": 12000,
+          "output_token_budget": 8192,
+          "max_batch_items": 6,
+          "block_ids": null,
+          "completed": 6,
+          "total": 6,
+          "requested_model": "gemini-3.6-flash",
+          "actual_model": "gemini-3.5-flash-lite"
+        },
+        "created": 1794859789.5597377
+      },
+      {
+        "id": 7229,
+        "event": "completed",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794859789.5767324
+      }
+    ]
+  }
+}

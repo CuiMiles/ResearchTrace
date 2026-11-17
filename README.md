@@ -1,74 +1,119 @@
 # 研证 ResearchTrace
 
-**参赛要求、评分标准、正式交付清单与新 Agent 接手顺序：[START_HERE.md](START_HERE.md)。** [赛题原件 PDF](docs/contest/official-requirements.pdf) · [评分映射](docs/RUBRIC_MATRIX.md) · [完整任务书](CODEX_TASK.md) · [验收标准](ACCEPTANCE.md)。
+**每个结论都能回到原文的科研智能体。** 导入论文、提出问题，回答中的每一句都绑定具体论文版本、页码和原文片段，并经过数值、版本与语义复核；查不到就明确写“证据不足”。
 
-2026-11-16 开发快照：核心四文档本地索引已完成，其他35份索引与新闭环继续验收。保留真实失败记录；GitHub 公开不代表公网产品、正式视频/PDF或全部验收完成。旧环境的历史说明请结合 START_HERE 和最新交接读取。
+参赛方向：第九届传智杯 AI 大模型创新应用挑战赛 · 科研小助手 Agent。赛题、评分与交付清单见 [START_HERE.md](START_HERE.md)，当前执行计划见 [docs/REFACTOR_PLAN.md](docs/REFACTOR_PLAN.md)，测试证据见 [docs/TEST_REPORT.md](docs/TEST_REPORT.md)。
 
-**核心测试 PDF：[查看/下载四份原文件](evals/pdfs/core/README.md)**，包含 Transformer v1/v7、扫描版和 541 页《Understanding Deep Learning》。
+**2026-11-17 当前代码**：`upgrade/complete-20261116`，继承 Claude 分支增量开发。公网入口 [researchtrace.sluna.xyz](https://researchtrace.sluna.xyz)。本地 Nemotron 检索优先，完整39份/23,185向量已部署；645项后端测试、前端构建通过。80题中75道有答案题的重排标准证据全部进入前20，独立人工审阅仍待完成，不能等同问答准确率。最新交接见 [COMPLETION_20261117.md](docs/COMPLETION_20261117.md)。
 
-**完整资料包：[科研小助手全部 40 个 PDF](evals/pdfs/科研小助手/README.md)**，包含其余 35 份拓展文献和原始赛题说明，保留原目录结构。
+正式演示视频和技术PDF由团队自行制作、审阅与提交；仓库内现有材料仅作参考。代码推送不等于赛事提交，未关闭的质量门槛和GitHub账户CI计费锁仍如实保留。
 
-A source-grounded research workbench: immutable PDF versions, page/block evidence, model QA, bilingual reading, live scholarly search, reference-derived local graph, Future Work audits, constrained writing, and reproducible CSV charts.
+![工作台](docs/images/home.png)
 
-This repository is an implementation in active acceptance testing, not a claim of contest ranking or universal factual accuracy. Exact current results and limits are in [HANDOFF.md](HANDOFF.md) and [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
+## 它解决什么问题
 
-## Install and run
+科研助手最常见的失效是：答案看起来对，但无法核对；同一论文的不同版本被混用；旧论文里的 Future Work 被当成今天仍没人做过的方向。研证把这些都落实到可以点击检查的对象上：
 
-Linux/WSL, Python3.12, Node22, CPU only. System dependencies: `tesseract-ocr tesseract-ocr-eng fonts-droid-fallback`. The verified local environment is Ubuntu24.04.5 WSL2 with Python3.12.3. Optional OCR/browser libraries are extracted privately under `.tools`; system libraries are untouched. Docker is not installed on this development machine, so Compose execution remains separately unverified.
+- **逐句证据灯**：回答拆成原子主张，每条显示“已核对支持 / 待复核 / 与原文矛盾 / 证据不足”，点开即是逐字原文和页码，一键跳到 PDF 高亮位置。错误前提（例如“为什么用了 80 张 GPU”）会被原文纠正。
+- **版本感知**：按内容（arXiv 编号、正文指纹）识别同一论文的不同版本，即使文件名随机；提示保留较新版本，展示差异，并指出哪些已保存结论需要在新版本中复核。旧结论永远指向原版本。
+- **Future Work 核查**：从旧论文的建议出发检索后续文献，按时间与条件给出“已有直接证据 / 部分覆盖 / 当前范围证据不足”，不写“全球首次”。
 
-```bash
-python3.12 -m venv .venv
-.venv/bin/pip install --no-compile -r requirements.lock
-cp .env.example .env
-chmod 600 .env
-# Set private RT_ACCESS_CODE and a different RT_ADMIN_CODE in .env.
-# Set server Gemini keys only if authorized. No keys: import/read/chart still work.
-cd apps/web
-npm ci
-npm run build
-cd ../..
-./scripts/dev.sh
+![原文定位](docs/images/reader-evidence.png)
+
+## 六类功能
+
+| 模块 | 能做什么 | 入口 |
+|---|---|---|
+| 文献管理与解析 | 批量上传（单次最多 20 篇，逐文件进度、取消与恢复）；SHA256 去重与版本识别；原生文字、扫描 OCR（PaddleOCR / MinerU 可选）、541 页长书逐页检查点；**文献卡片**：标题、按顺序的作者与单位和邮箱、发表年份、会议、摘要、分级目录、表格/图/公式/参考文献计数、附录起始页 | 文献库 → 解析结果 |
+| 知识问答 | 单篇与多篇问答；多轮对话（“其中…”可省略论文名）；中文问题自动改写为英文检索查询，逐篇检索后融合；每句绑定原文并复核 | 证据问答 |
+| 阅读与翻译 | PDF.js 原版阅读；按 PDF 书签生成的分级目录（如 3.2.2 Multi-Head Attention）；正文引用与参考文献往返；段落/整页/全文英译中与中译英，按段落对齐双向滚动；Markdown/HTML 导出 | 阅读 |
+| 检索与推荐 | arXiv 与 Crossref 检索、按标题/DOI/arXiv ID 入库；追踪查询与定时检查；点赞/不感兴趣影响排序 | 检索与推荐 |
+| 图谱与综述 | 由真实参考文献条目构建局部引用图，计算局部 PageRank、入度，按年份筛选，点击边看到原文引用；Future Work 核查 | 图谱与核查 |
+| 写作与绘图 | 有出处的研究笔记与比较；CSV 计算统计后生成折线/柱状/雷达/三维图与数据驱动的图注、复现脚本；可编辑 Mermaid 结构图；导出 Markdown/HTML/BibTeX | 写作工坊 |
+
+![文献卡片](docs/images/document-card.png)
+
+## AI 技术要点
+
+```mermaid
+flowchart LR
+  Q[问题 + 对话上下文] --> RW[查询改写<br/>轻量模型]
+  RW --> R[检索<br/>BM25 逐篇配额 · 向量 · RRF · 重排]
+  C[文献卡片<br/>作者/单位/年份] --> S
+  R --> S[综合回答<br/>原子主张 + 逐字引文]
+  S --> V[确定性核验<br/>块/版本/逐字/数值单位]
+  V -->|不通过| G[补充检索 + 修订一次]
+  G --> V
+  V --> K[独立复核<br/>支持/矛盾/不足]
+  K --> P[发布：逐句证据灯 · 笔记 · 导出]
 ```
 
-Current verified local address: **http://127.0.0.1:18980**. The configured port in private `.env` takes precedence over the source default18970. In this checkout use `export PATH="$PWD/.tools/node-v22.16.0-linux-x64/bin:$PATH"`; Python is the normal `python3` (3.12). Large dependency/model downloads are relayed through the original server, then installed offline from `.tools/relay/`, as requested. Do not copy old virtualenv binaries or reset the quota database.
+- **文档智能**：不可变的版本 / 解析快照 / 文本块（含页码与坐标）；按字号聚类识别小型大写标题；用 PDF 书签生成分级目录；首页版面经一次轻量模型配对作者与单位，**模型给出的每个字符串都必须在原文中出现，否则丢弃**。
+- **检索增强**：FTS5 BM25（中英对称分词）+ 可选本地向量模型（Nemotron / Qwen 8B，独立索引代际、原子激活）+ RRF + 重排；多篇比较时每篇保底配额；元数据类问题直接带入作者所在原文块。
+- **多角色、有边界的智能体**：路由与改写、检索、综合、确定性核验、独立复核分角色执行；最多一次修订、明确的调用上限；每一步写入可公开的执行记录，界面实时展示，不展示或编造隐藏思维链。
+- **模型调度**：按角色配置模型链（深度分析 Gemini 4 Hydrogen → 3.6 Flash → 3.5 Flash Lite）；只有在本地额度拒绝或上游明确报错时才换下一个模型，状态不明的请求绝不重发；界面标出实际回答的模型和降级。配额按项目、按太平洋时区日计账，失败与未知请求同样计入，付费兜底默认关闭。
+- **安全**：下载做 DNS 固定与逐跳 SSRF 校验；工作区隔离贯穿文件、任务和产物；上传内容只作为数据，不能成为指令；绘图只执行固定模板，不运行模型生成的代码。
 
-`dev.sh` installs only the application's own user systemd units when user systemd is available. An optional `researchtrace-parser` user unit provides separate fixed-library environments. Inspect with `systemctl --user status researchtrace-api researchtrace-worker researchtrace-parser`; logs with `journalctl --user -u researchtrace-api -u researchtrace-worker -n 60`. Stop owned units/processes with `./scripts/stop.sh`. Without systemd, run API and worker in separate retained terminals:
+![引用图谱](docs/images/graph.png)
 
-```bash
-.venv/bin/python -m services.api.serve
-.venv/bin/python -m services.worker.main
-```
+## 运行
 
-Server startup does not require provider credentials. Login uses local server access codes, not API keys. Each browser session creates an isolated workspace; refresh/restart preserves it for7days. Logging out or clearing cookies loses the local session entry point; multiuser identity recovery is a known V1 limit. The optional login workspace field cannot impersonate another workspace.
-
-For another machine, forward the configured server port with SSH, for example `ssh -L 18980:127.0.0.1:18980 your-existing-ssh-host`. Then open http://127.0.0.1:18980. A private LAN address is not a verified public HTTPS deployment.
-
-## New inputs
-
-- Upload any readable PDF in 文献库, open reader, wait for actual page coverage, ask a specific question, click its citation. English technical keywords are useful when dense indexing is temporarily unavailable. Core analysis Hydrogen: global initial budget4calls, per workspace2/day. Existing saved notes are explicitly history.
-- Upload v7 then v1 under unrelated filenames, compare immutable versions. The renamed real papers and derived scan engineering fixtures can be prepared with `.venv/bin/python scripts/prepare_evals.py` (network required; no model generations).
-- Upload your own CSV in 写作与绘图; generate a chart, edit columns/units/type, export SVG/PNG/PlotSpec/source/script. No model request needed. Unsupported or corrupt uploads give explicit errors.
-
-Search calls arXiv/Crossref, never model-generated search results. Network/proxy failures are reported. Watch scheduling defaults off. Twenty-node graph tests use true metadata reference deposits and do not pretend twenty full PDFs were read.
-
-## Verification
+### 本地开发
 
 ```bash
-./scripts/test.sh
-./scripts/smoke.sh --live --max-hydrogen-calls 4
-./scripts/evaluate.sh
+python3.12 -m venv .venv && .venv/bin/pip install -r requirements.lock
+cp .env.example .env && chmod 600 .env   # 设置访问码；有授权时填写模型密钥
+(cd apps/web && npm ci && npm run build)
+./scripts/dev.sh                           # http://127.0.0.1:18970
 ```
 
-Live tests consume real quota. Request counts persist across restarts and retries. The evaluation command spends no tokens until a reviewed dataset and separate budget are configured. See `evals/manifest.json` for source/licensing/hash labels. `packages/contracts/openapi.json` is generated from actual backend schemas.
+没有模型密钥时，导入、解析、阅读、检索、图谱和绘图仍可使用，问答与翻译显示“模型未配置”。
 
-Docker lite: `docker compose --profile lite up -d --build`. See [deployment notes](docs/DEPLOYMENT.md), including volume ownership, host-specific proxy addresses, firewall and independent public verification. Compose execution is not claimed unless explicitly recorded in the test report.
+### 轻量部署（约 2 核 2 GB）
 
-Backup: stop worker, use SQLite online backup (`sqlite3 researchtrace.sqlite '.backup backup.sqlite'`) and copy the associated data/pdf/chart directories plus server-only `.env` through a private channel. Restore into a new data directory, set `RT_DATA_DIR`, start API+worker, check `/readyz`. Never put `.env` or uploaded private files into Git.
+```bash
+docker compose --profile lite up -d --build
+RT_DOMAIN=demo.example.org docker compose --profile lite --profile https up -d   # 自动 HTTPS
+```
 
-## Parser revisions on Ubuntu 24
+包含 API、文档处理与交互两个 worker 池（长文解析不阻塞问答）和可选的 Caddy 自动证书。Docker Hub 受限时可设置 `RT_IMAGE_REGISTRY=mirror.gcr.io/library/`。模型、预算与评审配置见 [.env.example](.env.example)，部署细节见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
 
-The Reader exposes native / PaddleOCR / MinerU reparse choices and a historical snapshot selector. PaddleOCR uses CPU; MinerU offers CPU or guarded GPU. A new parser creates new immutable block identities on the same PDF version; complete results atomically become current. Failed/partial attempts leave the old active snapshot available. Historic citations still open their original text and geometry. New revisions reset dense coverage to zero and do not silently spend embedding quota.
+### 测试
 
-PaddleOCR3.7.0 + PaddlePaddle3.2.2 has passed real bilingual CPU recognition and product/browser source-location checks. MinerU4.2.2 and PaddleOCR-VL-1.6 CPU product checks also passed; GPU remains BLOCKED on this WSL2 host because per-process NVML usage is unavailable. See TEST_REPORT for scope; installation or broker liveness alone does not prove inference. Runtime details and official version/license sources: [parsing README](services/parsing/README.md).
+```bash
+./scripts/test.sh      # 后端单元/集成测试、静态检查、前端类型检查与构建、OpenAPI 导出
+```
 
-Hydrogen's four-call smoke budget is exhausted and preserved from the old environment. A new live core answer or quality benchmark is BLOCKED pending a separately explicit budget. Existing saved live answers are history; local import/read/search/CSV/snapshots do not need a new model generation. Never rerun live smoke to try to reset its allowance.
+## 项目结构
+
+```
+apps/web/            React + TypeScript + Vite 前端（路由、设计系统、阅读器、证据问答）
+services/api/        FastAPI：文档解析、检索、模型调度、核验、智能体、图谱、绘图
+services/worker/     持久化任务的两个执行池
+services/parsing/    可选的 MinerU / PaddleOCR 解析服务
+services/retrieval_runtime/  可选的本地向量与重排服务（GPU 主机）
+tests/               单元与集成测试
+evals/               检索评测题集与测试 PDF
+docs/                技术文档、测试报告、决策记录
+```
+
+## 诚实边界
+
+- 测试数量不是回答准确率；质量评测的分子分母与失败样例见 [docs/EVALUATION.md](docs/EVALUATION.md) 与 [docs/TEST_REPORT.md](docs/TEST_REPORT.md)。
+- 引用图谱的中心性只针对当前导入的文献集合，不代表领域权威。
+- 机器复核“支持”不等于数学证明，界面保留人工核对入口。
+- BM25、RRF、PageRank、PDF.js 与各模型均为第三方方法或服务，归属见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；本项目的贡献在于版本—证据—主张的可追溯机制与工程集成。
+
+## 团队
+
+> 由参赛团队填写：成员、分工与联系方式。
+
+## 测试数据
+
+[四份核心测试 PDF](evals/pdfs/core/README.md)（Transformer v1/v7、扫描版、541 页《Understanding Deep Learning》）与[完整资料包](evals/pdfs/科研小助手/README.md)。
+
+### 2026-11-17 增量开发
+
+继续Claude分支的版本选择、参考文献、阅读器划词、写作图谱、云检索与ECS部署，详见[当前实施状态](docs/COMPLETION_20261117.md)。[公网入口](https://researchtrace.sluna.xyz)已验证HTTPS及独立评审登录；模型启用和完整索引以实际状态为准。项目仍有未关闭的发布门槛，不宣称正式提交完成。
+
+[技术PDF（6页）](deliverables/ResearchTrace_技术说明.pdf) · [实际界面演示（6分钟1080p普通话）](deliverables/ResearchTrace_实际界面演示_1080p.mp4)。演示中的历史任务不冒充实时生成；参赛要求、AI35/工程30/创新15/体验10/实用10评分和新Agent任务入口见[START_HERE](START_HERE.md)。

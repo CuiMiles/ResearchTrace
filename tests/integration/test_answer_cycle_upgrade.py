@@ -27,7 +27,8 @@ def example(tmp_path,monkeypatch):
 
 def test_rejected_number_is_revised_reviewed_and_receipt_reused(example,monkeypatch):
     run,vid,block,original=example;calls=[]
-    def generate(system,prompt,rid,core=True):
+    def generate(system,prompt,rid,core=True, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         data=json.loads(prompt);assert data['validation_failure']
         assert data['evidence'][0]['id']==block['id']
         calls.append(data)

@@ -1,0 +1,177 @@
+{
+  "scope": "explicit browser fixtures, actual local WASM renderer",
+  "checks": [
+    {
+      "name": "outline_dedicated_route",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "outline_scope_and_query",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "survey_dedicated_route",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "survey_no_overflow_1280",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "survey_no_overflow_1440",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "survey_no_overflow_1920",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "survey_no_overflow_390",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "text_translation_contract",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "whole_translation_requires_confirm",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "whole_translation_reuses_contract",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "diagram_dedicated_route",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "real_mermaid_svg",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "mermaid_download_has_edited_source",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "unsafe_mermaid_blocked",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "real_graphviz_wasm_svg",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "dot_contains_actual_label",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "editable_TikZ",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "editable_Matplotlib",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "external_dot_resource_blocked",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "local_role_shown",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "role_rules_visible",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "graph_survey_form",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    },
+    {
+      "name": "no_page_errors",
+      "status": "PASS",
+      "scope": "browser_fixture"
+    }
+  ],
+  "page_errors": [],
+  "requests": [
+    {
+      "path": "/writing/outlines",
+      "body": {
+        "question": "attention with robust evidence",
+        "version_ids": [
+          "v1"
+        ],
+        "context_budget": 48000,
+        "idempotency_key": "58e0d746-fbcb-4112-97f4-687873058083",
+        "search_query": "evidence attention"
+      }
+    },
+    {
+      "path": "/writing/surveys",
+      "body": {
+        "question": "Compare evidence based architectures",
+        "version_ids": [
+          "v1"
+        ],
+        "context_budget": 48000,
+        "idempotency_key": "08f004f0-9c93-410d-977f-b5b2b932bff5"
+      }
+    },
+    {
+      "path": "/text/translations",
+      "body": {
+        "text": "我们研究可核验的科研助手。",
+        "target_language": "en",
+        "idempotency_key": "ee405cc8-751e-4a7a-898c-2c72895aceba"
+      }
+    },
+    {
+      "path": "/translations",
+      "body": {
+        "version_id": "v1",
+        "source_language": "auto",
+        "target_language": "en",
+        "idempotency_key": "5a24e1c0-99f2-4342-b589-d24ab7850650"
+      }
+    },
+    {
+      "path": "/writing/diagrams",
+      "body": {
+        "question": "Input data flows into attention encoder",
+        "version_ids": [],
+        "idempotency_key": "606f8c42-98f5-40f1-856b-a14a3ac2c92f",
+        "context_budget": 24000
+      }
+    },
+    {
+      "path": "/graphs",
+      "body": {}
+    }
+  ],
+  "provider_calls": 0
+}

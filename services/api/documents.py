@@ -204,22 +204,21 @@ def _identity(pdf, page):
         if arxiv:
             break
     doi = re.search(r"10\.\d{4,9}/[-._;()/:A-Z0-9]+", text, re.I)
+    from .cards import layout_title, plausible_title
     title = (pdf.metadata or {}).get("Title", "")
     if not isinstance(title, str):
         title = ""
-    if len(title.strip()) < 8 or re.search(r"untitled|microsoft|latex|template", title, re.I):
-        title = ""
-        words = page.extract_words(extra_attrs=["size"], use_text_flow=False, x_tolerance=1.1, y_tolerance=2.5)
-        words = [w for w in words if w.get("upright", True) and w["top"] < page.height * .5 and len(w["text"]) > 1]
-        if words:
-            largest = max(w["size"] for w in words)
-            chosen = [w for w in words if w["size"] >= largest - 1]
-            title = " ".join(w["text"] for w in sorted(chosen, key=lambda x: (round(x["top"] / 3), x["x0"])))
+    metadata_title = re.sub(r"\s+", " ", title).strip()[:500]
+    if not plausible_title(title) or re.search(r"untitled|microsoft|latex|template", title, re.I):
+        metadata_title = ""
+        # Line-level font clustering keeps small caps ("LoRA", "16x16") intact.
+        title = layout_title(page)
     title = re.sub(r"\s+", " ", title).strip()[:500]
     author = (pdf.metadata or {}).get("Author", "")
     if not isinstance(author, str):
         author = ""
-    result = {"parser": PARSER_VERSION, "title_source": "pdf_frontmatter", "author": author[:500], "first_page_text_fingerprint": hashlib.sha256(_normalized(text).encode()).hexdigest(), "identity_status": "uncertain"}
+    result = {"parser": PARSER_VERSION, "title_source": "pdf_frontmatter", "author": author[:500],
+              "pdf_metadata_title": metadata_title, "first_page_text_fingerprint": hashlib.sha256(_normalized(text).encode()).hexdigest(), "identity_status": "uncertain"}
     label = "版本待确认"
     identity = None
     if arxiv:
@@ -646,10 +645,21 @@ def parse_document(run):
         elif legacy:
             conn.execute('UPDATE versions SET status=? WHERE id=?',(status,version_id))
     result = {'version_id':version_id,'parse_id':parse_id,'status':status,'parsed_pages':len(pages),'references':ref_count,'failed_pages':failures,'suppressed_margin_blocks':margins}
-    if legacy and payload.get('index_dense',True) and not cancelled(run["id"]):
+    if status=='ready' and not cancelled(run["id"]) and os.getenv('RT_DOCUMENT_CARDS','true').lower()=='true':
+        # Structured metadata is an enhancement: a failure never changes the parse result.
         try:
-            from .retrieval import index_dense
-            result["dense_index"] = index_dense(workspace, version_id, run["id"])
+            from .cards import build_card
+            card = build_card(workspace, version_id, run["id"],
+                              use_network=os.getenv('RT_CARD_NETWORK','true').lower()=='true',
+                              use_model=os.getenv('RT_CARD_MODEL','true').lower()=='true')
+            result["document_card"] = {"title_source": card["title"]["source"], "authors": len(card.get("authors", []))}
+        except Exception as exc:
+            result["document_card"] = {"status": "unavailable", "reason": type(exc).__name__}
+            event(run["id"], "document_card_failed", {"reason": type(exc).__name__})
+    if status=='ready' and payload.get('index_dense',True) and not cancelled(run["id"]):
+        try:
+            from .index_tasks import after_parse
+            result["dense_index"] = after_parse(run,version_id,parse_id)
         except Exception as exc:
             # Safe category only; upstream exception content may contain a URL/key.
             result["dense_index"] = {"status": "unavailable", "reason": type(exc).__name__}

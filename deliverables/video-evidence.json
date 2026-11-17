@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "file": "ResearchTrace_实际界面演示_1080p.mp4",
+  "width": 1920,
+  "height": 1080,
+  "duration_seconds": 360.0,
+  "actual_ui_frames": 720,
+  "capture_fps": 2,
+  "output_fps": 30,
+  "narration": "local Windows Microsoft Huihui Mandarin TTS",
+  "synthesis_live_model_calls": 0,
+  "scenes": [
+    {
+      "scene": "项目与证据流程",
+      "route": "/",
+      "http_status": 200,
+      "frames": 92
+    },
+    {
+      "scene": "文献、批量导入与版本选择",
+      "route": "/library",
+      "http_status": 200,
+      "frames": 89
+    },
+    {
+      "scene": "阅读与原文定位",
+      "route": "/read/dceae303ec2f41cbbc4d88f047db9424",
+      "http_status": 200,
+      "frames": 83
+    },
+    {
+      "scene": "扫描PDF与解析快照",
+      "route": "/read/82451796b5294493b9e58f696fbb8adc",
+      "http_status": 200,
+      "frames": 86
+    },
+    {
+      "scene": "长文档与任务持久化",
+      "route": "/read/4452fbc0c75443578fb2a2987629c19c",
+      "http_status": 200,
+      "frames": 88
+    },
+    {
+      "scene": "真实问答与第二道审查",
+      "route": "/runs/ebd46511b255427080fc1fc6eab7d3f8",
+      "http_status": 200,
+      "frames": 93
+    },
+    {
+      "scene": "引用图谱与研究建议核查",
+      "route": "/insights",
+      "http_status": 200,
+      "frames": 87
+    },
+    {
+      "scene": "写作导出与真实验收边界",
+      "route": "/studio",
+      "http_status": 200,
+      "frames": 102
+    }
+  ],
+  "scope": "Actual project UI and timestamped historical records; does not certify incomplete release gates"
+}

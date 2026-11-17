@@ -113,3 +113,62 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 运行服务已拆成researchtrace-api、worker-documents、worker-interactive、parser，以及本项目loopback检索隧道；旧单worker单元已停用，旧源码/用户ZIP/RAR及未跟踪文件保留。所有新增结果见 `evidence/review-upgrade/`，管理员流程已追加真实运行记录。不要据此宣称公网、正式赛事视频/PDF或全部质量门槛完成。
 
 核心4索引已完成：run `e5d48e5600a947438dd3a5d0ca45c19d`，generation `fcdff7af26f44e369897bf3ee452089f`，5267合格源块→5330片段/5330向量，完整后已激活，云调用0。全39的staged代 `53ffb2e2e9c14cab81b122e9a4b50857` 有23185片段尚未构建全部向量。后续优先真实混合检索与核心4问答复验，并完成Qwen同切分对照、其余35拓展与公网/材料。
+
+## 2026-11-16 全量审阅与最终重构计划（最新）
+
+本阶段只做审阅和规划，没有修改产品代码。完整读取赛题原件、任务书、验收、审阅包与全部前后端源码后，产出 **`docs/REFACTOR_PLAN.md`**：后续开发按该计划的工作包、时间块和取舍清单执行。项目名保留“研证 ResearchTrace”，定位语改为“每个结论都能回到原文的科研智能体”。
+
+本阶段实际执行（干净检出，Python 3.13.18 / Node 22，非锁定的 3.12 环境；无供应商密钥，模型调用 0 次）：
+- `pytest tests/unit tests/integration`：477 passed、7 skipped，38.62 秒，日志 `evidence/refactor-plan/pytest-20261116.log`。
+- `npm ci && npm run build`：通过；主包 1.07 MB（gzip 321 KB）。
+- 本地启动 API 与两个 worker 池，经浏览器上传 9 份资料包 PDF：全部解析完成，页面巡检无页面异常；刚上传尚未解析的文档会留下页面数据 404 的控制台记录。截图见 `evidence/refactor-plan/`。
+
+本次实测确认的缺陷（均写入计划并排了优先级）：默认原生解析下 LoRA 标题为“RA: -R”、ViT 标题为“16 16”；9 份中 8 份 `metadata.author` 为空，作者与机构被压成一个段落；无发表年份，图谱节点全部“年份未知”；目录为无层级的平铺列表；核心模型默认每工作区每日 2 次；规划 Agent 与路由默认关闭；仅 Gemini 一条模型通道；无流式输出、无多轮对话；参考文献批量下载、综述、论文框架、结构图生成等功能缺失；前端源码为超长单行、无路由/数据层/Lint/测试；无 CI，Compose 未实际运行。
+
+未做：公网部署、任何真实模型调用、正式视频与 PDF。需要团队先完成的人工动作见计划第 10 节（确认截止时刻、评审期模型与预算、GPU 主机与隧道、ECS 与域名、团队信息）。
+
+## 2026-11-16 重构第一阶段（最新）
+
+按 `docs/REFACTOR_PLAN.md` 实施了 U1–U5 的主要部分和前端重建，全部在分支 `claude/bold-bardeen-wbi2ov`，逐阶段提交。
+
+- **模型角色链**：`RT_MODEL_DEEP/ANSWER/LIGHT/VERIFY` 按顺序配置模型；只有本地额度拒绝或上游明确报错才换下一个，状态未知的请求不重发；503 在整条链失败后延迟重试一次；单任务与单工作区跨模型调用上限。`.env.example` 写明评审期示例（两个独立项目，各 20 次/日 Hydrogen 与 3.6 Flash）。
+- **文献卡片**：解析完成后自动生成；标题字号聚类（修复 LoRA、ViT 标题）、作者顺序与单位/邮箱（模型抽取但每个字符串必须在原文出现）、年份、会议、摘要、PDF 书签分级目录、资产计数。接口 `/documents/{id}/card`、`/documents/{id}/outline`。
+- **问答**：中文/多篇问题先改写为英文检索查询并逐篇融合；元数据问题带入作者原文块；多轮对话 `thread_id`（服务器读取同线程历史）；模型名中的数字不再被当成数量；与主张不一致的自由文本被替换为已核验主张文本而非整体失败；复核模型不可用时保留“待复核”而非任务失败。
+- **前端**：新设计系统与路由（工作台、文献库、证据问答、比较、检索、图谱与核查、写作工坊、设置），逐句证据灯、证据弹出与 PDF 高亮跳转、可读执行记录、文献卡片抽屉、分级目录、阅读时紧凑导航。
+- **部署**：Compose 拆分两个 worker 池并加入 Caddy 自动 HTTPS；配置已校验，镜像构建在云沙箱因网络限制 BLOCKED。
+
+真实调用（开发密钥，单项目）：官方单篇 Q1–Q5 均得到带原文出处的正确回答（Q1 Aidan N. Gomez / University of Toronto）；多轮追问“其中 Adam…”在浏览器中通过；BERT 与 Transformer 编码器关系正确；GPT-1 上下文长度仍因关键词检索未召回而标“证据不足”，GPT-2 原文不在资料包中。开发日账本：Hydrogen 约 7 次、3.6 Flash 当日 20 次用尽、Flash Lite 若干，含失败与未知计数。
+
+仍未完成：语义向量索引（下一步启用 Gemini embedding 或本地 GPU 服务）、参考文献按重要性批量下载、综述生成、论文框架与结构图生成、中译英独立入口、推荐理由与代码线索增强、公网部署、正式视频与 PDF。需要团队完成的人工动作见计划第 10 节。
+
+## 2026-11-17 实际增量继续
+
+当前 `upgrade/complete-20261116` 继承 Claude `6b02876`，已合入文档版本/参考文献、阅读器划词、写作/图谱和ECS工作。先看 `docs/COMPLETION_20261117.md`、`evidence/completion-20261116/summary.json`，其中BLOCKED不能改成已完成。用户已配置researchtrace.sluna.xyz DNS，真实TLS、独立评审登录和文献库通过。
+
+仍有两个独立索引运行：云核心901片段记录于 `cloud-core-production.json`；本地full39运行 `bac8f0615125421191e1a8d6c150c460`，14466/23185的历史进度保留，另设受限CPU offload broker18989。先查实际PID/运行锁、显存及日志，不重复启动。旧失败/staged代均保留，不修改manifest伪造续建。云索引改切分必须与固定输入A/B分开报告。共享GPU每卡至少2GiB，只清理本项目进程。
+
+两凭据按用户声明的两个项目配置；实际Flash1日20已限流、Flash2探针成功。旧gemini-shared账本通过RT_LEGACY_PROJECT_MAP保守归入project1，原四次smoke和所有未知调用不重置。Embedding批量按文本条数计请求单位。源码、密钥、账本切换需防止两端同时对同模型花费且互相不知；ECS初始只读/无模型密钥，仍待最终启用。禁止把HTTP尝试数误当Embedding剩余额度。
+
+已完成实际6页技术PDF及6分钟1080p普通话视频，在deliverables；视频展示真实页面和有时间的历史结果，正式内容人工审阅仍未执行。团队姓名学校现在不需要。不要造v1.0-submission标签；发布门槛未全部关闭。
+
+
+## 2026-11-17 公网账本与索引切换（覆盖此前“待启用”）
+
+- https://researchtrace.sluna.xyz 已运行HTTPS、生成及云检索。ECS为唯一云调用端；本地RT_PROVIDER_MODE=disabled，禁止在独立旧账本上直接恢复本地云调用。
+- 核心4云代65c9a6b50cc94942af343c98f6cafd56已ready，901向量/5267原文块。ECS只合并Embedding新账本，保留同期生成记录。新30天账号私有文件data/completion-deployment/reviewer-20261117.json，6231实际向量复制、0重算。
+- 先看docs/COMPLETION_20261117.md、summary.json、public-runtime.json。公网语义问答、独立浏览器、中文整篇英译有真实证据。尚未关闭全部发布门槛，不创建提交标签。
+- 全39索引在运行锁下续建。多卡broker18990，隧道PID为data/completion-deployment/final-gpu-tunnel.pid。实时查数据库进度，不按旧日志猜；每卡保留2GiB，只清理本项目进程。CPU超时broker已清理，失败保留。
+- 新实现：无证据回答标partial；工具反馈具体参数约束；写作只修拒绝主张一次，仍不合格则明确留缺口；参考分类分批持久化、冲突保守设uncertain。Provider JSON Schema提示简化不改变本地校验。
+- 新输入三路径：PDF→版本/快照→问答原文；论文检索→合法全文→时间条件核查；中文全文译英文或CSV→受控图表导出。Future Work覆盖类别、综述质量和人工准确性以真实记录为准。
+- 原smoke4不重置，失败/unknown均计账。GitHub Actions因账户计费锁未启动，需要账号所有者解除外部锁；不能标CI通过。团队署名现在不需要。
+
+## 2026-11-17 全量本地代完成（优先于以上历史进度）
+
+- 本地full39 53ffb2e2e9c14cab81b122e9a4b50857 ready：23185/23185向量、22950合格原文块、2189排除。ECS已逐段核对并原子激活，账本0改动；旧failed/14466元数据已核对同manifest后补齐。不要重建已完成本地索引。
+- Nemotron全80题+真实重排已完成，核心/拓展有答案45/30：重排全部金标@20为45/45、30/30，首个金标前5为44/45、24/30。含改写相关性，人工金标审查NOT RUN；Qwen仅核心对照，不虚报其完整80题。
+- 新评审完整种子私有data/completion-deployment/reviewer-full-ready-20261117.json，29416向量直接复制0调用；此前full文件实际只6231条且已明确BLOCKED，不要混淆。旧账号仍可使用。
+- 公网新输入PDF完整链已PASS；源码最新643项后端回归，后续写锁保护另有专项与全量日志。后台文档/交互池保持分离。
+- 用户强调本地部署为主：发布配置local优先auto、认证回环18990/18991；云代独立，仅在本地不可用且云有完整对应索引时备用。共享GPU冷启动很慢，不能把manifest可达当作及时推理保证。
+- 其余35云预检任务8682a242a7e34f7a8d4e26d8c0e3829d /代0ed88892305d4a0091007384f7c8a3fc因种子复制持写锁失败，769元数据尝试/0Embedding单位；先核对unknown/reserved与私有回执。不得重置账本，云索引不是本地验收前置。
+
+最终v12回归：645 passed in 135.80s，worker-safe-final-regression.log。公网RT_EMBED_PROVIDER=auto，主检索本地Nemotron，认证回环18990/18991，云只做独立代际备用。35云预检写锁留下的一条reserved已有同quota_id原生计数回执，核对后补记ok/0Embedding单位，无请求重发、无账本重置；cloud-preflight-receipt-recovered.json。

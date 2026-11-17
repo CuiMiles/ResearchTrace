@@ -1,0 +1,9 @@
+{'case': 'public-author', 'status': 'BLOCKED'}
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/verify_public_generation.py", line 33, in <module>
+    pdf.save();raw=data.getvalue();up=c.post('/documents?index_dense=false',files={'file':('Chinese-self-authored.pdf',raw,'application/pdf')});up.raise_for_status();d=up.json();parse=wait(c,d['run_id']);assert parse['status']=='completed'
+                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/.venv/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '422 Unprocessable Entity' for url 'https://researchtrace.sluna.xyz/api/v1/documents?index_dense=false'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422

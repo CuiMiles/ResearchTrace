@@ -228,11 +228,11 @@ def _text(elem, name):
     return ' '.join(elem.findtext(name, default='', namespaces=_NS).split())
 
 
-def _arxiv(query: str, limit: int) -> list[dict]:
+def _arxiv(query: str, limit: int,sort_by='relevance') -> list[dict]:
     identifier = re.search(r'(?:arxiv:|arxiv.org/(?:abs|pdf)/)?(\d{4}\.\d{4,5}(?:v\d+)?)', query, re.IGNORECASE)
     params = ({'id_list': identifier.group(1), 'max_results': 1}
               if identifier and len(query.split()) <= 2 else
-              {'search_query': 'all:' + query, 'sortBy': 'relevance', 'start': 0, 'max_results': limit})
+              {'search_query': 'all:' + query, 'sortBy': sort_by, 'sortOrder':'descending','start': 0, 'max_results': limit})
     url = 'https://export.arxiv.org/api/query?' + urllib.parse.urlencode(params)
     fetched = fetch_public(url, 5 * 1024 * 1024)
     provenance = {'metadata_source_sha256': hashlib.sha256(fetched['content']).hexdigest(), 'metadata_fetched_at': time.time(), 'metadata_network': fetched.get('network')}
@@ -248,6 +248,9 @@ def _arxiv(query: str, limit: int) -> list[dict]:
         result.append({'identity': 'arxiv:' + re.sub(r'v\d+$', '', aid), 'title': _text(entry, 'a:title'), 'authors': [_text(a, 'a:name') for a in entry.findall('a:author', _NS)], 'year': int(_text(entry, 'a:published')[:4] or 0), 'published': _text(entry, 'a:published'), 'updated': _text(entry, 'a:updated'), 'arxiv_id': aid, 'doi': doi or None, 'url': 'https://arxiv.org/abs/' + aid, 'pdf_url': 'https://arxiv.org/pdf/' + aid, 'source': 'arxiv', 'abstract': _text(entry, 'a:summary'), 'license': license_url.text if license_url is not None else '许可需在来源页面核对', 'metadata_verified': True, 'metadata_source_url': url, 'reason': 'arXiv 实时元数据候选；标题相近不等于同一研究问题'})
     for item in result:
         item.update(provenance)
+    for item,entry in zip(result,root.findall('a:entry',_NS)):
+        item['comments']=_text(entry,'ar:comment')
+        item['categories']=[c.get('term') for c in entry.findall('a:category',_NS)]
     return result
 
 
@@ -459,11 +462,42 @@ def build_graph(workspace: str) -> dict:
             ranks = updated
             break
         ranks = updated
+    # Directed, unweighted local citation centrality. Duplicate provenance edges
+    # contribute only once to degree/PageRank/betweenness in the DiGraph.
+    sample = None if len(graph) <= 500 else 128
+    between = nx.betweenness_centrality(graph, k=sample, normalized=True, seed=42)
+    connected = [n for n in graph if graph.degree(n) > 0]
+    def upper_quartile(values):
+        values = sorted(values)
+        return values[max(0, (3 * (len(values) - 1) + 3) // 4)] if values else 0
+    rank_threshold = upper_quartile([ranks[n] for n in connected])
+    indegree_threshold = max(2, upper_quartile([graph.in_degree(n) for n in connected]))
+    bridge_threshold = upper_quartile([value for value in between.values() if value > 0])
+    roles = {}
+    for node in graph:
+        incoming, outgoing = graph.in_degree(node), graph.out_degree(node)
+        if incoming + outgoing == 0:
+            role, label, reason = 'isolated', '未形成引用连接', '当前集合未发现引用边；不能据此评价质量或推断衍生关系。'
+        elif incoming >= indegree_threshold and ranks[node] >= rank_threshold:
+            role, label, reason = 'cornerstone', '局部基石候选', '入度达到连接节点上四分位且至少2，PageRank达到连接节点上四分位。'
+        elif between[node] > 0 and between[node] >= bridge_threshold:
+            role, label, reason = 'bridge', '局部桥梁候选', '有向最短引用路径介数为正且达到正介数节点上四分位。'
+        elif incoming == 0 and outgoing > 0:
+            role, label, reason = 'peripheral', '局部边缘衍生候选', '当前集合入度为0且出度大于0；仅描述引用位置，不证明方法衍生或低质量。'
+        else:
+            role, label, reason = 'connected', '一般连接节点', '存在真实引用连接，未满足基石、桥梁或边缘规则。'
+        roles[node] = {'role': role, 'role_label': label, 'role_reason': reason,
+                       'outdegree': outgoing, 'degree': incoming + outgoing, 'betweenness': between[node]}
+    role_rules = {'scope': '仅当前工作区局部集合，角色优先级为断连、基石、桥梁、边缘、一般连接；不是全领域权威或因果结论。',
+                  'cornerstone_min_indegree': indegree_threshold, 'cornerstone_min_pagerank': rank_threshold,
+                  'bridge_min_positive_betweenness': bridge_threshold,
+                  'betweenness': 'directed_normalized_unweighted', 'betweenness_sample': sample,
+                  'betweenness_seed': 42 if sample else None}
     with store.db() as c:
         c.execute('DELETE FROM citation_edges WHERE workspace=?', (workspace,))
         for edge in edges:
             c.execute('INSERT OR IGNORE INTO citation_edges VALUES(?,?,?,?,?,?)', (hashlib.sha256((workspace + edge['ref_id'] + edge['target']).encode()).hexdigest(), workspace, edge['source'], edge['target'], edge['ref_id'], edge['method']))
-    return {'nodes': [{'id': w['id'], 'title': w['title'], 'identity': w['identity'], 'rank': ranks.get(w['id'], 0), 'indegree': graph.in_degree(w['id']), 'versions': [v['id'] for v in store.rows('SELECT id FROM versions WHERE workspace=? AND work_id=? AND deleted=0', (workspace, w['id']))]} for w in works], 'edges': edges, 'scope': '当前工作区已导入作品的局部引用图；仅使用真实参考文献/已核验 Crossref 引用条目。PageRank 是当前集合相对中心性，断连节点不代表论文质量低。', 'computed_at': time.time(), 'algorithm': {'name': 'PageRank', 'damping': .85, 'iterations_max': 150}}
+    return {'nodes': [{'id': w['id'], 'title': w['title'], 'identity': w['identity'], 'rank': ranks.get(w['id'], 0), 'indegree': graph.in_degree(w['id']), **roles[w['id']], 'versions': [v['id'] for v in store.rows('SELECT id FROM versions WHERE workspace=? AND work_id=? AND deleted=0', (workspace, w['id']))]} for w in works], 'edges': edges, 'scope': '当前工作区已导入作品的局部引用图；仅使用真实参考文献/已核验 Crossref 引用条目。PageRank 是当前集合相对中心性，断连节点不代表论文质量低。', 'computed_at': time.time(), 'role_rules': role_rules, 'algorithm': {'name': 'PageRank', 'damping': .85, 'iterations_max': 150}}
 
 
 @contextlib.contextmanager

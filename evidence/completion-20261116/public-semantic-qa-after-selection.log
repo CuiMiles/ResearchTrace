@@ -1,0 +1,1 @@
+{"status": "PASS", "dense_candidates": 154, "answer": "训练Base模型时在单台机器上使用了8张NVIDIA P100 GPU。"}

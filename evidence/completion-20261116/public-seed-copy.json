@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "seed_copy": {
+    "source_workspace": "031dcae328aa4df2a24167d69d8f14c6",
+    "target_workspace": "a8f026ad4bce4d51b5e7cfe0ac5078e0",
+    "counts": {
+      "works": 45,
+      "versions": 46,
+      "parses": 51,
+      "pages": 2085,
+      "blocks": 32837,
+      "block_parses": 5770,
+      "parse_pages": 572,
+      "active_parses": 46,
+      "refs": 9886,
+      "embeddings": 0,
+      "index_generations": 2,
+      "retrieval_chunks": 6231,
+      "retrieval_spans": 10602,
+      "retrieval_vectors": 6231,
+      "active_retrieval_indices": 8
+    },
+    "provider_calls": 0,
+    "vectors_recomputed": false,
+    "isolated_ids": true,
+    "historical_answers_copied": false
+  },
+  "access_code": "PRIVATE FILE ONLY",
+  "lifetime_days": 30
+}

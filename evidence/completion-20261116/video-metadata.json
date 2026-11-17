@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "observed_duration_seconds": 359.98,
+  "observed_resolution": "1920x1080",
+  "observed_audio_codec": "aac",
+  "tool": "ffmpeg actual demux/decode probe"
+}

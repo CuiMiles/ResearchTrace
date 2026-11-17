@@ -1,0 +1,200 @@
+{
+  "status": "FAIL",
+  "source": "actual runtime, no mocked API",
+  "model_calls": 0,
+  "checks": [
+    {
+      "route": "/library",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/chat",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/compare",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/discover",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/insights",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/studio",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/settings",
+      "width": 1280,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/library",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/chat",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/compare",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/discover",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/insights",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/studio",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/settings",
+      "width": 1440,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/library",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/chat",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/compare",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/discover",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/insights",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/studio",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/settings",
+      "width": 1920,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/library",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/chat",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/compare",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/discover",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/insights",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/studio",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "route": "/settings",
+      "width": 390,
+      "status": "PASS",
+      "horizontal_overflow": false
+    },
+    {
+      "file": "1706.03762v1.pdf",
+      "pdf_canvas": 0,
+      "pdf_text_layer": 0,
+      "status": "FAIL"
+    },
+    {
+      "file": "1706.03762v1_img.pdf",
+      "pdf_canvas": 0,
+      "pdf_text_layer": 0,
+      "status": "FAIL"
+    },
+    {
+      "file": "1706.03762v7.pdf",
+      "pdf_canvas": 0,
+      "pdf_text_layer": 0,
+      "status": "FAIL"
+    },
+    {
+      "file": "UnderstandingDeepLearning_02_09_26_C.pdf",
+      "pdf_canvas": 0,
+      "pdf_text_layer": 0,
+      "status": "FAIL"
+    }
+  ],
+  "errors": []
+}

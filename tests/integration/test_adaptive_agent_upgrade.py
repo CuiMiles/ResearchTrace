@@ -12,7 +12,8 @@ def test_observation_changes_second_plan_and_reaches_answer(tmp_path,monkeypatch
     uploaded=documents.upload_document('agent','new.pdf',pdf.getvalue(),index_dense=False)
     jobs.work_once(pool='documents');vid=uploaded['document']['id']
     calls=[]
-    def generate(system,prompt,rid,core=True):
+    def generate(system,prompt,rid,core=True, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         data=json.loads(prompt);calls.append((core,data))
         if not core:
             if data['round_index']==0:

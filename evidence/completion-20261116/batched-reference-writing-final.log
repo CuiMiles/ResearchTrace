@@ -1,0 +1,43 @@
+..............F..............................................            [100%]
+=================================== FAILURES ===================================
+_ test_batched_classifier_keeps_received_first_batch_and_never_replays_unknown _
+
+fixture = (<starlette.testclient.TestClient object at 0x77041f29e900>, <function fixture.<locals>.block at 0x770421dd1b20>, PosixPath('/tmp/pytest-of-cui/pytest-163/test_batched_classifier_keeps_0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x77041f29e750>
+
+    def test_batched_classifier_keeps_received_first_batch_and_never_replays_unknown(fixture, monkeypatch):
+        from services.api import models
+        report = analyze(fixture[0])
+        queued = fixture[0].post(f"/api/v1/reference-analyses/{report['id']}/classify", json={'idempotency_key': 'batch-classify'}).json()
+        run = store.one('SELECT * FROM runs WHERE id=?', (queued['id'],))
+        entries = [{'ref_id': str(i), 'reference_text': 'fixture', 'contexts': []} for i in range(13)]
+        calls = []
+        def generate(system, prompt, rid, **kwargs):
+            refs = json.loads(prompt)['references'];calls.append(len(refs))
+            if len(refs) == 1:raise models.ModelError('fixture indeterminate send')
+            return {'model': 'fixture-lite', 'text': json.dumps({'items': [{'ref_id': r['ref_id'], 'label': 'uncertain', 'context_block_ids': []} for r in refs]})}
+        monkeypatch.setattr(models, 'generate', generate)
+>       assert dw._classification_responses(run, report, entries)[0] is None
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_document_workflows.py:212: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+services/api/document_workflows.py:406: in _classification_responses
+    if _cancelled(run):return None, '任务已取消'
+       ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+run = {'id': '5ebc8e8da7b64c868673de1eb4fce17a', 'workspace': 'ws', 'kind': 'reference_classify', 'status': 'queued', ...}
+
+    def _cancelled(run):
+        row = store.one('SELECT status FROM runs WHERE id=? AND workspace=?', (run['id'], run['workspace']))
+        if not row or row['status'] == 'cancelled':
+            return True
+>       parent = run['payload'].get('parent_run_id')
+                 ^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'str' object has no attribute 'get'
+
+services/api/document_workflows.py:391: AttributeError
+=========================== short test summary info ============================
+FAILED tests/integration/test_document_workflows.py::test_batched_classifier_keeps_received_first_batch_and_never_replays_unknown
+1 failed, 60 passed in 19.43s

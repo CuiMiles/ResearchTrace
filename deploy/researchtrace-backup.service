@@ -1,0 +1,17 @@
+[Unit]
+Description=ResearchTrace consistent private SQLite and file backup
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+UMask=0077
+ExecStart=/usr/bin/python3 /opt/researchtrace/current/scripts/backup.py --data /opt/researchtrace/data --destination /opt/researchtrace/backups --env /opt/researchtrace/private/runtime.env --retain 7
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=300
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/researchtrace/data /opt/researchtrace/backups
+ProtectHome=true

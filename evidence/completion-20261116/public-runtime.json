@@ -1,0 +1,106 @@
+{
+  "checked_at": 1794893923.9034605,
+  "quota_day_pacific": "2026-11-16",
+  "provider_mode": "all",
+  "embedding_provider": "auto",
+  "paid_fallback": false,
+  "ledger_reset": false,
+  "quota": [
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-3.5-flash-lite",
+      "day": "2026-11-16",
+      "attempts": 29,
+      "request_units": 29
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-3.6-flash",
+      "day": "2026-11-16",
+      "attempts": 16,
+      "request_units": 16
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-4-hydrogen",
+      "day": "2026-11-16",
+      "attempts": 16,
+      "request_units": 16
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-decision-1",
+      "day": "2026-11-16",
+      "attempts": 23,
+      "request_units": 23
+    },
+    {
+      "project": "gemini-project-2",
+      "model": "gemini-embedding-001",
+      "day": "2026-11-16",
+      "attempts": 838,
+      "request_units": 904
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.5-flash-lite",
+      "day": "2026-11-16",
+      "attempts": 27,
+      "request_units": 27
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-3.6-flash",
+      "day": "2026-11-16",
+      "attempts": 21,
+      "request_units": 21
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-4-hydrogen",
+      "day": "2026-11-16",
+      "attempts": 16,
+      "request_units": 16
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-decision-1",
+      "day": "2026-11-16",
+      "attempts": 9,
+      "request_units": 9
+    },
+    {
+      "project": "gemini-shared",
+      "model": "gemini-embedding-001",
+      "day": "2026-11-16",
+      "attempts": 69,
+      "request_units": 1073
+    }
+  ],
+  "indexes": [
+    {
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "status": "ready",
+      "chunk_count": 23185,
+      "vector_count": 23185,
+      "covered_blocks": 22950,
+      "expected_blocks": 22950
+    },
+    {
+      "model_id": "nvidia/Nemotron-3.5-Embed-8B-BF16",
+      "status": "ready",
+      "chunk_count": 5330,
+      "vector_count": 5330,
+      "covered_blocks": 5267,
+      "expected_blocks": 5267
+    },
+    {
+      "model_id": "gemini-embedding-001",
+      "status": "ready",
+      "chunk_count": 901,
+      "vector_count": 901,
+      "covered_blocks": 5267,
+      "expected_blocks": 5267
+    }
+  ]
+}

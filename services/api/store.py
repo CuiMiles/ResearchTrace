@@ -48,6 +48,9 @@ def migrate():
         CREATE TABLE IF NOT EXISTS artifacts(id TEXT PRIMARY KEY,workspace TEXT NOT NULL,run_id TEXT,kind TEXT NOT NULL,title TEXT NOT NULL,payload TEXT NOT NULL,created REAL NOT NULL);
         CREATE TABLE IF NOT EXISTS quota(id TEXT PRIMARY KEY,project TEXT NOT NULL,model TEXT NOT NULL,day TEXT NOT NULL,run_id TEXT,started REAL NOT NULL,input_tokens INTEGER NOT NULL,output_tokens INTEGER DEFAULT 0,status TEXT NOT NULL,usage TEXT DEFAULT '{}');
         CREATE INDEX IF NOT EXISTS quota_window ON quota(project,model,started);
+        CREATE TABLE IF NOT EXISTS quota_request_units(quota_id TEXT PRIMARY KEY REFERENCES quota(id),units INTEGER NOT NULL,source TEXT NOT NULL);
+        CREATE INDEX IF NOT EXISTS blocks_workspace_version_page ON blocks(workspace,version_id,page_index,reading_order);
+        CREATE INDEX IF NOT EXISTS versions_workspace_list ON versions(workspace,deleted,created);
         CREATE TABLE IF NOT EXISTS provider_state(project TEXT NOT NULL,model TEXT NOT NULL,status TEXT NOT NULL,detail TEXT,updated REAL NOT NULL,PRIMARY KEY(project,model));
         CREATE TABLE IF NOT EXISTS watches(id TEXT PRIMARY KEY,workspace TEXT NOT NULL,query TEXT NOT NULL,enabled INTEGER DEFAULT 0,interval_hours REAL DEFAULT 24,last_checked REAL,next_check REAL,result TEXT DEFAULT '[]');
         CREATE TABLE IF NOT EXISTS feedback(workspace TEXT NOT NULL,identity TEXT NOT NULL,value INTEGER NOT NULL,PRIMARY KEY(workspace,identity));
@@ -96,6 +99,14 @@ def migrate():
         CREATE TABLE IF NOT EXISTS translation_cache(workspace TEXT NOT NULL,version_id TEXT NOT NULL,parse_id TEXT NOT NULL,block_id TEXT NOT NULL,source_language TEXT NOT NULL CHECK(source_language IN ('auto','en','zh')),target_language TEXT NOT NULL CHECK(target_language IN ('en','zh-Hans')),glossary_version TEXT NOT NULL,model TEXT NOT NULL,actual_model TEXT NOT NULL,text TEXT NOT NULL,created REAL NOT NULL,PRIMARY KEY(workspace,version_id,parse_id,block_id,source_language,target_language,glossary_version,model));
         ''')
         c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(5,?)',(time.time(),))
+        # Structured paper metadata per parse snapshot (services/api/cards.py).
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS document_cards(version_id TEXT NOT NULL,parse_id TEXT NOT NULL,workspace TEXT NOT NULL,card TEXT NOT NULL,created REAL NOT NULL,updated REAL NOT NULL,PRIMARY KEY(version_id,parse_id));
+        CREATE INDEX IF NOT EXISTS document_cards_workspace ON document_cards(workspace,version_id);
+        ''')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(6,?)',(time.time(),))
+    from .document_workflows import migrate_document_workflows
+    migrate_document_workflows()
 
 def one(sql, params=()):
     with db() as c:

@@ -140,3 +140,60 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 审阅包基线cc54691，增量实现细节与当前PASS/FAIL/NOT RUN见 `docs/UPGRADE_STATUS_20261116.md`。核心集限定v1/v7/扫描版/541页教材，其余35份拓展。395项完整工程回归通过；真实20篇批量导入、3.6Flash双向翻译、Decision1原生11例校准与双卡本地模型已有证据。核心问答保留首次失败和复验partial；核心4索引仍在构建，未冒称全量向量完成。原smoke4与旧账本没有重置；本轮新增授权各模型每日40次，失败/unknown照计，付费兜底仍关闭。
 
 运行服务已拆成researchtrace-api、worker-documents、worker-interactive、parser，以及本项目loopback检索隧道；旧单worker单元已停用，旧源码/用户ZIP/RAR及未跟踪文件保留。所有新增结果见 `evidence/review-upgrade/`，管理员流程已追加真实运行记录。不要据此宣称公网、正式赛事视频/PDF或全部质量门槛完成。
+
+## 2026-11-16 重构规划前的基线复核
+
+环境：干净检出 `11d4cb3`，Python 3.13.18（锁定环境为 3.12，属环境差异）、Node 22；无供应商密钥，模型调用 0 次。
+
+| 项目 | 状态 | 证据与边界 |
+|---|---|---|
+| 后端单元与集成测试 | PASS | 477 passed、7 skipped，38.62 秒；`evidence/refactor-plan/pytest-20261116.log` |
+| 前端类型检查与构建 | PASS | 构建通过；主包 1.07 MB，超过 500 kB 分包警告仍在 |
+| 本地无密钥启动与浏览器巡检 | PASS | 上传 9 份资料包 PDF 全部解析；文献库、阅读器、比较、检索、图谱、核查、写作、资源页巡检无页面异常；刚上传尚未解析的文档有页面数据 404 的控制台记录；截图在 `evidence/refactor-plan/` |
+| 标题与作者元数据抽取 | FAIL | LoRA 标题为“RA: -R”，ViT 标题为“16 16”；9 份中 8 份作者字段为空；全部无年份 |
+| 真实模型问答、公网、视频、PDF | NOT RUN | 本阶段只做审阅与规划 |
+
+后续执行顺序见 `docs/REFACTOR_PLAN.md`。
+
+## 2026-11-16 重构第一阶段验收
+
+环境：云沙箱，Python 3.13 / Node 22；开发用单个 Gemini 密钥经环境代理注入；数据目录在临时目录。
+
+| 项目 | 状态 | 证据与边界 |
+|---|---|---|
+| 后端单元与集成测试 | PASS | 507 passed、7 skipped；`test_scholarly_metadata.py::test_gateway_auth_route_whitelist_and_real_upstream_forward` 在完整套件中不稳定（单独运行通过，非首个运行时连接失败），属可选 GROBID 网关，既有问题，未修复 |
+| 前端类型检查与构建 | PASS | `tsc --noEmit`、`vite build` 通过 |
+| 标题抽取 | PASS | 39 份资料中 38 份标题正确；扫描件无文字层，按设计回退文件名 |
+| 文献卡片（Transformer v7） | PASS | 8 位作者顺序、单位、邮箱全部正确；目录 22 项三级；arXiv 实时记录在沙箱内因 DNS 固定无法经代理而未取得（SSRF 保护未放宽） |
+| 官方单篇问题 Q1–Q5 | PASS（单次运行） | 第 6 作者 Aidan N. Gomez / University of Toronto；β1=0.9、β2=0.98；8 张 P100；BLEU 28.4 对 26.36；LN 参考文献 [1] Ba, Kiros, Hinton 2016。均带逐字引文；非独立人工评测 |
+| 多轮追问 | PASS | 浏览器内“其中 Adam 优化器…”在同一线程中正确回答，证据弹出并跳转第 7 页高亮 |
+| 多篇问题 | PARTIAL | BERT 与 Transformer 编码器关系正确；GPT-3 上下文 2048 与参数表正确，GPT-1 上下文 512 未召回（关键词检索），GPT-2 论文不在资料包 |
+| 错误前提（80 张 GPU） | PASS（单次运行） | 回答“训练使用 8 张 NVIDIA P100，80 张的前提缺乏证据”，引用第 7 页原文；此前两次因上游 503/额度未得到回答 |
+| Gemini Decision 1 复核 | PASS（单次运行） | Adam 问题主张判定 supported，概率 0.986，1518 输入 token、0 输出；不可用时回退到生成模型复核（单测覆盖） |
+| 浏览器巡检 1440×900 | PASS | 工作台、文献库、卡片抽屉、阅读器、问答、图谱、比较、写作、检索、设置均无控制台错误；截图 `docs/images/` |
+| Docker Compose | BLOCKED | `docker compose config` 通过；镜像构建在沙箱因 Docker Hub 429 与代理拒绝 Debian 源而失败 |
+
+## 2026-11-17 completion（持续更新）
+
+继承Claude分支后基线516测试通过；综合集成607通过；配额/真实失败修复后611通过。后续最终回归见 `evidence/completion-20261116/final-after-live-fixes.log`，避免将阶段计数相加。真实浏览器32项、写作夹具23项、公网独立浏览器登录/文献读取分别有证据。6页PDF和360秒1080p普通话MP4已产生，视频不等同新输入验收。80题纯关键词已执行，Qwen核心对照保留；Nemotron/重排和Gemini完整对照不得写作已完成。真实问答、生成、Future Work与调用账本见completion目录，FAIL和待复核均保留。新增参考文献下载、全量云覆盖、公网生成切换以及人工准确性审核以最新运行记录为准，不能用这些单测数字代替。
+
+
+## 2026-11-17 公网切换与真实补验
+
+619项完整回归：evidence/completion-20261116/release-regression.log（135.88秒）；后续Schema及安全产物修复有专项日志。新评审账号46份资料、6231向量直接复制0调用；真实中文设备问题包含154个展开的向量源块候选，通过生成和Decision辅助核查。新中文PDF上传、英译和HTML导出通过，Agent根据真实检索区分设备/时长和未报告费用。
+
+80题关键词、Qwen核心对照、未完成的全部模型对照见docs/EVALUATION.md。综述和Future Work的拒绝、partial及覆盖不足保留，人工质量审查NOT RUN。ECS原始541页重解析290.29秒完成，59项检查通过；文档任务运行期间CSV绘图5.437秒、五类导出成功，旧末页仍可读，见public-541-pressure.json。
+
+夜间备份timer已启用且真实备份成功；backup.py区分写锁与总耗时，不改写旧记录。现有sluna.xyz主站保留，推理接口仍经认证回环隧道。公网生成/Embedding集中ECS计账，本地云调用关闭。
+
+## 2026-11-17 本地全量完成与持久索引收尾
+
+全39本地索引和80题真实向量/重排完成，分子分母见EVALUATION.md。最新全量回归643项/133.78秒（survey-and-index-final-regression.log），其后增加SQLite写锁等待专项；最终计数以worker-safe-final-regression.log为准，不相加阶段计数。前端类型和构建PASS，automatic-index-frontend-build.log。
+
+新文件在ECS实际解析先完成、自动索引独立入队、完成后语义检索并回答6张GPU（new-pdf-auto-index-public.json）。本地额度预留失败仅等供应商真实日界，unknown不自动重发；解析、旧引用与排队索引分开。
+
+一次全量导入因SQLite NUL文本长度误判回滚；修为Python完整字符串跨度逐段比较。其后发现线上同代旧状态failed/14466仍在，补齐状态前检验同manifest、全部23185向量及原文，原子切换成功。原失败和初次评审复制只有6231向量的记录保留。最终新空间29416条向量复制PASS、0调用。
+
+压力下完整种子复制写锁56.522秒，API未OOM，但交互Worker空闲唤醒遇SQLite BUSY重启1次；现已增加仅队列忙错误的等待保护，不能重发任务中的未知请求。云35预检也因写锁失败，769次元数据HTTP尝试/0Embedding单位，旧回执保留，需确认reserved/unknown再恢复。
+
+最终v12回归：645 passed in 135.80s，worker-safe-final-regression.log。公网RT_EMBED_PROVIDER=auto，主检索本地Nemotron，认证回环18990/18991，云只做独立代际备用。35云预检写锁留下的一条reserved已有同quota_id原生计数回执，核对后补记ok/0Embedding单位，无请求重发、无账本重置；cloud-preflight-receipt-recovered.json。

@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/run_index_live.py", line 8, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv'
+{"run": "0f0414705dbd49dabb29cbe20ac659fb", "status": "FAIL", "error": "SentRequestError"}
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/run_index_live.py", line 23, in <module>
+    result=index_generations.build(run['workspace'],p['version_ids'],provider=configured_provider(p.get('provider'),rid),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/index_generations.py", line 189, in build
+    response=provider.embed([b['retrieval_text'] for b in batch],'RETRIEVAL_DOCUMENT')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 94, in embed
+    response=models.embed(texts,self.run_id,task=task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/models.py", line 489, in embed
+    data,_=request(EMBED,'batchEmbedContents',{'requests':requests},run_id,sum(len(t.encode()) for t in texts)+128)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/models.py", line 326, in request
+    raise SentRequestError(f'{model} {detail}；请求已记账，无自动付费兜底', outcome=status, quota_id=qid,
+services.api.models.SentRequestError: gemini-embedding-001 HTTP 429 RESOURCE_EXHAUSTED；请求已记账，无自动付费兜底

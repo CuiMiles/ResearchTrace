@@ -1,0 +1,1 @@
+{"status": "NOT RUN", "stage_run_id": "8682a242a7e34f7a8d4e26d8c0e3829d", "scope": "expansion35", "documents": 35, "chunks_only": true, "expected_embedding_units_during_stage": 0, "metadata_http_attempts_recorded": true, "started": 1794892723.0689592, "ledger_reset": false, "provider_owner": "ECS"}

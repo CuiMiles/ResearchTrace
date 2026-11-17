@@ -29,7 +29,7 @@ def _metadata(row, now):
     return data
 
 
-def create_reviewer(label, days=7, workspace_id=None):
+def create_reviewer(label, days=7, workspace_id=None,seed_workspace_id=None):
     """Return flat account metadata plus access_code once; never log this result."""
     if not isinstance(label, str) or not 1 <= len(label.strip()) <= 120:
         raise ValueError('评审名称需要 1–120 个字符')
@@ -37,6 +37,7 @@ def create_reviewer(label, days=7, workspace_id=None):
         raise ValueError('评审访问有效期需要 1–90 整数天')
     if workspace_id is not None and (not isinstance(workspace_id,str) or not 1<=len(workspace_id)<=100):
         raise ValueError('需要选择有效的已有研究空间')
+    if workspace_id and seed_workspace_id:raise ValueError('已有空间绑定和独立种子复制只能选择一种')
     label = label.strip()
     now = time.time()
     account = {'id': uid(), 'workspace': workspace_id or uid(), 'label': label, 'created': now,
@@ -56,17 +57,20 @@ def create_reviewer(label, days=7, workspace_id=None):
         c.execute('''INSERT INTO review_accounts(id,workspace,label,code_hash,created,expires,revoked,last_login)
                      VALUES(?,?,?,?,?,?,0,NULL)''',
                   (account['id'], account['workspace'], label, _code_hash(code), now, account['expires']))
+        if seed_workspace_id:
+            from .seed_workspace import clone
+            account['seed_copy']=clone(seed_workspace_id,account['workspace'],c)
     return {**account, 'access_code': code}
 
 
-def available_workspaces():
+def available_workspaces(include_bound=False):
     """Admin-only selection metadata, never file paths, sessions or secrets."""
     with db() as c:
         return [dict(row) for row in c.execute('''SELECT w.id,w.name,
             (SELECT count(*) FROM versions v WHERE v.workspace=w.id AND v.deleted=0) documents,
             (SELECT count(*) FROM versions v WHERE v.workspace=w.id AND v.deleted=0 AND v.status='ready') ready_documents
-            FROM workspaces w WHERE NOT EXISTS(SELECT 1 FROM review_accounts a WHERE a.workspace=w.id)
-            ORDER BY documents DESC,w.created DESC''')]
+            FROM workspaces w WHERE ? OR NOT EXISTS(SELECT 1 FROM review_accounts a WHERE a.workspace=w.id)
+            ORDER BY documents DESC,w.created DESC''',(int(include_bound),))]
 
 
 def list_reviewers():

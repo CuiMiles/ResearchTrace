@@ -34,7 +34,7 @@ class Supervisor:
         self.host_reserve = max(16384, int(os.environ.get("RT_RETRIEVAL_HOST_RESERVE_MIB", "16384")))
         self.mode = os.environ.get("RT_RETRIEVAL_EXECUTION_MODE", "cpu")
         self.gpu_count=int(os.getenv('RT_RETRIEVAL_GPU_COUNT','2'))
-        if not 2<=self.gpu_count<=4:raise ValueError('Sharded GPU count must be2..4')
+        if not 2<=self.gpu_count<=8:raise ValueError('Sharded GPU count must be2..8')
         if self.mode not in {"cpu", "cuda", "cuda_sharded", "cpu_offload", "cuda_auto"}:
             raise ValueError("Execution mode must be cpu, cuda, cuda_sharded or cpu_offload")
         if self.mode == "cpu_offload" and self.gpu_budget < 4096:
@@ -135,6 +135,15 @@ class Supervisor:
                 mode='cuda';budget*=2
             except RuntimeError:
                 mode='cuda_sharded'
+                for count in range(2,9):
+                    share=(self.gpu_budget*2)//count
+                    try:
+                        gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,share,self.gpu_reserve,count)
+                        budget=share
+                        break
+                    except RuntimeError:
+                        continue
+                if gpu is None:raise RuntimeUnavailable('共享GPU暂时没有满足2..8卡总预算及每卡2GiB余量的资源槽')
         if mode!='cpu' and gpu is None:
             gpu,self.gpu_claims=guard.claim_gpus(self.catalog.root,budget,self.gpu_reserve,self.gpu_count if mode=='cuda_sharded' else 1)
         if mode == "cuda":

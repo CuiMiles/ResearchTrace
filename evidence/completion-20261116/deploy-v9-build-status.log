@@ -1,0 +1,8 @@
+1
+    assert bad==0 and c.execute('SELECT count(*) FROM quota').fetchone()[0]==quota_before
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+0
+ ---> e225b26a8e30
+Successfully built e225b26a8e30
+Successfully tagged researchtrace:completion-v9

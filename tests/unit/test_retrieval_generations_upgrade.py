@@ -106,6 +106,17 @@ def test_active_parse_change_prevents_stale_activation(corpus):
     assert not store.rows('SELECT * FROM active_retrieval_indices')
 
 
+def test_incomplete_or_stale_scope_does_not_spend_query_embedding(corpus,monkeypatch):
+    provider=FixtureProvider();indices.build('workspace',[corpus],provider=provider)
+    store.execute("INSERT INTO versions(id,workspace,title,filename,sha256,path,created,status) VALUES('second','workspace','Second','second.pdf','second','fixture',1,'ready')")
+    monkeypatch.setattr(provider,'embed',lambda *a:pytest.fail('Incomplete scope must not send a query'))
+    hits,info=indices.dense_search('workspace',[corpus,'second'],'GPU',provider=provider)
+    assert not hits and info['status']=='incomplete' and info['missing_version_ids']==['second']
+    store.execute('UPDATE active_parses SET parse_id=? WHERE version_id=?',('new-snapshot',corpus))
+    hits,info=indices.dense_search('workspace',[corpus],'GPU',provider=provider)
+    assert not hits and info['status']=='incomplete' and info['missing_version_ids']==[corpus]
+
+
 def test_symmetric_chinese_sparse_index_and_literal_source(corpus):
     from services.api import sparse_index
     block=store.one('SELECT * FROM blocks WHERE version_id=? LIMIT 1',(corpus,))

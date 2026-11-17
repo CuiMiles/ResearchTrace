@@ -1,0 +1,7 @@
+Result=success
+ActiveState=inactive
+active
+Nov 17 04:06:57 iZbp13r66a7w9gwi5fs48nZ python3[302088]: {"status": "PASS", "backup": "backup-20261116T200657274079Z", "quota_reset": false}
+Nov 17 04:06:57 iZbp13r66a7w9gwi5fs48nZ systemd[1]: researchtrace-backup.service: Deactivated successfully.
+Nov 17 04:06:57 iZbp13r66a7w9gwi5fs48nZ systemd[1]: Finished researchtrace-backup.service - ResearchTrace consistent private SQLite and file backup.
+Nov 17 04:06:57 iZbp13r66a7w9gwi5fs48nZ systemd[1]: researchtrace-backup.service: Consumed 7.933s CPU time.

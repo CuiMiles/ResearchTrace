@@ -1,0 +1,28 @@
+..F..............................................................        [100%]
+=================================== FAILURES ===================================
+_____________ test_pydantic_json_schema_uses_json_schema_api_field _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7a82edfd8b00>
+
+    def test_pydantic_json_schema_uses_json_schema_api_field(monkeypatch):
+        from services.api.writing_workflows import ClaimRepairs
+        schema = ClaimRepairs.model_json_schema()
+        assert '$defs' in schema
+        bodies = []
+        def request(model, method, body, run_id, estimate):
+            bodies.append(body)
+            return {'candidates': [{'finishReason': 'STOP', 'content': {'parts': [{'text': '{"claims":[]}'}]}}]}, 'fixture'
+        monkeypatch.setattr(models, 'request', request)
+        models._generate_once(LITE, 's', 'p', None, response_schema=schema)
+        config = bodies[0]['generationConfig']
+        assert config['responseJsonSchema'] == models.provider_json_schema(schema) and 'responseSchema' not in config
+        assert 'default' not in config['responseJsonSchema']['$defs']['Claim']['properties']['id']
+        # Provider hints cannot remove local validation constraints.
+>       assert schema['$defs']['Claim']['properties']['id']['maxLength'] == 100
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'maxLength'
+
+tests/unit/test_model_roles.py:83: KeyError
+=========================== short test summary info ============================
+FAILED tests/unit/test_model_roles.py::test_pydantic_json_schema_uses_json_schema_api_field
+1 failed, 64 passed in 18.79s

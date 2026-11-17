@@ -1,0 +1,14 @@
+{"run": "bac8f0615125421191e1a8d6c150c460", "status": "FAIL", "error": "\u672c\u5730\u68c0\u7d22\u670d\u52a1\u8fde\u63a5\u5931\u8d25\uff0c\u672a\u63d0\u4ea4\u4e91\u7aef\u66ff\u4ee3\u8bf7\u6c42"}
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/run_index_live.py", line 23, in <module>
+    result=index_generations.build(run['workspace'],p['version_ids'],provider=configured_provider(p.get('provider'),rid),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/index_generations.py", line 64, in build
+    desc=provider.descriptor();fp=fingerprint(desc)
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 153, in descriptor
+    result=self._call('/manifest')
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 149, in _call
+    raise RetrievalUnavailable('本地检索服务连接失败，未提交云端替代请求') from None
+services.api.embedding_providers.RetrievalUnavailable: 本地检索服务连接失败，未提交云端替代请求

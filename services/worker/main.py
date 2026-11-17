@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import sqlite3
 import threading
 import time
 from contextlib import ExitStack,contextmanager
@@ -12,8 +13,8 @@ load_dotenv(Path(__file__).resolve().parents[2]/'.env')
 from services.api import store
 from services.api.jobs import work_once
 
-POOLS={'documents':('parse','parse_document','reparse','index'),
-       'interactive':('qa','agent','writing','translate','audit')}
+POOLS={'documents':('parse','parse_document','reparse','index','card'),
+       'interactive':('qa','agent','writing','translate','text_translation','audit','recommendation','reference_classify','reference_download','reference_import')}
 stopping=False
 
 
@@ -58,6 +59,26 @@ def recover(pool):
     return recovered
 
 
+def queue_cycle(pool):
+    """A competing seed/backup writer must not crash the idle executor.
+
+    SQLite busy timeouts precede this bounded idle backoff. Job execution has
+    its own persisted ownership/unknown-send recovery; it is never retried here.
+    """
+    try:
+        if pool in ('all','interactive'):
+            from services.api.dependencies import wake_dependencies
+            wake_dependencies()
+        if pool in ('all','documents'):
+            from services.api.batches import admit_pending
+            admit_pending()
+        return work_once(pool=pool)
+    except sqlite3.OperationalError as error:
+        if getattr(error,'sqlite_errorcode',None) not in (sqlite3.SQLITE_BUSY,sqlite3.SQLITE_LOCKED):raise
+        print('queue writer busy; no request replay, retry idle admission',flush=True)
+        return False
+
+
 def main():
     import resource
     global stopping
@@ -87,18 +108,17 @@ def main():
         watch_thread=None;last_watch=0
         try:
             while not stopping:
-                if pool in ('all','interactive'):
-                    from services.api.dependencies import wake_dependencies
-                    wake_dependencies()
-                if pool in ('all','documents'):admit_pending()
                 if pool in ('all','interactive') and time.monotonic()-last_watch>30 and not (watch_thread and watch_thread.is_alive()):
                     last_watch=time.monotonic()
                     def watch():
-                        try:check_due_watches(limit=1)
+                        try:
+                            check_due_watches(limit=1)
+                            from services.api.recommendations import schedule_due
+                            schedule_due()
                         except Exception as exc:print('watch scheduler error: '+type(exc).__name__,flush=True)
                     watch_thread=threading.Thread(target=watch,daemon=True);watch_thread.start()
                 state.update(busy=True,phase='executing')
-                worked=work_once(pool=pool)
+                worked=queue_cycle(pool)
                 state.update(busy=False,phase='idle')
                 if not worked:time.sleep(.5)
         finally:

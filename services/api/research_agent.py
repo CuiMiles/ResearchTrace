@@ -58,7 +58,7 @@ def collect(run):
         if key not in snap:
             state['plan_calls']+=1
             store.event(rid,'agent_planning',{'round':round_index+1,'model_role':'planner','max_tool_steps':10})
-            snap[key]=models.generate(SYSTEM,json.dumps(prompt,ensure_ascii=False),rid,core=False)
+            snap[key]=models.generate(SYSTEM,json.dumps(prompt,ensure_ascii=False),rid,role='light')
             checkpoint(run,{key:snap[key],'agent_loop':state})
         decision=Plan.model_validate_json(snap[key]['text'])
         store.event(rid,'agent_plan',{'round':round_index+1,'summary':decision.summary,'actions':len(decision.actions),'phase':decision.phase})

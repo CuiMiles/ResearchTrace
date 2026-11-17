@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/services/api/index_generations.py", line 170, in build
+    if not batch:break
+             ^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/embedding_providers.py", line 80, in embed
+    response=models.embed(texts,self.run_id,task=task)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/models.py", line 469, in embed
+    data,_=request(EMBED,'batchEmbedContents',{'requests':requests},run_id,sum(len(t.encode()) for t in texts)+128)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/models.py", line 252, in request
+    qid=reserve(project,model,estimate,run_id)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/models.py", line 146, in reserve
+    c.execute('BEGIN IMMEDIATE')
+sqlite3.OperationalError: database is locked
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/run_index_live.py", line 23, in <module>
+    result=index_generations.build(run['workspace'],p['version_ids'],provider=configured_provider(p.get('provider'),rid),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/index_generations.py", line 195, in build
+    status='cancelled' if run_id and store.cancelled(run_id) else 'failed'
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cui/projects/competition/传智杯2026/services/api/store.py", line 117, in execute
+    return c.execute(sql,params).rowcount
+           ^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database is locked
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/cui/projects/competition/传智杯2026/scripts/run_index_live.py", line 30, in <module>
+    store.execute("UPDATE runs SET status='failed',error=?,updated=? WHERE id=?",(safe,time.time(),rid))
+  File "/home/cui/projects/competition/传智杯2026/services/api/store.py", line 117, in execute
+    return c.execute(sql,params).rowcount
+           ^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: database is locked
+Run already owned; no duplicate index execution

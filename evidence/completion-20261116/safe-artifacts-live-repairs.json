@@ -1,0 +1,3175 @@
+{
+  "status": "BLOCKED",
+  "cases": [
+    {
+      "name": "survey20-one-repair-strict-validation",
+      "run_id": "38b4a193501440f58cd3a95c74836863",
+      "status": "BLOCKED",
+      "run": {
+        "id": "38b4a193501440f58cd3a95c74836863",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "writing",
+        "status": "partial",
+        "payload": {
+          "question": "按选定20篇逐篇给出至少一条本篇摘录支持的短主张，再按研究问题、方法、差异、局限和未来工作组织。每篇独立保留原文引用，quote尽量不超过180英文字符，不重复标题数字、年份和作者排序；条件不足的明确insufficient，不凭元数据编造实验。至少20条原子主张，每项只归一个章节。",
+          "version_ids": [
+            "dceae303ec2f41cbbc4d88f047db9424",
+            "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+            "3a013a663fd849ff9b6068654d8db7ce",
+            "61699b3f11364e119e79181e21359218",
+            "42bd2e6ae5c840178e5cfb422a0d5d5a",
+            "dae6c78ff75f412a8969110847fa06ed",
+            "47b66a19b9a444a59f7180c3c79fa4d3",
+            "3f4fea8bed824d8a9345046cf0495095",
+            "da462b7a23bf4f91b00e1d79746166e9",
+            "0057f1a88e864a7aaae219ff98f7a6db",
+            "9bb90453cf834fd1b83c3593b6b4cb2d",
+            "9be4b0b9d82b48efb62e9df9f947c637",
+            "464f25034aa74104a944a67df1d0cca2",
+            "6ccdeca3f4d44e588e81e3e1abface94",
+            "4bc46336dcf44b0392ea7f16e6a87a6f",
+            "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+            "3fdbfb3b1c234530883333f9c6b93bc3",
+            "fb01f0adc8ff42f7aa58f536f74c3ac0",
+            "d3d10ab463974076b8355839f401f7a5",
+            "d503f5dfee294ef1a1cfc62e04e84a6c"
+          ],
+          "context_budget": 48000,
+          "search_query": null,
+          "workflow": "survey",
+          "snapshots": [
+            {
+              "id": "dceae303ec2f41cbbc4d88f047db9424",
+              "work_id": "36eca0577d4b4818896c4542a30b17c8",
+              "title": "Attention Is All You Need",
+              "label": "v7",
+              "identity": "arxiv:1706.03762",
+              "parse_id": "dceae303ec2f41cbbc4d88f047db9424"
+            },
+            {
+              "id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+              "work_id": "f30f70e07bb64e14b7acbdcaea8fc95d",
+              "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+              "label": "v3",
+              "identity": "arxiv:1910.02054",
+              "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3"
+            },
+            {
+              "id": "3a013a663fd849ff9b6068654d8db7ce",
+              "work_id": "c2ce82ea9b094c39862af4d44c1588bf",
+              "title": "Exploring the Limits of Transfer Learning with Unified Text-to-Text Transformer",
+              "label": "v4",
+              "identity": "arxiv:1910.10683",
+              "parse_id": "3a013a663fd849ff9b6068654d8db7ce"
+            },
+            {
+              "id": "61699b3f11364e119e79181e21359218",
+              "work_id": "ca636f5d0a194aaf91116372638db6f2",
+              "title": "Scaling Laws for Neural Language Models",
+              "label": "v1",
+              "identity": "arxiv:2001.08361",
+              "parse_id": "61699b3f11364e119e79181e21359218"
+            },
+            {
+              "id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+              "work_id": "b5cfb6b7f8e34edd84e0336af4ab7f21",
+              "title": "On Layer Normalization in the Transformer Architecture",
+              "label": "v2",
+              "identity": "arxiv:2002.04745",
+              "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a"
+            },
+            {
+              "id": "dae6c78ff75f412a8969110847fa06ed",
+              "work_id": "346153a7feaf48a19edf8de5d1a303a1",
+              "title": "Language Models are Few-Shot Learners",
+              "label": "v4",
+              "identity": "arxiv:2005.14165",
+              "parse_id": "dae6c78ff75f412a8969110847fa06ed"
+            },
+            {
+              "id": "47b66a19b9a444a59f7180c3c79fa4d3",
+              "work_id": "08e7652535be429187789352557c98c0",
+              "title": "Emergent Abilities of Large Language Models",
+              "label": "版本待确认",
+              "identity": null,
+              "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3"
+            },
+            {
+              "id": "3f4fea8bed824d8a9345046cf0495095",
+              "work_id": "b33c0d9f25904143b5c989477f9199bb",
+              "title": "Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+              "label": "v3",
+              "identity": "arxiv:2101.03961",
+              "parse_id": "3f4fea8bed824d8a9345046cf0495095"
+            },
+            {
+              "id": "da462b7a23bf4f91b00e1d79746166e9",
+              "work_id": "3f05df2bca5f4412bb695ee895e06902",
+              "title": "Learning Transferable Visual Models From Natural Language Supervision",
+              "label": "v1",
+              "identity": "arxiv:2103.00020",
+              "parse_id": "da462b7a23bf4f91b00e1d79746166e9"
+            },
+            {
+              "id": "0057f1a88e864a7aaae219ff98f7a6db",
+              "work_id": "e2bfab6421cc4ed692b7266724ccbfc0",
+              "title": "Evaluating Large Language Models Trained on Code",
+              "label": "v2",
+              "identity": "arxiv:2107.03374",
+              "parse_id": "0057f1a88e864a7aaae219ff98f7a6db"
+            },
+            {
+              "id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+              "work_id": "c9b5be1f1ac4472196c51bfb4aa08054",
+              "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+              "label": "v6",
+              "identity": "arxiv:2201.11903",
+              "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d"
+            },
+            {
+              "id": "9be4b0b9d82b48efb62e9df9f947c637",
+              "work_id": "1017dd11e8b444b581aa49be6890c0bc",
+              "title": "Training language models to follow instructions with human feedback",
+              "label": "v1",
+              "identity": "arxiv:2203.02155",
+              "parse_id": "9be4b0b9d82b48efb62e9df9f947c637"
+            },
+            {
+              "id": "464f25034aa74104a944a67df1d0cca2",
+              "work_id": "75c8085ee02846f089d11811c2d792fc",
+              "title": "FlashAttention Fast and Memory-Efficient Exact Attention with IO-Awareness",
+              "label": "v2",
+              "identity": "arxiv:2205.14135",
+              "parse_id": "464f25034aa74104a944a67df1d0cca2"
+            },
+            {
+              "id": "6ccdeca3f4d44e588e81e3e1abface94",
+              "work_id": "c3ba3ce3c1ec423fa499985a852bbe62",
+              "title": "Emergent Abilities of Large Language Models",
+              "label": "v2",
+              "identity": "arxiv:2206.07682",
+              "parse_id": "6ccdeca3f4d44e588e81e3e1abface94"
+            },
+            {
+              "id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+              "work_id": "d43182ede6d64a1ba4bb35701adfd135",
+              "title": "BLOOM: 176B-Parameter Open-Access Multilingual Language Model",
+              "label": "v4",
+              "identity": "arxiv:2211.05100",
+              "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f"
+            },
+            {
+              "id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+              "work_id": "4075c28a972d4430a13fac173a2207a3",
+              "title": "GPT-4 Technical Report",
+              "label": "v6",
+              "identity": "arxiv:2303.08774",
+              "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39"
+            },
+            {
+              "id": "3fdbfb3b1c234530883333f9c6b93bc3",
+              "work_id": "d504ff07e8ba4abe9b5976538587578b",
+              "title": "RWKV: Reinventing RNNs for the Transformer Era",
+              "label": "v2",
+              "identity": "arxiv:2305.13048",
+              "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3"
+            },
+            {
+              "id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+              "work_id": "d449d58eeced43aca40dc8f0b0de4ec1",
+              "title": "Direct Preference Optimization: Your Language Model is Secretly Reward Model",
+              "label": "v3",
+              "identity": "arxiv:2305.18290",
+              "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0"
+            },
+            {
+              "id": "d3d10ab463974076b8355839f401f7a5",
+              "work_id": "2489862023034f22a5d2b591167c22be",
+              "title": "Llama 2: Open Foundation and Fine-Tuned Chat Models",
+              "label": "v2",
+              "identity": "arxiv:2307.09288",
+              "parse_id": "d3d10ab463974076b8355839f401f7a5"
+            },
+            {
+              "id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+              "work_id": "9f2e3b06be804901b8bd53ea7452d73c",
+              "title": "Instruction Pre-Training: Language Models are Supervised Multitask Learners",
+              "label": "v2",
+              "identity": "arxiv:2406.14491",
+              "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c"
+            }
+          ]
+        },
+        "result": {
+          "answer": "研究语言模型性能随上下文位置变化的幂律依赖关系。\n\n关注大语言模型涌现能力与训练FLOPs及参数规模的关系。\n\n评估GPT-4结合简单环境构建Agent并在真实世界中进行交互的能力。\n\nTransformer模型在WMT 2014英德翻译任务上取得28.4的BLEU得分。\n\nZeRO在不需要修改模型本身的情况下大幅提升模型规模与训练速度。\n\nT5模型架构包含T5-Small、T5-Base、T5-Large、T5-3B和T5-11B等不同规模变体。\n\n预处理中忽略匹配超过10个训练文档的13-grams以避免删除常见文化短语和法律范本。\n\n思维链提示展示了具体的计算推理步骤过程。\n\nDPO通过导出隐式奖励函数的梯度公式来更新语言模型策略。\n\nLayer Normalization位置的变化主导了优化器的性能改变。\n\nGPT-Neo在HumanEval上取得6.4%的pass@1，而同等规模的GPT模型在pass@1上接近0%。\n\n不同提示词分类在提示词长度分布上存在显著差异。\n\nFlashAttention在BERT训练速度上较Nvidia MLPerf 1.1基线实现更快。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\n实验将RWKV与BLOOM、Pythia及OPT在不同算力消耗下的性能表现进行对比。\n\n给定证据仅包含刻度数字，缺乏文字描述CLIP具体方法与实验细节。\n\n该版本摘录仅包含图表图例数据，无法支持详细实验推论。\n\n该片段缺乏Llama 2完整模型训练与性能评价的具体数值证据。\n\n原始语料库与合成指令对数据在评估集上均存在不同程度的数据污染问题。\n\n未来工作可进一步研究将大型稀疏模型蒸馏为更小的稀疏模型。",
+          "answer_segments": [
+            {
+              "text": "研究语言模型性能随上下文位置变化的幂律依赖关系。",
+              "claim_ids": [
+                "c4"
+              ]
+            },
+            {
+              "text": "关注大语言模型涌现能力与训练FLOPs及参数规模的关系。",
+              "claim_ids": [
+                "c7"
+              ]
+            },
+            {
+              "text": "评估GPT-4结合简单环境构建Agent并在真实世界中进行交互的能力。",
+              "claim_ids": [
+                "c16"
+              ]
+            },
+            {
+              "text": "Transformer模型在WMT 2014英德翻译任务上取得28.4的BLEU得分。",
+              "claim_ids": [
+                "c1"
+              ]
+            },
+            {
+              "text": "ZeRO在不需要修改模型本身的情况下大幅提升模型规模与训练速度。",
+              "claim_ids": [
+                "c2"
+              ]
+            },
+            {
+              "text": "T5模型架构包含T5-Small、T5-Base、T5-Large、T5-3B和T5-11B等不同规模变体。",
+              "claim_ids": [
+                "c3"
+              ]
+            },
+            {
+              "text": "预处理中忽略匹配超过10个训练文档的13-grams以避免删除常见文化短语和法律范本。",
+              "claim_ids": [
+                "c6"
+              ]
+            },
+            {
+              "text": "思维链提示展示了具体的计算推理步骤过程。",
+              "claim_ids": [
+                "c11"
+              ]
+            },
+            {
+              "text": "DPO通过导出隐式奖励函数的梯度公式来更新语言模型策略。",
+              "claim_ids": [
+                "c18"
+              ]
+            },
+            {
+              "text": "Layer Normalization位置的变化主导了优化器的性能改变。",
+              "claim_ids": [
+                "c5"
+              ]
+            },
+            {
+              "text": "GPT-Neo在HumanEval上取得6.4%的pass@1，而同等规模的GPT模型在pass@1上接近0%。",
+              "claim_ids": [
+                "c10"
+              ]
+            },
+            {
+              "text": "不同提示词分类在提示词长度分布上存在显著差异。",
+              "claim_ids": [
+                "c12"
+              ]
+            },
+            {
+              "text": "FlashAttention在BERT训练速度上较Nvidia MLPerf 1.1基线实现更快。",
+              "claim_ids": [
+                "c13"
+              ]
+            },
+            {
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+              "claim_ids": [
+                "c15"
+              ]
+            },
+            {
+              "text": "实验将RWKV与BLOOM、Pythia及OPT在不同算力消耗下的性能表现进行对比。",
+              "claim_ids": [
+                "c17"
+              ]
+            },
+            {
+              "text": "给定证据仅包含刻度数字，缺乏文字描述CLIP具体方法与实验细节。",
+              "claim_ids": [
+                "c9"
+              ]
+            },
+            {
+              "text": "该版本摘录仅包含图表图例数据，无法支持详细实验推论。",
+              "claim_ids": [
+                "c14"
+              ]
+            },
+            {
+              "text": "该片段缺乏Llama 2完整模型训练与性能评价的具体数值证据。",
+              "claim_ids": [
+                "c19"
+              ]
+            },
+            {
+              "text": "原始语料库与合成指令对数据在评估集上均存在不同程度的数据污染问题。",
+              "claim_ids": [
+                "c20"
+              ]
+            },
+            {
+              "text": "未来工作可进一步研究将大型稀疏模型蒸馏为更小的稀疏模型。",
+              "claim_ids": [
+                "c8"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "text": "Transformer模型在WMT 2014英德翻译任务上取得28.4的BLEU得分。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:5",
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "page_index": 7,
+                  "bbox": [
+                    0.17588398692810459,
+                    0.5277403050505051,
+                    0.8255642608660131,
+                    0.7952347494949495
+                  ],
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "quote": "On the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 .",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 258
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "supported",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.9224; confidence=0.9224。这是模型判断，仍需人工核验。",
+                "label": "Decision辅助支持，待人工核对",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.033152911868433124,
+                  "supported": 0.9224187261220234,
+                  "insufficient": 0.04442836200954354
+                },
+                "confidence": 0.9224187261220234
+              }
+            },
+            {
+              "id": "c2",
+              "text": "ZeRO在不需要修改模型本身的情况下大幅提升模型规模与训练速度。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:17:9",
+                  "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "page_index": 17,
+                  "bbox": [
+                    0.16470588235294092,
+                    0.3501630611111111,
+                    0.835300321372549,
+                    0.4835009398989898
+                  ],
+                  "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "quote": "ZeRO does not require any changes to the model itself and it can be used as simple as baseline DP while delivering significantly boosted model size and speed.",
+                  "quote_span": {
+                    "start": 109,
+                    "end": 267
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8839; confidence=0.8839。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.8839116806207039,
+                  "contradicted": 0.03241677028916624,
+                  "insufficient": 0.08367154909012992
+                },
+                "confidence": 0.8839116806207039
+              }
+            },
+            {
+              "id": "c3",
+              "text": "T5模型架构包含T5-Small、T5-Base、T5-Large、T5-3B和T5-11B等不同规模变体。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "3a013a663fd849ff9b6068654d8db7ce:38:10",
+                  "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "page_index": 38,
+                  "bbox": [
+                    0.17218300653594773,
+                    0.6521389575757576,
+                    0.8158238321568628,
+                    0.7344134868686869
+                  ],
+                  "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "quote": "T5-Small 26.7 36.0 26.8 41.12 19.56 38.35 T5-Base 30.9 41.2 28.0 42.05 20.34 39.40 T5-Large 32.0 41.5 28.1 42.50 20.68 39.75 T5-3B 31.8 42.6 28.2 42.72 21.02 39.94 T5-11B 32.1 43.4 28.1 43.52 21.55 40.69",
+                  "quote_span": {
+                    "start": 59,
+                    "end": 262
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.5678; confidence=0.5678。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.2891016697853227,
+                  "supported": 0.567780987971008,
+                  "contradicted": 0.14311734224366945
+                },
+                "confidence": 0.567780987971008
+              }
+            },
+            {
+              "id": "c4",
+              "text": "研究语言模型性能随上下文位置变化的幂律依赖关系。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "61699b3f11364e119e79181e21359218:26:29",
+                  "version_id": "61699b3f11364e119e79181e21359218",
+                  "page_index": 26,
+                  "bbox": [
+                    0.17147712418300654,
+                    0.8130193454545454,
+                    0.8529384986928105,
+                    0.8255983858585859
+                  ],
+                  "parse_id": "61699b3f11364e119e79181e21359218",
+                  "quote": "20 Power-law dependence of performance on position in context . . . . . . . . . . . . . . . . . 25",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 98
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.5770; confidence=0.5770。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.38153800168166657,
+                  "contradicted": 0.04146991571529812,
+                  "supported": 0.5769920826030354
+                },
+                "confidence": 0.5769920826030354
+              }
+            },
+            {
+              "id": "c5",
+              "text": "Layer Normalization位置的变化主导了优化器的性能改变。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:7:9",
+                  "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "page_index": 7,
+                  "bbox": [
+                    0.09008333333333333,
+                    0.6481986383838384,
+                    0.47294605133333345,
+                    0.7513471232323232
+                  ],
+                  "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "quote": "the change of the position of layer normalization “dominates” the change of the optimizer.",
+                  "quote_span": {
+                    "start": 41,
+                    "end": 131
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7359; confidence=0.7359。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.7358900925790934,
+                  "insufficient": 0.18230511018358805,
+                  "contradicted": 0.0818047972373185
+                },
+                "confidence": 0.7358900925790934
+              }
+            },
+            {
+              "id": "c6",
+              "text": "预处理中忽略匹配超过10个训练文档的13-grams以避免删除常见文化短语和法律范本。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "dae6c78ff75f412a8969110847fa06ed:43:0",
+                  "version_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "page_index": 43,
+                  "bbox": [
+                    0.11706045751633988,
+                    0.0936266686868686,
+                    0.8826246486732019,
+                    0.1750756585858587
+                  ],
+                  "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "quote": "We ignored 13−grams that matched more than 10 training documents, as inspection showed the majority of these to contain common cultural phrases, legal boilerplate",
+                  "quote_span": {
+                    "start": 295,
+                    "end": 457
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8106; confidence=0.8106。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.8106222138096174,
+                  "contradicted": 0.06924363985636736,
+                  "insufficient": 0.1201341463340153
+                },
+                "confidence": 0.8106222138096174
+              }
+            },
+            {
+              "id": "c7",
+              "text": "关注大语言模型涌现能力与训练FLOPs及参数规模的关系。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:8:4",
+                  "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "page_index": 8,
+                  "bbox": [
+                    0.26921405228758166,
+                    0.25618573156565666,
+                    0.759025239738562,
+                    0.37264581010101017
+                  ],
+                  "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "quote": "1B 10B 100B 20 15 10 7 5 Training FLOPs Model parameters WikiText103 ppl",
+                  "quote_span": {
+                    "start": 87,
+                    "end": 159
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=insufficient; probability=0.7474; confidence=0.7474。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "supported": 0.13794960953362204,
+                  "insufficient": 0.7474488050055316,
+                  "contradicted": 0.11460158546084634
+                },
+                "confidence": 0.7474488050055316
+              }
+            },
+            {
+              "id": "c8",
+              "text": "未来工作可进一步研究将大型稀疏模型蒸馏为更小的稀疏模型。",
+              "type": "suggestion",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "3f4fea8bed824d8a9345046cf0495095:15:6",
+                  "version_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "page_index": 15,
+                  "bbox": [
+                    0.14705882352941177,
+                    0.6477010926767676,
+                    0.8529504916013071,
+                    0.8901241987373738
+                  ],
+                  "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "quote": "Future work could additionally study distilling large models into smaller sparse models.",
+                  "quote_span": {
+                    "start": 200,
+                    "end": 288
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c9",
+              "text": "给定证据仅包含刻度数字，缺乏文字描述CLIP具体方法与实验细节。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "da462b7a23bf4f91b00e1d79746166e9:41:8",
+                  "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "page_index": 41,
+                  "bbox": [
+                    0.19791456845261438,
+                    0.16523516315656564,
+                    0.48048870006535954,
+                    0.16771160255050496
+                  ],
+                  "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "quote": "0 20 40 60 80 100 0 20 40 60 80 100",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 35
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c10",
+              "text": "GPT-Neo在HumanEval上取得6.4%的pass@1，而同等规模的GPT模型在pass@1上接近0%。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "0057f1a88e864a7aaae219ff98f7a6db:5:5",
+                  "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "page_index": 5,
+                  "bbox": [
+                    0.0898235294117647,
+                    0.7722327292929292,
+                    0.47578736294771246,
+                    0.9055718707070707
+                  ],
+                  "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "quote": "showing that GPT-Neo achieves 6.4% pass@1 and 21.3% pass@100, while GPT models of comparable sizes achieve near 0% on both metrics.",
+                  "quote_span": {
+                    "start": 55,
+                    "end": 186
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8293; confidence=0.8293。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.09402281177891142,
+                  "supported": 0.8292678591057805,
+                  "contradicted": 0.07670932911530814
+                },
+                "confidence": 0.8292678591057805
+              }
+            },
+            {
+              "id": "c11",
+              "text": "思维链提示展示了具体的计算推理步骤过程。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:41:5",
+                  "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "page_index": 41,
+                  "bbox": [
+                    0.18595915032679738,
+                    0.36978229494949505,
+                    0.8335526835869281,
+                    0.42425725050505053
+                  ],
+                  "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "quote": "Jason started with 20 lollipops, but now he only has 12, so he gave Denny 20 - 12 = 8 lollipops. The answer is 8.",
+                  "quote_span": {
+                    "start": 132,
+                    "end": 245
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7352; confidence=0.7352。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.19958708094559108,
+                  "supported": 0.7352450226709497,
+                  "contradicted": 0.06516789638345916
+                },
+                "confidence": 0.7352450226709497
+              }
+            },
+            {
+              "id": "c12",
+              "text": "不同提示词分类在提示词长度分布上存在显著差异。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "9be4b0b9d82b48efb62e9df9f947c637:33:2",
+                  "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "page_index": 33,
+                  "bbox": [
+                    0.24642647058823527,
+                    0.5384650525252525,
+                    0.753574902614379,
+                    0.7138180828282827
+                  ],
+                  "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "quote": "Table 10: Prompt lengths by category Category Count Mean Std Min 25% 50% 75% Max Brainstorming 5245 83 149 4 17 36 85 1795 Chat 3911 386 376 1 119 240 516 1985",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 159
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8479; confidence=0.8479。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.05239944023404566,
+                  "supported": 0.8478692959764677,
+                  "insufficient": 0.09973126378948674
+                },
+                "confidence": 0.8478692959764677
+              }
+            },
+            {
+              "id": "c13",
+              "text": "FlashAttention在BERT训练速度上较Nvidia MLPerf 1.1基线实现更快。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "464f25034aa74104a944a67df1d0cca2:6:8",
+                  "version_id": "464f25034aa74104a944a67df1d0cca2",
+                  "page_index": 6,
+                  "bbox": [
+                    0.323516339869281,
+                    0.8035304060606061,
+                    0.6664498211764706,
+                    0.8430283858585857
+                  ],
+                  "parse_id": "464f25034aa74104a944a67df1d0cca2",
+                  "quote": "BERT Implementation Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 110
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7139; confidence=0.7139。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.12622617644651404,
+                  "insufficient": 0.15982861946967347,
+                  "supported": 0.7139452040838125
+                },
+                "confidence": 0.7139452040838125
+              }
+            },
+            {
+              "id": "c14",
+              "text": "该版本摘录仅包含图表图例数据，无法支持详细实验推论。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "6ccdeca3f4d44e588e81e3e1abface94:21:6",
+                  "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "page_index": 21,
+                  "bbox": [
+                    0.15870424836601305,
+                    0.39183093358585874,
+                    0.8044036207189542,
+                    0.41574520126262643
+                  ],
+                  "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "quote": "20 20 20 BLEU Sequence F1",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 25
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c15",
+              "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c16",
+              "text": "评估GPT-4结合简单环境构建Agent并在真实世界中进行交互的能力。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:54:14",
+                  "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "page_index": 54,
+                  "bbox": [
+                    0.12997293382352942,
+                    0.8375810871808774,
+                    0.8843833893634493,
+                    0.8510008310429182
+                  ],
+                  "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "quote": "20 To simulate GPT-4 behaving like an agent that can act in the world, ARC combined GPT-4 with a simple",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 103
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.8610; confidence=0.8610。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.10231709891899454,
+                  "supported": 0.8609741842454418,
+                  "contradicted": 0.03670871683556355
+                },
+                "confidence": 0.8609741842454418
+              }
+            },
+            {
+              "id": "c17",
+              "text": "实验将RWKV与BLOOM、Pythia及OPT在不同算力消耗下的性能表现进行对比。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:6:2",
+                  "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "page_index": 6,
+                  "bbox": [
+                    0.13968330976933388,
+                    0.19287807843067384,
+                    0.8550545154264577,
+                    0.20397016866069215
+                  ],
+                  "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "quote": "20.0 Pythia OPT 30 Pythia OPT",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 29
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=insufficient; probability=0.7352; confidence=0.7352。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.73519623055454,
+                  "supported": 0.1954402950467142,
+                  "contradicted": 0.06936347439874582
+                },
+                "confidence": 0.73519623055454
+              }
+            },
+            {
+              "id": "c18",
+              "text": "DPO通过导出隐式奖励函数的梯度公式来更新语言模型策略。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:4:1",
+                  "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "page_index": 4,
+                  "bbox": [
+                    0.18844281045751635,
+                    0.18115548535353532,
+                    0.8072509971895424,
+                    0.24047269217171727
+                  ],
+                  "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "quote": "∇ θ L DPO (π θ ; π ref ) = (cid:20) (cid:20) (cid:21)(cid:21) − β E (x,y w ,y l )∼D σ(rˆ θ (x, y l ) − rˆ θ (x, y w )) ∇ θ log π(y w | x) − ∇ θ log π(y l | x) , higher (cid:124) weight when reward (cid:123)(cid:122) estimate is (cid:125) wrong increase (cid:124) likelihood (cid:123)(cid:122) of y (cid:125) w decrease (cid:124) likelihood (cid:123)(cid:122) of (cid:125) y l",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 375
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=supported; probability=0.7833; confidence=0.7833。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "insufficient": 0.16712414050295663,
+                  "supported": 0.7833193850200654,
+                  "contradicted": 0.04955647447697784
+                },
+                "confidence": 0.7833193850200654
+              }
+            },
+            {
+              "id": "c19",
+              "text": "该片段缺乏Llama 2完整模型训练与性能评价的具体数值证据。",
+              "type": "insufficient",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "d3d10ab463974076b8355839f401f7a5:66:6",
+                  "version_id": "d3d10ab463974076b8355839f401f7a5",
+                  "page_index": 66,
+                  "bbox": [
+                    0.25130059403784316,
+                    0.33294551010101014,
+                    0.8010559214850329,
+                    0.35237318529040407
+                  ],
+                  "parse_id": "d3d10ab463974076b8355839f401f7a5",
+                  "quote": "0 20 40 60 80 100 0 20 40 60 80 100 Safety Data Pct. (%) Safety Data Pct. (%)",
+                  "quote_span": {
+                    "start": 0,
+                    "end": 77
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "location_and_numeric_rules_only",
+                "label": "已定位，语义尚待独立复核",
+                "findings": [],
+                "human_status": "unreviewed"
+              }
+            },
+            {
+              "id": "c20",
+              "text": "原始语料库与合成指令对数据在评估集上均存在不同程度的数据污染问题。",
+              "type": "source_fact",
+              "atom": null,
+              "evidence": [
+                {
+                  "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:16:0",
+                  "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "page_index": 16,
+                  "bbox": [
+                    0.13019526743896948,
+                    0.08945969236457975,
+                    0.8698353559060873,
+                    0.16134464237705148
+                  ],
+                  "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "quote": "Contam in Raw Corpora 5/3 144 0 0 3 0 4 20 Contam in Ins-Aug Corpora 5/4 144 0 0 3 0 4 22 Contam in Synthesized Pairs 0/1 0 0 0 0 0 0 2",
+                  "quote_span": {
+                    "start": 106,
+                    "end": 241
+                  },
+                  "status": "located_semantics_pending"
+                }
+              ],
+              "review": {
+                "status": "not_checked",
+                "method": "gemini_decision_1",
+                "reason": "Decision辅助分类=insufficient; probability=0.5232; confidence=0.5232。这是模型判断，仍需人工核验。",
+                "label": "需要复核",
+                "human_status": "unreviewed",
+                "model": "gemini-decision-1",
+                "probabilities": {
+                  "contradicted": 0.11071760722802813,
+                  "insufficient": 0.5231798444664155,
+                  "supported": 0.36610254830555633
+                },
+                "confidence": 0.5231798444664155
+              }
+            }
+          ],
+          "status": "partial",
+          "evidence_review": "machine_reviewed",
+          "publication_notice": "部分文献缺少已引用原文，或当前只有书目；未覆盖部分不能当作全文结论。",
+          "legacy_answer_replaced": true,
+          "unchecked_prose_replaced": 0,
+          "sections": [
+            {
+              "key": "research_question",
+              "title": "研究问题",
+              "claim_ids": [
+                "c4",
+                "c7",
+                "c16"
+              ],
+              "source_claims": [
+                {
+                  "id": "c4",
+                  "text": "研究语言模型性能随上下文位置变化的幂律依赖关系。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "61699b3f11364e119e79181e21359218:26:29",
+                      "version_id": "61699b3f11364e119e79181e21359218",
+                      "page_index": 26,
+                      "bbox": [
+                        0.17147712418300654,
+                        0.8130193454545454,
+                        0.8529384986928105,
+                        0.8255983858585859
+                      ],
+                      "parse_id": "61699b3f11364e119e79181e21359218",
+                      "quote": "20 Power-law dependence of performance on position in context . . . . . . . . . . . . . . . . . 25",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 98
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.5770; confidence=0.5770。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.38153800168166657,
+                      "contradicted": 0.04146991571529812,
+                      "supported": 0.5769920826030354
+                    },
+                    "confidence": 0.5769920826030354
+                  }
+                },
+                {
+                  "id": "c7",
+                  "text": "关注大语言模型涌现能力与训练FLOPs及参数规模的关系。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "47b66a19b9a444a59f7180c3c79fa4d3:8:4",
+                      "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                      "page_index": 8,
+                      "bbox": [
+                        0.26921405228758166,
+                        0.25618573156565666,
+                        0.759025239738562,
+                        0.37264581010101017
+                      ],
+                      "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                      "quote": "1B 10B 100B 20 15 10 7 5 Training FLOPs Model parameters WikiText103 ppl",
+                      "quote_span": {
+                        "start": 87,
+                        "end": 159
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=insufficient; probability=0.7474; confidence=0.7474。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.13794960953362204,
+                      "insufficient": 0.7474488050055316,
+                      "contradicted": 0.11460158546084634
+                    },
+                    "confidence": 0.7474488050055316
+                  }
+                },
+                {
+                  "id": "c16",
+                  "text": "评估GPT-4结合简单环境构建Agent并在真实世界中进行交互的能力。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39:54:14",
+                      "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                      "page_index": 54,
+                      "bbox": [
+                        0.12997293382352942,
+                        0.8375810871808774,
+                        0.8843833893634493,
+                        0.8510008310429182
+                      ],
+                      "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                      "quote": "20 To simulate GPT-4 behaving like an agent that can act in the world, ARC combined GPT-4 with a simple",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 103
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8610; confidence=0.8610。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.10231709891899454,
+                      "supported": 0.8609741842454418,
+                      "contradicted": 0.03670871683556355
+                    },
+                    "confidence": 0.8609741842454418
+                  }
+                }
+              ],
+              "text": "研究语言模型性能随上下文位置变化的幂律依赖关系。\n\n关注大语言模型涌现能力与训练FLOPs及参数规模的关系。\n\n评估GPT-4结合简单环境构建Agent并在真实世界中进行交互的能力。"
+            },
+            {
+              "key": "methods",
+              "title": "方法脉络",
+              "claim_ids": [
+                "c1",
+                "c2",
+                "c3",
+                "c6",
+                "c11",
+                "c18"
+              ],
+              "source_claims": [
+                {
+                  "id": "c1",
+                  "text": "Transformer模型在WMT 2014英德翻译任务上取得28.4的BLEU得分。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "dceae303ec2f41cbbc4d88f047db9424:7:5",
+                      "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                      "page_index": 7,
+                      "bbox": [
+                        0.17588398692810459,
+                        0.5277403050505051,
+                        0.8255642608660131,
+                        0.7952347494949495
+                      ],
+                      "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                      "quote": "On the WMT 2014 English-to-German translation task, the big transformer model (Transformer (big) in Table 2) outperforms the best previously reported models (including ensembles) by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4 .",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 258
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "supported",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.9224; confidence=0.9224。这是模型判断，仍需人工核验。",
+                    "label": "Decision辅助支持，待人工核对",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.033152911868433124,
+                      "supported": 0.9224187261220234,
+                      "insufficient": 0.04442836200954354
+                    },
+                    "confidence": 0.9224187261220234
+                  }
+                },
+                {
+                  "id": "c2",
+                  "text": "ZeRO在不需要修改模型本身的情况下大幅提升模型规模与训练速度。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3:17:9",
+                      "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                      "page_index": 17,
+                      "bbox": [
+                        0.16470588235294092,
+                        0.3501630611111111,
+                        0.835300321372549,
+                        0.4835009398989898
+                      ],
+                      "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                      "quote": "ZeRO does not require any changes to the model itself and it can be used as simple as baseline DP while delivering significantly boosted model size and speed.",
+                      "quote_span": {
+                        "start": 109,
+                        "end": 267
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8839; confidence=0.8839。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.8839116806207039,
+                      "contradicted": 0.03241677028916624,
+                      "insufficient": 0.08367154909012992
+                    },
+                    "confidence": 0.8839116806207039
+                  }
+                },
+                {
+                  "id": "c3",
+                  "text": "T5模型架构包含T5-Small、T5-Base、T5-Large、T5-3B和T5-11B等不同规模变体。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "3a013a663fd849ff9b6068654d8db7ce:38:10",
+                      "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+                      "page_index": 38,
+                      "bbox": [
+                        0.17218300653594773,
+                        0.6521389575757576,
+                        0.8158238321568628,
+                        0.7344134868686869
+                      ],
+                      "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+                      "quote": "T5-Small 26.7 36.0 26.8 41.12 19.56 38.35 T5-Base 30.9 41.2 28.0 42.05 20.34 39.40 T5-Large 32.0 41.5 28.1 42.50 20.68 39.75 T5-3B 31.8 42.6 28.2 42.72 21.02 39.94 T5-11B 32.1 43.4 28.1 43.52 21.55 40.69",
+                      "quote_span": {
+                        "start": 59,
+                        "end": 262
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.5678; confidence=0.5678。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.2891016697853227,
+                      "supported": 0.567780987971008,
+                      "contradicted": 0.14311734224366945
+                    },
+                    "confidence": 0.567780987971008
+                  }
+                },
+                {
+                  "id": "c6",
+                  "text": "预处理中忽略匹配超过10个训练文档的13-grams以避免删除常见文化短语和法律范本。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "dae6c78ff75f412a8969110847fa06ed:43:0",
+                      "version_id": "dae6c78ff75f412a8969110847fa06ed",
+                      "page_index": 43,
+                      "bbox": [
+                        0.11706045751633988,
+                        0.0936266686868686,
+                        0.8826246486732019,
+                        0.1750756585858587
+                      ],
+                      "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+                      "quote": "We ignored 13−grams that matched more than 10 training documents, as inspection showed the majority of these to contain common cultural phrases, legal boilerplate",
+                      "quote_span": {
+                        "start": 295,
+                        "end": 457
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8106; confidence=0.8106。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.8106222138096174,
+                      "contradicted": 0.06924363985636736,
+                      "insufficient": 0.1201341463340153
+                    },
+                    "confidence": 0.8106222138096174
+                  }
+                },
+                {
+                  "id": "c11",
+                  "text": "思维链提示展示了具体的计算推理步骤过程。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "9bb90453cf834fd1b83c3593b6b4cb2d:41:5",
+                      "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                      "page_index": 41,
+                      "bbox": [
+                        0.18595915032679738,
+                        0.36978229494949505,
+                        0.8335526835869281,
+                        0.42425725050505053
+                      ],
+                      "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                      "quote": "Jason started with 20 lollipops, but now he only has 12, so he gave Denny 20 - 12 = 8 lollipops. The answer is 8.",
+                      "quote_span": {
+                        "start": 132,
+                        "end": 245
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.7352; confidence=0.7352。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.19958708094559108,
+                      "supported": 0.7352450226709497,
+                      "contradicted": 0.06516789638345916
+                    },
+                    "confidence": 0.7352450226709497
+                  }
+                },
+                {
+                  "id": "c18",
+                  "text": "DPO通过导出隐式奖励函数的梯度公式来更新语言模型策略。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "fb01f0adc8ff42f7aa58f536f74c3ac0:4:1",
+                      "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                      "page_index": 4,
+                      "bbox": [
+                        0.18844281045751635,
+                        0.18115548535353532,
+                        0.8072509971895424,
+                        0.24047269217171727
+                      ],
+                      "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                      "quote": "∇ θ L DPO (π θ ; π ref ) = (cid:20) (cid:20) (cid:21)(cid:21) − β E (x,y w ,y l )∼D σ(rˆ θ (x, y l ) − rˆ θ (x, y w )) ∇ θ log π(y w | x) − ∇ θ log π(y l | x) , higher (cid:124) weight when reward (cid:123)(cid:122) estimate is (cid:125) wrong increase (cid:124) likelihood (cid:123)(cid:122) of y (cid:125) w decrease (cid:124) likelihood (cid:123)(cid:122) of (cid:125) y l",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 375
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.7833; confidence=0.7833。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.16712414050295663,
+                      "supported": 0.7833193850200654,
+                      "contradicted": 0.04955647447697784
+                    },
+                    "confidence": 0.7833193850200654
+                  }
+                }
+              ],
+              "text": "Transformer模型在WMT 2014英德翻译任务上取得28.4的BLEU得分。\n\nZeRO在不需要修改模型本身的情况下大幅提升模型规模与训练速度。\n\nT5模型架构包含T5-Small、T5-Base、T5-Large、T5-3B和T5-11B等不同规模变体。\n\n预处理中忽略匹配超过10个训练文档的13-grams以避免删除常见文化短语和法律范本。\n\n思维链提示展示了具体的计算推理步骤过程。\n\nDPO通过导出隐式奖励函数的梯度公式来更新语言模型策略。"
+            },
+            {
+              "key": "differences",
+              "title": "差异与适用条件",
+              "claim_ids": [
+                "c5",
+                "c10",
+                "c12",
+                "c13",
+                "c15",
+                "c17"
+              ],
+              "source_claims": [
+                {
+                  "id": "c5",
+                  "text": "Layer Normalization位置的变化主导了优化器的性能改变。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "42bd2e6ae5c840178e5cfb422a0d5d5a:7:9",
+                      "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                      "page_index": 7,
+                      "bbox": [
+                        0.09008333333333333,
+                        0.6481986383838384,
+                        0.47294605133333345,
+                        0.7513471232323232
+                      ],
+                      "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                      "quote": "the change of the position of layer normalization “dominates” the change of the optimizer.",
+                      "quote_span": {
+                        "start": 41,
+                        "end": 131
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.7359; confidence=0.7359。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "supported": 0.7358900925790934,
+                      "insufficient": 0.18230511018358805,
+                      "contradicted": 0.0818047972373185
+                    },
+                    "confidence": 0.7358900925790934
+                  }
+                },
+                {
+                  "id": "c10",
+                  "text": "GPT-Neo在HumanEval上取得6.4%的pass@1，而同等规模的GPT模型在pass@1上接近0%。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "0057f1a88e864a7aaae219ff98f7a6db:5:5",
+                      "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                      "page_index": 5,
+                      "bbox": [
+                        0.0898235294117647,
+                        0.7722327292929292,
+                        0.47578736294771246,
+                        0.9055718707070707
+                      ],
+                      "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                      "quote": "showing that GPT-Neo achieves 6.4% pass@1 and 21.3% pass@100, while GPT models of comparable sizes achieve near 0% on both metrics.",
+                      "quote_span": {
+                        "start": 55,
+                        "end": 186
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8293; confidence=0.8293。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.09402281177891142,
+                      "supported": 0.8292678591057805,
+                      "contradicted": 0.07670932911530814
+                    },
+                    "confidence": 0.8292678591057805
+                  }
+                },
+                {
+                  "id": "c12",
+                  "text": "不同提示词分类在提示词长度分布上存在显著差异。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "9be4b0b9d82b48efb62e9df9f947c637:33:2",
+                      "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                      "page_index": 33,
+                      "bbox": [
+                        0.24642647058823527,
+                        0.5384650525252525,
+                        0.753574902614379,
+                        0.7138180828282827
+                      ],
+                      "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                      "quote": "Table 10: Prompt lengths by category Category Count Mean Std Min 25% 50% 75% Max Brainstorming 5245 83 149 4 17 36 85 1795 Chat 3911 386 376 1 119 240 516 1985",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 159
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.8479; confidence=0.8479。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.05239944023404566,
+                      "supported": 0.8478692959764677,
+                      "insufficient": 0.09973126378948674
+                    },
+                    "confidence": 0.8478692959764677
+                  }
+                },
+                {
+                  "id": "c13",
+                  "text": "FlashAttention在BERT训练速度上较Nvidia MLPerf 1.1基线实现更快。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "464f25034aa74104a944a67df1d0cca2:6:8",
+                      "version_id": "464f25034aa74104a944a67df1d0cca2",
+                      "page_index": 6,
+                      "bbox": [
+                        0.323516339869281,
+                        0.8035304060606061,
+                        0.6664498211764706,
+                        0.8430283858585857
+                      ],
+                      "parse_id": "464f25034aa74104a944a67df1d0cca2",
+                      "quote": "BERT Implementation Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 110
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=supported; probability=0.7139; confidence=0.7139。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.12622617644651404,
+                      "insufficient": 0.15982861946967347,
+                      "supported": 0.7139452040838125
+                    },
+                    "confidence": 0.7139452040838125
+                  }
+                },
+                {
+                  "id": "c15",
+                  "text": "该项主张未通过原文校验，需要补充证据后再核查。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                },
+                {
+                  "id": "c17",
+                  "text": "实验将RWKV与BLOOM、Pythia及OPT在不同算力消耗下的性能表现进行对比。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "3fdbfb3b1c234530883333f9c6b93bc3:6:2",
+                      "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                      "page_index": 6,
+                      "bbox": [
+                        0.13968330976933388,
+                        0.19287807843067384,
+                        0.8550545154264577,
+                        0.20397016866069215
+                      ],
+                      "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                      "quote": "20.0 Pythia OPT 30 Pythia OPT",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 29
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=insufficient; probability=0.7352; confidence=0.7352。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "insufficient": 0.73519623055454,
+                      "supported": 0.1954402950467142,
+                      "contradicted": 0.06936347439874582
+                    },
+                    "confidence": 0.73519623055454
+                  }
+                }
+              ],
+              "text": "Layer Normalization位置的变化主导了优化器的性能改变。\n\nGPT-Neo在HumanEval上取得6.4%的pass@1，而同等规模的GPT模型在pass@1上接近0%。\n\n不同提示词分类在提示词长度分布上存在显著差异。\n\nFlashAttention在BERT训练速度上较Nvidia MLPerf 1.1基线实现更快。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\n实验将RWKV与BLOOM、Pythia及OPT在不同算力消耗下的性能表现进行对比。"
+            },
+            {
+              "key": "limitations",
+              "title": "局限",
+              "claim_ids": [
+                "c9",
+                "c14",
+                "c19",
+                "c20"
+              ],
+              "source_claims": [
+                {
+                  "id": "c9",
+                  "text": "给定证据仅包含刻度数字，缺乏文字描述CLIP具体方法与实验细节。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "da462b7a23bf4f91b00e1d79746166e9:41:8",
+                      "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+                      "page_index": 41,
+                      "bbox": [
+                        0.19791456845261438,
+                        0.16523516315656564,
+                        0.48048870006535954,
+                        0.16771160255050496
+                      ],
+                      "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+                      "quote": "0 20 40 60 80 100 0 20 40 60 80 100",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 35
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                },
+                {
+                  "id": "c14",
+                  "text": "该版本摘录仅包含图表图例数据，无法支持详细实验推论。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "6ccdeca3f4d44e588e81e3e1abface94:21:6",
+                      "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                      "page_index": 21,
+                      "bbox": [
+                        0.15870424836601305,
+                        0.39183093358585874,
+                        0.8044036207189542,
+                        0.41574520126262643
+                      ],
+                      "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                      "quote": "20 20 20 BLEU Sequence F1",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 25
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                },
+                {
+                  "id": "c19",
+                  "text": "该片段缺乏Llama 2完整模型训练与性能评价的具体数值证据。",
+                  "type": "insufficient",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "d3d10ab463974076b8355839f401f7a5:66:6",
+                      "version_id": "d3d10ab463974076b8355839f401f7a5",
+                      "page_index": 66,
+                      "bbox": [
+                        0.25130059403784316,
+                        0.33294551010101014,
+                        0.8010559214850329,
+                        0.35237318529040407
+                      ],
+                      "parse_id": "d3d10ab463974076b8355839f401f7a5",
+                      "quote": "0 20 40 60 80 100 0 20 40 60 80 100 Safety Data Pct. (%) Safety Data Pct. (%)",
+                      "quote_span": {
+                        "start": 0,
+                        "end": 77
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                },
+                {
+                  "id": "c20",
+                  "text": "原始语料库与合成指令对数据在评估集上均存在不同程度的数据污染问题。",
+                  "type": "source_fact",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "d503f5dfee294ef1a1cfc62e04e84a6c:16:0",
+                      "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                      "page_index": 16,
+                      "bbox": [
+                        0.13019526743896948,
+                        0.08945969236457975,
+                        0.8698353559060873,
+                        0.16134464237705148
+                      ],
+                      "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                      "quote": "Contam in Raw Corpora 5/3 144 0 0 3 0 4 20 Contam in Ins-Aug Corpora 5/4 144 0 0 3 0 4 22 Contam in Synthesized Pairs 0/1 0 0 0 0 0 0 2",
+                      "quote_span": {
+                        "start": 106,
+                        "end": 241
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "gemini_decision_1",
+                    "reason": "Decision辅助分类=insufficient; probability=0.5232; confidence=0.5232。这是模型判断，仍需人工核验。",
+                    "label": "需要复核",
+                    "human_status": "unreviewed",
+                    "model": "gemini-decision-1",
+                    "probabilities": {
+                      "contradicted": 0.11071760722802813,
+                      "insufficient": 0.5231798444664155,
+                      "supported": 0.36610254830555633
+                    },
+                    "confidence": 0.5231798444664155
+                  }
+                }
+              ],
+              "text": "给定证据仅包含刻度数字，缺乏文字描述CLIP具体方法与实验细节。\n\n该版本摘录仅包含图表图例数据，无法支持详细实验推论。\n\n该片段缺乏Llama 2完整模型训练与性能评价的具体数值证据。\n\n原始语料库与合成指令对数据在评估集上均存在不同程度的数据污染问题。"
+            },
+            {
+              "key": "future_work",
+              "title": "待研究点",
+              "claim_ids": [
+                "c8"
+              ],
+              "source_claims": [
+                {
+                  "id": "c8",
+                  "text": "未来工作可进一步研究将大型稀疏模型蒸馏为更小的稀疏模型。",
+                  "type": "suggestion",
+                  "atom": null,
+                  "evidence": [
+                    {
+                      "block_id": "3f4fea8bed824d8a9345046cf0495095:15:6",
+                      "version_id": "3f4fea8bed824d8a9345046cf0495095",
+                      "page_index": 15,
+                      "bbox": [
+                        0.14705882352941177,
+                        0.6477010926767676,
+                        0.8529504916013071,
+                        0.8901241987373738
+                      ],
+                      "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+                      "quote": "Future work could additionally study distilling large models into smaller sparse models.",
+                      "quote_span": {
+                        "start": 200,
+                        "end": 288
+                      },
+                      "status": "located_semantics_pending"
+                    }
+                  ],
+                  "review": {
+                    "status": "not_checked",
+                    "method": "location_and_numeric_rules_only",
+                    "label": "已定位，语义尚待独立复核",
+                    "findings": [],
+                    "human_status": "unreviewed"
+                  }
+                }
+              ],
+              "text": "未来工作可进一步研究将大型稀疏模型蒸馏为更小的稀疏模型。"
+            }
+          ],
+          "bibliography": [],
+          "decision_review": {
+            "model": "gemini-decision-1",
+            "usage": {
+              "total_tokens": 12920,
+              "total_input_tokens": 12920,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 12920
+                }
+              ],
+              "total_output_tokens": 0
+            },
+            "quota_id": "883220019f1b449cad0dc9b0dbc49228",
+            "thresholds": {
+              "probability": 0.9,
+              "confidence": 0.8,
+              "margin": 0.25
+            },
+            "human_status": "unreviewed"
+          },
+          "markdown": "## 研究问题\n\n研究语言模型性能随上下文位置变化的幂律依赖关系。\n\n关注大语言模型涌现能力与训练FLOPs及参数规模的关系。\n\n评估GPT-4结合简单环境构建Agent并在真实世界中进行交互的能力。\n\n## 方法脉络\n\nTransformer模型在WMT 2014英德翻译任务上取得28.4的BLEU得分。\n\nZeRO在不需要修改模型本身的情况下大幅提升模型规模与训练速度。\n\nT5模型架构包含T5-Small、T5-Base、T5-Large、T5-3B和T5-11B等不同规模变体。\n\n预处理中忽略匹配超过10个训练文档的13-grams以避免删除常见文化短语和法律范本。\n\n思维链提示展示了具体的计算推理步骤过程。\n\nDPO通过导出隐式奖励函数的梯度公式来更新语言模型策略。\n\n## 差异与适用条件\n\nLayer Normalization位置的变化主导了优化器的性能改变。\n\nGPT-Neo在HumanEval上取得6.4%的pass@1，而同等规模的GPT模型在pass@1上接近0%。\n\n不同提示词分类在提示词长度分布上存在显著差异。\n\nFlashAttention在BERT训练速度上较Nvidia MLPerf 1.1基线实现更快。\n\n该项主张未通过原文校验，需要补充证据后再核查。\n\n实验将RWKV与BLOOM、Pythia及OPT在不同算力消耗下的性能表现进行对比。\n\n## 局限\n\n给定证据仅包含刻度数字，缺乏文字描述CLIP具体方法与实验细节。\n\n该版本摘录仅包含图表图例数据，无法支持详细实验推论。\n\n该片段缺乏Llama 2完整模型训练与性能评价的具体数值证据。\n\n原始语料库与合成指令对数据在评估集上均存在不同程度的数据污染问题。\n\n## 待研究点\n\n未来工作可进一步研究将大型稀疏模型蒸馏为更小的稀疏模型。",
+          "citation_coverage": [
+            {
+              "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+              "cited": true
+            },
+            {
+              "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+              "cited": true
+            },
+            {
+              "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+              "cited": true
+            },
+            {
+              "version_id": "61699b3f11364e119e79181e21359218",
+              "cited": true
+            },
+            {
+              "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+              "cited": true
+            },
+            {
+              "version_id": "dae6c78ff75f412a8969110847fa06ed",
+              "cited": true
+            },
+            {
+              "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+              "cited": true
+            },
+            {
+              "version_id": "3f4fea8bed824d8a9345046cf0495095",
+              "cited": true
+            },
+            {
+              "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+              "cited": true
+            },
+            {
+              "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+              "cited": true
+            },
+            {
+              "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+              "cited": true
+            },
+            {
+              "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+              "cited": true
+            },
+            {
+              "version_id": "464f25034aa74104a944a67df1d0cca2",
+              "cited": true
+            },
+            {
+              "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+              "cited": true
+            },
+            {
+              "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+              "cited": false
+            },
+            {
+              "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+              "cited": true
+            },
+            {
+              "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+              "cited": true
+            },
+            {
+              "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+              "cited": true
+            },
+            {
+              "version_id": "d3d10ab463974076b8355839f401f7a5",
+              "cited": true
+            },
+            {
+              "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+              "cited": true
+            }
+          ],
+          "workflow": "survey",
+          "model": "gemini-3.6-flash",
+          "usage": {
+            "promptTokenCount": 35750,
+            "candidatesTokenCount": 4624,
+            "totalTokenCount": 49330,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 35750
+              }
+            ],
+            "thoughtsTokenCount": 8956,
+            "serviceTier": "standard"
+          },
+          "coverage": [
+            {
+              "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+              "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+              "eligible_blocks": 135,
+              "candidate_slots": 6,
+              "context_bytes": 1810,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+              "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+              "eligible_blocks": 191,
+              "candidate_slots": 6,
+              "context_bytes": 1918,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+              "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+              "eligible_blocks": 617,
+              "candidate_slots": 6,
+              "context_bytes": 788,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "61699b3f11364e119e79181e21359218",
+              "parse_id": "61699b3f11364e119e79181e21359218",
+              "eligible_blocks": 383,
+              "candidate_slots": 6,
+              "context_bytes": 481,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+              "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+              "eligible_blocks": 295,
+              "candidate_slots": 6,
+              "context_bytes": 1659,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "dae6c78ff75f412a8969110847fa06ed",
+              "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+              "eligible_blocks": 621,
+              "candidate_slots": 6,
+              "context_bytes": 1601,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+              "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+              "eligible_blocks": 325,
+              "candidate_slots": 6,
+              "context_bytes": 592,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "3f4fea8bed824d8a9345046cf0495095",
+              "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+              "eligible_blocks": 402,
+              "candidate_slots": 6,
+              "context_bytes": 2400,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+              "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+              "eligible_blocks": 869,
+              "candidate_slots": 6,
+              "context_bytes": 210,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+              "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+              "eligible_blocks": 660,
+              "candidate_slots": 6,
+              "context_bytes": 1699,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+              "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+              "eligible_blocks": 509,
+              "candidate_slots": 6,
+              "context_bytes": 1525,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+              "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+              "eligible_blocks": 519,
+              "candidate_slots": 6,
+              "context_bytes": 1048,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "464f25034aa74104a944a67df1d0cca2",
+              "parse_id": "464f25034aa74104a944a67df1d0cca2",
+              "eligible_blocks": 367,
+              "candidate_slots": 6,
+              "context_bytes": 1007,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+              "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+              "eligible_blocks": 331,
+              "candidate_slots": 6,
+              "context_bytes": 592,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+              "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+              "eligible_blocks": 697,
+              "candidate_slots": 6,
+              "context_bytes": 582,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+              "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+              "eligible_blocks": 1138,
+              "candidate_slots": 6,
+              "context_bytes": 870,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+              "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+              "eligible_blocks": 461,
+              "candidate_slots": 6,
+              "context_bytes": 1038,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+              "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+              "eligible_blocks": 285,
+              "candidate_slots": 6,
+              "context_bytes": 1027,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "d3d10ab463974076b8355839f401f7a5",
+              "parse_id": "d3d10ab463974076b8355839f401f7a5",
+              "eligible_blocks": 657,
+              "candidate_slots": 6,
+              "context_bytes": 824,
+              "status": "selected_excerpts"
+            },
+            {
+              "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+              "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+              "eligible_blocks": 327,
+              "candidate_slots": 6,
+              "context_bytes": 1572,
+              "status": "selected_excerpts"
+            }
+          ],
+          "search": null,
+          "role": "core_analysis",
+          "model_downgraded_from": [
+            {
+              "model": "gemini-4-hydrogen",
+              "reason": "unusable_output"
+            }
+          ],
+          "artifact_id": "00442d87f3864a21924ab4d1b6c70562"
+        },
+        "error": null,
+        "idempotency": "public-survey20-each-paper-evidence-20261117",
+        "created": 1794860393.6309605,
+        "updated": 1794886552.9644594,
+        "steps": [
+          {
+            "id": 7235,
+            "event": "queued",
+            "data": {
+              "kind": "writing",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794860393.6377897
+          },
+          {
+            "id": 7259,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794860413.7736387
+          },
+          {
+            "id": 7260,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794860413.8076305
+          },
+          {
+            "id": 7261,
+            "event": "writing_evidence",
+            "data": {
+              "coverage": [
+                {
+                  "version_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "parse_id": "dceae303ec2f41cbbc4d88f047db9424",
+                  "eligible_blocks": 135,
+                  "candidate_slots": 6,
+                  "context_bytes": 1810,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "parse_id": "eabe2adc48474c4fa4b2ff2e95d5c7f3",
+                  "eligible_blocks": 191,
+                  "candidate_slots": 6,
+                  "context_bytes": 1918,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "parse_id": "3a013a663fd849ff9b6068654d8db7ce",
+                  "eligible_blocks": 617,
+                  "candidate_slots": 6,
+                  "context_bytes": 788,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "61699b3f11364e119e79181e21359218",
+                  "parse_id": "61699b3f11364e119e79181e21359218",
+                  "eligible_blocks": 383,
+                  "candidate_slots": 6,
+                  "context_bytes": 481,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "parse_id": "42bd2e6ae5c840178e5cfb422a0d5d5a",
+                  "eligible_blocks": 295,
+                  "candidate_slots": 6,
+                  "context_bytes": 1659,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+                  "eligible_blocks": 621,
+                  "candidate_slots": 6,
+                  "context_bytes": 1601,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "parse_id": "47b66a19b9a444a59f7180c3c79fa4d3",
+                  "eligible_blocks": 325,
+                  "candidate_slots": 6,
+                  "context_bytes": 592,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "parse_id": "3f4fea8bed824d8a9345046cf0495095",
+                  "eligible_blocks": 402,
+                  "candidate_slots": 6,
+                  "context_bytes": 2400,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "parse_id": "da462b7a23bf4f91b00e1d79746166e9",
+                  "eligible_blocks": 869,
+                  "candidate_slots": 6,
+                  "context_bytes": 210,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "parse_id": "0057f1a88e864a7aaae219ff98f7a6db",
+                  "eligible_blocks": 660,
+                  "candidate_slots": 6,
+                  "context_bytes": 1699,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "parse_id": "9bb90453cf834fd1b83c3593b6b4cb2d",
+                  "eligible_blocks": 509,
+                  "candidate_slots": 6,
+                  "context_bytes": 1525,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "parse_id": "9be4b0b9d82b48efb62e9df9f947c637",
+                  "eligible_blocks": 519,
+                  "candidate_slots": 6,
+                  "context_bytes": 1048,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "464f25034aa74104a944a67df1d0cca2",
+                  "parse_id": "464f25034aa74104a944a67df1d0cca2",
+                  "eligible_blocks": 367,
+                  "candidate_slots": 6,
+                  "context_bytes": 1007,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "parse_id": "6ccdeca3f4d44e588e81e3e1abface94",
+                  "eligible_blocks": 331,
+                  "candidate_slots": 6,
+                  "context_bytes": 592,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+                  "parse_id": "4bc46336dcf44b0392ea7f16e6a87a6f",
+                  "eligible_blocks": 697,
+                  "candidate_slots": 6,
+                  "context_bytes": 582,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "parse_id": "a59ea29d2f5f474d8f2b8dc8e3e45c39",
+                  "eligible_blocks": 1138,
+                  "candidate_slots": 6,
+                  "context_bytes": 870,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "parse_id": "3fdbfb3b1c234530883333f9c6b93bc3",
+                  "eligible_blocks": 461,
+                  "candidate_slots": 6,
+                  "context_bytes": 1038,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "parse_id": "fb01f0adc8ff42f7aa58f536f74c3ac0",
+                  "eligible_blocks": 285,
+                  "candidate_slots": 6,
+                  "context_bytes": 1027,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "d3d10ab463974076b8355839f401f7a5",
+                  "parse_id": "d3d10ab463974076b8355839f401f7a5",
+                  "eligible_blocks": 657,
+                  "candidate_slots": 6,
+                  "context_bytes": 824,
+                  "status": "selected_excerpts"
+                },
+                {
+                  "version_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "parse_id": "d503f5dfee294ef1a1cfc62e04e84a6c",
+                  "eligible_blocks": 327,
+                  "candidate_slots": 6,
+                  "context_bytes": 1572,
+                  "status": "selected_excerpts"
+                }
+              ],
+              "budget_bytes": 48000
+            },
+            "created": 1794860417.1209981
+          },
+          {
+            "id": 7262,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-4-hydrogen",
+              "project": "gemini-project-2",
+              "quota_id": "22d83b6672354ca9acb903e5ab2aa5e3",
+              "reserved_input_tokens": 66939,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860421.0035613
+          },
+          {
+            "id": 7263,
+            "event": "model_downgraded",
+            "data": {
+              "from": "gemini-4-hydrogen",
+              "to": "gemini-3.6-flash",
+              "reason": "unusable_output"
+            },
+            "created": 1794860482.224531
+          },
+          {
+            "id": 7264,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.6-flash",
+              "project": "gemini-project-2",
+              "quota_id": "05b6cf5b38af4c06b24cb99d44fe0557",
+              "reserved_input_tokens": 66939,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794860482.2467873
+          },
+          {
+            "id": 7265,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794860562.7065225
+          },
+          {
+            "id": 7266,
+            "event": "failed",
+            "data": {
+              "error": "5 validation errors for Manuscript\nsections.0.title\n  Extra inputs are not permitted [type=extra_forbidden, input_value='研究问题', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/extra_forbidden\nsections.1.title\n  Extra inputs are not permitted [type=extra_forbidden, input_value='方法脉络', input_type=str]\n    For furt"
+            },
+            "created": 1794860562.7274692
+          },
+          {
+            "id": 7300,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794860969.608808
+          },
+          {
+            "id": 7301,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794860969.6480668
+          },
+          {
+            "id": 7302,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794860969.756033
+          },
+          {
+            "id": 7303,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794860970.0456953
+          },
+          {
+            "id": 8279,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794861811.4548218
+          },
+          {
+            "id": 8280,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794861811.5864074
+          },
+          {
+            "id": 8281,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794861811.8833978
+          },
+          {
+            "id": 8283,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "f60684bd382846ffb5e80593e8bef073",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794861818.4614484
+          },
+          {
+            "id": 8284,
+            "event": "failed",
+            "data": {
+              "error": "gemini-3.5-flash-lite HTTP 400 INVALID_ARGUMENT；请求已记账，无自动付费兜底"
+            },
+            "created": 1794861819.42687
+          },
+          {
+            "id": 8288,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794885186.2198317
+          },
+          {
+            "id": 8289,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794885186.350088
+          },
+          {
+            "id": 8290,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794885186.461741
+          },
+          {
+            "id": 8291,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "20166fda4ffd4a4b83420b98b81bd09c",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794885191.884708
+          },
+          {
+            "id": 8293,
+            "event": "failed",
+            "data": {
+              "error": "gemini-3.5-flash-lite HTTP 400 INVALID_ARGUMENT；请求已记账，无自动付费兜底"
+            },
+            "created": 1794885193.6999598
+          },
+          {
+            "id": 8307,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794885511.9259212
+          },
+          {
+            "id": 8308,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794885511.9569519
+          },
+          {
+            "id": 8309,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794885512.0702736
+          },
+          {
+            "id": 8310,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "d6433fb936ed4b0caef2b20c0dbf4ccc",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794885517.398381
+          },
+          {
+            "id": 8311,
+            "event": "provider_request_invalid",
+            "data": {
+              "mentioned_fields": [],
+              "unknown_name": false,
+              "unsupported": false,
+              "schema_too_complex": true
+            },
+            "created": 1794885518.7033126
+          },
+          {
+            "id": 8312,
+            "event": "failed",
+            "data": {
+              "error": "gemini-3.5-flash-lite HTTP 400 INVALID_ARGUMENT；请求已记账，无自动付费兜底"
+            },
+            "created": 1794885518.737037
+          },
+          {
+            "id": 8317,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794885756.915496
+          },
+          {
+            "id": 8318,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794885756.94729
+          },
+          {
+            "id": 8319,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794885757.0803556
+          },
+          {
+            "id": 8320,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "79a4f424ea4444ec81207b3946d31b6d",
+              "reserved_input_tokens": 4906,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794885784.3412914
+          },
+          {
+            "id": 8321,
+            "event": "writing_claim_repaired",
+            "data": {
+              "claim_ids": [
+                "c1",
+                "c15",
+                "c18",
+                "c3"
+              ],
+              "model": "gemini-3.5-flash-lite",
+              "original_response_retained": true,
+              "max_repairs": 1
+            },
+            "created": 1794885788.0593028
+          },
+          {
+            "id": 8322,
+            "event": "failed",
+            "data": {
+              "error": "主张与证据中的数值或单位矛盾；结果已拦截"
+            },
+            "created": 1794885788.3820374
+          },
+          {
+            "id": 8878,
+            "event": "started",
+            "data": {
+              "kind": "writing"
+            },
+            "created": 1794886543.146564
+          },
+          {
+            "id": 8879,
+            "event": "plan",
+            "data": {
+              "workflow": "survey",
+              "role": "core_analysis",
+              "model_role": "deep",
+              "steps": [
+                "逐篇选取原文证据",
+                "读取局部引用角色",
+                "结构章节与原子主张生成",
+                "确定性校验与独立审查",
+                "保存可追溯产物"
+              ]
+            },
+            "created": 1794886543.1900928
+          },
+          {
+            "id": 8880,
+            "event": "writing_validate",
+            "data": {
+              "message": "校验章节/参考文献白名单、原文快照、数字和正文绑定"
+            },
+            "created": 1794886543.3003128
+          },
+          {
+            "id": 8881,
+            "event": "writing_claim_repaired",
+            "data": {
+              "claim_ids": [
+                "c1",
+                "c15",
+                "c18",
+                "c3"
+              ],
+              "model": "gemini-3.5-flash-lite",
+              "original_response_retained": true,
+              "max_repairs": 1,
+              "still_rejected_claim_ids": [
+                "c15"
+              ],
+              "unsupported_text_published": false
+            },
+            "created": 1794886550.3455367
+          },
+          {
+            "id": 8882,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-decision-1",
+              "project": "gemini-project-2",
+              "quota_id": "883220019f1b449cad0dc9b0dbc49228",
+              "reserved_input_tokens": 32156,
+              "method": "createDecision",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 1,
+                "remaining": 1
+              }
+            },
+            "created": 1794886551.1651158
+          },
+          {
+            "id": 8883,
+            "event": "decision_review",
+            "data": {
+              "claims": 15,
+              "status": "partial",
+              "quota_id": "883220019f1b449cad0dc9b0dbc49228"
+            },
+            "created": 1794886552.8787763
+          },
+          {
+            "id": 8884,
+            "event": "writing_saved",
+            "data": {
+              "artifact_id": "00442d87f3864a21924ab4d1b6c70562",
+              "kind": "survey"
+            },
+            "created": 1794886552.9515052
+          },
+          {
+            "id": 8885,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794886552.9808578
+          }
+        ]
+      }
+    },
+    {
+      "name": "reference-classification-batched12",
+      "run_id": "35bf5d35cf1e4a5ea0cfd535a23b14ad",
+      "status": "PASS",
+      "run": {
+        "id": "35bf5d35cf1e4a5ea0cfd535a23b14ad",
+        "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+        "kind": "reference_classify",
+        "status": "completed",
+        "payload": {
+          "analysis_id": "90d7072e048144dc8840c1dc6bc28a76"
+        },
+        "result": {
+          "status": "completed",
+          "analysis_id": "90d7072e048144dc8840c1dc6bc28a76",
+          "classified": 40,
+          "total": 40,
+          "model": "gemini-3.5-flash-lite"
+        },
+        "error": null,
+        "idempotency": "public-reference-batches12-20261117",
+        "created": 1794861818.3087707,
+        "updated": 1794886553.069469,
+        "steps": [
+          {
+            "id": 8282,
+            "event": "queued",
+            "data": {
+              "kind": "reference_classify",
+              "message": "任务已持久化，等待单 worker 执行"
+            },
+            "created": 1794861818.3214204
+          },
+          {
+            "id": 8285,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794861819.445576
+          },
+          {
+            "id": 8286,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "3599adafac7d4b339bafe91a2b6215c9",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794861819.4857156
+          },
+          {
+            "id": 8287,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794861820.0980673
+          },
+          {
+            "id": 8294,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794885193.7189279
+          },
+          {
+            "id": 8295,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "889efe45a7cd4bb5a169fa90feb209d1",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885193.7713034
+          },
+          {
+            "id": 8296,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794885196.7978275
+          },
+          {
+            "id": 8313,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794885518.757595
+          },
+          {
+            "id": 8314,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "ce18643e0b504e9eb2a4dbc648fc706c",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885518.8031502
+          },
+          {
+            "id": 8315,
+            "event": "provider_request_invalid",
+            "data": {
+              "mentioned_fields": [],
+              "unknown_name": false,
+              "unsupported": false,
+              "schema_too_complex": true
+            },
+            "created": 1794885523.1678345
+          },
+          {
+            "id": 8316,
+            "event": "partial",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794885523.2050276
+          },
+          {
+            "id": 8323,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794885788.3996336
+          },
+          {
+            "id": 8324,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "7d0bf69c87c24c03906ce3ca44189b45",
+              "reserved_input_tokens": 28653,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885788.432486
+          },
+          {
+            "id": 8325,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "1edb33327db3421982f1e1e701b7d6b1",
+              "reserved_input_tokens": 15527,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885792.9489202
+          },
+          {
+            "id": 8326,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "5c37e3f1052f44eb9763d2243b6e00b5",
+              "reserved_input_tokens": 15161,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885797.138797
+          },
+          {
+            "id": 8330,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "fad59bc2d20c48919dc1ccd32a770405",
+              "reserved_input_tokens": 5355,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885801.1794932
+          },
+          {
+            "id": 8332,
+            "event": "provider_overload_retry",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "wait_seconds": 4
+            },
+            "created": 1794885804.5699944
+          },
+          {
+            "id": 8348,
+            "event": "model_request",
+            "data": {
+              "model": "gemini-3.5-flash-lite",
+              "project": "gemini-project-2",
+              "quota_id": "5efa95c863a84f11b53ec3ab2e65b869",
+              "reserved_input_tokens": 5355,
+              "method": "generateContent",
+              "core_calls": {
+                "profile": "judging",
+                "estimated_core_calls": 1,
+                "limit": 2,
+                "used": 0,
+                "remaining": 2
+              }
+            },
+            "created": 1794885808.5954335
+          },
+          {
+            "id": 8367,
+            "event": "failed",
+            "data": {
+              "error": "模型返回了未知或重复引用；未发布分类"
+            },
+            "created": 1794885816.6844957
+          },
+          {
+            "id": 8886,
+            "event": "started",
+            "data": {
+              "kind": "reference_classify"
+            },
+            "created": 1794886553.0046833
+          },
+          {
+            "id": 8887,
+            "event": "reference_classified",
+            "data": {
+              "analysis_id": "90d7072e048144dc8840c1dc6bc28a76",
+              "classified": 40,
+              "model": "gemini-3.5-flash-lite",
+              "identical_or_conflicting_duplicates": 5,
+              "conflicts_marked_uncertain": [
+                "dceae303ec2f41cbbc4d88f047db9424:ref:1",
+                "dceae303ec2f41cbbc4d88f047db9424:ref:17",
+                "dceae303ec2f41cbbc4d88f047db9424:ref:31",
+                "dceae303ec2f41cbbc4d88f047db9424:ref:37",
+                "dceae303ec2f41cbbc4d88f047db9424:ref:8"
+              ]
+            },
+            "created": 1794886553.059103
+          },
+          {
+            "id": 8888,
+            "event": "completed",
+            "data": {
+              "result_saved": true
+            },
+            "created": 1794886553.077915
+          }
+        ]
+      }
+    }
+  ]
+}

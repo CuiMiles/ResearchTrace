@@ -72,6 +72,7 @@ class RetrieveEvidence(StrictModel):
     version_ids: list[SafeID] = Field(min_length=1, max_length=10)
     question: Question
     limit: int = Field(default=8, ge=1, le=20)
+    queries: list[str] = Field(default_factory=list, max_length=4)
 
 
 class CompareVersions(StrictModel):
@@ -108,8 +109,9 @@ class SaveArtifact(StrictModel):
 
 
 class ToolError(ValueError):
-    def __init__(self, code, message):
+    def __init__(self, code, message, details=None):
         self.code = code
+        self.details = details
         super().__init__(message)
 
 
@@ -270,13 +272,15 @@ def _retrieve(ctx, args, key):
     vids = list(dict.fromkeys(args.version_ids))
     for vid in vids:
         _version(ctx, vid)
+    queries=[q[:300] for q in args.queries if q.strip()]
     if os.getenv('RT_EMBED_PROVIDER')=='local':
-        return retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit)
-    from .sparse_index import search
-    blocks,expanded=search(ctx.workspace,vids,args.question,limit=args.limit)
-    return {'mode':'keyword','method':'FTS5_BM25','blocks':[retrieval._decode(b) for b in blocks],
-            'version_ids':vids,'query_term_expansion':expanded,
-            'notice':'本地关键词检索；未提交云端问题向量，不冒充语义召回'}
+        return retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit,queries=queries)
+    # Keyword lists only (question + rewrites, per-document quotas, neighbour context);
+    # no cloud question embedding is sent from a tool call.
+    result=retrieval.retrieve(ctx.workspace,vids,args.question,limit=args.limit,queries=queries,
+                              allow_cloud_dense=False)
+    result['notice']='本地关键词检索（含改写查询与逐篇配额）；未提交云端问题向量，不冒充语义召回'
+    return result
 
 
 def _compare(ctx, args, key):
@@ -533,8 +537,12 @@ def execute_tool(ctx: ToolContext, name: str, args: dict) -> dict:
             raise ToolError('unknown_tool', 'Tool is not registered')
         try:
             parsed = spec.model.model_validate(args)
-        except ValidationError:
-            raise ToolError('invalid_arguments', 'Arguments failed the registered schema (extra fields are forbidden)') from None
+        except ValidationError as exc:
+            # Feedback must identify the failed constraint so the next plan can
+            # repair it. Never include rejected input, URLs or exception reprs.
+            details = [{'path': list(e['loc']), 'type': e['type'], 'message': e['msg']}
+                       for e in exc.errors(include_input=False, include_url=False)[:12]]
+            raise ToolError('invalid_arguments', 'Arguments failed the registered schema', details) from None
         _check(ctx)
         result = spec.handler(ctx, parsed, f'tool:{ctx.run_id}:{call_id}')
         if len(_dump(result).encode()) > MAX_RESULT:
@@ -547,6 +555,9 @@ def execute_tool(ctx: ToolContext, name: str, args: dict) -> dict:
         message = str(exc) if isinstance(exc, ToolError) else 'Tool failed; no provider request was authorized'
         status = 'BLOCKED' if code in ('cancelled', 'budget_exhausted', 'indeterminate_call', 'run_not_active') else 'FAIL'
         if reserved:
-            return _finish(ctx, call_id, name, status, {'reason': message}, code)
+            result = {'reason': message}
+            if isinstance(exc, ToolError) and exc.details:
+                result['validation_errors'] = exc.details
+            return _finish(ctx, call_id, name, status, result, code)
         return {'tool': name[:80] if isinstance(name, str) else 'invalid', 'call_id': call_id,
                 'status': status, 'code': code, 'summary': message, 'result': {}, 'replayed': False}

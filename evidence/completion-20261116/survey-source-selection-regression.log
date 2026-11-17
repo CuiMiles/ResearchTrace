@@ -1,0 +1,27 @@
+F............................................................            [100%]
+=================================== FAILURES ===================================
+______ test_survey_keeps_abstract_and_method_before_incidental_query_hits ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7e90fdea4050>
+
+    def test_survey_keeps_abstract_and_method_before_incidental_query_hits(monkeypatch):
+        paper(blocks=10)
+        replacements={0:('heading','Abstract'),1:('paragraph','The proposed attention method reduces memory while preserving its stated conditions. '*3),
+                      2:('heading','Methods'),3:('paragraph','Our method processes source evidence with a bounded computation and explicit limitations.'),
+                      4:('heading','Limitations'),5:('paragraph','The experiment does not establish performance on other tasks.')}
+        for i,(kind,text) in replacements.items():
+            store.execute('UPDATE blocks SET type=?,text=? WHERE id=?',(kind,text,'v1-b'+str(i)))
+        # Incidental query matches must not fill all six slots before the abstract.
+        from services.api import sparse_index
+        hits=store.rows("SELECT * FROM blocks WHERE id IN ('v1-b6','v1-b7','v1-b8','v1-b9') ORDER BY id")
+        monkeypatch.setattr(sparse_index,'search',lambda *a,**k:(hits,[]))
+        run=run_for();result=writing.collect_evidence(run);ids=[b['id'] for b in result['blocks']]
+>       assert ids[0]=='v1-b1' and 'v1-b3' in ids and 'v1-b5' in ids
+E       AssertionError: assert ('v1-b1' == 'v1-b1'
+E         
+E           v1-b1 and 'v1-b3' in ['v1-b1', 'v1-b6', 'v1-b7', 'v1-b5', 'v1-b9'])
+
+tests/unit/test_writing_workflows.py:56: AssertionError
+=========================== short test summary info ============================
+FAILED tests/unit/test_writing_workflows.py::test_survey_keeps_abstract_and_method_before_incidental_query_hits
+1 failed, 60 passed in 16.10s

@@ -21,7 +21,8 @@ def test_chinese_query_plan_is_received_once_and_preserves_original_request(tmp_
     rid=jobs.queue('w','audit',payload,'query-plan')['id']
     run={'id':rid,'workspace':'w','payload':payload}
     calls=[]
-    def generate(system,prompt,run_id,core=True):
+    def generate(system,prompt,run_id,core=True, role=None, **_):
+        core = core if role is None else role != 'light'  # role-based routing
         calls.append(core);assert json.loads(prompt)['question']==payload['question']
         return {'text':json.dumps({'query':'local attention long sequences'}),'model':'FIXTURE_PLANNER','usage':{}}
     monkeypatch.setattr(models,'generate',generate)

@@ -41,6 +41,76 @@ class RerankProvider(Protocol):
     def rerank(self, query: str, documents: list[str]) -> dict: ...
 
 
+class GeminiRetrievalProvider:
+    """Separate cloud vector space; input split is an explicit UTF-8 upper bound.
+
+    The upstream API alias is not an immutable weights revision. An operator can
+    bump RT_CLOUD_INDEX_REVISION to build a new generation if it changes.
+    """
+    def __init__(self,run_id=None):
+        from . import models
+        self.run_id=run_id;self.model_id=models.EMBED
+        if self.model_id!='gemini-embedding-001':
+            raise RetrievalUnavailable('当前云向量适配器只支持已验证的gemini-embedding-001')
+
+    def descriptor(self):
+        return {'model_id':self.model_id,'revision':os.getenv('RT_CLOUD_INDEX_REVISION','gemini-api-v1beta-768-v1'),
+                'tokenizer_revision':'utf8-byte-upper-bound-v1','query_template':'taskType=RETRIEVAL_QUERY: {text}',
+                'document_template':'taskType=RETRIEVAL_DOCUMENT: {text}','pooling':'provider_managed',
+                'normalization':'l2','dimension':768,'dtype':'float32','provider':'gemini',
+                'immutable_weights_revision_available':False,'token_count_kind':'conservative_utf8_byte_upper_bound'}
+
+    def split(self,text,max_tokens,overlap=32):
+        parts=[];start=0
+        while start<len(text):
+            end=start;size=0
+            while end<len(text) and size+len(text[end].encode())<=max_tokens:
+                size+=len(text[end].encode());end+=1
+            if end==start:raise RetrievalUnavailable('切分预算无法容纳单个Unicode字符')
+            parts.append({'text':text[start:end],'start':start,'end':end,'token_count':size})
+            if end==len(text):break
+            next_start=end;used=0
+            while next_start>start+1 and used+len(text[next_start-1].encode())<=overlap:
+                next_start-=1;used+=len(text[next_start].encode())
+            start=next_start
+        return parts
+
+    def content_token_bound(self,value):
+        from . import models,store
+        # Native counting includes role framing. Reserve room for model-internal
+        # tokens; an embedding may otherwise succeed while silently losing text.
+        if len(value.encode())<=1992:return len(value.encode())+1
+        store.execute('CREATE TABLE IF NOT EXISTS embedding_token_counts(model TEXT,input_key TEXT,tokens INTEGER NOT NULL,PRIMARY KEY(model,input_key))')
+        key=hashlib.sha256((self.descriptor()['revision']+'\0role=user\0'+value).encode()).hexdigest()
+        saved=store.one('SELECT tokens FROM embedding_token_counts WHERE model=? AND input_key=?',(self.model_id,key))
+        if saved:return saved['tokens']
+        counted,_=models.request(self.model_id,'countTokens',{'contents':[{'role':'user','parts':[{'text':value}]}]},self.run_id,0)
+        tokens=counted.get('totalTokens')
+        if type(tokens) is not int or not 1<=tokens<=10000000:
+            raise RetrievalUnavailable('上游未返回有效输入token数，拒绝可能截断的输入')
+        store.execute('INSERT OR IGNORE INTO embedding_token_counts VALUES(?,?,?)',(self.model_id,key,tokens))
+        return tokens
+
+    def embed(self,texts,task):
+        from . import models
+        if any(self.content_token_bound(value)>2000 for value in texts):
+            raise RetrievalUnavailable('输入超过云模型2000内容tokens安全预算，需独立重切分，原索引保持不变')
+        response=models.embed(texts,self.run_id,task=task)
+        vectors=np.asarray(response['vectors'],dtype=np.float32)
+        if vectors.shape!=(len(texts),768) or not np.isfinite(vectors).all():
+            raise RetrievalUnavailable('云向量数量、维度或数值非法')
+        norms=np.linalg.norm(vectors,axis=1,keepdims=True)
+        if (norms<=0).any():raise RetrievalUnavailable('云向量返回零长度')
+        return {**response,'vectors':(vectors/norms).tolist(),'fingerprint':fingerprint(self.descriptor())}
+
+
+def configured_provider(kind=None,run_id=None):
+    kind=kind or os.getenv('RT_EMBED_PROVIDER','gemini')
+    if kind=='gemini':return GeminiRetrievalProvider(run_id)
+    if kind in ('local','auto'):return LocalRetrievalProvider()
+    raise RetrievalUnavailable('索引提供方必须为gemini或local')
+
+
 class LocalRetrievalProvider:
     def __init__(self, model_id=None,base=None):
         self.model_id=model_id or os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16')
@@ -126,7 +196,7 @@ class LocalRetrievalProvider:
 
     def embed(self,texts,task):
         desc=self.descriptor()
-        response=self._call('/embed',{'model_id':self.model_id,'revision':desc['revision'],'texts':texts,'task':'query' if task=='RETRIEVAL_QUERY' else 'document'})
+        response=self._call('/embed',{'model_id':self.model_id,'revision':desc['revision'],'texts':texts,'task':'query' if task=='RETRIEVAL_QUERY' else 'document'},timeout=min(60,max(5,int(os.getenv('RT_RETRIEVAL_QUERY_TIMEOUT','15')))) if task=='RETRIEVAL_QUERY' else None)
         if response.get('fingerprint')!=fingerprint(desc):
             raise RetrievalUnavailable('模型实际指纹与索引不匹配')
         vectors=np.asarray(response.get('vectors',[]),dtype=np.float32)
@@ -144,7 +214,7 @@ class LocalRetrievalProvider:
         desc=next((d for d in manifest['models'] if d['model_id']==model_id),None)
         if not desc:raise RetrievalUnavailable('所选重排模型尚未部署')
         expected=fingerprint(desc)
-        response=provider._call('/rerank',{'model_id':model_id,'revision':desc['revision'],'query':query,'documents':documents})
+        response=provider._call('/rerank',{'model_id':model_id,'revision':desc['revision'],'query':query,'documents':documents},timeout=min(120,max(5,int(os.getenv('RT_RERANK_TIMEOUT','45')))))
         if response.get('fingerprint')!=expected:
             raise RetrievalUnavailable('重排模型实际指纹发生变化')
         response={**response,'model_id':model_id,'revision':desc['revision']}

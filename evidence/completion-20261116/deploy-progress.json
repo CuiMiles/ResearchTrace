@@ -1,0 +1,39 @@
+{
+  "updated": "2026-11-16T15:43:08.206088+00:00",
+  "status": "BLOCKED",
+  "ecs": {
+    "instance": "i-bp13r66a7w9gwi5fs48n",
+    "memory_mib": 1612,
+    "disk_free_gib": 31,
+    "docker": "installed Ubuntu docker.io29.1.3 / Compose2.40.3",
+    "image": "building baseline6b02876 with prebuilt static frontend"
+  },
+  "domain": {
+    "name": "researchtrace.sluna.xyz",
+    "dns": "no address records returned by current resolver",
+    "required_record": "A researchtrace -> 118.31.50.2",
+    "https": "BLOCKED until DNS permissions/record"
+  },
+  "backup_tests": {
+    "status": "PASS",
+    "count": 4,
+    "live_model_calls": 0
+  },
+  "tunnel": {
+    "restricted_key": "configured",
+    "host_key": "verified via Workbench",
+    "direct_ssh": "timeout",
+    "proxy_connect": "200",
+    "unit": "PASS",
+    "ecs_18985_18986_unauth_http": [
+      401,
+      401
+    ]
+  },
+  "initial_failures": [
+    "node01 Python3.6 lacks subprocess capture_output; fixed",
+    "direct Debian CDN build stalled; own build stopped and log retained; retry uses HTTPS Aliyun mirror"
+  ],
+  "live_model_calls": 0,
+  "main_site_https_http": 200
+}

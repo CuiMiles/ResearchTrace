@@ -19,7 +19,7 @@ STEPS = [
      ['原生解析逐页持久化；缺文字页使用 Tesseract', 'PaddleOCR 识字、MinerU 表格公式、PaddleOCR-VL 布局识别分别真实执行', 'CPU 可运行；GPU 按实时显存与进程预算保护'],
      ['文字、表格、公式、阅读顺序', '页码、bbox、质量和实际模型/设备来源'], ['GET /api/v1/documents/{vid}/status', 'POST /api/v1/documents/{vid}/parses'], ['upload']),
     ('snapshots', '快照保护与索引', '解析完成后发布新快照；旧引用继续指向原来的文字和坐标。', '逐页输出、原有快照和任务检查点',
-     ['逐页写入 FTS5 索引，核对整本页数与末页', '切换解析器创建新 parse_id；不覆盖旧块', '核对新旧文字、坐标和历史查询；本轮不调用 embedding'],
+     ['逐页写入 FTS5 索引，核对整本页数与末页', '切换解析器创建新 parse_id；不覆盖旧块', '按模型分代建立语义索引，完整后切换；查看覆盖率、真实预算和降级状态'],
      ['可按 parse_id 查询的索引', '旧快照内容哈希对照'], ['GET /api/v1/documents/{vid}/parses', 'GET /api/v1/documents/{vid}/search?q=…&parse_id=…'], ['parse']),
     ('reader', '阅读与原文定位', '打开文档，搜索实际词句，点证据回到该版本、该页和该位置。', '已解析正文和可定位的证据块',
      ['按需加载 PDF；区分物理页与印刷页', '核对中后部、末页搜索和原文 bbox 高亮', '浏览器检查缩放、布局和实际阅读截图'],
@@ -98,7 +98,7 @@ def build_workflow_report():
         'test_execution_started': bool(saved.get('test_execution_started', False)),
         'published_at': saved.get('published_at'),
         'load_error': load_error,
-        'guard_notice': 'Hydrogen 原冒烟 4 次已用尽；本批默认不调用供应商，密集索引关闭。GPU 必须保留 2 GiB 且能核算本项目进程显存。',
+        'guard_notice': 'Hydrogen 原冒烟 4 次账本保留；后续调用受服务器显式预算与真实项目额度约束。索引是否完成见各代覆盖率。共享 GPU 每卡保留 2 GiB，只管理本项目进程。',
         'ledger': saved.get('ledger'),
         'generated_at': datetime.now(timezone.utc).isoformat(),
     }

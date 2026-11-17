@@ -1,0 +1,1566 @@
+{
+  "status": "PASS",
+  "retrieval": {
+    "rewritten_queries": [
+      "training sequence length context window tokens",
+      "minibatches contiguous sequences tokens",
+      "context size tokens",
+      "contiguous sequences tokens"
+    ],
+    "blocks": [
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 2,
+        "bbox": [
+          0.17588398692810459,
+          0.37730573787878785,
+          0.8235351518797386,
+          0.6118496429292929
+        ],
+        "type": "paragraph",
+        "reading_order": 5,
+        "text": "Given an unsupervised corpus of tokens U = {u 1 , . . . , u n }, we use a standard language modeling objective to maximize the following likelihood: L 1 (U) = (cid:88) log P (u i |u i−k , . . . , u i−1 ; Θ) (1) i where k is the size of the context window, and the conditional probability P is modeled using a neural network with parameters Θ . These parameters are trained using stochastic gradient descent [51]. In our experiments, we use a multi-layer Transformer decoder [34] for the language model, which is a variant of the transformer [62]. This model applies a multi-headed self-attention operation over the input context tokens followed by position-wise feedforward layers to produce an output distribution over target tokens: h 0 = UW e + W p h l = transformer_block(h l−1 )∀i ∈ [1, n] (2) P (u) = softmax(h n W e T ) where U = (u −k , . . . , u −1 ) is the context vector of tokens, n is the number of layers, W e is the token embedding matrix, and W p is the position embedding matrix.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [
+            "34",
+            "51",
+            "62"
+          ],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -4.245468556526859,
+        "rrf_score": 0.0695455439700964
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:1:7",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 1,
+        "bbox": [
+          0.08868464052287582,
+          0.8043640424242425,
+          0.4756434695294119,
+          0.8924178303030302
+        ],
+        "type": "paragraph",
+        "reading_order": 7,
+        "text": "At the core of our approach is language modeling. Lan- guage modeling is usually framed as unsupervised distri- bution estimation from a set of examples (x 1 , x 2 , ..., x n ) each composed of variable length sequences of symbols (s 1 , s 2 , ..., s n ) . Since language has a natural sequential or- dering, it is common to factorize the joint probabilities over",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -4.06454435716771,
+        "rrf_score": 0.05147030185004868
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 42,
+        "bbox": [
+          0.11714215686274511,
+          0.5358347439393939,
+          0.8852023900294115,
+          0.7224216181818182
+        ],
+        "type": "paragraph",
+        "reading_order": 8,
+        "text": "To train all versions of GPT-3, we use Adam with β 1 = 0.9 , β 2 = 0.95 , and (cid:15) = 10 −8 , we clip the global norm of the gradient at 1.0, and we use cosine decay for learning rate down to 10% of its value, over 260 billion tokens (after 260 billion tokens, training continues at 10% of the original learning rate). There is a linear LR warmup over the first 375 million tokens. We also gradually increase the batch size linearly from a small value (32k tokens) to the full value over the first 4-12 billion tokens of training, depending on the model size. Data are sampled without replacement during training (until an epoch boundary is reached) to minimize overfitting. All models use weight decay of 0.1 to provide a small amount of regularization [LH17]. During training we always train on sequences of the full n ctx = 2048 token context window, packing multiple documents into a single sequence when documents are shorter than 2048, in order to increase computational efficiency. Sequences with multiple documents are not masked in any special way but instead documents within a sequence are delimited with a special end of text token, giving the language model the information necessary to infer that context separated by the end of text token is unrelated. This allows for efficient training without need for any special sequence-specific masking.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sparse_score": -7.102089954984249,
+        "rrf_score": 0.07980211375010539
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:4:3",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 4,
+        "bbox": [
+          0.17525,
+          0.2572343224747475,
+          0.8263807992352935,
+          0.44896454747474746
+        ],
+        "type": "paragraph",
+        "reading_order": 3,
+        "text": "Model specifications Our model largely follows the original transformer work [62]. We trained a 12-layer decoder-only transformer with masked self-attention heads (768 dimensional states and 12 attention heads). For the position-wise feed-forward networks, we used 3072 dimensional inner states. We used the Adam optimization scheme [27] with a max learning rate of 2.5e-4. The learning rate was increased linearly from zero over the first 2000 updates and annealed to 0 using a cosine schedule. We train for 100 epochs on minibatches of 64 randomly sampled, contiguous sequences of 512 tokens. Since layernorm [2] is used extensively throughout the model, a simple weight initialization of N(0, 0.02) was sufficient. We used a bytepair encoding (BPE) vocabulary with 40,000 merges [53] and residual, embedding, and attention dropouts with a rate of 0.1 for regularization. We also employed a modified version of L2 regularization proposed in [37], with w = 0.01 on all non bias or gain weights. For the activation function, we used the Gaussian Error Linear Unit (GELU) [18]. We used learned position embeddings instead of the sinusoidal version proposed in the original work. We use the ftfy library 2 to clean the raw text in BooksCorpus, standardize some punctuation and whitespace, and use the spaCy tokenizer. 3",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [
+            "18",
+            "2",
+            "27",
+            "37",
+            "53",
+            "62"
+          ],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -5.7603288604067515,
+        "rrf_score": 0.03943786715246048
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 3,
+        "bbox": [
+          0.09000326797385622,
+          0.3313602545454546,
+          0.4756509220460787,
+          0.7213130323232323
+        ],
+        "type": "paragraph",
+        "reading_order": 4,
+        "text": "Byte Pair Encoding (BPE) (Sennrich et al., 2015) is a practical middle ground between character and word level language modeling which effectively interpolates between word level inputs for frequent symbol sequences and char- acter level inputs for infrequent symbol sequences. Despite its name, reference BPE implementations often operate on Unicode code points and not byte sequences. These imple- mentations would require including the full space of Uni- code symbols in order to model all Unicode strings. This would result in a base vocabulary of over 130,000 before any multi-symbol tokens are added. This is prohibitively large compared to the 32,000 to 64,000 token vocabularies often used with BPE. In contrast, a byte-level version of BPE only requires a base vocabulary of size 256. However, directly applying BPE to the byte sequence results in sub- optimal merges due to BPE using a greedy frequency based heuristic for building the token vocabulary. We observed BPE including many versions of common words like dog since they occur in many variations such as dog. dog! dog? . This results in a sub-optimal allocation of limited vocabulary slots and model capacity. To avoid this, we pre- vent BPE from merging across character categories for any byte sequence. We add an exception for spaces which sig- nificantly improves the compression efficiency while adding only minimal fragmentation of words across multiple vocab tokens.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -6.280256743338407,
+        "rrf_score": 0.05795355751843094
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 7,
+        "bbox": [
+          0.11706045751633988,
+          0.2472002315656566,
+          0.8823512607774504,
+          0.2736413151515152
+        ],
+        "type": "caption",
+        "reading_order": 1,
+        "text": "Table 2.1: Sizes, architectures, and learning hyper-parameters (batch size in tokens and learning rate) of the models which we trained. All models were trained for a total of 300 billion tokens.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sparse_score": -5.797557894377908,
+        "rrf_score": 0.05602640567371706
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 3,
+        "bbox": [
+          0.17647058823529407,
+          0.5759509398989898,
+          0.8235261709542483,
+          0.602580709090909
+        ],
+        "type": "paragraph",
+        "reading_order": 3,
+        "text": "Textual entailment For entailment tasks, we concatenate the premise p and hypothesis h token sequences, with a delimiter token ($) in between.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -6.115129035956408,
+        "rrf_score": 0.056955756544022115
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:3:10",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 3,
+        "bbox": [
+          0.5017679738562092,
+          0.2337630323232323,
+          0.887414919405229,
+          0.39729156767676765
+        ],
+        "type": "paragraph",
+        "reading_order": 10,
+        "text": "few modifications. Layer normalization (Ba et al., 2016) was moved to the input of each sub-block, similar to a pre-activation residual network (He et al., 2016) and an additional layer normalization was added after the final self- attention block. A modified initialization which accounts for the accumulation on the residual path with model depth is used. We scale the weights √ of residual layers at initial- ization by a factor of 1/ N where N is the number of residual layers. The vocabulary is expanded to 50,257. We also increase the context size from 512 to 1024 tokens and a larger batchsize of 512 is used.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -2.405388510987892,
+        "rrf_score": 0.05823681442985503
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 8,
+        "bbox": [
+          0.23282679738562093,
+          0.4693728808080809,
+          0.7671742924836601,
+          0.5722132848484848
+        ],
+        "type": "paragraph",
+        "reading_order": 1,
+        "text": "Quantity Weight in Epochs elapsed when Dataset (tokens) training mix training for 300B tokens Common Crawl (filtered) 410 billion 60% 0.44 WebText2 19 billion 22% 2.9 Books1 12 billion 8% 1.9 Books2 55 billion 8% 0.43 Wikipedia 3 billion 3% 3.4",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sparse_score": -5.303752648987287,
+        "rrf_score": 0.05357168652943301
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 3,
+        "bbox": [
+          0.17647058823529413,
+          0.29701083762626274,
+          0.8235288718496733,
+          0.3372259111111112
+        ],
+        "type": "caption",
+        "reading_order": 0,
+        "text": "Figure 1: (left) Transformer architecture and training objectives used in this work. (right) Input transformations for fine-tuning on different tasks. We convert all structured inputs into token sequences to be processed by our pre-trained model, followed by a linear+softmax layer.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -4.812370988045037,
+        "rrf_score": 0.05205803681413437
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:7:5",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 7,
+        "bbox": [
+          0.09000326797385622,
+          0.3884158101010101,
+          0.47351624739313747,
+          0.506658991919192
+        ],
+        "type": "paragraph",
+        "reading_order": 5,
+        "text": "To study this we created Bloom filters containing 8-grams of WebText training set tokens. To improve recall, strings were normalized to contain only lower-cased alphanumeric words with a single space as a delimiter. The Bloom filters were constructed such that the false positive rate is upper bounded by 10 1 8 . We further verified the low false positive rate by generating 1M strings, of which zero were found by the filter.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -3.037113920033734,
+        "rrf_score": 0.03572429251891286
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:2:3",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 2,
+        "bbox": [
+          0.11706045751633988,
+          0.826138362878788,
+          0.8823580026143786,
+          0.907675406060606
+        ],
+        "type": "caption",
+        "reading_order": 3,
+        "text": "Figure 1.1: Language model meta-learning. During unsupervised pre-training, a language model develops a broad set of skills and pattern recognition abilities. It then uses these abilities at inference time to rapidly adapt to or recognize the desired task. We use the term “in-context learning” to describe the inner loop of this process, which occurs within the forward-pass upon each sequence. The sequences in this diagram are not intended to be representative of the data a model would see during pre-training, but are intended to show that there are sometimes repeated sub-tasks embedded within a single sequence.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sparse_score": -3.0438506767102473,
+        "rrf_score": 0.05138299752562743
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:3:2",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 3,
+        "bbox": [
+          0.17588398692810459,
+          0.3932567191919191,
+          0.8263807992352942,
+          0.557350911111111
+        ],
+        "type": "paragraph",
+        "reading_order": 2,
+        "text": "For some tasks, like text classification, we can directly fine-tune our model as described above. Certain other tasks, like question answering or textual entailment, have structured inputs such as ordered sentence pairs, or triplets of document, question, and answers. Since our pre-trained model was trained on contiguous sequences of text, we require some modifications to apply it to these tasks. Previous work proposed learning task specific architectures on top of transferred representations [44]. Such an approach re-introduces a significant amount of task-specific customization and does not use transfer learning for these additional architectural components. Instead, we use a traversal-style approach [52], where we convert structured inputs into an ordered sequence that our pre-trained model can process. These input transformations allow us to avoid making extensive changes to the architecture across tasks. We provide a brief description of these input transformations below and Figure 1 provides a visual illustration. All transformations include adding randomly initialized start and end tokens ((cid:104)s(cid:105), (cid:104)e(cid:105)).",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [
+            "44",
+            "52"
+          ],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -6.842229866329832,
+        "rrf_score": 0.04241871479774705
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:5:12",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 5,
+        "bbox": [
+          0.5015882352941177,
+          0.41504964848484843,
+          0.8874159286882353,
+          0.6993382848484848
+        ],
+        "type": "paragraph",
+        "reading_order": 12,
+        "text": "We test GPT-2’s ability to perform summarization on the CNN and Daily Mail dataset (Nallapati et al., 2016). To in- duce summarization behavior we add the text TL;DR: after the article and generate 100 tokens with Top- k random sam- pling (Fan et al., 2018) with k = 2 which reduces repetition and encourages more abstractive summaries than greedy de- coding. We use the first 3 generated sentences in these 100 tokens as the summary. While qualitatively the generations resemble summaries, as shown in Table 14, they often focus on recent content from the article or confuse specific details such as how many cars were involved in a crash or whether a logo was on a hat or shirt. On the commonly reported ROUGE 1,2,L metrics the generated summaries only begin to approach the performance of classic neural baselines and just barely outperforms selecting 3 random sentences from the article. GPT-2’s performance drops by 6.4 points on the aggregate metric when the task hint is removed which demonstrates the ability to invoke task specific behavior in a language model with natural language.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -2.7382380484060174,
+        "rrf_score": 0.03371051390853371
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:8:2",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 8,
+        "bbox": [
+          0.11710947712418301,
+          0.5953618477272727,
+          0.8823498632352934,
+          0.649350911111111
+        ],
+        "type": "caption",
+        "reading_order": 2,
+        "text": "Table 2.2: Datasets used to train GPT-3 . “Weight in training mix” refers to the fraction of examples during training that are drawn from a given dataset, which we intentionally do not make proportional to the size of the dataset. As a result, when we train for 300 billion tokens, some datasets are seen up to 3.4 times during training while other datasets are seen less than once.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sparse_score": -3.1070571303709618,
+        "rrf_score": 0.03611111111111111
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:3:5",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 3,
+        "bbox": [
+          0.17647058823529413,
+          0.694148463888889,
+          0.8239381878506535,
+          0.7619115171717172
+        ],
+        "type": "paragraph",
+        "reading_order": 5,
+        "text": "Question Answering and Commonsense Reasoning For these tasks, we are given a context document z , a question q , and a set of possible answers {a k } . We concatenate the document context and question with each possible answer, adding a delimiter token in between to get [z; q; $; a k ] . Each of these sequences are processed independently with our model and then normalized via a softmax layer to produce an output distribution over possible answers.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -4.1691420195151725,
+        "rrf_score": 0.04007606822368812
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:3:3",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 3,
+        "bbox": [
+          0.09000326797385622,
+          0.1426746484848484,
+          0.4756371091225492,
+          0.3212978808080809
+        ],
+        "type": "paragraph",
+        "reading_order": 3,
+        "text": "A general language model (LM) should be able to compute the probability of (and also generate) any string. Current large scale LMs include pre-processing steps such as lower- casing, tokenization, and out-of-vocabulary tokens which restrict the space of model-able strings. While processing Unicode strings as a sequence of UTF-8 bytes elegantly ful- fills this requirement as exemplified in work such as Gillick et al. (2015), current byte-level LMs are not competitive with word-level LMs on large scale datasets such as the One Billion Word Benchmark (Al-Rfou et al., 2018). We observed a similar performance gap in our own attempts to train standard byte-level LMs on WebText.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -2.309319932881915,
+        "rrf_score": 0.033255813953488374
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:8:0",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 8,
+        "bbox": [
+          0.11764705882352941,
+          0.3940133628787879,
+          0.8823520181503269,
+          0.4480024262626262
+        ],
+        "type": "caption",
+        "reading_order": 0,
+        "text": "Figure 2.2: Total compute used during training . Based on the analysis in Scaling Laws For Neural Language Models [KMH + 20] we train much larger models on many fewer tokens than is typical. As a consequence, although GPT-3 3B is almost 10x larger than RoBERTa-Large (355M params), both models took roughly 50 petaflop/s-days of compute during pre-training. Methodology for these calculations can be found in Appendix D.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "sparse_score": -3.0600757899148023,
+        "rrf_score": 0.03556092324208266
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:2:7",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 2,
+        "bbox": [
+          0.17588398692810459,
+          0.6534688404040404,
+          0.825569162908497,
+          0.742075653030303
+        ],
+        "type": "equation",
+        "reading_order": 7,
+        "text": "After training the model with the objective in Eq. 1, we adapt the parameters to the supervised target task. We assume a labeled dataset C , where each instance consists of a sequence of input tokens, x 1 , . . . , x m , along with a label y . The inputs are passed through our pre-trained model to obtain the final transformer block’s activation h m l , which is then fed into an added linear output layer with parameters W y to predict y : P (y|x 1 , . . . , x m ) = softmax (h m l W y ). (3)",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "sparse_score": -2.6236807213623963,
+        "rrf_score": 0.03400507538438573
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:13:10",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 13,
+        "bbox": [
+          0.08969444444444445,
+          0.8027542202020201,
+          0.46957678243137274,
+          0.8417496747474748
+        ],
+        "type": "caption",
+        "reading_order": 10,
+        "text": "Table 7. Random unseen contexts (top), and non-cherry-picked Contexts are 768 tokens, with approximately 256 tokens worth of random sampling with k = 40 was used for generation.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "sparse_score": -5.968542644240384,
+        "rrf_score": 0.02730936118445526
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:2:4",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 2,
+        "bbox": [
+          0.17647058823529413,
+          0.35227346388888886,
+          0.39668962875817004,
+          0.36485250429292926
+        ],
+        "type": "heading",
+        "reading_order": 4,
+        "text": "3.1 Unsupervised pre-training",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "neighbor_context": true
+      },
+      {
+        "id": "183049f27bb7449a93faec0b1d9e30d6:2:6",
+        "version_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "page_index": 2,
+        "bbox": [
+          0.17647058823529413,
+          0.6281598275252526,
+          0.36987851405228767,
+          0.6407388679292929
+        ],
+        "type": "heading",
+        "reading_order": 6,
+        "text": "3.2 Supervised fine-tuning",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "183049f27bb7449a93faec0b1d9e30d6",
+        "neighbor_context": true
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:1:6",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 1,
+        "bbox": [
+          0.09058823529411765,
+          0.7778250464646465,
+          0.19285207843137256,
+          0.792919995959596
+        ],
+        "type": "heading",
+        "reading_order": 6,
+        "text": "2. Approach",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "neighbor_context": true
+      },
+      {
+        "id": "6cb2e42757664ed183f117875d8c45b4:1:8",
+        "version_id": "6cb2e42757664ed183f117875d8c45b4",
+        "page_index": 1,
+        "bbox": [
+          0.5072987304470589,
+          0.32097139191919205,
+          0.8870125845647054,
+          0.332292604040404
+        ],
+        "type": "paragraph",
+        "reading_order": 8,
+        "text": "al., 2019). Section 3 contains detailed descriptions of each result.",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "two_column",
+          "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+          "parser_version": "pdfplumber-layout-v2",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "6cb2e42757664ed183f117875d8c45b4",
+        "neighbor_context": true
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:42:7",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 42,
+        "bbox": [
+          0.11764705882352941,
+          0.5060573696969697,
+          0.3641937568627451,
+          0.5211523191919192
+        ],
+        "type": "heading",
+        "reading_order": 7,
+        "text": "B Details of Model Training",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "neighbor_context": true
+      },
+      {
+        "id": "dae6c78ff75f412a8969110847fa06ed:42:9",
+        "version_id": "dae6c78ff75f412a8969110847fa06ed",
+        "page_index": 42,
+        "bbox": [
+          0.11764705882352941,
+          0.7441394404040403,
+          0.4962283921568628,
+          0.75923438989899
+        ],
+        "type": "heading",
+        "reading_order": 9,
+        "text": "C Details of Test Set Contamination Studies",
+        "source": "pdfplumber",
+        "quality": "native",
+        "metadata": {
+          "citation_markers": [],
+          "layout": "single_column",
+          "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+          "parser_version": "pdfplumber-layout-v1",
+          "models": [],
+          "device": "cpu"
+        },
+        "parse_id": "dae6c78ff75f412a8969110847fa06ed",
+        "neighbor_context": true
+      }
+    ],
+    "sparse": [
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -21.17577381428848
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:18:7",
+        "score": -19.21354313200353
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:13:10",
+        "score": -16.85734062552523
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:11",
+        "score": -16.85734062552523
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:16:6",
+        "score": -16.85734062552523
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:12",
+        "score": -16.85734062552523
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "score": -16.433284300951144
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:14:6",
+        "score": -16.138175648573846
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -14.434138201446352
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "score": -13.60514703918027
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:5",
+        "score": -13.3784763516584
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -11.973890334027402
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:67:15",
+        "score": -11.319565580218375
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -10.981054876401142
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:1:7",
+        "score": -10.550454581548326
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:9:10",
+        "score": -10.257539569841772
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:25:3",
+        "score": -10.055351538021135
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -10.045746838658642
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:10:25",
+        "score": -9.908911298969432
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:2:3",
+        "score": -9.776159792494912
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:70:14",
+        "score": -9.68936631604182
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:13:18",
+        "score": -9.433372095200387
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:20",
+        "score": -9.433372095200387
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:16:11",
+        "score": -9.433372095200387
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:25",
+        "score": -9.433372095200387
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:68:7",
+        "score": -8.870775784755596
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:19:11",
+        "score": -8.816758906766282
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:4:1",
+        "score": -8.71651791850049
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:4:9",
+        "score": -8.593878870352295
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:2",
+        "score": -8.56261527065897
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:12:2",
+        "score": -8.449957135718524
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:0",
+        "score": -8.433141261541568
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:9:26",
+        "score": -8.400266005046014
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:5:3",
+        "score": -8.313542849913546
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:18:3",
+        "score": -8.11388322818777
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:2",
+        "score": -8.08543307954771
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:9:1",
+        "score": -7.921018972993728
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:3",
+        "score": -7.857298885379199
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:45:2",
+        "score": -7.838494123272927
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:3",
+        "score": -7.7298166330922635
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:5:12",
+        "score": -7.546201419599075
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:17:3",
+        "score": -7.52808522229873
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:4:3",
+        "score": -7.491781190288844
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:45:3",
+        "score": -7.429410674087652
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:7",
+        "score": -7.41764376296562
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:19:2",
+        "score": -7.401693724248477
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:4:3",
+        "score": -6.827185973275331
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:10",
+        "score": -6.793694186901202
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:17:5",
+        "score": -6.775175471355939
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:23:1",
+        "score": -6.483949697273806
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:19:0",
+        "score": -6.446550817793913
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:39:3",
+        "score": -6.344970017956757
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:24:3",
+        "score": -6.239585368511842
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:26",
+        "score": -6.237382141737166
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:22:8",
+        "score": -6.100109554556161
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:13:4",
+        "score": -5.981267079382876
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:55:2",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:57:0",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:1",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:5:5",
+        "score": -5.831490659387131
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -14.790245137112308
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -14.790245137112308
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:13:10",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:11",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:16:6",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:12",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:14:6",
+        "score": -10.7898697261607
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:18:7",
+        "score": -10.729843103550206
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -10.203678079481454
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -10.203678079481454
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:2:3",
+        "score": -8.898038343782371
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:2:3",
+        "score": -8.898038343782371
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:68:7",
+        "score": -8.870775784755596
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -8.278291417999245
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -8.278291417999245
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:73:3",
+        "score": -8.043248941287352
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:9:1",
+        "score": -8.030610706110584
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:9:1",
+        "score": -8.030610706110584
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:5:3",
+        "score": -7.77186707458665
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:5",
+        "score": -6.981987898218167
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:5",
+        "score": -6.981987898218167
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:11",
+        "score": -6.933061137508557
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:7",
+        "score": -6.543312130260809
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:7",
+        "score": -6.543312130260809
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:1:7",
+        "score": -6.485910224380617
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "score": -6.358893852432962
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:11:0",
+        "score": -6.204823894877183
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:7:8",
+        "score": -6.079811965683151
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -5.855388521009248
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -5.855388521009248
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:10:2",
+        "score": -5.827072426983796
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:1",
+        "score": -5.232562264331559
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:5:1",
+        "score": -4.8730682476595435
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:7:5",
+        "score": -4.740438659880191
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "score": -4.647287056935019
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:10",
+        "score": -4.643077614466444
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:4:3",
+        "score": -8.817948204573533
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:4:3",
+        "score": -8.817948204573533
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -7.102089954984249
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -7.102089954984249
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:2",
+        "score": -6.842229866329832
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:2",
+        "score": -6.842229866329832
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:67:15",
+        "score": -6.43169745125598
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "score": -6.280256743338407
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "score": -6.280256743338407
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "score": -6.115129035956408
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "score": -6.115129035956408
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:14:6",
+        "score": -5.981890860469195
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:13:10",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:11",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:16:6",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:12",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:9:10",
+        "score": -5.828261750857397
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -5.797557894377908
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -5.797557894377908
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:70:14",
+        "score": -5.505429709076298
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -5.303752648987287
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -5.303752648987287
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:8",
+        "score": -5.222415579424815
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:8",
+        "score": -5.222415579424815
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -4.812370988045037
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -4.812370988045037
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -4.245468556526859
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:1:7",
+        "score": -4.06454435716771
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:2",
+        "score": -3.1070571303709618
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:2",
+        "score": -3.1070571303709618
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:0",
+        "score": -3.0600757899148023
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:2:3",
+        "score": -3.0438506767102473
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:7:5",
+        "score": -3.037113920033734
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:5:12",
+        "score": -2.7382380484060174
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:10",
+        "score": -2.405388510987892
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:3",
+        "score": -2.309319932881915
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:13:10",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:11",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:16:6",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:12",
+        "score": -11.520969114082703
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:14:6",
+        "score": -10.7898697261607
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:18:7",
+        "score": -10.729843103550206
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -10.294682917665344
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -10.294682917665344
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -8.9134409982115
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -8.9134409982115
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -8.231768274088122
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -8.231768274088122
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:24:0",
+        "score": -6.559389904275887
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:24:0",
+        "score": -6.559389904275887
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:10",
+        "score": -6.5089206229479455
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:4:0",
+        "score": -6.096105886545404
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:4:0",
+        "score": -6.096105886545404
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:55:2",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:57:0",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:55:2",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:57:0",
+        "score": -5.858787022378092
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:5:1",
+        "score": -4.8730682476595435
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:9",
+        "score": -4.532575616097172
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:9:20",
+        "score": -4.468269325273217
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:9:14",
+        "score": -4.314663734467862
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:5",
+        "score": -4.1691420195151725
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:5",
+        "score": -4.1691420195151725
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:4:9",
+        "score": -4.126185770533226
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:8:1",
+        "score": -4.116566930482498
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:11:0",
+        "score": -3.871077287786734
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:7:8",
+        "score": -3.7930846085416445
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:5:7",
+        "score": -3.0784015846266803
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:5:7",
+        "score": -3.0784015846266803
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:9",
+        "score": -2.6581421412026627
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:6:2",
+        "score": -2.6546648376420876
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:7",
+        "score": -2.6236807213623963
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -7.102089954984249
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:42:8",
+        "score": -7.102089954984249
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:2",
+        "score": -6.842229866329832
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:2",
+        "score": -6.842229866329832
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:67:15",
+        "score": -6.43169745125598
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "score": -6.280256743338407
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:4",
+        "score": -6.280256743338407
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "score": -6.115129035956408
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:3",
+        "score": -6.115129035956408
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:14:6",
+        "score": -5.981890860469195
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:13:10",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:15:11",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:16:6",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:17:12",
+        "score": -5.968542644240384
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:9:10",
+        "score": -5.828261750857397
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -5.797557894377908
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:7:1",
+        "score": -5.797557894377908
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:4:3",
+        "score": -5.7603288604067515
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:4:3",
+        "score": -5.7603288604067515
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:70:14",
+        "score": -5.505429709076298
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -5.303752648987287
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:1",
+        "score": -5.303752648987287
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:8",
+        "score": -5.222415579424815
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:8",
+        "score": -5.222415579424815
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -4.812370988045037
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:3:0",
+        "score": -4.812370988045037
+      },
+      {
+        "block_id": "183049f27bb7449a93faec0b1d9e30d6:2:5",
+        "score": -4.245468556526859
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:1:7",
+        "score": -4.06454435716771
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:2",
+        "score": -3.1070571303709618
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:2",
+        "score": -3.1070571303709618
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:8:0",
+        "score": -3.0600757899148023
+      },
+      {
+        "block_id": "dae6c78ff75f412a8969110847fa06ed:2:3",
+        "score": -3.0438506767102473
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:7:5",
+        "score": -3.037113920033734
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:5:12",
+        "score": -2.7382380484060174
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:10",
+        "score": -2.405388510987892
+      },
+      {
+        "block_id": "6cb2e42757664ed183f117875d8c45b4:3:3",
+        "score": -2.309319932881915
+      }
+    ],
+    "dense": [],
+    "mode": "keyword",
+    "notice": "当前使用对称分词的关键词索引；向量覆盖尚未完成",
+    "version_ids": [
+      "183049f27bb7449a93faec0b1d9e30d6",
+      "6cb2e42757664ed183f117875d8c45b4",
+      "dae6c78ff75f412a8969110847fa06ed"
+    ],
+    "method": "FTS5_BM25",
+    "dense_index": {
+      "status": "unindexed"
+    },
+    "rerank": {
+      "status": "NOT RUN"
+    },
+    "query_term_expansion": [
+      "context",
+      "length",
+      "sequence",
+      "sequences",
+      "tokens",
+      "window",
+      "positional"
+    ]
+  },
+  "model_calls": 0
+}

@@ -1,31 +1,214 @@
+/**
+ * A single persisted run (question, comparison, audit, translation…):
+ * live execution timeline over SSE with polling as the source of truth,
+ * cancel/resume at checkpoints, and the validated answer.
+ */
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Clock3, ExternalLink, FileDown, ListChecks, MessageSquare, Play, Square, X } from './icons';
+import { CheckCircle2, Clock3, MessageSquare, Play, Square, X } from './icons';
 import { api, date, endpoint, errorMessage, parseObject } from './api';
 import type { Evidence, Result, Run, Step } from './types';
-import { Badge, Busy, Disclosure, Empty, ErrorBox, Markdown } from './ui';
-export const activeRun=(run:Run)=>['queued','running','waiting_batch','waiting_children'].includes(run.status);
-export function RunResult({run,onEvidence}:{run:Run;onEvidence:(e:Evidence)=>void}) {
- const result=parseObject<Result>(run.result,{}); const claims=result?.claims??[];
- const segments=result?.answer_segments;
- const answer=segments?.length?segments.map(segment=>segment.text).join('\n\n'):result?.answer;
- return <div className="run-result">
-  <div className="result-meta"><Badge status={run.status}/><span>{result?.model??'未调用生成模型'}</span><span>{date(run.created)}</span></div>
-  {run.error&&<ErrorBox error={run.error}/>}
-  {result?.publication_notice&&<p className="info-note">{String(result.publication_notice)}</p>}
-  {!segments?.length&&claims.length>0&&<p className="info-note">历史结果：原引用可定位，尚未按新版主张审查机制重新复核。</p>}
-  {typeof result?.searched_at==='number'&&<p className="muted">检索时间：{date(result.searched_at)}</p>}
-  <div className="answer-text">{answer&&<Markdown>{answer}</Markdown>}</div>
-  {claims.map((claim,i)=><section className="claim" key={claim.id??i}>
-   <span className={`claim-kind ${claim.type}`}>{({source_fact:'源文事实',inference:'模型推断',insufficient_evidence:'证据不足',insufficient:'证据不足',suggestion:'研究建议',research_suggestion:'研究建议',calculation:'确定性计算'} as Record<string,string>)[claim.type]??claim.type}</span>
-   <p>{claim.text}</p>
-   <p className="muted">{claim.review?.label??'原文已定位，语义支持待复核'}{claim.review?.reason?` · ${claim.review.reason}`:''}</p>
-   <div className="evidence-list">{(claim.evidence??[]).map((e,j)=><button className="evidence-chip" key={j} onClick={()=>onEvidence(e)} title={e.quote}><span>[{i+1}.{j+1}] 第 {e.page_index+1} 页</span><ExternalLink size={12}/></button>)}</div>
-   {(claim.evidence??[]).map((e,j)=><div className="evidence-quote" key={j}><blockquote>{e.quote}</blockquote><button className="text-button" onClick={()=>onEvidence(e)}>原文定位</button><span>出处已定位 · {claim.review?.label??'语义支持待复核'}</span></div>)}
-  </section>)}
-  {result?.artifact_id&&<div className="export-row"><a className="small-button" href={endpoint(`/artifacts/${result.artifact_id}/export?format=md`)} download><FileDown size={14}/>Markdown</a><a className="small-button" href={endpoint(`/artifacts/${result.artifact_id}/export?format=html`)} download>HTML</a><a className="small-button" href={endpoint(`/artifacts/${result.artifact_id}/export?format=bib`)} download>BibTeX</a></div>}
-  {!answer&&!claims.length&&!activeRun(run)&&!run.error&&<p className="muted">{JSON.stringify(result,null,2)}</p>}
-  <Disclosure title="检索与版本快照"><pre className="code-block">{JSON.stringify({retrieval:result?.retrieval,version_snapshot:run.payload,query:result?.query,searched_at:result?.searched_at,search:result?.search,status:result?.status},null,2)}</pre></Disclosure>
- </div>;
+import { Badge, Busy, Disclosure, Empty, ErrorBox } from './ui';
+import { AgentTimeline } from './components/AgentTimeline';
+import { AnswerView } from './components/AnswerView';
+
+export const activeRun = (run: Run) =>
+  ['queued', 'running', 'waiting_batch', 'waiting_children'].includes(run.status);
+
+export function RunResult({ run, onEvidence }: { run: Run; onEvidence: (e: Evidence) => void }) {
+  return <AnswerView run={run} onEvidence={onEvidence} />;
 }
-export function RunDetail({runId,onEvidence,onUpdate}:{runId:string;onEvidence:(e:Evidence)=>void;onUpdate?:()=>void}){const [run,setRun]=useState<Run|null>(null);const [error,setError]=useState('');const [steps,setSteps]=useState<Step[]>([]);useEffect(()=>{let live=true;let source:EventSource|null=null;let timer:ReturnType<typeof setInterval>|undefined;const refresh=async()=>{try{const next=await api<Run>(`/runs/${runId}`);if(live){setRun({...next,result:parseObject(next.result,null),payload:parseObject(next.payload,{})});setSteps((next.steps??[]).slice(-100));if(!activeRun(next)){source?.close();if(timer)clearInterval(timer);onUpdate?.()}}}catch(e){if(live)setError(errorMessage(e))}};void refresh();timer=setInterval(refresh,2000);source=new EventSource(endpoint(`/runs/${runId}/events`),{withCredentials:true});const receive=(event:MessageEvent)=>{try{const step=JSON.parse(event.data) as Step;if(step.id&&live)setSteps(previous=>previous.some(s=>s.id===step.id)?previous:[...previous,step].slice(-100))}catch{/* next status poll retains server truth */}};source.onmessage=receive;source.addEventListener('step',receive as EventListener);source.addEventListener('done',()=>void refresh());return()=>{live=false;source?.close();if(timer)clearInterval(timer)}},[runId]);async function change(action:string){try{await api(`/runs/${runId}/${action}`,{});const next=await api<Run>(`/runs/${runId}`);setRun(next);onUpdate?.()}catch(e){setError(errorMessage(e))}}return <div className="run-detail">{error&&<ErrorBox error={error}/>}<div className="section-heading"><h3><ListChecks size={17}/>公开执行记录</h3>{run&&<Badge status={run.status}/>}</div>{!run&&<Busy>载入运行</Busy>}{run&&<><div className="run-actions">{activeRun(run)&&<button className="small-button" onClick={()=>void change('cancel')}><Square size={13}/>取消任务</button>}{['failed','cancelled','partial','waiting_for_user'].includes(run.status)&&<button className="small-button" onClick={()=>void change('resume')}><Play size={13}/>从检查点恢复</button>}<span className="muted">{run.kind} · {run.id.slice(0,8)}</span></div>{activeRun(run)&&<p className="info-note"><Busy>{run.status==='queued'?'已持久化，正在等待可用资源':'正在执行真实工具与模型请求'}</Busy></p>}<p className="muted trace-scope">最新 {steps.length} 个真实事件；完整记录保留在服务端。</p><div className="step-list">{steps.map(step=><div className="step" key={step.id}><span className="step-dot"/><div><strong>{step.event}</strong><p>{Object.entries(parseObject(step.data,{})).map(([k,v])=>`${k}：${typeof v==='object'?JSON.stringify(v):v}`).join('；')}</p><time>{date(step.created)}</time></div></div>)}</div><RunResult run={run} onEvidence={onEvidence}/></>}</div>}
-export function RunsDrawer({runs,onClose,onSelect}:{runs:Run[];onClose:()=>void;onSelect:(id:string)=>void}){return <div className="drawer-backdrop" onClick={onClose}><aside className="runs-drawer" onClick={e=>e.stopPropagation()}><div className="section-heading"><h2>任务与历史</h2><button className="icon-button" aria-label="关闭任务列表" onClick={onClose}><X/></button></div><p className="muted">历史记录保留原始版本与生成时间。重连不会重新调用模型。</p>{!runs.length&&<Empty title="还没有运行记录">导入论文或发起一个问题后，执行过程会显示在这里。</Empty>}{runs.map(run=><button className="run-row" key={run.id} onClick={()=>onSelect(run.id)}>{activeRun(run)?<Clock3 size={17}/>:run.status==='completed'?<CheckCircle2 size={17}/>:<MessageSquare size={17}/>}<div><strong>{String(parseObject<Record<string,unknown>>(run.payload,{}).question??run.kind)}</strong><small>{date(run.created)}</small></div><Badge status={run.status}/></button>)}</aside></div>}
+
+function RetrievalSummary({ result }: { result: Result | null }) {
+  const retrieval = parseObject<Record<string, unknown>>(result?.retrieval, {});
+  if (!result || !Object.keys(retrieval).length) return null;
+  const blocks = Array.isArray(retrieval.blocks) ? retrieval.blocks.length : 0;
+  const rewrites = Array.isArray(retrieval.rewritten_queries) ? (retrieval.rewritten_queries as string[]) : [];
+  return (
+    <Disclosure title="检索范围与证据来源">
+      <div style={{ display: 'grid', gap: 6, fontSize: 13 }}>
+        <span>
+          方式：{retrieval.mode === 'hybrid' ? '关键词 + 语义混合检索' : '关键词检索'} · 送入模型的原文段落 {blocks} 段
+        </span>
+        {rewrites.length > 0 && <span>英文改写查询：{rewrites.join(' · ')}</span>}
+        {typeof retrieval.notice === 'string' && <span className="muted">{retrieval.notice}</span>}
+        <pre className="code-block">
+          {JSON.stringify({ retrieval: { ...retrieval, blocks: undefined }, status: result.status }, null, 2)}
+        </pre>
+      </div>
+    </Disclosure>
+  );
+}
+
+export function RunDetail({
+  runId,
+  onEvidence,
+  onUpdate,
+  versionLabel,
+}: {
+  runId: string;
+  onEvidence: (e: Evidence) => void;
+  onUpdate?: () => void;
+  versionLabel?: (versionId: string) => string;
+}) {
+  const [run, setRun] = useState<Run | null>(null);
+  const [error, setError] = useState('');
+  const [steps, setSteps] = useState<Step[]>([]);
+
+  useEffect(() => {
+    let live = true;
+    let source: EventSource | null = null;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const refresh = async () => {
+      try {
+        const next = await api<Run>(`/runs/${runId}`);
+        if (!live) return;
+        setRun({ ...next, result: parseObject(next.result, null), payload: parseObject(next.payload, {}) });
+        setSteps((next.steps ?? []).slice(-200));
+        if (!activeRun(next)) {
+          source?.close();
+          if (timer) clearInterval(timer);
+          onUpdate?.();
+        }
+      } catch (e) {
+        if (live) setError(errorMessage(e));
+      }
+    };
+    void refresh();
+    timer = setInterval(refresh, 2500);
+    source = new EventSource(endpoint(`/runs/${runId}/events`), { withCredentials: true });
+    const receive = (event: MessageEvent) => {
+      try {
+        const step = JSON.parse(event.data) as Step;
+        if (step.id && live) {
+          setSteps((previous) =>
+            previous.some((s) => s.id === step.id) ? previous : [...previous, step].slice(-200),
+          );
+        }
+      } catch {
+        /* the next status poll restores server truth */
+      }
+    };
+    source.onmessage = receive;
+    source.addEventListener('step', receive as EventListener);
+    source.addEventListener('done', () => void refresh());
+    return () => {
+      live = false;
+      source?.close();
+      if (timer) clearInterval(timer);
+    };
+  }, [runId]);
+
+  async function change(action: 'cancel' | 'resume') {
+    try {
+      await api(`/runs/${runId}/${action}`, {});
+      const next = await api<Run>(`/runs/${runId}`);
+      setRun({ ...next, result: parseObject(next.result, null), payload: parseObject(next.payload, {}) });
+      onUpdate?.();
+    } catch (e) {
+      setError(errorMessage(e));
+    }
+  }
+
+  if (!run) return error ? <ErrorBox error={error} /> : <Busy>载入任务</Busy>;
+  const running = activeRun(run);
+  return (
+    <div className="run-detail">
+      {error && <ErrorBox error={error} />}
+      <div className="run-actions">
+        <Badge status={run.status} />
+        {running && (
+          <button className="small-button" onClick={() => void change('cancel')}>
+            <Square size={12} />
+            取消
+          </button>
+        )}
+        {['failed', 'cancelled', 'partial', 'waiting_for_user'].includes(run.status) && (
+          <button className="small-button" onClick={() => void change('resume')}>
+            <Play size={12} />
+            从检查点恢复
+          </button>
+        )}
+        {running && <Busy>{run.status === 'queued' ? '已排队，等待资源' : '正在执行真实工具与模型请求'}</Busy>}
+      </div>
+      <AgentTimeline steps={steps} live={running} />
+      {!running && <AnswerView run={run} onEvidence={onEvidence} versionLabel={versionLabel} />}
+      {!running && Array.isArray(run.result?.coverage_matrix) && <section className="data-table-wrap" aria-label="后续工作条件对照">
+        <h3>后续工作与条件对照</h3>
+        <table><thead><tr><th>后续论文</th><th>时间与覆盖</th><th>条件、范围与全文证据</th></tr></thead><tbody>
+          {(run.result.coverage_matrix as {version_id:string;title:string;category:string;time_comparison?:{status:string};statements:string[];evidence:Evidence[];notice:string}[]).map(row=><tr key={row.version_id}>
+            <td>{row.title}</td><td>{{direct:'直接相关证据',partial:'部分覆盖',insufficient:'当前证据不足'}[row.category]??row.category}<br/><small>{row.time_comparison?.status==='later'?'发表区间晚于来源':'发表先后尚不确定'}</small></td>
+            <td>{row.statements.map((text,i)=><p key={i}>{text}</p>)}{row.evidence.map((e,i)=><button key={i} className="text-button" onClick={()=>onEvidence(e)}>查看原文 · 第 {e.page_index+1} 页</button>)}<p className="muted">{row.notice}</p></td>
+          </tr>)}
+        </tbody></table>
+      </section>}
+      {!running && <RetrievalSummary result={run.result} />}
+    </div>
+  );
+}
+
+const KIND_LABEL: Record<string, string> = {
+  qa: '问答',
+  agent: '多篇分析',
+  parse: '导入与解析',
+  parse_document: '导入与解析',
+  reparse: '重新解析',
+  translate: '翻译',
+  audit: '研究建议核查',
+  index: '语义索引',
+  card: '文献卡片',
+  writing: '写作',
+  watch: '追踪检查',
+  text_translation:'选段翻译',
+  recommendation:'文献推荐',
+  reference_classify:'引用功能分类',
+  reference_download:'参考文献下载',
+  reference_import:'参考文献获取',
+};
+
+export function runTitle(run: Run) {
+  const payload = parseObject<Record<string, unknown>>(run.payload, {});
+  return String(payload.question ?? KIND_LABEL[run.kind] ?? run.kind);
+}
+
+export function RunsDrawer({
+  runs,
+  onClose,
+  onSelect,
+}: {
+  runs: Run[];
+  onClose: () => void;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="drawer-backdrop" onClick={onClose}>
+      <aside className="runs-drawer" onClick={(e) => e.stopPropagation()} aria-label="任务与历史">
+        <div className="section-heading">
+          <h2>任务与历史</h2>
+          <button className="icon-button" aria-label="关闭任务列表" onClick={onClose}>
+            <X size={18} />
+          </button>
+        </div>
+        <p className="muted">每条记录保留原始版本与时间；断线重连不会重复调用模型。</p>
+        {!runs.length && <Empty title="还没有任务">导入论文或提出问题后，执行过程会显示在这里。</Empty>}
+        {runs.map((run) => (
+          <button className="run-row" key={run.id} onClick={() => onSelect(run.id)}>
+            {activeRun(run) ? (
+              <Clock3 size={17} />
+            ) : run.status === 'completed' ? (
+              <CheckCircle2 size={17} />
+            ) : (
+              <MessageSquare size={17} />
+            )}
+            <div>
+              <strong>{runTitle(run)}</strong>
+              <small>
+                {KIND_LABEL[run.kind] ?? run.kind} · {date(run.created)}
+              </small>
+            </div>
+            <Badge status={run.status} />
+          </button>
+        ))}
+      </aside>
+    </div>
+  );
+}

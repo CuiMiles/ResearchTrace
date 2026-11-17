@@ -1,0 +1,309 @@
+{
+  "derived_from": "evidence/completion-20261116/safe-artifacts-live-repairs.json",
+  "source_case": "reference-classification-batched12",
+  "status_meaning": "Execution and machine checks only; independent human quality review NOT RUN",
+  "name": "reference-classification-batched12",
+  "run_id": "35bf5d35cf1e4a5ea0cfd535a23b14ad",
+  "status": "PASS",
+  "run": {
+    "id": "35bf5d35cf1e4a5ea0cfd535a23b14ad",
+    "workspace": "031dcae328aa4df2a24167d69d8f14c6",
+    "kind": "reference_classify",
+    "status": "completed",
+    "payload": {
+      "analysis_id": "90d7072e048144dc8840c1dc6bc28a76"
+    },
+    "result": {
+      "status": "completed",
+      "analysis_id": "90d7072e048144dc8840c1dc6bc28a76",
+      "classified": 40,
+      "total": 40,
+      "model": "gemini-3.5-flash-lite"
+    },
+    "error": null,
+    "idempotency": "public-reference-batches12-20261117",
+    "created": 1794861818.3087707,
+    "updated": 1794886553.069469,
+    "steps": [
+      {
+        "id": 8282,
+        "event": "queued",
+        "data": {
+          "kind": "reference_classify",
+          "message": "任务已持久化，等待单 worker 执行"
+        },
+        "created": 1794861818.3214204
+      },
+      {
+        "id": 8285,
+        "event": "started",
+        "data": {
+          "kind": "reference_classify"
+        },
+        "created": 1794861819.445576
+      },
+      {
+        "id": 8286,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "3599adafac7d4b339bafe91a2b6215c9",
+          "reserved_input_tokens": 28653,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794861819.4857156
+      },
+      {
+        "id": 8287,
+        "event": "partial",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794861820.0980673
+      },
+      {
+        "id": 8294,
+        "event": "started",
+        "data": {
+          "kind": "reference_classify"
+        },
+        "created": 1794885193.7189279
+      },
+      {
+        "id": 8295,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "889efe45a7cd4bb5a169fa90feb209d1",
+          "reserved_input_tokens": 28653,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885193.7713034
+      },
+      {
+        "id": 8296,
+        "event": "partial",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794885196.7978275
+      },
+      {
+        "id": 8313,
+        "event": "started",
+        "data": {
+          "kind": "reference_classify"
+        },
+        "created": 1794885518.757595
+      },
+      {
+        "id": 8314,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "ce18643e0b504e9eb2a4dbc648fc706c",
+          "reserved_input_tokens": 28653,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885518.8031502
+      },
+      {
+        "id": 8315,
+        "event": "provider_request_invalid",
+        "data": {
+          "mentioned_fields": [],
+          "unknown_name": false,
+          "unsupported": false,
+          "schema_too_complex": true
+        },
+        "created": 1794885523.1678345
+      },
+      {
+        "id": 8316,
+        "event": "partial",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794885523.2050276
+      },
+      {
+        "id": 8323,
+        "event": "started",
+        "data": {
+          "kind": "reference_classify"
+        },
+        "created": 1794885788.3996336
+      },
+      {
+        "id": 8324,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "7d0bf69c87c24c03906ce3ca44189b45",
+          "reserved_input_tokens": 28653,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885788.432486
+      },
+      {
+        "id": 8325,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "1edb33327db3421982f1e1e701b7d6b1",
+          "reserved_input_tokens": 15527,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885792.9489202
+      },
+      {
+        "id": 8326,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "5c37e3f1052f44eb9763d2243b6e00b5",
+          "reserved_input_tokens": 15161,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885797.138797
+      },
+      {
+        "id": 8330,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "fad59bc2d20c48919dc1ccd32a770405",
+          "reserved_input_tokens": 5355,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885801.1794932
+      },
+      {
+        "id": 8332,
+        "event": "provider_overload_retry",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "wait_seconds": 4
+        },
+        "created": 1794885804.5699944
+      },
+      {
+        "id": 8348,
+        "event": "model_request",
+        "data": {
+          "model": "gemini-3.5-flash-lite",
+          "project": "gemini-project-2",
+          "quota_id": "5efa95c863a84f11b53ec3ab2e65b869",
+          "reserved_input_tokens": 5355,
+          "method": "generateContent",
+          "core_calls": {
+            "profile": "judging",
+            "estimated_core_calls": 1,
+            "limit": 2,
+            "used": 0,
+            "remaining": 2
+          }
+        },
+        "created": 1794885808.5954335
+      },
+      {
+        "id": 8367,
+        "event": "failed",
+        "data": {
+          "error": "模型返回了未知或重复引用；未发布分类"
+        },
+        "created": 1794885816.6844957
+      },
+      {
+        "id": 8886,
+        "event": "started",
+        "data": {
+          "kind": "reference_classify"
+        },
+        "created": 1794886553.0046833
+      },
+      {
+        "id": 8887,
+        "event": "reference_classified",
+        "data": {
+          "analysis_id": "90d7072e048144dc8840c1dc6bc28a76",
+          "classified": 40,
+          "model": "gemini-3.5-flash-lite",
+          "identical_or_conflicting_duplicates": 5,
+          "conflicts_marked_uncertain": [
+            "dceae303ec2f41cbbc4d88f047db9424:ref:1",
+            "dceae303ec2f41cbbc4d88f047db9424:ref:17",
+            "dceae303ec2f41cbbc4d88f047db9424:ref:31",
+            "dceae303ec2f41cbbc4d88f047db9424:ref:37",
+            "dceae303ec2f41cbbc4d88f047db9424:ref:8"
+          ]
+        },
+        "created": 1794886553.059103
+      },
+      {
+        "id": 8888,
+        "event": "completed",
+        "data": {
+          "result_saved": true
+        },
+        "created": 1794886553.077915
+      }
+    ]
+  }
+}

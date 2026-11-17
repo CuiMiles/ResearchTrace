@@ -12,7 +12,7 @@ def publication_window(metadata,identity=''):
                 day=date.fromisoformat(value[:10])
                 return {'earliest':day.isoformat(),'latest':day.isoformat(),'precision':'day','source_field':name}
             except ValueError:pass
-    arxiv=str(metadata.get('arxiv_id') or identity.removeprefix('arxiv:'))
+    arxiv=str(metadata.get('arxiv_id') or str(identity or '').removeprefix('arxiv:'))
     match=re.match(r'^(\d{2})(\d{2})\.\d{4,5}',arxiv)
     if match:
         year=2000+int(match[1]);month=int(match[2])

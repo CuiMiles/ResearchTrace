@@ -12,6 +12,10 @@ from .embedding_providers import LocalRetrievalProvider, RetrievalUnavailable, f
 CHUNKER='source-spans-v1'
 
 
+class _YieldIndex(Exception):
+    """Internal queue signal; completed chunks/count receipts stay durable."""
+
+
 def corpus(workspace,version_ids):
     versions=[]
     for vid in sorted(set(version_ids)):
@@ -33,15 +37,93 @@ def snapshots(versions):
     return [{'version_id':v['id'],'parse_id':v['parse_id'],'sha256':v['sha256']} for v in versions]
 
 
-def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,activate=True,chunks_only=False):
-    provider=provider or LocalRetrievalProvider()
+def packed_cloud_chunks(blocks,title,provider,byte_limit=2048):
+    """Pack complete source spans; each input stays within a UTF-8 token bound.
+
+    This is a different retrieval chunker, never a same-input model comparison.
+    A hit still resolves to each original immutable block and physical page.
+    """
+    prefix=('Title: '+title+'\n').encode()[:120].decode('utf-8',errors='ignore')
+    cap=byte_limit-len(prefix.encode());groups=[];parts=[];spans=[];size=0
+    def flush():
+        nonlocal parts,spans,size
+        if parts:
+            text='\n\n'.join(parts);groups.append({'text':text,'retrieval_text':prefix+text,'spans':spans,'kind':'source_bundle'})
+        parts=[];spans=[];size=0
+    for b in blocks:
+        if not eligible(b):continue
+        cursor=0
+        for piece in provider.split(b['text'],cap,32):
+            if not (0<=piece['start']<piece['end']<=len(b['text'])) or piece['start']>cursor or piece['text']!=b['text'][piece['start']:piece['end']] or len(piece['text'].encode())>cap:
+                raise RetrievalUnavailable('云片段跨度或长度无效，拒绝丢失原文')
+            cursor=max(cursor,piece['end'])
+            length=len(piece['text'].encode());separator=2 if parts else 0
+            if parts and size+separator+length>cap:flush();separator=0
+            parts.append(piece['text']);size+=separator+length
+            offset=b.get('source_start',0)
+            spans.append((b['id'],offset+piece['start'],offset+piece['end']))
+        if cursor!=len(b['text']):raise RetrievalUnavailable('云片段尾部未覆盖，拒绝激活')
+    flush()
+    return groups
+
+
+def counted_cloud_chunks(blocks,title,provider,run_id=None,checkpoint=None):
+    """Pack <=4096 bytes, native-count larger inputs, split without losing spans."""
+    lookup={b['id']:b for b in blocks}
+    pending=[(chunk,4096) for chunk in reversed(packed_cloud_chunks(blocks,title,provider,4096))]
+    accepted=[]
+    while pending:
+        if checkpoint:checkpoint()
+        chunk,cap=pending.pop()
+        tokens=provider.content_token_bound(chunk['retrieval_text'])
+        if tokens<=2000:
+            accepted.append({**chunk,'token_count':tokens})
+            if run_id and len(accepted)%12==0:
+                store.event(run_id,'index_token_preflight',{'accepted_chunks':len(accepted),'remaining_candidates':len(pending),
+                            'content_token_budget':2000,'embedding_calls':0})
+            continue
+        next_cap=cap//2
+        if next_cap<256:raise RetrievalUnavailable('安全token预算无法容纳完整原文片段')
+        sources=[{'id':bid,'type':lookup[bid]['type'],'text':lookup[bid]['text'][start:end],
+                  'source_start':start} for bid,start,end in chunk['spans']]
+        pending.extend((piece,next_cap) for piece in reversed(packed_cloud_chunks(sources,title,provider,next_cap)))
+    return accepted
+
+
+def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,activate=True,chunks_only=False,source_generation_id=None,pack_cloud=False):
+    if provider is None:
+        from .embedding_providers import configured_provider
+        provider=configured_provider(run_id=run_id)
     desc=provider.descriptor();fp=fingerprint(desc)
     versions=corpus(workspace,version_ids)
+    gid=generation_id or store.uid()
+    previous=store.one('SELECT * FROM index_generations WHERE id=? AND workspace=?',(gid,workspace))
+    counted=desc.get('provider')=='gemini' and hasattr(provider,'content_token_bound') and not source_generation_id
+    if previous:counted=json.loads(previous['manifest']).get('chunker')=='token-checked-source-bundles-v2'
+    if counted:pack_cloud=True
     stable={k:v for k,v in desc.items() if k not in ('weights_ready','tokenizer_ready','inference_verified')}
     manifest={'provider':stable,'fingerprint':fp,'chunker':CHUNKER,'snapshots':snapshots(versions),'max_tokens':512,
               'exclusions':['empty_text','header','footer'],'context_is_source_evidence':False}
-    gid=generation_id or store.uid()
-    previous=store.one('SELECT * FROM index_generations WHERE id=? AND workspace=?',(gid,workspace))
+    if pack_cloud:
+        if desc.get('provider')!='gemini':raise ValueError('显式云片段合并只适用于Gemini独立索引')
+        manifest.update(chunker='source-bundles-byte-bound-v1',input_byte_limit=2048,max_tokens=2048,
+                        token_count_kind='conservative_utf8_byte_upper_bound',identical_retrieval_inputs=False,source_spans_preserved=True)
+        if counted:
+            manifest.update(chunker='token-checked-source-bundles-v2',input_byte_limit=4096,max_tokens=2000,
+                            token_count_kind='conservative_byte_bound_or_native_countTokens',
+                            count_payload_role='user',internal_token_margin=48)
+    if source_generation_id:
+        source=store.one('SELECT * FROM index_generations WHERE id=? AND workspace=?',(source_generation_id,workspace))
+        if not source or source['covered_blocks']!=source['expected_blocks'] or not source['chunk_count']:
+            raise ValueError('同条件对照需要完整源片段，不需要源向量已完成')
+        if json.loads(source['manifest'])['snapshots']!=manifest['snapshots']:
+            raise ValueError('对照源索引的文档及解析快照必须完全相同')
+        manifest.update(chunker='fixed-source-spans-v1',source_generation_id=source_generation_id,
+                        token_count_kind='source_chunker_count_not_cloud_tokenizer')
+        if desc.get('provider')=='gemini' and not pack_cloud:
+            manifest.update(chunker='source-spans-cloud-byte-bound-v1',input_byte_limit=2048,
+                            identical_retrieval_inputs=False,source_spans_preserved=True)
+        if pack_cloud:manifest['chunker']='source-bundles-byte-bound-v1'
     if previous:
         prior_manifest=json.loads(previous['manifest'])
         prior_manifest['provider']={k:v for k,v in prior_manifest['provider'].items() if k not in ('weights_ready','tokenizer_ready','inference_verified')}
@@ -58,12 +140,48 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
         if run_id and store.cancelled(run_id):
             store.execute("UPDATE index_generations SET status='cancelled' WHERE id=?",(gid,))
             raise RetrievalUnavailable('索引已取消，已持久化片段可继续同代恢复')
+    def preflight_checkpoint():
+        stop()
+        if run_id and store.one("SELECT 1 FROM runs WHERE status='queued' AND kind IN ('parse','parse_document','reparse') LIMIT 1"):
+            raise _YieldIndex()
     try:
         expected=excluded=covered=0
+        if source_generation_id and not pack_cloud:
+            with store.db() as c:
+                for chunk in c.execute('SELECT * FROM retrieval_chunks WHERE generation_id=?',(source_generation_id,)).fetchall():
+                    spans=c.execute('SELECT * FROM retrieval_spans WHERE chunk_id=?',(chunk['id'],)).fetchall()
+                    pieces=[{'text':chunk['text'],'start':0,'end':len(chunk['text']),'token_count':chunk['token_count']}]
+                    prefix=chunk['retrieval_text'][:-len(chunk['text'])] if chunk['text'] and chunk['retrieval_text'].endswith(chunk['text']) else None
+                    changed=desc.get('provider')=='gemini' and len(chunk['retrieval_text'].encode())>2048
+                    if changed:
+                        if prefix is None or len(spans)!=1 or spans[0]['end']-spans[0]['start']!=len(chunk['text']):
+                            raise ValueError('超长源片段无法无损映射，拒绝静默截断')
+                        # Context is never evidence. Bound it while retaining the
+                        # complete original source through overlapping spans.
+                        prefix=prefix.encode()[:1024].decode('utf-8',errors='ignore')
+                        pieces=provider.split(chunk['text'],2048-len(prefix.encode()),32)
+                    for pi,piece in enumerate(pieces):
+                        cid=hashlib.sha256((gid+':fixed:'+chunk['id']+':'+str(pi)).encode()).hexdigest()
+                        text=prefix+piece['text'] if changed else chunk['retrieval_text']
+                        c.execute('INSERT OR IGNORE INTO retrieval_chunks VALUES(?,?,?,?,?,?,?,?,?,?)',
+                                  (cid,gid,workspace,chunk['version_id'],chunk['parse_id'],chunk['ordinal']*100+pi,piece['text'],text,piece['token_count'],chunk['kind']))
+                        for span in spans:
+                            start=span['start']+piece['start'] if changed else span['start']
+                            end=span['start']+piece['end'] if changed else span['end']
+                            c.execute('INSERT OR IGNORE INTO retrieval_spans VALUES(?,?,?,?)',(cid,span['block_id'],start,end))
         for version in versions:
             from .snapshots import snapshot_blocks
             blocks=snapshot_blocks(workspace,version['id'],version['parse_id'])
             existing={r['block_id'] for r in store.rows('SELECT DISTINCT s.block_id FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id WHERE c.generation_id=? AND c.version_id=?',(gid,version['id']))}
+            if pack_cloud and not existing:
+                packed=counted_cloud_chunks(blocks,version['title'],provider,run_id,preflight_checkpoint) if counted else packed_cloud_chunks(blocks,version['title'],provider)
+                with store.db() as c:
+                    for ordinal,item in enumerate(packed):
+                        cid=hashlib.sha256((gid+':packed:'+version['id']+':'+str(ordinal)).encode()).hexdigest()
+                        c.execute('INSERT OR IGNORE INTO retrieval_chunks VALUES(?,?,?,?,?,?,?,?,?,?)',
+                            (cid,gid,workspace,version['id'],version['parse_id'],ordinal,item['text'],item['retrieval_text'],item.get('token_count',len(item['retrieval_text'].encode())),item['kind']))
+                        for bid,start,end in item['spans']:c.execute('INSERT OR IGNORE INTO retrieval_spans VALUES(?,?,?,?)',(cid,bid,start,end))
+                existing={b['id'] for b in blocks if eligible(b)}
             prepared={}
             if hasattr(provider,'split_many'):
                 for cap in (512,2048):
@@ -126,7 +244,7 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
               JOIN retrieval_spans ps ON ps.block_id=cs.block_id AND ps.start=cs.start AND ps.end=cs.end
               JOIN retrieval_chunks prior ON prior.id=ps.chunk_id AND prior.workspace=current.workspace
                 AND prior.parse_id=current.parse_id AND prior.retrieval_text=current.retrieval_text
-              JOIN index_generations pg ON pg.id=prior.generation_id AND pg.fingerprint=? AND pg.status='ready'
+              JOIN index_generations pg ON pg.id=prior.generation_id AND pg.fingerprint=?
               JOIN retrieval_vectors prior_vector ON prior_vector.chunk_id=prior.id AND prior_vector.dimension=?
               WHERE current.generation_id=? AND current.workspace=? AND NOT EXISTS(SELECT 1 FROM retrieval_vectors v WHERE v.chunk_id=current.id)
               GROUP BY current.id''',(fp,desc['dimension'],gid,workspace))
@@ -142,7 +260,13 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
                 store.event(run_id,'index_yielded',{'generation_id':gid,'vector_count':status['vector_count'],
                                                    'reason':'让待解析全文先执行；相同索引代继续恢复'})
                 return {**status,'generation_status':status['status'],'status':'queued','coverage_complete':False}
-            batch=store.rows('SELECT c.id,c.retrieval_text FROM retrieval_chunks c LEFT JOIN retrieval_vectors v ON v.chunk_id=c.id WHERE c.generation_id=? AND v.chunk_id IS NULL ORDER BY c.id LIMIT 16',(gid,))
+            candidates=store.rows('SELECT c.id,c.retrieval_text FROM retrieval_chunks c LEFT JOIN retrieval_vectors v ON v.chunk_id=c.id WHERE c.generation_id=? AND v.chunk_id IS NULL ORDER BY c.id LIMIT 32',(gid,))
+            batch=[];size=0
+            maximum=32 if desc.get('provider')=='gemini' else 16
+            for candidate in candidates:
+                length=len(candidate['retrieval_text'].encode())
+                if batch and (size+length>24000 or len(batch)>=maximum):break
+                batch.append(candidate);size+=length
             if not batch:break
             response=provider.embed([b['retrieval_text'] for b in batch],'RETRIEVAL_DOCUMENT')
             if response.get('fingerprint')!=fp:
@@ -159,7 +283,10 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
             completed_batches+=1
             if run_id:
                 progress=store.one('SELECT vector_count,chunk_count FROM index_generations WHERE id=?',(gid,))
-                store.event(run_id,'index_embedding',{'generation_id':gid,**progress,'model_id':desc['model_id'],'cloud_requests':0})
+                calls=store.one('SELECT count(*) n FROM quota WHERE run_id=?',(run_id,))['n'] if desc.get('provider')=='gemini' else 0
+                execution={k:v for k,v in response.get('execution',{}).items() if k in (
+                    'mode','elapsed_seconds','peak_rss_mib','peak_gpu_mib','gpu_reserve_mib','gpu_budget_mib','selected_gpus','per_gpu_peak_mib')}
+                store.event(run_id,'index_embedding',{'generation_id':gid,**progress,'model_id':desc['model_id'],'cloud_requests':calls,'execution':execution})
         count=store.one('SELECT count(*) n FROM retrieval_chunks WHERE generation_id=?',(gid,))['n']
         actual=store.one('SELECT vector_count FROM index_generations WHERE id=?',(gid,))['vector_count']
         if not expected or expected!=covered or actual!=count:
@@ -167,6 +294,11 @@ def build(workspace,version_ids,*,provider=None,run_id=None,generation_id=None,a
         store.execute("UPDATE index_generations SET status='ready',chunk_count=?,error=NULL WHERE id=?",(count,gid))
         if activate:activate_generation(workspace,gid)
         return generation_status(workspace,gid)
+    except _YieldIndex:
+        status=generation_status(workspace,gid)
+        store.event(run_id,'index_yielded',{'generation_id':gid,'phase':'token_preflight',
+                    'reason':'让待解析任务先执行；已收到的token计数和完整文档片段保留'})
+        return {**status,'generation_status':status['status'],'status':'queued','coverage_complete':False}
     except Exception as exc:
         status='cancelled' if run_id and store.cancelled(run_id) else 'failed'
         store.execute('UPDATE index_generations SET status=?,error=? WHERE id=?',(status,type(exc).__name__,gid))
@@ -200,8 +332,20 @@ def generation_status(workspace,gid):
 def dense_search(workspace,version_ids,question,limit=50,provider=None):
     provider=provider or LocalRetrievalProvider();desc=provider.descriptor();fp=fingerprint(desc)
     placeholders=','.join('?' for _ in version_ids)
-    valid=store.rows(f'SELECT DISTINCT g.id FROM index_generations g JOIN active_retrieval_indices a ON a.generation_id=g.id WHERE a.workspace=? AND a.version_id IN ({placeholders}) AND a.model_id=? AND g.status=? AND g.fingerprint=?',(workspace,*version_ids,desc['model_id'],'ready',fp))
+    valid=store.rows(f'''SELECT DISTINCT g.id,g.manifest,a.version_id,COALESCE(p.parse_id,d.id) current_parse,d.sha256
+        FROM index_generations g JOIN active_retrieval_indices a ON a.generation_id=g.id
+        JOIN versions d ON d.id=a.version_id AND d.workspace=a.workspace
+        LEFT JOIN active_parses p ON p.version_id=d.id
+        WHERE a.workspace=? AND a.version_id IN ({placeholders}) AND d.deleted=0
+        AND a.model_id=? AND g.status=? AND g.fingerprint=?''',(workspace,*version_ids,desc['model_id'],'ready',fp))
     if not valid:return [],{'status':'unindexed','model_id':desc['model_id'],'notice':'所选模型尚无兼容活动索引，未调用云端替代。'}
+    covered={r['version_id'] for r in valid if any(s['version_id']==r['version_id'] and s['parse_id']==r['current_parse']
+                and s['sha256']==r['sha256'] for s in json.loads(r['manifest']).get('snapshots',[]))}
+    missing=[vid for vid in dict.fromkeys(version_ids) if vid not in covered]
+    if missing:
+        return [],{'status':'incomplete','model_id':desc['model_id'],'scope_complete':False,
+                   'covered_version_ids':sorted(covered),'missing_version_ids':missing,
+                   'notice':'所选文档仍有未索引或快照已变化的部分；不将部分本地覆盖冒充完整混合检索。'}
     response=provider.embed([question],'RETRIEVAL_QUERY')
     if response.get('fingerprint')!=fp:raise RetrievalUnavailable('问题向量与索引指纹不匹配')
     query=np.asarray(response['vectors'][0],dtype=np.float32)
@@ -232,4 +376,5 @@ def dense_search(workspace,version_ids,question,limit=50,provider=None):
     ids=list(rank);marks=','.join('?' for _ in ids)
     rows=store.rows(f'SELECT b.*,s.chunk_id,s.start AS span_start,s.end AS span_end,c.retrieval_text,c.parse_id FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id JOIN blocks b ON b.id=s.block_id JOIN versions d ON d.id=b.version_id WHERE s.chunk_id IN ({marks}) AND b.workspace=? AND d.deleted=0',( *ids,workspace))
     result=sorted(({**row,'dense_score':rank[row['chunk_id']]} for row in rows),key=lambda b:b['dense_score'],reverse=True)
-    return result,{'status':'ready','model_id':desc['model_id'],'revision':desc['revision'],'fingerprint':fp,'dimension':desc['dimension'],'method':'bounded_exact_matrix'}
+    return result,{'status':'ready','model_id':desc['model_id'],'revision':desc['revision'],'fingerprint':fp,'dimension':desc['dimension'],'method':'bounded_exact_matrix',
+                   'scope_complete':True,'covered_version_ids':sorted(covered),'missing_version_ids':[]}

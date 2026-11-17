@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+  File "/app/services/api/embedding_providers.py", line 153, in _call
+    raise RetrievalUnavailable('本地检索服务连接失败，未提交云端替代请求') from None
+services.api.embedding_providers.RetrievalUnavailable: 本地检索服务连接失败，未提交云端替代请求
+

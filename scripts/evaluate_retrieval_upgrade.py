@@ -28,9 +28,9 @@ def save(path,value):
     temp=path.with_suffix(path.suffix+'.tmp');temp.write_text(json.dumps(value,ensure_ascii=False,indent=2));temp.replace(path)
 
 
-def corpus(gid):
+def corpus(gid,require_vectors=True):
     generation=store.one('SELECT * FROM index_generations WHERE workspace=? AND id=?',(WORKSPACE,gid))
-    if not generation or generation['status']!='ready':raise ValueError('Comparison source generation is not fully ready')
+    if not generation or (require_vectors and generation['status']!='ready') or generation['expected_blocks']!=generation['covered_blocks']:raise ValueError('Comparison source generation is not fully ready')
     chunks=store.rows('SELECT * FROM retrieval_chunks WHERE generation_id=? ORDER BY version_id,ordinal,id',(gid,))
     spans=store.rows('SELECT s.* FROM retrieval_spans s JOIN retrieval_chunks c ON c.id=s.chunk_id WHERE c.generation_id=?',(gid,))
     mapping={}
@@ -91,7 +91,7 @@ def metrics(ranking,gold):
 def evaluate(label,scope,rerank=False):
     reportfile=OUT/f'retrieval-{label}-{scope}{"-rerank" if rerank else ""}.json'
     gid=CORE_GENERATION if scope=='core' else FULL_GENERATION
-    generation,chunks,mapping,digest=corpus(gid)
+    generation,chunks,mapping,digest=corpus(gid,require_vectors=label!='keyword')
     desc=None;vectors=None;directory=None
     questions=[q for q in json.loads(GOLD.read_text())['questions'] if scope=='all' or q['group']=='core']
     provider=LocalRetrievalProvider(MODELS.get(label),base='http://127.0.0.1:18988' if label=='qwen' else None) if label!='keyword' else None
@@ -107,10 +107,15 @@ def evaluate(label,scope,rerank=False):
             vectors,directory,desc=fixed_vectors(label,provider,generation,chunks,digest)
             report['descriptor']=desc
             queryfile=directory/('queries-'+report['gold_sha256'][:16]+'-'+scope+'.npy')
-            if queryfile.exists():queries=np.load(queryfile,allow_pickle=False)
+            reused_queries=queryfile.exists()
+            if reused_queries:queries=np.load(queryfile,allow_pickle=False)
             else:
                 queries=np.asarray([v for start in range(0,len(questions),32) for v in provider.embed([q['question'] for q in questions[start:start+32]],'RETRIEVAL_QUERY')['vectors']],dtype=np.float32)
                 np.save(queryfile,queries,allow_pickle=False)
+            report['query_vectors']={'source':'same-fingerprint cached actual vectors' if reused_queries else 'live local embedding',
+                                     'count':len(queries),'recomputed_this_execution':not reused_queries}
+            report['document_vectors']={'source':'compatible actual production vectors' if desc['fingerprint']==generation['fingerprint'] else 'fixed-input model cache',
+                                        'count':len(chunks)}
             # Multiplication is bounded by the fixed source matrix on disk.
             similarities=vectors@queries.T
         completed={c['id'] for c in report['cases']}
@@ -150,6 +155,8 @@ def evaluate(label,scope,rerank=False):
                     'mean_recall@20':sum(m['recall@20'] for m in items)/len(items),
                     'questions_all_gold@20':sum(m['all_gold@20'] for m in items),
                     'first_gold_top5':sum(m['first_gold_rank'] is not None and m['first_gold_rank']<=5 for m in items)}
+        if report.get('error'):
+            report.setdefault('prior_failures',[]).append({k:report.pop(k) for k in ('error_type','error','updated') if k in report})
         report.update(status='PASS',status_meaning='Evaluation executed; quality thresholds assessed separately',finished=time.time(),aggregates=aggregates)
         save(reportfile,report)
     except Exception as error:

@@ -1,0 +1,9 @@
+{
+  "id": "8e56689127eb48938f3c9ed43b54dff7",
+  "chunk_count": 901,
+  "expected_blocks": 5267,
+  "covered_blocks": 5267,
+  "status": "staged",
+  "source_span_coverage": true,
+  "comparison": "Different chunker; not a controlled same-input model comparison"
+}

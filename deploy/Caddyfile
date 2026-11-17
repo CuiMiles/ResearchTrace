@@ -1,0 +1,11 @@
+# Automatic HTTPS for the public demo. Caddy obtains and renews the certificate.
+{$RT_DOMAIN} {
+	encode zstd gzip
+	# Long-running SSE streams for run events.
+	reverse_proxy api:18970 {
+		flush_interval -1
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+	}
+}

@@ -25,7 +25,9 @@ def isolated(tmp_path, monkeypatch):
     monkeypatch.setattr(models, 'embed', no_request)
     monkeypatch.setattr(research, 'fetch_public', no_request)
     monkeypatch.setattr(research, 'search_papers', no_request)
-    monkeypatch.setattr(registry.retrieval, 'retrieve', no_request)
+    # retrieve() itself may run (keyword lists only); the provider calls above stay forbidden,
+    # so any hidden query embedding still fails the test.
+    monkeypatch.setattr(registry.retrieval, 'LocalRetrievalProvider', no_request, raising=False)
     for workspace in ('alpha', 'beta'):
         store.execute('INSERT INTO workspaces VALUES(?,?,?)', (workspace, workspace, time.time()))
         store.execute('INSERT INTO runs(id,workspace,kind,status,payload,checkpoint,created,updated) VALUES(?,?,?,?,?,?,?,?)',
@@ -91,6 +93,16 @@ def test_atomic_persisted_budget_replays_and_preserves_qa_checkpoint():
     assert len(snap['tool_registry']['calls']) == 2
     assert snap['tool_registry']['limit'] == 2
     assert len(store.rows("SELECT * FROM steps WHERE run_id='run-alpha' AND event='tool_finished'")) == 2
+
+
+def test_planner_receives_query_limit_error_without_echoing_rejected_inputs():
+    result = registry.execute_tool(context('too-many-queries'), 'retrieve_evidence',
+        {'version_ids': ['alpha-v1'], 'question': 'training', 'queries': ['private-input'] * 5})
+    assert result['status'] == 'FAIL'
+    error = result['result']['validation_errors'][0]
+    assert error['path'] == ['queries'] and error['type'] == 'too_long'
+    assert '4' in error['message']
+    assert 'private-input' not in json.dumps(result)
 
 
 def test_concurrent_callers_cannot_exceed_ten_attempts():
