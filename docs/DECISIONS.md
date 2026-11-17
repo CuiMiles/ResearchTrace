@@ -48,3 +48,5 @@ UI: pale blue-gray #F4F7FB canvas, white paper, midnight navy #172B4D text, teal
 解析可先完成阅读，自动索引单独持久入队，6/30工作区/全局并发限制不变。只有本地未发送的日额度预留失败可记录供应商实际reset_at后等待，不重置历史额度、不重发未知请求。索引token预检在单个候选边界让位于新解析；收到的计数持久保存。
 
 源PDF含NUL时SQLite length(TEXT)可能提前终止，因此span验证用完整Python字符串，索引覆盖计数采用与chunker一致的Unicode strip策略；不清洗或重写不可变原文。全量向量复制流式64条批次，避免一次持有数百MiB BLOB。种子大事务仍可能超过30秒锁等待，空闲队列仅对SQLITE_BUSY/LOCKED退让，不吞掉其它数据库错误，不重试任务中的已发送模型调用。
+
+2026-11-17 技术文档改用 LaTeX：按用户要求以 XeLaTeX + ctex 重写赛题 2.3 文档，源码放 `docs/tech-report/`，图表用 TikZ/pgfplots 内嵌以便后续修改；数据图由脚本读取 evidence 生成。文档只陈述有证据的结果，局限以展望形式表述，不写未测得的准确率。

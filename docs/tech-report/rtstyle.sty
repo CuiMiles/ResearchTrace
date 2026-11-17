@@ -1,0 +1,226 @@
+% rtstyle.sty —— 研证 ResearchTrace 技术文档的版式、配色与绘图样式
+% 修改配色只需改下方 “品牌色” 一节；修改字体只需改 “字体” 一节。
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rtstyle}[2026/11/17 ResearchTrace technical report style]
+
+% ---------- 基础宏包 ----------
+\RequirePackage[a4paper,left=21mm,right=21mm,top=25mm,bottom=23mm,headheight=14pt,headsep=9mm,footskip=11mm]{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs,tabularx,colortbl,multirow,array,makecell}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{titletoc}
+\RequirePackage{caption}
+\RequirePackage{multicol}
+\RequirePackage{float}
+\RequirePackage[section]{placeins}
+\RequirePackage{wrapfig}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{fontawesome5}
+\RequirePackage{hyperref}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,shapes.misc,shadows.blur,decorations.pathreplacing,matrix,chains}
+
+% ---------- 字体 ----------
+\setmainfont{Inter}[Scale=0.94,BoldFont={Inter SemiBold},ItalicFont={Inter Italic}]
+\setsansfont{Inter}[Scale=0.94,BoldFont={Inter SemiBold}]
+\setmonofont{DejaVu Sans Mono}[Scale=0.80]
+\setCJKmainfont{Noto Sans CJK SC}[BoldFont={Noto Sans CJK SC Medium},ItalicFont={Noto Sans CJK SC}]
+\setCJKsansfont{Noto Sans CJK SC}[BoldFont={Noto Sans CJK SC Medium}]
+\setCJKmonofont{Noto Sans Mono CJK SC}[Scale=0.88]
+\newCJKfontfamily\cjkheavy{Noto Sans CJK SC Bold}
+\newCJKfontfamily\cjklight{Noto Sans CJK SC Light}
+\newfontfamily\latinheavy{Inter Bold}[Scale=0.94]
+\newfontfamily\latindisplay{Inter Display Bold}
+\newcommand{\heavy}{\cjkheavy\latinheavy}
+
+% ---------- 品牌色 ----------
+\definecolor{rtnavy}{HTML}{131A30}   % 深色底
+\definecolor{rtnavy2}{HTML}{1F2A4D}
+\definecolor{rtblue}{HTML}{3558C8}   % 主色
+\definecolor{rtblueD}{HTML}{27419A}
+\definecolor{rtblueL}{HTML}{EDF1FD}
+\definecolor{rtblueM}{HTML}{C9D5F7}
+\definecolor{rtteal}{HTML}{0E9478}
+\definecolor{rttealL}{HTML}{E4F5F0}
+\definecolor{rtamber}{HTML}{C77D00}
+\definecolor{rtamberL}{HTML}{FDF3DF}
+\definecolor{rtviolet}{HTML}{6250D6}
+\definecolor{rtvioletL}{HTML}{EEEBFC}
+\definecolor{rtrose}{HTML}{CF3F5F}
+\definecolor{rtroseL}{HTML}{FCEBEF}
+\definecolor{rtink}{HTML}{1B2233}    % 正文
+\definecolor{rtmuted}{HTML}{5A6377}  % 次要文字
+\definecolor{rtline}{HTML}{D8DDE8}   % 细线
+\definecolor{rtpaper}{HTML}{F6F7FA}  % 浅底
+% 数据图分类色（固定顺序，已做色觉障碍可分性校验）
+\definecolor{dvA}{HTML}{2A78D6}
+\definecolor{dvB}{HTML}{EB6834}
+\definecolor{dvC}{HTML}{1BAF7A}
+\definecolor{dvD}{HTML}{EDA100}
+\color{rtink}
+
+% ---------- 超链接 ----------
+\hypersetup{colorlinks=true,linkcolor=rtblueD,urlcolor=rtblue,citecolor=rtblueD,
+  pdftitle={研证 ResearchTrace 技术文档},pdfsubject={科研小助手 Agent · AI 大模型创新应用},
+  pdfkeywords={RAG, Agent, 文档解析, 证据核验, 科研助手},pdfcreator={XeLaTeX}}
+
+% ---------- 段落与列表 ----------
+\linespread{1.28}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{2em}
+\setlist{leftmargin=1.6em,itemsep=0.12em,topsep=0.25em,parsep=0.1em}
+\setlist[itemize,1]{label={\tikz[baseline=-0.55ex]\fill[rtblue](0,0)circle(1.7pt);}}
+\setlist[itemize,2]{label={\textcolor{rtmuted}{--}}}
+\renewcommand{\arraystretch}{1.32}
+\setlength{\emergencystretch}{2em}
+
+% ---------- 标题 ----------
+\titleformat{\section}[block]
+  {\Large\heavy\color{rtnavy}}
+  {\tikz[baseline=(n.base)]\node[fill=rtblue,text=white,rounded corners=3pt,inner xsep=6.5pt,inner ysep=3.5pt,font=\large\latinheavy](n){\thesection};}
+  {0.6em}{}[\vspace{2pt}{\color{rtline}\titlerule[0.8pt]}]
+\titlespacing*{\section}{0pt}{1.4em}{0.9em}
+\titleformat{\subsection}{\large\heavy\color{rtnavy}}{\textcolor{rtblue}{\thesubsection}}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{1.05em}{0.4em}
+\titleformat{\subsubsection}{\normalsize\heavy\color{rtblueD}}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\subsubsection}{0pt}{0.75em}{0.2em}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+% 浮动体参数：允许图表占据更大版面，减少空白
+\renewcommand{\topfraction}{0.92}\renewcommand{\bottomfraction}{0.85}\renewcommand{\textfraction}{0.06}\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}\setcounter{bottomnumber}{2}\setcounter{totalnumber}{5}
+\setlength{\textfloatsep}{11pt plus 3pt minus 3pt}\setlength{\floatsep}{9pt plus 3pt minus 2pt}\setlength{\intextsep}{10pt plus 3pt minus 3pt}
+
+% ---------- 目录 ----------
+\contentsmargin{0pt}
+\titlecontents{section}[0em]{\vspace{0.55em}\heavy\color{rtnavy}}
+  {\contentslabel[\textcolor{rtblue}{\thecontentslabel}]{0em}\hspace{1.7em}}{}
+  {\titlerule*[0.6pc]{\textcolor{rtline}{.}}\contentspage}
+\titlecontents{subsection}[1.7em]{\small\color{rtink}}
+  {\contentslabel[\textcolor{rtmuted}{\thecontentslabel}]{0em}\hspace{2.3em}}{}
+  {\titlerule*[0.6pc]{\textcolor{rtline}{.}}\textcolor{rtmuted}{\contentspage}}
+
+% ---------- 页眉页脚 ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\small\color{rtmuted}\textcolor{rtblue}{\faIcon{layer-group}}\hspace{0.45em}研证 ResearchTrace\hspace{0.6em}\textcolor{rtline}{|}\hspace{0.6em}技术文档}
+\fancyhead[R]{\small\color{rtmuted}\nouppercase{\leftmark}}
+\fancyfoot[C]{\small\color{rtmuted}\thepage}
+\renewcommand{\sectionmark}[1]{\markboth{\thesection\hspace{0.5em}#1}{}}
+\fancyhead[C]{\begin{tikzpicture}[remember picture,overlay]\draw[rtline,line width=0.6pt]([yshift=-17.5mm,xshift=21mm]current page.north west)--([yshift=-17.5mm,xshift=-21mm]current page.north east);\end{tikzpicture}}
+
+% ---------- 图表标题 ----------
+\captionsetup{font={small,color=rtmuted},labelfont={bf,color=rtblueD},labelsep=quad,skip=6pt,justification=justified,singlelinecheck=true}
+\captionsetup[table]{position=top,skip=5pt}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+
+% ---------- 表格辅助 ----------
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\hd}[1]{\textbf{\textcolor{rtnavy}{#1}}}
+\newcommand{\rthead}{\rowcolor{rtblueL}}
+\newcommand{\rtzebra}{\rowcolor{rtpaper}}
+\arrayrulecolor{rtline}
+\setlength{\aboverulesep}{0pt}\setlength{\belowrulesep}{0pt}
+\setlength{\heavyrulewidth}{0.9pt}\setlength{\lightrulewidth}{0.5pt}
+
+% ---------- 行内标记 ----------
+\newcommand{\code}[1]{{\small\texttt{\textcolor{rtblueD}{#1}}}}
+\newcommand{\kw}[1]{\textbf{\textcolor{rtblueD}{#1}}}
+\newcommand{\tagbox}[2][rtblue]{\tikz[baseline=(t.base)]\node[fill=#1!12,text=#1!85!black,rounded corners=2.5pt,inner xsep=4pt,inner ysep=1.6pt,font=\footnotesize](t){#2};}
+% 节点内的多行小字说明（TikZ 对齐节点里，换行不能落在花括号分组内，故用内嵌表格）
+\newcommand{\sublines}[2][c]{{\scriptsize\color{rtmuted}\renewcommand{\arraystretch}{1.02}\begin{tabular}[t]{@{}#1@{}}#2\end{tabular}}}
+\newcommand{\ok}{\textcolor{rtteal}{\faIcon{check-circle}}}
+\newcommand{\dotmark}[1]{\tikz[baseline=-0.6ex]\fill[#1](0,0)circle(2.6pt);}
+
+% ---------- 提示框 ----------
+\newtcolorbox{keybox}[2][]{enhanced,breakable,colback=rtblueL,colframe=rtblueL,boxrule=0pt,arc=3pt,
+  left=11pt,right=11pt,top=7pt,bottom=7pt,borderline west={3pt}{0pt}{rtblue},
+  fonttitle=\heavy\small,coltitle=rtblueD,title={#2},attach title to upper={\par\vspace{1pt}},before skip=8pt,after skip=8pt,#1}
+\newtcolorbox{notebox}[2][]{enhanced,breakable,colback=rttealL,colframe=rttealL,boxrule=0pt,arc=3pt,
+  left=11pt,right=11pt,top=7pt,bottom=7pt,borderline west={3pt}{0pt}{rtteal},
+  fonttitle=\heavy\small,coltitle=rtteal!80!black,title={#2},attach title to upper={\par\vspace{1pt}},before skip=8pt,after skip=8pt,#1}
+\newtcolorbox{innobox}[3][]{enhanced,colback=white,colframe=rtline,boxrule=0.6pt,arc=4pt,
+  left=10pt,right=10pt,top=8pt,bottom=8pt,
+  overlay={\node[anchor=north west,fill=#2,text=white,rounded corners=3pt,inner xsep=6pt,inner ysep=3pt,font=\footnotesize\heavy]
+    at([xshift=10pt,yshift=7pt]frame.north west){#3};},before skip=13pt,after skip=6pt,#1}
+
+% ---------- 数据卡片（封面 / 概述用） ----------
+% \stattile{数字}{单位}{说明}
+\newcommand{\stattile}[4][rtblue]{%
+  \begin{tcolorbox}[enhanced,colback=white,colframe=rtline,boxrule=0.6pt,arc=4pt,left=8pt,right=6pt,top=6pt,bottom=6pt,
+    borderline north={2.2pt}{0pt}{#1},nobeforeafter,width=\linewidth,height=25.5mm,valign=top]
+    {\fontsize{19}{21}\selectfont\latindisplay\color{rtnavy}#2}{\small\heavy\color{rtnavy}\,#3}\par\vspace{1pt}
+    {\footnotesize\color{rtmuted}#4}
+  \end{tcolorbox}}
+
+% 参数非空时才输出（封面可选信息行）
+\newcommand{\rtifnonempty}[2]{\if\relax\detokenize\expandafter{#1}\relax\else#2\fi}
+
+% ---------- 截图框 ----------
+% \shot[宽度]{文件}：带圆角细边和轻阴影的界面截图；文件缺失时显示占位框，便于先排版后补图
+\newcommand{\shot}[2][\linewidth]{%
+  \IfFileExists{#2}{%
+    \begin{tikzpicture}
+      \node[inner sep=0pt,outer sep=0pt](img){\includegraphics[width=#1]{#2}};
+      \draw[rtline,line width=0.7pt,rounded corners=2pt](img.south west)rectangle(img.north east);
+    \end{tikzpicture}}{%
+    \begin{tikzpicture}
+      \node[draw=rtline,dashed,fill=rtpaper,minimum width=#1,minimum height=0.5\linewidth,text=rtmuted,font=\small]{截图待补：\detokenize{#2}};
+    \end{tikzpicture}}}
+
+% ---------- TikZ 通用样式 ----------
+\tikzset{
+  >={Stealth[length=5.2pt,width=4.4pt]},
+  every picture/.style={font=\small},
+  box/.style={draw=rtline,line width=0.6pt,fill=white,rounded corners=3.5pt,align=center,inner xsep=7pt,inner ysep=5pt,text=rtink},
+  boxB/.style={box,draw=rtblue!55,fill=rtblueL},
+  boxT/.style={box,draw=rtteal!55,fill=rttealL},
+  boxA/.style={box,draw=rtamber!55,fill=rtamberL},
+  boxV/.style={box,draw=rtviolet!55,fill=rtvioletL},
+  boxR/.style={box,draw=rtrose!55,fill=rtroseL},
+  boxN/.style={box,draw=rtnavy,fill=rtnavy,text=white},
+  solidB/.style={box,draw=rtblue,fill=rtblue,text=white},
+  group/.style={draw=rtline,line width=0.6pt,fill=rtpaper,rounded corners=5pt,inner sep=8pt},
+  groupB/.style={draw=rtblue!35,line width=0.6pt,fill=rtblueL!45,rounded corners=5pt,inner sep=8pt},
+  lbl/.style={font=\footnotesize,text=rtmuted,align=center},
+  glabel/.style={font=\footnotesize\heavy,text=rtblueD},
+  flow/.style={->,line width=0.8pt,draw=rtmuted!85},
+  flowB/.style={->,line width=0.9pt,draw=rtblue},
+  flowD/.style={->,line width=0.8pt,draw=rtmuted!85,dashed},
+  num/.style={circle,fill=rtblue,text=white,font=\scriptsize\latinheavy,inner sep=1.4pt,minimum size=13pt},
+}
+% 带标题与多行小字的模块节点：\rtnode[样式]{名字}{位置}{文本宽}{标题}{小字（可用 \\ 换行）}
+\newcommand{\rtnode}[6][box]{\node[#1,text width=#4,align=flush center,inner xsep=1.2mm,inner ysep=2.6pt,font=\footnotesize](#2)at(#3){{\heavy #5}\\[-1pt]\sublines{#6}};}
+% 只有标题的模块节点
+\newcommand{\rtbox}[5][box]{\node[#1,text width=#4,align=flush center,inner xsep=1.2mm,inner ysep=3pt,font=\footnotesize](#2)at(#3){#5};}
+% 技术标签小药丸
+\tikzset{chip/.style={rounded corners=2.2pt,fill=#1!13,text=#1!80!black,font=\scriptsize,inner xsep=3pt,inner ysep=1.6pt},chip/.default=rtblue}
+% 学术风格坐标轴
+\pgfplotsset{
+  rtaxis/.style={
+    width=74mm,height=52mm,
+    axis line style={rtmuted!70,line width=0.5pt},
+    tick style={rtmuted!70,line width=0.4pt},tick align=outside,tickwidth=2.2pt,
+    tick label style={font=\scriptsize,text=rtink},
+    label style={font=\footnotesize,text=rtink},
+    title style={font=\footnotesize\heavy,text=rtnavy,yshift=-3pt},
+    ymajorgrids,grid style={rtline,line width=0.35pt,dash pattern=on 1.4pt off 1.4pt},
+    axis x line*=bottom,axis y line*=left,
+    legend style={draw=none,fill=none,font=\scriptsize,legend cell align=left,/tikz/every even column/.append style={column sep=6pt}},
+    every axis plot/.append style={line join=round},
+  },
+  sBMtf/.style={color=rtmuted!75,line width=0.9pt,dash pattern=on 2.6pt off 1.6pt,mark=o,mark size=1.5pt,mark options={solid,fill=white}},
+  sDense/.style={color=dvB,line width=1pt,mark=square*,mark size=1.4pt,mark options={solid,fill=white,line width=0.7pt}},
+  sRRF/.style={color=dvC,line width=1pt,mark=triangle*,mark size=1.8pt,mark options={solid,fill=white,line width=0.7pt}},
+  sOurs/.style={color=dvA,line width=1.5pt,mark=*,mark size=1.6pt,mark options={solid,fill=dvA}},
+}
+\endinput

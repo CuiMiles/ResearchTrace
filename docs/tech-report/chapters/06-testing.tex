@@ -1,0 +1,149 @@
+\section{测试与部署}\label{sec:testing}
+
+\subsection{测试体系}
+
+项目坚持“\kw{没有执行就不写通过}”的原则：每项验收只标注通过、失败、阻塞或未运行，并附可追溯的原始日志（仓库 \code{evidence/} 目录）。测试分为五个层次（图~\ref{fig:testpyramid}）。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 金字塔：\tier{下沿}{上沿}{下半宽}{上半宽}{颜色}{名称}
+  \newcommand{\tier}[6]{\fill[#5!18](-#3,#1)--(#3,#1)--(#4,#2)--(-#4,#2)--cycle;
+    \draw[#5!70,line width=0.6pt](-#3,#1)--(#3,#1)--(#4,#2)--(-#4,#2)--cycle;
+    \node[font=\scriptsize\heavy,text=#5!70!black]at(0,{(#1+#2)/2}){#6};}
+  \tier{0}{9}{40}{33.5}{rtblue}{单元与集成测试}
+  \tier{10}{19}{32.8}{26.3}{rtteal}{真实语料端到端}
+  \tier{20}{29}{25.6}{19.1}{rtviolet}{检索质量评测}
+  \tier{30}{39}{18.4}{11.9}{rtamber}{浏览器实测}
+  \tier{40}{49}{11.2}{4.7}{rtrose}{对抗与压力}
+  % 右侧说明：\tnote{y}{颜色}{标题}{说明}
+  \newcommand{\tnote}[4]{\fill[#2](47,#1)circle(1.1);
+    \node[anchor=west,font=\scriptsize\heavy,text=rtnavy,inner sep=0pt]at(50,#1+1.9){#3};
+    \node[anchor=west,font=\scriptsize,text=rtmuted,inner sep=0pt]at(50,#1-2){#4};}
+  \tnote{44.5}{rtrose}{对抗与压力}{空引文、数字篡改、正文绕过三类对抗样例全部拦截；长文解析期间并发压测}
+  \tnote{34.5}{rtamber}{浏览器实测 · 32 项}{阅读、定位、图谱、写作等真实页面检查；四档屏宽无溢出，零页面异常}
+  \tnote{24.5}{rtviolet}{检索质量评测 · 80 题}{BM25、向量、RRF、重排四种配置同条件对照；两种嵌入模型对照}
+  \tnote{14.5}{rtteal}{真实语料端到端 · 39 篇 1,986 页}{赛题资料包全量解析就绪；122 项“检索 → 版本 → 页 → 块 → 坐标”定位核对}
+  \tnote{4.5}{rtblue}{单元与集成测试 · 645 项}{解析、检索、核验、配额、任务恢复、权限、SSRF 等；全量回归约 136 秒}
+\end{tikzpicture}
+\caption{五层测试体系}
+\label{fig:testpyramid}
+\end{figure}
+
+随着功能迭代，自动化回归规模持续增长（图~\ref{fig:testgrowth}），每个阶段的回归日志都保留在仓库中。静态检查（Ruff）、前端严格类型检查与生产构建、OpenAPI 契约导出同样纳入一键测试脚本 \code{scripts/test.sh}，并配置了 GitHub Actions 工作流。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+  \begin{axis}[rtaxis,width=150mm,height=50mm,ymin=0,ymax=720,xmin=0.5,xmax=10.5,
+      ylabel={通过的自动化测试数},xtick={1,...,10},ytick={0,200,400,600},
+      xticklabels={首个纵向切片,解析快照,MinerU 接入,任务恢复,全量语料,审阅升级,重构基线,集成合并,证据修复,当前版本},
+      x tick label style={font=\tiny,text=rtink,rotate=18,anchor=north east,inner sep=1.5pt},
+      enlarge x limits=false,clip=false]
+    \addplot[draw=none,fill=dvA!14,forget plot]coordinates{(1,43)(2,75)(3,97)(4,133)(5,142)(6,395)(7,477)(8,607)(9,611)(10,645)}\closedcycle;
+    \addplot[color=dvA,line width=1.4pt,mark=*,mark size=1.7pt,mark options={fill=white,line width=0.9pt}]
+      coordinates{(1,43)(2,75)(3,97)(4,133)(5,142)(6,395)(7,477)(8,607)(9,611)(10,645)};
+    \foreach \x/\y in {1/43,2/75,3/97,4/133,5/142,6/395,7/477,8/607,9/611}{
+      \edef\temp{\noexpand\node[font=\noexpand\tiny,text=rtmuted,anchor=south,inner sep=2.2pt]at(axis cs:\x,\y){\y};}\temp}
+    \node[font=\scriptsize\heavy,text=dvA,anchor=south,inner sep=2.5pt]at(axis cs:10,645){645};
+  \end{axis}
+\end{tikzpicture}
+\caption{自动化回归测试规模随迭代阶段的增长（各阶段数值来自仓库保留的回归日志）}
+\label{fig:testgrowth}
+\end{figure}
+
+\subsection{关键测试结果}
+
+\begin{table}[H]
+\centering\small
+\caption{关键测试项与结果（均有原始记录）}
+\begin{tabularx}{\linewidth}{P{37mm}Lc}
+\toprule
+\rthead \hd{测试项} & \hd{范围与结果} & \hd{状态}\\
+\midrule
+后端自动化回归 & 645 项全部通过，耗时 135.8 秒 & \ok\\
+\rtzebra 前端构建与类型检查 & TypeScript 严格模式无错误，生产构建成功 & \ok\\
+赛题资料包全量解析 & 39 篇 / 1,986 页全部就绪，含 15 页扫描版与 541 页教材 & \ok\\
+\rtzebra 原文定位 & 122 项定位到指定版本、页、块与坐标，含教材后半部与末页 & \ok\\
+本地向量索引 & 23,185 / 23,185 条向量，覆盖 22,950 个合格原文块（100\%） & \ok\\
+\rtzebra 检索评测 & 75 道有答案题：重排后 Hit@20 = 100\%，Hit@5 = 90.7\%，MRR = 0.81 & \ok\\
+20 篇批量导入 & 20 篇全部就绪；同批损坏文件独立失败；单项取消与恢复 & \ok\\
+\rtzebra 长文档中断恢复 & 541 页教材在第 32 页取消后恢复至完成，已提交文本块哈希不变 & \ok\\
+公网新输入全链路 & 新 PDF 上传 → 解析 → 自动索引 → 语义问答 → 独立复核，答案与原文一致 & \ok\\
+\rtzebra 中文全文译英 & 公网上传中文 PDF → 解析 → 全文翻译 → HTML 导出，公式保留 & \ok\\
+双向翻译保护 & 中英两个方向翻译后数字、引用与变量全部保留 & \ok\\
+\rtzebra 证据对抗样例 & 空引文、数字矛盾（8 → 80）、正文绕过三类全部被拦截 & \ok\\
+安全与权限 & 损坏 PDF 返回 422；未登录 401；跨工作区 404；路径逃逸 404；SSRF 拦截 & \ok\\
+\rtzebra 公网浏览器巡检 & HTTPS 登录、文献库、工作区隔离通过，页面零异常 & \ok\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{性能与资源}
+
+\begin{table}[H]
+\centering\small
+\caption{实测性能数据}
+\begin{tabularx}{\linewidth}{LP{40mm}P{55mm}}
+\toprule
+\rthead \hd{场景} & \hd{实测结果} & \hd{环境}\\
+\midrule
+541 页教材原生解析 & 88.0 秒（约 6.1 页 / 秒） & 开发机 CPU\\
+\rtzebra 541 页教材重解析（含 59 项检查） & 290.3 秒 & 2 核云主机，512 MB 文档 Worker\\
+长文解析期间的接口响应 & 中位数 0.06 秒，最大 0.21 秒（52 次采样） & 同上，解析任务并行进行\\
+\rtzebra 长文解析期间 CSV 绘图 & 5.4 秒，五类导出全部成功 & 同上\\
+39 篇语料全量向量化 & 23,185 条 4096 维向量 & 本地 GPU，BF16\\
+\rtzebra 新评审空间初始化 & 复制 29,416 条已有向量，模型调用 0 次 & 云主机\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{部署架构}
+
+线上演示环境采用“\kw{轻量云主机 + 可选 GPU 旁路}”的拓扑（图~\ref{fig:deploy}）。云主机只有 2 核 CPU 与约 1.6 GB 内存，三个容器分别限制在 384 / 512 / 384 MB；本地检索模型运行在独立的 GPU 主机上，通过带鉴权的回环隧道与云主机相连，GPU 不可达时自动降级，不影响站点可用性。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 用户
+  \rtnode[boxN,minimum height=15mm]{user}{0,0}{17mm}{\faIcon{user-graduate}\\[1pt]评审 / 用户}{\textcolor{rtblueM}{浏览器}}
+  % 云主机
+  \draw[rtblue!45,line width=0.7pt,rounded corners=5pt,fill=rtblueL!40](18,-25)rectangle(108,23);
+  \node[font=\scriptsize\heavy,text=rtblueD,anchor=north west]at(19.5,22.3){\faIcon{cloud}\ 轻量云主机 · 2 核 / 1.6 GB · Docker Compose};
+  \rtnode[box,minimum height=15mm]{ngx}{32,0}{15mm}{\faIcon{lock}\\[1pt]Nginx}{HTTPS\\自动证书}
+  \rtnode[boxT,minimum height=10mm]{api}{60,10.5}{24mm}{API 容器}{FastAPI · 384 MB}
+  \rtnode[boxA,minimum height=10mm]{w1}{60,-2}{24mm}{Worker · 文档池}{解析索引 · 512 MB}
+  \rtnode[boxA,minimum height=10mm]{w2}{60,-14.5}{24mm}{Worker · 交互池}{问答 Agent · 384 MB}
+  \rtnode[box,minimum height=15mm]{db}{92,3}{17mm}{\faIcon{database}\\[1pt]数据卷}{SQLite WAL\\PDF · 产物}
+  \rtnode[box,minimum height=10.5mm]{bak}{92,-16.5}{17mm}{\faIcon{history}\ 备份}{每日 03:15}
+  \draw[flowB](user)--node[above,font=\tiny,text=rtmuted,inner sep=1.2pt]{HTTPS}(ngx);
+  \draw[flowB](ngx.east)--++(3,0)|-(api.west);
+  \draw[flow,<->](api)--(db.west|-api);
+  \draw[flow,<->](w1.east)--(db.west|-w1.east);
+  \draw[flow,<->](w2.east)--++(4,0)|-([yshift=-5mm]db.west);
+  \draw[flowD](db)--(bak);
+  \node[font=\tiny,text=rtmuted,anchor=south west]at(19.5,-25){非 root 运行 · 无额外权限 · CPU / 内存 / 进程数上限};
+  % GPU 主机
+  \draw[rtteal!50,line width=0.7pt,rounded corners=5pt,fill=rttealL!55](118,2)rectangle(166,23);
+  \node[font=\scriptsize\heavy,text=rtteal!75!black,anchor=north west]at(119.5,22.3){\faIcon{microchip}\ GPU 主机（可选旁路）};
+  \rtnode[boxT,minimum height=10mm]{gpu}{142,9.5}{40mm}{本地检索运行时}{Embed 8B + Rerank 8B · BF16}
+  \draw[flowD,<->,line width=0.9pt](108,9.5)--node[above,font=\tiny,text=rtmuted,inner sep=1.2pt]{鉴权隧道}(gpu.west);
+  % 外部
+  \rtnode[boxB,minimum height=10mm]{gem}{142,-7}{40mm}{\faIcon{cloud}\ 云端大模型 API}{生成 · 判别 · 备用向量}
+  \rtnode[boxR,minimum height=10mm]{sch}{142,-20}{40mm}{\faIcon{globe}\ 学术数据源}{arXiv · Crossref}
+  \draw[flowD,->](108,-7)--(gem.west);
+  \draw[flowD,->](108,-20)--(sch.west);
+\end{tikzpicture}
+\caption{线上部署拓扑：核心服务可独立运行于 2 核轻量主机，GPU 与外部服务均为可降级依赖}
+\label{fig:deploy}
+\end{figure}
+
+\subsection{部署与运维}
+
+\begin{itemize}
+  \item \textbf{一键启动。}本地开发执行 \code{./scripts/dev.sh}；服务器执行 \code{docker compose -{}-profile lite up -d}，加上 \code{https} 配置即可自动申请证书。未配置模型密钥时，导入、解析、阅读、检索、图谱与绘图仍然可用。
+  \item \textbf{发布与回滚。}新版本构建为独立镜像，健康检查通过后才切换；失败不影响当前版本，数据与账本始终保留。
+  \item \textbf{数据安全。}每日定时做一致性快照备份（SQLite 备份 API + 文件校验），保留最近 7 份；恢复流程有自动化测试覆盖。
+  \item \textbf{评审账号。}支持签发带有效期的独立评审账号，每个账号进入各自隔离的工作区，并预置已解析与已索引的示例文献，开箱即用。
+  \item \textbf{可观测性。}管理页展示 Worker 心跳、索引覆盖率、各模型当日用量与降级状态，以及逐项验收记录与原始证据。
+\end{itemize}

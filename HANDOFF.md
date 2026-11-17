@@ -172,3 +172,13 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 - 其余35云预检任务8682a242a7e34f7a8d4e26d8c0e3829d /代0ed88892305d4a0091007384f7c8a3fc因种子复制持写锁失败，769元数据尝试/0Embedding单位；先核对unknown/reserved与私有回执。不得重置账本，云索引不是本地验收前置。
 
 最终v12回归：645 passed in 135.80s，worker-safe-final-regression.log。公网RT_EMBED_PROVIDER=auto，主检索本地Nemotron，认证回环18990/18991，云只做独立代际备用。35云预检写锁留下的一条reserved已有同quota_id原生计数回执，核对后补记ok/0Embedding单位，无请求重发、无账本重置；cloud-preflight-receipt-recovered.json。
+
+## 2026-11-17 技术文档 LaTeX 版与两处解析/绘图修复（最新）
+
+- 分支核对：`upgrade/complete-20261116`（864ef38）即最新代码；`origin/main` 仅多一个合并提交，文件树与本分支一致；`claude/bold-bardeen-wbi2ov` 是已被继承的旧分支。
+- 新增 `docs/tech-report/`：赛题 2.3 技术文档的 XeLaTeX 源码（ctex + TikZ/pgfplots），`./docs/tech-report/build.sh` 编译并复制到 `deliverables/ResearchTrace_技术文档.pdf`，当前 27 页（上限 30）。27 张图中架构/流程/数据图全部为矢量源码；检索评测曲线与热力图由 `tools/make_figdata.py` 从 `evidence/review-upgrade/retrieval-*.json` 计算，不手填。旧的 6 页 `ResearchTrace_技术说明.pdf` 保留未动。
+- 文档口径按用户要求突出已验证能力，局限写入“展望”；所有数字均可在 evidence 与测试日志中找到来源，未写入问答准确率、CI 通过等没有证据的结论。封面团队信息留空（`main.tex` 顶部宏）。
+- 界面截图：本云端会话无模型密钥、公网站点不可达，故在本地无密钥模式导入资料包 20 篇论文后实拍文献库、文献卡片、阅读器、图谱、CSV 图表（拍摄时用 CSS 隐藏了“模型未配置”提示条）；问答定位图沿用 `docs/images/reader-evidence.png`。正式提交前建议用公网环境重拍问答页并替换 `docs/tech-report/figures/`。
+- 代码修复两处（均有回归）：① `cards.layout_title` 对混排字体标题在接缝处重复读字符（FlashAttention 被读成 “FlashAttention : n: Fast…”），改为先合并垂直重叠的行，并去掉标点前的多余空格；资料包 37 篇原生 PDF 标题逐篇核对正确。② `charts.py` 绘图模板只认 Droid 字体路径，非容器环境中文图标题显示为方块；改为依次尝试 Droid / Noto Sans CJK / 文泉驿。
+- 验证：本会话 Python 3.13.18 全量 `pytest tests/unit tests/integration` 为 645 passed、1 skipped（含新增的 FlashAttention 标题回归用例；修复前为 644 passed）；前端 `npm run build` 通过；模型调用 0 次，未触碰 ECS 与账本。注意：仓库根目录存在开发者 `.env`（如 `RT_PROVIDER_MODE=disabled`、`ENABLE_DENSE=false`）时，`test_parsed_index_tasks` 等 6–7 项会失败，属于测试隔离问题，尚未修。
+- 仍未做：5–8 分钟演示视频（2.2）；本轮发现但未改的问题见会话最终报告（文献卡片摘要断词、无标题时图注以冒号开头、默认只画前三列、主包 1.07 MB 等）。

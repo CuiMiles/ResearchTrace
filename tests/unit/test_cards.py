@@ -25,6 +25,8 @@ def test_plausible_title_rejects_small_caps_fragments(text, expected):
     ('2106.09685v2.pdf', 'LORA: LOW-RANK ADAPTATION OF LARGE LANGUAGE MODELS'),
     ('2010.11929v2.pdf', 'AN IMAGE IS WORTH 16X16 WORDS: TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE'),
     ('1706.03762v7.pdf', 'Attention Is All You Need'),
+    # Mixed fonts on one visual line: the seam used to be read twice ("FlashAttention : n: Fast").
+    ('2205.14135v2.pdf', 'FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness'),
 ])
 def test_layout_title_keeps_small_caps_lines_together(name, expected):
     with pdfplumber.open(CORPUS / name) as pdf:

@@ -1,0 +1,83 @@
+\section{需求分析}
+
+\subsection{目标用户与典型场景}
+
+我们把目标用户归纳为三类，他们的共同诉求是“省时间，但不能牺牲可核对性”。
+
+\begin{table}[H]
+\centering\small
+\caption{目标用户、典型场景与研证的应对}
+\begin{tabularx}{\linewidth}{P{24mm}LLL}
+\toprule
+\rthead \hd{用户} & \hd{典型场景} & \hd{现有工具的痛点} & \hd{研证的解法}\\
+\midrule
+研究生 / 科研新人 & 快速读懂一个新方向的 20 篇核心论文，理清谁引用了谁 & 逐篇通读耗时；难以判断哪些是奠基工作 & 批量导入 → 真实引用图谱 → 核心 / 边缘节点 → 带出处的综述\\
+\rtzebra 一线研究者 & 核对某篇论文的超参数、硬件配置、指标，并与前作对比 & 模型答案无出处；v1 与 v7 数值不同却被混用 & 逐句证据灯；版本感知；一键跳转到 PDF 高亮原句\\
+论文写作者 & 从 idea 出发搭建论文框架、画架构图、把实验 CSV 变成图表 & 生成的参考文献常为虚构；图注数值与数据脱节 & 参考文献逐条在线核验；图注统计由程序计算；可编辑绘图代码\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{功能需求：赛题六类要求的逐项落实}
+
+赛题对“科研小助手 Agent”提出了六类功能要求。表~\ref{tab:req-map} 逐项给出本项目的落实情况，实现细节见第~\ref{sec:features}~章。
+
+\begin{table}[H]
+\centering\small
+\caption{赛题功能要求与实现对照}\label{tab:req-map}
+\begin{tabularx}{\linewidth}{P{21mm}LL}
+\toprule
+\rthead \hd{赛题模块} & \hd{赛题要求的行为} & \hd{本项目的实现}\\
+\midrule
+1.1 PDF 管理与解析 & CRUD、批量上传、按内容去重；识别同一论文不同版本并提示保留；支持原生 PDF、扫描 PDF、长书；结构化抽取标题、作者机构、章节、表格、图、公式、参考文献 &
+\ok\ 单次 20 篇批量上传，逐文件进度、取消与恢复；SHA-256 去重；按 arXiv 编号与正文指纹识别版本并给出“保留较新 / 都保留 / 替换”选择；原生 + 三种 OCR / 版面引擎；541 页教材逐页检查点；自动生成文献卡片\\
+\rtzebra 1.2 知识问答 & 单篇与多篇问答；提供原文证据 &
+\ok\ 单篇、多篇、多轮对话；中文问题自动改写为英文检索式；回答拆为原子主张，逐句绑定版本 / 页 / 块 / 逐字引文并复核；错误前提会被原文纠正\\
+1.3 阅读与翻译 & 保持原版式；标题树；正文引用与参考文献双向跳转；选段 / 摘要 / 全文英译中；公式代码保留；中英逐段对照、双向滚动 &
+\ok\ PDF.js 原版渲染；PDF 书签生成分级目录；引用↔参考文献往返；划词 / 整页 / 全文翻译，占位符保护公式、引用、数字与变量；段落对齐双向同步滚动；Markdown / HTML 导出\\
+\rtzebra 1.4 下载与推荐 & 按标题查找并下载入库；参考文献下载与重要性筛选；定期发现新论文；日 / 周推荐及理由；可复现代码线索；点赞 / 踩反馈 &
+\ok\ arXiv + Crossref 检索，标题 / DOI / arXiv ID 入库；参考文献四分类（方法依赖 / 实验对比 / 背景 / 不确定）与有界批量下载；追踪查询与定时检查；日 / 周推荐附内容理由与代码仓库线索；反馈影响排序\\
+1.5 分析与生成 & 20 篇同方向 PDF 建立真实引用图谱；核心 / 边缘节点；有出处的综述；结合时间与后续论文核查 Future Work &
+\ok\ 由真实参考文献条目构边；局部 PageRank、入度、介数给出基石 / 桥梁 / 边缘角色；综述每条主张带出处；Future Work 给出“直接证据 / 部分覆盖 / 证据不足”三级结论\\
+\rtzebra 1.6 写作与绘图 & 由 idea 生成 Abstract / Introduction / Related Work / 真实 References；可编辑架构绘图代码；CSV 生成图表与 Caption；中文译英文 &
+\ok\ 论文框架生成，参考文献逐条经 arXiv / Crossref 核验；TikZ / DOT / Mermaid / Matplotlib 四种绘图代码；折线 / 柱状 / 雷达 / 三维图，图注数值由程序统计；中文摘要与全文译英\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{非功能需求}
+
+\begin{table}[H]
+\centering\small
+\caption{非功能需求与设计指标}
+\begin{tabularx}{\linewidth}{P{19mm}LL}
+\toprule
+\rthead \hd{维度} & \hd{需求} & \hd{设计指标与落实方式}\\
+\midrule
+可信性 & 结论必须可核对；不编造文献、分数与实验结果 & 每条事实主张必须携带逐字引文；引文不在原文中出现即被拦截；参考文献必须在线核验通过才写入\\
+\rtzebra 性能与资源 & 评审期在低配云主机上稳定运行；长文档不拖垮交互 & 目标 2 核 2 GB；文档池与交互池分离；长文逐页提交检查点；解析期间接口响应保持在百毫秒内\\
+可靠性 & 耗时任务不丢失、不重复、可中断 & 任务持久化、幂等键、可取消、可恢复；SSE 断线重连不重复执行；每日自动备份\\
+\rtzebra 安全性 & 上传内容与网页不可信；密钥不外泄 & 文档内容只作数据、不作指令；下载逐跳 SSRF 校验与 DNS 固定；工作区隔离；密钥只存服务器环境\\
+成本可控 & 模型额度有限，必须可计量、可降级 & 按项目 / 模型的事务化配额账本；角色化模型降级链；无密钥时核心功能仍可用\\
+\rtzebra 可维护性 & 前后端契约一致，迁移可重复 & Pydantic Schema + OpenAPI 导出；幂等数据库迁移；TypeScript 严格类型检查\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{设计原则}
+
+由上述需求，我们提炼出贯穿架构与实现的四条设计原则：
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+  \newcommand{\principle}[5]{%
+    \node[#1,minimum width=40mm,minimum height=29mm,align=center,inner sep=5pt](#2)at(#3,0){%
+      {\large\faIcon{#4}}\\[2pt]#5};}
+  \principle{boxB}{p1}{0}{link}{{\heavy 证据优先}\\[1pt]\sublines{结论必须绑定版本与原文\\查不到就说“证据不足”}}
+  \principle{boxT}{p2}{42.5mm}{balance-scale}{{\heavy 确定性优先}\\[1pt]\sublines{能用程序算的不交给模型\\哈希 / 统计 / 图算法 / 配额}}
+  \principle{boxV}{p3}{85mm}{shield-alt}{{\heavy 有界自治}\\[1pt]\sublines{白名单工具 · 步数上限\\预算上限 · 一次修订}}
+  \principle{boxA}{p4}{127.5mm}{feather-alt}{{\heavy 轻量可部署}\\[1pt]\sublines{SQLite + 单机双 Worker 池\\重模型独立、可选、可降级}}
+\end{tikzpicture}
+\caption{四条设计原则}
+\end{figure}

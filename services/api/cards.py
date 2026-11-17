@@ -49,6 +49,7 @@ def plausible_title(text: str) -> bool:
 
 def clean_title(text: str) -> str:
     text = re.sub(r'(\w)-\s+(\w)', r'\1\2', text or '')
+    text = re.sub(r'\s+([:;,])', r'\1', text)  # "FlashAttention : Fast" -> "FlashAttention: Fast"
     return re.sub(r'\s+', ' ', text).strip()[:500]
 
 
@@ -90,8 +91,22 @@ def layout_title(page) -> str:
         if chosen and line['top'] - chosen[-1]['bottom'] > 2.2 * largest:
             break
         chosen.append(line)
-    parts = []
+    # A title that mixes fonts ("FlashAttention: Fast and ...") puts the parts of one
+    # visual line on baselines a few points apart. Cropping them separately reads the
+    # characters at the seam twice, so vertically overlapping lines are merged first.
+    merged: list[dict] = []
     for line in chosen:
+        previous = merged[-1] if merged else None
+        if previous is not None:
+            overlap = min(previous['bottom'], line['bottom']) - max(previous['top'], line['top'])
+            shorter = min(previous['bottom'] - previous['top'], line['bottom'] - line['top'])
+            if overlap > 0.5 * shorter:
+                previous.update(top=min(previous['top'], line['top']), bottom=max(previous['bottom'], line['bottom']),
+                                x0=min(previous['x0'], line['x0']), x1=max(previous['x1'], line['x1']))
+                continue
+        merged.append(dict(line))
+    parts = []
+    for line in merged:
         box = (max(0, line['x0'] - 1), max(0, line['top'] - 1),
                min(page.width, line['x1'] + 1), min(page.height, line['bottom'] + 1))
         parts.append(page.crop(box).extract_text(x_tolerance=1.5) or '')
