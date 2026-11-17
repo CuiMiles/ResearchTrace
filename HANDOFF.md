@@ -182,3 +182,22 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 - 代码修复两处（均有回归）：① `cards.layout_title` 对混排字体标题在接缝处重复读字符（FlashAttention 被读成 “FlashAttention : n: Fast…”），改为先合并垂直重叠的行，并去掉标点前的多余空格；资料包 37 篇原生 PDF 标题逐篇核对正确。② `charts.py` 绘图模板只认 Droid 字体路径，非容器环境中文图标题显示为方块；改为依次尝试 Droid / Noto Sans CJK / 文泉驿。
 - 验证：本会话 Python 3.13.18 全量 `pytest tests/unit tests/integration` 为 645 passed、1 skipped（含新增的 FlashAttention 标题回归用例；修复前为 644 passed）；前端 `npm run build` 通过；模型调用 0 次，未触碰 ECS 与账本。注意：仓库根目录存在开发者 `.env`（如 `RT_PROVIDER_MODE=disabled`、`ENABLE_DENSE=false`）时，`test_parsed_index_tasks` 等 6–7 项会失败，属于测试隔离问题，尚未修。
 - 仍未做：5–8 分钟演示视频（2.2）；本轮发现但未改的问题见会话最终报告（文献卡片摘要断词、无标题时图注以冒号开头、默认只画前三列、主包 1.07 MB 等）。
+
+
+## 2026-11-17 WSL US 开发环境迁移（本机配置）
+
+用户明确分工：`wsl-us` 只作代码开发，公网仍由 ECS 服务，GPU node01 作为独立检索计算节点。源项目工作区未覆盖；迁移基线 `f3acf79` 包含当前远端 `fb9daee`，源目录的9个未提交文件已私下归档，没有把旧虚拟环境或 node_modules 搬入新环境。
+
+目的地为 `/home/dev/projects/ResearchTrace`（WSL `Ubuntu_24.04_US`，SSH `wsl-us`）；Node22.16.0校验官方SHA256安装，Python3.12新建`.venv`，49个锁定wheel重新安装，前端`npm ci`。额外安装Tesseract、CJK字体和浏览器验收依赖。VS Code本地工作区设置指向`.venv`，大量私有数据不参加索引/搜索。
+
+一致性备份已恢复到`data-migrated`，SQLite完整性ok、120个版本路径均存在、36,890向量保留；quota/quota_context/quota_request_units/provider_state的内容哈希与快照一致。原主空间45份文献以新的本地访问码绑定，凭据只保存在`.env`与`~/rt-private/local-access.txt`（0600），从`rt-info`查看。`data-migrated/`加入本地Git排除；检索token0600，未公开。新`.env`的Gemini key为空、`RT_PROVIDER_MODE=disabled`、付费兜底关闭，不把独立库当成ECS的实时额度账本。
+
+使用新的专用SSH密钥`~/.ssh/id_ed25519_researchtrace`和别名`rt-gpu`，主机密钥沿用已验证指纹，禁用Agent/X11转发。`rt-gpu-start`仅按需建立Embedding18990、Reranker18991、下载代理18987三个回环隧道；`rt-gpu-stop`停止。`rt-start/rt-stop`用于临时完整联调，后台单元显式加入`us_ns`，避免普通用户systemd启动脚本跑出网络命名空间。本次验收后全部开发服务已停止、没有开机自动启动；生产ECS和GPU已有服务未修改。此环境优先使用这些命令，不调用旧`./scripts/dev.sh`安装普通用户后台单元。
+
+GitHub/默认联网继续经us_ns固定代理；显式使用18987会改用GPU服务器代理出口，故没有设为全局HTTP_PROXY。项目启用现有`RT_PUBLIC_DNS_RESOLVER=https://dns.google/resolve`以适配Fake-IP，保留SSRF、真实公网IP固定连接和TLS校验；系统代理/DNS/防火墙不改。正常GPU检索使用既有离线模型；远程SSH shell里另行执行的联网程序仍走服务器自己的网络，不继承WSL固定出口。
+
+测试入口`rt-test`使用python-dotenv自带`PYTHON_DOTENV_DISABLED=1`，仅在测试进程内忽略开发者.env，不移动/覆盖配置。无.env完整检查为640 passed/6 skipped（136.21秒），Ruff、TypeScript/Vite和OpenAPI导出通过；已有.env时对受影响索引任务7项回归通过。私有日志在`~/rt-private/migration-logs/`。
+
+真实本地模型验证：Embedding4096维、L2归一和指纹匹配，248.537秒；2文段Rerank相关项顺序正确、指纹匹配，239.476秒。包含首次冷启动，不能用healthz可达代替及时推理。未重建已有向量、未调用云生成，云账本哈希未变。真实UI登录、45份文献、PDF.js翻页、36条参考文献、历史3条证据定位回PDF第5页、Vite均通过；pageerror0、意外HTTP错误0。浏览器私有证据在`~/rt-private/migration-browser/`，首轮验收脚本选择器失败记录保留。
+
+ECS现状只读核对：生成仍发Gemini，检索/重排经现有ECS回环18990/18991到node01；Gemini及公网文献的ECS代理仍为18987。ECS鉴权manifest实际返回Nemotron/Qwen模型；不经过新WSL。这次没有修改ECS、生产GPU服务或推送GitHub。
