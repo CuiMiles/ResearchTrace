@@ -267,3 +267,20 @@ def test_cuda_auto_can_be_kept_split_on_shared_gpus(provisioned, monkeypatch, si
     else:  # never one card at double budget: split, each card within 10240 MiB
         assert claims == [(10240, 2)] and captured["RT_RETRIEVAL_EXECUTION_MODE"] == "cuda_sharded"
         assert int(captured["RT_RETRIEVAL_GPU_MAX_MIB"]) <= 10240
+
+
+def test_operator_allowlist_keeps_retrieval_off_other_peoples_cards(monkeypatch, tmp_path):
+    from services.retrieval_runtime import guard
+    cards = [{"index": i, "uuid": f"GPU-{i}", "free_mib": free, "total_mib": 24576} for i, free in enumerate([13000, 8100, 9500, 13500, 13600, 13550, 8100, 9400])]
+    monkeypatch.setattr(guard, "gpus", lambda: cards)
+    monkeypatch.setenv("RT_RETRIEVAL_GPU_ALLOW", "1,2,6,7")
+    selected, handles = guard.claim_gpus(tmp_path, 5461, 2048, 3)
+    assert sorted(g["index"] for g in selected) == [1, 2, 7] or sorted(g["index"] for g in selected) == [2, 6, 7]
+    for handle in handles:
+        handle.close()
+    monkeypatch.setenv("RT_RETRIEVAL_GPU_ALLOW", "1,6")
+    try:
+        guard.claim_gpus(tmp_path, 8192, 2048, 2)
+        raise AssertionError("must not fall back to unlisted cards")
+    except RuntimeError:
+        pass

@@ -68,12 +68,18 @@ def choose_gpu(budget_mib, reserve_mib):
     return choose_gpus(budget_mib, reserve_mib)[0]
 
 
+def allowed(cards):
+    """Cards the operator lets us use on a shared server (RT_RETRIEVAL_GPU_ALLOW=1,2,6,7)."""
+    allow = {x.strip() for x in os.getenv('RT_RETRIEVAL_GPU_ALLOW', '').split(',') if x.strip()}
+    return [g for g in cards if not allow or str(g['index']) in allow]
+
+
 def claim_gpus(root,budget_mib,reserve_mib,count):
     """Coordinate only our brokers, including CUDA's cold allocation interval."""
     if reserve_mib<2048:raise ValueError('Reserve must be at least2048MiB')
     directory=Path(root)/'private/gpu-slots';directory.mkdir(parents=True,exist_ok=True,mode=0o700)
     selected=[];handles=[]
-    for gpu in sorted(gpus(),key=lambda item:item['free_mib'],reverse=True):
+    for gpu in sorted(allowed(gpus()),key=lambda item:item['free_mib'],reverse=True):
         if gpu['free_mib']<budget_mib+reserve_mib+256:continue
         handle=(directory/(gpu['uuid']+'.lock')).open('a')
         try:fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
