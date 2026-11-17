@@ -656,10 +656,10 @@ def parse_document(run):
         except Exception as exc:
             result["document_card"] = {"status": "unavailable", "reason": type(exc).__name__}
             event(run["id"], "document_card_failed", {"reason": type(exc).__name__})
-    if legacy and payload.get('index_dense',True) and not cancelled(run["id"]):
+    if status=='ready' and payload.get('index_dense',True) and not cancelled(run["id"]):
         try:
-            from .retrieval import index_dense
-            result["dense_index"] = index_dense(workspace, version_id, run["id"])
+            from .index_tasks import after_parse
+            result["dense_index"] = after_parse(run,version_id,parse_id)
         except Exception as exc:
             # Safe category only; upstream exception content may contain a URL/key.
             result["dense_index"] = {"status": "unavailable", "reason": type(exc).__name__}

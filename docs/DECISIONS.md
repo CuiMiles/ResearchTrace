@@ -31,3 +31,20 @@ UI: pale blue-gray #F4F7FB canvas, white paper, midnight navy #172B4D text, teal
 2026-11-17 cloud retrieval: the fixed local core5330/full23185 chunks remain the source for controlled local comparisons. A real token preflight found three long cloud inputs above2048 tokens; failed/staged generations and charges are retained and never activated. An additional production-only chunker bundles complete original spans into <=2048 UTF8-byte inputs, including overlaps for oversized blocks, producing901 core4 chunks over5267 original blocks. This changes chunking and must NOT be described as a controlled same-input Gemini-vs-Nemotron comparison. Source blocks, pages and historical citations are unchanged. Incomplete vector generations never become active.
 
 2026-11-17 reliability: schema-repair calls are bounded to one, original malformed graph/recommendation receipts are retained. Unknown sends cannot be replayed. Future Work scopes evidence to real discovered/downloaded candidates instead of filling its eight-paper budget with unrelated library entries. Null publication identities remain unknown dates. Auxiliary historical source versions cannot be classified as later work. Host backups recognise the fixed /app/data container mount and preserve quota on restore. PDF generation and narrated 1080p video are actual artifacts; the video shows actual UI/historical run timestamps and does not certify remaining release gates.
+
+
+## 2026-11-17 独立覆盖审查与免生成复核
+
+真实Future Work案例表明：方法事实获支持，仍不能证明其覆盖原计划的条件。事实校验之后新增Decision条件审查，使用相同0.9概率/0.8置信度/0.25差值门槛，只能维持或降低原类别；输入仍绑定旧建议、问题、候选全文和时间精度。失联或回执未知则保留证据不足，不重发。
+
+新增已结束核查的revalidate接口，只复用原空间、原问题和已收到的分析回执；保留原账本与产物，新任务明确标记历史分析复用。原任务有unknown/reserved调用则拒绝绕过。条件审查输入改变时旧回执不可复用，旧产物不会被新结论覆盖。
+
+本轮还查到Gemini Embedding原生计数与隐式截断的官方说明：countTokens不消耗Embedding配额，输入还需为模型内部token留余量。当前901片段生产索引采用保守字节上界；拟补完整文本token预检和更紧凑的原文片段合并，尚未执行的部分不标PASS。来源：https://discuss.ai.google.dev/t/gemini-embedding-001-counttokens-support-token-correspondence-and-truncation-behaviour/190649 。
+
+## 2026-11-17 本地优先、索引持久化与写锁
+
+主检索维持用户要求的本地Nemotron。Gemini独立云代作为共享GPU离线备用，完整35云代不阻挡本地全39验收。ECS使用auto且本地和云的快照/模型指纹各自验证，所选范围不完整则不发该模型查询。
+
+解析可先完成阅读，自动索引单独持久入队，6/30工作区/全局并发限制不变。只有本地未发送的日额度预留失败可记录供应商实际reset_at后等待，不重置历史额度、不重发未知请求。索引token预检在单个候选边界让位于新解析；收到的计数持久保存。
+
+源PDF含NUL时SQLite length(TEXT)可能提前终止，因此span验证用完整Python字符串，索引覆盖计数采用与chunker一致的Unicode strip策略；不清洗或重写不可变原文。全量向量复制流式64条批次，避免一次持有数百MiB BLOB。种子大事务仍可能超过30秒锁等待，空闲队列仅对SQLITE_BUSY/LOCKED退让，不吞掉其它数据库错误，不重试任务中的已发送模型调用。

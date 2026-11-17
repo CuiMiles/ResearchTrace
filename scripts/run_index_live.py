@@ -21,7 +21,8 @@ with store.run_execution_lock(rid) as owned:
     p=json.loads(run['payload']);store.execute("UPDATE runs SET status='running',error=NULL,updated=? WHERE id=?",(time.time(),rid))
     try:
         result=index_generations.build(run['workspace'],p['version_ids'],provider=configured_provider(p.get('provider'),rid),
-               run_id=rid,generation_id=p['generation_id'],source_generation_id=p.get('source_generation_id'),pack_cloud=p.get('pack_cloud',False))
+               run_id=rid,generation_id=p['generation_id'],source_generation_id=p.get('source_generation_id'),pack_cloud=p.get('pack_cloud',False),
+               chunks_only=p.get('chunks_only',False),activate=p.get('activate',True))
         status='queued' if result.get('status')=='queued' else 'completed'
         store.execute('UPDATE runs SET status=?,result=?,updated=? WHERE id=?',(status,json.dumps(result,ensure_ascii=False),time.time(),rid))
         print(json.dumps({'run':rid,'status':status,'vectors':result['vector_count'],'chunks':result['chunk_count']}),flush=True)

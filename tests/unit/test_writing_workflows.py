@@ -41,6 +41,22 @@ def run_for(workflow='survey', ids=None, question='attention architecture'):
     return run
 
 
+def test_survey_keeps_abstract_and_method_before_incidental_query_hits(monkeypatch):
+    paper(blocks=10)
+    replacements={0:('heading','Abstract'),1:('paragraph','The proposed attention method reduces memory while preserving its stated conditions. '*3),
+                  2:('heading','Methods'),3:('paragraph','Our method processes source evidence with a bounded computation and explicit limitations.'),
+                  4:('heading','Limitations'),5:('paragraph','The experiment does not establish performance on other tasks.')}
+    for i,(kind,text) in replacements.items():
+        store.execute('UPDATE blocks SET type=?,text=? WHERE id=?',(kind,text,'v1-b'+str(i)))
+    # Incidental query matches must not fill all six slots before the abstract.
+    from services.api import sparse_index
+    hits=store.rows("SELECT * FROM blocks WHERE id IN ('v1-b6','v1-b7','v1-b8','v1-b9') ORDER BY id")
+    monkeypatch.setattr(sparse_index,'search',lambda *a,**k:(hits,[]))
+    run=run_for();result=writing.collect_evidence(run);ids=[b['id'] for b in result['blocks']]
+    assert ids[0]=='v1-b1' and 'v1-b3' in ids and 'v1-b5' in ids
+    assert len(ids)<=6 and result['used_context_bytes']<=48000
+
+
 def manuscript(block, kind='survey', refs=None, bad_number=False):
     claims, sections = [], []
     for i, (key, _) in enumerate(writing.SECTIONS[kind]):

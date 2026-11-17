@@ -150,3 +150,25 @@ Unchanged external gaps: official scanned original/textbook, independently revie
 两凭据按用户声明的两个项目配置；实际Flash1日20已限流、Flash2探针成功。旧gemini-shared账本通过RT_LEGACY_PROJECT_MAP保守归入project1，原四次smoke和所有未知调用不重置。Embedding批量按文本条数计请求单位。源码、密钥、账本切换需防止两端同时对同模型花费且互相不知；ECS初始只读/无模型密钥，仍待最终启用。禁止把HTTP尝试数误当Embedding剩余额度。
 
 已完成实际6页技术PDF及6分钟1080p普通话视频，在deliverables；视频展示真实页面和有时间的历史结果，正式内容人工审阅仍未执行。团队姓名学校现在不需要。不要造v1.0-submission标签；发布门槛未全部关闭。
+
+
+## 2026-11-17 公网账本与索引切换（覆盖此前“待启用”）
+
+- https://researchtrace.sluna.xyz 已运行HTTPS、生成及云检索。ECS为唯一云调用端；本地RT_PROVIDER_MODE=disabled，禁止在独立旧账本上直接恢复本地云调用。
+- 核心4云代65c9a6b50cc94942af343c98f6cafd56已ready，901向量/5267原文块。ECS只合并Embedding新账本，保留同期生成记录。新30天账号私有文件data/completion-deployment/reviewer-20261117.json，6231实际向量复制、0重算。
+- 先看docs/COMPLETION_20261117.md、summary.json、public-runtime.json。公网语义问答、独立浏览器、中文整篇英译有真实证据。尚未关闭全部发布门槛，不创建提交标签。
+- 全39索引在运行锁下续建。多卡broker18990，隧道PID为data/completion-deployment/final-gpu-tunnel.pid。实时查数据库进度，不按旧日志猜；每卡保留2GiB，只清理本项目进程。CPU超时broker已清理，失败保留。
+- 新实现：无证据回答标partial；工具反馈具体参数约束；写作只修拒绝主张一次，仍不合格则明确留缺口；参考分类分批持久化、冲突保守设uncertain。Provider JSON Schema提示简化不改变本地校验。
+- 新输入三路径：PDF→版本/快照→问答原文；论文检索→合法全文→时间条件核查；中文全文译英文或CSV→受控图表导出。Future Work覆盖类别、综述质量和人工准确性以真实记录为准。
+- 原smoke4不重置，失败/unknown均计账。GitHub Actions因账户计费锁未启动，需要账号所有者解除外部锁；不能标CI通过。团队署名现在不需要。
+
+## 2026-11-17 全量本地代完成（优先于以上历史进度）
+
+- 本地full39 53ffb2e2e9c14cab81b122e9a4b50857 ready：23185/23185向量、22950合格原文块、2189排除。ECS已逐段核对并原子激活，账本0改动；旧failed/14466元数据已核对同manifest后补齐。不要重建已完成本地索引。
+- Nemotron全80题+真实重排已完成，核心/拓展有答案45/30：重排全部金标@20为45/45、30/30，首个金标前5为44/45、24/30。含改写相关性，人工金标审查NOT RUN；Qwen仅核心对照，不虚报其完整80题。
+- 新评审完整种子私有data/completion-deployment/reviewer-full-ready-20261117.json，29416向量直接复制0调用；此前full文件实际只6231条且已明确BLOCKED，不要混淆。旧账号仍可使用。
+- 公网新输入PDF完整链已PASS；源码最新643项后端回归，后续写锁保护另有专项与全量日志。后台文档/交互池保持分离。
+- 用户强调本地部署为主：发布配置local优先auto、认证回环18990/18991；云代独立，仅在本地不可用且云有完整对应索引时备用。共享GPU冷启动很慢，不能把manifest可达当作及时推理保证。
+- 其余35云预检任务8682a242a7e34f7a8d4e26d8c0e3829d /代0ed88892305d4a0091007384f7c8a3fc因种子复制持写锁失败，769元数据尝试/0Embedding单位；先核对unknown/reserved与私有回执。不得重置账本，云索引不是本地验收前置。
+
+最终v12回归：645 passed in 135.80s，worker-safe-final-regression.log。公网RT_EMBED_PROVIDER=auto，主检索本地Nemotron，认证回环18990/18991，云只做独立代际备用。35云预检写锁留下的一条reserved已有同quota_id原生计数回执，核对后补记ok/0Embedding单位，无请求重发、无账本重置；cloud-preflight-receipt-recovered.json。

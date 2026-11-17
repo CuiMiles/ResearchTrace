@@ -36,8 +36,20 @@ def clone(source,target,connection=None):
         'retrieval_vectors':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'))",(source,source)),
         'active_retrieval_indices':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready')",(source,source)),
     }
+    # Vector BLOBs can exceed the API's entire memory allowance. IDs and source
+    # mappings are small; copy both vector stores with a bounded cursor instead
+    # of retaining every BLOB in a Python list at once.
+    streamed={'embeddings','retrieval_vectors'}
     records={table:[dict(r) for r in c.execute('SELECT * FROM '+table+' WHERE '+where,args).fetchall()]
-             for table,(where,args) in queries.items()}
+             for table,(where,args) in queries.items() if table not in streamed}
+    def source_rows(table):
+        if table not in streamed:
+            yield from records[table]
+            return
+        where,args=queries[table]
+        cursor=c.execute('SELECT * FROM '+table+' WHERE '+where,args)
+        while batch:=cursor.fetchmany(64):
+            yield from (dict(row) for row in batch)
     ids={source:target}
     for table in ('works','versions','parses','index_generations','retrieval_chunks'):
         for row in records[table]:ids.setdefault(row['id'],store.uid())
@@ -57,7 +69,7 @@ def clone(source,target,connection=None):
     counts={}
     for table in TABLES:
         count=0
-        for row in records[table]:
+        for row in source_rows(table):
             # Bytes paths and source text are immutable content, not IDs.
             copied={key:value if key in ('path','text','retrieval_text','vector','sha256','filename','title') else replace(value) for key,value in row.items()}
             if table=='index_generations':
@@ -69,4 +81,5 @@ def clone(source,target,connection=None):
             count+=1
         counts[table]=count
     return {'source_workspace':source,'target_workspace':target,'counts':counts,'provider_calls':0,
-            'vectors_recomputed':False,'isolated_ids':True,'historical_answers_copied':False}
+            'vectors_recomputed':False,'isolated_ids':True,'historical_answers_copied':False,
+            'vector_copy_batch':64}

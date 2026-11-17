@@ -95,3 +95,27 @@ def test_health_does_not_trust_expired_heartbeat(isolated):
     assert not read_worker_status('documents',data_dir=isolated)['healthy']
     data=json.loads(path.read_text());data['timestamp']=time.time();path.write_text(json.dumps(data))
     assert read_worker_status('documents',data_dir=isolated)['healthy']
+
+
+def test_busy_seed_writer_does_not_kill_idle_worker_or_claim_job(isolated,monkeypatch):
+    import sqlite3
+    from services.api import dependencies
+    called=[]
+    def locked():
+        error=sqlite3.OperationalError('database is locked')
+        error.sqlite_errorcode=sqlite3.SQLITE_BUSY
+        raise error
+    monkeypatch.setattr(dependencies,'wake_dependencies',locked)
+    monkeypatch.setattr(worker,'work_once',lambda **k:called.append(1))
+    assert worker.queue_cycle('interactive') is False and called==[]
+    monkeypatch.setattr(dependencies,'wake_dependencies',lambda:[])
+    monkeypatch.setattr(worker,'work_once',lambda **k:called.append(1) or True)
+    assert worker.queue_cycle('interactive') and called==[1]
+
+
+def test_other_sqlite_failures_are_visible(isolated,monkeypatch):
+    import sqlite3
+    from services.api import dependencies
+    def bad():raise sqlite3.OperationalError('no such table: controlled fixture')
+    monkeypatch.setattr(dependencies,'wake_dependencies',bad)
+    with pytest.raises(sqlite3.OperationalError):worker.queue_cycle('interactive')

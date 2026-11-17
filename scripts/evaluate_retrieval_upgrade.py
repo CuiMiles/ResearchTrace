@@ -107,10 +107,15 @@ def evaluate(label,scope,rerank=False):
             vectors,directory,desc=fixed_vectors(label,provider,generation,chunks,digest)
             report['descriptor']=desc
             queryfile=directory/('queries-'+report['gold_sha256'][:16]+'-'+scope+'.npy')
-            if queryfile.exists():queries=np.load(queryfile,allow_pickle=False)
+            reused_queries=queryfile.exists()
+            if reused_queries:queries=np.load(queryfile,allow_pickle=False)
             else:
                 queries=np.asarray([v for start in range(0,len(questions),32) for v in provider.embed([q['question'] for q in questions[start:start+32]],'RETRIEVAL_QUERY')['vectors']],dtype=np.float32)
                 np.save(queryfile,queries,allow_pickle=False)
+            report['query_vectors']={'source':'same-fingerprint cached actual vectors' if reused_queries else 'live local embedding',
+                                     'count':len(queries),'recomputed_this_execution':not reused_queries}
+            report['document_vectors']={'source':'compatible actual production vectors' if desc['fingerprint']==generation['fingerprint'] else 'fixed-input model cache',
+                                        'count':len(chunks)}
             # Multiplication is bounded by the fixed source matrix on disk.
             similarities=vectors@queries.T
         completed={c['id'] for c in report['cases']}
@@ -150,6 +155,8 @@ def evaluate(label,scope,rerank=False):
                     'mean_recall@20':sum(m['recall@20'] for m in items)/len(items),
                     'questions_all_gold@20':sum(m['all_gold@20'] for m in items),
                     'first_gold_top5':sum(m['first_gold_rank'] is not None and m['first_gold_rank']<=5 for m in items)}
+        if report.get('error'):
+            report.setdefault('prior_failures',[]).append({k:report.pop(k) for k in ('error_type','error','updated') if k in report})
         report.update(status='PASS',status_meaning='Evaluation executed; quality thresholds assessed separately',finished=time.time(),aggregates=aggregates)
         save(reportfile,report)
     except Exception as error:

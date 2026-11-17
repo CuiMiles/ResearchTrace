@@ -176,3 +176,24 @@ VL修复后的真实复测：PaddleOCR-VL-1.6 CPU双语产品链路 **PASS**，1
 ## 2026-11-17 completion（持续更新）
 
 继承Claude分支后基线516测试通过；综合集成607通过；配额/真实失败修复后611通过。后续最终回归见 `evidence/completion-20261116/final-after-live-fixes.log`，避免将阶段计数相加。真实浏览器32项、写作夹具23项、公网独立浏览器登录/文献读取分别有证据。6页PDF和360秒1080p普通话MP4已产生，视频不等同新输入验收。80题纯关键词已执行，Qwen核心对照保留；Nemotron/重排和Gemini完整对照不得写作已完成。真实问答、生成、Future Work与调用账本见completion目录，FAIL和待复核均保留。新增参考文献下载、全量云覆盖、公网生成切换以及人工准确性审核以最新运行记录为准，不能用这些单测数字代替。
+
+
+## 2026-11-17 公网切换与真实补验
+
+619项完整回归：evidence/completion-20261116/release-regression.log（135.88秒）；后续Schema及安全产物修复有专项日志。新评审账号46份资料、6231向量直接复制0调用；真实中文设备问题包含154个展开的向量源块候选，通过生成和Decision辅助核查。新中文PDF上传、英译和HTML导出通过，Agent根据真实检索区分设备/时长和未报告费用。
+
+80题关键词、Qwen核心对照、未完成的全部模型对照见docs/EVALUATION.md。综述和Future Work的拒绝、partial及覆盖不足保留，人工质量审查NOT RUN。ECS原始541页重解析290.29秒完成，59项检查通过；文档任务运行期间CSV绘图5.437秒、五类导出成功，旧末页仍可读，见public-541-pressure.json。
+
+夜间备份timer已启用且真实备份成功；backup.py区分写锁与总耗时，不改写旧记录。现有sluna.xyz主站保留，推理接口仍经认证回环隧道。公网生成/Embedding集中ECS计账，本地云调用关闭。
+
+## 2026-11-17 本地全量完成与持久索引收尾
+
+全39本地索引和80题真实向量/重排完成，分子分母见EVALUATION.md。最新全量回归643项/133.78秒（survey-and-index-final-regression.log），其后增加SQLite写锁等待专项；最终计数以worker-safe-final-regression.log为准，不相加阶段计数。前端类型和构建PASS，automatic-index-frontend-build.log。
+
+新文件在ECS实际解析先完成、自动索引独立入队、完成后语义检索并回答6张GPU（new-pdf-auto-index-public.json）。本地额度预留失败仅等供应商真实日界，unknown不自动重发；解析、旧引用与排队索引分开。
+
+一次全量导入因SQLite NUL文本长度误判回滚；修为Python完整字符串跨度逐段比较。其后发现线上同代旧状态failed/14466仍在，补齐状态前检验同manifest、全部23185向量及原文，原子切换成功。原失败和初次评审复制只有6231向量的记录保留。最终新空间29416条向量复制PASS、0调用。
+
+压力下完整种子复制写锁56.522秒，API未OOM，但交互Worker空闲唤醒遇SQLite BUSY重启1次；现已增加仅队列忙错误的等待保护，不能重发任务中的未知请求。云35预检也因写锁失败，769次元数据HTTP尝试/0Embedding单位，旧回执保留，需确认reserved/unknown再恢复。
+
+最终v12回归：645 passed in 135.80s，worker-safe-final-regression.log。公网RT_EMBED_PROVIDER=auto，主检索本地Nemotron，认证回环18990/18991，云只做独立代际备用。35云预检写锁留下的一条reserved已有同quota_id原生计数回执，核对后补记ok/0Embedding单位，无请求重发、无账本重置；cloud-preflight-receipt-recovered.json。

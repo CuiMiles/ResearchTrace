@@ -21,8 +21,10 @@ with sync_playwright() as p:
  who=page.request.get('https://researchtrace.sluna.xyz/api/v1/auth/session').json()
  docs=page.request.get('https://researchtrace.sluna.xyz/api/v1/documents').json()
  assert who['workspace']==a['workspace'] and len(docs)>=39
+ semantic_ready=sum(bool((v.get('local_index') or {}).get('semantic_ready')) for v in docs)
+ assert semantic_ready>=int(os.getenv('RT_EXPECT_SEMANTIC_DOCUMENTS','0'))
  page.screenshot(path=str(out/'library.png'),full_page=True)
  # Reload in this fresh context proves the invitation is stable across requests.
  page.reload();page.wait_for_timeout(1500)
- result={'status':'PASS' if not errors else 'FAIL','tls_status':resp.status,'reviewer_login':'PASS','workspace_isolated':who['workspace']==a['workspace'],'documents':len(docs),'browser_errors':errors,'provider_calls':0,'egress':'node01 proxy to public ECS; real TLS verification'}
+ result={'status':'PASS' if not errors else 'FAIL','tls_status':resp.status,'reviewer_login':'PASS','workspace_isolated':who['workspace']==a['workspace'],'documents':len(docs),'semantic_ready_documents':semantic_ready,'browser_errors':errors,'provider_calls':0,'egress':'node01 proxy to public ECS; real TLS verification'}
  (out/'report.json').write_text(json.dumps(result,ensure_ascii=False,indent=2));print(json.dumps(result,ensure_ascii=False));b.close()

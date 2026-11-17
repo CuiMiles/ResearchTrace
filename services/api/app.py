@@ -206,14 +206,20 @@ def documents(s=Depends(session)):
 @app.get('/api/v1/documents/{vid}/status')
 def status(vid:str,s=Depends(session)):
     v=version(vid,s['workspace'])
-    v['local_index']=local_index_status(s['workspace'],vid)
     return v
 
 def local_index_status(workspace,vid):
-    return index_status_map(workspace).get(vid,{'status':'unindexed','semantic_ready':False,'indexed_blocks':0,'eligible_blocks':0})
+    return index_status_map(workspace,[vid]).get(vid,{'status':'unindexed','semantic_ready':False,'indexed_blocks':0,'eligible_blocks':0})
 
-def index_status_map(workspace):
-    counts={r['version_id']:r['n'] for r in rows("SELECT version_id,count(*) n FROM current_blocks WHERE workspace=? AND length(trim(text))>0 AND type NOT IN ('header','footer') GROUP BY version_id",(workspace,))}
+def index_status_map(workspace,version_ids=None):
+    # Use the exact chunker's Unicode whitespace policy. SQLite length(TEXT)
+    # stops at an embedded NUL in some PDFs and undercounts valid source spans.
+    if version_ids is not None and not version_ids:return {}
+    scope=' AND version_id IN ('+','.join('?' for _ in version_ids)+')' if version_ids is not None else ''
+    args=(workspace,*(version_ids or []));counts={}
+    with db() as c:
+        for row in c.execute("SELECT version_id,text FROM current_blocks WHERE workspace=? AND type NOT IN ('header','footer')"+scope,args):
+            if row['text'].strip():counts[row['version_id']]=counts.get(row['version_id'],0)+1
     mode=os.getenv('RT_EMBED_PROVIDER','gemini');local=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16');cloud=os.getenv('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
     models=[cloud] if mode=='gemini' else [local,cloud] if mode=='auto' else [local]
     coverage=rows('''SELECT a.version_id,a.model_id,g.id generation_id,g.status,count(DISTINCT b.id) covered
@@ -221,9 +227,13 @@ def index_status_map(workspace):
        LEFT JOIN retrieval_chunks c ON c.generation_id=g.id AND c.version_id=a.version_id AND c.workspace=a.workspace
        LEFT JOIN retrieval_spans s ON s.chunk_id=c.id
        LEFT JOIN current_blocks b ON b.id=s.block_id AND b.workspace=a.workspace AND b.version_id=a.version_id
-       WHERE a.workspace=? GROUP BY a.version_id,a.model_id,g.id''',(workspace,))
-    lookup={(r['version_id'],r['model_id']):r for r in coverage};result={}
-    for v in rows('SELECT id FROM versions WHERE workspace=? AND deleted=0',(workspace,)):
+       WHERE a.workspace=?'''+scope.replace('version_id','a.version_id')+' GROUP BY a.version_id,a.model_id,g.id',args)
+    lookup={(r['version_id'],r['model_id']):r for r in coverage};result={};pending={}
+    for r in rows("SELECT id,status,payload FROM runs WHERE workspace=? AND kind='index' AND status IN ('queued','running','waiting_batch','failed','partial') ORDER BY created DESC",(workspace,)):
+        payload=json.loads(r['payload'])
+        for vid in payload.get('version_ids',[]):
+            if vid not in pending:pending[vid]=r
+    for v in rows('SELECT id FROM versions WHERE workspace=? AND deleted=0'+scope.replace('version_id','id'),args):
         providers=[];expected=counts.get(v['id'],0)
         for model in models:
             r=lookup.get((v['id'],model));covered=r['covered'] if r else 0
@@ -231,7 +241,11 @@ def index_status_map(workspace):
             providers.append({'status':'ready' if ready else 'unindexed','generation_id':r['generation_id'] if r else None,'model_id':model,
                               'indexed_blocks':covered,'eligible_blocks':expected,'semantic_ready':ready})
         chosen=next((p for p in providers if p['semantic_ready']),providers[0])
-        result[v['id']]={**chosen,'providers':providers}
+        item={**chosen,'providers':providers}
+        if not chosen['semantic_ready'] and v['id'] in pending:
+            run=pending[v['id']]
+            item.update(status=run['status'],pending_run_id=run['id'])
+        result[v['id']]=item
     return result
 
 class IndexRequest(BaseModel):
@@ -240,11 +254,16 @@ class IndexRequest(BaseModel):
     provider:Literal['local','gemini']|None=None
     source_generation_id:str|None=None
     pack_cloud:bool=False
+    chunks_only:bool=False
+    activate:bool=True
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/indices/runs')
 def build_index(p:IndexRequest,s=Depends(session)):
-    for vid in p.version_ids:version(vid,s['workspace'])
+    # Ownership requires one bounded lookup, not 35 full-library index joins.
+    ids=set(p.version_ids);marks=','.join('?' for _ in ids)
+    found=rows('SELECT id FROM versions WHERE workspace=? AND deleted=0 AND id IN ('+marks+')',(s['workspace'],*ids))
+    if len(found)!=len(ids):raise HTTPException(404,'文档不存在或无权限')
     return queue(s['workspace'],'index',p.model_dump(exclude={'idempotency_key'},exclude_none=True),p.idempotency_key)
 
 @app.get('/api/v1/indices')

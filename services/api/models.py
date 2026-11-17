@@ -171,7 +171,7 @@ def reserve(project,model,tokens,run_id,now=None,request_units=1):
         except (ValueError,TypeError):
             raise QuotaRefusal('模型当日总预算配置无效',scope='global',code='budget_configuration') from None
         cap=daily_caps.get(model)
-        if cap is not None:
+        if cap is not None and request_units:
             used=c.execute('SELECT COALESCE(SUM(COALESCE(u.units,1)),0) FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id WHERE q.model=? AND q.day=?',(model,quota_day(now))).fetchone()[0]
             if used+request_units>cap:
                 raise QuotaRefusal('该模型当日授权总调用数已用尽，失败与未知请求也计入',scope='global',code='model_daily')
@@ -202,7 +202,7 @@ def reserve(project,model,tokens,run_id,now=None,request_units=1):
         minute=c.execute('SELECT COALESCE(SUM(COALESCE(u.units,1)),0),COALESCE(SUM(q.input_tokens),0) FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id WHERE q.project IN ('+marks+') AND q.model=? AND q.started>?',(*groups,model,now-60)).fetchone()
         daily=c.execute('SELECT COALESCE(SUM(COALESCE(u.units,1)),0) FROM quota q LEFT JOIN quota_request_units u ON u.quota_id=q.id WHERE q.project IN ('+marks+') AND q.model=? AND q.day=?',(*groups,model,quota_day(now))).fetchone()[0]
         active=c.execute("SELECT COUNT(*) FROM quota WHERE project IN ("+marks+") AND model=? AND status='reserved' AND started>?",(*groups,model,now-300)).fetchone()[0]
-        if daily+request_units>rpd:
+        if request_units and daily+request_units>rpd:
             raise QuotaRefusal('项目日额度已用尽；太平洋时间午夜复位', scope='project', code='project_daily')
         if model == CORE and (policy['profile'] != 'smoke' or os.getenv('RT_SMOKE_MODE','true') != 'true'):
             if daily >= policy['runtime_soft_rpd']:
@@ -262,6 +262,10 @@ def request(model,method,body,run_id,estimate):
     embedding=model==EMBED
     if mode=='disabled' or (mode=='embedding_only' and not embedding) or (mode=='generation_only' and embedding):
         raise QuotaRefusal('该用途由另一运行环境统一计账，本机未发送请求',scope='global',code='purpose_disabled')
+    if method=='countTokens':
+        # This metadata endpoint has no inference-token or embedding-item cost.
+        # It remains a recorded transport attempt, including failures/unknowns.
+        estimate=0
     # Conservative 1 token per UTF-8 byte reserve; correct with actual usage.
     # Retry only unsent local reservations; no sent retries or paid fallback.
     qid=None
@@ -362,6 +366,9 @@ def request(model,method,body,run_id,estimate):
         if not isinstance(result,dict):
             raise ValueError('response must be an object')
         usage=result.get('usageMetadata',{})
+        if method=='countTokens':
+            usage={'promptTokenCount':0,'candidatesTokenCount':0,
+                   'native_count_tokens':{'totalTokens':result.get('totalTokens')}}
         if method=='createDecision':
             actual=result.get('usage',{})
             if not isinstance(actual,dict) or type(actual.get('total_input_tokens')) is not int or actual.get('total_output_tokens')!=0:
@@ -394,7 +401,10 @@ def request(model,method,body,run_id,estimate):
     finally:
         with db() as c:
             c.execute('UPDATE quota SET status=?,input_tokens=?,output_tokens=?,usage=? WHERE id=?',(status,_usage_count(usage,'promptTokenCount',estimate),_usage_count(usage,'candidatesTokenCount')+_usage_count(usage,'thoughtsTokenCount'),json.dumps(usage),qid))
-            c.execute('INSERT OR REPLACE INTO provider_state VALUES(?,?,?,?,?)',(project,model,status,detail,time.time()))
+            # Metadata success cannot make an exhausted inference endpoint look
+            # available. Its HTTP receipt still belongs to the same real model.
+            state_model=model+':countTokens' if method=='countTokens' else model
+            c.execute('INSERT OR REPLACE INTO provider_state VALUES(?,?,?,?,?)',(project,state_model,status,detail,time.time()))
 
 def _usage_count(usage, key, default=0):
     value = usage.get(key, default)
@@ -544,8 +554,13 @@ def embed(texts,run_id,task='RETRIEVAL_DOCUMENT'):
         return {'vectors':[],'model':EMBED,'dimension':0}
     if len(texts)>32:
         raise ModelError('embedding batch 超过32条')
+    from .embedding_providers import GeminiRetrievalProvider
+    provider=GeminiRetrievalProvider(run_id)
+    bounds=[provider.content_token_bound(text) for text in texts]
+    if any(bound>2000 for bound in bounds):
+        raise ModelError('云向量输入超出2000内容token安全预算；拒绝上游静默截断，请创建新切分代')
     requests=[{'model':f'models/{EMBED}','content':{'parts':[{'text':t}]},'taskType':task,'outputDimensionality':768} for t in texts]
-    data,_=request(EMBED,'batchEmbedContents',{'requests':requests},run_id,sum(len(t.encode()) for t in texts)+128)
+    data,_=request(EMBED,'batchEmbedContents',{'requests':requests},run_id,sum(bounds)+16*len(texts))
     vectors=[x['values'] for x in data.get('embeddings',[])]
     if len(vectors)!=len(texts) or not vectors or any(len(x)!=len(vectors[0]) for x in vectors):
         raise ModelError('embedding 返回数量或维度不符')

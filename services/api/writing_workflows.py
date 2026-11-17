@@ -199,9 +199,20 @@ def collect_evidence(run):
         original = store.rows('''SELECT b.*,COALESCE(bp.parse_id,b.version_id) AS parse_id FROM blocks b
             LEFT JOIN block_parses bp ON bp.block_id=b.id WHERE b.workspace=? AND b.version_id=?
             AND COALESCE(bp.parse_id,b.version_id)=? AND b.type NOT IN ('header','footer','reference','references')
-            AND length(trim(b.text))>20 ORDER BY b.page_index,b.reading_order''', (workspace, vid, pid))
+            AND (b.type='heading' OR length(CAST(trim(b.text) AS BLOB))>20) ORDER BY b.page_index,b.reading_order''', (workspace, vid, pid))
         lookup = {b['id']: b for b in original}
-        candidates = [lookup[b['id']] for b in ranked if b['id'] in lookup]
+        from .cards import abstract_from_blocks
+        abstract=abstract_from_blocks(original)
+        lead=[lookup[bid] for bid in (abstract or {}).get('block_ids',[]) if bid in lookup][:2]
+        if not lead:
+            lead=[b for b in original if b['page_index']<=1 and b['type'] in ('paragraph','text') and len(b['text'].strip())>150][:1]
+        anchors=[]
+        for pattern in (r'method|approach|architecture|model|方法|模型',r'conclu|limitation|discussion|future|结论|局限'):
+            heading=next((i for i,b in enumerate(original) if b['type']=='heading' and re.search(pattern,b['text'],re.I)),None)
+            if heading is not None:
+                body=next((b for b in original[heading+1:heading+7] if b['type'] in ('paragraph','text','table')),None)
+                if body:anchors.append(body)
+        candidates = lead+[lookup[b['id']] for b in ranked if b['id'] in lookup][:2]+anchors
         # Provide method/limit/tail coverage when the topic query is sparse or Chinese.
         if original:
             candidates += [original[0], original[len(original)//3], original[2*len(original)//3], original[-1]]

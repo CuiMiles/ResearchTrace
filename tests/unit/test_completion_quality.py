@@ -68,6 +68,46 @@ def test_cloud_bundle_preserves_every_original_span_with_bounded_unicode():
         assert cursor==len(b['text'])
 
 
+def test_native_counted_cloud_pack_resplits_and_keeps_original_offsets(monkeypatch):
+    from services.api.index_generations import counted_cloud_chunks
+    p=GeminiRetrievalProvider()
+    monkeypatch.setattr(p,'content_token_bound',lambda value:len(value.encode())+1)
+    blocks=[{'id':'a','type':'paragraph','text':'a'*7000},{'id':'b','type':'table','text':'中文🙂 units GPU '*400}]
+    result=counted_cloud_chunks(blocks,'Fixture',p)
+    assert len(result)>2 and all(c['token_count']<=2000 for c in result)
+    for b in blocks:
+        cursor=0
+        for start,end in sorted((s,e) for c in result for bid,s,e in c['spans'] if bid==b['id']):
+            assert start<=cursor;cursor=max(cursor,end)
+        assert cursor==len(b['text'])
+
+
+def test_cloud_packing_rejects_a_truncated_split(monkeypatch):
+    from services.api.index_generations import counted_cloud_chunks
+    from services.api.embedding_providers import RetrievalUnavailable
+    p=GeminiRetrievalProvider()
+    monkeypatch.setattr(p,'split',lambda *a,**k:[{'text':'abc','start':0,'end':3,'token_count':3}])
+    with pytest.raises(RetrievalUnavailable,match='尾部'):
+        counted_cloud_chunks([{'id':'a','type':'paragraph','text':'abcdef'}],'Fixture',p)
+
+
+def test_free_token_count_survives_embedding_daily_cap_without_extra_units(tmp_path,monkeypatch):
+    import httpx
+    monkeypatch.setattr(store,'DATA',tmp_path);store.migrate()
+    monkeypatch.setenv('RT_MODEL_DAILY_LIMITS',json.dumps({'gemini-embedding-001':1}))
+    monkeypatch.setenv('RT_MODEL_PROJECT_LIMITS',json.dumps({'gemini-embedding-001':[100,30000,1]}))
+    monkeypatch.setenv('GEMINI_PROJECT_1','fixture-project');monkeypatch.setenv('GEMINI_API_KEY','fixture-key')
+    monkeypatch.delenv('GEMINI_API_KEY2',raising=False)
+    q=models.reserve('fixture-project','gemini-embedding-001',10,None,now=models.time.time()-100,request_units=1)
+    store.execute("UPDATE quota SET status='ok' WHERE id=?",(q,))
+    monkeypatch.setattr(models,'client',lambda:httpx.Client(transport=httpx.MockTransport(lambda r:httpx.Response(200,json={'totalTokens':1500}))))
+    response,_=models.request('gemini-embedding-001','countTokens',{'contents':[{'role':'user','parts':[{'text':'input'}]}]},None,5000)
+    assert response['totalTokens']==1500
+    assert store.one('SELECT sum(units) n FROM quota_request_units')['n']==1
+    assert store.one('SELECT count(*) n FROM quota')['n']==2
+    assert store.one('SELECT input_tokens FROM quota WHERE id=?',(response['_quota_id'],))['input_tokens']==0
+
+
 def test_legacy_project_alias_keeps_earlier_quota_without_editing_ledger(tmp_path,monkeypatch):
     monkeypatch.setattr(store,'DATA',tmp_path);store.migrate()
     monkeypatch.setenv('RT_MODEL_PROJECT_LIMITS',json.dumps({'gemini-embedding-001':[100,30000,2]}))

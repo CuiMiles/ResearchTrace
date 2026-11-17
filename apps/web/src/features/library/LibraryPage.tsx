@@ -185,7 +185,7 @@ function DocumentRow({
         </div>
         <span>
           解析 {v.parsed_pages}/{v.page_count || '?'} 页
-          {v.local_index?.semantic_ready ? ' · 语义索引就绪' : ''}
+          {v.local_index?.semantic_ready ? ' · 语义索引就绪' : v.local_index?.status === 'running' ? ' · 语义索引构建中' : ['queued', 'waiting_batch'].includes(v.local_index?.status ?? '') ? ' · 语义索引排队中' : v.local_index?.status === 'failed' ? ' · 语义索引失败，查看任务记录' : v.status === 'ready' ? ' · 语义索引未完成' : ''}
         </span>
       </div>
       <time>{date(v.created)}</time>

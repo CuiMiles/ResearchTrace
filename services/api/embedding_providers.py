@@ -75,22 +75,26 @@ class GeminiRetrievalProvider:
             start=next_start
         return parts
 
-    def embed(self,texts,task):
+    def content_token_bound(self,value):
         from . import models,store
-        # UTF-8 bytes are a conservative bound. Only the few larger inputs
-        # need a real tokenizer request; never let the API silently truncate.
-        for value in texts:
-            if len(value.encode())<=2048:continue
-            store.execute('CREATE TABLE IF NOT EXISTS embedding_token_counts(model TEXT,input_key TEXT,tokens INTEGER NOT NULL,PRIMARY KEY(model,input_key))')
-            key=hashlib.sha256(value.encode()).hexdigest()
-            saved=store.one('SELECT tokens FROM embedding_token_counts WHERE model=? AND input_key=?',(self.model_id,key))
-            if saved:tokens=saved['tokens']
-            else:
-                counted,_=models.request(self.model_id,'countTokens',{'contents':[{'parts':[{'text':value}]}]},self.run_id,len(value.encode())+128)
-                tokens=counted.get('totalTokens')
-                if type(tokens) is not int or tokens<1:raise RetrievalUnavailable('上游未返回有效输入token数，拒绝可能截断的输入')
-                store.execute('INSERT OR IGNORE INTO embedding_token_counts VALUES(?,?,?)',(self.model_id,key,tokens))
-            if tokens>2048:raise RetrievalUnavailable('输入超过云模型2048 tokens限制，需独立重切分，原索引保持不变')
+        # Native counting includes role framing. Reserve room for model-internal
+        # tokens; an embedding may otherwise succeed while silently losing text.
+        if len(value.encode())<=1992:return len(value.encode())+1
+        store.execute('CREATE TABLE IF NOT EXISTS embedding_token_counts(model TEXT,input_key TEXT,tokens INTEGER NOT NULL,PRIMARY KEY(model,input_key))')
+        key=hashlib.sha256((self.descriptor()['revision']+'\0role=user\0'+value).encode()).hexdigest()
+        saved=store.one('SELECT tokens FROM embedding_token_counts WHERE model=? AND input_key=?',(self.model_id,key))
+        if saved:return saved['tokens']
+        counted,_=models.request(self.model_id,'countTokens',{'contents':[{'role':'user','parts':[{'text':value}]}]},self.run_id,0)
+        tokens=counted.get('totalTokens')
+        if type(tokens) is not int or not 1<=tokens<=10000000:
+            raise RetrievalUnavailable('上游未返回有效输入token数，拒绝可能截断的输入')
+        store.execute('INSERT OR IGNORE INTO embedding_token_counts VALUES(?,?,?)',(self.model_id,key,tokens))
+        return tokens
+
+    def embed(self,texts,task):
+        from . import models
+        if any(self.content_token_bound(value)>2000 for value in texts):
+            raise RetrievalUnavailable('输入超过云模型2000内容tokens安全预算，需独立重切分，原索引保持不变')
         response=models.embed(texts,self.run_id,task=task)
         vectors=np.asarray(response['vectors'],dtype=np.float32)
         if vectors.shape!=(len(texts),768) or not np.isfinite(vectors).all():

@@ -313,6 +313,9 @@ def audit(run):
     return audit_fulltext(run)
 
 def work_once(pool='all'):
+    if pool in ('all','documents'):
+        from .index_tasks import admit
+        admit()
     from contextlib import ExitStack
     with ExitStack() as execution:
         with db() as c:
@@ -323,7 +326,8 @@ def work_once(pool='all'):
             allowed=kinds.get(pool)
             where=' AND kind IN ('+','.join('?' for _ in allowed)+')' if allowed else ''
             order="CASE WHEN kind='index' THEN 1 ELSE 0 END,created" if pool=='documents' else 'created'
-            row=c.execute("SELECT * FROM runs WHERE status='queued'"+where+" ORDER BY "+order+" LIMIT 1",allowed or ()).fetchone()
+            due=" AND (kind!='index' OR COALESCE(json_extract(checkpoint,'$.index_resume_after'),0)<=?)"
+            row=c.execute("SELECT * FROM runs WHERE status='queued'"+due+where+" ORDER BY "+order+" LIMIT 1",(time.time(),*(allowed or ()))).fetchone()
             if not row:
                 return False
             from .store import run_execution_lock
@@ -362,13 +366,18 @@ def work_once(pool='all'):
                         'outline_entries':len(card.get('outline',[])),'notes':card.get('notes',[])}
             elif run['kind']=='index':
                 from .index_generations import build
+                if run['payload'].get('expected_parse_id'):
+                    actual=one('SELECT parse_id FROM active_parses WHERE version_id=?',(run['payload']['version_ids'][0],))
+                    if not actual or actual['parse_id']!=run['payload']['expected_parse_id']:
+                        raise ValueError('解析快照已切换，请按新快照发起索引；旧快照保持不变')
                 snap=json.loads(one('SELECT checkpoint FROM runs WHERE id=?',(rid,))['checkpoint'] or '{}')
                 generation_id=run['payload'].get('generation_id') or snap.get('index_generation_id') or uid()
                 checkpoint(run,{'index_generation_id':generation_id})
                 from .embedding_providers import configured_provider
                 result=build(run['workspace'],run['payload']['version_ids'],run_id=rid,generation_id=generation_id,
                              provider=configured_provider(run['payload'].get('provider'),rid),
-                             source_generation_id=run['payload'].get('source_generation_id'),pack_cloud=run['payload'].get('pack_cloud',False))
+                             source_generation_id=run['payload'].get('source_generation_id'),pack_cloud=run['payload'].get('pack_cloud',False),
+                             chunks_only=run['payload'].get('chunks_only',False),activate=run['payload'].get('activate',True))
             else:
                 raise ValueError('不支持的任务类型')
             if not cancelled(rid):
@@ -378,6 +387,15 @@ def work_once(pool='all'):
                 event(rid,final,{'result_saved':True})
         except Exception as e:
             if not cancelled(rid):
+                if run['kind']=='index' and isinstance(e,models.QuotaRefusal) and e.code in ('model_daily','project_daily'):
+                    # Only an unsent local daily reservation may wait for the
+                    # provider's real reset. Unknown/sent failures never replay.
+                    resume_at=models.reset_at()
+                    checkpoint(run,{'index_resume_after':resume_at,'index_wait_reason':e.code})
+                    result={'status':'queued','resume_at':resume_at,'reason':'当日免费向量额度不足；保留已完成片段与向量，在供应商日界后继续。'}
+                    execute("UPDATE runs SET status='queued',result=?,error=NULL,updated=? WHERE id=?",(json.dumps(result,ensure_ascii=False),time.time(),rid))
+                    event(rid,'index_quota_wait',{'resume_at':resume_at,'code':e.code,'request_sent':False,'ledger_reset':False})
+                    return True
                 # Only controlled exceptions shown; never upstream request repr or credentials.
                 safe=str(e)[:350] if isinstance(e,(models.ModelError,ValueError)) else f'{type(e).__name__}: 任务执行异常，请查看本地审计记录'
                 execute("UPDATE runs SET status='failed',error=?,updated=? WHERE id=?",(safe,time.time(),rid))

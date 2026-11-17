@@ -65,3 +65,51 @@ def test_failed_seed_rolls_back_new_invitation(parsed):
     with pytest.raises(ValueError):reviewer_accounts.create_reviewer('Bad seed',seed_workspace_id='foreign-missing')
     assert store.one('SELECT count(*) n FROM workspaces')['n']==before
     assert not store.rows('SELECT * FROM review_accounts')
+
+
+def test_index_readiness_uses_full_unicode_source_even_with_nul(parsed):
+    from services.api.app import index_status_map
+    block=store.one('SELECT id,text FROM current_blocks WHERE version_id=? ORDER BY reading_order LIMIT 1',(parsed,))
+    store.execute('UPDATE blocks SET text=? WHERE id=?',('\0'+block['text'],block['id']))
+    idx.build('source',[parsed],provider=GeminiRetrievalProvider())
+    status=index_status_map('source')[parsed]
+    assert status['semantic_ready'] and status['indexed_blocks']==status['eligible_blocks']>0
+    assert index_status_map('source',[parsed])[parsed]==status
+    assert index_status_map('source',[])=={}
+
+
+def test_bulk_index_rejects_mixed_ownership_atomically(parsed):
+    from fastapi import HTTPException
+    from services.api.app import IndexRequest,build_index
+    before=store.one('SELECT count(*) n FROM runs')['n']
+    with pytest.raises(HTTPException) as e:
+        build_index(IndexRequest(version_ids=[parsed,'foreign-document'],chunks_only=True,idempotency_key='mixed-scope-fixture'),{'workspace':'source'})
+    assert e.value.status_code==404
+    assert store.one('SELECT count(*) n FROM runs')['n']==before
+    accepted=build_index(IndexRequest(version_ids=[parsed],chunks_only=True,idempotency_key='owned-scope-fixture'),{'workspace':'source'})
+    payload=json.loads(store.one('SELECT payload FROM runs WHERE id=?',(accepted['id'],))['payload'])
+    assert payload['version_ids']==[parsed] and payload['chunks_only']
+
+
+def test_seed_streams_large_vector_store_with_bounded_python_memory(parsed):
+    import struct
+    import tracemalloc
+    vector=struct.pack('<f',1.0)+bytes(4095*4)
+    count=1024  # 16MiB of normalized fixture vectors; no inference calls.
+    with store.db() as c:
+        for i in range(count):
+            bid=f'large-fixture-{i}'
+            c.execute('INSERT INTO blocks VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+                (bid,'source',parsed,0,'[0,0,1,1]','paragraph',i+1,'Controlled fixture','fixture','test','{}'))
+            c.execute('INSERT INTO embeddings VALUES(?,?,?,?,?,?)',
+                (bid,'source',parsed,'fixture-4096',4096,vector))
+    tracemalloc.start()
+    try:
+        account=reviewer_accounts.create_reviewer('Large vector fixture',seed_workspace_id='source')
+        _,peak=tracemalloc.get_traced_memory()
+    finally:
+        tracemalloc.stop()
+    assert peak<8*1024**2, f'Copy retained too many vector BLOBs: {peak} bytes'
+    assert account['seed_copy']['provider_calls']==0
+    assert account['seed_copy']['counts']['embeddings']==count
+    assert store.one('SELECT vector FROM embeddings WHERE workspace=? LIMIT 1',(account['workspace'],))['vector']==vector
