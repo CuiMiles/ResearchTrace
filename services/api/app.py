@@ -395,6 +395,9 @@ def patch_document(vid:str,p:PatchDoc,s=Depends(session)):
     v=version(vid,s['workspace']);meta=v['metadata']
     if p.title:
         execute('UPDATE versions SET title=? WHERE id=?',(p.title,vid))
+        # A corrected title names the paper itself, so the work (graph node, search) follows it.
+        if v.get('work_id'):
+            execute('UPDATE works SET title=? WHERE id=? AND workspace=?',(p.title,v['work_id'],s['workspace']))
     if p.tags is not None:
         meta['tags']=p.tags[:30];execute('UPDATE versions SET metadata=? WHERE id=?',(json.dumps(meta,ensure_ascii=False),vid))
     if p.outline is not None:

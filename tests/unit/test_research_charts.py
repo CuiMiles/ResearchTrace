@@ -101,6 +101,22 @@ def test_graph_has_only_actual_reference_edges():
     assert build_graph('beta')['nodes'] == []
 
 
+def test_short_title_needs_first_author_and_year_to_become_an_edge():
+    # "Attention Is All You Need" is too short to be distinctive on its own.
+    for wid, title in [('t', 'Attention Is All You Need'), ('s', 'Bidirectional encoder pretraining study')]:
+        store.execute('INSERT INTO works VALUES(?,?,?,?,?)', (wid, 'gamma', title, 'local:' + wid, '{}'))
+        store.execute('INSERT INTO versions(id,workspace,work_id,title,filename,sha256,path,status,created) VALUES(?,?,?,?,?,?,?,?,?)', (wid + 'v', 'gamma', wid, title, wid + '.pdf', 'sha' + wid, '/unused', 'ready', 1))
+    card = {'authors': [{'name': 'Ashish Vaswani'}], 'year': {'value': 2017}}
+    store.execute('INSERT INTO document_cards VALUES(?,?,?,?,?,?)', ('tv', 'p', 'gamma', json.dumps(card), 1, 1))
+    refs = [('good', 'Ashish Vaswani, Noam Shazeer, et al. 2017. Attention is all you need. In NIPS.'),
+            ('wrong-year', 'J. Doe and A. Vaswani. 2019. Attention is all you need for tables.'),
+            ('no-author', 'A. Writer. 2017. Why attention is all you need, revisited.')]
+    for ref_id, text in refs:
+        store.execute('INSERT INTO refs VALUES(?,?,?,?,?,?,?,?,?)', (ref_id, 'gamma', 'sv', 'b-' + ref_id, 9, '[1]', text, None, '{}'))
+    graph = build_graph('gamma')
+    assert [(e['ref_id'], e['target'], e['method']) for e in graph['edges']] == [('good', 't', 'reference_title_first_author_year')]
+
+
 def test_feedback_reorders_cached_candidates(monkeypatch):
     from services.api import research
     candidates = [{'identity': 'doi:10.1234/a', 'title': 'A paper about research', 'abstract': '', 'reason': 'fixture'}, {'identity': 'doi:10.1234/b', 'title': 'A second paper about research', 'abstract': '', 'reason': 'fixture'}]

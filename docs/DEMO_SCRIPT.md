@@ -1,13 +1,126 @@
-# 5–8 minute live demo
+# 8 分钟演示视频：顺序、操作与台词
 
-Use the running local instance, the reviewer code from `.env` and a fresh browser workspace. Never show the provider secret fields on screen.
+录制环境：公网 https://researchtrace.sluna.xyz ，使用「视频演示空间」访问码（私有文件
+`data-migrated/completion-deployment/demo-video-account-20261118.json`，不要出镜）。
+浏览器 1920×1080、缩放 100%，提前登录并打开一次每篇论文（让 PDF 进入浏览器缓存）。
+资料库只有 10 篇精选论文：Attention v7（矢量版）、Attention 扫描版、Understanding Deep
+Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transformer、FlashAttention。
 
-1. Import a newly chosen PDF (or evals/files/b90f732e.pdf with any unrelated filename). Watch real page progress; open original PDF and select a physical page. Parsed/dense counts distinguish coverage. Ask an English or Chinese question containing exact technical terms. Inspect actual model/run events; click evidence to see original page rectangle and quote. A located quote still says semantic support needs review.
-2. Upload the renamed v1 after v7. Show same content-derived arxiv identity, separate immutable versions and newer-version notice. Open actual block diff. Return to saved QA; citations remain v7. Ask an unsupported question and show evidence insufficiency if tested, rather than presenting a canned answer.
-3. Research search: enter a new query, view real arXiv/Crossref results and source errors/cache timestamps. Metadata-only works have no invented PDF. Create a watch (disabled by default), check immediately, save feedback. In graph inspect a real edge's reference entry and explain current-corpus PageRank boundary.
-4. Select an old Future Work paragraph. Enter a concrete research query. Inspect query/time/source range, candidate metadata and imported fulltext evidence. If fulltext support is insufficient, show this outcome honestly. Never say globally first.
-5. Upload two different CSVs (metrics_a.csv / metrics_b.csv or new user data), choose columns/type, generate and compare different charts and exact calculated extrema. Download SVG, PlotSpec, source CSV and fixed reproduction script. Show missing-value diagnostics with missing.csv.
-6. Edit Mermaid and export safe SVG. Generate source-constrained writing within remaining explicit model budget, or open a clearly labelled saved note with original timestamp. Show source quotations and Markdown/HTML export.
-7. One error: upload damaged.pdf or malformed CSV. Show clear rejection and continued functioning. Resource page shows actual model labels, failed requests, unknown official balance and budget limits.
+诚信约束（台词里也要守住）：
+- 预先生成的结果（版本修订总结、问答、翻译）在界面上带生成时间和模型名，口播说「这是录制前生成的结果」，
+  不说成「现在实时生成」。需要现场实时演示的只选秒级操作（划词翻译、检索、跳转）。
+- 不说「全球首个」「完全准确」；说「每条结论都能点回原文」「查不到会明确说缺证据」。
+- 任何模型失败（如 503）如果出现在镜头里，就照实说明「服务方过载，系统没有自动付费兜底，可一键重试」。
 
-If an API is down, show the real failure and existing history; do not replace the interaction with a prerecorded response. Formal contest MP4/PDF and public HTTPS submission are separate uncompleted deliverables.
+---
+
+## 0:00–0:35 开场：我们解决什么问题
+
+画面：首页 → 资料库（10 篇论文卡片）。
+
+> 读论文最费时间的不是读，而是确认：这个结论出自哪一版、哪一页、哪一段？
+> ResearchTrace 是一个「每句话都能追溯到原文」的科研阅读助手。上传、阅读、翻译、
+> 问答、图谱和写作都围绕同一个原则：结论绑定具体版本和原文位置，查不到就说缺证据。
+> 下面按赛题的三组用例演示。
+
+## 0:35–1:55 用例 3.1：同一论文多版本——去重与版本演化
+
+操作：资料库已有 v7。点「上传」，选择把 1706.03762v1.pdf 改名后的 `paper-upload.pdf`。
+
+> 先上传一个文件名毫无意义的 PDF。系统不看文件名，而是读 PDF 首页正文里的 arXiv 编号，
+> 立即识别出：库里已有这篇论文的另一个版本。
+
+画面停在版本对话框：依据说明、左右两张版本卡片（v1 刚刚上传 / v7 库中已有·较新）。
+
+> 对话框告诉你为什么判断是同一篇、哪个更新，并建议保留较新的 v7。v1 不会被丢弃，
+> 仍可阅读和比较，只是不参与检索，避免旧版本污染答案。
+
+点「AI 总结主要修订」（录制前已生成，结果即刻显示）→ 展开逐段变化。
+
+> 修订总结只基于两版之间确定性比对出的变化段落，每一条都标注了 v1 第几页对应 v7 第几页，
+> 没有引用依据的条目会被系统丢弃。下面是逐段差异：修改 123 段、删除 5 段。
+
+点「保留较新的 v7（推荐）」。
+
+> 一键保留 v7。这一选择会被记录，检索和问答从此只用 v7。
+
+## 1:55–3:40 用例 3.2：解析——矢量 PDF、扫描件、541 页长书
+
+1. 打开 Attention v7 → 点「中英对照」。
+
+> 左边是原版 PDF，排版一点不动；右边是逐段对齐的译文。鼠标移到右边段落，左边对应位置高亮。
+> 图和表直接从原文裁切，公式按 LaTeX 渲染，而不是一串乱码。
+
+   拖动中间分隔条，把原文拉宽、再拉窄；双击恢复一半。
+
+> 两栏宽度可以随意拖动，记住你的习惯；键盘也能调。
+
+   在左侧原文选中一句话 → 浮层翻译（实时）。
+
+> 不想看整篇译文时，划词就翻，结果就在选区旁边。
+
+2. 打开「Attention Is All You Need（扫描版）」→ 中英对照，翻到第 4 页（含公式）。
+
+> 这是纯图片的扫描件，没有任何文字层。系统用 OCR 版面解析恢复了标题层级、段落和公式，
+> 所以同样可以对照翻译、检索和问答。
+
+3. 打开 Understanding Deep Learning（541 页）→ 左侧目录跳到第 10 章 → 页码框输入 300。
+
+> 541 页的教材全部分块建立了语义索引（4848 个块），目录跳转、任意页定位都是即时的，
+> 滚动是连续的，不会因为书太长卡住。
+
+## 3:40–6:15 用例 3.3：基于证据的问答、联动阅读、引文图谱、写作辅助
+
+1. 在 Attention v7 阅读页，右侧 AI 对话栏提问（录制前问过一次，结果在会话历史里）：
+   「为什么点积注意力要除以 √d_k？」
+
+> 回答的每一句后面都有引用编号。点一下引用——
+
+   点击引用 → 左侧 PDF 跳到原文并高亮那一段。
+
+> 左边原文立刻跳到出处并高亮。这就是联动阅读：答案和证据永远在一屏里对得上。
+
+2. 进入「问答」页，跨篇提问（录制前已生成）：
+   「Post-LN 和 Pre-LN Transformer 在训练稳定性上有什么区别？请对比 Layer Normalization 原论文和 Pre-LN 论文。」
+
+> 跨多篇论文时，回答会分别标出每条论据来自哪一篇、哪一页；某个点找不到证据时，
+> 系统直接写「缺少证据」，而不是编一个看似合理的答案。
+
+3. 进入「图谱」页，以 Attention 为中心。
+
+> 引文图谱的每条边都来自论文真实的参考文献解析，不是模型猜的。可以看到 BERT、GPT、T5、
+> ViT 都引用了 Transformer，点击节点即可打开对应论文。
+
+4. 进入「写作」页，选「相关工作」模板，基于库中 3–4 篇论文（录制前已生成，显示生成时间）。
+
+> 写作辅助只引用库里真实存在的论文，参考文献从元数据生成，不会凭空捏造文献。
+> 每一段都能回到原文核对。
+
+## 6:15–7:25 工程亮点（快速切换画面）
+
+画面：任务面板 → 资源页（模型用量账本）→ 架构图（技术文档第 2 章）。
+
+> 工程上有四点：
+> 第一，所有耗时任务都持久化、可取消、断点续跑，重复点击不会重复计费。
+> 第二，模型调用按项目记账，失败重试也计入，默认关闭付费兜底；界面会写明是哪个模型给出的答案。
+> 第三，检索用自建的 8B 向量与重排模型，分卡部署在 GPU 服务器，每张卡只占约 8 GB 显存；
+> 网站本身跑在 2 核 2 GB 的轻量服务器上。
+> 第四，上传的 PDF、网页和 CSV 一律视为不可信数据：渲染消毒、阻断内网下载、模型不能执行宿主命令。
+
+## 7:25–8:00 收尾
+
+画面：回到中英对照页。
+
+> ResearchTrace 让读论文这件事从「相信 AI」变成「核对证据」：
+> 版本清楚、出处可点、查不到就直说。谢谢观看。
+
+---
+
+## 录制前检查清单
+
+- [ ] 版本修订总结已成功生成（若服务方 503，错峰重试；失败结果不要出镜冒充成功）。
+- [ ] 两个问答已在演示空间提问并完成，引用可点击跳转。
+- [ ] Attention v7 前 5 页、扫描版第 1–4 页已有译文缓存（第一次打开对照模式时生成）。
+- [ ] 写作「相关工作」已生成。
+- [ ] 每篇论文都打开过一次（PDF 已进浏览器缓存，避免录制时等待载入）。
+- [ ] 屏幕上不出现访问码、服务器配置或密钥。

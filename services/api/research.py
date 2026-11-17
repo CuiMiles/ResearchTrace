@@ -411,6 +411,40 @@ def normalize_identity(value):
     return value.rstrip('.,;')
 
 
+def _work_signature(workspace: str, work_id: str):
+    """First-author surname and year from the work's own document card."""
+    for row in store.rows('SELECT c.card FROM document_cards c JOIN versions v ON v.id=c.version_id '
+                          'WHERE v.workspace=? AND v.work_id=? AND v.deleted=0 ORDER BY c.updated DESC', (workspace, work_id)):
+        card = json.loads(row['card'])
+        authors = card.get('authors') or []
+        name = authors[0].get('name', '') if authors and isinstance(authors[0], dict) else ''
+        parts = name.split()
+        surname = re.sub(r'[^\w]', '', parts[-1].lower()) if parts else ''
+        year = card.get('year', {}).get('value') if isinstance(card.get('year'), dict) else None
+        if len(surname) >= 3:
+            return surname, str(year) if year else None
+    return None, None
+
+
+def _title_hit(work, norm: str, text: str, signatures: dict):
+    """Match a reference to a local work by its title.
+
+    Long titles (24+ normalized characters) are distinctive on their own. Short
+    ones such as "Attention Is All You Need" must also carry the work's first
+    author surname and year in the same reference, so a generic phrase alone
+    never creates an edge.
+    """
+    title = re.sub(r'[^\w]', '', work['title'].lower())
+    if len(title) >= 24:
+        return 'reference_unique_full_title' if title in norm else None
+    if len(title) < 12 or title not in norm:
+        return None
+    surname, year = signatures.get(work['id']) or (None, None)
+    if surname and surname in norm and year and re.search(r'(?<!\d)' + year + r'(?!\d)', text):
+        return 'reference_title_first_author_year'
+    return None
+
+
 def build_graph(workspace: str) -> dict:
     works = store.rows('SELECT * FROM works WHERE workspace=?', (workspace,))
     # A work containing only deleted local documents must not remain graph-searchable.
@@ -424,6 +458,7 @@ def build_graph(workspace: str) -> dict:
     edges = []
     refs = store.rows("SELECT r.*,v.work_id FROM refs r JOIN versions v ON v.id=r.version_id LEFT JOIN active_parses a ON a.version_id=v.id WHERE r.workspace=? AND v.deleted=0 AND COALESCE(json_extract(r.metadata,'$.parse_id'),r.version_id)=COALESCE(a.parse_id,r.version_id)", (workspace,))
     known_sources = {w['id'] for w in works}
+    signatures = {w['id']: _work_signature(workspace, w['id']) for w in works}
     for ref in refs:
         if ref['work_id'] not in known_sources:
             continue
@@ -435,9 +470,9 @@ def build_graph(workspace: str) -> dict:
         method = 'reference_identifier_exact'
         if target is None:
             norm = re.sub(r'[^\w]', '', text.lower())
-            matches = [w['id'] for w in works if len(re.sub(r'[^\w]', '', w['title'])) >= 24 and re.sub(r'[^\w]', '', w['title'].lower()) in norm]
+            matches = [(w['id'], hit) for w in works if (hit := _title_hit(w, norm, text, signatures))]
             if len(matches) == 1:
-                target, method = matches[0], 'reference_unique_full_title'
+                target, method = matches[0]
         if target and target != ref['work_id']:
             edges.append({'source': ref['work_id'], 'target': target, 'ref_id': ref['id'], 'text': text, 'version_id': ref['version_id'], 'page_index': ref['page_index'], 'block_id': ref['block_id'], 'method': method, 'status': '参考文献条目已定位，匹配需人工抽查'})
     # Verified Crossref reference metadata provides real edges when fulltext is unavailable.
