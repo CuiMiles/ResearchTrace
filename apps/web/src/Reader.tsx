@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cleanOutline } from './reader/outline';
 import { ArrowLeft, ChevronLeft, ChevronRight, Download, FileText, ListTree, Minus, PanelLeft, Plus, RotateCw, Search, Send, Sparkles, X } from './icons';
 import { api, documentBlocks, endpoint, errorMessage, key, parseObject } from './api';
 import type { Block, Evidence, Page, Ref, Translation, Version } from './types';
@@ -372,9 +373,10 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   };
 
   // ── derived ─────────────────────────────────────────────────────────────
-  const outline = (!historical ? storedOutline.items : undefined)
+  const outline = useMemo(() => cleanOutline((!historical ? storedOutline.items : undefined)
     ?? (!historical && storedOutline.expected && !storedOutline.loaded ? [] : undefined)
-    ?? blocks.filter(b => b.type === 'heading').map((b): OutlineEntry => ({ title: b.text, page_index: b.page_index, block_id: b.id, level: 1 }));
+    ?? blocks.filter(b => b.type === 'heading').map((b): OutlineEntry => ({ title: b.text, page_index: b.page_index, block_id: b.id, level: 1 }))),
+  [historical, storedOutline, blocks]);
   // The section being read: last heading that starts on or before the current page.
   const scrolledSection = outline.reduce((found, h, i) => (h.page_index <= pageIndex ? i : found), -1);
   // Several headings can share a page: the one the reader clicked stays current on that page.
