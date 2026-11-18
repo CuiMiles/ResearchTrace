@@ -19,7 +19,11 @@
   aspect-ratio: 16 / 9;
 }
 .public-demo video { display: block; width: 100%; height: 100%; }
-.public-demo video::cue { background: #14161a; color: #fff; }
+.public-demo video::cue {
+  background-color: #0d1728;
+  color: #8dd5ff;
+  font-weight: 600;
+}
 .public-demo-play {
   position: absolute;
   left: 50%;

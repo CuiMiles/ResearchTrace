@@ -5,7 +5,7 @@ import './demo-player.css';
 const media = '/demo-media';
 const mp4 = `${media}/researchtrace-play-v3.mp4`;
 const webm = `${media}/researchtrace-play-v3.webm`;
-const download = `${media}/researchtrace-demo-academic-1080p.mp4`;
+const download = `${media}/researchtrace-demo-academic-blue-1080p.mp4`;
 
 export function DemoPlayer() {
   const player = useRef<HTMLVideoElement>(null);
@@ -107,7 +107,7 @@ export function DemoPlayer() {
           }}
           aria-label="ResearchTrace 参赛演示视频"
         >
-          <track kind="captions" src={`${media}/researchtrace-demo-academic-zh.vtt`} srcLang="zh-CN" label="简体中文" default />
+          <track kind="captions" src={`${media}/researchtrace-demo-academic-blue-zh.vtt`} srcLang="zh-CN" label="简体中文" default />
         </video>
         {!started && (
           <button className="public-demo-play" type="button" onClick={play}>
