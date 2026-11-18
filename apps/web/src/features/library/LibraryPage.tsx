@@ -15,7 +15,7 @@ import {
   UploadCloud,
   X,
 } from '../../icons';
-import { api, date, errorMessage } from '../../api';
+import { api, date, errorMessage, shownVersion } from '../../api';
 import { useWorkspace } from '../../app/workspace';
 import { DocumentCard } from '../../components/DocumentCard';
 import type { Version } from '../../types';
@@ -194,9 +194,8 @@ function DocumentRow({
         <div>
           <strong>{v.title}</strong>
           <small>
-            <Badge>{v.label}</Badge>
+            {shownVersion(v.label) && <Badge>{v.label}</Badge>}
             {year && <span>{year}</span>}
-            <span className="truncate">{v.filename}</span>
           </small>
           {notice && <em>{notice}</em>}
         </div>

@@ -91,6 +91,8 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   const [mobileSide, setMobileSide] = useState(false);
   const [mobileAsk, setMobileAsk] = useState(false);
   const [focusBlock, setFocusBlock] = useState<string | null>(null);
+  const [pickedHeading, setPickedHeading] = useState<{ index: number; page: number } | null>(null);
+  const headingHold = useRef(0);
   const [hoverBox, setHoverBox] = useState<{ page_index: number; bbox: number[] } | null>(null);
   const [dismissedHighlight, setDismissedHighlight] = useState('');
   const [selection, setSelection] = useState<Selection | null>(null);
@@ -202,13 +204,16 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
     if (block) onEvidence({ parse_id: block.parse_id ?? parseId, block_id: block.id, version_id: block.version_id, page_index: block.page_index, bbox: block.bbox, quote: block.text, status: '出处已定位' });
     setMobileSide(false);
   };
-  const goToHeading = (entry: OutlineEntry) => {
+  const goToHeading = (entry: OutlineEntry, index: number) => {
     const block = blocks.find(b => b.id === entry.block_id);
     activeSide.current = 'pdf';
+    setPickedHeading({ index, page: entry.page_index });
+    headingHold.current = Date.now() + 1200;
     // Scroll straight to the heading; the viewer reports the new page itself.
     if (block?.bbox?.length === 4 && block.page_index === entry.page_index && pdfRef.current) pdfRef.current.scrollToAnchor(entry.page_index, Math.max(0, block.bbox[1] - 0.02));
     else setPage(clampPage(entry.page_index));
-    if (block) setFocusBlock(block.id);
+    if (block) { setFocusBlock(block.id); paneRef.current?.alignBlock(entry.page_index, block.id); }
+    else paneRef.current?.scrollToAnchor(entry.page_index, 0);
     setMobileSide(false);
   };
   function citationJump(b: Block, marker: string) {
@@ -346,7 +351,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   const setAutoTranslate = (on: boolean) => { setAutoTranslateState(on); store('rt-auto-translate', on ? '1' : '0'); };
 
   // ── bilingual sync ──────────────────────────────────────────────────────
-  const onPdfViewport = useCallback((a: ViewAnchor) => { if (activeSide.current === 'pdf') paneRef.current?.scrollToAnchor(a.page, a.y); }, []);
+  const onPdfViewport = useCallback((a: ViewAnchor) => { if (activeSide.current === 'pdf' && Date.now() > headingHold.current) paneRef.current?.scrollToAnchor(a.page, a.y); }, []);
   const onPaneViewport = useCallback((a: ViewAnchor) => { if (activeSide.current === 'pane') pdfRef.current?.scrollToAnchor(a.page, a.y); }, []);
   const hoverTimer = useRef(0);
   const selectBlockInPane = (block: Block) => {
@@ -370,7 +375,9 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
     ?? (!historical && storedOutline.expected && !storedOutline.loaded ? [] : undefined)
     ?? blocks.filter(b => b.type === 'heading').map((b): OutlineEntry => ({ title: b.text, page_index: b.page_index, block_id: b.id, level: 1 }));
   // The section being read: last heading that starts on or before the current page.
-  const currentSection = outline.reduce((found, h, i) => (h.page_index <= pageIndex ? i : found), -1);
+  const scrolledSection = outline.reduce((found, h, i) => (h.page_index <= pageIndex ? i : found), -1);
+  // Several headings can share a page: the one the reader clicked stays current on that page.
+  const currentSection = pickedHeading?.page === pageIndex && outline[pickedHeading.index]?.page_index === pageIndex ? pickedHeading.index : scrolledSection;
   const translationMap = useMemo(() => new Map(translations.map(t => [t.block_id, t])), [translations]);
   const currentBlocks = page?.blocks ?? [];
   const siblings = versions.filter(v => v.work_id && v.work_id === version.work_id);
@@ -421,7 +428,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
           </div>
           : <>
             {outline.length
-              ? <nav className="outline-list">{outline.map((h, i) => <button key={i} className={`outline-item level-${Math.min(4, h.level ?? 1)} ${i === currentSection ? 'selected' : ''}`} aria-current={i === currentSection ? 'location' : undefined} onClick={() => goToHeading(h)}>
+              ? <nav className="outline-list">{outline.map((h, i) => <button key={i} className={`outline-item level-${Math.min(4, h.level ?? 1)} ${i === currentSection ? 'selected' : ''}`} aria-current={i === currentSection ? 'location' : undefined} onClick={() => goToHeading(h, i)}>
                 <span>{h.title}</span><small>{h.page_index + 1}</small></button>)}</nav>
               : <p className="side-empty">{parsing ? '解析中' : '无目录'}</p>}
             {!historical && version.page_count > 0 && !parsing && <button className="text-button side-foot" onClick={() => { setOutlineDraft(outline.map(h => ({ ...h }))); setOutlineEditing(true); }}>编辑目录</button>}
@@ -522,7 +529,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
             onSelectBlock={selectBlockInPane} onViewport={onPaneViewport} onActivate={() => { activeSide.current = 'pane'; }} />
         </div>}
       </div>
-      <footer className="reader-footer"><span><FileText size={12} />{version.filename}</span><span>第 {pageIndex + 1} 页{page?.label && page.label !== String(pageIndex + 1) ? ` · 印刷页码 ${page.label}` : ''}</span></footer>
+      <footer className="reader-footer"><span /><span>第 {pageIndex + 1} 页{page?.label && page.label !== String(pageIndex + 1) ? ` · 印刷页码 ${page.label}` : ''}</span></footer>
     </section>
 
     {/* ── right: AI assistant ──────────────────────────────────────────── */}

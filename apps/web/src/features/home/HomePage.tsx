@@ -37,9 +37,9 @@ export function HomePage() {
 
       <div className="home-band">
         <dl className="stats">
-          <div><dd>{ws.versions.length}</dd><dt>论文</dt></div>
-          <div><dd>{pages.toLocaleString()}</dd><dt>页</dt></div>
-          <div><dd>{asked.length}</dd><dt>问答</dt></div>
+          <div><dd>{ws.loaded ? ws.versions.length : '–'}</dd><dt>论文</dt></div>
+          <div><dd>{ws.loaded ? pages.toLocaleString() : '–'}</dd><dt>页</dt></div>
+          <div><dd>{ws.loaded ? asked.length : '–'}</dd><dt>问答</dt></div>
         </dl>
         <div className="quick" role="group" aria-label="快捷入口">
           {actions.map((a) => (
@@ -57,7 +57,7 @@ export function HomePage() {
               <span>{v.parsed_pages < v.page_count ? `${v.parsed_pages}/${v.page_count}` : v.page_count} 页</span>
             </button>
           ))}
-          {!ws.versions.length && <button className="line-item" onClick={ws.openUpload}><strong>导入第一篇论文</strong><span><UploadCloud size={16} /></span></button>}
+          {ws.loaded && !ws.versions.length && <button className="line-item" onClick={ws.openUpload}><strong>导入第一篇论文</strong><span><UploadCloud size={16} /></span></button>}
         </section>
         <section>
           <h2>最近问答</h2>
@@ -67,7 +67,7 @@ export function HomePage() {
               {run.status === 'completed' ? <span>{date(run.created).slice(5, 10)}</span> : <Badge status={run.status} />}
             </button>
           ))}
-          {!asked.length && <p className="quiet">暂无</p>}
+          {ws.loaded && !asked.length && <p className="quiet">暂无</p>}
         </section>
       </div>
     </div>

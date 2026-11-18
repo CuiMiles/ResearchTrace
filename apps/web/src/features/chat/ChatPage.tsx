@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FileText, MessagesSquare, Plus, Send, X } from '../../icons';
-import { api, date, errorMessage, key } from '../../api';
+import { api, date, errorMessage, key, shownVersion } from '../../api';
 import { useWorkspace } from '../../app/workspace';
 import { useModelConfig } from '../../ModelConfig';
 import { RunDetail } from '../../RunPanel';
@@ -51,7 +51,7 @@ export function ChatPage() {
 
   const labelOf = (id: string) => {
     const v = ws.versions.find((x) => x.id === id);
-    return v ? `${v.title.slice(0, 40)}${v.title.length > 40 ? '…' : ''} · ${v.label}` : '已删除的版本';
+    return v ? `${v.title.slice(0, 40)}${v.title.length > 40 ? '…' : ''}${shownVersion(v.label) ? ` · ${v.label}` : ''}` : '已删除的版本';
   };
 
   async function loadThreads() {
@@ -262,7 +262,7 @@ export function ChatPage() {
                   <span>
                     {v.title}
                     <small>
-                      {v.label} · {v.page_count} 页
+                      {[shownVersion(v.label), `${v.page_count} 页`].filter(Boolean).join(' · ')}
                     </small>
                   </span>
                 </label>

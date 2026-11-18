@@ -28,7 +28,7 @@ import {
   UploadCloud,
   X,
 } from './icons';
-import { api, errorMessage } from './api';
+import { api, errorMessage, shownVersion } from './api';
 import type { Session } from './types';
 import { Boundary, Busy, ErrorBox } from './ui';
 import { ModelConfig } from './ModelConfig';
@@ -470,5 +470,6 @@ function LoginScene() {
 }
 
 function versionTag(label?: string | null) {
-  return label && label.length <= 12 && !label.includes('待确认') ? label : '';
+  const shown = shownVersion(label);
+  return shown.length <= 12 ? shown : '';
 }

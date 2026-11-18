@@ -12,6 +12,7 @@ import { startPolling } from '../app/poll';
 export interface TranslationPaneHandle {
   scrollToAnchor: (page: number, y: number) => void;
   revealBlock: (blockId: string) => void;
+  alignBlock: (page: number, blockId: string) => void;
 }
 type PageState = Block[] | 'loading' | 'error';
 
@@ -54,6 +55,7 @@ export const TranslationPane = forwardRef<TranslationPaneHandle, Props>(function
   const [blank, setBlank] = useState<Set<number>>(new Set());
   const requested = useRef(new Set<number>());
   const frame = useRef(0);
+  const alignJob = useRef(0);
   const callbacks = useRef(props);
   callbacks.current = props;
 
@@ -122,7 +124,22 @@ export const TranslationPane = forwardRef<TranslationPaneHandle, Props>(function
       el.scrollTop = Math.max(0, top - el.clientHeight * 0.25);
     }
   }, []);
-  useImperativeHandle(ref, () => ({ scrollToAnchor, revealBlock }), [scrollToAnchor, revealBlock]);
+  /** Put a block at the top of the pane, waiting for its page to load if needed. */
+  const alignBlock = useCallback((page: number, blockId: string) => {
+    const job = ++alignJob.current;
+    load(page - 1, page + 2);
+    let tries = 0;
+    const run = () => {
+      const el = scroller.current;
+      if (!el || job !== alignJob.current) return;
+      const target = el.querySelector<HTMLElement>(`[data-block="${CSS.escape(blockId)}"]`);
+      if (target) { el.scrollTop = Math.max(0, target.offsetTop - el.clientHeight * 0.06); return; }
+      if (!tries && sections.current[page]) el.scrollTop = sections.current[page].offsetTop;
+      if (++tries < 50) window.setTimeout(run, 100);
+    };
+    run();
+  }, [load]);
+  useImperativeHandle(ref, () => ({ scrollToAnchor, revealBlock, alignBlock }), [scrollToAnchor, revealBlock, alignBlock]);
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
 
   const onScroll = () => {

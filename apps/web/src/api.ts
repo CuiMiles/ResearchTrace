@@ -9,6 +9,8 @@ export async function api<T>(path:string,body?:unknown,method?:string):Promise<T
 export const endpoint=(path:string)=>`/api/v1${path}`;
 export function parseObject<T>(value:unknown,fallback:T):T{if(typeof value==='string'){try{return JSON.parse(value) as T}catch{return fallback}}return (value??fallback) as T}
 export const key=()=>crypto.randomUUID();
+/** The version label worth showing; an unconfirmed version simply shows none. */
+export const shownVersion=(label?:string|null)=>label&&!label.includes('待确认')?label:'';
 export const date=(value?:number)=>value?new Date(value*1000).toLocaleString('zh-CN',{hour12:false}):'尚未执行';
 export const errorMessage=(error:unknown)=>error instanceof Error?error.message:String(error);
 
