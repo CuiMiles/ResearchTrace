@@ -27,7 +27,8 @@ export function DemoPlayer() {
           onError={() => setFailed(true)}
           aria-label="ResearchTrace 参赛演示视频"
         >
-          <source src={videoPath} type="video/mp4" onError={() => setFailed(true)} />
+          <source src={`${media}/researchtrace-demo-1080p.webm`} type="video/webm" />
+          <source src={videoPath} type="video/mp4" />
           <track kind="captions" src={`${media}/researchtrace-demo-zh.vtt`} srcLang="zh-CN" label="简体中文" default />
         </video>
         {!started && !failed && (
