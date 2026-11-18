@@ -1,5 +1,9 @@
 # ResearchTrace handoff
 
+## 2026-11-18 修复 Windows 网页播放
+
+公网已更新为 `researchtrace:completion-v34-playback`。Windows Chrome 和 Edge 复现了 v33 首选 VP9 时的硬件解码错误。v34 优先兼容版 H.264/AAC，失败后自动试 VP8/Opus，浏览器不支持 H.264 时直接选 VP8。评审入口和正式下载保留。公网播放与跳转复测通过。
+
 ## 2026-11-18 公网演示上线
 
 - 公网首页已提供免登录视频与 MP4 下载。评委登录后可进入原工作区，或打开 `/demo` 观看。API 镜像为 `researchtrace:completion-v33-demo`，发布目录为 `/opt/researchtrace/releases/completion-v33-demo-20261118`。两个 Worker 保持原 v32 实例。

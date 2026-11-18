@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "deployment": "researchtrace:completion-v34-playback",
+  "issue": "The v33 player selected VP9 first. Both Windows browsers returned MEDIA_ERR_DECODE after a successful HTTP range request and did not switch sources.",
+  "original_public_failure": [
+    {
+      "browser": "Windows Chrome",
+      "version": "157.0.8103.39",
+      "error": {
+        "code": 3,
+        "message": "PipelineStatus::PIPELINE_ERROR_DECODE: video decode error!"
+      },
+      "videoSecondsBeforeError": 0.04182,
+      "notices": "无法在此播放，可下载 MP4。\n下载 MP4"
+    },
+    {
+      "browser": "Windows Edge",
+      "version": "157.0.4341.60",
+      "error": {
+        "code": 3,
+        "message": "PipelineStatus::PIPELINE_ERROR_DECODE: video decode error!"
+      },
+      "videoSecondsBeforeError": 0.003389,
+      "notices": "无法在此播放，可下载 MP4。\n下载 MP4"
+    }
+  ],
+  "fixed_public_playback": [
+    {
+      "browser": "Windows Chrome",
+      "version": "157.0.8103.39",
+      "status": "PASS",
+      "source": "https://researchtrace.sluna.xyz/demo-media/researchtrace-play-v2.mp4",
+      "durationSeconds": 325,
+      "subtitles": 51,
+      "secondsAfterSeek": 210.410386,
+      "pageErrors": []
+    },
+    {
+      "browser": "Windows Edge",
+      "version": "157.0.4341.60",
+      "status": "PASS",
+      "source": "https://researchtrace.sluna.xyz/demo-media/researchtrace-play-v2.mp4",
+      "durationSeconds": 325,
+      "subtitles": 51,
+      "secondsAfterSeek": 210.411406,
+      "pageErrors": []
+    }
+  ],
+  "local_decode_failure_recovery": [
+    {
+      "browser": "Windows Chrome",
+      "status": "PASS",
+      "test": "The primary request was redirected to the old VP9 file.",
+      "sourceAfterDecodeError": "http://127.0.0.1:18975/demo-media/researchtrace-play-v2.webm",
+      "secondsAfterSeek": 210.414358
+    },
+    {
+      "browser": "Windows Edge",
+      "status": "PASS",
+      "test": "The primary request was redirected to the old VP9 file.",
+      "sourceAfterDecodeError": "http://127.0.0.1:18975/demo-media/researchtrace-play-v2.webm",
+      "secondsAfterSeek": 210.413587
+    }
+  ],
+  "local_retry_after_two_failed_sources": {
+    "status": "PASS",
+    "simulatedBothSourcesHTTP503": true,
+    "retryPlayed": true,
+    "currentSource": "http://127.0.0.1:18975/demo-media/researchtrace-play-v2.webm",
+    "loadSequence": [
+      [
+        "researchtrace-play-v2.webm",
+        false
+      ],
+      [
+        "researchtrace-play-v2.mp4",
+        false
+      ],
+      [
+        "researchtrace-play-v2.webm",
+        true
+      ]
+    ]
+  },
+  "initial_activation": "A probe immediately after Nginx reload returned 404. Activation kept v33. The retry waited for both paths to serve HTTP 206 before changing the API image.",
+  "api_worker_processes": "Same two v32 worker containers before and after deployment"
+}
