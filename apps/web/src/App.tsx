@@ -35,6 +35,7 @@ import { ModelConfig } from './ModelConfig';
 import { activeRun, RunDetail, RunsDrawer } from './RunPanel';
 import { WorkspaceProvider, useWorkspace } from './app/workspace';
 import { HomePage } from './features/home/HomePage';
+import { DemoPlayer } from './features/home/DemoPlayer';
 import { LibraryPage } from './features/library/LibraryPage';
 import { ChatPage } from './features/chat/ChatPage';
 import { Reader } from './Reader';
@@ -80,7 +81,10 @@ const TITLES: [RegExp, string][] = [
   [/^\/$/, '首页'],
 ];
 
+const publicDemoEnabled = import.meta.env.VITE_PUBLIC_DEMO === '1';
+
 export default function App() {
+  const { pathname } = useLocation();
   const [session, setSession] = useState<Session | null>(null);
   const [checking, setChecking] = useState(true);
   useEffect(() => {
@@ -89,6 +93,14 @@ export default function App() {
       .catch(() => setSession(null))
       .finally(() => setChecking(false));
   }, []);
+  if (publicDemoEnabled && pathname === '/demo') {
+    return (
+      <main className="public-demo-standalone">
+        <NavLink to="/" className="public-demo-back"><ArrowLeft size={16} /> 返回首页</NavLink>
+        <DemoPlayer />
+      </main>
+    );
+  }
   if (checking) {
     return (
       <div className="app-loading">
@@ -96,7 +108,7 @@ export default function App() {
       </div>
     );
   }
-  if (!session) return <Login onLogin={setSession} />;
+  if (!session) return <Login onLogin={setSession} showDemo={publicDemoEnabled && pathname === '/'} />;
   return (
     <WorkspaceProvider session={session} onLogout={() => setSession(null)}>
       <Shell />
@@ -376,7 +388,7 @@ function RunRoute() {
   );
 }
 
-function Login({ onLogin }: { onLogin: (s: Session) => void }) {
+function Login({ onLogin, showDemo }: { onLogin: (s: Session) => void; showDemo: boolean }) {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -393,8 +405,8 @@ function Login({ onLogin }: { onLogin: (s: Session) => void }) {
     }
   }
   return (
-    <div className="login-page">
-      <LoginScene />
+    <div className={showDemo ? 'login-page has-demo' : 'login-page'}>
+      {showDemo ? <DemoPlayer /> : <LoginScene />}
       <main className="login-panel">
         <div className="login-mark">
           <BrandMark size={40} />
@@ -412,12 +424,12 @@ function Login({ onLogin }: { onLogin: (s: Session) => void }) {
           <input
             id="access-code"
             type="password"
-            autoFocus
+            autoFocus={!showDemo}
             autoComplete="current-password"
             value={code}
             onChange={(e) => setCode(e.target.value)}
             required
-            placeholder="访问码"
+            placeholder={showDemo ? '评审访问码' : '访问码'}
           />
           <button className="primary-button" aria-label="进入工作台" disabled={loading || !code}>
             {loading ? <Busy>{''}</Busy> : <ArrowRight size={18} />}

@@ -1,0 +1,61 @@
+.login-page.has-demo {
+  grid-template-columns: minmax(0, 1.65fr) minmax(340px, .75fr);
+  align-items: center;
+}
+.has-demo .login-panel { min-width: 0; padding-inline: clamp(24px, 4vw, 58px); }
+.public-demo {
+  min-width: 0;
+  padding: 38px 0 38px clamp(24px, 5vw, 80px);
+  color: white;
+}
+.public-demo h2 { margin: 0; font-size: clamp(26px, 4vw, 48px); line-height: 1.15; }
+.public-demo header p { margin: 8px 0 18px; color: #b7b9bf; font-size: 15px; }
+.public-demo-screen {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #35383e;
+  border-radius: 12px;
+  background: #17191d;
+  aspect-ratio: 16 / 9;
+}
+.public-demo video { display: block; width: 100%; height: 100%; }
+.public-demo video::cue { background: #14161a; color: #fff; }
+.public-demo-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 17px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--rail);
+  box-shadow: 0 3px 20px #0008;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.public-demo-play:hover { background: #def881; }
+.public-demo footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 11px;
+  color: #b7b9bf;
+  font-size: 13px;
+}
+.public-demo a { display: inline-flex; align-items: center; gap: 5px; color: #e7e7e7; }
+.public-demo-standalone { min-height: 100vh; padding: 24px; background: var(--rail); color: white; }
+.public-demo-standalone .public-demo { max-width: 1180px; margin: auto; padding: 20px 0; }
+.public-demo-back { display: inline-flex; align-items: center; gap: 7px; color: white; }
+
+@media (max-width: 850px) {
+  .login-page.has-demo { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .has-demo .public-demo { padding: 28px 20px 16px; }
+  .has-demo .login-panel { min-height: 0; gap: 16px; padding: 24px 20px 44px; }
+  .has-demo .login-panel h1 { font-size: 42px; }
+}
