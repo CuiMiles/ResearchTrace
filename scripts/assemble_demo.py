@@ -1,11 +1,11 @@
 """Assemble the timed ResearchTrace walkthrough from captured screens and TTS."""
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import json
-from pathlib import Path
 import subprocess
 import tempfile
 import wave
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 FPS = 30
 WIDTH, HEIGHT = 1920, 1080

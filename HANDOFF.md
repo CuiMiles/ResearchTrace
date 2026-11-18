@@ -1,5 +1,11 @@
 # ResearchTrace handoff
 
+## 2026-11-18 公网演示上线
+
+- 公网首页已提供免登录视频与 MP4 下载。评委登录后可进入原工作区，或打开 `/demo` 观看。API 镜像为 `researchtrace:completion-v33-demo`，发布目录为 `/opt/researchtrace/releases/completion-v33-demo-20261118`。两个 Worker 保持原 v32 实例。
+- 成片为 `deliverables/ResearchTrace_实际界面演示_1080p.mp4`，5 分 25 秒，1920×1080，普通话和 51 条字幕。两段补录、调用次数和复现方式见 [演示发布](docs/DEMO_RELEASE.md)。
+- 新浏览器桌面和手机宽度验证了播放、字幕、跳转与访客权限。评审登录后库内仍是 10 篇。验收见 `evidence/demo-release-20261118/public-demo.json`。比赛平台提交由团队处理。
+
 ## 2026-11-18 提交版
 
 - 公网为 `researchtrace:completion-v32`，发布目录 `/opt/researchtrace/releases/completion-v32-20261118`，前端提交 `71605f2`。v24–v32 都只更新前端，服务沿用 v23。回滚目标 v31。

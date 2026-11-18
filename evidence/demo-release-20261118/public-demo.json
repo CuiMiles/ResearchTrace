@@ -1,0 +1,256 @@
+{
+  "status": "PASS",
+  "deployment": {
+    "public_url": "https://researchtrace.sluna.xyz/",
+    "active_api": "researchtrace:completion-v33-demo",
+    "frontend_commit": "6ea0cabb7a44943ec5d6e0deae3fd378e20e79b9",
+    "workers": "Both v32 worker container IDs matched before and after release",
+    "paths": [
+      "/",
+      "/demo"
+    ],
+    "nginx_syntax": "PASS"
+  },
+  "media": {
+    "duration_seconds": 325.008,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "mp4_bytes": 14622533,
+    "video_codec": "H.264",
+    "audio_codec": "AAC",
+    "subtitles": 51,
+    "ffmpeg_full_decode": "PASS",
+    "webm_bytes": 24875044,
+    "original_browser_avc_and_aac_support": false,
+    "webm_range_status": 206,
+    "timeline": {
+      "duration_seconds": 324.92,
+      "subtitles": 51,
+      "shots": 33,
+      "sources": [
+        "agent-0",
+        "answer-0",
+        "answer-1",
+        "book-0",
+        "book-1",
+        "book-2",
+        "chart-0",
+        "close-0",
+        "closing-0",
+        "cover-0",
+        "cross-0",
+        "cross-1",
+        "deploy-0",
+        "discover-0",
+        "engineering-0",
+        "engineering-1",
+        "graph-0",
+        "library-0",
+        "metrics-0",
+        "models-0",
+        "opening-0",
+        "pipeline-0",
+        "reader-0",
+        "reader-1",
+        "revision-0",
+        "revision-1",
+        "revision-2",
+        "scan-0",
+        "selection-0",
+        "selection-1",
+        "version-0",
+        "writing-0",
+        "writing-1"
+      ]
+    },
+    "sections": 20
+  },
+  "browser": {
+    "1440": {
+      "width": 1920,
+      "height": 1080,
+      "duration": 325.008,
+      "paused": false,
+      "subtitleCues": 51,
+      "playback": true,
+      "seek_at_sec": 210,
+      "page_errors": [],
+      "guest_cookies": 0
+    },
+    "reviewer": {
+      "sign_in": 200,
+      "documents": 10,
+      "direct_demo": true
+    },
+    "http": {
+      "range": 206,
+      "range_bytes": 1024,
+      "unlisted_media": 404,
+      "guest_documents": 401,
+      "guest_qa": 401
+    },
+    "390": {
+      "width": 1920,
+      "height": 1080,
+      "duration": 325.008,
+      "paused": false,
+      "subtitleCues": 51,
+      "playback": true,
+      "seek_at_sec": 210,
+      "page_errors": [],
+      "guest_cookies": 0
+    }
+  },
+  "capture": {
+    "selection": {
+      "selected_text": "The Transformer follows this overall architectur",
+      "result": "Transformer 遵循了以下整体架构\n\n来自翻译缓存\n复制译文",
+      "status": "PASS",
+      "elapsed": 6.69
+    },
+    "book": {
+      "outline_page": 175,
+      "jump_page": 300,
+      "live_canvases": 4,
+      "status": "PASS",
+      "elapsed": 26.62
+    },
+    "library_restored": {
+      "delete_status": 200,
+      "same_documents": true
+    },
+    "first_selection_attempt": "FAIL: text locator used the wrong physical PDF page",
+    "first_book_capture": "PDF pages rendered, but an auxiliary request briefly showed Failed to fetch; fresh retry clean",
+    "first_public_browser_attempt": "FAIL: Chromium reported ERR_NETWORK_CHANGED; new context passed"
+  },
+  "api_usage": {
+    "tts_new_attempts": 11,
+    "tts_new_success": 10,
+    "tts_new_http_503": 1,
+    "tts_project_counts": [
+      5,
+      6
+    ],
+    "tts_attempts": [
+      {
+        "line": 0,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 35.72,
+        "elapsed": 17.77
+      },
+      {
+        "line": 5,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 42.6,
+        "elapsed": 12.9
+      },
+      {
+        "line": 10,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 32.24,
+        "elapsed": 11.11
+      },
+      {
+        "line": 15,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 38.68,
+        "elapsed": 12.15
+      },
+      {
+        "line": 20,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 35.44,
+        "elapsed": 11.62
+      },
+      {
+        "line": 25,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 32.32,
+        "elapsed": 10.61
+      },
+      {
+        "line": 30,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 34.32,
+        "elapsed": 12.82
+      },
+      {
+        "line": 35,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 36.56,
+        "elapsed": 11.47
+      },
+      {
+        "line": 40,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "status": "failed",
+        "http_status": 503,
+        "elapsed": 1.75
+      },
+      {
+        "line": 45,
+        "count": 5,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 37.52,
+        "elapsed": 17.0
+      },
+      {
+        "line": 50,
+        "count": 1,
+        "model": "gemini-3.8-flash-tts",
+        "day": "2026-11-18",
+        "finish": "STOP",
+        "status": "ok",
+        "seconds": 9.28,
+        "elapsed": 4.79
+      }
+    ],
+    "other_new_attempts": [
+      {
+        "model": "gemini-3.5-flash-lite",
+        "http": 200,
+        "purpose": "Audio timing draft; incomplete timings, used local recognition for final alignment"
+      }
+    ],
+    "historical_audio_fallback": "original successful Gemini 3.8 Flash TTS recording, lines 41–45",
+    "new_product_model_calls": 0
+  }
+}
