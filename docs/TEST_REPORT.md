@@ -14,7 +14,9 @@
 | 3.2 公式显示 | 已修复，待公网复验 | 中英对照原样显示 `$\sqrt { d _ { k } }$` → 改为 KaTeX 渲染（a44aa53） |
 | 3.3 引文图谱 | PASS | 公网 v20：边数 10→16，BERT/GPT-1/T5/Pre-LN/FlashAttention → Attention 均来自真实参考文献；ViT 的那条边没连上（如实缺失） |
 | 3.3 单篇 RAG 问答 | PASS | 评委账号「为什么除以 √d_k」，gemini-4-hydrogen 完成；缺推导依据时明确说明 |
-| 3.3 跨篇问答 | 部分 | Post-LN vs Pre-LN：降级到 gemini-3.6-flash，状态为部分完成，明确指出 LayerNorm 原论文缺证据；BERT vs GPT-1 两次上游网络超时，FAIL |
+| 3.3 跨篇问答 | PASS | v22 修复后：Post-LN vs Pre-LN 完成（gemini-4-hydrogen）；BERT vs GPT-1 部分完成（gemini-4-hydrogen，NSP 细节如实标为缺证据）。修复前两次在约 121 秒时被中转链路断开 |
+| 评审期 API 模式（GPU 关闭） | PASS | 10/10 篇有 Gemini 索引；GPU 停止后单篇问答为 hybrid（Gemini 向量 + BM25），回答 h=8、d_k=d_v=64 正确 |
+| 回归 | PASS（含 1 个时序抖动测试） | 657 passed, 8 skipped；GROBID 网关测试 3 次中失败 1 次，不含本次改动时也会失败 |
 | 3.3 写作 | NOT RUN | 截止前未执行 |
 | 解析：标题误判 | PASS（新解析） | 真实 PDF 前后对比：v7 去掉 5 条假标题；另外 7 篇删掉的全是脚注、坐标、表格行；回归 655 通过 |
 

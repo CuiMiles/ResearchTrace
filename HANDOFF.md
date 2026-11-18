@@ -25,10 +25,17 @@
 - GPU（2026-11-18）：0/3/4/5 号卡留给其他任务。embed 通过 drop-in `visible-cards-2-7.conf`（内容为
   `RT_RETRIEVAL_GPU_ALLOW=1,2,6,7`）只放在 1/2/6/7 号卡，每卡约 4.3 GB；rerank 因显存不足未启动。
   不需要时执行 `systemctl --user stop researchtrace-warm@embed.timer researchtrace-embed.service` 释放。
+- **模型请求链路**：ECS 应用 → `GEMINI_PROXY=127.0.0.1:18987` → 由 node01 发起的 SSH 反向隧道 → node01 `127.0.0.1:7890`（共享 mihomo 代理）
+  → 海外出口 → Gemini。约 5.5 万 token 的大请求会让 Hydrogen 静默思考两分多钟，中转链路在约 120 秒空闲后断开连接。
+  已在 26d534a（v22）修复：跨篇回答不再重复发送证据，提示词控制在约 2.5 万 token 以内；修复后两道跨篇题都由 Hydrogen 完成。
+- **评审期间是 API 模式**：GPU 服务已全部停止（embed、rerank 和保温定时器）。评委账号 10 篇论文都有 gemini-embedding-001 索引；
+  在 `RT_EMBED_PROVIDER=auto` 下，本地模型不可用时自动改用 Gemini 向量加 BM25，已实测。
+  重新启用 GPU：`systemctl --user start researchtrace-embed.service researchtrace-rerank.service researchtrace-warm@embed.timer researchtrace-warm@rerank.timer`。
+  选卡由 drop-in 控制：embed 用 1,2,6,7，rerank 用 0,3,4,5（`RT_RETRIEVAL_GPU_ALLOW`）。
 - ECS 磁盘已清理：删除 v2–v17 镜像和更早的备份，保留 v18 起的镜像与最新两份备份，使用率 72% → 49%。
 - 解析修复（640b365，v21）：页脚注释、图表坐标、大字号版权声明不再被识别为标题；只对新解析生效，已在库的文档用目录修正处理。
 
-剩余人工/待办：录制视频（评委账号，录完删除重新上传的 v1）。写作结果没有预生成。跨篇 BERT/GPT 问答两次网络超时，未完成。
+剩余人工/待办：录制视频（评委账号，录完删除重新上传的 v1）。写作结果没有预生成。
 
 First live milestone is running on http://127.0.0.1:18970 and server LAN http://10.184.17.163:18970 (not a verified public URL). Login with RT_ACCESS_CODE / distinct RT_ADMIN_CODE from ignored .env. Own user services researchtrace-api / researchtrace-worker, restart via systemctl --user restart researchtrace-api researchtrace-worker. ./scripts/dev.sh installs/starts only these own units. Other services/proxies were not modified.
 
