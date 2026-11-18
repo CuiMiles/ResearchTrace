@@ -1,5 +1,10 @@
 # Ubuntu24 验收报告
 
+## 2026-11-18 学术配音实测（公网 v35）
+
+- **PASS** · MiniMax M Plan 的 12 次新语音合成全部成功，复用已选 A 开场。47 条新字幕的时间戳按讲稿核对。
+- **PASS** · 6:25、1920×1080、30 FPS，MP4 和 WebM 完整解码。Windows Chrome、Edge 和 Chromium 两种宽度均通过公网免登录播放、51 条字幕与进度跳转。正式下载返回 HTTP 206。见 [验收记录](../evidence/demo-release-20261118/academic-narration.json)。
+
 ## 2026-11-18 Windows 播放兼容性复测
 
 **PASS** · Windows Chrome 157 和 Edge 157 在线播放、51 条中文字幕、跳至 210 秒后继续。针对旧 VP9 的本地故障注入确实触发 Windows 解码错误，两个浏览器都自动切换到新版 VP8 并继续播放。两档均模拟 503 后恢复，重试按钮再次可播放。对应 [浏览器记录](../evidence/demo-release-20261118/windows-playback.json)。

@@ -1,0 +1,504 @@
+{
+  "status": "PASS",
+  "deployment": {
+    "image": "researchtrace:completion-v35-academic",
+    "frontend_commit": "8e6da0c",
+    "unchanged_worker_ids": true,
+    "url": "https://researchtrace.sluna.xyz/"
+  },
+  "voice": {
+    "model": "speech-2.8-hd",
+    "voice_id": "male-qn-daxuesheng",
+    "subscription": "M Plan",
+    "opening": "Reused selected A audition",
+    "new_attempts": 12,
+    "new_successes": 12,
+    "usage_characters": 3181,
+    "receipts": [
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 166,
+        "start_line": 4,
+        "paragraphs": 4,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:08.559105Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 463092,
+        "usage_characters": 273,
+        "provider_audio_ms": 28836,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 5.45
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 126,
+        "start_line": 8,
+        "paragraphs": 3,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:14.015118Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 359412,
+        "usage_characters": 206,
+        "provider_audio_ms": 22356,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.4
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 178,
+        "start_line": 11,
+        "paragraphs": 5,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:17.412110Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 552948,
+        "usage_characters": 301,
+        "provider_audio_ms": 34452,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.6
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 228,
+        "start_line": 16,
+        "paragraphs": 5,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:21.012440Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 636468,
+        "usage_characters": 365,
+        "provider_audio_ms": 39672,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.74
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 168,
+        "start_line": 21,
+        "paragraphs": 5,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:24.753350Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 490740,
+        "usage_characters": 278,
+        "provider_audio_ms": 30564,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.49
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 147,
+        "start_line": 26,
+        "paragraphs": 4,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:28.251401Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 457332,
+        "usage_characters": 257,
+        "provider_audio_ms": 28476,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.81
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 189,
+        "start_line": 30,
+        "paragraphs": 4,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:32.066645Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 460788,
+        "usage_characters": 273,
+        "provider_audio_ms": 28692,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 7.58
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 184,
+        "start_line": 34,
+        "paragraphs": 5,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:39.652291Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 556980,
+        "usage_characters": 315,
+        "provider_audio_ms": 34704,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 4.12
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 136,
+        "start_line": 39,
+        "paragraphs": 3,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:43.770661Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 403188,
+        "usage_characters": 222,
+        "provider_audio_ms": 25092,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.69
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 158,
+        "start_line": 42,
+        "paragraphs": 3,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:47.459393Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 461364,
+        "usage_characters": 275,
+        "provider_audio_ms": 28728,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.77
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 183,
+        "start_line": 45,
+        "paragraphs": 4,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:51.234572Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 538548,
+        "usage_characters": 308,
+        "provider_audio_ms": 33552,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 3.72
+      },
+      {
+        "model": "speech-2.8-hd",
+        "voice": "male-qn-daxuesheng",
+        "submitted_characters": 61,
+        "start_line": 49,
+        "paragraphs": 2,
+        "credential_scope": "subscription",
+        "started_utc": "2026-11-18T12:11:54.954774Z",
+        "http": 200,
+        "provider_code": 0,
+        "subtitle": "received",
+        "status": "ok",
+        "bytes": 195252,
+        "usage_characters": 108,
+        "provider_audio_ms": 12096,
+        "audio_sample_rate": 32000,
+        "elapsed_seconds": 2.46
+      }
+    ]
+  },
+  "timing": {
+    "duration_seconds": 385.479625,
+    "aligned_lines": 51,
+    "opening_timing": "Vosk word timestamps on selected audition",
+    "other_timing": "MiniMax word subtitle file validated against script",
+    "parts": [
+      {
+        "first_line": 0,
+        "lines": 4,
+        "clip_seconds": 32.7075,
+        "starts": [
+          0.12,
+          5.28,
+          12.03,
+          22.92
+        ]
+      },
+      {
+        "first_line": 4,
+        "lines": 4,
+        "clip_seconds": 28.8195,
+        "starts": [
+          0,
+          7.641065759637188,
+          14.945442176870749,
+          21.888
+        ]
+      },
+      {
+        "first_line": 8,
+        "lines": 3,
+        "clip_seconds": 22.3395,
+        "starts": [
+          0,
+          7.1302267573696145,
+          14.436
+        ]
+      },
+      {
+        "first_line": 11,
+        "lines": 5,
+        "clip_seconds": 34.4355,
+        "starts": [
+          0,
+          9.13875283446712,
+          16.048390022675736,
+          21.132,
+          25.95184126984127
+        ]
+      },
+      {
+        "first_line": 16,
+        "lines": 5,
+        "clip_seconds": 39.6555,
+        "starts": [
+          0,
+          6.062108843537415,
+          14.508,
+          23.72802267573696,
+          33.192
+        ]
+      },
+      {
+        "first_line": 21,
+        "lines": 5,
+        "clip_seconds": 30.5475,
+        "starts": [
+          0,
+          7.002517006802722,
+          13.145895691609978,
+          18.828,
+          25.09908843537415
+        ]
+      },
+      {
+        "first_line": 26,
+        "lines": 4,
+        "clip_seconds": 28.4595,
+        "starts": [
+          0,
+          6.5265079365079375,
+          14.086303854875284,
+          20.448
+        ]
+      },
+      {
+        "first_line": 30,
+        "lines": 4,
+        "clip_seconds": 28.6755,
+        "starts": [
+          0,
+          9.429002267573697,
+          15.282131519274376,
+          20.844
+        ]
+      },
+      {
+        "first_line": 34,
+        "lines": 5,
+        "clip_seconds": 34.6875,
+        "starts": [
+          0,
+          6.61938775510204,
+          13.064625850340136,
+          22.86,
+          25.973174603174606
+        ]
+      },
+      {
+        "first_line": 39,
+        "lines": 3,
+        "clip_seconds": 25.0755,
+        "starts": [
+          0,
+          8.662743764172335,
+          16.452
+        ]
+      },
+      {
+        "first_line": 42,
+        "lines": 3,
+        "clip_seconds": 28.7115,
+        "starts": [
+          0,
+          10.322970521541949,
+          19.116
+        ]
+      },
+      {
+        "first_line": 45,
+        "lines": 4,
+        "clip_seconds": 33.5355,
+        "starts": [
+          0,
+          8.790453514739228,
+          16.596,
+          23.807496598639457
+        ]
+      },
+      {
+        "first_line": 49,
+        "lines": 2,
+        "clip_seconds": 12.029625,
+        "starts": [
+          0,
+          9.13875283446712
+        ]
+      }
+    ]
+  },
+  "video": {
+    "duration_seconds": 385.479625,
+    "subtitles": 51,
+    "shots": 33,
+    "sources": [
+      "agent-0",
+      "answer-0",
+      "answer-1",
+      "book-0",
+      "book-1",
+      "book-2",
+      "chart-0",
+      "close-0",
+      "closing-0",
+      "cover-0",
+      "cross-0",
+      "cross-1",
+      "deploy-0",
+      "discover-0",
+      "engineering-0",
+      "engineering-1",
+      "graph-0",
+      "library-0",
+      "metrics-0",
+      "models-0",
+      "opening-0",
+      "pipeline-0",
+      "reader-0",
+      "reader-1",
+      "revision-0",
+      "revision-1",
+      "revision-2",
+      "scan-0",
+      "selection-0",
+      "selection-1",
+      "version-0",
+      "writing-0",
+      "writing-1"
+    ]
+  },
+  "formats": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "duration_seconds": 385.5,
+    "vtt_cues": 51,
+    "full_mp4_decode": "PASS",
+    "full_webm_decode": "PASS",
+    "public_download_range_status": 206
+  },
+  "public_browser": {
+    "windows": [
+      {
+        "browser": "Windows Chrome",
+        "version": "157.0.8103.39",
+        "status": "PASS",
+        "player": {
+          "currentSrc": "https://researchtrace.sluna.xyz/demo-media/researchtrace-play-v3.mp4",
+          "mediaError": null,
+          "paused": false,
+          "ready": 4,
+          "duration": 385.5,
+          "t": 210.413486,
+          "network": 1,
+          "codecs": {
+            "webm": "probably",
+            "mp4": "probably"
+          },
+          "subtitles": 51
+        },
+        "page_errors": []
+      },
+      {
+        "browser": "Windows Edge",
+        "version": "157.0.4341.60",
+        "status": "PASS",
+        "player": {
+          "currentSrc": "https://researchtrace.sluna.xyz/demo-media/researchtrace-play-v3.mp4",
+          "mediaError": null,
+          "paused": false,
+          "ready": 4,
+          "duration": 385.5,
+          "t": 210.419371,
+          "network": 1,
+          "codecs": {
+            "webm": "probably",
+            "mp4": "probably"
+          },
+          "subtitles": 51
+        },
+        "page_errors": []
+      }
+    ],
+    "chromium_viewports": {
+      "1440": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 385.507,
+        "paused": false,
+        "subtitleCues": 51,
+        "playback": true,
+        "seek_at_sec": 210,
+        "page_errors": [],
+        "guest_cookies": 0
+      },
+      "390": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 385.507,
+        "paused": false,
+        "subtitleCues": 51,
+        "playback": true,
+        "seek_at_sec": 210,
+        "page_errors": [],
+        "guest_cookies": 0
+      }
+    }
+  }
+}

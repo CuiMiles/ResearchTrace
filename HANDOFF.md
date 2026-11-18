@@ -1,5 +1,9 @@
 # ResearchTrace handoff
 
+## 2026-11-18 学术配音正式版
+
+公网首页升级至 `researchtrace:completion-v35-academic`。正式演示使用 MiniMax Speech 2.8 HD「青年大学生」，复用用户选中的 A 版开场；剩余 47 段分 12 批合成。视频约 6 分 25 秒，1080p，51 条字幕。已从 Windows Chrome、Edge 和 Chromium 桌面及手机宽度验证免登录播放、进度跳转和字幕。正式 MP4 及答辩讲稿位于 `deliverables/`。
+
 ## 2026-11-18 修复 Windows 网页播放
 
 公网已更新为 `researchtrace:completion-v34-playback`。Windows Chrome 和 Edge 复现了 v33 首选 VP9 时的硬件解码错误。v34 优先兼容版 H.264/AAC，失败后自动试 VP8/Opus，浏览器不支持 H.264 时直接选 VP8。评审入口和正式下载保留。公网播放与跳转复测通过。
