@@ -280,8 +280,6 @@ export function GraphView({ graph, versions, loading, error, onReload, onEvidenc
             <summary>引用 {visible.citations.length}</summary>
             <CitationList citations={visible.citations} nodeById={nodeById} selectedId={selectedEdge?.id} onSelect={citationId => setSelection({ kind: 'edge', id: citationId })} />
           </details>
-          <details className="rt-graph-role-rules"><summary>角色规则</summary><pre>{JSON.stringify(record(graph).role_rules ?? { notice: '旧图谱结果，请重新计算' }, null, 2)}</pre></details>
-          <details className="rt-graph-scope-details"><summary>语料范围</summary><pre>{typeof graph.scope === 'string' ? graph.scope : JSON.stringify(graph.scope, null, 2)}</pre></details>
         </aside>
       </div>
     </>}

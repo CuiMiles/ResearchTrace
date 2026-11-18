@@ -182,7 +182,8 @@ function DocumentRow({
 }) {
   const progress = v.page_count ? Math.round((v.parsed_pages / v.page_count) * 100) : 0;
   const parsing = !v.page_count || v.parsed_pages < v.page_count;
-  const notice = v.metadata.version_notice ? String(v.metadata.version_notice) : '';
+  const versionNote = String(v.metadata.version_notice ?? '');
+  const notice = versionNote.includes('较新版本') ? '旧版本' : versionNote ? '其他版本' : '';
   const year = v.metadata.year ? String(v.metadata.year) : '';
   return (
     <article className="document-row">

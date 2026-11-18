@@ -68,6 +68,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   const [targetLanguage, setTargetLanguage] = useState<Language>('zh-Hans');
   const [page, setPageData] = useState<Page | null>(null);
   const [blocks, setBlocks] = useState<Block[]>([]);
+  const blockOrder = useMemo(() => new Map(blocks.map((b, i) => [b.id, i])), [blocks]);
   const [references, setReferences] = useState<Ref[]>([]);
   const [translations, setTranslations] = useState<Translation[]>([]);
   const [query, setQuery] = useState('');
@@ -156,7 +157,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
     return () => { live = false; };
   }, [version.id, version.parsed_pages, parseId, snapshotProgress, targetLanguage, parsesKnown]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (highlight && highlight.version_id === version.id) { setPage(highlight.page_index); setFocusBlock(highlight.block_id); setSelectedParse(highlight.parse_id ?? ''); }
+    if (highlight && highlight.version_id === version.id) { setPickedHeading(null); setPage(highlight.page_index); setFocusBlock(highlight.block_id); setSelectedParse(highlight.parse_id ?? ''); }
   }, [highlight, version.id]);
   // Current-page details (printed page label, outline insertion) follow the scroll lazily.
   useEffect(() => {
@@ -377,7 +378,13 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
   // The section being read: last heading that starts on or before the current page.
   const scrolledSection = outline.reduce((found, h, i) => (h.page_index <= pageIndex ? i : found), -1);
   // Several headings can share a page: the one the reader clicked stays current on that page.
-  const currentSection = pickedHeading?.page === pageIndex && outline[pickedHeading.index]?.page_index === pageIndex ? pickedHeading.index : scrolledSection;
+  const evidenceAt = highlight?.page_index === pageIndex ? blockOrder.get(highlight.block_id) ?? -1 : -1;
+  const evidenceSection = evidenceAt < 0 ? -1 : outline.reduce((found, h, i) => {
+    const at = h.block_id ? blockOrder.get(h.block_id) ?? -1 : -1;
+    return at >= 0 && at <= evidenceAt ? i : found;
+  }, -1);
+  const currentSection = pickedHeading?.page === pageIndex && outline[pickedHeading.index]?.page_index === pageIndex
+    ? pickedHeading.index : evidenceSection >= 0 ? evidenceSection : scrolledSection;
   const translationMap = useMemo(() => new Map(translations.map(t => [t.block_id, t])), [translations]);
   const currentBlocks = page?.blocks ?? [];
   const siblings = versions.filter(v => v.work_id && v.work_id === version.work_id);

@@ -31,7 +31,7 @@ function RetrievalSummary({ result }: { result: Result | null }) {
           方式：{retrieval.mode === 'hybrid' ? '关键词 + 语义混合检索' : '关键词检索'} · 送入模型的原文段落 {blocks} 段
         </span>
         {rewrites.length > 0 && <span>英文改写查询：{rewrites.join(' · ')}</span>}
-        {typeof retrieval.notice === 'string' && <span className="muted">{retrieval.notice}</span>}
+        
         <pre className="code-block">
           {JSON.stringify({ retrieval: { ...retrieval, blocks: undefined }, status: result.status }, null, 2)}
         </pre>
