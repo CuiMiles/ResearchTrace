@@ -164,6 +164,39 @@ def rewrite_queries(run,question,version_ids):
         event(run['id'],'query_rewritten',{'queries':queries})
     return queries
 
+EVIDENCE_CHAR_BUDGET=90000   # roughly 25k tokens: long silent requests are cut by the egress relay (~120 s)
+OBSERVATION_CHAR_LIMIT=4000
+
+def cap_evidence(evidence,budget=EVIDENCE_CHAR_BUDGET):
+    """Keep evidence in ranked order until the character budget is used; never split a block."""
+    kept,used=[],0
+    for item in evidence:
+        size=len(item.get('text') or '')
+        if kept and used+size>budget:
+            break
+        kept.append(item);used+=size
+    return kept
+
+def compact_observations(observations):
+    """Tool observations for the final answer prompt without repeating evidence text.
+
+    Retrieval results are already in `evidence`; here they shrink to block ids so a
+    multi-paper answer no longer carries every retrieved paragraph twice.
+    """
+    out=[]
+    for observation in observations or []:
+        item=dict(observation)
+        result=item.get('result')
+        if item.get('tool')=='retrieve_evidence' and isinstance(result,dict):
+            item['result']={'mode':result.get('mode'),'evidence_block_ids':[b.get('id') for b in result.get('blocks',[])][:40],
+                            'note':'正文见 evidence 字段'}
+        elif result is not None:
+            text=json.dumps(result,ensure_ascii=False)
+            if len(text)>OBSERVATION_CHAR_LIMIT:
+                item['result']=text[:OBSERVATION_CHAR_LIMIT]+'…（已截断）'
+        out.append(item)
+    return out
+
 def answer_role(run):
     """Single-paper questions use the answer chain; comparisons, notes and surveys the deep chain."""
     return 'answer' if run['kind']=='qa' and len(run['payload'].get('version_ids',[]))<=1 else 'deep'
@@ -274,9 +307,9 @@ def qa(run):
     if cancelled(rid):
         return {}
     if 'model_response' not in snap:
-        evidence=[{**{k:b[k] for k in ('id','version_id','page_index')},'text':b.get('evidence_text',b['text'])} for b in blocks]
+        evidence=cap_evidence([{**{k:b[k] for k in ('id','version_id','page_index')},'text':b.get('evidence_text',b['text'])} for b in blocks])
         prompt=json.dumps({'task':p['question'],'mode':run['kind'],'conversation_history':conversation(run),
-                           'versions':source_context(w,p['version_ids']),'evidence':evidence,'tool_observations':agent_state['observations'] if agent_state else ret.get('tool_results',[]),'requirements':'只回答用户所问的内容，使用简短原子主张，避免附加无关数字或作者全名单；block_id和页码放结构化引用，不复制到事实正文。跨文比较逐项列条件和缺失字段；综述列研究问题、方法差异、限制；所有事实列到claims。'},ensure_ascii=False)
+                           'versions':source_context(w,p['version_ids']),'evidence':evidence,'tool_observations':compact_observations(agent_state['observations'] if agent_state else ret.get('tool_results',[])),'requirements':'只回答用户所问的内容，使用简短原子主张，避免附加无关数字或作者全名单；block_id和页码放结构化引用，不复制到事实正文。跨文比较逐项列条件和缺失字段；综述列研究问题、方法差异、限制；所有事实列到claims。'},ensure_ascii=False)
         snap['model_response']=models.generate(SYSTEM,prompt,rid,role=answer_role(run))
         checkpoint(run,snap)
     response=snap['model_response']
