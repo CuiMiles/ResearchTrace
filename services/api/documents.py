@@ -16,7 +16,7 @@ import pypdfium2 as pdfium
 
 from .store import DATA, cancelled, db, event, execute, one, rows, uid
 
-PARSER_VERSION = "pdfplumber-layout-v2"
+PARSER_VERSION = "pdfplumber-layout-v3"
 MAX_BYTES = 70 * 1024 * 1024
 MAX_PAGES = 1500
 
@@ -274,6 +274,47 @@ def _numbered_heading(text, size, body_size, appendix=True):
     return bool(re.match(pattern, text)) and size >= body_size * 0.95 and len(text) <= 100
 
 
+def _separate_prose_lines(line, body_size):
+    """Recover independent baselines when tall math glyphs bridge two rows."""
+    baselines = []
+    for word in line:  # incoming words are ordered by top, then x0
+        if word.get("size", 10) < body_size * .85 or not re.search(r"[^\W\d_]{2,}", word["text"]):
+            continue
+        if not baselines or word["top"] - baselines[-1][0]["top"] > 2.5:
+            baselines.append([])
+        baselines[-1].append(word)
+    # Short bands also occur in stacked table labels and display formulas.
+    anchors = [band for band in baselines if len(band) >= 5]
+    if len(anchors) < 2 or any(
+        lower[0]["top"] - upper[0]["top"] < body_size * .65
+        for upper, lower in zip(anchors, anchors[1:])
+    ):
+        return [line]
+
+    bands = [(min(w["top"] for w in band), max(w["bottom"] for w in band)) for band in anchors]
+    separated = [[] for _ in anchors]
+    for word in line:
+        aligned = [i for i, (top, _) in enumerate(bands) if abs(top - word["top"]) <= 2.5]
+        if aligned:
+            index = min(aligned, key=lambda i: abs(bands[i][0] - word["top"]))
+        else:
+            # Prefer an overlapping row with space at this x position. A
+            # radical often rises into the line above, where it covers a word.
+            overlaps = [i for i, (top, bottom) in enumerate(bands)
+                        if min(bottom, word["bottom"]) - max(top, word["top"]) > 0]
+
+            def affinity(i):
+                horizontal = [max(w["x0"] - word["x1"], word["x0"] - w["x1"]) for w in anchors[i]]
+                return (any(gap < -.5 for gap in horizontal), min(abs(gap) for gap in horizontal),
+                        abs(bands[i][0] - word["top"]))
+
+            index = min(overlaps, key=affinity) if overlaps else min(
+                range(len(bands)), key=lambda i: abs(bands[i][0] - word["top"])
+            )
+        separated[index].append(word)
+    return separated
+
+
 def _make_blocks(words, width, height, version_id, page_index, source, quality):
     """Infer a genuine middle gutter; fully read each column before next."""
     if not words:
@@ -314,7 +355,7 @@ def _make_blocks(words, width, height, version_id, page_index, source, quality):
         current = []
         previous = None
         last_heading = None  # (size, text) of the line that just closed a heading
-        for line in lines:
+        for line in (part for band in lines for part in _separate_prose_lines(band, body_size)):
             line.sort(key=lambda w: w["x0"])
             text = " ".join(w["text"] for w in line)
             size = max(w.get("size", 10) for w in line)

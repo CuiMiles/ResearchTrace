@@ -227,12 +227,22 @@ def index_status_map(workspace,version_ids=None):
             if row['text'].strip():counts[row['version_id']]=counts.get(row['version_id'],0)+1
     mode=os.getenv('RT_EMBED_PROVIDER','gemini');local=os.getenv('RT_LOCAL_EMBED_MODEL','nvidia/Nemotron-3.5-Embed-8B-BF16');cloud=os.getenv('GEMINI_EMBEDDING_MODEL','gemini-embedding-001')
     models=[cloud] if mode=='gemini' else [local,cloud] if mode=='auto' else [local]
-    coverage=rows('''SELECT a.version_id,a.model_id,g.id generation_id,g.status,count(DISTINCT b.id) covered
+    model_marks=','.join('?' for _ in models)
+    # Joining current_blocks on the nullable side materializes every PDF's
+    # text across all workspaces. Start at the active generation and use
+    # primary-key lookups for spans and their source snapshot instead.
+    coverage=rows('''SELECT a.version_id,a.model_id,g.id generation_id,g.status,
+       count(DISTINCT CASE WHEN COALESCE(bp.parse_id,b.version_id)=COALESCE(p.parse_id,a.version_id) THEN b.id END) covered
        FROM active_retrieval_indices a JOIN index_generations g ON g.id=a.generation_id
+       JOIN versions d ON d.id=a.version_id AND d.workspace=a.workspace AND d.deleted=0
+       LEFT JOIN active_parses p ON p.version_id=a.version_id
        LEFT JOIN retrieval_chunks c ON c.generation_id=g.id AND c.version_id=a.version_id AND c.workspace=a.workspace
+          AND c.parse_id=COALESCE(p.parse_id,a.version_id)
        LEFT JOIN retrieval_spans s ON s.chunk_id=c.id
-       LEFT JOIN current_blocks b ON b.id=s.block_id AND b.workspace=a.workspace AND b.version_id=a.version_id
-       WHERE a.workspace=?'''+scope.replace('version_id','a.version_id')+' GROUP BY a.version_id,a.model_id,g.id',args)
+       LEFT JOIN blocks b ON b.id=s.block_id AND b.workspace=a.workspace AND b.version_id=a.version_id
+       LEFT JOIN block_parses bp ON bp.block_id=b.id
+       WHERE a.workspace=?'''+scope.replace('version_id','a.version_id')+
+       f' AND a.model_id IN ({model_marks}) GROUP BY a.version_id,a.model_id,g.id',(*args,*models))
     lookup={(r['version_id'],r['model_id']):r for r in coverage};result={};pending={}
     for r in rows("SELECT id,status,payload FROM runs WHERE workspace=? AND kind='index' AND status IN ('queued','running','waiting_batch','failed','partial') ORDER BY created DESC",(workspace,)):
         payload=json.loads(r['payload'])

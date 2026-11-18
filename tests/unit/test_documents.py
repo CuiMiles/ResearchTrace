@@ -1,6 +1,7 @@
 """Synthetic fixtures are labeled unit tests; no model availability claim."""
 import io
 import json
+from pathlib import Path
 
 import pytest
 from reportlab.pdfgen import canvas
@@ -440,3 +441,16 @@ def test_numbered_footnote_is_not_a_section_heading():
     kinds = {b["text"][:20]: b["type"] for b in blocks}
     assert kinds["3.2 Attention"] == "heading"
     assert kinds["4 To illustrate why "] != "heading"
+
+
+def test_transformer_v7_prose_keeps_order_around_root_and_subscripts():
+    path = Path(__file__).resolve().parents[2] / "evals/pdfs/core/1706.03762v7.pdf"
+    with documents.pdfplumber.open(path) as pdf:
+        page = pdf.pages[3]
+        words = page.extract_words(extra_attrs=["size"], use_text_flow=False, x_tolerance=1.1, y_tolerance=2.5)
+        blocks = documents._make_blocks(words, page.width, page.height, "v7", 3, "pdfplumber", "native")
+    lead = next(b for b in blocks if b["text"].startswith("We call our particular attention"))
+    assert lead["type"] == "paragraph"
+    assert "queries and keys of dimension d k , and values of dimension d v" in lead["text"]
+    assert "dot products of the query with all keys, divide each by √ d k , and apply a softmax" in lead["text"]
+    assert any(b["type"] == "equation" and "Attention(Q," in b["text"] for b in blocks)
