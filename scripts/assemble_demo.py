@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 import wave
 from concurrent.futures import ThreadPoolExecutor
+from itertools import pairwise
 from pathlib import Path
 
 FPS = 30
@@ -173,17 +174,26 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('capture', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--narration-dir', type=Path,
+                        help='Use narration.wav, cues.json and script.json in this directory')
     args = parser.parse_args()
     root = args.capture.resolve()
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
-    texts = [line for scene in json.loads((root / 'script.json').read_text()) for line in scene['lines']]
+    narration_dir = args.narration_dir.resolve() if args.narration_dir else root
+    texts = [line for scene in json.loads((narration_dir / 'script.json').read_text()) for line in scene['lines']]
     vtt = out / 'researchtrace-demo-zh.vtt'
     with tempfile.TemporaryDirectory(prefix='rt-demo-render-') as work:
         scratch = Path(work)
-        audio = scratch / 'voice.wav'
-        cues, duration = assemble_voice(root, audio)
+        if args.narration_dir:
+            audio = narration_dir / 'narration.wav'
+            duration = len(read_frames(audio)) / (2 * RATE)
+            cues = json.loads((narration_dir / 'cues.json').read_text())
+        else:
+            audio = scratch / 'voice.wav'
+            cues, duration = assemble_voice(root, audio)
         assert len(cues) == len(texts) == 51
+        assert 0 <= cues[0] and all(a < b for a, b in pairwise(cues)) and cues[-1] < duration
         assert 300 <= duration <= 480, f'Narration duration {duration:.2f}s outside competition range'
         captions(vtt, texts, cues, duration)
         shots = []

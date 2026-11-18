@@ -3,9 +3,9 @@ import { Download, Play } from '../../icons';
 import './demo-player.css';
 
 const media = '/demo-media';
-const mp4 = `${media}/researchtrace-play-v2.mp4`;
-const webm = `${media}/researchtrace-play-v2.webm`;
-const download = `${media}/researchtrace-demo-1080p.mp4`;
+const mp4 = `${media}/researchtrace-play-v3.mp4`;
+const webm = `${media}/researchtrace-play-v3.webm`;
+const download = `${media}/researchtrace-demo-academic-1080p.mp4`;
 
 export function DemoPlayer() {
   const player = useRef<HTMLVideoElement>(null);
@@ -107,7 +107,7 @@ export function DemoPlayer() {
           }}
           aria-label="ResearchTrace 参赛演示视频"
         >
-          <track kind="captions" src={`${media}/researchtrace-demo-zh.vtt`} srcLang="zh-CN" label="简体中文" default />
+          <track kind="captions" src={`${media}/researchtrace-demo-academic-zh.vtt`} srcLang="zh-CN" label="简体中文" default />
         </video>
         {!started && (
           <button className="public-demo-play" type="button" onClick={play}>
@@ -119,7 +119,7 @@ export function DemoPlayer() {
       <footer>
         <span role="status">
           {notice === 'retry' ? '视频暂时未能加载，可重试或在线打开。'
-            : notice === 'press-play' ? '请点击继续播放。' : '普通话讲解 · 中文字幕 · 1080p'}
+            : notice === 'press-play' ? '请点击继续播放。' : '普通话 · AI 配音 · 中文字幕 · 1080p'}
         </span>
         {notice === 'retry' && <a href={mp4} target="_blank" rel="noreferrer">在线播放 MP4</a>}
         <a href={download} download>
