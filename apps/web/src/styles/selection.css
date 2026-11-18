@@ -18,7 +18,7 @@
 .pdf-page-surface .textLayer span[role="img"] { user-select: none; cursor: default; }
 .pdf-page-surface .textLayer ::selection { background: rgb(35 112 190 / .3); }
 .pdf-page-surface .textLayer br::selection { background: transparent; }
-.pdf-page-surface .textLayer:focus-visible { outline: 2px solid #267b92; outline-offset: -2px; }
+.pdf-page-surface .textLayer:focus-visible { outline: 2px solid #5d5d5a; outline-offset: -2px; }
 /* PDF.js rotates the unrotated text surface inside the rotated page bounds. */
 .pdf-page-surface [data-main-rotation="90"] { transform: rotate(90deg) translateY(-100%); }
 .pdf-page-surface [data-main-rotation="180"] { transform: rotate(180deg) translate(-100%, -100%); }

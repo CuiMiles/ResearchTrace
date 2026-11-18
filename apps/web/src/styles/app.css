@@ -69,7 +69,7 @@ textarea {
   box-shadow: var(--focus);
 }
 ::selection {
-  background: #d6e2fa;
+  background: #e9e9e6;
 }
 code,
 pre {
@@ -502,8 +502,8 @@ input[type='checkbox'] {
   margin: 0;
   padding: 12px;
   border-radius: var(--radius);
-  background: #161d2b;
-  color: #d8deea;
+  background: #21211e;
+  color: #e2e2df;
   font-size: 12px;
   line-height: 1.55;
   white-space: pre-wrap;
@@ -612,9 +612,9 @@ input[type='checkbox'] {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: linear-gradient(140deg, #4c6ef5, #3150c9);
+  background: linear-gradient(140deg, #a1a19e, #7e7e7b);
   color: #fff;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 2px 6px rgba(59, 91, 219, 0.25);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 2px 6px rgba(140, 140, 137, 0.25);
 }
 .brand.light {
   color: #fff;
@@ -932,14 +932,14 @@ input[type='checkbox'] {
   gap: 8px;
   border: 2px dashed var(--brand);
   border-radius: 18px;
-  background: rgba(234, 240, 251, 0.94);
+  background: rgba(243, 243, 240, 0.94);
   color: var(--brand-ink);
 }
 .drawer-backdrop {
   position: fixed;
   inset: 0;
   z-index: 50;
-  background: rgba(19, 26, 41, 0.32);
+  background: rgba(31, 31, 28, 0.32);
 }
 .runs-drawer,
 .side-drawer {
@@ -1035,8 +1035,8 @@ input[type='checkbox'] {
   justify-content: space-between;
   padding: 56px 64px;
   overflow: hidden;
-  background: radial-gradient(circle at 80% 10%, #233157 0, transparent 46%), #131a29;
-  color: #c9d1e1;
+  background: radial-gradient(circle at 80% 10%, #3e3e3b 0, transparent 46%), #1f1f1c;
+  color: #d6d6d3;
 }
 .login-story h1 {
   max-width: 560px;
@@ -1049,7 +1049,7 @@ input[type='checkbox'] {
 .login-story > p {
   max-width: 520px;
   margin-top: 16px;
-  color: #a7b2c9;
+  color: #b9b9b6;
   font-size: 16px;
 }
 .login-evidence {
@@ -1063,19 +1063,19 @@ input[type='checkbox'] {
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  border: 1px solid #2a3552;
+  border: 1px solid #3f3f3c;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.03);
-  color: #dbe2f1;
+  color: #e7e7e4;
 }
 .evidence-connector {
   width: 1px;
   height: 14px;
   margin-left: 24px;
-  background: #34405f;
+  background: #4b4b48;
 }
 .login-story > small {
-  color: #7e89a3;
+  color: #91918e;
 }
 .login-form {
   display: grid;
@@ -1107,7 +1107,7 @@ input[type='checkbox'] {
   gap: 18px;
   padding: 36px 36px 30px;
   border-radius: 18px;
-  background: radial-gradient(circle at 92% 0, #dfe8fb 0, transparent 42%), var(--surface);
+  background: radial-gradient(circle at 92% 0, #eeeeeb 0, transparent 42%), var(--surface);
   border: 1px solid var(--line);
 }
 .home-hero .eyebrow,
@@ -1186,7 +1186,7 @@ input[type='checkbox'] {
   cursor: pointer;
 }
 .scope-chip button:hover {
-  background: rgba(31, 63, 143, 0.12);
+  background: rgba(88, 88, 85, 0.12);
 }
 .scope-chip.add {
   border-style: dashed;

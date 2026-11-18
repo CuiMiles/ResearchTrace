@@ -6,16 +6,14 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
+  ArrowLeft,
   ArrowRight,
   BookOpen,
-  CircleHelp,
+  BrandMark,
   Clock3,
-  FileChartColumn,
-  FileText,
-  FlaskConical,
+  FilePenLine,
   GitCompareArrows,
   Home,
-  Layers3,
   Library,
   ListChecks,
   LogOut,
@@ -26,6 +24,7 @@ import {
   Search,
   Settings2,
   ShieldCheck,
+  Telescope,
   UploadCloud,
   X,
 } from './icons';
@@ -53,31 +52,32 @@ const AdminAcceptancePage = lazy(() =>
 interface NavItem {
   to: string;
   label: string;
+  name: string;
   icon: typeof Home;
 }
 
 const NAVIGATION: NavItem[] = [
-  { to: '/', label: '工作台', icon: Home },
-  { to: '/library', label: '文献库', icon: Library },
-  { to: '/chat', label: '证据问答', icon: MessagesSquare },
-  { to: '/compare', label: '版本与比较', icon: GitCompareArrows },
-  { to: '/discover', label: '检索与推荐', icon: Search },
-  { to: '/insights', label: '图谱与核查', icon: Network },
-  { to: '/studio', label: '写作工坊', icon: FileChartColumn },
+  { to: '/', label: '首页', name: '工作台', icon: Home },
+  { to: '/library', label: '文献', name: '文献库', icon: Library },
+  { to: '/chat', label: '问答', name: '证据问答', icon: MessagesSquare },
+  { to: '/compare', label: '比较', name: '版本与比较', icon: GitCompareArrows },
+  { to: '/discover', label: '发现', name: '检索与推荐', icon: Telescope },
+  { to: '/insights', label: '图谱', name: '图谱与核查', icon: Network },
+  { to: '/studio', label: '写作', name: '写作工坊', icon: FilePenLine },
 ];
 
 const TITLES: [RegExp, string][] = [
-  [/^\/library/, '文献库'],
+  [/^\/library/, '文献'],
   [/^\/read/, '阅读'],
-  [/^\/chat/, '证据问答'],
-  [/^\/compare/, '版本与比较'],
-  [/^\/discover/, '检索与推荐'],
-  [/^\/insights/, '图谱与核查'],
-  [/^\/studio/, '写作工坊'],
-  [/^\/settings\/acceptance/, '验收与截图'],
-  [/^\/settings/, '资源与配额'],
-  [/^\/runs/, '任务详情'],
-  [/^\/$/, '工作台'],
+  [/^\/chat/, '问答'],
+  [/^\/compare/, '比较'],
+  [/^\/discover/, '发现'],
+  [/^\/insights/, '图谱'],
+  [/^\/studio/, '写作'],
+  [/^\/settings\/acceptance/, '验收'],
+  [/^\/settings/, '资源'],
+  [/^\/runs/, '任务'],
+  [/^\/$/, '首页'],
 ];
 
 export default function App() {
@@ -92,10 +92,7 @@ export default function App() {
   if (checking) {
     return (
       <div className="app-loading">
-        <div className="brand-mark">
-          <Layers3 size={22} />
-        </div>
-        <Busy>正在打开研证工作台</Busy>
+        <BrandMark size={36} />
       </div>
     );
   }
@@ -134,7 +131,7 @@ function Shell() {
   return (
     <ModelConfig.Provider value={ws.capability}>
       <div
-        className={`app-shell ${location.pathname.startsWith('/read') ? 'compact' : ''} ${reading ? 'reading' : ''}`}
+        className={`app-shell ${reading ? 'reading' : ''}`}
         onDragOver={(e) => {
           if (e.dataTransfer.types.includes('Files')) {
             e.preventDefault();
@@ -154,57 +151,50 @@ function Shell() {
         }}
       >
         <aside className={`main-sidebar ${mobileNav ? 'mobile-open' : ''}`}>
-          <NavLink className="brand" to="/">
-            <div className="brand-mark">
-              <Layers3 size={20} />
-            </div>
-            <span>
-              <strong>研证</strong>
-              <small>ResearchTrace</small>
-            </span>
+          <NavLink className="brand" to="/" aria-label="研证">
+            <BrandMark />
           </NavLink>
-          <button className="primary-button import-button" disabled={ws.uploading} onClick={ws.openUpload}>
-            {ws.uploading ? <Busy /> : <Plus size={16} />}
-            <span className="label">导入论文</span>
+          <button className="rail-add" aria-label="导入论文" title="导入论文" disabled={ws.uploading} onClick={ws.openUpload}>
+            {ws.uploading ? <Busy>{''}</Busy> : <Plus size={18} />}
           </button>
           <nav aria-label="主导航">
             {NAVIGATION.map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.to === '/'} title={item.label}>
-                <item.icon size={17} />
+              <NavLink key={item.to} to={item.to} end={item.to === '/'} aria-label={item.name} title={item.name}>
+                <item.icon size={20} />
                 <span>{item.label}</span>
-                {item.to === '/library' && <small>{ws.versions.length}</small>}
               </NavLink>
             ))}
             {lastRead && ws.versions.some((v) => v.id === lastRead) && (
-              <NavLink to={`/read/${lastRead}`} title="继续阅读">
-                <BookOpen size={17} />
-                <span>继续阅读</span>
+              <NavLink to={`/read/${lastRead}`} aria-label="继续阅读" title="继续阅读">
+                <BookOpen size={20} />
+                <span>阅读</span>
               </NavLink>
             )}
           </nav>
           <div className="sidebar-bottom">
-            <div className="evidence-principle">
-              <ShieldCheck size={15} />
-              <span>每个结论，都能回到原文</span>
-            </div>
+            <button className="task-button" aria-label="任务" title="任务" onClick={() => setDrawer(true)}>
+              <Clock3 size={20} />
+              <span>任务</span>
+              {working > 0 && <b>{working}</b>}
+            </button>
             {ws.session.role === 'admin' && (
-              <NavLink to="/settings/acceptance">
-                <ListChecks size={17} />
-                <span>验收与截图</span>
+              <NavLink to="/settings/acceptance" aria-label="验收与截图" title="验收与截图">
+                <ListChecks size={20} />
+                <span>验收</span>
               </NavLink>
             )}
-            <NavLink to="/settings" end>
-              <Settings2 size={17} />
-              <span>资源与配额</span>
+            <NavLink to="/settings" end aria-label="资源与配额" title="资源与配额">
+              <Settings2 size={20} />
+              <span>资源</span>
             </NavLink>
-            <button onClick={() => void ws.logout()}>
-              <LogOut size={17} />
-              <span>退出工作区</span>
+            <button aria-label="退出工作区" title="退出工作区" onClick={() => void ws.logout()}>
+              <LogOut size={20} />
+              <span>退出</span>
             </button>
           </div>
         </aside>
         <div className="app-main">
-          <header className="topbar">
+          <header className={`topbar ${readingVersion ? '' : 'plain'}`}>
             <div className="breadcrumbs">
               <button
                 className="icon-button mobile-only"
@@ -215,31 +205,18 @@ function Shell() {
               </button>
               {readingVersion ? (
                 <>
-                  <NavLink to="/library" className="breadcrumb-link">
-                    文献库
+                  <NavLink to="/library" className="breadcrumb-link" aria-label="文献库" title="文献库">
+                    <ArrowLeft size={16} />
                   </NavLink>
-                  <span className="breadcrumb-slash">/</span>
                   <strong className="truncate paper-crumb" title={readingVersion.title}>
                     {readingVersion.title || readingVersion.filename}
                   </strong>
-                  {readingVersion.label && readingVersion.label.length <= 12 && (
-                    <span className="crumb-chip">{readingVersion.label}</span>
-                  )}
+                  {versionTag(readingVersion.label) && <span className="crumb-chip">{versionTag(readingVersion.label)}</span>}
                   {readingVersion.page_count > 0 && <span className="crumb-meta">{readingVersion.page_count} 页</span>}
                 </>
               ) : (
                 <strong className="truncate">{title}</strong>
               )}
-            </div>
-            <div className="topbar-actions">
-              <button className="task-button" onClick={() => setDrawer(true)}>
-                <Clock3 size={16} />
-                <span>任务</span>
-                {working > 0 && <b>{working}</b>}
-              </button>
-              <span className="user-avatar" title={ws.session.role === 'admin' ? '管理员' : '评审'}>
-                {ws.session.role === 'admin' ? '管' : '评'}
-              </span>
             </div>
           </header>
           {ws.error && (
@@ -257,7 +234,7 @@ function Shell() {
           )}
           {ws.capability && !ws.capability.model_configured && !configNoticeHidden && (
             <div className="notice missing-config" role="status">
-              <span>AI 问答与翻译暂未开通；导入、阅读、检索和绘图可以正常使用。</span>
+              <span>AI 未配置</span>
               <button
                 className="icon-button"
                 aria-label="关闭提示"
@@ -313,8 +290,7 @@ function Shell() {
         {dragging && (
           <div className="drop-overlay">
             <UploadCloud size={54} />
-            <h2>松开以导入 PDF</h2>
-            <p>文件进入当前独立工作区，逐页解析并保留版本</p>
+            <h2>导入 PDF</h2>
           </div>
         )}
       </div>
@@ -367,11 +343,11 @@ function InsightsRoute() {
         <div className="tab-row">
           <button className={tab === 'graph' ? 'active' : ''} onClick={() => setTab('graph')}>
             <Network size={16} />
-            引用图谱与核心文献
+            引用图谱
           </button>
           <button className={tab === 'audit' ? 'active' : ''} onClick={() => setTab('audit')}>
             <ShieldCheck size={16} />
-            Future Work 核查
+            Future Work
           </button>
         </div>
       </div>
@@ -418,44 +394,21 @@ function Login({ onLogin }: { onLogin: (s: Session) => void }) {
   }
   return (
     <div className="login-page">
-      <div className="login-story">
-        <div className="brand light">
-          <div className="brand-mark">
-            <Layers3 size={24} />
-          </div>
-          <span>
-            <strong>研证</strong>
-            <small>ResearchTrace</small>
-          </span>
+      <LoginScene />
+      <main className="login-panel">
+        <div className="login-mark">
+          <BrandMark size={40} />
+          <span>ResearchTrace</span>
         </div>
-        <div>
-          <h1>每个结论，都能回到原文的科研智能体。</h1>
-          <p>导入论文，提出问题；回答逐句标出处、逐句经过核对，换了版本也知道哪些结论需要重审。</p>
-          <div className="login-evidence">
-            <div>
-              <FileText size={18} />
-              <span>具体论文版本与原文位置</span>
-            </div>
-            <span className="evidence-connector" />
-            <div>
-              <Search size={18} />
-              <span>检索、比对与独立复核</span>
-            </div>
-            <span className="evidence-connector" />
-            <div>
-              <ShieldCheck size={18} />
-              <span>可点击核验的研究结论</span>
-            </div>
-          </div>
-        </div>
-        <small>不编造来源；查不到就说证据不足，不把“没找到”写成“首次”。</small>
-      </div>
-      <form className="login-form" onSubmit={(e) => void submit(e)}>
-        <FlaskConical size={30} strokeWidth={1.4} />
-        <h2>进入研究工作区</h2>
-        <p>使用评审或管理员访问码。模型密钥只保存在服务器。</p>
-        <label htmlFor="access-code">
-          访问码
+        <h1>研证</h1>
+        <ul className="login-keywords" aria-label="核心能力">
+          <li><ScanLine />溯源</li>
+          <li><GitCompareArrows size={16} />版本</li>
+          <li><Network size={16} />图谱</li>
+          <li><ShieldCheck size={16} />核验</li>
+        </ul>
+        <form className="login-form" onSubmit={(e) => void submit(e)}>
+          <label className="sr-only" htmlFor="access-code">访问码</label>
           <input
             id="access-code"
             type="password"
@@ -464,19 +417,58 @@ function Login({ onLogin }: { onLogin: (s: Session) => void }) {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             required
-            placeholder="输入访问码"
+            placeholder="访问码"
           />
-        </label>
+          <button className="primary-button" aria-label="进入工作台" disabled={loading || !code}>
+            {loading ? <Busy>{''}</Busy> : <ArrowRight size={18} />}
+          </button>
+        </form>
         {error && <ErrorBox error={error} />}
-        <button className="primary-button" disabled={loading || !code}>
-          {loading ? <Busy /> : '进入工作台'}
-          <ArrowRight size={16} />
-        </button>
-        <div className="login-help">
-          <CircleHelp size={14} />
-          <span>访问码由部署方提供；评审账号进入各自独立的工作区。</span>
-        </div>
-      </form>
+      </main>
     </div>
   );
+}
+
+function ScanLine() {
+  return <Search size={16} />;
+}
+
+/** A page, one highlighted line, and the answer that cites it. Drawn, not imported. */
+function LoginScene() {
+  const lines = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  return (
+    <svg className="login-scene" viewBox="0 0 760 760" preserveAspectRatio="xMidYMid slice" aria-hidden>
+      <g className="scene-page back" transform="translate(250 60) rotate(5)">
+        <rect width="360" height="470" rx="6" />
+      </g>
+      <g className="scene-page" transform="translate(130 110)">
+        <rect width="380" height="500" rx="6" />
+        <rect className="bar strong" x="36" y="40" width="220" height="12" />
+        <rect className="bar" x="36" y="62" width="130" height="7" />
+        {lines.map((i) => (
+          <rect key={i} className={i === 5 ? 'bar mark' : 'bar'} x="36" y={104 + i * 28} width={i === 5 ? 308 : i % 4 === 3 ? 214 : 308} height={i === 5 ? 14 : 7} />
+        ))}
+      </g>
+      <path className="scene-link" d="M474 359 C 560 359, 540 520, 600 520" />
+      <circle className="scene-dot" cx="474" cy="359" r="5" />
+      <g className="scene-card" transform="translate(420 490)">
+        <rect width="290" height="140" rx="8" />
+        <rect className="chip" x="22" y="22" width="34" height="20" rx="3" />
+        <text x="39" y="36.5" textAnchor="middle">1</text>
+        <rect className="bar light" x="68" y="28" width="150" height="8" />
+        <rect className="bar" x="22" y="62" width="246" height="7" />
+        <rect className="bar" x="22" y="82" width="246" height="7" />
+        <rect className="bar" x="22" y="102" width="150" height="7" />
+      </g>
+      <g className="scene-graph">
+        <path d="M600 130 L680 200 L610 280 M680 200 L730 120 M600 130 L730 120" />
+        <circle cx="600" cy="130" r="9" /><circle className="on" cx="680" cy="200" r="13" />
+        <circle cx="610" cy="280" r="7" /><circle cx="730" cy="120" r="6" />
+      </g>
+    </svg>
+  );
+}
+
+function versionTag(label?: string | null) {
+  return label && label.length <= 12 && !label.includes('待确认') ? label : '';
 }
