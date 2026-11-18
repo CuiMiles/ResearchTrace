@@ -93,7 +93,7 @@
 后端 & Python 3.12、FastAPI、Pydantic 2、Uvicorn & 异步接口 + 声明式 Schema；自动生成 OpenAPI\\
 \rtzebra 存储 & SQLite（WAL）+ FTS5、本地文件 & 零运维、单文件备份；WAL 支持读写并发；FTS5 内置 BM25，足以支撑轻量部署\\
 文档解析 & pdfplumber、PaddleOCR 3.7（PP-OCRv5）、PaddleOCR-VL 1.6、MinerU 4.2 & 原生文字层优先，扫描件与复杂版面按需调用 OCR / 版面模型，结果归一化为统一的块结构\\
-\rtzebra 检索模型 & Nemotron-3.5-Embed-8B、Nemotron-3.5-Rerank-8B、Qwen3-Embedding-8B（本地）；gemini-embedding-001（云端备用） & 本地部署保证数据不出域且无调用费用；云端索引作为独立代际的备用路径\\
+\rtzebra 检索模型 & Nemotron-3.5-Embed-8B、Nemotron-3.5-Rerank-8B、Qwen3-Embedding-8B（本地）；gemini-embedding-001（云端备用） & 本地部署时检索环节不依赖外部服务，也无调用费用；云端索引作为独立代际的备用路径\\
 生成模型 & Gemini 4 Hydrogen、Gemini 3.6 Flash、Gemini 3.5 Flash Lite、Gemini Decision 1 & 按角色分工：深度分析 / 常规回答 / 轻量批处理 / 主张判别，兼顾质量与额度\\
 \rtzebra 部署 & Docker Compose、Nginx / Caddy（HTTPS）、systemd 定时备份、GitHub Actions 工作流 & 非 root 容器、资源上限、自动证书；每日一致性快照备份\\
 \bottomrule
@@ -179,7 +179,7 @@
 
 \subsection{模型选型与理由}
 
-我们没有采用“一个大模型包办一切”的做法，而是按任务性质把模型分为六种角色（表~\ref{tab:models}）。选型遵循三条原则：\textbf{（1）让最强的模型只做最需要推理的事}，把有限的高阶模型额度用在刀刃上；\textbf{（2）复核者与生成者异构}，避免“自己审自己”；\textbf{（3）检索模型本地部署}，数据不出域且没有调用成本。项目首版不做模型训练或微调：科研问答的瓶颈在“证据是否找得到、对得上”，而不在语言能力，这部分用检索与核验解决比微调更可控。
+我们没有采用“一个大模型包办一切”的做法，而是按任务性质把模型分为六种角色（表~\ref{tab:models}）。选型遵循三条原则：\textbf{（1）让最强的模型只做最需要推理的事}，把有限的高阶模型额度用在刀刃上；\textbf{（2）复核者与生成者异构}，避免“自己审自己”；\textbf{（3）检索模型支持本地部署}，检索环节可不依赖外部服务且没有调用成本。项目首版不做模型训练或微调：科研问答的瓶颈在“证据是否找得到、对得上”，而不在语言能力，这部分用检索与核验解决比微调更可控。
 
 \begin{table}[H]
 \centering\small
