@@ -107,7 +107,7 @@ export function DemoPlayer() {
           }}
           aria-label="ResearchTrace 参赛演示视频"
         >
-          <track kind="captions" src={`${media}/researchtrace-demo-academic-blue-zh.vtt`} srcLang="zh-CN" label="简体中文" default />
+          <track kind="captions" src={`${media}/researchtrace-demo-academic-blue-zh.vtt?layout=2`} srcLang="zh-CN" label="简体中文" default />
         </video>
         {!started && (
           <button className="public-demo-play" type="button" onClick={play}>

@@ -3,6 +3,7 @@ import argparse
 import os
 import re
 import tempfile
+import unicodedata
 from pathlib import Path
 
 from assemble_demo import ffmpeg
@@ -37,6 +38,30 @@ def ass_color(rgb):
     return f'&H00{rgb[5:7]}{rgb[3:5]}{rgb[1:3]}'
 
 
+def web_cue(caption):
+    # Break long CJK cues explicitly so native Windows captions fit the video.
+    if '\n' in caption:
+        return '68%', caption
+    tokens = re.findall(r'[A-Za-z0-9]+(?:[.+_/-][A-Za-z0-9]+)*|.', caption)
+    widths = [sum(2 if unicodedata.east_asian_width(char) in 'WF' else 1 for char in token)
+              for token in tokens]
+    total = sum(widths)
+    if total <= 56:
+        return '72%', caption
+    columns = 0
+    candidates = []
+    for index, width in enumerate(widths[:-1], 1):
+        columns += width
+        if columns <= 56 and total - columns <= 56 and tokens[index][0] not in '，。；、？！：）':
+            natural_break = tokens[index - 1][-1] in '。！？，；、： '
+            score = abs(2 * columns - total) - (8 if natural_break else 0)
+            candidates.append((score, index))
+    if not candidates:
+        return '72%', caption
+    _, split = min(candidates)
+    return '68%', ''.join(tokens[:split]).rstrip() + '\n' + ''.join(tokens[split:]).lstrip()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('vtt', type=Path)
@@ -56,7 +81,8 @@ def main():
         if not match or not number.isdigit() or not caption.strip():
             raise ValueError(f'Invalid subtitle cue {number}')
         start, end = match.groups()
-        vtt.append(f'{number}\n{start} --> {end} line:84%,end\n{caption}')
+        line, wrapped = web_cue(caption)
+        vtt.append(f'{number}\n{start} --> {end} line:{line},end size:92%\n{wrapped}')
         escaped = caption.replace('{', r'\{').replace('}', r'\}').replace('\n', r'\N')
         ass.append(f'Dialogue: 0,{start[:-1]},{end[:-1]},Demo,,0,0,0,,{escaped}')
 
