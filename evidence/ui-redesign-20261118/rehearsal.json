@@ -1,0 +1,142 @@
+{
+ "steps": [
+  {
+   "step": "3.1 upload renamed v1 opens the version dialog",
+   "status": "PASS",
+   "seconds": 19.7,
+   "info": {
+    "basis": "arXiv 1706.03762 · 首页正文",
+    "recommend": "建议保留 v7",
+    "cards": [
+     "v1",
+     "v7"
+    ]
+   }
+  },
+  {
+   "step": "3.1 AI revision summary",
+   "status": "PASS",
+   "seconds": 2.1,
+   "info": "从 v1 到 v7 的主要修订  从 v1 到 v7 的可见文本差异主要体现在作者贡献说明与模型结构段落的呈现、原“Attention Dropout”段落的移除，以及机器翻译和句"
+  },
+  {
+   "step": "3.1 paragraph diff",
+   "status": "PASS",
+   "seconds": 0.7,
+   "info": "修改 122 段 新增 0 段 删除 3 段 未变 71 段"
+  },
+  {
+   "step": "3.1 keep newer v7",
+   "status": "PASS",
+   "seconds": 1.5,
+   "info": [
+    "v1"
+   ]
+  },
+  {
+   "step": "3.1 delete the rehearsal v1, library back to 10",
+   "status": "PASS",
+   "seconds": 4.5,
+   "info": {
+    "parse_status": "ready",
+    "docs_after": 10
+   }
+  },
+  {
+   "step": "3.2 v7 bilingual, outline jump",
+   "status": "PASS",
+   "seconds": 4.9,
+   "info": "3.2.1 缩放点积注意力  问此段"
+  },
+  {
+   "step": "3.2 drag the split, double click resets",
+   "status": "PASS",
+   "seconds": 0.9,
+   "info": [
+    "50",
+    "63",
+    "50"
+   ]
+  },
+  {
+   "step": "3.2 live selection translation",
+   "status": "PASS",
+   "seconds": 3.8,
+   "info": "Transformer 遵循了以下整体架构  来自翻译缓存 复制译文"
+  },
+  {
+   "step": "3.2 scanned PDF page 4",
+   "status": "PASS",
+   "seconds": 9.4,
+   "info": {
+    "page": "4",
+    "blocks": 12,
+    "zh": "第 4 页 已全部翻译  最常用的两种注意力函数是加性注意力 [2]，以及点积（"
+   }
+  },
+  {
+   "step": "3.2 541-page book, outline and page 300",
+   "status": "PASS",
+   "seconds": 32.4,
+   "info": {
+    "outline": "Convolutional networks 175",
+    "page_after_outline": "175",
+    "canvases": 4,
+    "outline_items": 504,
+    "first": "Understanding Deep Learning\n1"
+   }
+  },
+  {
+   "step": "3.3 citation jumps to highlighted source",
+   "status": "PASS",
+   "seconds": 4.3,
+   "info": {
+    "page": "4",
+    "section": "3.2.1 Scaled Dot-Product Attention 4"
+   }
+  },
+  {
+   "step": "3.3 cross-paper answer",
+   "status": "PASS",
+   "seconds": 2.5,
+   "info": {
+    "chips": 5,
+    "insufficient": 2,
+    "model": [
+     "gemini-4-hydrogen"
+    ]
+   }
+  },
+  {
+   "step": "3.3 graph, node opens the paper",
+   "status": "PASS",
+   "seconds": 7.9,
+   "info": "/read/70844f0c17fb45"
+  },
+  {
+   "step": "3.3 saved Related Work and its evidence",
+   "status": "PASS",
+   "seconds": 4.9,
+   "info": {
+    "chips": 5
+   }
+  },
+  {
+   "step": "Live literature search",
+   "status": "PASS",
+   "seconds": 1.5,
+   "info": {
+    "results": 20,
+    "first": "Do You Even Need Attention? A Stack of Feed-Forwar"
+   }
+  },
+  {
+   "step": "Task panel",
+   "status": "PASS",
+   "seconds": 1.0,
+   "info": 36
+  }
+ ],
+ "page_errors": [],
+ "library_restored": true
+}

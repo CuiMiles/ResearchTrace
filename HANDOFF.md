@@ -1,5 +1,15 @@
 # ResearchTrace handoff
 
+## 2026-11-18 提交版
+
+- 公网为 `researchtrace:completion-v32`，发布目录 `/opt/researchtrace/releases/completion-v32-20261118`，前端提交 `71605f2`。v24–v32 都只更新前端，服务沿用 v23。回滚目标 v31。
+- 评委账号 10 篇论文。录制路径已在公网彩排 16/16 步通过，结果见 `evidence/ui-redesign-20261118/rehearsal.json`。
+- 讲稿在 `docs/DEMO_SCRIPT.md`。录制时上传的 v1 要在录完后从文献库删除，评委才能复测版本识别。
+- 作品介绍源文件在 `docs/work-intro/`，用 `TEXINPUTS=.:../tech-report: latexmk -g -xelatex -outdir=build main.tex` 编译，成品在 `deliverables/ResearchTrace_作品介绍.pdf`。
+- `deliverables/ResearchTrace_完整作品.zip` 由 Git HEAD 生成并被 Git 忽略，已做密钥和主机信息扫描。
+- 待人工：确认作品介绍第 6 节「未发表、未获奖」属实；录制视频；上传压缩包并填写网盘链接。
+- 已知问题：GROBID 网关鉴权测试偶发失败，原因见 `docs/TEST_REPORT.md`，组件不在公网部署内。
+
 ## 2026-11-18 录制前更新
 
 - 公网评委账号已使用 `researchtrace:completion-v23`。代码在 `upgrade/complete-20261116` 的 `52f504b`。上线前 SQLite 备份为 `backup-20261118T025200292359Z`，可回滚到 v22。

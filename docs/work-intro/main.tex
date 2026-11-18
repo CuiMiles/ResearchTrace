@@ -1,0 +1,177 @@
+% !TEX program = xelatex
+% 研证 ResearchTrace 作品介绍文档
+% 编译：TEXINPUTS=.:../tech-report: latexmk -xelatex -outdir=build main.tex
+\documentclass[11pt,a4paper,fontset=none,scheme=chinese,zihao=false]{ctexart}
+\usepackage{rtstyle}
+\usepackage{needspace}
+\definecolor{rtnavy}{HTML}{0B0C0E}\definecolor{rtnavy2}{HTML}{1B1D21}
+\definecolor{rtblue}{HTML}{0F1012}\definecolor{rtblueD}{HTML}{3C3F45}
+\definecolor{rtblueL}{HTML}{F1FAC9}\definecolor{rtblueM}{HTML}{C9F23A}
+\definecolor{rtlime}{HTML}{C9F23A}\definecolor{rtinkk}{HTML}{0F1012}
+\definecolor{rtink}{HTML}{1B1D21}\definecolor{rtmuted}{HTML}{71747B}
+\definecolor{rtline}{HTML}{E2E2DD}\definecolor{rtpaper}{HTML}{F6F6F4}
+\fancyhead[L]{\small\color{rtmuted}研证 ResearchTrace\hspace{0.7em}|\hspace{0.7em}作品介绍}
+\fancyhead[R]{}
+\graphicspath{{figures/}}
+\newcommand{\shotfig}[2]{\begin{minipage}[t]{0.485\linewidth}\centering
+  \includegraphics[width=\linewidth]{#1}\par\vspace{2pt}{\footnotesize\color{rtmuted}#2}\end{minipage}}
+\newcommand{\hl}[3]{\begin{tcolorbox}[enhanced,colback=white,colframe=rtline,boxrule=0.5pt,arc=3pt,left=9pt,right=9pt,top=6pt,bottom=6pt,
+  borderline west={2.4pt}{0pt}{rtlime},before skip=6pt,after skip=6pt]{\heavy #1}\quad{\small\color{rtmuted}#2}\par\vspace{2pt}{\small #3}\end{tcolorbox}}
+
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}
+\begin{document}
+\begin{titlepage}\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[rtnavy](current page.south west)rectangle(current page.north east);
+  \begin{scope}[shift={([xshift=24mm,yshift=-36mm]current page.north west)}]
+    \fill[rtlime,rounded corners=2.4mm](0,-11mm)rectangle(11mm,0);
+    \draw[rtnavy,line width=1.5pt](4.3mm,-2.8mm)--(2.8mm,-2.8mm)--(2.8mm,-8.2mm)--(4.3mm,-8.2mm)(6.7mm,-2.8mm)--(8.2mm,-2.8mm)--(8.2mm,-8.2mm)--(6.7mm,-8.2mm);
+    \fill[rtnavy](4.7mm,-6.3mm)rectangle(6.3mm,-4.7mm);
+    \node[anchor=west,text=white,font=\large\heavy]at(15mm,-5.5mm){研证 ResearchTrace};
+  \end{scope}
+  \node[anchor=north west,text=white,align=left,inner sep=0pt]at([xshift=24mm,yshift=-98mm]current page.north west){%
+    \begin{minipage}{160mm}
+      {\small\color{rtlime}第九届传智杯 AI 大模型创新应用挑战赛\quad{}·\quad{}科研小助手 Agent}\\[9mm]
+      {\fontsize{46}{54}\selectfont\heavy 作品介绍}\\[8mm]
+      {\fontsize{18}{26}\selectfont 每个结论，都能回到原文}
+    \end{minipage}};
+  \begin{scope}[shift={([xshift=24mm,yshift=48mm]current page.south west)}]
+    \foreach \i/\n/\l in {0/39 篇/全量解析语料,1/{72.0\%}/重排后 Hit@1,2/{100\%}/重排后 Hit@20,3/{2C\,/\,2G}/线上运行配置}{
+      \node[anchor=south west,text=white,font=\fontsize{20}{24}\selectfont\heavy,inner sep=0pt]at(\i*41mm,7mm){\n};
+      \node[anchor=south west,text=white!62!rtnavy,font=\footnotesize,inner sep=0pt]at(\i*41mm,0){\l};}
+  \end{scope}
+  \node[anchor=south west,text=white!62!rtnavy,font=\footnotesize]at([xshift=23mm,yshift=22mm]current page.south west){https://researchtrace.sluna.xyz\quad{}·\quad 2026 年 11 月};
+\end{tikzpicture}
+\end{titlepage}
+\setcounter{page}{1}
+
+\section{项目详情及使用方式}
+\subsection{项目详情}
+研证（ResearchTrace）是面向科研人员的论文智能体。它把\kw{文档解析、版本管理、证据问答、对照阅读、引用图谱和有来源的写作}放进同一条工作流，核心目标只有一个：系统给出的每条结论，都绑定具体的论文版本、页码和原文段落，用户一键就能回到原文核对；原文里查不到的内容，系统明确标记为证据不足。
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{P{30mm}L}\toprule
+\rthead \hd{赛题模块} & \hd{已实现能力}\\\midrule
+PDF 管理与解析 & 批量导入、内容去重、同一论文多版本识别与保留选择；支持原生 PDF、扫描件和 541 页长书\\
+\rtzebra 知识问答 & 单篇、多篇、多轮问答；逐句标注核对状态，引用可跳回原文并高亮\\
+阅读与翻译 & 原版 PDF 连续阅读，中英逐段对照，可拖动分栏；划词翻译、整页与全文翻译，公式保留\\
+\rtzebra 检索与推荐 & arXiv 与 Crossref 检索入库，参考文献分析与批量下载，兴趣追踪与新论文推荐\\
+图谱与综述 & 由真实参考文献条目建立引用图，计算局部 PageRank，生成有出处的领域综述，核查 Future Work 进展\\
+\rtzebra 写作与绘图 & 由 idea 生成论文框架与 Related Work；CSV 成图、Caption 与复现脚本；Mermaid、DOT、TikZ、Python 结构图\\
+\bottomrule\end{tabularx}\end{table}
+
+\subsection{使用方式}
+\textbf{在线使用。}打开 \code{https://researchtrace.sluna.xyz}，输入大赛提交信息中提供的评审访问码即可进入。评审账号已内置 10 篇精选论文和预生成结果。
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{P{9mm}P{20mm}L}\toprule
+\rthead \hd{步骤} & \hd{入口} & \hd{操作}\\\midrule
+1 & 左侧 + & 选择或拖入 PDF。若是已有论文的其他版本，系统弹窗说明依据并推荐保留版本\\
+\rtzebra 2 & 文献 & 打开论文，切换「中英对照」，用目录跳转，选中文字即可翻译、解释或提问\\
+3 & 问答 & 选择一篇或多篇论文提问，点击引用编号，再点「在原文中定位」\\
+\rtzebra 4 & 比较 & 勾选两个版本查看段落差异，或勾选多篇论文生成带证据的比较\\
+5 & 发现 & 按标题、DOI、arXiv ID 或关键词检索并入库，设置追踪和推荐\\
+\rtzebra 6 & 图谱 & 选择核心论文，查看一跳引用关系、路径和原始参考文献条目\\
+7 & 写作 & 上传 CSV 绘图，生成论文框架、综述、翻译与结构图，在「产物」中导出\\
+\bottomrule\end{tabularx}\end{table}
+
+\needspace{32mm}\textbf{自行部署。}约 2 核 2 GB 的服务器即可运行，模型密钥只通过服务器环境变量配置：
+\begin{tcolorbox}[colback=rtpaper,colframe=rtpaper,arc=3pt,left=8pt,right=8pt,top=4pt,bottom=4pt]
+\small\ttfamily cp .env.example .env \# 设置访问码与模型密钥\\
+docker compose --profile lite up -d --build\\
+RT\_DOMAIN=your.domain docker compose --profile lite --profile https up -d
+\end{tcolorbox}
+
+\section{项目亮点}
+\hl{逐句可核验}{证据闭环}{回答拆成原子主张。每条主张先过确定性校验（文本块、版本、逐字引文、数值单位），再由异构模型独立复核，界面逐句显示已核对、待复核、矛盾或证据不足。}
+\hl{版本感知}{按内容而不是文件名}{读取 PDF 正文中的 arXiv 编号或 DOI，自动识别同一论文的不同版本。给出逐段差异和带页码的修订总结，旧结论继续绑定原版本快照。}
+\hl{多引擎文档智能}{原生、扫描、长书}{原生文字层优先，扫描件和复杂版面调用本地部署的 PP-OCRv5、MinerU 与 PaddleOCR-VL，所有引擎输出统一为带坐标的文本块。}
+\hl{高级 RAG}{召回、融合、精排}{BM25、向量、RRF 与交叉编码重排组成三段式检索。在 75 道有答案题上，Hit@1 由 BM25 的 20.0\% 提升到 72.0\%，Hit@20 由 70.7\% 提升到 100\%。}
+\hl{有边界的智能体}{规划、工具、核验、修订}{模型只能调用白名单工具，全部经过 Schema 校验和预算控制；任务持久化、幂等、可取消、可恢复，执行步骤和工具证据对用户公开。}
+\hl{沉浸式对照阅读}{原文与译文同屏}{PDF 版式不变，译文逐段对齐，目录、引用、划词和分栏拖动联动，图表按原文裁切，公式用 KaTeX 渲染。}
+\hl{低成本稳定运行}{2 核 2 GB}{SQLite WAL、双 Worker 池和事务化配额账本让服务在轻量云主机上长期运行；本地模型、云端模型、关键词检索逐级降级。}
+
+\clearpage
+\section{AI 测试技术落地使用情况概述}
+项目把大模型系统当作\kw{可度量、可回归}的软件来测试，覆盖模型选型、检索质量、输出可信度、智能体流程和真实用户路径。每项结果只记录实际运行结论，原始日志保存在仓库 \code{evidence/} 目录。
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{P{28mm}LP{44mm}}\toprule
+\rthead \hd{测试方向} & \hd{落地方式} & \hd{实测结果}\\\midrule
+检索质量评测 & 80 道标注题，对 BM25、向量、RRF、重排四种配置同条件对照 & 75 道有答案题 Hit@5 90.7\%，Hit@20 100\%，MRR 0.81\\
+\rtzebra 模型选型 A/B & 相同切分下用核心 45 题比较两个本地嵌入模型 & Nemotron Hit@5 95.6\%，Qwen3 88.9\%\\
+证据对抗测试 & 注入空引文、数字篡改（8 改 80）、绕过证据的正文 & 三类样例全部拦截\\
+\rtzebra 独立模型复核 & 用 Gemini Decision 1 判别主张与原文的关系，与生成模型异构 & 支持、矛盾、不足分别标注，不可用时保留待复核\\
+原文定位测试 & 按“检索、版本、页、块、坐标”逐级校验 & 122 项定位通过，含教材后半部和末页\\
+\rtzebra 真实语料端到端 & 赛题资料包全量解析和索引 & 39 篇、1,986 页全部就绪\\
+智能体与任务回归 & 单元和集成测试覆盖解析、检索、核验、配额、任务恢复、权限与 SSRF & 659 项通过，8 项跳过\\
+\rtzebra 浏览器自动化 & Playwright 驱动真实 PDF 选区、分栏、翻译和定位 & 阅读器回归 21 项通过\\
+公网全流程演练 & 用评审账号按演示路径执行上传、版本选择、对照阅读、问答定位、图谱和写作 & 16 步全部通过，页面零异常\\
+\bottomrule\end{tabularx}\end{table}
+
+开发过程中使用 AI 编程智能体辅助编写测试、执行回归和进行浏览器巡检，所有通过结论都以实际运行结果为准。
+
+\section{关键技术}
+\subsection{总体架构}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=1mm,y=1mm,font=\scriptsize,
+  b/.style={draw=rtline,fill=white,rounded corners=2pt,minimum height=11mm,align=center,inner sep=2pt,text width=#1},b/.default=27mm,
+  k/.style={b=#1,fill=rtnavy,draw=rtnavy,text=white},k/.default=27mm,
+  a/.style={-{Stealth[length=1.8mm]},line width=0.6pt,color=rtmuted}]
+  \node[b](pdf)at(0,12){\textbf{PDF 导入}\\去重 · 版本识别};
+  \node[k](parse)at(38,12){\textbf{多引擎解析}\\原生 · OCR · 版面};
+  \node[b](idx)at(76,12){\textbf{索引治理}\\BM25 · 向量 · 代际};
+  \node[k](ret)at(114,12){\textbf{混合检索}\\RRF · 重排};
+  \node[b](ans)at(114,-8){\textbf{智能体综合}\\规划 · 工具 · 生成};
+  \node[k](ver)at(76,-8){\textbf{证据核验}\\规则校验 · 独立复核};
+  \node[b](ui)at(38,-8){\textbf{结果发布}\\逐句证据 · 笔记 · 导出};
+  \node[b](read)at(0,-8){\textbf{原文定位}\\版本 · 页 · 块 · 坐标};
+  \draw[a](pdf)--(parse);\draw[a](parse)--(idx);\draw[a](idx)--(ret);\draw[a]([xshift=6mm]ret.south)--([xshift=6mm]ans.north);\draw[a](ans)--(ver);\draw[a](ver)--(ui);\draw[a](ui)--(read);
+  \draw[a,dashed](ver.north)--++(0,4.5)-|(ret.south);
+  \node[text=rtmuted,fill=white,inner sep=1.5pt,font=\tiny]at(95,2){未通过：补充检索并修订};
+\end{tikzpicture}
+\caption{从论文到可核验结论的主链路}\end{figure}
+
+\subsection{核心技术}
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{P{25mm}L}\toprule
+\rthead \hd{方向} & \hd{技术方案}\\\midrule
+文档智能 & pdfplumber 原生解析，PP-OCRv5、MinerU 4.2、PaddleOCR-VL 1.6 按需路由；不可变解析快照，保留页码和坐标\\
+\rtzebra 检索 & 中文问题改写为英文检索式，多篇逐篇配额，BM25 与向量经 RRF 融合后交叉编码重排；索引按模型指纹分代\\
+证据核验 & 引文逐字匹配、数值与单位检查、版本绑定、Decision 1 独立复核，不通过时补充检索并修订一次\\
+\rtzebra 智能体 & 有界多角色流程、白名单工具、JSON Schema 约束输出、持久化检查点、公开执行步骤\\
+模型调度 & Gemini 4 Hydrogen 负责核心分析，3.6 Flash 和 3.5 Flash Lite 承担降级与批量任务；配额按项目记账，失败和重试同样计入，付费兜底默认关闭\\
+\rtzebra 工程与安全 & FastAPI、SQLite WAL、React 18、TypeScript、PDF.js；上传内容按不可信数据处理，渲染消毒，下载阻断内网和云元数据地址\\
+\bottomrule\end{tabularx}\end{table}
+
+\subsection{本地模型部署}
+检索模型和文档解析模型均完成了本地部署与实测。向量和重排服务由自研运行时托管，使用 BF16 推理和分卡部署，带显存预算守护并锁定模型版本与文件哈希。
+
+\begin{table}[H]\centering\small
+\begin{tabularx}{\linewidth}{P{38mm}P{24mm}L}\toprule
+\rthead \hd{本地模型} & \hd{用途} & \hd{实测}\\\midrule
+Nemotron-3.5-Embed-8B & 向量检索 & 4096 维，全量索引 23,185 条向量，覆盖 22,950 个原文块\\
+\rtzebra Nemotron-3.5-Rerank-8B & 交叉编码重排 & Hit@1 由 54.7\% 提升到 72.0\%\\
+Qwen3-Embedding-8B & 选型对照 & 核心 45 题 Hit@5 为 88.9\%（Nemotron 为 95.6\%）\\
+\rtzebra PP-OCRv5 & 扫描件 OCR & 15 页扫描论文 234.4 秒，311 个文本块（CPU）\\
+MinerU 4.2 & 版面、表格、公式 & 15 页 352.7 秒，138 个结构块，含 4 张表、6 个公式（CPU）；演示站扫描版当前使用该结果\\
+\rtzebra PaddleOCR-VL 1.6 & 疑难区域精解 & 单页裁剪区域 139.2 秒，6 个精解块（CPU）\\
+\bottomrule\end{tabularx}\end{table}
+
+{\small\color{rtmuted}部署说明：公开演示站运行在 2 核 2 GB 云主机上。评审期间 GPU 释放给共享用户，在线检索切换为 gemini-embedding-001 与 BM25，生成和复核使用云端 Gemini 模型；上表为本地部署阶段的实测结果。}
+
+\clearpage
+\section{项目相关图片}
+\begin{figure}[H]\centering\shotfig{login}{登录页}\hfill\shotfig{home}{首页}\par\vspace{7pt}
+\shotfig{library}{文献库}\hfill\shotfig{dialog}{版本识别与修订总结}\par\vspace{7pt}
+\shotfig{reader}{中英对照阅读}\hfill\shotfig{scan}{扫描版论文对照}\par\vspace{7pt}
+\shotfig{book}{541 页教材目录跳转}\hfill\shotfig{card}{论文概览}\end{figure}
+\begin{figure}[H]\centering\shotfig{thread}{逐句证据问答}\hfill\shotfig{evidence}{引用定位并高亮原文}\par\vspace{7pt}
+\shotfig{graph}{引用图谱}\hfill\shotfig{artifact}{论文框架与 Related Work}\par\vspace{7pt}
+\shotfig{chart}{CSV 生成图表}\hfill\shotfig{search}{学术检索}\end{figure}
+
+\section{发表与获奖情况}
+本项目为参加第九届传智杯 AI 大模型创新应用挑战赛而开发，此前未以论文等形式公开发表，也未获得其他比赛或评选奖项。
+
+项目使用的第三方开源组件和模型及其许可信息列于源码包的 \code{THIRD\_PARTY\_NOTICES.md}。
+\end{document}

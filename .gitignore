@@ -20,3 +20,5 @@ ResearchTrace_完整审阅包_*.zip
 services/retrieval_runtime/private/
 # Retain downloaded tokenizer caches locally; provision pinned revisions remotely.
 services/retrieval_runtime/vendor/**/tokenizer.json
+deliverables/ResearchTrace_完整作品.zip
+docs/work-intro/build/

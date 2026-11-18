@@ -1,0 +1,29 @@
+{
+"docs": 10,
+"titles": [
+"An Image Is Worth 16x16 Word",
+"Attention Is All You Need",
+"Attention Is All You Need（扫描",
+"BERT: Pre-training of Deep B",
+"Exploring the Limits of Tran",
+"FlashAttention: Fast and Mem",
+"Improving Language Understan",
+"Layer Normalization",
+"On Layer Normalization in th",
+"Understanding Deep Learning"
+],
+"rows": 10,
+"tp_blocks": 59,
+"chips": 9,
+"last_chip": "1.1 · 第 7 页",
+"url_after_locate": "/read/766a29679f72469b8bd763b365ca918b",
+"highlights": 1,
+"located_page": "7",
+"located_section": "5.3 Optimizer 7",
+"graph_status": "一跳 7 / 10 篇 · 13 / 15 引用",
+"artifacts": 13,
+"overflow": true,
+"status": [],
+"page_errors": [],
+"banned_found": []
+}

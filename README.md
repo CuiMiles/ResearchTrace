@@ -4,7 +4,7 @@
 
 参赛方向：第九届传智杯 AI 大模型创新应用挑战赛 · 科研小助手 Agent。赛题、评分与交付清单见 [START_HERE.md](START_HERE.md)，当前执行计划见 [docs/REFACTOR_PLAN.md](docs/REFACTOR_PLAN.md)，测试证据见 [docs/TEST_REPORT.md](docs/TEST_REPORT.md)。
 
-**2026-11-17 当前代码**：`upgrade/complete-20261116`，继承 Claude 分支增量开发。公网入口 [researchtrace.sluna.xyz](https://researchtrace.sluna.xyz)。本地 Nemotron 检索优先，完整39份/23,185向量已部署；645项后端测试、前端构建通过。80题中75道有答案题的重排标准证据全部进入前20，独立人工审阅仍待完成，不能等同问答准确率。最新交接见 [COMPLETION_20261117.md](docs/COMPLETION_20261117.md)。
+**2026-11-18 当前版本**：公网入口 [researchtrace.sluna.xyz](https://researchtrace.sluna.xyz)。检索评测使用本地部署的 Nemotron（39 份论文、23,185 条向量）；评审期 GPU 释放，线上检索为 Gemini 向量加 BM25。后端测试 659 项通过、8 项跳过，前端构建通过。80 题中 75 道有答案题的重排标准证据全部进入前 20，独立人工审阅仍待完成，不能等同问答准确率。
 
 正式演示视频和技术PDF由团队自行制作、审阅与提交；仓库内现有材料仅作参考。代码推送不等于赛事提交，未关闭的质量门槛和GitHub账户CI计费锁仍如实保留。
 
