@@ -128,12 +128,17 @@ export const TranslationPane = forwardRef<TranslationPaneHandle, Props>(function
   const alignBlock = useCallback((page: number, blockId: string) => {
     const job = ++alignJob.current;
     load(page - 1, page + 2);
-    let tries = 0;
+    let tries = 0, settled = 0;
     const run = () => {
       const el = scroller.current;
       if (!el || job !== alignJob.current) return;
       const target = el.querySelector<HTMLElement>(`[data-block="${CSS.escape(blockId)}"]`);
-      if (target) { el.scrollTop = Math.max(0, target.offsetTop - el.clientHeight * 0.06); return; }
+      if (target) {
+        el.scrollTop += target.getBoundingClientRect().top - el.getBoundingClientRect().top - el.clientHeight * 0.06;
+        // Text and figures above may still be loading; hold the position until they settle.
+        if (settled++ < 8) window.setTimeout(run, 150);
+        return;
+      }
       if (!tries && sections.current[page]) el.scrollTop = sections.current[page].offsetTop;
       if (++tries < 50) window.setTimeout(run, 100);
     };
@@ -142,6 +147,7 @@ export const TranslationPane = forwardRef<TranslationPaneHandle, Props>(function
   useImperativeHandle(ref, () => ({ scrollToAnchor, revealBlock, alignBlock }), [scrollToAnchor, revealBlock, alignBlock]);
   useEffect(() => () => cancelAnimationFrame(frame.current), []);
 
+  const takeOver = () => { alignJob.current += 1; props.onActivate?.(); };
   const onScroll = () => {
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(() => measure(true));
@@ -154,7 +160,7 @@ export const TranslationPane = forwardRef<TranslationPaneHandle, Props>(function
   }, [pages, translations]);
 
   return <div className="translation-pane parallel-column translated" ref={scroller} onScroll={onScroll}
-    onWheel={props.onActivate} onTouchStart={props.onActivate} onPointerDown={props.onActivate} onMouseEnter={props.onActivate} onFocus={props.onActivate}
+    onWheel={takeOver} onTouchStart={takeOver} onPointerDown={takeOver} onMouseEnter={props.onActivate} onFocus={props.onActivate}
     aria-label={targetLanguage === 'en' ? '英文译文' : '中文译文'} data-translated={totalTranslated}>
     {Array.from({ length: pageCount }, (_, i) => {
       const state = pages[i];

@@ -124,7 +124,7 @@ export function LibraryPage() {
           <div className="document-table-head">
             <span />
             <span>文献</span>
-            <span>状态</span>
+            <span>页数</span>
             <span>时间</span>
             <span />
           </div>
