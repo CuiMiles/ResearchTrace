@@ -1,0 +1,340 @@
+\section{项目详情及使用方式}\label{sec:details}
+
+\subsection{项目背景：科研助手的“可信度缺口”}
+
+大模型让“读论文、问论文、写综述”变得前所未有地容易，但科研场景对答案的要求与日常问答不同——\kw{一条无法核对出处的结论，对研究者几乎没有价值}。我们在调研与实际使用中反复遇到三类典型失效：
+
+\begin{itemize}
+  \item \textbf{结论无法回到原文。}回答看起来正确，却没有页码和原句；即便附了“引用”，也常常是相关但不支持该结论的段落，研究者仍需通读全文复核。
+  \item \textbf{同一论文的不同版本被混用。}arXiv 论文常有多个版本（如 \emph{Attention Is All You Need} 的 v1 与 v7 在超参数与实验结果上存在差异），助手却把它们当作同一份文本，结论张冠李戴。
+  \item \textbf{过期的 Future Work 被当成新方向。}旧论文“未来工作”中的设想，很可能早已被后续研究覆盖；助手若不结合发表时间与后续文献核查，就会把“已有人做过”说成“值得尝试的新 idea”。
+\end{itemize}
+
+\subsection{产品定位与核心理念}
+
+\textbf{研证 ResearchTrace} 是一个面向科研全流程的智能体平台，覆盖赛题要求的文档管理与解析、知识问答、阅读与翻译、检索与推荐、图谱与综述、写作与绘图六大模块。它的设计围绕一条贯穿始终的主线：
+
+\begin{keybox}{核心理念：每个结论都能回到原文}
+系统产出的每一条事实性结论，都被拆解为\kw{原子主张}，并绑定到\kw{具体论文版本、物理页码、文本块坐标与逐字引文}；每条主张经过确定性校验与独立模型复核后，以“证据灯”的形式呈现给用户：\tagbox[rtteal]{已核对支持}\ \tagbox[rtamber]{待复核}\ \tagbox[rtrose]{与原文矛盾}\ \tagbox[rtmuted]{证据不足}。查不到就明确说缺证据，绝不编造来源。
+\end{keybox}
+
+图~\ref{fig:evidence-chain} 给出了这条“证据链”的对象模型：用户看到的每句话，都可以沿着链条一键跳转到 PDF 中被高亮的原句。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[node distance=5mm]
+  \node[boxN,minimum width=20mm,minimum height=13mm](ans){\faIcon{comment-dots}\\[-1pt]回答};
+  \node[boxB,right=of ans,minimum width=23.5mm,minimum height=13mm](claim){\faIcon{stream}\\[-1pt]原子主张};
+  \node[boxB,right=of claim,minimum width=23.5mm,minimum height=13mm](quote){\faIcon{quote-left}\\[-1pt]逐字引文};
+  \node[boxT,right=of quote,minimum width=23.5mm,minimum height=13mm](block){\faIcon{th-large}\\[-1pt]文本块 + 坐标};
+  \node[boxT,right=of block,minimum width=22mm,minimum height=13mm](page){\faIcon{file-alt}\\[-1pt]物理页};
+  \node[boxV,right=of page,minimum width=22mm,minimum height=13mm](ver){\faIcon{code-branch}\\[-1pt]论文版本};
+  \foreach \a/\b in {ans/claim,claim/quote,quote/block,block/page,page/ver}\draw[flowB](\a)--(\b);
+  \node[lbl,below=1.5mm of ans]{用户所见};
+  \node[lbl,below=1.5mm of claim]{一句话一个事实\\类型：事实 / 推断};
+  \node[lbl,below=1.5mm of quote]{必须在原文中\\逐字出现};
+  \node[lbl,below=1.5mm of block]{归一化 bbox\\PDF 内高亮定位};
+  \node[lbl,below=1.5mm of page]{页码与印刷\\页标分离};
+  \node[lbl,below=1.5mm of ver]{不可变快照\\v1 / v7 互不混用};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},rtmuted]([yshift=-14mm]claim.south west)--([yshift=-14mm]ver.south east)
+    node[midway,below=6pt,font=\footnotesize,text=rtblueD]{确定性校验（身份 / 逐字 / 数值单位）＋ 独立模型复核（支持 / 矛盾 / 不足）};
+\end{tikzpicture}
+\caption{研证的证据链对象模型：从回答到原文坐标的完整可追溯路径}
+\label{fig:evidence-chain}
+\end{figure}
+
+\subsection{目标用户与典型场景}
+
+我们把目标用户归纳为三类，他们的共同诉求是“省时间，但不能牺牲可核对性”。
+
+\begin{table}[H]
+\centering\small
+\caption{目标用户、典型场景与研证的应对}
+\begin{tabularx}{\linewidth}{P{24mm}LLL}
+\toprule
+\rthead \hd{用户} & \hd{典型场景} & \hd{现有工具的痛点} & \hd{研证的解法}\\
+\midrule
+研究生 / 科研新人 & 快速读懂一个新方向的 20 篇核心论文，理清谁引用了谁 & 逐篇通读耗时；难以判断哪些是奠基工作 & 批量导入 → 真实引用图谱 → 核心 / 边缘节点 → 带出处的综述\\
+\rtzebra 一线研究者 & 核对某篇论文的超参数、硬件配置、指标，并与前作对比 & 模型答案无出处；v1 与 v7 数值不同却被混用 & 逐句证据灯；版本感知；一键跳转到 PDF 高亮原句\\
+论文写作者 & 从 idea 出发搭建论文框架、画架构图、把实验 CSV 变成图表 & 生成的参考文献常为虚构；图注数值与数据脱节 & 参考文献逐条在线核验；图注统计由程序计算；可编辑绘图代码\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{功能全景}
+
+平台以“版本—证据—主张”数据底座为核心，向上支撑六大功能模块（图~\ref{fig:panorama}），并已部署至公网演示环境。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+  % 中心
+  \node[solidB,circle,minimum size=27mm,align=center,font=\small\heavy,inner sep=1pt](core){证据底座\\[-2pt]{\scriptsize\cjklight 版本 · 快照 · 块}\\[-3pt]{\scriptsize\cjklight 主张 · 引文}};
+  \draw[rtblue!30,line width=5pt](core)circle(18.5mm);
+  % 六模块（显式坐标，便于微调）
+  \newcommand{\rtmod}[6]{\node[#1,minimum width=47mm,minimum height=15mm,inner ysep=4pt](#2)at(#3){%
+      {\heavy\faIcon{#4}\hspace{0.35em}#5}\\[-1pt]\sublines{#6}};
+    \draw[flowB,<->,shorten >=2pt,shorten <=2pt](core)--(#2);}
+  \rtmod{boxT}{mQA}{0,31mm}{comments}{知识问答}{单篇 / 多篇 / 多轮\\逐句证据灯}
+  \rtmod{boxR}{mGR}{0,-31mm}{project-diagram}{图谱与综述}{真实引用图 · PageRank\\综述 · Future Work 核查}
+  \rtmod{boxB}{mDOC}{-56mm,15mm}{file-upload}{文档管理与解析}{批量上传 · 去重 · 版本识别\\原生 / 扫描 / 541 页长书}
+  \rtmod{boxA}{mSR}{-56mm,-15mm}{search}{检索与推荐}{arXiv / Crossref 入库\\追踪 · 日 / 周推荐 · 反馈}
+  \rtmod{boxV}{mRD}{56mm,15mm}{language}{阅读与翻译}{原版阅读 · 目录树 · 引用跳转\\中英对照双向滚动}
+  \rtmod{boxB}{mWR}{56mm,-15mm}{pen-nib}{写作与绘图}{论文框架 · 架构图代码\\CSV 成图 · 中译英}
+\end{tikzpicture}
+\caption{功能全景：六大模块共享同一证据底座}
+\label{fig:panorama}
+\end{figure}
+
+\subsection{功能需求：赛题六类要求的逐项落实}
+
+赛题对“科研小助手 Agent”提出了六类功能要求。表~\ref{tab:req-map} 逐项给出本项目的落实情况，各模块的实现见后续小节，界面截图均来自线上系统。
+
+\begin{table}[H]
+\centering\small
+\caption{赛题功能要求与实现对照}\label{tab:req-map}
+\begin{tabularx}{\linewidth}{P{21mm}LL}
+\toprule
+\rthead \hd{赛题模块} & \hd{赛题要求的行为} & \hd{本项目的实现}\\
+\midrule
+1.1 PDF 管理与解析 & CRUD、批量上传、按内容去重；识别同一论文不同版本并提示保留；支持原生 PDF、扫描 PDF、长书；结构化抽取标题、作者机构、章节、表格、图、公式、参考文献 &
+\ok\ 单次 20 篇批量上传，逐文件进度、取消与恢复；SHA-256 去重；按 arXiv 编号与正文指纹识别版本并给出“保留较新 / 都保留 / 替换”选择；原生 + 三种 OCR / 版面引擎；541 页教材逐页检查点；自动生成文献卡片\\
+\rtzebra 1.2 知识问答 & 单篇与多篇问答；提供原文证据 &
+\ok\ 单篇、多篇、多轮对话；中文问题自动改写为英文检索式；回答拆为原子主张，逐句绑定版本 / 页 / 块 / 逐字引文并复核；错误前提会被原文纠正\\
+1.3 阅读与翻译 & 保持原版式；标题树；正文引用与参考文献双向跳转；选段 / 摘要 / 全文英译中；公式代码保留；中英逐段对照、双向滚动 &
+\ok\ PDF.js 原版渲染；PDF 书签生成分级目录；引用↔参考文献往返；划词 / 整页 / 全文翻译，占位符保护公式、引用、数字与变量；段落对齐双向同步滚动；Markdown / HTML 导出\\
+\rtzebra 1.4 下载与推荐 & 按标题查找并下载入库；参考文献下载与重要性筛选；定期发现新论文；日 / 周推荐及理由；可复现代码线索；点赞 / 踩反馈 &
+\ok\ arXiv + Crossref 检索，标题 / DOI / arXiv ID 入库；参考文献四分类（方法依赖 / 实验对比 / 背景 / 不确定）与有界批量下载；追踪查询与定时检查；日 / 周推荐附内容理由与代码仓库线索；反馈影响排序\\
+1.5 分析与生成 & 20 篇同方向 PDF 建立真实引用图谱；核心 / 边缘节点；有出处的综述；结合时间与后续论文核查 Future Work &
+\ok\ 由真实参考文献条目构边；局部 PageRank、入度、介数给出基石 / 桥梁 / 边缘角色；综述每条主张带出处；Future Work 给出“直接证据 / 部分覆盖 / 证据不足”三级结论\\
+\rtzebra 1.6 写作与绘图 & 由 idea 生成 Abstract / Introduction / Related Work / 真实 References；可编辑架构绘图代码；CSV 生成图表与 Caption；中文译英文 &
+\ok\ 论文框架生成，参考文献逐条经 arXiv / Crossref 核验；TikZ / DOT / Mermaid / Matplotlib 四种绘图代码；折线 / 柱状 / 雷达 / 三维图，图注数值由程序统计；中文摘要与全文译英\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{文档管理与解析}
+
+\noindent
+\begin{minipage}[t]{0.665\linewidth}\vspace{0pt}
+  \shot{../tech-report/figures/ui-library.png}
+  \captionof{figure}{文献库：同一论文的不同版本自动归组，显示版本与页数}\label{fig:ui-library}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.3\linewidth}\vspace{0pt}
+  \shot{../tech-report/figures/ui-card.png}
+  \captionof{figure}{自动生成的文献卡片}\label{fig:ui-card}
+\end{minipage}
+
+\vspace{4pt}
+\begin{itemize}
+  \item \textbf{批量导入与任务控制。}拖放即可一次导入最多 20 篇 PDF；每个文件独立排队、独立显示进度，可单独取消与恢复，一个损坏文件不会拖累整批。实测 20 篇论文一次导入全部就绪，同批的 1 个损坏文件被单独拒绝。
+  \item \textbf{内容去重与版本识别。}以 SHA-256 判断完全重复；以 arXiv 编号、DOI 与正文指纹判断“同一论文的不同版本”，即使文件名被随意改动也能识别。发现新版本时给出\kw{“保留较新 / 两者都保留 / 替换”}三种选择，并展示段落级差异。
+  \item \textbf{文献卡片。}解析完成后自动生成：标题、按顺序的作者与机构邮箱、发表年份与会议、摘要、分级目录、表格 / 图 / 公式 / 参考文献数量、附录起始页（图~\ref{fig:ui-card}）。
+  \item \textbf{CRUD 与检索。}支持重命名、删除、按标题 / 文件名 / 版本筛选；删除后的文档不再进入任何新的检索范围。
+\end{itemize}
+
+\subsubsection{版本感知：旧结论不会被悄悄改写}
+
+论文更新版本后，以前基于旧版本得到的结论怎么办？研证的做法是：\kw{旧结论永远指向旧版本}，同时主动告诉用户哪些结论在新版本里需要重新审视（图~\ref{fig:version}）。在 \emph{Attention Is All You Need} v1 → v7 的实测中，系统计算出 127 处段落级变化；已保存笔记引用的 6 处原文里，2 处在新版本中仍可逐字定位，4 处被标记为“需要复核”。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 时间轴
+  \draw[rtline,line width=1.4pt](-4,0)--(104,0);
+  \foreach \x/\lab/\sub/\c in {10/v1/2017-06/rtmuted,74/v7/2023-08/rtblue}{
+    \fill[white](\x,0)circle(2.6);\draw[\c,line width=1.3pt](\x,0)circle(2.6);\fill[\c](\x,0)circle(1.2);
+    \node[font=\footnotesize\heavy,text=\c!85!black,anchor=south]at(\x,3.4){\lab};
+    \node[font=\tiny,text=rtmuted,anchor=north]at(\x,-3.4){\sub};}
+  \node[font=\scriptsize,text=rtmuted,anchor=south]at(42,0.8){同一作品 · arxiv:1706.03762};
+  \node[chip=rtamber]at(42,-4.2){127 处段落级变化};
+  % 旧笔记
+  \rtnode[box,minimum height=12mm]{note}{10,-19}{27mm}{\faIcon{sticky-note}\ 已保存的结论}{6 处引文 · 绑定 v1}
+  \draw[flowB](note)--(10,-5.8);
+  % 影响分析
+  \rtnode[boxB,minimum height=12mm]{imp}{74,-19}{27mm}{\faIcon{search-plus}\ 版本影响分析}{逐条在 v7 中重新定位}
+  \draw[flowB](74,-5.8)--(imp);
+  \draw[flowD](note)--(imp);
+  % 结果
+  \node[box,anchor=west,minimum width=47mm,minimum height=7.2mm,inner sep=1pt,font=\scriptsize](r1)at(113,-14.5){\hspace{5.5mm}2 处仍可逐字定位\ \textcolor{rtmuted}{· 结论保留}};
+  \node[box,anchor=west,minimum width=47mm,minimum height=7.2mm,inner sep=1pt,font=\scriptsize](r2)at(113,-23.5){\hspace{5.5mm}4 处原文已变化\ \textcolor{rtmuted}{· 标记需复核}};
+  \fill[rtteal]([xshift=3.4mm]r1.west)circle(1.2);\fill[rtamber]([xshift=3.4mm]r2.west)circle(1.2);
+  \draw[flow](imp.east)--++(4,0)|-(r1.west);\draw[flow](imp.east)--++(4,0)|-(r2.west);
+  \node[font=\scriptsize,text=rtblueD,anchor=west,align=left]at(113,-2){\faIcon{lock}\ 历史结论始终指向 v1，\\[-2pt]\hspace{1.25em}不会被新版本静默替换};
+\end{tikzpicture}
+\caption{版本感知：引入新版本后，系统逐条核对旧结论的引文是否仍然成立}
+\label{fig:version}
+\end{figure}
+
+\subsection{知识问答}
+
+\noindent
+\begin{minipage}[t]{0.52\linewidth}\vspace{0pt}
+  \shot{../tech-report/figures/ui-evidence.png}
+  \captionof{figure}{点击引用后，阅读器跳转到原文并高亮证据所在文本块}\label{fig:ui-evidence}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.455\linewidth}\vspace{0pt}
+\begin{itemize}[leftmargin=1.2em,itemsep=0pt,topsep=0pt]\small
+  \item \textbf{单篇、多篇与多轮。}可选择一篇或多篇论文作为范围；同一对话内支持“其中 Adam 的参数是多少”这类省略主语的追问。
+  \item \textbf{逐句证据灯。}回答被拆为原子主张，每条标出核对状态，点开即见逐字原文、页码与版本。
+  \item \textbf{一键定位。}点击引用，阅读器跳到对应页并用高亮框标出证据所在的文本块（图~\ref{fig:ui-evidence} 定位到 Adam 优化器参数）。
+  \item \textbf{纠正错误前提。}对“为什么用了 80 张 GPU”这类问题，系统依据原文指出前提有误。
+  \item \textbf{诚实的“不知道”。}检索范围内找不到依据时明确标注“证据不足”，不以常识补全。
+\end{itemize}
+\end{minipage}
+
+\subsection{阅读与翻译}
+
+\noindent
+\begin{minipage}[t]{0.52\linewidth}\vspace{0pt}
+  \shot{../tech-report/figures/ui-reader.png}
+  \captionof{figure}{阅读器中英对照：左侧目录与原版 PDF，右侧逐段对齐译文（图、公式按原文裁切）}\label{fig:ui-reader}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.455\linewidth}\vspace{0pt}
+\begin{itemize}[leftmargin=1.2em,itemsep=0pt,topsep=0pt]\small
+  \item \textbf{原版呈现。}PDF.js 渲染保持单双栏、公式与表格的原始版式，支持缩放、旋转与文字选取。
+  \item \textbf{分级目录。}由 PDF 书签与标题识别生成一级 / 二级 / 三级目录，点击即跳转。
+  \item \textbf{引用双向跳转。}正文中的引用标记可跳到参考文献条目，并可原路返回。
+  \item \textbf{三种翻译粒度。}划词翻译、整页翻译、全文翻译；支持英译中与中译英。
+  \item \textbf{对照阅读。}中英按段落对齐，左右两栏\kw{双向同步滚动}，分栏宽度可拖动；可导出 Markdown 与 HTML。
+\end{itemize}
+\end{minipage}
+
+\vspace{6pt}
+翻译的难点是\kw{不能破坏公式、引用和数字}。我们在送入模型前，把公式、代码、引用标记、数字与变量名替换为占位符，译后按原样还原并校验占位符是否齐全（图~\ref{fig:translate}）。翻译以文本块为单位分批执行并逐块落盘，全文翻译可随时中断续跑，相同段落直接命中缓存。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \node[box,text width=45mm,align=left,font=\scriptsize,inner sep=5pt](src)at(0,0){%
+    {\tiny\heavy\textcolor{rtmuted}{原文段落}}\\[1pt]
+    We used the Adam optimizer \textcolor{rtviolet}{[20]} with \textcolor{rtrose}{$\beta_1=0.9$}, \textcolor{rtrose}{$\beta_2=0.98$} and \textcolor{rtrose}{$\epsilon=10^{-9}$}.};
+  \node[box,text width=45mm,align=left,font=\scriptsize,inner sep=5pt](mask)at(59,0){%
+    {\tiny\heavy\textcolor{rtmuted}{占位符保护后送入模型}}\\[1pt]
+    We used the Adam optimizer \tagbox[rtviolet]{〔C1〕} with \tagbox[rtrose]{〔F1〕}, \tagbox[rtrose]{〔F2〕} and \tagbox[rtrose]{〔F3〕}.};
+  \node[boxT,text width=45mm,align=left,font=\scriptsize,inner sep=5pt](out)at(118,0){%
+    {\tiny\heavy\textcolor{rtteal!80!black}{还原并校验后的译文}}\\[1pt]
+    我们使用 Adam 优化器 \textcolor{rtviolet}{[20]}，其中 \textcolor{rtrose}{$\beta_1=0.9$}、\textcolor{rtrose}{$\beta_2=0.98$}、\textcolor{rtrose}{$\epsilon=10^{-9}$}。};
+  \draw[flowB](src)--node[above,font=\tiny,text=rtmuted,inner sep=1.5pt]{抽取}(mask);
+  \draw[flowB](mask)--node[above,font=\tiny,text=rtmuted,inner sep=1.5pt]{翻译}(out);
+\end{tikzpicture}
+\caption{翻译中的占位符保护：公式、引用与数字原样保留}
+\label{fig:translate}
+\end{figure}
+
+\subsection{检索与推荐}
+
+\begin{itemize}
+  \item \textbf{查找与入库。}同时检索 arXiv 与 Crossref，按标题、DOI 或 arXiv 编号一键下载并入库解析；下载全程经过 SSRF 安全校验。
+  \item \textbf{参考文献的重要性筛选与批量下载。}对论文的参考文献按其在正文中的作用分为\kw{方法依赖、实验对比、背景、不确定}四类，用户可只下载“最重要”的一组；下载任务有数量上限，可取消、可恢复。
+  \item \textbf{追踪与定时推荐。}用户保存研究主题后，系统按日或按周检查新论文并去重；每条推荐附带基于摘要内容的推荐理由，优先提示带有代码仓库线索的论文（线索标注为“待验证”，不夸大为“已复现”）。
+  \item \textbf{反馈闭环。}“有用 / 不感兴趣”的反馈被持久化，并影响后续候选的排序。
+\end{itemize}
+
+\subsection{图谱与综述}
+
+\noindent
+\begin{minipage}[t]{0.52\linewidth}\vspace{0pt}
+  \shot{../tech-report/figures/ui-graph.png}
+  \captionof{figure}{精选 10 篇论文的局部引用图谱（核心一跳视图），右侧为所选节点的角色与关联引用}\label{fig:ui-graph}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.455\linewidth}\vspace{0pt}
+\begin{itemize}[leftmargin=1.2em,itemsep=0pt,topsep=0pt]\small
+  \item \textbf{边来自真实引用。}每条边都对应论文参考文献中的一个真实条目，点击边可回到该条目所在页；语义相似不会被画成引用。
+  \item \textbf{核心与边缘。}计算局部 PageRank、入度与介数，给出“基石 / 桥梁 / 边缘 / 一般”角色标签。
+  \item \textbf{交互探索。}按年份筛选、查看核心节点一跳邻域、查找两篇论文间的有向引用路径、导出 PNG。
+  \item \textbf{有出处的综述。}基于所选论文生成领域综述，每条主张携带出处并经过第~\ref{sub:verify}~节的核验。
+\end{itemize}
+\end{minipage}
+
+\vspace{6pt}
+在赛题资料包上，系统构建出 39 个节点、160 条去重有向引用边的图谱（对应 162 条可定位的引用记录）。
+
+\subsubsection{Future Work 核查}
+
+“这篇论文说未来可以做 X——现在有人做了吗？”图~\ref{fig:futurework} 给出核查流程。与简单地“搜一下标题”不同，系统会\kw{下载候选论文的全文并独立解析}，再比较发表时间与实验条件，最终对每条设想给出三级结论，并把无法确认的部分如实标为“证据不足”。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \newcommand{\fw}[6]{\rtnode[#1,minimum height=15.5mm]{#2}{#3,0}{20.3mm}{\faIcon{#4}\\[1pt]#5}{#6}}
+  \fw{boxN}{a}{0}{lightbulb}{旧论文设想}{\textcolor{rtblueM}{定位到原文块}}
+  \fw{box}{b}{27.5}{search}{规划检索式}{轻量模型\\记录检索日期}
+  \fw{boxA}{c}{55}{globe}{检索后续}{arXiv · Crossref\\候选去重}
+  \fw{boxT}{d}{82.5}{file-download}{获取全文}{安全下载\\独立解析快照}
+  \fw{boxB}{e}{110}{calendar-check}{时间与条件}{发表窗口比较\\任务 / 实验条件}
+  \fw{boxV}{f}{137.5}{clipboard-list}{覆盖矩阵}{独立覆盖审查\\逐条附证据}
+  \foreach \x/\y in {a/b,b/c,c/d,d/e,e/f}\draw[flowB](\x)--(\y);
+  \foreach \x/\c/\t in {33/rtteal/已有直接证据,82.5/rtamber/部分覆盖,132/rtmuted/当前范围证据不足}{
+    \node[box,minimum width=40mm,minimum height=6.6mm,inner sep=1pt,font=\scriptsize](o)at(\x,-17.5){\hspace{4.5mm}\t};
+    \fill[\c]([xshift=3.4mm]o.west)circle(1.2);}
+  \draw[flow,rounded corners=3pt](f.south)--++(0,-3.2)-|(33,-14.2);
+  \draw[flow](82.5,-10.95)--(82.5,-14.2);\draw[flow](132,-10.95)--(132,-14.2);
+\end{tikzpicture}
+\caption{Future Work 核查流程：全文取证 + 时间与条件比较，输出三级结论}
+\label{fig:futurework}
+\end{figure}
+
+\subsection{写作与绘图}
+
+\noindent
+\begin{minipage}[t]{0.52\linewidth}\vspace{0pt}
+  \shot{../tech-report/figures/ui-chart.png}
+  \captionof{figure}{由 CSV 生成折线图；图注中的统计量由程序计算}\label{fig:ui-chart}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.455\linewidth}\vspace{0pt}
+\begin{itemize}[leftmargin=1.2em,itemsep=0pt,topsep=0pt]\small
+  \item \textbf{论文框架。}输入 idea，生成 Abstract、Introduction、Related Work 与 References；\kw{参考文献逐条经 arXiv / Crossref 核验}，核验不过的不写入。
+  \item \textbf{可编辑的架构图代码。}同一结构可导出 TikZ、Graphviz DOT、Mermaid、Matplotlib 四种代码，并在页面内预览。
+  \item \textbf{数据图表。}上传 CSV，生成折线、柱状、雷达、三维图；\kw{图注里的最大值、差值等全部由程序统计}，不由模型“看图说话”。
+  \item \textbf{可复现。}一键导出 PNG、SVG、原始 CSV、绘图规格与独立复现脚本。
+  \item \textbf{中译英。}中文摘要或全文翻译为英文，公式保持不变。
+\end{itemize}
+\end{minipage}
+
+\vspace{6pt}
+出于安全考虑，绘图只执行经过 Schema 校验的固定模板，在限制内存、CPU 与时长的子进程中运行，\kw{从不执行模型生成的代码}。
+
+\subsection{用户体验设计}
+
+\begin{itemize}
+  \item \textbf{内容优先。}阅读页左侧只保留图标导航，目录可折叠，把屏幕留给论文；问答面板与原文并排，核对证据无需切换页面。
+  \item \textbf{状态可见。}任何耗时操作都有逐项进度、可取消、可恢复；模型降级、检索降级会在界面上明确标注，而不是静默发生。
+  \item \textbf{过程透明。}每次问答附带可展开的执行时间线：检索了什么、调用了哪个模型、核验结果如何。
+  \item \textbf{响应式。}在 390 px 手机宽度和 1920 px 桌面宽度下完成了无横向溢出的浏览器检查。
+\end{itemize}
+
+\subsection{使用方式}\label{sub:usage}
+
+\subsubsection{在线使用}
+
+打开 \href{\rtDemoURL}{\code{\rtDemoURL}}，输入大赛提交信息中提供的评审访问码即可进入。评审账号已内置 10 篇精选论文和预生成结果。
+
+\begin{table}[H]
+\centering\small
+\caption{主要操作路径}
+\begin{tabularx}{\linewidth}{P{10mm}P{20mm}L}
+\toprule
+\rthead \hd{步骤} & \hd{入口} & \hd{操作}\\
+\midrule
+1 & 左侧「+」 & 选择或拖入 PDF。若是已有论文的其他版本，系统弹窗说明依据并推荐保留版本\\
+\rtzebra 2 & 文献 & 打开论文，切换「中英对照」，用目录跳转，选中文字即可翻译、解释或提问\\
+3 & 问答 & 选择一篇或多篇论文提问，点击引用编号，再点「在原文中定位」\\
+\rtzebra 4 & 比较 & 勾选两个版本查看段落差异，或勾选多篇论文生成带证据的比较\\
+5 & 发现 & 按标题、DOI、arXiv ID 或关键词检索并入库，设置追踪和推荐\\
+\rtzebra 6 & 图谱 & 选择核心论文，查看一跳引用关系、路径和原始参考文献条目\\
+7 & 写作 & 上传 CSV 绘图，生成论文框架、综述、翻译与结构图，在「产物」中导出\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsubsection{自行部署}
+
+约 2 核 2 GB 的服务器即可运行，模型密钥只通过服务器环境变量配置。
+
+\begin{tcolorbox}[colback=rtpaper,colframe=rtpaper,arc=3pt,left=8pt,right=8pt,top=4pt,bottom=4pt]
+\small\ttfamily cp .env.example .env \# 设置访问码与模型密钥\\
+docker compose -{}-profile lite up -d -{}-build\\
+RT\_DOMAIN=your.domain docker compose -{}-profile lite -{}-profile https up -d
+\end{tcolorbox}
+

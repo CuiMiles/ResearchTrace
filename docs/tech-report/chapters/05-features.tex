@@ -86,7 +86,7 @@
   \item \textbf{分级目录。}由 PDF 书签与标题识别生成一级 / 二级 / 三级目录，点击即跳转。
   \item \textbf{引用双向跳转。}正文中的引用标记可跳到参考文献条目，并可原路返回。
   \item \textbf{三种翻译粒度。}划词翻译、整页翻译、全文翻译；支持英译中与中译英。
-  \item \textbf{对照阅读。}中英按段落对齐，左右两栏\kw{双向同步滚动}；可导出 Markdown 与 HTML。
+  \item \textbf{对照阅读。}中英按段落对齐，左右两栏\kw{双向同步滚动}，分栏宽度可拖动；可导出 Markdown 与 HTML。
 \end{itemize}
 \end{minipage}
 
@@ -131,7 +131,7 @@
 \begin{minipage}[t]{0.455\linewidth}\vspace{0pt}
 \begin{itemize}[leftmargin=1.2em,itemsep=0pt,topsep=0pt]\small
   \item \textbf{边来自真实引用。}每条边都对应论文参考文献中的一个真实条目，点击边可回到该条目所在页；语义相似不会被画成引用。
-  \item \textbf{核心与边缘。}计算局部 PageRank、入度与介数，给出“基石 / 桥梁 / 边缘 / 一般”角色及判定依据。
+  \item \textbf{核心与边缘。}计算局部 PageRank、入度与介数，给出“基石 / 桥梁 / 边缘 / 一般”角色标签。
   \item \textbf{交互探索。}按年份筛选、查看核心节点一跳邻域、查找两篇论文间的有向引用路径、导出 PNG。
   \item \textbf{有出处的综述。}基于所选论文生成领域综述，每条主张携带出处并经过第 4.5 节的核验。
 \end{itemize}
@@ -188,8 +188,8 @@
 \subsection{用户体验设计}
 
 \begin{itemize}
-  \item \textbf{内容优先。}阅读时导航自动收窄，把屏幕留给论文；问答面板与原文并排，核对证据无需切换页面。
+  \item \textbf{内容优先。}阅读页左侧只保留图标导航，目录可折叠，把屏幕留给论文；问答面板与原文并排，核对证据无需切换页面。
   \item \textbf{状态可见。}任何耗时操作都有逐项进度、可取消、可恢复；模型降级、检索降级会在界面上明确标注，而不是静默发生。
   \item \textbf{过程透明。}每次问答附带可展开的执行时间线：检索了什么、调用了哪个模型、核验结果如何。
-  \item \textbf{响应式。}在 390、1280、1440、1920 px 四档宽度下完成了无横向溢出的浏览器检查。
+  \item \textbf{响应式。}在 390 px 手机宽度和 1920 px 桌面宽度下完成了无横向溢出的浏览器检查。
 \end{itemize}

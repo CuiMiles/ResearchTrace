@@ -5,7 +5,7 @@
 - 公网为 `researchtrace:completion-v32`，发布目录 `/opt/researchtrace/releases/completion-v32-20261118`，前端提交 `71605f2`。v24–v32 都只更新前端，服务沿用 v23。回滚目标 v31。
 - 评委账号 10 篇论文。录制路径已在公网彩排 16/16 步通过，结果见 `evidence/ui-redesign-20261118/rehearsal.json`。
 - 讲稿在 `docs/DEMO_SCRIPT.md`。录制时上传的 v1 要在录完后从文献库删除，评委才能复测版本识别。
-- 作品介绍源文件在 `docs/work-intro/`，用 `TEXINPUTS=.:../tech-report: latexmk -g -xelatex -outdir=build main.tex` 编译，成品在 `deliverables/ResearchTrace_作品介绍.pdf`。
+- 作品介绍沿用技术文档模板（封面、目录、样式），章节按赛题 6 项要求重排。源文件在 `docs/work-intro/`，用 `TEXINPUTS=.:../tech-report: latexmk -g -xelatex -outdir=build main.tex` 编译，成品在 `deliverables/ResearchTrace_作品介绍.pdf`。
 - `deliverables/ResearchTrace_完整作品.zip` 由 Git HEAD 生成并被 Git 忽略，已做密钥和主机信息扫描。
 - 待人工：确认作品介绍第 6 节「未发表、未获奖」属实；录制视频；上传压缩包并填写网盘链接。
 - `71605f2` 之后的提交只含文档和 GROBID 网关的关闭修复。网关不在公网部署内，公网无需更新。

@@ -1,0 +1,759 @@
+\clearpage
+\section{关键技术}\label{sec:ai}
+
+本章依次说明系统架构、AI 技术链路、模型选型与集成方式、本地模型部署以及线上部署方案。
+
+\subsection{总体架构}
+
+系统采用“\kw{前后端分离 + 持久化任务队列 + 可插拔智能服务}”的分层架构（图~\ref{fig:arch}）。核心服务只依赖 CPU 与 SQLite，可在 2 核 2 GB 的云主机上独立运行；GPU 上的本地检索模型与重型版面解析引擎作为可选的旁路服务接入，不可用时自动降级，不影响主流程。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 用法：\layer{下沿y}{上沿y}{填充色}{描边色}{层名}{右上角技术标注}
+  \newcommand{\layer}[6]{%
+    \fill[#3,rounded corners=4pt](0,#1)rectangle(128,#2);
+    \draw[#4!60,line width=0.6pt,rounded corners=4pt](0,#1)rectangle(128,#2);
+    \node[rotate=90,font=\footnotesize\heavy,text=#4!85!black]at(4,{(#1+#2)/2}){#5};
+    \node[font=\scriptsize,text=rtmuted,anchor=south east,inner sep=1pt]at(127,#2+0.4){#6};}
+  % 用法：\cell[样式]{中心x}{中心y}{宽mm}{标题}{小字说明}
+  \newcommand{\cell}[6][box]{\node[#1,text width=#4mm-3mm,minimum height=11.5mm,inner xsep=1.5mm,inner ysep=1.5pt,font=\footnotesize,align=flush center]at(#2,#3){#5\\[-2.5pt]{\scriptsize\color{rtmuted}#6}};}
+  % 表现层
+  \layer{108}{125}{rtblueL}{rtblue}{表现层}{React 18 · TypeScript · Vite · React Router}
+  \cell{18}{116.5}{18.5}{工作台}{文献库}
+  \cell{37.9}{116.5}{18.5}{阅读器}{PDF.js}
+  \cell{57.8}{116.5}{18.5}{证据问答}{执行时间线}
+  \cell{77.7}{116.5}{18.5}{引用图谱}{Cytoscape}
+  \cell{97.6}{116.5}{18.5}{写作工坊}{绘图代码}
+  \cell{117.5}{116.5}{18.5}{管理}{配额看板}
+  % 接口层
+  \layer{85}{102}{rttealL}{rtteal}{接口层}{FastAPI · Pydantic · Uvicorn}
+  \cell{23.25}{93.5}{29}{会话鉴权}{工作区隔离 · CSP}
+  \cell{54.7}{93.5}{31.5}{REST API · 80+}{Schema 校验 · 幂等}
+  \cell{86.4}{93.5}{29.5}{SSE 事件流}{断线可续传}
+  \cell{114.4}{93.5}{24.5}{OpenAPI}{契约导出}
+  % 任务层
+  \layer{62}{79}{rtamberL}{rtamber}{任务层}{长文解析不阻塞交互问答}
+  \cell{26.5}{70.5}{35.5}{持久化任务队列}{幂等 · 可取消 · 可恢复}
+  \cell{66}{70.5}{37}{Worker · 文档池}{解析 · 索引 · 翻译 · 下载}
+  \cell{106.5}{70.5}{40.5}{Worker · 交互池}{问答 · Agent · 综述 · 绘图}
+  \draw[flow](44.25,70.5)--(47.5,70.5);
+  % 智能层
+  \layer{27}{56}{rtvioletL}{rtviolet}{智能层}{项目 AI 核心（本章）}
+  \cell[boxV]{22.5}{47.5}{27.5}{文档智能解析}{多引擎 · 快照}
+  \cell[boxV]{51.5}{47.5}{27.5}{混合检索}{BM25 · 向量 · 重排}
+  \cell[boxV]{80.5}{47.5}{27.5}{证据核验}{确定性 + 独立复核}
+  \cell[boxV]{110.6}{47.5}{29.7}{有界 Agent}{11 个白名单工具}
+  \cell[boxV]{22.5}{34.5}{27.5}{模型调度}{角色链 · 自动降级}
+  \cell[boxV]{51.5}{34.5}{27.5}{配额账本}{RPM / TPM / RPD}
+  \cell[boxV]{80.5}{34.5}{27.5}{图谱与统计}{PageRank · CSV}
+  \cell[boxV]{110.6}{34.5}{29.7}{翻译与写作工作流}{占位保护 · 来源核验}
+  % 数据层
+  \layer{4}{21}{rtpaper}{rtmuted}{数据层}{唯一事实来源 · 单文件可备份}
+  \cell{30}{12.5}{42.5}{SQLite（WAL）}{元数据 · 块 · FTS5 · 任务 · 配额}
+  \cell{74.5}{12.5}{42.5}{向量与索引代际}{float32 · 模型指纹 · 原子激活}
+  \cell{111}{12.5}{26.5}{私有文件存储}{PDF · 产物 · 备份}
+  % 层间箭头
+  \foreach \ya/\yb in {108/102,85/79,62/56,27/21}\draw[flow,<->](64,\ya)--(64,\yb);
+  % ---- 右侧：外部与可选服务 ----
+  \draw[rtline,line width=0.7pt,rounded corners=4pt,dashed,fill=white](135,4)rectangle(167,125);
+  \node[font=\footnotesize\heavy,text=rtnavy]at(151,120.5){外部与可选服务};
+  \newcommand{\ext}[5]{\node[#1,text width=25mm,minimum height=22mm,inner xsep=1mm,font=\footnotesize,align=flush center]at(151,#2){{\large\faIcon{#3}}\\[1pt]{\heavy #4}\\[-1pt]\sublines{#5}};}
+  \ext{boxB}{103}{cloud}{云端大模型}{Gemini 生成 · 判别\\Embedding 备用}
+  \ext{boxT}{77.5}{microchip}{本地检索服务}{Nemotron 8B · GPU\\Embed + Rerank}
+  \ext{boxA}{52}{file-image}{版面解析服务}{MinerU 4.2\\PaddleOCR / VL}
+  \ext{boxR}{26.5}{globe}{学术数据源}{arXiv · Crossref\\SSRF 安全下载}
+  \draw[flowD,<->,line width=1pt](128,41.5)--node[above,font=\scriptsize,text=rtmuted,inner sep=1.5pt]{适配}(135,41.5);
+\end{tikzpicture}
+\caption{研证总体架构：五层核心 + 可插拔的外部与可选服务（虚线为可降级的旁路依赖）}
+\label{fig:arch}
+\end{figure}
+
+各层职责如下：
+
+\begin{itemize}
+  \item \textbf{表现层}：单页应用，按路由拆分为工作台、文献库、阅读器、证据问答、版本与比较、检索与推荐、图谱与核查、写作工坊、资源与配额九个工作区；PDF 渲染、图谱布局与 DOT 排版在浏览器端完成。
+  \item \textbf{接口层}：FastAPI 提供带鉴权的 REST 与 SSE 接口。所有请求体由 Pydantic 模型校验，OpenAPI 文档由代码自动导出并作为前后端契约的唯一事实来源。
+  \item \textbf{任务层}：所有耗时操作（解析、索引、问答、翻译、综述、下载）都以持久化任务的形式入队，由两个独立的 Worker 池消费，保证长文解析不会阻塞交互式问答。
+  \item \textbf{智能层}：项目的 AI 核心，包括解析、检索、核验、智能体、模型调度与配额治理，详见本章后续小节。
+  \item \textbf{数据层}：SQLite（WAL 模式）作为唯一事实来源，保存元数据、文本块、全文索引、向量、任务与配额账本；PDF 原件与生成产物保存在按工作区鉴权的私有目录。
+\end{itemize}
+
+\subsection{技术栈与选型理由}
+
+\begin{table}[H]
+\centering\small
+\caption{技术栈与选型理由}
+\begin{tabularx}{\linewidth}{P{20mm}P{50mm}L}
+\toprule
+\rthead \hd{层次} & \hd{技术} & \hd{选型理由}\\
+\midrule
+前端 & React 18、TypeScript 5.7、Vite 6、React Router 6 & 类型系统保证与后端契约一致；按路由懒加载重型模块（图谱、绘图）\\
+\rtzebra 阅读与渲染 & PDF.js 4、KaTeX、Mermaid 11、Viz.js、Cytoscape.js、DOMPurify & 浏览器端原版渲染 PDF 并叠加高亮层；公式与图表本地渲染；所有模型输出经消毒后展示\\
+后端 & Python 3.12、FastAPI、Pydantic 2、Uvicorn & 异步接口 + 声明式 Schema；自动生成 OpenAPI\\
+\rtzebra 存储 & SQLite（WAL）+ FTS5、本地文件 & 零运维、单文件备份；WAL 支持读写并发；FTS5 内置 BM25，足以支撑轻量部署\\
+文档解析 & pdfplumber、PaddleOCR 3.7（PP-OCRv5）、PaddleOCR-VL 1.6、MinerU 4.2 & 原生文字层优先，扫描件与复杂版面按需调用 OCR / 版面模型，结果归一化为统一的块结构\\
+\rtzebra 检索模型 & Nemotron-3.5-Embed-8B、Nemotron-3.5-Rerank-8B、Qwen3-Embedding-8B（本地）；gemini-embedding-001（云端备用） & 本地部署保证数据不出域且无调用费用；云端索引作为独立代际的备用路径\\
+生成模型 & Gemini 4 Hydrogen、Gemini 3.6 Flash、Gemini 3.5 Flash Lite、Gemini Decision 1 & 按角色分工：深度分析 / 常规回答 / 轻量批处理 / 主张判别，兼顾质量与额度\\
+\rtzebra 部署 & Docker Compose、Nginx / Caddy（HTTPS）、systemd 定时备份、GitHub Actions 工作流 & 非 root 容器、资源上限、自动证书；每日一致性快照备份\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{总体链路：从问题到可核验的回答}
+
+研证不把大模型当作“直接给答案的黑盒”，而是把它嵌入一条\kw{生成—核验—复核}的闭环流水线（图~\ref{fig:qa-pipeline}）：模型负责理解与综合，程序负责核对与约束，另一个异构模型负责独立复核。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % ================= (a) 流水线 =================
+  \newcommand{\stage}[7]{% 序号 名字 x 样式 图标 标题 小字
+    \rtnode[#4,minimum height=18mm]{#2}{#3,0}{18.4mm}{\faIcon{#5}\\[1pt]#6}{#7}
+    \node[num]at([xshift=1.2mm,yshift=-1.2mm]#2.north west){#1};}
+  \rtnode[boxN,minimum height=18mm]{q}{0,0}{14.6mm}{\faIcon{question-circle}\\[1pt]用户问题}{\textcolor{rtblueM}{+ 上下文}}
+  \stage{1}{s1}{24.2}{box}{random}{路由与改写}{中译英检索式\\多篇逐篇展开}
+  \stage{2}{s2}{49.3}{boxT}{search}{混合检索}{BM25 + 向量\\融合 + 重排}
+  \stage{3}{s3}{74.4}{boxB}{brain}{综合生成}{原子主张\\逐字引文}
+  \stage{4}{s4}{99.5}{boxA}{ruler-combined}{确定性核验}{身份 · 逐字\\数值 · 版本}
+  \stage{5}{s5}{124.6}{boxV}{user-check}{独立复核}{支持/矛盾/不足\\阈值判定}
+  \stage{6}{s6}{149.7}{boxT}{check-double}{发布}{逐句证据灯\\笔记 · 导出}
+  \foreach \a/\b in {q/s1,s1/s2,s2/s3,s3/s4,s4/s5,s5/s6}\draw[flowB](\a)--(\b);
+  % 模型 / 技术标签
+  \node[chip=rtmuted]at(24.2,-12.8){Flash Lite};
+  \node[chip=rtteal]at(49.3,-12.8){FTS5 · 本地 8B};
+  \node[chip=rtblue]at(74.4,-12.8){Hydrogen};
+  \node[chip=rtamber]at(99.5,-12.8){规则引擎};
+  \node[chip=rtviolet]at(124.6,-12.8){Decision 1};
+  \node[chip=rtteal]at(149.7,-12.8){SSE 时间线};
+  \node[font=\tiny,text=rtmuted,anchor=east]at(-0.5,-12.8){执行者};
+  % 回路：未通过 → 补检索 + 修订一次
+  \draw[flow,draw=rtamber,line width=0.9pt,rounded corners=4pt](s4.north)--++(0,5.5)-|node[pos=0.25,above,font=\scriptsize,text=rtamber!85!black,inner sep=1.5pt]{未通过：补充检索 + 修订（至多一次）}(s2.north);
+  % 账本条
+  \fill[rtpaper,rounded corners=3pt](13,-22.6)rectangle(160.5,-17.2);
+  \draw[rtline,rounded corners=3pt,line width=0.5pt](13,-22.6)rectangle(160.5,-17.2);
+  \node[font=\scriptsize,text=rtmuted]at(86.7,-19.9){\textcolor{rtblueD}{\faIcon{receipt}}\ \ 配额账本贯穿全程：调用前事务预留 → 调用后结算；成功、失败、结果未知的调用都计账\qquad\textcolor{rtblueD}{\faIcon{save}}\ \ 每步写检查点};
+  \node[font=\scriptsize\heavy,text=rtmuted,anchor=west]at(-8.5,19){(a) 问答流水线};
+  % ================= (b) 输出示例 =================
+  \begin{scope}[shift={(0,-32)}]
+    \node[font=\scriptsize\heavy,text=rtmuted,anchor=west]at(-8,2){(b) 输出示例：逐句证据灯与原文定位};
+    % 回答卡片
+    \node[draw=rtline,line width=0.6pt,rounded corners=4pt,fill=white,minimum width=100mm,minimum height=39.5mm,inner sep=0pt,blur shadow={shadow blur steps=6,shadow xshift=0pt,shadow yshift=-0.6mm,shadow blur radius=1.2mm,shadow opacity=14}]at(42.5,-22.25){};
+    \node[anchor=west,font=\footnotesize\heavy,text=rtnavy]at(-4.5,-7.2){\textcolor{rtblue}{\faIcon{comment-dots}}\ 为什么这篇论文训练时用了 80 张 GPU？};
+    \draw[rtline,line width=0.4pt](-4.5,-10.8)--(89,-10.8);
+    \newcommand{\claim}[5]{% y 颜色 状态 文本 出处
+      \fill[#2](-2.6,#1)circle(1.25);
+      \node[anchor=west,font=\scriptsize,text=rtink,text width=66mm,align=left,inner sep=0pt]at(0.3,#1){#4};
+      \node[anchor=east,chip=#2,inner xsep=2.5pt]at(89.3,#1+1.9){#3};
+      \node[anchor=east,font=\tiny,text=rtmuted,inner sep=0pt]at(89.3,#1-2.2){#5};}
+    \claim{-16.2}{rtrose}{与原文矛盾}{问题前提有误：原文记载为 8 块 GPU，而非 80 块。}{v7 · 第 7 页 · §5.2}
+    \claim{-24.4}{rtteal}{已核对支持}{模型在一台配有 8 块 NVIDIA P100 GPU 的机器上训练。}{v7 · 第 7 页 · §5.2}
+    \claim{-32.6}{rtteal}{已核对支持}{基础模型共训练 100,000 步，约 12 小时。}{v7 · 第 7 页 · §5.2}
+    \node[anchor=west,font=\tiny,text=rtmuted]at(-4.5,-38.3){\faIcon{microchip}\ gemini-4-hydrogen\quad\faIcon{user-check}\ Decision 1 复核\quad\faIcon{stream}\ 6 步执行记录};
+    % 迷你 PDF 页
+    \begin{scope}[shift={(114.5,-22)}]
+      \node[draw=rtline,line width=0.6pt,fill=white,minimum width=30mm,minimum height=38mm,inner sep=0pt,blur shadow={shadow blur steps=6,shadow xshift=0pt,shadow yshift=-0.6mm,shadow blur radius=1.2mm,shadow opacity=16}]at(0,0){};
+      \node[font=\tiny\heavy,text=rtink,anchor=west,inner sep=0pt]at(-12,15){5.2\ \ Hardware and Schedule};
+      \foreach \y/\w in {11.5/24,9/23,6.5/24,4/19}\fill[rtline](-12,\y)rectangle(-12+\w,\y+0.9);
+      \fill[rtamber!28](-12.6,-2.9)rectangle(12.6,1.6);
+      \draw[rtamber,line width=0.7pt](-12.6,-2.9)rectangle(12.6,1.6);
+      \node[font=\fontsize{4.2}{5}\selectfont,text=rtink,anchor=west,inner sep=0pt,text width=24mm,align=left]at(-12,-0.6){We trained our models on one machine with 8 NVIDIA P100 GPUs.};
+      \foreach \y/\w in {-6/24,-8.5/22,-11/24,-13.5/16}\fill[rtline](-12,\y)rectangle(-12+\w,\y+0.9);
+      \node[font=\tiny,text=rtmuted]at(0,-16.6){7};
+      \node[font=\tiny,text=rtmuted,anchor=north]at(0,-20.5){Attention Is All You Need · v7};
+    \end{scope}
+    \draw[flowB,line width=1pt](93.2,-24.4)--(98.3,-24.4);
+    \node[font=\tiny,text=rtblueD,anchor=south,inner sep=1pt]at(95.7,-23.4){跳转};
+    % 图例
+    \begin{scope}[shift={(136,-9)}]
+      \node[font=\scriptsize\heavy,text=rtnavy,anchor=west,inner sep=0pt]at(0,3.5){证据灯};
+      \foreach \y/\c/\t in {-2/rtteal/已核对支持,-8/rtamber/待复核,-14/rtrose/与原文矛盾,-20/rtmuted/证据不足}{
+        \fill[\c](1.2,\y)circle(1.25);\node[font=\scriptsize,anchor=west,inner sep=0pt]at(4,\y){\t};}
+      \node[font=\tiny,text=rtmuted,anchor=north west,text width=26mm,align=left,inner sep=0pt]at(0,-24.5){低于置信阈值的主张保持“待复核”，不会被标成支持。};
+    \end{scope}
+  \end{scope}
+\end{tikzpicture}
+\caption{研证的问答全链路。(a) 六个阶段各由最合适的模型或程序承担，核验不通过时触发至多一次补检索修订；(b) 输出的每条主张带状态灯与出处，可一键跳转到 PDF 中被高亮的原句，错误前提会被原文纠正}
+\label{fig:qa-pipeline}
+\end{figure}
+
+\subsection{模型选型与理由}
+
+我们没有采用“一个大模型包办一切”的做法，而是按任务性质把模型分为六种角色（表~\ref{tab:models}）。选型遵循三条原则：\textbf{（1）让最强的模型只做最需要推理的事}，把有限的高阶模型额度用在刀刃上；\textbf{（2）复核者与生成者异构}，避免“自己审自己”；\textbf{（3）检索模型本地部署}，数据不出域且没有调用成本。项目首版不做模型训练或微调：科研问答的瓶颈在“证据是否找得到、对得上”，而不在语言能力，这部分用检索与核验解决比微调更可控。
+
+\begin{table}[H]
+\centering\small
+\caption{模型角色、选型理由与集成方式}\label{tab:models}
+\begin{tabularx}{\linewidth}{P{17mm}P{35mm}LP{37mm}}
+\toprule
+\rthead \hd{角色} & \hd{模型（按降级顺序）} & \hd{选型理由} & \hd{集成方式}\\
+\midrule
+深度分析 & Gemini 4 Hydrogen → 3.6 Flash → 3.5 Flash Lite & 多文档比较、综述、Future Work 核查需要长上下文与强推理；支持按 JSON Schema 约束输出，便于逐条校验 & 原生 \code{generateContent}；结构化输出 + 本地 Pydantic 二次校验\\
+\rtzebra 常规回答 & 同上角色链 & 单篇事实问答对推理要求较低，额度紧张时可平滑降级，界面如实标注实际作答模型 & 角色链配置 \code{RT\_MODEL\_ANSWER}\\
+轻量批处理 & 3.5 Flash Lite → 3.6 Flash & 查询改写、任务规划、元数据抽取、逐段翻译调用量大、单次简单，需要高吞吐与高日额度 & 批量请求；逐块持久化，可断点续跑\\
+\rtzebra 主张复核 & Gemini Decision 1（备用：生成式复核） & 判别式模型直接给出各选项的概率与置信度，可设阈值；独立配额，不挤占生成模型；与生成模型异构 & 原生 Decisions API；一次请求批量判定全部主张\\
+向量嵌入 & \textbf{本地} Nemotron-3.5-Embed-8B（对照：Qwen3-Embedding-8B；备用：gemini-embedding-001） & 同一题集与切分下实测优于对照模型（图~\ref{fig:retrieval-eval}c）；4096 维、32K 上下文，中英跨语言检索效果好 & 自建检索运行时（BF16 推理），经鉴权回环隧道供 API 调用\\
+\rtzebra 重排 & \textbf{本地} Nemotron-3.5-Rerank-8B & 交叉编码精排显著提升首位命中率（Hit@1 由 54.7\% 提升到 72.0\%） & 与嵌入模型同驻 GPU，超时自动跳过\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{文档智能解析}
+
+\subsubsection{多引擎路由与统一块结构}
+
+论文 PDF 的形态差异极大：原生文字版、整本扫描版、含大量公式表格的教材。单一解析器无法兼顾速度与质量，因此我们设计了\kw{“原生优先、按需升级”的多引擎路由}（图~\ref{fig:parsing}）：默认使用轻量的原生解析，在 2 GB 内存内完成绝大多数论文；检测到文字层缺失或用户需要表格 / 公式结构时，再把指定页交给独立的 OCR 与版面模型服务。所有引擎的输出都归一化为同一种\kw{带类型、页码与坐标的文本块}，后续检索、核验与高亮完全不感知引擎差异。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 输入
+  \rtnode[boxN,minimum height=15mm]{pdf}{0,0}{15.5mm}{\faIcon{file-pdf}\\[1pt]PDF 上传}{\textcolor{rtblueM}{内容去重}}
+  \node[box,diamond,aspect=1.6,inner sep=0.5pt,font=\scriptsize,align=center](dec)at(26.5,0){文字层\\[-2pt]检测};
+  \draw[flowB](pdf)--(dec);
+  % 引擎
+  \rtnode[boxB,minimum height=11mm]{e1}{60.5,22.5}{38mm}{原生解析 · layout-v2}{字号聚类识别标题 · 空白页确认}
+  \rtnode[boxT,minimum height=11mm]{e2}{60.5,7.5}{38mm}{PaddleOCR · PP-OCRv5}{扫描件文字识别 · CPU 可用}
+  \rtnode[boxA,minimum height=11mm]{e3}{60.5,-7.5}{38mm}{MinerU 4.2 版面模型}{表格 → HTML · 公式 → \LaTeX}
+  \rtnode[boxV,minimum height=11mm]{e4}{60.5,-22.5}{38mm}{PaddleOCR-VL 1.6}{视觉语言模型 · 疑难区域精解}
+  \draw[flowB](dec.north)|-node[pos=0.72,above,font=\scriptsize,text=rtblueD,inner sep=1.2pt]{有文字层}(e1.west);
+  \draw[flow](dec.east)--++(2.5,0)|-(e2.west);
+  \draw[flow](dec.east)--++(2.5,0)|-(e3.west);
+  \draw[flow](dec.south)|-node[pos=0.25,left,font=\scriptsize,text=rtmuted,inner sep=1.5pt,align=right]{扫描 /\\[-2pt]复杂版面}(e4.west);
+  \node[draw=rtline,dashed,rounded corners=4pt,fit=(e2)(e3)(e4),inner xsep=1.6mm,inner ysep=1.8mm](gpu){};
+  \node[font=\scriptsize,text=rtmuted,anchor=north,inner sep=1pt]at([yshift=-0.4mm]gpu.south){独立解析服务 · 显存预算守护 · 按需启用};
+  % 归一化
+  \rtnode[box,minimum height=30mm]{norm}{99,0}{18.5mm}{\faIcon{th-large}\\[1pt]统一文本块}{类型 · 页码\\归一化坐标\\原文文本}
+  \foreach \e in {e1,e2,e3,e4}\draw[flow](\e.east)--++(3.4,0)|-(norm.west);
+  % 结构理解
+  \rtnode[boxB,minimum height=30mm]{stru}{125,0}{18.5mm}{\faIcon{sitemap}\\[1pt]结构理解}{分级目录\\参考文献切分\\表 / 图 / 公式\\文献卡片}
+  \draw[flowB](norm)--(stru);
+  % 快照
+  \rtnode[boxT,minimum height=30mm]{snap}{150.5,0}{17.5mm}{\faIcon{camera}\\[1pt]不可变快照}{逐页检查点\\校验后\\原子发布}
+  \draw[flowB](stru)--(snap);
+  % 反幻觉标注
+  \node[font=\scriptsize,text=rtblueD,align=center,anchor=north]at(125,-17){\faIcon{shield-alt}\ 作者 / 机构由轻量模型配对\\[-2pt]每个字符串须在原文出现};
+\end{tikzpicture}
+\caption{文档智能解析：多引擎路由、统一块结构与不可变解析快照}
+\label{fig:parsing}
+\end{figure}
+
+\subsubsection{关键技术点}
+
+\begin{itemize}
+  \item \textbf{逐页检查点与原子发布。}解析按页提交，541 页教材中途取消后可从断点恢复；全部页面完成并通过校验后，新快照才一次性成为“活动快照”，读者永远看不到半成品。
+  \item \textbf{结构恢复。}用字号聚类识别小型大写等特殊标题；用 PDF 书签重建“3.2.2 Multi-Head Attention”这样的多级目录；参考文献逐条切分并与正文引用标记建立双向链接。
+  \item \textbf{抗幻觉的元数据抽取。}作者—机构—邮箱的配对交给轻量模型完成，但\kw{模型返回的每个字符串都必须能在首页原文中找到，否则整条丢弃}，从机制上杜绝编造作者或单位。
+  \item \textbf{资源隔离。}重型模型运行在独立进程中，带显存预算守护（每卡至少保留 2 GiB），超预算只终止本项目进程；主服务的 2 GB 内存承诺不受影响。
+\end{itemize}
+
+\begin{table}[H]
+\centering\small
+\caption{各解析引擎在赛题资料上的实测表现（CPU 环境）}\label{tab:parsers}
+\begin{tabularx}{\linewidth}{P{40mm}P{28mm}rrL}
+\toprule
+\rthead \hd{引擎} & \hd{测试输入} & \hd{耗时} & \hd{峰值内存} & \hd{产出}\\
+\midrule
+原生解析（layout-v2） & 541 页教材 & 88.0 s & --- & 5,315 个文本块，含 4 页空白页确认\\
+\rtzebra PaddleOCR（PP-OCRv5） & 15 页扫描版论文 & 234.4 s & 1.2 GB & 311 个文本块\\
+MinerU 4.2 版面模型 & 15 页扫描版论文 & 352.7 s & 2.6 GB & 138 个结构块，含 4 张表格、6 个公式\\
+\rtzebra PaddleOCR-VL 1.6 & 单页裁剪区域 & 139.2 s & 2.4 GB & 6 个精解块\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{高级 RAG：混合检索与索引治理}
+
+\subsubsection{三段式检索}
+
+检索链路分为“\kw{召回—融合—精排}”三段（图~\ref{fig:retrieval}）。第一段用关键词与语义两条通路并行召回，互补长短：BM25 擅长专有名词与数字，向量擅长跨语言与同义改写；第二段用 RRF（Reciprocal Rank Fusion）把两路结果合并为候选池，并为多篇比较问题中的每一篇论文保留最低名额，防止某一篇“霸榜”；第三段用交叉编码重排模型对候选逐一精排，最后补入相邻的表头与条件句，保证证据块自身可读。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \rtnode[boxN,minimum height=14mm]{q}{0,0}{13.5mm}{\faIcon{question-circle}\\[1pt]问题}{}
+  \rtnode[box,minimum height=14mm]{rw}{22,0}{17.5mm}{查询改写}{中译英 ≤ 4 条\\逐篇展开}
+  \rtnode[boxA,minimum height=11.5mm]{bm}{57,9.5}{36mm}{\faIcon{font}\ 关键词通路}{FTS5 · BM25 · 中英分词}
+  \rtnode[boxT,minimum height=11.5mm]{dv}{57,-9.5}{36mm}{\faIcon{vector-square}\ 语义通路}{本地 8B 嵌入 · 余弦相似度}
+  \rtnode[boxB,minimum height=14mm]{rrf}{93,0}{18mm}{RRF 融合}{候选池 Top-50\\每篇保底名额}
+  \rtnode[boxV,minimum height=14mm]{rr}{118,0}{18mm}{交叉重排}{Rerank 8B\\超时自动跳过}
+  \rtnode[box,minimum height=14mm]{ctx}{143,0}{18mm}{上下文补全}{相邻表头 / 条件\\元数据块直通}
+  \node[solidB,circle,inner sep=1.2pt,font=\scriptsize\heavy,align=center](out)at(162.5,0){Top-K\\[-3pt]证据};
+  \draw[flowB](q)--(rw);
+  \draw[flowB](rw.east)--++(2.6,0)|-(bm.west);\draw[flowB](rw.east)--++(2.6,0)|-(dv.west);
+  \draw[flowB](bm.east)--++(2.6,0)|-(rrf.west);\draw[flowB](dv.east)--++(2.6,0)|-(rrf.west);
+  \draw[flowB](rrf)--(rr);\draw[flowB](rr)--(ctx);\draw[flowB](ctx)--(out);
+  % 分段标注
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},rtmuted](37.8,-18.5)--(76.2,-18.5)node[midway,below=5pt,font=\scriptsize\heavy,text=rtmuted]{① 召回：两路并行，互补长短};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},rtmuted](82.8,-18.5)--(103.2,-18.5)node[midway,below=5pt,font=\scriptsize\heavy,text=rtmuted]{② 融合};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},rtmuted](107.8,-18.5)--(153.2,-18.5)node[midway,below=5pt,font=\scriptsize\heavy,text=rtmuted]{③ 精排与补全};
+\end{tikzpicture}
+\caption{三段式混合检索：双通路召回、RRF 融合、交叉编码精排；语义通路不可用时自动降级为关键词模式并在界面标注}
+\label{fig:retrieval}
+\end{figure}
+
+\subsubsection{检索效果评测}
+
+我们基于赛题资料包（39 篇、23,185 个检索片段）构建了 80 道检索评测题\footnote{题目由团队通读原文后编写，含中英文改写题；5 道“无答案”题不计入检索指标。该评测衡量的是检索排序质量，不等同于最终回答的准确率。}，覆盖事实问答、541 页长文档、扫描件与表格、错误前提、版本敏感等题型，在完全相同的片段与题集上对比四种检索配置（图~\ref{fig:retrieval-eval}）。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}
+  % ---------- (a) 核心 ----------
+  \begin{axis}[rtaxis,name=A,title={(a) 核心 4 篇（45 题）},
+      xlabel={$K$},ylabel={Hit@$K$（\%）},xmin=0.5,xmax=20.5,ymin=0,ymax=104,xtick={1,5,10,15,20},ytick={0,20,...,100},
+      legend to name=rtleg,legend columns=4]
+    \addplot[sBMtf] table[x=k,y=sparse]{data/hitk_core.dat};\addlegendentry{BM25}
+    \addplot[sDense] table[x=k,y=dense]{data/hitk_core.dat};\addlegendentry{向量（Nemotron 8B）}
+    \addplot[sRRF] table[x=k,y=hybrid]{data/hitk_core.dat};\addlegendentry{BM25 + 向量（RRF）}
+    \addplot[sOurs] table[x=k,y=reranked]{data/hitk_core.dat};\addlegendentry{\textbf{RRF + 重排（本系统）}}
+  \end{axis}
+  % ---------- (b) 拓展 ----------
+  \begin{axis}[rtaxis,name=B,at={(A.east)},anchor=west,xshift=13mm,title={(b) 拓展 35 篇（30 题）},
+      xlabel={$K$},xmin=0.5,xmax=20.5,ymin=0,ymax=104,xtick={1,5,10,15,20},ytick={0,20,...,100}]
+    \addplot[sBMtf] table[x=k,y=sparse]{data/hitk_expansion.dat};
+    \addplot[sDense] table[x=k,y=dense]{data/hitk_expansion.dat};
+    \addplot[sRRF] table[x=k,y=hybrid]{data/hitk_expansion.dat};
+    \addplot[sOurs] table[x=k,y=reranked]{data/hitk_expansion.dat};
+    \node[font=\scriptsize\heavy,text=dvA,anchor=south east]at(axis cs:20.3,100.5){100\%};
+  \end{axis}
+  \node[anchor=south]at($(A.north)!0.5!(B.north)+(0,5.5mm)$){\pgfplotslegendfromname{rtleg}};
+  % ---------- (c) 嵌入模型对照 ----------
+  \begin{axis}[rtaxis,name=C,at={(A.south west)},anchor=north west,yshift=-17mm,width=54mm,height=50mm,
+      title={(c) 嵌入模型对照（核心 45 题）},xlabel={$K$},ylabel={Hit@$K$（\%）},xmin=0.5,xmax=20.5,ymin=0,ymax=104,
+      xtick={1,5,10,15,20},ytick={0,20,...,100},legend style={at={(0.99,0.03)},anchor=south east,font=\tiny,row sep=-1.5pt}]
+    \addplot[sBMtf] table[x=k,y=bm25]{data/embed_compare.dat};\addlegendentry{BM25}
+    \addplot[sRRF] table[x=k,y=qwen]{data/embed_compare.dat};\addlegendentry{Qwen3-Emb-8B}
+    \addplot[sDense] table[x=k,y=nemotron]{data/embed_compare.dat};\addlegendentry{Nemotron-Emb-8B}
+  \end{axis}
+  % ---------- (d) 热力图 ----------
+  \begin{scope}[shift={($(C.north east)+(45mm,-5.2mm)$)},x=1mm,y=1mm]
+    \node[font=\footnotesize\heavy,text=rtnavy]at(14,10.6){(d) 各题型 Hit@5（\%）};
+    \foreach \x/\t in {7.5/BM25,22.5/向量,37.5/RRF,52.5/{\textbf{+ 重排}}}\node[font=\scriptsize,text=rtink]at(\x,5.2){\t};
+    \input{data/heat_hit5.tex}
+    \draw[rtline,line width=0.4pt](-37,-36.3)--(69,-36.3);
+  \end{scope}
+\end{tikzpicture}
+\caption{检索评测。(a)(b) 首个标准证据进入前 $K$ 名的题目比例：完整链路在两组题上 Hit@20 均达 100\%；(c) 相同条件下本地嵌入模型选型对照；(d) 分题型的 Hit@5，重排在长文档、错误前提与跨语言提问上收益最明显}
+\label{fig:retrieval-eval}
+\end{figure}
+
+从评测中可以得到三点结论，它们直接决定了系统的默认配置：
+
+\begin{itemize}
+  \item \textbf{语义检索是必要的。}纯 BM25 在全部 75 道有答案题上的 Hit@20 仅为 70.7\%，中文提问检索英文论文时尤其吃力；加入本地向量后提升到 97.3\%。
+  \item \textbf{融合负责“找全”，重排负责“排准”。}RRF 把两路候选合并后，标准证据进入候选池的覆盖更稳，但关键词噪声会拉低头部名次（Hit@1 为 36.0\%）；交叉编码重排把 Hit@1 提升到 \textbf{72.0\%}、MRR 提升到 \textbf{0.81}，并使 Hit@20 达到 \textbf{100\%}。
+  \item \textbf{用项目实测选择默认嵌入模型。}相同片段与题集下，Nemotron-3.5-Embed-8B 的 Hit@5 为 95.6\%，高于 Qwen3-Embedding-8B 的 88.9\%，因此被选为默认模型。
+\end{itemize}
+
+\subsubsection{索引代际：让向量索引可升级、可回滚}
+
+向量索引一旦与模型、切分方式绑定，后续更换模型就容易出现“新旧向量混用”的隐蔽错误。我们引入\kw{索引代际（Index Generation）}机制（图~\ref{fig:generation}）：每次构建都是一个独立代际，记录完整的模型指纹（模型 ID、固定版本、维度、精度、池化方式、提示模板与分词器哈希）；片段记录其在原文块中的精确跨度，可逐段回溯；只有覆盖率达到 100\% 并通过校验的代际才会被原子切换为活动索引，构建失败或中断的代际原样保留、可断点续建，线上检索始终使用上一个完整代际。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \newcommand{\gen}[6]{\rtnode[#1,minimum height=13mm]{#2}{#3,0}{25mm}{#4}{#5}\node[chip=#6,anchor=south]at([yshift=0.8mm]#2.north){#2};}
+  \rtnode[box,minimum height=13mm]{staged}{0,0}{27.5mm}{\faIcon{cut}\ 切分}{块 → 片段 + 原文跨度\\超长按 token 无损拆分}
+  \rtnode[boxA,minimum height=13mm]{building}{36.5,0}{27.5mm}{\faIcon{cogs}\ 构建}{分批嵌入 · 断点续建\\失败原样保留}
+  \rtnode[boxB,minimum height=13mm]{ready}{73,0}{27.5mm}{\faIcon{clipboard-check}\ 校验}{覆盖率 = 100\%\\模型指纹一致}
+  \rtnode[boxT,minimum height=13mm]{active}{109.5,0}{27.5mm}{\faIcon{bolt}\ 原子激活}{成为活动索引\\旧代际保留可回滚}
+  \foreach \a/\b in {staged/building,building/ready,ready/active}\draw[flowB](\a)--(\b);
+  \node[chip=rtmuted,anchor=south]at([yshift=0.8mm]staged.north){staged};
+  \node[chip=rtamber,anchor=south]at([yshift=0.8mm]building.north){building};
+  \node[chip=rtblue,anchor=south]at([yshift=0.8mm]ready.north){ready};
+  \node[chip=rtteal,anchor=south]at([yshift=0.8mm]active.north){active};
+  % 指纹卡
+  \node[box,anchor=west,text width=27mm,align=left,font=\scriptsize,inner sep=5pt](fp)at(131.5,0){%
+    {\footnotesize\heavy\textcolor{rtblueD}{\faIcon{fingerprint}}\ 模型指纹}\\[1pt]
+    \textcolor{rtmuted}{model}\ \ Nemotron 8B\\[-1pt]
+    \textcolor{rtmuted}{dim}\ \ \ \ \ 4096 · BF16\\[-1pt]
+    \textcolor{rtmuted}{pool}\ \ \ mean · L2\\[-1pt]
+    \textcolor{rtmuted}{rev}\ \ \ \ \ 781e779e…};
+  \draw[flowD](fp.west)--(active.east);
+  \node[font=\scriptsize,text=rtmuted]at(70,-13){实测：22,950 个原文块 → 23,185 个片段 → 23,185 条向量，覆盖率 100\%，另有 2,189 个页眉页脚等块按规则排除};
+\end{tikzpicture}
+\caption{索引代际生命周期：完整构建并校验后才原子切换}
+\label{fig:generation}
+\end{figure}
+
+\subsection{证据核验闭环}\label{sub:verify}
+
+“附上引用”并不等于“有证据支持”。研证对每条主张执行\kw{两级核验}（图~\ref{fig:verify}）。
+
+\textbf{第一级：确定性核验（零模型调用）。}由规则引擎逐条检查：（1）\emph{身份}——引用的文本块必须属于本次检索候选与授权版本；（2）\emph{逐字}——引文规范化后必须是该块原文的子串；（3）\emph{数值与单位}——主张中出现的数字必须能在引文中找到，科学计数法先归一化，模型名称里的数字不当作数量；（4）\emph{元数据}——作者、机构类主张必须来自文献卡片或作者所在原文块。未通过的主张连同具体原因反馈给模型，\kw{补充检索并修订一次}；仍不通过则以“证据缺口”如实呈现，绝不发布为“已支持”。
+
+\textbf{第二级：独立语义复核。}通过第一级的主张交给判别式模型 Gemini Decision 1，在“支持 / 矛盾 / 不足”三者中给出概率与置信度。只有同时满足\kw{概率 $\ge 0.9$、置信度 $\ge 0.8$、与次高选项的概率差 $\ge 0.25$} 才采信其结论，否则保持“待复核”。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 左：流程
+  \rtnode[boxB,minimum height=13mm]{c}{0,0}{19mm}{原子主张}{+ 逐字引文}
+  \node[box,text width=43mm,align=left,font=\scriptsize,inner sep=5pt](det)at(40.5,0){%
+    {\footnotesize\heavy\textcolor{rtamber!85!black}{\faIcon{ruler-combined}}\ 第一级 · 确定性核验}\\[1.5pt]
+    \ok\ 身份：块属于候选与授权版本\\[-0.5pt]
+    \ok\ 逐字：引文是原文子串\\[-0.5pt]
+    \ok\ 数值单位：数字出现在引文中\\[-0.5pt]
+    \ok\ 元数据：作者 / 机构有原文依据};
+  \node[box,text width=37mm,align=left,font=\scriptsize,inner sep=5pt](sem)at(95,0){%
+    {\footnotesize\heavy\textcolor{rtviolet}{\faIcon{user-check}}\ 第二级 · 独立语义复核}\\[1.5pt]
+    判别模型逐条给出三类概率\\[-0.5pt]
+    $p\ge 0.9$\ 且\ 置信度 $\ge 0.8$\\[-0.5pt]
+    且\ $p_1-p_2\ge 0.25$\ 才采信\\[-0.5pt]
+    \textcolor{rtmuted}{否则保持“待复核”}};
+  \draw[flowB](c)--(det);\draw[flowB](det)--node[above,font=\scriptsize,text=rtmuted,inner sep=1.5pt]{通过}(sem);
+  % 修订回路
+  \rtbox[boxA]{fix}{40.5,-22}{45mm}{\faIcon{redo}\ 补充检索 + 修订（至多一次）}
+  \draw[flow,draw=rtamber]([xshift=5mm]det.south)--node[right,font=\scriptsize,text=rtamber!85!black,inner sep=1.5pt]{未通过}([xshift=5mm]fix.north);
+  \draw[flow,draw=rtamber]([xshift=-5mm]fix.north)--([xshift=-5mm]det.south);
+  \rtbox[box]{gap}{0,-22}{19mm}{\textcolor{rtmuted}{\faIcon{minus-circle}}\ 证据缺口}
+  \draw[flowD](fix)--(gap);
+  \node[font=\scriptsize,text=rtmuted,anchor=north]at(0,-26){修订后仍未通过};
+  % 右：结果
+  \foreach \y/\c/\t/\d in {12/rtteal/已核对支持/采信“支持”,4/rtrose/与原文矛盾/采信“矛盾”,-4/rtamber/待复核/低于阈值,-12/rtmuted/证据不足/采信“不足”}{
+    \node[box,minimum width=35mm,minimum height=6.4mm,inner sep=1pt,font=\scriptsize,anchor=west](o\y)at(126,\y){\hspace{5.5mm}\t\ \textcolor{rtmuted}{· \d}};
+    \fill[\c]([xshift=3.4mm]o\y.west)circle(1.2);
+    \draw[flow](sem.east)--++(4,0)|-(o\y.west);}
+  % 概率条示意
+  \begin{scope}[shift={(76.5,-18)}]
+    \node[font=\scriptsize,text=rtmuted,anchor=west,inner sep=0pt]at(0,0){判定示意：};
+    \foreach \y/\l/\w/\c in {-4/支持/31/rtteal,-8/矛盾/1.5/rtrose,-12/不足/2.5/rtmuted}{
+      \node[font=\tiny,text=rtmuted,anchor=east,inner sep=0pt]at(6.5,\y){\l};
+      \fill[rtline](7.5,\y-1.1)rectangle(41.5,\y+1.1);\fill[\c](7.5,\y-1.1)rectangle(7.5+\w,\y+1.1);}
+    \draw[rtink,line width=0.5pt,dash pattern=on 1pt off 1pt](38.1,-14)--(38.1,-2);
+    \node[font=\tiny,text=rtink,anchor=south,inner sep=1pt]at(38.1,-2){阈值 0.9};
+    \node[font=\tiny,text=rtteal!80!black,anchor=west,inner sep=0pt]at(43,-4){0.94 → 采信};
+  \end{scope}
+\end{tikzpicture}
+\caption{两级证据核验：确定性规则拦截“引而不符”，判别模型在置信阈值之上才给出结论}
+\label{fig:verify}
+\end{figure}
+
+在专门设计的对抗样例上，空引文、数字被篡改（8 → 80）、绕过主张直接在正文断言三类攻击均被拦截；Decision 1 在 11 个预设标签的校准样例上判定全部符合预期。
+
+\subsection{有界多角色智能体}
+
+对于“帮我找这篇论文之后有没有人做过某方向”这类开放任务，系统启用智能体模式（图~\ref{fig:agent}）。它由\kw{路由器、规划器、工具执行器、综合者、核验者、复核者}六个角色协作完成，每个角色的职责与权限相互独立。与常见的自由式 Agent 不同，研证的智能体是\kw{有界的}：
+
+\begin{itemize}
+  \item \textbf{工具白名单。}模型只能调用 11 个预先注册的工具（表~\ref{tab:tools}），每个工具的参数由 Pydantic Schema 严格校验（禁止多余字段），工具在调用者的工作区权限内执行；模型没有任何宿主 Shell 能力。
+  \item \textbf{步数与预算上限。}最多两轮规划、十步工具调用、一次修订；每个工具有独立的调用预算，单任务与单工作区有模型调用总上限。
+  \item \textbf{观察驱动。}第二轮规划必须基于第一轮工具的真实观察结果；工具结果、文档内容在提示词中一律标注为“数据”，不能成为指令。
+  \item \textbf{全程可观测。}每一步写入持久化的公开执行记录，界面以时间线实时展示“做了什么、用了什么工具、得到什么”，但不展示也不编造模型的隐藏思维链。
+\end{itemize}
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 环
+  \rtnode[boxN,minimum height=13mm]{task}{0,0}{17mm}{\faIcon{bullseye}\\[1pt]研究任务}{}
+  \rtnode[box,minimum height=13mm]{route}{26,0}{17mm}{路由器}{任务分类\\Decision 1}
+  \rtnode[boxB,minimum height=13mm]{plan}{52,0}{17mm}{规划器}{≤ 2 轮\\输出工具序列}
+  \rtnode[boxT,minimum height=13mm]{act}{78,0}{17mm}{工具执行器}{≤ 10 步\\Schema 校验}
+  \rtnode[boxA,minimum height=13mm]{obs}{65,-21}{25mm}{观察}{真实工具结果\\子任务等待 / 恢复}
+  \rtnode[boxB,minimum height=13mm]{syn}{104,0}{17mm}{综合者}{带出处的\\原子主张}
+  \rtnode[boxV,minimum height=13mm]{ver}{130,0}{17mm}{核验 + 复核}{图~\ref{fig:verify} 的\\两级闭环}
+  \rtnode[boxT,minimum height=13mm]{out}{156,0}{15mm}{\faIcon{flag-checkered}\\[1pt]结果}{}
+  \foreach \a/\b in {task/route,route/plan,plan/act,act/syn,syn/ver,ver/out}\draw[flowB](\a)--(\b);
+  \draw[flow,rounded corners=3pt](act.south)|-(obs.east);
+  \draw[flow,rounded corners=3pt](obs.west)-|(plan.south);
+  \node[font=\scriptsize,text=rtmuted,fill=white,inner sep=1pt]at(65,-11){观察驱动再规划};
+  % 护栏
+  \node[draw=rtrose!55,dashed,rounded corners=5pt,fit=(plan)(act)(obs),inner xsep=3mm,inner ysep=3.2mm](guard){};
+  \node[font=\scriptsize\heavy,text=rtrose!90!black,fill=white,inner sep=1.5pt]at(guard.north){\faIcon{shield-alt}\ 有界自治：白名单 · 步数 · 预算 · 工作区权限};
+  % 工具托盘
+  \begin{scope}[shift={(96.5,-22.5)}]
+    \fill[rtpaper,rounded corners=4pt](0,-9.5)rectangle(69,7.5);
+    \draw[rtline,line width=0.5pt,rounded corners=4pt](0,-9.5)rectangle(69,7.5);
+    \node[font=\scriptsize\heavy,text=rtnavy,anchor=west]at(1.5,4.4){\faIcon{toolbox}\ 11 个白名单工具};
+    \node[chip=rtblue,anchor=west]at(1.5,-0.3){\faIcon{search}\ 检索论文};
+    \node[chip=rtblue,anchor=west]at(17.7,-0.3){\faIcon{download}\ 获取全文};
+    \node[chip=rtblue,anchor=west]at(33.9,-0.3){\faIcon{link}\ 解析引用};
+    \node[chip=rtteal,anchor=west]at(50.1,-0.3){\faIcon{file-alt}\ 解析文档};
+    \node[chip=rtteal,anchor=west]at(1.5,-5.6){\faIcon{quote-left}\ 取证};
+    \node[chip=rtteal,anchor=west]at(12.3,-5.6){\faIcon{code-branch}\ 版本比较};
+    \node[chip=rtviolet,anchor=west]at(28.5,-5.6){\faIcon{project-diagram}\ 引用图};
+    \node[chip=rtamber,anchor=west]at(42.5,-5.6){\faIcon{chart-bar}\ 统计绘图};
+    \node[chip=rtmuted,anchor=west]at(57.5,-5.6){保存};
+  \end{scope}
+  \draw[flowD](act.south east)--(96.5,-15);
+\end{tikzpicture}
+\caption{有界多角色智能体：规划—执行—观察循环被白名单、步数与预算三重护栏约束}
+\label{fig:agent}
+\end{figure}
+
+\begin{table}[H]
+\centering\small
+\caption{智能体的 11 个白名单工具}\label{tab:tools}
+\begin{tabularx}{\linewidth}{P{14mm}P{43mm}LP{36mm}}
+\toprule
+\rthead \hd{类别} & \hd{工具} & \hd{作用} & \hd{约束}\\
+\midrule
+发现 & \code{search\_papers}\newline\code{resolve\_reference}\newline\code{fetch\_document} & 检索 arXiv / Crossref 元数据；把参考文献条目解析为已知作品；下载并入库全文 & 单次 ≤ 10 条候选；仅经 SSRF 安全下载器\\
+\rtzebra 取证 & \code{parse\_document}\newline\code{retrieve\_evidence}\newline\code{compare\_versions} & 创建解析快照；在限定版本内检索证据块；确定性段落级版本差异 & 单次 ≤ 10 个版本、≤ 20 个证据块\\
+分析 & \code{build\_citation\_graph}\newline\code{audit\_research\_question}\newline\code{compute\_csv\_stats} & 由真实引用构图并计算中心性；发起研究问题核查；校验 CSV 并计算统计量 & CSV ≤ 128 KB；统计由程序完成\\
+\rtzebra 产出 & \code{render\_chart}\newline\code{save\_artifact} & 用固定模板渲染图表；保存带来源链接的研究笔记 & 不执行模型生成的代码\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Future Work 核查}是智能体能力的典型应用：从旧论文的建议出发，规划检索式 → 检索后续文献 → 自动下载并独立解析全文 → 比较发表时间窗口与实验条件 → 给出“已有直接证据 / 部分覆盖 / 当前范围证据不足”三级结论，并由独立的覆盖审查步骤复核。系统只陈述“在已检索范围内”的结论，不宣称任何方向“全球首次”。
+
+\subsection{模型调度与配额治理}
+
+大模型额度是评审期最稀缺的资源（例如深度模型每个项目每天仅 20 次调用）。我们把“调用哪个模型、还能调用几次”做成了一个独立的治理层（图~\ref{fig:routing}）。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 角色链
+  \node[font=\scriptsize\heavy,text=rtmuted,anchor=west]at(-8.5,13){(a) 角色化降级链};
+  \rtnode[boxN,minimum height=14mm]{role}{0.5,0}{17.5mm}{任务角色}{\textcolor{rtblueM}{deep · answer}\\\textcolor{rtblueM}{light · verify}}
+  \rtnode[boxB,minimum height=14mm]{m1}{30,0}{17mm}{Hydrogen}{Gemini 4\\首选 · 深度推理}
+  \rtnode[box,minimum height=14mm]{m2}{55.5,0}{17mm}{3.6 Flash}{第一降级\\均衡}
+  \rtnode[box,minimum height=14mm]{m3}{81,0}{17mm}{Flash Lite}{第二降级\\高吞吐}
+  \draw[flowB](role)--(m1);
+  \draw[flow,draw=rtamber,line width=1pt](m1)--(m2);
+  \draw[flow,draw=rtamber,line width=1pt](m2)--(m3);
+  \node[font=\tiny,text=rtamber!85!black,anchor=south,inner sep=1.2pt]at(42.75,0.2){降级};
+  \node[font=\tiny,text=rtamber!85!black,anchor=south,inner sep=1.2pt]at(68.25,0.2){降级};
+  \node[font=\scriptsize,text=rtink,anchor=west,inner sep=0pt]at(-8.5,-11.2){\ok\ 仅在本地额度拒绝或上游\textbf{明确报错}时才降级};
+  \node[font=\scriptsize,text=rtink,anchor=west,inner sep=0pt]at(-8.5,-15.4){\ok\ 结果\textbf{未知}的请求绝不重发，避免重复扣费};
+  \node[font=\scriptsize,text=rtink,anchor=west,inner sep=0pt]at(-8.5,-19.6){\ok\ 界面如实标注实际作答模型与降级情况};
+  % 账本时序
+  \begin{scope}[shift={(101,0)}]
+    \node[font=\scriptsize\heavy,text=rtmuted,anchor=west]at(-6,13){(b) 配额账本的事务时序};
+    \foreach \x/\t in {2/Worker,30/配额账本,58/模型 API}{
+      \node[box,minimum width=15mm,minimum height=5.6mm,inner sep=1pt,font=\scriptsize]at(\x,7.5){\t};
+      \draw[rtline,line width=0.6pt](\x,4.7)--(\x,-20);}
+    \draw[flowB](2,1)--node[above,font=\tiny,inner sep=1pt]{① 预留 RPM / TPM / RPD}(30,1);
+    \draw[flowB](2,-5)--node[above,font=\tiny,inner sep=1pt,pos=0.75]{② 发送请求}(58,-5);
+    \draw[flowD](58,-11)--node[above,font=\tiny,inner sep=1pt,pos=0.25]{③ 响应 / 报错 / 超时}(2,-11);
+    \draw[flowB](2,-17)--node[above,font=\tiny,inner sep=1pt]{④ 结算 ok / failed / unknown}(30,-17);
+  \end{scope}
+\end{tikzpicture}
+\caption{模型调度与配额治理：(a) 按角色配置的降级链；(b) 每次调用先预留后结算，三种结果都计入账本}
+\label{fig:routing}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{按项目核算。}配额按“项目 × 模型”计量（RPM、输入 TPM、每日 RPD，日界按供应商的太平洋时区），同一项目的多个密钥不会被当成多份额度。
+  \item \textbf{失败也计账。}失败、超时与结果未知的请求全部计入；未知请求不自动重发，避免重复扣费与重复副作用。
+  \item \textbf{响应即资产。}模型响应先落盘再做后续校验，任务重启后直接复用，不重复调用。
+  \item \textbf{付费兜底默认关闭}，并保留演示储备额度，保证评审期间核心功能持续可用。
+\end{itemize}
+
+\subsection{本地模型部署}
+
+向量嵌入与重排两个 8B 模型全部\kw{本地部署}在 GPU 主机上，由自研的检索运行时托管：以 BF16 精度推理，支持多卡分配；模型目录锁定到固定版本，并校验分词器、池化与提示模板的文件哈希，生成的“模型指纹”与索引代际一一对应。API 所在的轻量云主机通过带鉴权的回环隧道访问 GPU 主机。由于文档向量已离线算好并随索引分发，线上只有“查询向量”和“重排”需要 GPU；当 GPU 主机不可达或超时（查询 15 秒、重排 45 秒），系统自动回退到独立的云端向量代际或关键词检索，并在界面上明确标注当前检索模式。OCR 与版面模型（PaddleOCR、MinerU、PaddleOCR-VL）同样为本地离线部署，全程不依赖外部服务。
+
+\begin{table}[H]
+\centering\small
+\caption{本地部署模型与实测结果}
+\begin{tabularx}{\linewidth}{P{40mm}P{25mm}L}
+\toprule
+\rthead \hd{本地模型} & \hd{用途} & \hd{实测}\\
+\midrule
+Nemotron-3.5-Embed-8B & 向量检索 & 4096 维，全量索引 23,185 条向量，覆盖 22,950 个原文块\\
+\rtzebra Nemotron-3.5-Rerank-8B & 交叉编码重排 & Hit@1 由 54.7\% 提升到 72.0\%\\
+Qwen3-Embedding-8B & 选型对照 & 核心 45 题 Hit@5 为 88.9\%（Nemotron 为 95.6\%）\\
+\rtzebra PP-OCRv5 & 扫描件 OCR & 15 页扫描论文 234.4 秒，311 个文本块（CPU）\\
+MinerU 4.2 & 版面、表格、公式 & 15 页 352.7 秒，138 个结构块，含 4 张表、6 个公式（CPU）；演示站扫描版当前使用该结果\\
+\rtzebra PaddleOCR-VL 1.6 & 疑难区域精解 & 单页裁剪区域 139.2 秒，6 个精解块（CPU）\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{keybox}{评审期运行方式}
+公开演示站运行在 2 核 2 GB 云主机上。评审期间 GPU 释放给共享用户，在线检索切换为 gemini-embedding-001 与 BM25，生成和复核使用云端 Gemini 模型。上表为本地部署阶段的实测结果。
+\end{keybox}
+
+\subsection{优化策略小结}
+
+\begin{table}[H]
+\centering\small
+\caption{AI 相关优化策略一览}
+\begin{tabularx}{\linewidth}{P{14mm}P{38mm}L}
+\toprule
+\rthead \hd{目标} & \hd{策略} & \hd{做法与效果}\\
+\midrule
+\multirow{3}{=}{质量} & 查询改写与逐篇配额 & 中文问题改写为英文检索式；多篇比较时每篇保底名额，避免单篇垄断候选\\
+ & 召回—融合—精排 & Hit@1 由 BM25 的 20.0\% 提升到 72.0\%，Hit@20 由 70.7\% 提升到 100\%\\
+ & 两级核验 + 一次修订 & 规则拦截“引而不符”，判别模型阈值化复核；修订次数有上限\\
+\midrule
+\rtzebra & 角色化模型分工 & 深度模型只做综合推理；改写、抽取、翻译交给轻量模型；复核使用独立配额\\
+\rtzebra & 确定性优先 & 哈希去重、数值统计、图算法、版本差异全部由程序完成，零模型调用\\
+\rtzebra \multirow{-3}{=}{成本} & 缓存与复用 & 模型响应、翻译段落、查询向量均持久化复用；新评审空间直接复制已有向量，零重算\\
+\midrule
+\multirow{3}{=}{性能} & 双 Worker 池 & 文档解析与交互问答互不阻塞；541 页教材解析期间接口响应中位数约 0.06 秒\\
+ & 逐页流式解析 & 长文档内存占用与页数无关；阅读器按页加载\\
+ & Token 感知切分与批量嵌入 & 片段按 token 上限无损拆分；嵌入请求按条数与字节双重限流\\
+\midrule
+\rtzebra & 检查点与幂等 & 解析、翻译、索引、Agent 规划均可断点续跑；重复提交不重复执行\\
+\rtzebra \multirow{-2}{=}{可靠} & 多级降级 & 模型链降级；本地向量 → 云端向量 → 关键词；无密钥模式下解析、阅读、图谱、绘图仍可用\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{核心数据模型}
+
+数据模型的设计目标是让“版本”和“证据”成为一等公民（图~\ref{fig:datamodel}）。三个关键设计：
+
+\begin{itemize}
+  \item \textbf{作品（Work）与版本（Version）分离}：一篇论文是一个作品，v1、v7 是它的两个不可变版本。旧结论永远指向产生它的那个版本。
+  \item \textbf{解析快照（Parse）不可变}：同一版本可以被不同引擎多次解析，每次产生独立快照；已有文本块的 ID、文字与坐标永不改写，更换解析引擎不会破坏历史引用。
+  \item \textbf{索引代际（Index Generation）}：每次向量索引构建是一个独立代际，绑定模型指纹与切分方式，完整构建并校验后才原子切换为“活动索引”。
+\end{itemize}
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm,
+  ent/.style={box,text width=24mm,minimum height=11.5mm,font=\footnotesize,inner xsep=0.8mm,inner ysep=1.5pt,align=flush center},
+  rel/.style={flow,line width=0.7pt},
+  card/.style={font=\scriptsize,text=rtmuted,inner sep=1.2pt}]
+  \newcommand{\ent}[5]{\node[#1,ent](#2)at(#3){#4\\[-2.5pt]{\scriptsize #5}};}
+  % 文档主干
+  \ent{boxN}{ws}{0,42}{工作区}{Workspace}
+  \ent{boxB}{work}{33,42}{作品}{Work}
+  \ent{boxB}{ver}{66,42}{版本}{Version}
+  \ent{boxB}{parse}{99,42}{解析快照}{Parse}
+  \ent{boxB}{block}{132,42}{文本块}{Block · bbox}
+  \draw[rel](ws)--node[card,above]{1:N}(work);
+  \draw[rel](work)--node[card,above]{1:N}(ver);
+  \draw[rel](ver)--node[card,above]{1:N}(parse);
+  \draw[rel](parse)--node[card,above]{1:N}(block);
+  % 引用图
+  \ent{boxR}{ref}{66,63}{参考文献条目}{Reference}
+  \ent{boxR}{edge}{33,63}{引用边}{Citation Edge}
+  \draw[rel](ver)--node[card,right]{1:N}(ref);
+  \draw[rel](ref)--node[card,above]{匹配}(edge);
+  \draw[rel](edge)--node[card,right]{指向}(work);
+  % 检索
+  \ent{boxT}{gen}{66,21}{索引代际}{Generation}
+  \ent{boxT}{chunk}{99,21}{检索片段}{Chunk}
+  \ent{boxT}{vec}{132,21}{向量 / FTS5}{Vector}
+  \draw[rel](gen)--node[card,above]{1:N}(chunk);
+  \draw[rel](chunk)--node[card,above]{1:1}(vec);
+  \draw[rel](block.south)++(-6,0)--++(0,-4.5)-|node[card,pos=0.2,above]{覆盖}(chunk.north);
+  % 运行与证据
+  \ent{boxA}{quota}{0,21}{配额账本}{Quota}
+  \ent{boxA}{run}{0,0}{任务运行}{Run}
+  \ent{boxA}{step}{33,0}{执行步骤}{Step}
+  \ent{boxV}{claim}{66,0}{原子主张}{Claim}
+  \ent{boxV}{evi}{99,0}{证据}{Evidence}
+  \draw[rel](run)--node[card,above]{1:N}(step);
+  \draw[rel](step)--node[card,above]{产出}(claim);
+  \draw[rel](claim)--node[card,above]{1:N}(evi);
+  \draw[rel](run)--node[card,right]{预留 / 结算}(quota);
+  \draw[flowB,line width=1.1pt](evi.east)--(149.5,0)--(149.5,42)--(block.east);
+  \node[rotate=90,font=\scriptsize\heavy,text=rtblueD]at(153.5,21){绑定：版本 + 块 + 页 + 坐标};
+  % 图例
+  \node[font=\scriptsize,text=rtmuted,anchor=west]at(84,65){\dotmark{rtblue}\,文档主干\quad\dotmark{rtteal}\,检索索引\quad\dotmark{rtrose}\,引用图};
+  \node[font=\scriptsize,text=rtmuted,anchor=west]at(84,60){\dotmark{rtamber}\,任务与配额\quad\dotmark{rtviolet}\,主张与证据};
+\end{tikzpicture}
+\caption{核心数据模型（简化）：证据通过“版本 + 块 + 页 + 坐标”绑定到不可变的原文}
+\label{fig:datamodel}
+\end{figure}
+
+\subsection{任务执行与恢复模型}
+
+所有耗时操作遵循同一套生命周期（图~\ref{fig:run-state}）。入队时以“工作区 + 幂等键”做事务检查，同一请求不会重复执行；执行过程中每完成一页解析、一批翻译或一次模型响应就写入检查点，进程重启后从检查点继续，\kw{已经付费的模型响应不会被重复请求}。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm,
+  st/.style={box,rounded corners=6pt,minimum height=9.5mm,font=\footnotesize,inner xsep=2.4mm},
+  tl/.style={font=\scriptsize,text=rtmuted,inner sep=1.5pt}]
+  \node[st,boxN](submit)at(0,0){提交请求};
+  \node[st,boxA](queued)at(34,0){排队 queued};
+  \node[st,boxB](running)at(72,0){执行 running};
+  \node[st,boxT,minimum width=29mm](done)at(111,12){完成 completed};
+  \node[st,boxA,minimum width=29mm](partial)at(111,0){部分完成 partial};
+  \node[st,boxR,minimum width=29mm](failed)at(111,-12){失败 failed};
+  \node[st,boxR](cancel)at(72,-17){已取消 cancelled};
+  \node[st,rounded corners=3.5pt,align=center](sse)at(146.5,0){SSE 事件流\\[-2pt]{\scriptsize\color{rtmuted}按事件 ID 续传}};
+  \draw[flow](submit)--node[tl,above]{幂等检查}(queued);
+  \draw[flow](queued)--node[tl,above]{认领}(running);
+  \draw[flow](running.east)--++(4,0)|-(done.west);
+  \draw[flow](running)--(partial);
+  \draw[flow](running.east)--++(4,0)|-(failed.west);
+  \draw[flow](running)--node[tl,right]{用户取消}(cancel);
+  \draw[flow]([xshift=-5mm]running.north)..controls +(-3,9) and +(3,9)..node[tl,above]{检查点：逐页 / 逐批}([xshift=5mm]running.north);
+  \draw[flowD](cancel.west)-|node[tl,pos=0.3,above]{恢复}(queued.south);
+  \draw[flowD](failed.south)--++(0,-9.5)-|node[tl,pos=0.25,below]{重试 / 恢复：跳过已完成的页与批次，已返回的模型响应直接复用}([xshift=-5mm]queued.south);
+  \draw[flowD](done.east)-|([xshift=-3mm]sse.north);\draw[flowD](partial)--(sse);\draw[flowD](failed.east)-|([xshift=-3mm]sse.south);
+\end{tikzpicture}
+\caption{持久化任务的状态机：幂等、可取消、可恢复、可观测}
+\label{fig:run-state}
+\end{figure}
+
+\subsection{安全设计}
+
+\begin{table}[H]
+\centering\small
+\caption{主要安全威胁与防护措施}
+\begin{tabularx}{\linewidth}{P{35mm}L}
+\toprule
+\rthead \hd{威胁} & \hd{防护措施}\\
+\midrule
+提示注入（PDF / 网页 / CSV 中夹带指令） & 所有外部内容在提示词中显式标注为“不可信数据”；模型没有宿主 Shell 权限，只能调用带 Schema 校验的白名单工具\\
+\rtzebra SSRF 与内网探测 & 下载器逐跳校验重定向目标，解析全部 DNS 结果并拒绝私网、回环与云元数据地址；连接固定到已校验的公网 IP 并保留原始 TLS SNI\\
+越权访问 & 会话 Cookie（HttpOnly、SameSite=Strict、HTTPS 下 Secure）；工作区隔离贯穿文档、任务、缓存与产物；跨工作区访问一律返回 404\\
+\rtzebra 恶意渲染（XSS） & Markdown、HTML 与 Mermaid 输出经 DOMPurify 消毒；启用 CSP；绘图只执行固定模板，不运行模型生成的代码\\
+密钥泄露 & 模型密钥只存在于服务器环境变量；前端与日志仅显示脱敏状态；仓库附带公开审计脚本\\
+\rtzebra 资源滥用 & 登录限速；队列长度上限；单任务与单工作区的模型调用上限；绘图子进程限制内存、CPU 与时长\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{部署架构}
+
+线上演示环境采用“\kw{轻量云主机 + 可选 GPU 旁路}”的拓扑（图~\ref{fig:deploy}）。云主机只有 2 核 CPU 与约 1.6 GB 内存，三个容器分别限制在 384 / 512 / 384 MB；本地检索模型运行在独立的 GPU 主机上，通过带鉴权的回环隧道与云主机相连，GPU 不可达时自动降级，不影响站点可用性。
+
+\begin{figure}[!htb]
+\centering
+\begin{tikzpicture}[x=1mm,y=1mm]
+  % 用户
+  \rtnode[boxN,minimum height=15mm]{user}{0,0}{17mm}{\faIcon{user-graduate}\\[1pt]评审 / 用户}{\textcolor{rtblueM}{浏览器}}
+  % 云主机
+  \draw[rtblue!45,line width=0.7pt,rounded corners=5pt,fill=rtblueL!40](18,-25)rectangle(108,23);
+  \node[font=\scriptsize\heavy,text=rtblueD,anchor=north west]at(19.5,22.3){\faIcon{cloud}\ 轻量云主机 · 2 核 / 1.6 GB · Docker Compose};
+  \rtnode[box,minimum height=15mm]{ngx}{32,0}{15mm}{\faIcon{lock}\\[1pt]Nginx}{HTTPS\\自动证书}
+  \rtnode[boxT,minimum height=10mm]{api}{60,10.5}{24mm}{API 容器}{FastAPI · 384 MB}
+  \rtnode[boxA,minimum height=10mm]{w1}{60,-2}{24mm}{Worker · 文档池}{解析索引 · 512 MB}
+  \rtnode[boxA,minimum height=10mm]{w2}{60,-14.5}{24mm}{Worker · 交互池}{问答 Agent · 384 MB}
+  \rtnode[box,minimum height=15mm]{db}{92,3}{17mm}{\faIcon{database}\\[1pt]数据卷}{SQLite WAL\\PDF · 产物}
+  \rtnode[box,minimum height=10.5mm]{bak}{92,-16.5}{17mm}{\faIcon{history}\ 备份}{每日 03:15}
+  \draw[flowB](user)--node[above,font=\tiny,text=rtmuted,inner sep=1.2pt]{HTTPS}(ngx);
+  \draw[flowB](ngx.east)--++(3,0)|-(api.west);
+  \draw[flow,<->](api)--(db.west|-api);
+  \draw[flow,<->](w1.east)--(db.west|-w1.east);
+  \draw[flow,<->](w2.east)--++(4,0)|-([yshift=-5mm]db.west);
+  \draw[flowD](db)--(bak);
+  \node[font=\tiny,text=rtmuted,anchor=south west]at(19.5,-25){非 root 运行 · 无额外权限 · CPU / 内存 / 进程数上限};
+  % GPU 主机
+  \draw[rtteal!50,line width=0.7pt,rounded corners=5pt,fill=rttealL!55](118,2)rectangle(166,23);
+  \node[font=\scriptsize\heavy,text=rtteal!75!black,anchor=north west]at(119.5,22.3){\faIcon{microchip}\ GPU 主机（可选旁路）};
+  \rtnode[boxT,minimum height=10mm]{gpu}{142,9.5}{40mm}{本地检索运行时}{Embed 8B + Rerank 8B · BF16}
+  \draw[flowD,<->,line width=0.9pt](108,9.5)--node[above,font=\tiny,text=rtmuted,inner sep=1.2pt]{鉴权隧道}(gpu.west);
+  % 外部
+  \rtnode[boxB,minimum height=10mm]{gem}{142,-7}{40mm}{\faIcon{cloud}\ 云端大模型 API}{生成 · 判别 · 备用向量}
+  \rtnode[boxR,minimum height=10mm]{sch}{142,-20}{40mm}{\faIcon{globe}\ 学术数据源}{arXiv · Crossref}
+  \draw[flowD,->](108,-7)--(gem.west);
+  \draw[flowD,->](108,-20)--(sch.west);
+\end{tikzpicture}
+\caption{线上部署拓扑：核心服务可独立运行于 2 核轻量主机，GPU 与外部服务均为可降级依赖}
+\label{fig:deploy}
+\end{figure}
+
+\subsection{部署与运维}
+
+\begin{itemize}
+  \item \textbf{一键启动。}本地开发执行 \code{./scripts/dev.sh}；服务器执行 \code{docker compose -{}-profile lite up -d}，加上 \code{https} 配置即可自动申请证书。未配置模型密钥时，导入、解析、阅读、检索、图谱与绘图仍然可用。
+  \item \textbf{发布与回滚。}新版本构建为独立镜像，健康检查通过后才切换；失败不影响当前版本，数据与账本始终保留。
+  \item \textbf{数据安全。}每日定时做一致性快照备份（SQLite 备份 API + 文件校验），保留最近 7 份；恢复流程有自动化测试覆盖。
+  \item \textbf{评审账号。}支持签发带有效期的独立评审账号，每个账号进入各自隔离的工作区，并预置已解析与已索引的示例文献，开箱即用。
+  \item \textbf{可观测性。}管理页展示 Worker 心跳、索引覆盖率、各模型当日用量与降级状态，以及逐项验收记录与原始证据。
+\end{itemize}
+

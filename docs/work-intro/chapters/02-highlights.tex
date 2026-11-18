@@ -1,0 +1,79 @@
+\clearpage
+\section{项目亮点}\label{sec:highlights}
+
+\subsection{关键成果一览}
+
+以下数据全部来自仓库中保留的真实运行记录与测试日志（\code{evidence/} 目录），详见第~\ref{sec:testing}~章。
+
+\vspace{2pt}
+\noindent
+\begin{minipage}[t]{0.238\linewidth}\stattile{39}{篇 / 1,986 页}{赛题资料包全量解析就绪，含扫描版与 541 页教材}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtteal]{23,185}{向量}{本地 8B 嵌入模型全量索引，覆盖 22,950 个原文块}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtviolet]{75\,/\,75}{题}{有答案检索题的标准证据经重排全部进入 Top-20}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtamber]{659}{项}{后端自动化测试通过，另有 32 项真实浏览器检查}\end{minipage}
+
+\vspace{5pt}
+\noindent
+\begin{minipage}[t]{0.238\linewidth}\stattile{88}{秒}{541 页教材原生解析完成（5,315 个文本块）}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtteal]{11}{个}{白名单 Agent 工具，全部带 Schema 校验与预算}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtviolet]{160}{条}{引用图谱有向边，全部来自真实参考文献条目}\end{minipage}\hfill
+\begin{minipage}[t]{0.238\linewidth}\stattile[rtamber]{2C\,/\,2G}{}{轻量云主机即可部署，HTTPS 公网长期可用}\end{minipage}
+
+\subsection{技术亮点}
+
+\begin{innobox}{rtblue}{技术亮点 1 · 版本感知的证据链}
+把“作品—版本—解析快照—文本块”建模为不可变对象，证据以“版本 + 页 + 块 + 坐标 + 逐字引文”五元组绑定。\textbf{新版本、新解析引擎的引入都不会改写任何历史引用}；系统还能主动分析“新版本使哪些旧结论需要复核”。这解决了现有 RAG 系统普遍把同一论文的不同版本混为一谈的问题。
+\end{innobox}
+
+\begin{innobox}{rtteal}{技术亮点 2 · “确定性核验 + 异构判别模型”的两级证据闭环}
+第一级用零成本的规则引擎拦截“引而不符”（身份、逐字、数值单位、元数据）；第二级用与生成模型异构的判别模型做三分类，并设置\textbf{概率、置信度、领先幅度}三重阈值，低于阈值一律保持“待复核”。核验不通过只允许一次“补检索 + 修订”，从机制上避免模型反复自我说服。
+\end{innobox}
+
+\begin{innobox}{rtviolet}{技术亮点 3 · 索引代际与模型指纹}
+向量索引以“代际”为单位管理：切分、构建、校验、原子激活四个阶段，全程绑定完整的模型指纹，片段可回溯到原文精确跨度。支持断点续建、失败保留与回滚，使\textbf{本地模型与云端模型可以并存、互为备份而不混用}，也使嵌入模型的升级与对照实验成为常规操作。
+\end{innobox}
+
+\begin{innobox}{rtamber}{技术亮点 4 · 有界自治的多角色智能体}
+规划器只能在 11 个带 Schema 的白名单工具中选择，受“两轮规划、十步工具、一次修订”与多级预算约束；第二轮规划必须基于真实工具观察。所有步骤持久化为\textbf{可公开的执行记录}并可断点恢复——在保留智能体灵活性的同时，把行为边界、成本和可审计性都变成了确定的。
+\end{innobox}
+
+\begin{innobox}{rtrose}{技术亮点 5 · 事务化配额账本与角色化模型调度}
+把大模型调用当作需要记账的稀缺资源：调用前事务预留、调用后结算，\textbf{失败与结果未知的调用同样计账且不盲目重发}；按任务角色配置降级链，并在界面如实标注实际作答模型。配合“响应先落盘再处理”，任务重启不会重复消耗额度。
+\end{innobox}
+
+\subsection{应用亮点}
+
+\begin{innobox}{rtblue}{应用亮点 1 · 逐句“证据灯”与一键回到原文}
+把“可信度”做成用户看得见、点得到的界面元素：每句话一个状态灯，点击即跳到 PDF 中高亮的原句。研究者核对一条结论的成本从“通读全文”降到“一次点击”。
+\end{innobox}
+
+\begin{innobox}{rtteal}{应用亮点 2 · 带时间与条件的 Future Work 核查}
+不只是检索“有没有相关论文”，而是下载后续论文全文、比较发表时间与实验条件，给出“已有直接证据 / 部分覆盖 / 证据不足”三级结论，帮助研究者判断一个 idea 是否已被做过，且\textbf{不夸大为“全球首次”}。
+\end{innobox}
+
+\begin{innobox}{rtviolet}{应用亮点 3 · 写作产物全部“有据可查、可以复现”}
+生成的论文框架只写入在线核验通过的参考文献；数据图的图注由程序统计而非模型描述；每张图都能导出数据、规格与复现脚本；架构图同时给出四种可编辑代码。写作辅助不再是“看起来像”，而是“经得起查”。
+\end{innobox}
+
+\begin{innobox}{rtamber}{应用亮点 4 · 低成本、可降级的真实可用性}
+核心服务可在 2 核 2 GB 的云主机上长期运行；本地模型、云端模型、关键词检索三级降级；\textbf{没有任何模型密钥时，导入、解析、阅读、图谱与绘图依然可用}。这让个人研究者和实验室都能低门槛私有化部署。
+\end{innobox}
+
+\subsection{与评分维度的对应}
+
+\begin{table}[H]
+\centering\small
+\caption{各章节与赛题评分维度的对应关系}
+\begin{tabularx}{\linewidth}{P{31mm}cLP{22mm}}
+\toprule
+\rthead \hd{评分维度} & \hd{权重} & \hd{本项目的主要支撑} & \hd{对应章节}\\
+\midrule
+AI 技术深度 & 35\% & 多引擎文档智能解析；BM25 + 向量 + RRF + 重排的混合检索；有界多角色 Agent；确定性校验 + 独立复核的证据闭环；\textbf{本地 8B 嵌入与重排模型部署} & 第 4 章\\
+\rtzebra 产品功能与工程质量 & 30\% & 六类功能完整落地；不可变版本与解析快照；任务持久化、幂等、可取消、可恢复；配额账本；659 项自动化测试 & 第 1、3、4 章\\
+创新性 & 15\% & 版本感知证据链；逐句证据灯；带时间与条件的 Future Work 核查；索引代际原子切换 & 第 2 章\\
+\rtzebra 用户体验 & 10\% & 内容优先的阅读器；一键跳转高亮；公开可读的执行时间线；390--1920 px 响应式 & 第 1、5 章\\
+实用性 & 10\% & 真实论文全流程可用；公网在线演示；2 核 2 GB 低成本部署；无密钥也可用的降级模式 & 第 1、3 章\\
+\bottomrule
+\end{tabularx}
+\end{table}
+

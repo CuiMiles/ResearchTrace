@@ -24,7 +24,7 @@
   \tnote{34.5}{rtamber}{浏览器实测 · 32 项}{阅读、定位、图谱、写作等真实页面检查；四档屏宽无溢出，零页面异常}
   \tnote{24.5}{rtviolet}{检索质量评测 · 80 题}{BM25、向量、RRF、重排四种配置同条件对照；两种嵌入模型对照}
   \tnote{14.5}{rtteal}{真实语料端到端 · 39 篇 1,986 页}{赛题资料包全量解析就绪；122 项“检索 → 版本 → 页 → 块 → 坐标”定位核对}
-  \tnote{4.5}{rtblue}{单元与集成测试 · 659 项}{解析、检索、核验、配额、任务恢复、权限、SSRF 等；全量回归约 136 秒}
+  \tnote{4.5}{rtblue}{单元与集成测试 · 659 项}{解析、检索、核验、配额、任务恢复、权限、SSRF 等；全量回归约 130 秒}
 \end{tikzpicture}
 \caption{五层测试体系}
 \label{fig:testpyramid}
@@ -40,12 +40,12 @@
       xticklabels={首个纵向切片,解析快照,MinerU 接入,任务恢复,全量语料,审阅升级,重构基线,集成合并,证据修复,当前版本},
       x tick label style={font=\tiny,text=rtink,rotate=18,anchor=north east,inner sep=1.5pt},
       enlarge x limits=false,clip=false]
-    \addplot[draw=none,fill=dvA!14,forget plot]coordinates{(1,43)(2,75)(3,97)(4,133)(5,142)(6,395)(7,477)(8,607)(9,611)(10,645)}\closedcycle;
+    \addplot[draw=none,fill=dvA!14,forget plot]coordinates{(1,43)(2,75)(3,97)(4,133)(5,142)(6,395)(7,477)(8,607)(9,611)(10,659)}\closedcycle;
     \addplot[color=dvA,line width=1.4pt,mark=*,mark size=1.7pt,mark options={fill=white,line width=0.9pt}]
-      coordinates{(1,43)(2,75)(3,97)(4,133)(5,142)(6,395)(7,477)(8,607)(9,611)(10,645)};
+      coordinates{(1,43)(2,75)(3,97)(4,133)(5,142)(6,395)(7,477)(8,607)(9,611)(10,659)};
     \foreach \x/\y in {1/43,2/75,3/97,4/133,5/142,6/395,7/477,8/607,9/611}{
       \edef\temp{\noexpand\node[font=\noexpand\tiny,text=rtmuted,anchor=south,inner sep=2.2pt]at(axis cs:\x,\y){\y};}\temp}
-    \node[font=\scriptsize\heavy,text=dvA,anchor=south,inner sep=2.5pt]at(axis cs:10,645){659};
+    \node[font=\scriptsize\heavy,text=dvA,anchor=south,inner sep=2.5pt]at(axis cs:10,659){659};
   \end{axis}
 \end{tikzpicture}
 \caption{自动化回归测试规模随迭代阶段的增长（各阶段数值来自仓库保留的回归日志）}
