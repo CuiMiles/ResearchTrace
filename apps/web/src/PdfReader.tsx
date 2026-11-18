@@ -170,6 +170,7 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
     const el = scroller.current;
     if (!el || !layout.tops.length) return;
     const p = Math.max(0, Math.min(layout.tops.length - 1, page));
+    suppressReport.current = false;
     el.scrollTop = layout.tops[p] + y * layout.heights[p] - el.clientHeight * 0.1;
   }, [layout]);
   const revealBox = useCallback((page: number, bbox: number[]) => {
@@ -213,8 +214,10 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
     const page = Math.max(0, Math.min(layout.tops.length - 1, pageIndex));
     current.current = page;
     anchor.current = { page, y: 0 };
-    suppressReport.current = true;
+    // A jump that does not move fires no scroll event, so it must not swallow the next real one.
+    const before = el.scrollTop;
     el.scrollTop = page === 0 ? 0 : layout.tops[page] - 8;
+    suppressReport.current = Math.abs(el.scrollTop - before) > 1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex, ready]);
 
@@ -225,9 +228,10 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
     const page = highlight.page_index;
     if (page < 0 || page >= layout.tops.length) return;
     current.current = page;
-    suppressReport.current = true;
+    const before = scroller.current?.scrollTop ?? 0;
     if (highlight.bbox?.length === 4) revealBox(page, highlight.bbox);
     else if (scroller.current) scroller.current.scrollTop = layout.tops[page] - 8;
+    suppressReport.current = Math.abs((scroller.current?.scrollTop ?? 0) - before) > 1;
     callbacks.current.onPageChange(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, highlight?.block_id, highlight?.page_index, highlight?.version_id]);
