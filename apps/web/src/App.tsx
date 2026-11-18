@@ -85,13 +85,16 @@ const publicDemoEnabled = import.meta.env.VITE_PUBLIC_DEMO === '1';
 
 export default function App() {
   const { pathname } = useLocation();
+  const showDemo = publicDemoEnabled && pathname === '/';
   const [session, setSession] = useState<Session | null>(null);
   const [checking, setChecking] = useState(true);
   useEffect(() => {
+    let active = true;
     api<Session>('/auth/session')
-      .then(setSession)
-      .catch(() => setSession(null))
-      .finally(() => setChecking(false));
+      .then((existing) => { if (active) setSession((signedIn) => signedIn ?? existing); })
+      .catch(() => { /* An anonymous visitor can still watch the demo. */ })
+      .finally(() => { if (active) setChecking(false); });
+    return () => { active = false; };
   }, []);
   if (publicDemoEnabled && pathname === '/demo') {
     return (
@@ -101,14 +104,14 @@ export default function App() {
       </main>
     );
   }
-  if (checking) {
+  if (checking && !showDemo) {
     return (
       <div className="app-loading">
         <BrandMark size={36} />
       </div>
     );
   }
-  if (!session) return <Login onLogin={setSession} showDemo={publicDemoEnabled && pathname === '/'} />;
+  if (!session) return <Login onLogin={setSession} showDemo={showDemo} />;
   return (
     <WorkspaceProvider session={session} onLogout={() => setSession(null)}>
       <Shell />
