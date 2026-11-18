@@ -42,6 +42,7 @@ export interface Workspace {
   logout: () => Promise<void>;
 }
 
+const OPEN_BATCH = new Set(['uploading', 'active', 'failed', 'partial']);
 const WorkspaceContext = createContext<Workspace | null>(null);
 
 export function useWorkspace(): Workspace {
@@ -90,9 +91,11 @@ export function WorkspaceProvider({
       const [docs, recent, batches] = await Promise.all([
         api<Version[]>('/documents'),
         api<Run[]>('/runs?summary=true'),
-        api<{ id: string }[]>('/batches'),
+        api<{ id: string; status: string }[]>('/batches'),
       ]);
-      setBatchId((current) => current ?? batches[0]?.id ?? null);
+      // A finished import stays out of the way; one still running or needing a retry comes back.
+      const latest = batches[0];
+      setBatchId((current) => current ?? (latest && OPEN_BATCH.has(latest.status) ? latest.id : null));
       setVersions(docs.map((d) => ({ ...d, metadata: parseObject(d.metadata, {}) })));
       setRuns(
         recent.map((r) => ({
