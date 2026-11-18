@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "case": "打开已保存产物并下载Related Work",
+      "status": "PASS"
+    },
+    {
+      "case": "c4",
+      "status": "PASS",
+      "version_id": "766a29679f72469b8bd763b365ca918b",
+      "physical_page": 1
+    },
+    {
+      "case": "c5",
+      "status": "PASS",
+      "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+      "physical_page": 1
+    },
+    {
+      "case": "c6",
+      "status": "PASS",
+      "version_id": "a95c5b5196734cadbbce8ee8f0ce7e4f",
+      "physical_page": 1
+    },
+    {
+      "case": "新版 v7 三题会话入口",
+      "status": "PASS"
+    }
+  ],
+  "page_errors": [],
+  "failed_http": []
+}

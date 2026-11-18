@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "source_pdf": "evals/pdfs/core/1706.03762v7.pdf",
+  "compared_pages": 15,
+  "changed_pages": [
+    {
+      "physical_page": 4,
+      "before_blocks": 11,
+      "after_blocks": 11,
+      "before_only": [
+        [
+          "paragraph",
+          "We call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of queries query with and all keys keys, of dimension divide each d k by , and √ d k values , and apply of dimension a softmax d v . function We compute to obtain the dot the products weights on of the the values. In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q . The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:"
+        ],
+        [
+          "paragraph",
+          "The two most commonly used attention functions are additive attention [2], and dot-product (multi- plicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of √ 1 d k . Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code. While for small values of d k the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of d k [3]. We suspect that for large values of d extremely k , the dot small products gradients grow large 4 . To in counteract magnitude, this pushing effect, the we scale softmax the function dot products into regions by √ 1 d k where . it has"
+        ]
+      ],
+      "after_only": [
+        [
+          "paragraph",
+          "We call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of queries and keys of dimension d k , and values of dimension d v . We compute the dot products of the query with all keys, divide each by √ d k , and apply a softmax function to obtain the weights on the values. In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q . The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:"
+        ],
+        [
+          "paragraph",
+          "The two most commonly used attention functions are additive attention [2], and dot-product (multi- plicative) attention. Dot-product attention is identical to our algorithm, except for the scaling factor of √ 1 d k . Additive attention computes the compatibility function using a feed-forward network with a single hidden layer. While the two are similar in theoretical complexity, dot-product attention is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code. While for small values of d k the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of d k [3]. We suspect that for large values of d k , the dot products grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients 4 . To counteract this effect, we scale the dot products by √ 1 d k ."
+        ]
+      ]
+    },
+    {
+      "physical_page": 5,
+      "before_blocks": 13,
+      "after_blocks": 13,
+      "before_only": [
+        [
+          "paragraph",
+          "Similarly to other sequence transduction models, we use learned embeddings to convert the input tokens and output tokens to vectors of dimension d model . We also use the usual learned linear transfor- mation and softmax function to convert the decoder output to predicted next-token probabilities. In our linear model, transformation, we share the similar same to weight [30]. In matrix the embedding between the layers, two embedding we multiply layers those and weights the pre-softmax by √ d model ."
+        ]
+      ],
+      "after_only": [
+        [
+          "paragraph",
+          "Similarly to other sequence transduction models, we use learned embeddings to convert the input tokens and output tokens to vectors of dimension d model . We also use the usual learned linear transfor- mation and softmax function to convert the decoder output to predicted next-token probabilities. In our model, we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation, similar to [30]. In the embedding layers, we multiply those weights by √ d model ."
+        ]
+      ]
+    }
+  ],
+  "heading_checks": {
+    "1": [
+      {
+        "type": "paragraph",
+        "text": "Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or scholarly works."
+      },
+      {
+        "type": "heading",
+        "text": "Attention Is All You Need"
+      },
+      {
+        "type": "heading",
+        "text": "Abstract"
+      }
+    ],
+    "4": [
+      {
+        "type": "heading",
+        "text": "3.2.1 Scaled Dot-Product Attention"
+      },
+      {
+        "type": "heading",
+        "text": "3.2.2 Multi-Head Attention"
+      },
+      {
+        "type": "equation",
+        "text": "4 To illustrate why the dot products get large, assume that the components of q and k are independent random variables with mean 0 and variance 1. Then their dot product, q · k = (cid:80) d i=1 k q i k i , has mean 0 and variance d k ."
+      }
+    ]
+  }
+}

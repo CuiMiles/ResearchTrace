@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "真实评委文献库",
+      "status": "PASS",
+      "seconds": 0.916
+    },
+    {
+      "name": "历史回答回到原快照并仍可在 PDF 高亮",
+      "status": "PASS"
+    }
+  ],
+  "page_errors": [],
+  "failed_http": []
+}

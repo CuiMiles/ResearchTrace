@@ -6,6 +6,13 @@
 资料库只有 10 篇精选论文：Attention v7（矢量版）、Attention 扫描版、Understanding Deep
 Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transformer、FlashAttention。
 
+## 已核验的录制入口
+
+- [Attention v7 阅读器](https://researchtrace.sluna.xyz/read/766a29679f72469b8bd763b365ca918b)，开启「中英对照」，在左侧目录点「3.2.1 Scaled Dot-Product Attention」。全文译文已生成。
+- [扫描版阅读器](https://researchtrace.sluna.xyz/read/da72ec99236c42f6ade08eb3b4ac687c)，开启「中英对照」，跳到第 4 页并在原文栏轻滚以对齐译文。第 1–4 页译文已生成。
+- [新版 v7 三题会话](https://researchtrace.sluna.xyz/chat/th-recording-v23-attention)，首题可直接展示 Hydrogen 对缩放因子的解释。点引用后选「在原文中定位」，可跳到新快照的第 4 页。
+- [写作与绘图](https://researchtrace.sluna.xyz/studio)，点「已保存产物」，打开「研究 idea：分析降低 Transformer 注意力访存开销的方法」，滚到 Related Work。[该次运行](https://researchtrace.sluna.xyz/runs/8b4fb9b4eebf459db49e81c415f1e8d4) 可以逐条点击原文证据。
+
 诚信约束（台词里也要守住）：
 - 预先生成的结果（版本修订总结、问答、翻译）在界面上带生成时间和模型名，口播说「这是录制前生成的结果」，
   不说成「现在实时生成」。需要现场实时演示的只选秒级操作（划词翻译、检索、跳转）。
@@ -71,7 +78,7 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 
 ## 3:40–6:15 用例 3.3：基于证据的问答、联动阅读、引文图谱、写作辅助
 
-1. 在 Attention v7 阅读页，右侧 AI 对话栏提问（录制前问过一次，结果在会话历史里）：
+1. 打开「新版 v7 三题会话」，展示预先生成的首题：
    「为什么点积注意力要除以 √d_k？」
 
 > 回答的每一句后面都有引用编号。点一下引用——
@@ -91,10 +98,10 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 > 引文图谱的每条边都来自论文真实的参考文献解析，不是模型猜的。可以看到 BERT、GPT-1、T5、
 > Pre-LN 和 FlashAttention 都引用了 Transformer，点击节点即可打开对应论文。
 
-4. 进入「写作」页，选「相关工作」模板，基于库中 3–4 篇论文（录制前已生成，显示生成时间）。
+4. 打开写作工坊的已保存产物，展示 Hydrogen 预先生成的 Related Work，再在任务详情点一条引用。
 
-> 写作辅助只引用库里真实存在的论文，参考文献从元数据生成，不会凭空捏造文献。
-> 每一段都能回到原文核对。
+> 这一节对照了 Transformer、BERT 和 FlashAttention。三条主张分别引用论文原文，并由 Decision 1 辅助复核。
+> 论文框架还保留了待验证的实验计划。
 
 ## 6:15–7:25 工程亮点（快速切换画面）
 
@@ -119,8 +126,8 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 ## 录制前检查清单
 
 - [ ] 版本修订总结已成功生成（若服务方 503，错峰重试；失败结果不要出镜冒充成功）。
-- [ ] 两个问答已在演示空间提问并完成，引用可点击跳转。
-- [ ] Attention v7 前 5 页、扫描版第 1–4 页已有译文缓存（第一次打开对照模式时生成）。
-- [ ] 写作「相关工作」已生成。
+- [x] 评委账号的三道 v7 问答已生成，引用可定位到原文。
+- [x] Attention v7 全文及扫描版第 1–4 页已有译文。
+- [x] 写作 Related Work 已生成并保存，三条主张均通过证据复核。
 - [ ] 每篇论文都打开过一次（PDF 已进浏览器缓存，避免录制时等待载入）。
 - [ ] 屏幕上不出现访问码、服务器配置或密钥。

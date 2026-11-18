@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "真实评委文献库",
+      "status": "PASS",
+      "seconds": 1.406
+    },
+    {
+      "name": "qa-scale 引用跳转到 PDF 高亮",
+      "status": "PASS",
+      "page": 4
+    },
+    {
+      "name": "qa-heads 引用跳转到 PDF 高亮",
+      "status": "PASS",
+      "page": 5
+    },
+    {
+      "name": "qa-adam 引用跳转到 PDF 高亮",
+      "status": "PASS",
+      "page": 7
+    }
+  ],
+  "page_errors": [],
+  "failed_http": []
+}

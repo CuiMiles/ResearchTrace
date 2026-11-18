@@ -1,0 +1,26 @@
+{
+  "run_id": "f348c8313fc643d2879b97f4edaeee30",
+  "kind": "agent",
+  "status": "partial",
+  "error": null,
+  "result": {
+    "status": "partial",
+    "answer": "本次检索未找到可用原文证据。请完成解析、调整问题或联网检索。",
+    "claims": [
+      {
+        "text": "证据不足",
+        "type": "insufficient",
+        "evidence": []
+      }
+    ],
+    "model": null,
+    "retrieval": {
+      "blocks": [],
+      "sparse": [],
+      "dense": [],
+      "mode": "agent_observations",
+      "notice": "证据来自规划器真实工具观察；没有额外固定工具步骤。"
+    }
+  },
+  "elapsed_seconds": 153.61
+}

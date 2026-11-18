@@ -1,0 +1,26 @@
+[
+  {
+    "route": "/healthz",
+    "seconds": 0.053,
+    "documents": null,
+    "status": 200
+  },
+  {
+    "route": "/api/v1/documents",
+    "seconds": 0.563,
+    "documents": 10,
+    "status": 200
+  },
+  {
+    "route": "/api/v1/documents",
+    "seconds": 1.543,
+    "documents": 10,
+    "status": 200
+  },
+  {
+    "route": "/api/v1/documents",
+    "seconds": 2.301,
+    "documents": 10,
+    "status": 200
+  }
+]

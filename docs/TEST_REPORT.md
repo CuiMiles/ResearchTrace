@@ -1,6 +1,20 @@
 # Ubuntu24 验收报告
 
-## 2026-11-18 赛题用例 3.1–3.3 公网实测（最新）
+## 2026-11-18 录制前定向回归（公网 v23）
+
+| 项目 | 状态 | 实测范围与证据 |
+|---|---|---|
+| 文献库响应 | PASS | 同一评委账号 10 篇，服务端整条请求 5.27 → 0.48 秒。相同公网测量路径 3 次分别为 6.59/4.68/6.97 → 0.56/1.54/2.30 秒。见 `library-http-*.json` 与 `library-server-*.log`。 |
+| v7 原生解析及标题分类 | PASS | 真实 1706.03762v7.pdf 完整重解析 15/15 页。第 4 页缩放点积注意力首段恢复正确顺序，独立公式保留。版权声明和脚注以正文和裁切块显示。见 `v7-local-before-after.json`。 |
+| v7 Gemini 索引 | PASS | 新代 15/15 向量，覆盖新快照 150/150 块，生产状态已就绪。见 `production-runs.json`。 |
+| v7 三题及原文定位 | PASS | 第 4 页缩放项由 Hydrogen 生成，多头参数与 Adam 参数由 Flash Lite 生成。真实 Chromium 分别点击并跳回第 4、5、7 页 PDF 高亮。旧 Adam 回答仍回到其历史快照。见 `browser-qa.json` 与 `browser-history.json`。 |
+| 录制用对照翻译 | PASS | v7 共 15 页、150/150 块，扫描版前四页 48/48 块。翻译 API 逐页核验正文分别为 128/128 与 46/46。真实 Chromium 验证第 4 页同屏与 v7 公式裁切。见 `translation-verified.json` 与 `browser-bilingual-final.json`。 |
+| Related Work 写作 | PASS | 专用论文框架任务由 Hydrogen 生成，三条主张均获 Decision 1 原文支持。浏览器打开产物、下载 Markdown，并分别定位三篇 PDF 的第 1 页。完整框架仍有待填实验和待补证据，运行状态为 `partial`。通用 Agent 两次失败分别为引文校验未通过与未找到证据。见 `related-work-outline.json` 和 `browser-related-work.json`。 |
+| 代码回归 | PASS | 后端 667 项通过（147.81 秒），ruff 和 Git 差异检查通过。见 `full-backend-final.log`。 |
+
+一次 v22 解析及自动索引在切换前执行，随后重新用 v23 解析、索引。账本记录本轮任务发起 Hydrogen 9 次（2 次失败）、Flash Lite 56 次（2 次失败）、3.6 Flash 2 次（均失败）、Decision 1 6 次、Embedding HTTP 23 次。证据见 [录制前验收记录](../evidence/recording-ready-20261118/)。
+
+## 2026-11-18 赛题用例 3.1–3.3 首轮公网实测
 
 | 项目 | 结果 | 证据 |
 |---|---|---|

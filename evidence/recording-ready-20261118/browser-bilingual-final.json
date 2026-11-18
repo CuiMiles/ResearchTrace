@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "document": "v7",
+      "physical_page": 4,
+      "both_panes_visible": true,
+      "translation_complete": true,
+      "screenshot": "v7-formula-bilingual.png"
+    },
+    {
+      "document": "scan",
+      "physical_page": 4,
+      "both_panes_visible": true,
+      "translation_complete": true,
+      "screenshot": "scan-page4-bilingual.png"
+    }
+  ],
+  "page_errors": [],
+  "failed_http": []
+}

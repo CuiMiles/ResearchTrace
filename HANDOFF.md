@@ -1,6 +1,16 @@
 # ResearchTrace handoff
 
-## 当前状态（2026-11-18，最新；以下更早章节为历史记录）
+## 2026-11-18 录制前更新
+
+- 公网评委账号已使用 `researchtrace:completion-v23`。代码在 `upgrade/complete-20261116` 的 `52f504b`。上线前 SQLite 备份为 `backup-20261118T025200292359Z`，可回滚到 v22。
+- 文献库索引状态查询直接限定当前工作区和活动解析。10 篇论文的服务端整条请求由 5.27 秒降至 0.48 秒。
+- Attention v7 活动解析为 `361c058a4af94f2795b85043374e8bae`。第 4 页 §3.2.1 阅读顺序已纠正，版权声明与脚注在译文中按块类型展示。Gemini 索引代 `648f9547c29f4009a8392751bfd8f583` 覆盖 150/150 原块。
+- 录制请用 [新 v7 三题会话](https://researchtrace.sluna.xyz/chat/th-recording-v23-attention)。已在公网浏览器点通第 4、5、7 页引用。旧回答仍可回到原解析快照，保留原文和坐标。
+- v7 全文（15 页，150/150 块）及扫描版第 1–4 页（48/48 块）译文已保存。公网浏览器验证两篇各自第 4 页的原文与译文同屏。按 `docs/DEMO_SCRIPT.md` 中的链接录制。
+- 写作工坊「已保存产物」里已有「研究 idea：分析降低 Transformer 注意力访存开销的方法」。其 Related Work 三条主张均通过原文校验和 Decision 1 复核。完整框架仍显示部分完成，实验结果待填。可打开 [核验记录](https://researchtrace.sluna.xyz/runs/8b4fb9b4eebf459db49e81c415f1e8d4) 点击引用。
+- 完整后端回归 667 项通过。快照切换前误触发过一次 v22 解析及自动索引，随后在 v23 重新完成。两次任务与实际用量均保留，付费兜底关闭。证据在 `evidence/recording-ready-20261118/`。
+
+## 2026-11-18 早期部署记录
 
 - 公网：https://researchtrace.sluna.xyz （阿里云 ECS 2核2GB）。生效版本见 `docker ps`；本轮依次部署 v13–v16，
   v17（公式渲染/页面文字加载/阅读框固定）与 v18（引文图谱短标题匹配）已构建，激活状态以本节末尾记录为准。
@@ -35,7 +45,7 @@
 - ECS 磁盘已清理：删除 v2–v17 镜像和更早的备份，保留 v18 起的镜像与最新两份备份，使用率 72% → 49%。
 - 解析修复（640b365，v21）：页脚注释、图表坐标、大字号版权声明不再被识别为标题；只对新解析生效，已在库的文档用目录修正处理。
 
-剩余人工/待办：录制视频（评委账号，录完删除重新上传的 v1）。写作结果没有预生成。
+该阶段待办为写作结果预生成及视频录制。最新进展见上节。
 
 First live milestone is running on http://127.0.0.1:18970 and server LAN http://10.184.17.163:18970 (not a verified public URL). Login with RT_ACCESS_CODE / distinct RT_ADMIN_CODE from ignored .env. Own user services researchtrace-api / researchtrace-worker, restart via systemctl --user restart researchtrace-api researchtrace-worker. ./scripts/dev.sh installs/starts only these own units. Other services/proxies were not modified.
 

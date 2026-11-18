@@ -1,0 +1,27 @@
+Result=success
+ExecMainStatus=0
+ActiveState=inactive
+SubState=dead
+Successfully tagged researchtrace:completion-v23
+ResearchTrace API
+{"status": "PASS", "backup": "backup-20261118T025200292359Z", "quota_reset": false}
+ Container researchtrace-worker-documents-1  Recreate
+ Container researchtrace-api-1  Recreate
+ Container researchtrace-worker-interactive-1  Recreate
+ Container researchtrace-api-1  Recreated
+ Container researchtrace-worker-documents-1  Recreated
+ Container researchtrace-worker-interactive-1  Recreated
+ Container researchtrace-api-1  Starting
+ Container researchtrace-worker-documents-1  Starting
+ Container researchtrace-worker-interactive-1  Starting
+ Container researchtrace-worker-interactive-1  Started
+ Container researchtrace-worker-documents-1  Started
+ Container researchtrace-api-1  Started
+curl: (7) Failed to connect to 127.0.0.1 port 18970 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18970 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18970 after 0 ms: Couldn't connect to server
+{"status":"ok","service":"ResearchTrace"}
+PASS v23 activated with v22 rollback
+researchtrace-completion-v23.service: Deactivated successfully.
+researchtrace-completion-v23.service: Consumed 30.867s CPU time, 620.1M memory peak, 2.4M memory swap peak.
+/opt/researchtrace/releases/completion-v23-20261118

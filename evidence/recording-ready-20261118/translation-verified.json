@@ -1,0 +1,129 @@
+{
+  "scan": {
+    "parse_id": "153e46388d5d470ea0acdafa997388a0",
+    "coverage_by_page": [
+      {
+        "page": 1,
+        "prose": 17,
+        "translated": 17,
+        "missing": []
+      },
+      {
+        "page": 2,
+        "prose": 13,
+        "translated": 13,
+        "missing": []
+      },
+      {
+        "page": 3,
+        "prose": 6,
+        "translated": 6,
+        "missing": []
+      },
+      {
+        "page": 4,
+        "prose": 10,
+        "translated": 10,
+        "missing": []
+      }
+    ],
+    "status": "PASS"
+  },
+  "v7": {
+    "parse_id": "361c058a4af94f2795b85043374e8bae",
+    "coverage_by_page": [
+      {
+        "page": 1,
+        "prose": 9,
+        "translated": 9,
+        "missing": []
+      },
+      {
+        "page": 2,
+        "prose": 9,
+        "translated": 9,
+        "missing": []
+      },
+      {
+        "page": 3,
+        "prose": 7,
+        "translated": 7,
+        "missing": []
+      },
+      {
+        "page": 4,
+        "prose": 8,
+        "translated": 8,
+        "missing": []
+      },
+      {
+        "page": 5,
+        "prose": 8,
+        "translated": 8,
+        "missing": []
+      },
+      {
+        "page": 6,
+        "prose": 7,
+        "translated": 7,
+        "missing": []
+      },
+      {
+        "page": 7,
+        "prose": 11,
+        "translated": 11,
+        "missing": []
+      },
+      {
+        "page": 8,
+        "prose": 8,
+        "translated": 8,
+        "missing": []
+      },
+      {
+        "page": 9,
+        "prose": 7,
+        "translated": 7,
+        "missing": []
+      },
+      {
+        "page": 10,
+        "prose": 10,
+        "translated": 10,
+        "missing": []
+      },
+      {
+        "page": 11,
+        "prose": 20,
+        "translated": 20,
+        "missing": []
+      },
+      {
+        "page": 12,
+        "prose": 16,
+        "translated": 16,
+        "missing": []
+      },
+      {
+        "page": 13,
+        "prose": 2,
+        "translated": 2,
+        "missing": []
+      },
+      {
+        "page": 14,
+        "prose": 3,
+        "translated": 3,
+        "missing": []
+      },
+      {
+        "page": 15,
+        "prose": 3,
+        "translated": 3,
+        "missing": []
+      }
+    ],
+    "status": "PASS",
+    "formula_section_translation": "我们将这种特定的注意力称为“缩放点积注意力”（图 2）。输入由维度为 d k 的查询和键，以及维度为 d v 的值组成。我们计算查询与所有键的点积，将每个点积除以 √ d k ，并应用 softmax 函数来获得对值的权重。在实践中，我们同时对一组查询计算注意力函数，这些查询被打包成矩阵 Q 。键和值也被打包成矩阵 K 和 V 。我们计算输出矩阵如下："
+  }
+}

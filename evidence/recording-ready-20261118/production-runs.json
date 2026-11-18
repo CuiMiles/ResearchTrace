@@ -1,0 +1,585 @@
+{
+  "status": "BLOCKED",
+  "workspace": "评委账号",
+  "cases": {
+    "reparse-v7": {
+      "run_id": "74b50b836d604f4ab64e39bcc639dd3f",
+      "status": "completed",
+      "parse_id": "361c058a4af94f2795b85043374e8bae",
+      "error": null,
+      "elapsed_seconds": 16.35,
+      "parsed_pages": 15,
+      "failed_pages": [],
+      "dense_index": {
+        "status": "waiting_batch",
+        "run_id": "dadfccb49e3a4b9ea936f9a58f32cafb",
+        "generation_id": "648f9547c29f4009a8392751bfd8f583",
+        "provider": "gemini"
+      },
+      "finished_at": 1794970355.0891554
+    },
+    "scan-p1-p4": {
+      "run_id": "8f02797a2dd94d31be31988fad5da7c5",
+      "status": "completed",
+      "error": null,
+      "elapsed_seconds": 87.15,
+      "parse_id": "153e46388d5d470ea0acdafa997388a0",
+      "translated": 48,
+      "total": 48,
+      "cache_hits": 0,
+      "actual_models": [
+        "gemini-3.5-flash-lite",
+        "gemini-4-hydrogen"
+      ],
+      "finished_at": 1794970443.2757645
+    },
+    "index-v7": {
+      "run_id": "dadfccb49e3a4b9ea936f9a58f32cafb",
+      "status": "completed",
+      "error": null,
+      "elapsed_seconds": 7.94,
+      "id": "648f9547c29f4009a8392751bfd8f583",
+      "chunk_count": 15,
+      "vector_count": 15,
+      "expected_blocks": 150,
+      "covered_blocks": 150,
+      "model_id": "gemini-embedding-001",
+      "coverage_complete": true,
+      "generation_status": "ready",
+      "finished_at": 1794970363.0105758
+    },
+    "qa-scale": {
+      "run_id": "57cd875dd3394b04b9da150451bd931a",
+      "status": "completed",
+      "error": null,
+      "elapsed_seconds": 161.95,
+      "question": "为什么缩放点积注意力要除以 √d_k？不除会出现什么问题？",
+      "answer": "作者推测，当 d_k 较大时，点积的量级会增大，从而将 softmax 函数推向梯度极小的区域。\n\n当 d_k 较小时，加性注意力与点积注意力表现相近；但当 d_k 较大时，不进行缩放的点积注意力表现不如加性注意力。\n\n为说明点积为何会变大，假设 q 和 k 的各分量是均值为 0、方差为 1 的独立随机变量，则其点积的均值为 0、方差为 d_k。\n\n为抵消上述效应，缩放点积注意力将查询与键的点积除以 √d_k（即乘以 1/√d_k 的缩放因子）后再应用 softmax 函数。\n\n据此可推断，将方差为 d_k 的点积除以 √d_k 可使缩放后点积的方差维持为 1，从而抑制量级随 d_k 增大而导致的 softmax 梯度消失问题。",
+      "answer_status": "ready",
+      "model": "gemini-4-hydrogen",
+      "artifact_id": "d7fdddc5968e412ba8529f86b05e3f92",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "作者推测，当 d_k 较大时，点积的量级会增大，从而将 softmax 函数推向梯度极小的区域。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:6",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.17570588235294118,
+                0.6303829818181819,
+                0.8262300431078431,
+                0.7818514800505051
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "We suspect that for large values of d k , the dot products grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients 4 .",
+              "quote_span": {
+                "start": 703,
+                "end": 871
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9930; confidence=0.9930。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "contradicted": 0.0019535232915386647,
+              "insufficient": 0.005076824565135247,
+              "supported": 0.9929696521433261
+            },
+            "confidence": 0.9929696521433261
+          }
+        },
+        {
+          "id": "c2",
+          "text": "当 d_k 较小时，加性注意力与点积注意力表现相近；但当 d_k 较大时，不进行缩放的点积注意力表现不如加性注意力。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:6",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.17570588235294118,
+                0.6303829818181819,
+                0.8262300431078431,
+                0.7818514800505051
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "While for small values of d k the two mechanisms perform similarly, additive attention outperforms dot product attention without scaling for larger values of d k [3].",
+              "quote_span": {
+                "start": 536,
+                "end": 702
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9551; confidence=0.9551。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "insufficient": 0.02848239485304496,
+              "contradicted": 0.016465518917004922,
+              "supported": 0.9550520862299501
+            },
+            "confidence": 0.9550520862299501
+          }
+        },
+        {
+          "id": "c3",
+          "text": "为说明点积为何会变大，假设 q 和 k 的各分量是均值为 0、方差为 1 的独立随机变量，则其点积的均值为 0、方差为 d_k。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:9",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.1761045751633987,
+                0.8840335373737374,
+                0.823532551633987,
+                0.9140147151515152
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "4 To illustrate why the dot products get large, assume that the components of q and k are independent random variables with mean 0 and variance 1. Then their dot product, q · k = (cid:80) d i=1 k q i k i , has mean 0 and variance d k .",
+              "quote_span": {
+                "start": 0,
+                "end": 235
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9760; confidence=0.9760。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "insufficient": 0.01435629030243099,
+              "supported": 0.9759612411174183,
+              "contradicted": 0.009682468580150587
+            },
+            "confidence": 0.9759612411174183
+          }
+        },
+        {
+          "id": "c4",
+          "text": "为抵消上述效应，缩放点积注意力将查询与键的点积除以 √d_k（即乘以 1/√d_k 的缩放因子）后再应用 softmax 函数。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:4",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.17570588235294118,
+                0.46656858787878797,
+                0.8238071275686271,
+                0.5687107595959595
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "We compute the dot products of the query with all keys, divide each by √ d k , and apply a softmax function to obtain the weights on the values.",
+              "quote_span": {
+                "start": 164,
+                "end": 308
+              },
+              "status": "located_semantics_pending"
+            },
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:6",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.17570588235294118,
+                0.6303829818181819,
+                0.8262300431078431,
+                0.7818514800505051
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "To counteract this effect, we scale the dot products by √ 1 d k .",
+              "quote_span": {
+                "start": 872,
+                "end": 937
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9346; confidence=0.9346。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "contradicted": 0.0162139213402781,
+              "insufficient": 0.049142981840862944,
+              "supported": 0.9346430968188589
+            },
+            "confidence": 0.9346430968188589
+          }
+        },
+        {
+          "id": "c5",
+          "text": "据此可推断，将方差为 d_k 的点积除以 √d_k 可使缩放后点积的方差维持为 1，从而抑制量级随 d_k 增大而导致的 softmax 梯度消失问题。",
+          "type": "inference",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:9",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.1761045751633987,
+                0.8840335373737374,
+                0.823532551633987,
+                0.9140147151515152
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "4 To illustrate why the dot products get large, assume that the components of q and k are independent random variables with mean 0 and variance 1. Then their dot product, q · k = (cid:80) d i=1 k q i k i , has mean 0 and variance d k .",
+              "quote_span": {
+                "start": 0,
+                "end": 235
+              },
+              "status": "located_semantics_pending"
+            },
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:3:6",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 3,
+              "bbox": [
+                0.17570588235294118,
+                0.6303829818181819,
+                0.8262300431078431,
+                0.7818514800505051
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "We suspect that for large values of d k , the dot products grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients 4 . To counteract this effect, we scale the dot products by √ 1 d k .",
+              "quote_span": {
+                "start": 703,
+                "end": 937
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9423; confidence=0.9423。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "supported": 0.942263924158114,
+              "contradicted": 0.013207006499778315,
+              "insufficient": 0.04452906934210779
+            },
+            "confidence": 0.942263924158114
+          }
+        }
+      ],
+      "retrieval": {
+        "mode": "hybrid",
+        "dense_index": {
+          "status": "ready",
+          "model_id": "gemini-embedding-001",
+          "revision": "gemini-api-v1beta-768-v1",
+          "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+          "dimension": 768,
+          "method": "bounded_exact_matrix",
+          "scope_complete": true,
+          "covered_version_ids": [
+            "766a29679f72469b8bd763b365ca918b"
+          ],
+          "missing_version_ids": [],
+          "provider": "gemini",
+          "local_fallback": {
+            "status": "unavailable",
+            "reason": "RetrievalUnavailable"
+          }
+        },
+        "rerank": {
+          "status": "BLOCKED",
+          "reason": "RetrievalUnavailable"
+        }
+      },
+      "finished_at": 1794970527.0625424
+    },
+    "qa-heads": {
+      "run_id": "1d8bfe19c3db470ab5bd7aabbe19c9ca",
+      "status": "completed",
+      "error": null,
+      "elapsed_seconds": 182.19,
+      "question": "Transformer 的多头注意力用了几个头？每个头的 d_k 和 d_v 是多少？",
+      "answer": "Transformer 论文中采用 h = 8 个并行注意力头，并且每个头的维度为 d_k = d_v = 64。",
+      "answer_status": "ready",
+      "model": "gemini-3.5-flash-lite",
+      "artifact_id": "f8c4f294054c493fa4b6a5d598f2371f",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Transformer 论文中采用 h = 8 个并行注意力头，并且每个头的维度为 d_k = d_v = 64。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:4:2",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 4,
+              "bbox": [
+                0.17570588235294118,
+                0.2561870166666666,
+                0.8235323965882355,
+                0.3357309616161616
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "In this work we employ h = 8 parallel attention layers, or heads. For each of these we use d k = d v = d model /h = 64.",
+              "quote_span": {
+                "start": 146,
+                "end": 265
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9739; confidence=0.9739。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "supported": 0.9738561972929247,
+              "insufficient": 0.017310090329232527,
+              "contradicted": 0.00883371237784278
+            },
+            "confidence": 0.9738561972929247
+          }
+        }
+      ],
+      "retrieval": {
+        "mode": "hybrid",
+        "dense_index": {
+          "status": "ready",
+          "model_id": "gemini-embedding-001",
+          "revision": "gemini-api-v1beta-768-v1",
+          "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+          "dimension": 768,
+          "method": "bounded_exact_matrix",
+          "scope_complete": true,
+          "covered_version_ids": [
+            "766a29679f72469b8bd763b365ca918b"
+          ],
+          "missing_version_ids": [],
+          "provider": "gemini",
+          "local_fallback": {
+            "status": "unavailable",
+            "reason": "RetrievalUnavailable"
+          }
+        },
+        "rerank": {
+          "status": "BLOCKED",
+          "reason": "RetrievalUnavailable"
+        }
+      },
+      "finished_at": 1794970547.88991
+    },
+    "qa-adam": {
+      "run_id": "2b7f0c9587bb45fe82c47e503e3ff861",
+      "status": "completed",
+      "error": null,
+      "elapsed_seconds": 222.82,
+      "question": "论文中 Adam 优化器的 beta1 和 beta2 分别设置为多少？只给出一条包含两个值、与原文实验条件一致的事实。",
+      "answer": "Adam 优化器的 beta1 设置为 0.9，beta2 设置为 0.98。",
+      "answer_status": "ready",
+      "model": "gemini-3.5-flash-lite",
+      "artifact_id": "550970f54bb44a6bbcb0213b02fe796b",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Adam 优化器的 beta1 设置为 0.9，beta2 设置为 0.98。",
+          "type": "source_fact",
+          "atom": null,
+          "evidence": [
+            {
+              "block_id": "361c058a4af94f2795b85043374e8bae:6:9",
+              "version_id": "766a29679f72469b8bd763b365ca918b",
+              "page_index": 6,
+              "bbox": [
+                0.17570588235294118,
+                0.7278991378787878,
+                0.82353418515817,
+                0.7560516686868687
+              ],
+              "parse_id": "361c058a4af94f2795b85043374e8bae",
+              "quote": "We used the Adam optimizer [20] with β 1 = 0.9 , β 2 = 0.98 and ϵ = 10 −9 .",
+              "quote_span": {
+                "start": 0,
+                "end": 75
+              },
+              "status": "located_semantics_pending"
+            }
+          ],
+          "review": {
+            "status": "supported",
+            "method": "gemini_decision_1",
+            "reason": "Decision辅助分类=supported; probability=0.9838; confidence=0.9838。这是模型判断，仍需人工核验。",
+            "label": "Decision辅助支持，待人工核对",
+            "human_status": "unreviewed",
+            "model": "gemini-decision-1",
+            "probabilities": {
+              "insufficient": 0.012977792972566814,
+              "contradicted": 0.003218987906609472,
+              "supported": 0.9838032191208237
+            },
+            "confidence": 0.9838032191208237
+          }
+        }
+      ],
+      "retrieval": {
+        "mode": "hybrid",
+        "dense_index": {
+          "status": "ready",
+          "model_id": "gemini-embedding-001",
+          "revision": "gemini-api-v1beta-768-v1",
+          "fingerprint": "97a152a4fb70f647da044bd3d38c7ed39117c0ae78aaa568013d0c91dfa5224e",
+          "dimension": 768,
+          "method": "bounded_exact_matrix",
+          "scope_complete": true,
+          "covered_version_ids": [
+            "766a29679f72469b8bd763b365ca918b"
+          ],
+          "missing_version_ids": [],
+          "provider": "gemini",
+          "local_fallback": {
+            "status": "unavailable",
+            "reason": "RetrievalUnavailable"
+          }
+        },
+        "rerank": {
+          "status": "BLOCKED",
+          "reason": "RetrievalUnavailable"
+        }
+      },
+      "finished_at": 1794970589.1304314
+    },
+    "related-work": {
+      "run_id": "c958f43e476744629b20b244c9c69372",
+      "status": "partial",
+      "error": null,
+      "elapsed_seconds": 321.09,
+      "question": "请为注意力机制研究写一段可直接核对的中文 Related Work 草稿。限定三篇所选论文，各用一条简洁的事实说明原始 Transformer 的自注意力、BERT 的双向编码器，以及 FlashAttention 的 IO 优化。每条分别绑定本篇逐字原文，避免额外的数字、结论和没有据的比较。只返回这三条有来源的原子主张。",
+      "answer": "回答未通过原文、数值或正文绑定检查，当前证据不足以发布该结论。",
+      "answer_status": "partial",
+      "model": "gemini-4-hydrogen",
+      "artifact_id": "c90da985477e46e7b126e9e407dc1313",
+      "claims": [
+        {
+          "id": "validation-blocked",
+          "text": "回答未通过原文、数值或正文绑定检查，当前证据不足以发布该结论。",
+          "type": "insufficient",
+          "evidence": [],
+          "review": {
+            "status": "not_checked",
+            "method": "deterministic_rejection"
+          }
+        }
+      ],
+      "retrieval": {
+        "mode": "agent_observations"
+      },
+      "finished_at": 1794970688.0965862
+    },
+    "v7-full-translation": {
+      "run_id": "5158655c3b3340ebb6c7302e75dc08f4",
+      "status": "completed",
+      "error": null,
+      "elapsed_seconds": 544.92,
+      "parse_id": "361c058a4af94f2795b85043374e8bae",
+      "translated": 150,
+      "total": 150,
+      "cache_hits": 0,
+      "actual_models": [
+        "gemini-3.5-flash-lite",
+        "gemini-4-hydrogen"
+      ],
+      "finished_at": 1794970912.1275444
+    }
+  },
+  "old_parse": "766a29679f72469b8bd763b365ca918b",
+  "old_page4": [
+    {
+      "id": "766a29679f72469b8bd763b365ca918b:3:4",
+      "type": "paragraph",
+      "text": "We call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of queries query with and all keys keys, of dimension divide each d k by , and √ d k values , and apply of dimension a softmax d v . function We compute to obtain the dot the products weights on of the the values. In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q . The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:",
+      "bbox": [
+        0.17570588235294118,
+        0.46656858787878797,
+        0.8238071275686271,
+        0.5687107595959595
+      ]
+    },
+    {
+      "id": "766a29679f72469b8bd763b365ca918b:3:5",
+      "type": "equation",
+      "text": "Attention(Q, K, V ) = softmax( QK √ d k T )V (1)",
+      "bbox": [
+        0.3594281045751634,
+        0.5868637843434343,
+        0.8246199209150327,
+        0.6200301984848485
+      ]
+    },
+    {
+      "id": "766a29679f72469b8bd763b365ca918b:3:9",
+      "type": "heading",
+      "text": "4 To illustrate why the dot products get large, assume that the components of q and k are independent random",
+      "bbox": [
+        0.19714542483660133,
+        0.8840335373737374,
+        0.823532551633987,
+        0.8972054828282829
+      ]
+    }
+  ],
+  "pre_deploy_attempt": {
+    "run_id": "cb1ba26481884a97999b9c41aec98aa0",
+    "status": "queued",
+    "parse_id": "2abeb16220644da0806761beeb9692f6",
+    "note": "Queued before the image switch and executed on the previous parser. Retained for auditing; no QA or translation submitted from this snapshot."
+  },
+  "new_parse": "361c058a4af94f2795b85043374e8bae",
+  "old_page4_unchanged": true,
+  "corrected_paragraph": "We call our particular attention \"Scaled Dot-Product Attention\" (Figure 2). The input consists of queries and keys of dimension d k , and values of dimension d v . We compute the dot products of the query with all keys, divide each by √ d k , and apply a softmax function to obtain the weights on the values. In practice, we compute the attention function on a set of queries simultaneously, packed together into a matrix Q . The keys and values are also packed together into matrices K and V . We compute the matrix of outputs as:",
+  "formula_body_block_id": "361c058a4af94f2795b85043374e8bae:3:4",
+  "license_type": "paragraph",
+  "footnote_type": "equation",
+  "scan_scope": {
+    "parse_id": "153e46388d5d470ea0acdafa997388a0",
+    "pages": 4,
+    "blocks_per_page": [
+      17,
+      13,
+      7,
+      11
+    ]
+  }
+}

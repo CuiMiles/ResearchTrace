@@ -1,0 +1,162 @@
+{
+  "run_id": "8b4fb9b4eebf459db49e81c415f1e8d4",
+  "status": "partial",
+  "workflow": "outline",
+  "error": null,
+  "model": "gemini-4-hydrogen",
+  "artifact_id": "fc571b245ca74da68b583ef252e2e627",
+  "elapsed_seconds": 63.45,
+  "result_status": "partial",
+  "publication_notice": "出处与数值规则已验证；Decision仅辅助判定支持性，概率不等同于事实证明。",
+  "related_work": {
+    "key": "related_work",
+    "title": "Related Work",
+    "claim_ids": [
+      "c4",
+      "c5",
+      "c6"
+    ],
+    "source_claims": [
+      {
+        "id": "c4",
+        "text": "《Attention Is All You Need》（v7）提出了完全基于注意力机制、摒弃循环与卷积结构的 Transformer 网络架构。",
+        "type": "source_fact",
+        "atom": null,
+        "evidence": [
+          {
+            "block_id": "361c058a4af94f2795b85043374e8bae:0:6",
+            "version_id": "766a29679f72469b8bd763b365ca918b",
+            "page_index": 0,
+            "bbox": [
+              0.2345702614379085,
+              0.5216594969696969,
+              0.7676259463986926,
+              0.7270756585858587
+            ],
+            "parse_id": "361c058a4af94f2795b85043374e8bae",
+            "quote": "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.",
+            "quote_span": {
+              "start": 241,
+              "end": 395
+            },
+            "status": "located_semantics_pending"
+          }
+        ],
+        "review": {
+          "status": "supported",
+          "method": "gemini_decision_1",
+          "reason": "Decision辅助分类=supported; probability=0.9769; confidence=0.9769。这是模型判断，仍需人工核验。",
+          "label": "Decision辅助支持，待人工核对",
+          "human_status": "unreviewed",
+          "model": "gemini-decision-1",
+          "probabilities": {
+            "supported": 0.9768684646363168,
+            "insufficient": 0.01809814827057419,
+            "contradicted": 0.00503338709310898
+          },
+          "confidence": 0.9768684646363168
+        }
+      },
+      {
+        "id": "c5",
+        "text": "《BERT》（版本待确认）引入双向 Transformer 编码器表征语言模型，在所有层联合利用左右上下文从无标注文本预训练深度双向表征。",
+        "type": "source_fact",
+        "atom": null,
+        "evidence": [
+          {
+            "block_id": "70844f0c17fb4568b91e1d062c2424e4:0:4",
+            "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+            "page_index": 0,
+            "bbox": [
+              0.1495239183168815,
+              0.29168219316062666,
+              0.4590524166941049,
+              0.6492094235588972
+            ],
+            "parse_id": "70844f0c17fb4568b91e1d062c2424e4",
+            "quote": "We introduce a new language representa- tion model called BERT , which stands for B idirectional E ncoder R epresentations from T ransformers.",
+            "quote_span": {
+              "start": 0,
+              "end": 142
+            },
+            "status": "located_semantics_pending"
+          },
+          {
+            "block_id": "70844f0c17fb4568b91e1d062c2424e4:0:4",
+            "version_id": "70844f0c17fb4568b91e1d062c2424e4",
+            "page_index": 0,
+            "bbox": [
+              0.1495239183168815,
+              0.29168219316062666,
+              0.4590524166941049,
+              0.6492094235588972
+            ],
+            "parse_id": "70844f0c17fb4568b91e1d062c2424e4",
+            "quote": "BERT is designed to pre- train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers.",
+            "quote_span": {
+              "start": 238,
+              "end": 393
+            },
+            "status": "located_semantics_pending"
+          }
+        ],
+        "review": {
+          "status": "supported",
+          "method": "gemini_decision_1",
+          "reason": "Decision辅助分类=supported; probability=0.9531; confidence=0.9531。这是模型判断，仍需人工核验。",
+          "label": "Decision辅助支持，待人工核对",
+          "human_status": "unreviewed",
+          "model": "gemini-decision-1",
+          "probabilities": {
+            "insufficient": 0.03909676112264774,
+            "contradicted": 0.00780915544557619,
+            "supported": 0.953094083431776
+          },
+          "confidence": 0.953094083431776
+        }
+      },
+      {
+        "id": "c6",
+        "text": "《FlashAttention》（v2）提出 IO 感知的精确注意力算法，利用分块减少 GPU 高带宽内存（HBM）与片上 SRAM 之间的内存读写次数。",
+        "type": "source_fact",
+        "atom": null,
+        "evidence": [
+          {
+            "block_id": "a95c5b5196734cadbbce8ee8f0ce7e4f:0:9",
+            "version_id": "a95c5b5196734cadbbce8ee8f0ce7e4f",
+            "page_index": 0,
+            "bbox": [
+              0.15658333333333332,
+              0.39954555757575755,
+              0.8445762400418296,
+              0.6184223252525252
+            ],
+            "parse_id": "a95c5b5196734cadbbce8ee8f0ce7e4f",
+            "quote": "We propose FlashAttention , an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM.",
+            "quote_span": {
+              "start": 462,
+              "end": 650
+            },
+            "status": "located_semantics_pending"
+          }
+        ],
+        "review": {
+          "status": "supported",
+          "method": "gemini_decision_1",
+          "reason": "Decision辅助分类=supported; probability=0.9886; confidence=0.9886。这是模型判断，仍需人工核验。",
+          "label": "Decision辅助支持，待人工核对",
+          "human_status": "unreviewed",
+          "model": "gemini-decision-1",
+          "probabilities": {
+            "insufficient": 0.008626911482071826,
+            "contradicted": 0.002757489563254422,
+            "supported": 0.9886155989546738
+          },
+          "confidence": 0.9886155989546738
+        }
+      }
+    ],
+    "text": "《Attention Is All You Need》（v7）提出了完全基于注意力机制、摒弃循环与卷积结构的 Transformer 网络架构。\n\n《BERT》（版本待确认）引入双向 Transformer 编码器表征语言模型，在所有层联合利用左右上下文从无标注文本预训练深度双向表征。\n\n《FlashAttention》（v2）提出 IO 感知的精确注意力算法，利用分块减少 GPU 高带宽内存（HBM）与片上 SRAM 之间的内存读写次数。"
+  },
+  "source_errors": []
+}
