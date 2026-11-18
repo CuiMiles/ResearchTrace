@@ -1,0 +1,126 @@
+[
+  {
+    "browser": "chromium-desktop",
+    "version": "120.0.6099.28",
+    "width": 1440,
+    "status": "PASS",
+    "source": "researchtrace-play-v3.webm",
+    "duration": 385.507,
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "cues": 51,
+    "samples": [
+      {
+        "second": 37,
+        "blue_pixels": 3409,
+        "navy_pixels": 21512
+      },
+      {
+        "second": 145,
+        "blue_pixels": 3377,
+        "navy_pixels": 26834
+      },
+      {
+        "second": 331,
+        "blue_pixels": 5297,
+        "navy_pixels": 34011
+      }
+    ],
+    "seek_and_continue": true
+  },
+  {
+    "browser": "chromium-mobile-width",
+    "version": "120.0.6099.28",
+    "width": 390,
+    "status": "PASS",
+    "source": "researchtrace-play-v3.webm",
+    "duration": 385.507,
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "cues": 51,
+    "samples": [
+      {
+        "second": 37,
+        "blue_pixels": 397,
+        "navy_pixels": 1970
+      },
+      {
+        "second": 145,
+        "blue_pixels": 361,
+        "navy_pixels": 2486
+      },
+      {
+        "second": 331,
+        "blue_pixels": 1019,
+        "navy_pixels": 3142
+      }
+    ],
+    "seek_and_continue": true
+  },
+  {
+    "browser": "windows-chrome",
+    "version": "157.0.8103.39",
+    "width": 1440,
+    "status": "PASS",
+    "source": "researchtrace-play-v3.mp4",
+    "duration": 385.5,
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "cues": 51,
+    "samples": [
+      {
+        "second": 37,
+        "blue_pixels": 7585,
+        "navy_pixels": 13484
+      },
+      {
+        "second": 145,
+        "blue_pixels": 8435,
+        "navy_pixels": 17641
+      },
+      {
+        "second": 331,
+        "blue_pixels": 10856,
+        "navy_pixels": 22227
+      }
+    ],
+    "seek_and_continue": true
+  },
+  {
+    "browser": "windows-edge",
+    "version": "157.0.4341.60",
+    "width": 1440,
+    "status": "PASS",
+    "source": "researchtrace-play-v3.mp4",
+    "duration": 385.5,
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "cues": 51,
+    "samples": [
+      {
+        "second": 37,
+        "blue_pixels": 7585,
+        "navy_pixels": 13484
+      },
+      {
+        "second": 145,
+        "blue_pixels": 8435,
+        "navy_pixels": 17641
+      },
+      {
+        "second": 331,
+        "blue_pixels": 10856,
+        "navy_pixels": 22227
+      }
+    ],
+    "seek_and_continue": true
+  }
+]

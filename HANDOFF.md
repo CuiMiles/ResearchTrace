@@ -1,5 +1,9 @@
 # ResearchTrace handoff
 
+## 2026-11-19 演示字幕
+
+公网首页正在使用 `researchtrace:completion-v37-caption-layout`。网页字幕采用亮蓝字与深蓝底，长句分两行并避开控制栏。下载版与仓库内的正式 MP4 将蓝字烧录到画面。51 条字幕的原有时间段与配音已比对。复现命令见 [演示发布](docs/DEMO_RELEASE.md)，验收见 [测试报告](docs/TEST_REPORT.md)。
+
 ## 2026-11-18 学术配音正式版
 
 公网首页升级至 `researchtrace:completion-v35-academic`。正式演示使用 MiniMax Speech 2.8 HD「青年大学生」，复用用户选中的 A 版开场；剩余 47 段分 12 批合成。视频约 6 分 25 秒，1080p，51 条字幕。已从 Windows Chrome、Edge 和 Chromium 桌面及手机宽度验证免登录播放、进度跳转和字幕。正式 MP4 及答辩讲稿位于 `deliverables/`。
