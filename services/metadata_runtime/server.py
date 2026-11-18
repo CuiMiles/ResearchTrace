@@ -20,6 +20,8 @@ from urllib.parse import urlsplit
 
 MAX_REQUEST = 64 * 1024 * 1024 + 65536
 MAX_RESPONSE = 16 * 1024 * 1024
+REJECT_DRAIN_BYTES = 1024 * 1024
+REJECT_DRAIN_SECONDS = 2
 ALLOWED = {"/api/processFulltextDocument", "/api/processHeaderDocument"}
 ACTIVE = threading.BoundedSemaphore(1)
 CONNECTIONS = threading.BoundedSemaphore(8)
@@ -80,6 +82,27 @@ class Handler(BaseHTTPRequestHandler):
 
     def _error(self, status, code):
         self._send(status, json.dumps({"error": code}).encode())
+        if self.command == "POST":
+            self._drain_rejected_body()
+
+    def _drain_rejected_body(self):
+        # Closing with unread data resets the socket and can destroy the response
+        # before the client reads it. Discard a bounded amount, then let it close.
+        deadline = time.monotonic() + REJECT_DRAIN_SECONDS
+        remaining = REJECT_DRAIN_BYTES
+        try:
+            self.connection.shutdown(socket.SHUT_WR)
+            while remaining > 0:
+                left = deadline - time.monotonic()
+                if left <= 0:
+                    break
+                self.connection.settimeout(left)
+                chunk = self.rfile.read1(min(65536, remaining))
+                if not chunk:
+                    break
+                remaining -= len(chunk)
+        except OSError:
+            pass
 
     def _authorized(self):
         expected = "Bearer " + self.server.token

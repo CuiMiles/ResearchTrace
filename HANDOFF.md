@@ -8,7 +8,7 @@
 - 作品介绍源文件在 `docs/work-intro/`，用 `TEXINPUTS=.:../tech-report: latexmk -g -xelatex -outdir=build main.tex` 编译，成品在 `deliverables/ResearchTrace_作品介绍.pdf`。
 - `deliverables/ResearchTrace_完整作品.zip` 由 Git HEAD 生成并被 Git 忽略，已做密钥和主机信息扫描。
 - 待人工：确认作品介绍第 6 节「未发表、未获奖」属实；录制视频；上传压缩包并填写网盘链接。
-- 已知问题：GROBID 网关鉴权测试偶发失败，原因见 `docs/TEST_REPORT.md`，组件不在公网部署内。
+- `71605f2` 之后的提交只含文档和 GROBID 网关的关闭修复。网关不在公网部署内，公网无需更新。
 
 ## 2026-11-18 录制前更新
 
