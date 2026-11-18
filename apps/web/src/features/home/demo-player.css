@@ -8,7 +8,7 @@
   padding: 38px 0 38px clamp(24px, 5vw, 80px);
   color: white;
 }
-.public-demo h2 { margin: 0; font-size: clamp(26px, 4vw, 48px); line-height: 1.15; }
+.public-demo h2 { margin: 0; color: #fff; font-size: clamp(26px, 4vw, 48px); line-height: 1.15; }
 .public-demo header p { margin: 8px 0 18px; color: #b7b9bf; font-size: 15px; }
 .public-demo-screen {
   position: relative;
