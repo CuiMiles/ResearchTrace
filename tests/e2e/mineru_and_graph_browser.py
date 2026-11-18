@@ -91,8 +91,8 @@ with sync_playwright() as p:
             report['cases'].append({'id': 'E06-graph-20-nodes', 'nodes': nodes_count, 'edges': edges_count, 'recomputed_nodes': len(recomputed['nodes']), 'status': 'PASS'})
 
             # E08 deterministic artifact export check (stored verified research_note, 0 model calls)
-            page.get_by_role('button', name='写作与绘图', exact=True).click()
-            page.get_by_role('button', name='已保存产物', exact=True).click()
+            page.get_by_role('link', name='写作工坊', exact=True).click()
+            page.get_by_role('button', name='产物', exact=True).click()
             note_btn = page.locator('.artifact-row').filter(has_text='research_note').first
             note_btn.wait_for()
             note_btn.click()

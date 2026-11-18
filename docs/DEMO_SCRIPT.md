@@ -3,7 +3,7 @@
 录制环境：公网 https://researchtrace.sluna.xyz ，使用**评委账号**（与评委相同的访问码，不要出镜；预生成结果都在这个账号里）。
 录完后在文献库删除录制时重新上传的 v1，恢复「库里只有 v7」的状态，评委才能自己完整测试 3.1。
 浏览器 1920×1080、缩放 100%，提前登录并打开一次每篇论文（让 PDF 进入浏览器缓存）。
-资料库只有 10 篇精选论文：Attention v7（矢量版）、Attention 扫描版、Understanding Deep
+文献库只有 10 篇精选论文：Attention v7（矢量版）、Attention 扫描版、Understanding Deep
 Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transformer、FlashAttention。
 
 ## 已核验的录制入口
@@ -11,7 +11,7 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 - [Attention v7 阅读器](https://researchtrace.sluna.xyz/read/766a29679f72469b8bd763b365ca918b)，开启「中英对照」，在左侧目录点「3.2.1 Scaled Dot-Product Attention」。全文译文已生成。
 - [扫描版阅读器](https://researchtrace.sluna.xyz/read/da72ec99236c42f6ade08eb3b4ac687c)，开启「中英对照」，跳到第 4 页并在原文栏轻滚以对齐译文。第 1–4 页译文已生成。
 - [新版 v7 三题会话](https://researchtrace.sluna.xyz/chat/th-recording-v23-attention)，首题可直接展示 Hydrogen 对缩放因子的解释。点引用后选「在原文中定位」，可跳到新快照的第 4 页。
-- [写作与绘图](https://researchtrace.sluna.xyz/studio)，点「已保存产物」，打开「研究 idea：分析降低 Transformer 注意力访存开销的方法」，滚到 Related Work。[该次运行](https://researchtrace.sluna.xyz/runs/8b4fb9b4eebf459db49e81c415f1e8d4) 可以逐条点击原文证据。
+- [写作](https://researchtrace.sluna.xyz/studio)，点「产物」，打开「研究 idea：分析降低 Transformer 注意力访存开销的方法」，滚到 Related Work。[该次运行](https://researchtrace.sluna.xyz/runs/8b4fb9b4eebf459db49e81c415f1e8d4) 可以逐条点击原文证据。
 
 诚信约束（台词里也要守住）：
 - 预先生成的结果（版本修订总结、问答、翻译）在界面上带生成时间和模型名，口播说「这是录制前生成的结果」，
@@ -23,7 +23,7 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 
 ## 0:00–0:35 开场：我们解决什么问题
 
-画面：首页 → 资料库（10 篇论文卡片）。
+画面：登录页 → 首页 → 文献库（10 篇论文）。
 
 > 读论文最费时间的不是读，而是确认：这个结论出自哪一版、哪一页、哪一段？
 > ResearchTrace 是一个「每句话都能追溯到原文」的科研阅读助手。上传、阅读、翻译、
@@ -32,7 +32,7 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 
 ## 0:35–1:55 用例 3.1：同一论文多版本——去重与版本演化
 
-操作：资料库已有 v7。点「上传」，选择把 1706.03762v1.pdf 改名后的 `paper-upload.pdf`。
+操作：文献库已有 v7。点左侧导航顶部的「+」，选择把 1706.03762v1.pdf 改名后的 `paper-upload.pdf`。
 
 > 先上传一个文件名毫无意义的 PDF。系统不看文件名，而是读 PDF 首页正文里的 arXiv 编号，
 > 立即识别出：库里已有这篇论文的另一个版本。
@@ -98,7 +98,7 @@ Learning（541 页）、BERT、GPT-1、T5、ViT、Layer Norm、Pre-LN Transforme
 > 引文图谱的每条边都来自论文真实的参考文献解析，不是模型猜的。可以看到 BERT、GPT-1、T5、
 > Pre-LN 和 FlashAttention 都引用了 Transformer，点击节点即可打开对应论文。
 
-4. 打开写作工坊的已保存产物，展示 Hydrogen 预先生成的 Related Work，再在任务详情点一条引用。
+4. 打开「写作」页的「产物」，展示 Hydrogen 预先生成的 Related Work，再在任务详情点一条引用。
 
 > 这一节对照了 Transformer、BERT 和 FlashAttention。三条主张分别引用论文原文，并由 Decision 1 辅助复核。
 > 论文框架还保留了待验证的实验计划。

@@ -41,7 +41,7 @@ with sync_playwright() as p:
     page.screenshot(path=OUT/'reader-1280.png',full_page=True)
     assert not page.evaluate('document.documentElement.scrollWidth>window.innerWidth')
     report.append({'case':'C03,D06','status':'PASS','version':'Transformer v7','physical_page':7,'canvas_count':'<=4 (continuous, lazily rendered)','rotation':90,'zoom':110,'bbox_before':before,'bbox_after':after})
-    page.get_by_role('button',name='写作与绘图',exact=True).click()
+    page.get_by_role('link',name='写作工坊',exact=True).click()
     page.get_by_label('上传 CSV').set_input_files(ROOT/'evals/files/metrics_a.csv')
     button=page.get_by_role('button',name=re.compile('生成.*图|绘制'))
     if button.count():
