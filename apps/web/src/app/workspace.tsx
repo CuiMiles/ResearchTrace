@@ -138,8 +138,8 @@ export function WorkspaceProvider({
         if (first && files.length === 1 && !result.batch_id) {
           setNotice(
             first.duplicate
-              ? '内容相同的文件已在库中，已打开已有版本。'
-              : 'PDF 已保存，正在逐页解析；现在就可以阅读原文。',
+              ? '已在库中'
+              : '解析中，可先阅读',
           );
         }
         return result;

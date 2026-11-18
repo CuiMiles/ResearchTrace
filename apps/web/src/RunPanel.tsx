@@ -128,10 +128,10 @@ export function RunDetail({
         {['failed', 'cancelled', 'partial', 'waiting_for_user'].includes(run.status) && (
           <button className="small-button" onClick={() => void change('resume')}>
             <Play size={12} />
-            从检查点恢复
+            恢复
           </button>
         )}
-        {running && <Busy>{run.status === 'queued' ? '已排队，等待资源' : '正在执行真实工具与模型请求'}</Busy>}
+        {running && <Busy>{run.status === 'queued' ? '排队中' : '运行中'}</Busy>}
       </div>
       <AgentTimeline steps={steps} live={running} />
       {!running && <AnswerView run={run} onEvidence={onEvidence} versionLabel={versionLabel} />}
@@ -186,13 +186,13 @@ export function RunsDrawer({
     <div className="drawer-backdrop" onClick={onClose}>
       <aside className="runs-drawer" onClick={(e) => e.stopPropagation()} aria-label="任务与历史">
         <div className="section-heading">
-          <h2>任务与历史</h2>
+          <h2>任务</h2>
           <button className="icon-button" aria-label="关闭任务列表" onClick={onClose}>
             <X size={18} />
           </button>
         </div>
-        <p className="muted">每条记录保留原始版本与时间；断线重连不会重复调用模型。</p>
-        {!runs.length && <Empty title="还没有任务">导入论文或提出问题后，执行过程会显示在这里。</Empty>}
+        
+        {!runs.length && <Empty title="暂无任务" />}
         {runs.map((run) => (
           <button className="run-row" key={run.id} onClick={() => onSelect(run.id)}>
             {activeRun(run) ? (

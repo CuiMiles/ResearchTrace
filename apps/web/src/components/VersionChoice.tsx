@@ -72,7 +72,7 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
       if (['queued', 'running', 'waiting_children', 'waiting_batch'].includes(run.status)) return 1500;
       const result = parseObject<Summary | null>(run.result, null);
       if (run.status === 'completed' || (run.status === 'partial' && result)) setSummary({ state: 'done', summary: result!, runId: runningId, finished: run.updated });
-      else setSummary({ state: 'failed', message: run.error || '总结没有完成，可以稍后重试。', attempt });
+      else setSummary({ state: 'failed', message: run.error || '总结失败', attempt });
       return null;
     }, 800);
     return () => { live = false; stop(); };
@@ -117,9 +117,9 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
 
   return <dialog ref={dialog} className="vc-dialog" aria-labelledby="version-choice-title" onCancel={(e) => { e.preventDefault(); later(); }}>
     <header className="vc-head">
-      <span className="vc-eyebrow"><Sparkles size={13} />版本识别</span>
-      <h2 id="version-choice-title">库里已有这篇论文的另一个版本</h2>
-      {choices.basis && <p className="vc-basis">{choices.basis}</p>}
+      <span className="vc-eyebrow"><Sparkles size={13} />版本</span>
+      <h2 id="version-choice-title">发现同一论文的其他版本</h2>
+      {choices.basis && <p className="vc-basis">{shortBasis(choices.basis)}</p>}
       <button className="icon-button vc-close" aria-label="稍后决定" onClick={later}><X size={16} /></button>
     </header>
 
@@ -136,9 +136,9 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
 
     {newer
       ? <p className="vc-recommend">{newer.id === choices.incoming.id
-        ? `本次上传的 ${newer.label} 更新，建议用它作为当前版本；旧版本仍可随时阅读和比较。`
-        : `库中已有更新的 ${newer.label}，建议保留它作为当前版本；本次的 ${choices.incoming.label} 仍会保存，可随时阅读和比较。`}</p>
-      : <p className="vc-recommend neutral">无法从内容判断哪个版本更新，请根据需要选择；不会按上传时间或文件名猜测。</p>}
+        ? `建议使用 ${newer.label}`
+        : `建议保留 ${newer.label}`}</p>
+      : <p className="vc-recommend neutral">无法判断新旧</p>}
 
     {error && <p role="alert" className="vc-error">{error}</p>}
     <div className="vc-actions">
@@ -149,11 +149,11 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
       <button className="small-button" disabled={busy} onClick={() => void resolve('replace')}>用本次上传替换</button>
       <button className="text-button" disabled={busy} onClick={later}>稍后决定</button>
     </div>
-    <p className="vc-footnote">“保留较新”或“替换”只决定以后检索用哪个版本；两份原文、解析结果和历史引用都会保留。</p>
+    
 
     <section className="vc-diff" aria-label="两个版本的差异">
       <div className="vc-diff-head">
-        <h3>两个版本改了什么</h3>
+        <h3>修订</h3>
         <div className="vc-diff-actions">
           {!diff && <button className="text-button" disabled={loadingDiff} onClick={() => void compare()}>{loadingDiff ? '正在比较…' : '逐段比较'}</button>}
           {summary.state === 'idle' && <button className="small-button vc-ai" onClick={() => void summarize()}><Sparkles size={13} />AI 总结主要修订</button>}
@@ -162,13 +162,13 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
       {diff && <p className="vc-counts">{(['modified', 'added', 'deleted', 'unchanged'] as const).filter((k) => diff.counts[k] !== undefined)
         .map((k) => <span key={k} className={`vc-chip ${k}`}>{KIND[k]} {diff.counts[k]} 段</span>)}</p>}
 
-      {summary.state === 'running' && <div className="vc-summary pending"><Busy>正在对照两个版本的真实差异段落撰写总结…</Busy></div>}
+      {summary.state === 'running' && <div className="vc-summary pending"><Busy>总结中</Busy></div>}
       {summary.state === 'failed' && <div className="vc-summary failed"><p>{summary.message}</p>
         <button className="text-button" onClick={() => void summarize(summary.attempt + 1)}>重试</button></div>}
       {summary.state === 'done' && <SummaryView summary={summary.summary} finished={summary.finished} />}
 
       {diff && <details className="vc-changes">
-        <summary><ChevronDown size={14} />查看逐段差异（{diff.changes.length} 处）</summary>
+        <summary><ChevronDown size={14} />逐段差异 {diff.changes.length}</summary>
         {diff.changes.slice(0, 50).map((change, i) => <div key={i} className={`vc-change ${change.kind}`}>
           <p className="vc-change-head"><span className={`vc-chip ${change.kind}`}>{KIND[change.kind] ?? change.kind}</span>
             {change.before && <span>库中版本第 {change.before.page_index + 1} 页</span>}
@@ -177,10 +177,15 @@ export function VersionChoice({ pendingIds, versions, onDismiss, onResolved }: P
           {change.before && <blockquote className="before">{change.before.text}</blockquote>}
           {change.after && <blockquote className="after">{change.after.text}</blockquote>}
         </div>)}
-        {diff.changes.length > 50 && <p className="vc-footnote">这里列出前 50 处；完整比较可在「版本与比较」页查看。</p>}
+        
       </details>}
     </section>
   </dialog>;
+}
+
+function shortBasis(basis: string) {
+  const match = basis.match(/(首页正文|PDF 元数据)中的 (arXiv|DOI)(?: 编号)? ?都是 ([^（\s]+)/);
+  return match ? `${match[2]} ${match[3]} · ${match[1]}` : basis;
 }
 
 function VersionCard({ tag, version, newer }: { tag: string; version: ChoiceVersion; newer: boolean }) {
@@ -196,7 +201,7 @@ function SummaryView({ summary, finished }: { summary: Summary; finished?: numbe
   const { older, newer } = summary.labels;
   const page = (ref: SummaryRef) => [ref.old_page && `${older} 第 ${ref.old_page} 页`, ref.new_page && `${newer} 第 ${ref.new_page} 页`]
     .filter(Boolean).join(' → ');
-  if (!summary.points.length) return <div className="vc-summary"><p>{summary.reason || '没有可以总结的实质修订。'}</p></div>;
+  if (!summary.points.length) return <div className="vc-summary"><p>{summary.reason || '无实质修订'}</p></div>;
   return <div className="vc-summary">
     <p className="vc-summary-title"><Sparkles size={14} />{summary.order_known ? `从 ${older} 到 ${newer} 的主要修订` : `${older} 与 ${newer} 的主要差异`}</p>
     {summary.overall && <p className="vc-overall">{summary.overall}</p>}

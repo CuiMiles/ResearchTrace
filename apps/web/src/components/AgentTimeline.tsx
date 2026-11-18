@@ -111,14 +111,14 @@ export function describeStep(step: Step): Line {
     case 'provider_overload_retry':
       return { icon: TriangleAlert, tone: 'warn', title: `上游繁忙，${text(d.wait_seconds)} 秒后重试一次` };
     case 'provider_connect_failed':
-      return { icon: TriangleAlert, tone: 'warn', title: '连接模型服务失败（请求未发送）' };
+      return { icon: TriangleAlert, tone: 'warn', title: '模型连接失败' };
     case 'validating':
-      return { icon: ListChecks, tone: 'agent', title: '核验引文、版本、数值与正文绑定' };
+      return { icon: ListChecks, tone: 'agent', title: '核验引文与数值' };
     case 'answer_gap_detected':
       return {
         icon: ScanSearch,
         tone: 'warn',
-        title: d.validation_rejected ? '初稿未通过核验，补充检索' : `发现 ${text(d.issues)} 处证据缺口，补充检索`,
+        title: d.validation_rejected ? '补充检索' : `发现 ${text(d.issues)} 处证据缺口，补充检索`,
       };
     case 'answer_gap_retrieved':
       return { icon: Database, tone: 'agent', title: `补充检索到 ${text(d.new_blocks)} 段新证据` };
@@ -138,12 +138,12 @@ export function describeStep(step: Step): Line {
       return {
         icon: TriangleAlert,
         tone: 'warn',
-        title: d.automatic_fallback ? 'Decision 1 不可用，改由生成模型复核' : 'Decision 1 不可用，主张保留为待复核',
+        title: d.automatic_fallback ? '改由生成模型复核' : '主张待复核',
       };
     case 'quota_route_refused':
       return { icon: TriangleAlert, tone: 'warn', title: `${text(d.model)} 额度不足，尝试下一路由`, detail: REASONS[text(d.code)] ?? text(d.code) };
     case 'evidence_review_unavailable':
-      return { icon: TriangleAlert, tone: 'warn', title: '独立复核暂不可用，主张保留为待复核' };
+      return { icon: TriangleAlert, tone: 'warn', title: '主张待复核' };
     case 'agent_planning':
       return { icon: Workflow, tone: 'agent', title: `规划第 ${text(d.round)} 轮` };
     case 'agent_plan':
@@ -155,7 +155,7 @@ export function describeStep(step: Step): Line {
     case 'completed':
       return { icon: CheckCircle2, tone: 'ok', title: '完成' };
     case 'partial':
-      return { icon: AlertCircle, tone: 'warn', title: '部分完成：有待复核或证据不足的内容' };
+      return { icon: AlertCircle, tone: 'warn', title: '部分完成' };
     case 'failed':
       return { icon: AlertCircle, tone: 'bad', title: '执行失败', detail: text(d.error) };
     case 'cancelled':

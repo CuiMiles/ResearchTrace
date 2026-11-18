@@ -8,6 +8,6 @@ self.onmessage = async (event: MessageEvent<string>) => {
     if (svg.length > 2_000_000) throw new Error('SVG 输出超过限制');
     self.postMessage({ svg });
   } catch {
-    self.postMessage({ error: 'DOT 语法或渲染失败；请检查源码。' });
+    self.postMessage({ error: 'DOT 渲染失败' });
   }
 };

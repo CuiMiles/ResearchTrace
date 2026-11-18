@@ -46,7 +46,7 @@ export function LibraryPage() {
       <div className="page-heading">
         <div>
           <h1>文献库</h1>
-          <p>导入的论文都在这里；同一论文的不同版本会自动归在一起，原文始终保留。</p>
+          
         </div>
         <button className="primary-button" disabled={ws.uploading} onClick={ws.openUpload}>
           <UploadCloud size={16} />
@@ -80,7 +80,7 @@ export function LibraryPage() {
           <Search size={15} />
           <input
             aria-label="筛选文献"
-            placeholder="按标题、文件名、版本或作者筛选"
+            placeholder="筛选"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
@@ -98,7 +98,7 @@ export function LibraryPage() {
             onClick={() => navigate('/chat', { state: { versionIds: selected } })}
           >
             <MessagesSquare size={13} />
-            就所选论文提问
+            提问
           </button>
           <button className="small-button" onClick={() => navigate('/compare')}>
             <GitCompareArrows size={13} />
@@ -113,19 +113,19 @@ export function LibraryPage() {
       {!ws.versions.length ? (
         <button className="upload-empty" style={{ width: '100%' }} onClick={ws.openUpload}>
           <UploadCloud size={36} strokeWidth={1.25} />
-          <h3>把第一篇论文放进来</h3>
-          <p>拖放一个或多个 PDF 到页面任意位置；一次最多可选 20 篇</p>
-          <span>逐页解析 · 识别版本 · 不覆盖原文</span>
+          <h3>导入论文</h3>
+          
+          
         </button>
       ) : !shown.length ? (
-        <Empty title="没有匹配的文献">换一个关键词试试。</Empty>
+        <Empty title="没有匹配"></Empty>
       ) : (
         <div className="card document-table">
           <div className="document-table-head">
             <span />
-            <span>文献与版本</span>
+            <span>文献</span>
             <span>状态</span>
-            <span>导入时间</span>
+            <span>时间</span>
             <span />
           </div>
           {shown.map((v) => (
@@ -275,9 +275,9 @@ function DocumentMenu({ version }: { version: Version }) {
           )}
           {confirm ? (
             <>
-              <p>删除后不再参与检索；历史结论会标注原文已删除。</p>
+              <p>不再参与检索</p>
               <button className="danger-text" onClick={() => void remove()}>
-                确认删除此版本
+                确认删除
               </button>
               <button onClick={() => setConfirm(false)}>保留</button>
             </>

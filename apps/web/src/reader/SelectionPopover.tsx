@@ -62,7 +62,7 @@ export function SelectionPopover(props: Props) {
             </button>
           </div>
         </>
-        : <p className="sp-error">{task.error || (task.status === 'cancelled' ? '翻译已取消。' : '这次没有翻译成功，请稍后再试。')}</p>}
+        : <p className="sp-error">{task.error || (task.status === 'cancelled' ? '翻译已取消。' : '翻译失败')}</p>}
     </div>}
     <label className="sp-auto"><input type="checkbox" checked={props.autoTranslate} disabled={!canTranslate}
       onChange={e => props.onAutoTranslate(e.target.checked)} />划词后自动翻译</label>

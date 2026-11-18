@@ -127,7 +127,7 @@ export function DocumentCard({
   if (card.status === 'missing') {
     return (
       <Empty title="还没有文献卡片">
-        <p>解析完成后会自动生成；也可以现在生成（会查询公开学术记录并调用一次轻量模型）。</p>
+        
         <button className="primary-button" disabled={building} onClick={() => void rebuild()}>
           {building ? <Busy>生成中</Busy> : '生成文献卡片'}
         </button>

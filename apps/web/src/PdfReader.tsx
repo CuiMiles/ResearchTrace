@@ -250,7 +250,7 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
         if (!startLayer || !endLayer || !host.contains(startLayer) || !host.contains(endLayer)) return;
         const exact = selection.toString().trim();
         if (!exact) return;
-        if (exact.length > 12000) { setSelectionError('选中的文字太长（超过 12000 字符），请缩小选择范围。'); setPlacement(null); callbacks.current.onSelection?.(null); return; }
+        if (exact.length > 12000) { setSelectionError('选段过长'); setPlacement(null); callbacks.current.onSelection?.(null); return; }
         setSelectionError('');
         const pageElement = startLayer.closest<HTMLElement>('.pdf-page');
         const page = Number(pageElement?.dataset.pageIndex ?? 0);
@@ -328,7 +328,7 @@ export const PdfReader = forwardRef<PdfReaderHandle, Props>(function PdfReader({
     {doc.error && doc.id === version.id && <ErrorBox error={doc.error} />}
     {(selectionError || currentStatus === 'empty') && <div className="pdf-notices">
       {selectionError && <p role="status" className="selection-notice">{selectionError}</p>}
-      {currentStatus === 'empty' && <p role="status" className="selection-notice">此页没有可选择的文字（扫描页或图片）。切换到「中英对照」可查看识别出的文字。</p>}
+      {currentStatus === 'empty' && <p role="status" className="selection-notice">此页没有可选择的文字</p>}
     </div>}
     {!ready && !doc.error && <div className="pdf-pages"><div className="pdf-page pdf-sheet placeholder" style={{ width: Math.min(containerWidth - PAD * 2, 760), height: Math.min(containerWidth - PAD * 2, 760) * 1.3 }}>
       <div className="pdf-loading"><Busy>{doc.id === version.id && doc.progress !== undefined && doc.progress < 1

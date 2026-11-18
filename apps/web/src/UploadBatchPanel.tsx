@@ -149,40 +149,40 @@ export function UploadBatchPanel({ batchId }: { batchId: string | null }) {
   if (!batchId) return null;
   return <section className="upload-batch-panel" aria-label="批量导入进度">
     <div className="upload-batch-heading">
-      <h3>本次批量导入</h3>
+      <h3>导入</h3>
       <span className={`upload-batch-status state-${visible?.status ?? 'loading'}`}>
         {visible ? labels[visible.status] ?? visible.status : '载入状态'}
       </span>
     </div>
     <p className="upload-batch-summary" role="status">
-      {visible ? `共 ${visible.items.length} 份 · 已完成 ${counts.completed ?? 0} · 剩余处理中 ${remaining} · 等待放行 ${holding}` : '正在读取已保存的批次，每 3 秒更新。'}
+      {visible ? `${visible.items.length} 份 · 完成 ${counts.completed ?? 0} · 处理中 ${remaining} · 等待 ${holding}` : '载入中'}
     </p>
     {visible && <>
       <p className="upload-batch-outcomes">失败 {counts.failed ?? 0} · 部分完成 {counts.partial ?? 0} · 已取消 {counts.cancelled ?? 0}</p>
-      {holding > 0 && <p className="upload-batch-note">等待放行的文件已保存；资源腾出后自动入队，无需再次上传。</p>}
+      
     </>}
-    {pollError && <p className="upload-batch-error" role="alert">状态更新失败：{pollError}。{visible ? '仍显示上次取得的状态；' : ''}将自动重试。</p>}
+    {pollError && <p className="upload-batch-error" role="alert">更新失败：{pollError}</p>}
     {actionError && <p className="upload-batch-error" role="alert">操作失败：{actionError}</p>}
     {visible && <>
       <div className="upload-batch-actions">
         <label><input type="checkbox" aria-label="选择所有可操作文件" checked={allSelected} disabled={busy || !selectable.length}
-          onChange={() => setSelected(allSelected ? new Set() : new Set(selectable.map(item => item.id)))}/>全选可操作文件</label>
+          onChange={() => setSelected(allSelected ? new Set() : new Set(selectable.map(item => item.id)))}/>全选</label>
         <span>已选 {selectedItems.length}</span>
-        <button type="button" disabled={busy || !cancellable.length} onClick={() => void change('cancel')}>取消选中 ({cancellable.length})</button>
-        <button type="button" disabled={busy || !resumable.length} onClick={() => void change('resume')}>恢复选中 ({resumable.length})</button>
-        {selectedItems.length > 0 && <button type="button" disabled={busy} onClick={() => setSelected(new Set())}>清除选择</button>}
+        <button type="button" disabled={busy || !cancellable.length} onClick={() => void change('cancel')}>取消 ({cancellable.length})</button>
+        <button type="button" disabled={busy || !resumable.length} onClick={() => void change('resume')}>恢复 ({resumable.length})</button>
+        {selectedItems.length > 0 && <button type="button" disabled={busy} onClick={() => setSelected(new Set())}>清除</button>}
       </div>
       <ul className="upload-batch-files" aria-label="每文件导入状态" aria-busy={busy}>
         {visible.items.map(item => <li key={item.id} className="upload-batch-file">
           <input type="checkbox" aria-label={`选择 ${item.filename}`} checked={selected.has(item.id)}
             disabled={busy || !(cancelStates.has(item.status) || canResume(item))} onChange={() => toggle(item.id)}/>
           <div className="upload-batch-filename"><span title={item.filename}>{item.filename}</span>
-            {item.duplicate && <small>相同内容已存在，复用已有任务</small>}
+            {item.duplicate && <small>已存在</small>}
           </div>
           <span className={`upload-batch-status state-${item.status}`}>{labels[item.status] ?? item.status}</span>
           {item.error && <p className="upload-batch-file-error">{item.error}</p>}
-          {item.status === 'failed' && !item.run_id && <p className="upload-batch-note upload-batch-file-note">此文件未通过导入校验，需修正原文件后另行导入；其他文件继续处理。</p>}
-          {item.status === 'partial' && <p className="upload-batch-note upload-batch-file-note">部分页面或步骤尚未完成，可从已保存的进度恢复。</p>}
+          {item.status === 'failed' && !item.run_id && <p className="upload-batch-note upload-batch-file-note">校验未通过</p>}
+          {item.status === 'partial' && <p className="upload-batch-note upload-batch-file-note">可恢复</p>}
         </li>)}
       </ul>
     </>}

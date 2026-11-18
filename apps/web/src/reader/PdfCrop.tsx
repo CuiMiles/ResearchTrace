@@ -72,6 +72,6 @@ export function PdfCrop({ pdf, pageIndex, bbox, label }: {
   }, [pdf, pageIndex, box]);
   return <span className={`pdf-crop ${state}`}>
     <canvas ref={canvas} role="img" aria-label={label} />
-    {state === 'failed' && <small>原文区域无法显示，请在左侧原文中查看</small>}
+    {state === 'failed' && <small>无法显示</small>}
   </span>;
 }

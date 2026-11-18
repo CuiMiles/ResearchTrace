@@ -76,7 +76,7 @@ export function ReferenceTools({ versionId, parseId, onEvidence, onImported }: {
         const idempotency = actionKeys.current[name] ??= key();
         const run = await api<{ id: string; status: string }>(`/reference-analyses/${analysis.id}/downloads`,
           { mode: action, top_n: topN, max_items: 20, index_dense: false, idempotency_key: idempotency });
-        setBatch({ id: run.id, status: run.status, items: [], counts: {}, notice: '批次已保存，按顺序核验来源并下载。' });
+        setBatch({ id: run.id, status: run.status, items: [], counts: {}, notice: '已排队' });
       } else if ((action === 'cancel' || action === 'resume') && batch) {
         setBatch(await api(`/reference-downloads/${batch.id}/${action}`, {}));
       }
@@ -84,35 +84,35 @@ export function ReferenceTools({ versionId, parseId, onEvidence, onImported }: {
     finally { setBusy(false); }
   }
   const downloading = batch && ['queued', 'running', 'waiting_children'].includes(batch.status);
-  return <details className="reference-tools" style={{ margin: 16, padding: 16, border: '1px solid #d5dfeb', borderRadius: 10 }}>
-    <summary>参考文献重要性与批量下载</summary>
-    <p>统计正文实际引用次数及所在章节。按次数与章节覆盖排序，不能代表论文质量；分类由 Lite 辅助判断。</p>
+  return <details className="reference-tools" style={{ margin: 16, padding: 16, border: '1px solid var(--line)', borderRadius: 10 }}>
+    <summary>参考文献分析</summary>
+    
     {error && <p role="alert">{error}</p>}
     {analysis?.active_snapshot === false && <p role="status">当前展示历史解析快照 {analysis.parse_id}，未混用最新解析。</p>}
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', marginBlock: 12 }}>
       <button disabled={busy} onClick={() => void perform('analyze')}>{busy ? '处理中…' : analysis?.id ? '查看已保存统计' : '分析正文引用'}</button>
-      <button disabled={busy || !analysis?.id || !analysis.references.length || !!runId} onClick={() => void perform('classify')}>Lite 分类（消耗轻量调用）</button>
+      <button disabled={busy || !analysis?.id || !analysis.references.length || !!runId} onClick={() => void perform('classify')}>Lite 分类</button>
       <label>前 N 篇 <input type="number" min={1} max={20} value={topN} style={{ width: 70 }}
         onChange={(e) => setTopN(Math.max(1, Math.min(20, Number(e.target.value) || 1)))} /></label>
       <button disabled={busy || !analysis?.id || !analysis.references.length || !!downloading} onClick={() => void perform('top')}>下载最常引用的 {topN} 篇</button>
-      <button disabled={busy || !analysis?.id || !analysis.references.length || !!downloading} onClick={() => void perform('all')}>下载全部（每批最多 20 篇）</button>
+      <button disabled={busy || !analysis?.id || !analysis.references.length || !!downloading} onClick={() => void perform('all')}>下载全部</button>
     </div>
     {runStatus && <p role="status">分类任务：{statuses[runStatus] || runStatus} {runError}</p>}
     {batch && <section aria-label="参考文献下载状态">
       <p role="status">下载任务：{statuses[batch.status] || batch.status} · {batch.id}</p><p>{batch.notice}</p>
       {downloading && <button disabled={busy} onClick={() => void perform('cancel')}>取消下载</button>}
-      {['cancelled', 'partial', 'failed'].includes(batch.status) && <button disabled={busy} onClick={() => void perform('resume')}>恢复尚未发送的项目</button>}
+      {['cancelled', 'partial', 'failed'].includes(batch.status) && <button disabled={busy} onClick={() => void perform('resume')}>恢复</button>}
       <ul>{batch.items.map((item) => <li key={item.ref_id}>{statuses[item.status] || item.status}
         {item.parse_status && ` · 解析：${statuses[item.parse_status] || item.parse_status}`}
         {item.result?.reason || item.result?.fulltext_status ? ` · ${item.result.reason || item.result.fulltext_status}` : ''}
       </li>)}</ul>
     </section>}
     {analysis?.status === 'not_run' && <p>此解析快照尚未分析。</p>}
-    {analysis?.id && <><p>快照 {analysis.parse_id} · 共 {analysis.reference_count} 条参考文献</p><p>{analysis.scope}</p><p>{analysis.ranking_rule}</p>
+    {analysis?.id && <><p>快照 {analysis.parse_id} · 共 {analysis.reference_count} 条参考文献</p>
       <div style={{ maxHeight: 480, overflow: 'auto' }}>
         {analysis.references.map((entry) => <details key={entry.id} style={{ marginBlock: 8, overflowWrap: 'anywhere' }}>
           <summary>[{entry.marker || '?'}] 正文引用 {entry.citation_count} 次 · {Object.keys(entry.sections).length} 个章节 · {labels[entry.classification.label]}{entry.classification.status === 'model_assisted' ? '（模型辅助，待核验）' : '（未分类）'}<br />{entry.text}</summary>
-          <p>{Object.entries(entry.sections).map(([section, count]) => `${section}：${count} 次`).join('；') || '未找到正文数字引用，不代表不重要。'}</p>
+          <p>{Object.entries(entry.sections).map(([section, count]) => `${section}：${count} 次`).join('；') || '无正文引用'}</p>
           {entry.contexts.map((context) => <div key={context.block_id}><p>{context.section} · 第 {context.page_index + 1} 页 · {context.count} 次</p>
             <blockquote>{context.quote}</blockquote>
             {onEvidence && <button onClick={() => onEvidence({ ...context, status: 'located' })}>查看正文原文</button>}

@@ -156,8 +156,8 @@ export const TranslationPane = forwardRef<TranslationPaneHandle, Props>(function
           </button>}
         </header>
         {state === 'loading' || state === undefined ? <div className="tp-loading tp-skeleton" aria-busy="true"><span className="sr-only">载入本页文字</span><i /><i /><i /><i /><i /></div>
-          : state === 'error' ? <div className="tp-loading">本页文字暂时无法载入，滚动回来会重试。</div>
-          : !blocks.length ? <p className="tp-empty">{blank.has(i) ? '这一页已核验为空白页' : '这一页没有识别到正文文字。'}</p>
+          : state === 'error' ? <div className="tp-loading">载入失败</div>
+          : !blocks.length ? <p className="tp-empty">{blank.has(i) ? '这一页已核验为空白页' : '无正文'}</p>
           : blocks.map(block => <PaneBlock key={block.id} block={block} pdf={pdf} translation={translations.get(block.id)}
             focused={block.id === focusBlock} canTranslate={canTranslate} busy={busy}
             onHover={callbacks.current.onHoverBlock} onSelect={callbacks.current.onSelectBlock}
@@ -211,9 +211,9 @@ export function usePageTranslationRuns(onDone: () => void) {
           if (!live) return null;
           if (!['queued', 'running', 'waiting_children', 'waiting_batch'].includes(state.status)) {
             setRuns(list => list.filter(r => r.id !== run.id));
-            if (state.status === 'failed') setError(state.error || '翻译没有完成，请稍后重试。');
+            if (state.status === 'failed') setError(state.error || '翻译失败');
             // Some paragraphs failed the formula/number/citation check and were not saved.
-            if (state.status === 'partial') setError(parseObject<{ reason?: string }>(state.result, {}).reason || '部分段落没有翻译成功，可单独重试。');
+            if (state.status === 'partial') setError(parseObject<{ reason?: string }>(state.result, {}).reason || '部分未翻译');
             done.current();
           }
         } catch (e) { if (live) setError(errorMessage(e)); }

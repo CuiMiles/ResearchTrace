@@ -23,10 +23,10 @@ interface Thread {
 }
 
 const SUGGESTIONS = [
-  '这篇论文的作者依次是谁？分别来自哪些机构？',
-  '训练使用了什么硬件、多长时间，优化器的超参数是多少？',
-  '主要实验结果是多少？与当时最好的方法相比提升了多少？',
-  '比较所选论文的模型架构差异，并说明各自的出处。',
+  ['作者与机构', '这篇论文的作者依次是谁？分别来自哪些机构？'],
+  ['训练配置', '训练使用了什么硬件、多长时间，优化器的超参数是多少？'],
+  ['主要结果', '主要实验结果是多少？与当时最好的方法相比提升了多少？'],
+  ['架构对比', '比较所选论文的模型架构差异，并说明各自的出处。'],
 ];
 
 function newThreadId() {
@@ -154,7 +154,7 @@ export function ChatPage() {
             </small>
           </button>
         ))}
-        {!threads.length && <p className="muted padded">对话会保存在这里，可随时继续追问。</p>}
+        
       </aside>
 
       <section className="chat-main">
@@ -162,21 +162,12 @@ export function ChatPage() {
           <div className="chat-column">
             {error && <ErrorBox error={error} onClose={() => setError('')} />}
             {!turns.length && (
-              <div style={{ display: 'grid', gap: 18, paddingTop: 24 }}>
-                <div>
-                  <span className="eyebrow">证据问答</span>
-                  <h1 style={{ marginTop: 6 }}>就你的论文提问，每一句回答都能点回原文。</h1>
-                  <p className="muted" style={{ marginTop: 8 }}>
-                    选择一篇或多篇论文作为范围。回答会标出每句话的核对状态：
-                    <span style={{ color: 'var(--ok)' }}>已核对支持</span>、
-                    <span style={{ color: 'var(--review)' }}>待复核</span>、
-                    <span style={{ color: 'var(--bad)' }}>与原文矛盾</span>或证据不足。
-                  </p>
-                </div>
+              <div className="chat-empty">
+                <h1>问答</h1>
                 <div className="suggestions">
-                  {SUGGESTIONS.map((s) => (
-                    <button key={s} className="suggestion" onClick={() => setQuestion(s)}>
-                      {s}
+                  {SUGGESTIONS.map(([label, text]) => (
+                    <button key={label} className="suggestion" title={text} onClick={() => setQuestion(text)}>
+                      {label}
                     </button>
                   ))}
                 </div>
@@ -221,14 +212,14 @@ export function ChatPage() {
             ))}
             <button type="button" className="scope-chip add" onClick={() => setPicking(true)}>
               <Plus size={12} />
-              {scope.length ? '添加论文' : '选择要提问的论文'}
+              {scope.length ? '添加论文' : '选择论文'}
             </button>
           </div>
           <textarea
             aria-label="输入问题"
             value={question}
             rows={2}
-            placeholder={threadId ? '继续追问，可以省略论文名，例如“其中训练用了多少 GPU？”' : '输入你的研究问题'}
+            placeholder={threadId ? '继续追问' : '提问'}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -239,10 +230,7 @@ export function ChatPage() {
           />
           <div className="composer-row">
             <MessagesSquare size={13} />
-            <span>
-              {scope.length > 1 ? `多篇分析 · ${scope.length} 篇，逐篇检索` : scope.length ? '单篇问答' : '先选择论文'}
-              {unavailable ? ' · 服务器未配置模型' : ' · Enter 发送，Shift+Enter 换行'}
-            </span>
+            <span>{unavailable ? 'AI 未配置' : scope.length ? `${scope.length} 篇` : ''}</span>
             <button className="primary-button" disabled={unavailable || !scope.length || !question.trim() || sending}>
               {sending ? <Busy /> : <Send size={15} />}
               发送
@@ -255,12 +243,12 @@ export function ChatPage() {
         <div className="drawer-backdrop" onClick={() => setPicking(false)}>
           <aside className="side-drawer" onClick={(e) => e.stopPropagation()} aria-label="选择论文">
             <div className="section-heading">
-              <h2>选择提问范围</h2>
+              <h2>选择论文</h2>
               <button className="icon-button" aria-label="关闭" onClick={() => setPicking(false)}>
                 <X size={17} />
               </button>
             </div>
-            <p className="muted">只列出已解析完成的论文。多选时逐篇检索，回答会标明每条事实来自哪篇。</p>
+            
             <div className="picker-list">
               {ready.map((v) => (
                 <label key={v.id} className={scope.includes(v.id) ? 'selected' : ''}>
@@ -281,7 +269,7 @@ export function ChatPage() {
               ))}
             </div>
             <button className="primary-button" onClick={() => setPicking(false)}>
-              完成（已选 {scope.length} 篇）
+              完成 {scope.length}
             </button>
           </aside>
         </div>

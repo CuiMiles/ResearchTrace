@@ -67,8 +67,8 @@ function publication(node: GraphNode, versions: Version[]): Publication {
     source: `版本元数据：${candidates.map(item => item.label).join('、')}`,
   };
   return years.length > 1
-    ? { year: null, label: `年份待核对（${years.join(' / ')}）`, source: '不同版本的发表年份元数据存在差异，未选择其中一个年份' }
-    : { year: null, label: '年份未知', source: '节点与已加载版本均缺少可用的发表年份元数据' };
+    ? { year: null, label: `年份待核对（${years.join(' / ')}）`, source: '版本间冲突' }
+    : { year: null, label: '年份未知', source: '无元数据' };
 }
 
 function sourceUrl(value: unknown): string | undefined {
@@ -193,67 +193,69 @@ export function GraphView({ graph, versions, loading, error, onReload, onEvidenc
 
   return <div className="page-content rt-graph-page">
     <div className="page-heading rt-graph-heading">
-      <div><h1>引用图谱</h1><p>沿真实引用回到原文，探索当前语料中的研究联系。</p></div>
-      <button type="button" className="secondary-button" disabled={loading} onClick={onReload}>
-        <RefreshCw size={15} />{loading ? '计算中…' : '重建与重算'}
-      </button>
+      <div><h1>引用图谱</h1></div>
+      <div className="run-actions">
+        <button type="button" className="secondary-button" onClick={() => setShowSurvey(value => !value)} aria-expanded={showSurvey}>综述</button>
+        <button type="button" className="secondary-button" disabled={loading} onClick={onReload}>
+          <RefreshCw size={15} />{loading ? '计算中' : '重算'}
+        </button>
+      </div>
     </div>
-    <button type="button" className="secondary-button" onClick={() => setShowSurvey(value => !value)} aria-expanded={showSurvey}>生成领域综述</button>
     {showSurvey && <WritingWorkflowForm workflow="survey" versions={versions} onEvidence={onEvidence} />}
     {error && <ErrorBox error={error} />}
-    <p className="rt-graph-boundary">PageRank 仅表示当前语料的相对中心性，不代表全领域权威或基石地位；断连不代表论文质量低。图谱边仅来自后端真实引用条目。</p>
-    {loading && <div role="status" className="rt-graph-loading"><Busy>正在读取并计算真实引用图</Busy>{graph && ' · 下方保留上次结果'}</div>}
+    
+    {loading && <div role="status" className="rt-graph-loading"><Busy>计算中</Busy></div>}
     {graph && nodes.length > 0 && <>
       <section className="rt-graph-filters" aria-label="图谱筛选">
         <div className="rt-graph-filter-row">
-          <label className="rt-graph-title-filter">标题筛选<input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="在当前视图按标题查找" /></label>
-          <label className="rt-graph-core-filter">核心节点<select aria-label="核心节点" value={core?.node.id ?? ''} onChange={event => chooseCore(event.target.value)}>
+          <label className="rt-graph-title-filter"><span className="sr-only">标题</span><input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="搜索标题" /></label>
+          <label className="rt-graph-core-filter">核心<select aria-label="核心节点" value={core?.node.id ?? ''} onChange={event => chooseCore(event.target.value)}>
             {nodes.map(({ node }) => <option key={node.id} value={node.id}>{node.title}</option>)}
           </select></label>
           <div className="rt-graph-scope" role="group" aria-label="图谱范围">
-            <button type="button" aria-pressed={scope === 'neighborhood'} onClick={() => setScope('neighborhood')}>核心一跳</button>
-            <button type="button" aria-pressed={scope === 'all'} onClick={() => setScope('all')}>全部文献</button>
+            <button type="button" aria-pressed={scope === 'neighborhood'} onClick={() => setScope('neighborhood')}>一跳</button>
+            <button type="button" aria-pressed={scope === 'all'} onClick={() => setScope('all')}>全部</button>
           </div>
         </div>
         <div className="rt-graph-time-row">
-          <label>发表年份起<input type="number" min="1000" max="9999" step="1" value={from} placeholder={years.length ? String(Math.min(...years)) : '未知'} onChange={event => setFrom(event.target.value)} aria-invalid={invalidRange} /></label>
+          <label>起<input type="number" min="1000" max="9999" step="1" value={from} placeholder={years.length ? String(Math.min(...years)) : '未知'} onChange={event => setFrom(event.target.value)} aria-invalid={invalidRange} /></label>
           <span aria-hidden="true">—</span>
-          <label>发表年份止<input type="number" min="1000" max="9999" step="1" value={to} placeholder={years.length ? String(Math.max(...years)) : '未知'} onChange={event => setTo(event.target.value)} aria-invalid={invalidRange} /></label>
-          <label className="rt-graph-check"><input type="checkbox" checked={includeUnknown} onChange={event => setIncludeUnknown(event.target.checked)} />保留年份未知 / 待核对（{unknownCount}）</label>
-          <button type="button" className="text-button" onClick={resetFilters}>重置筛选</button>
+          <label>止<input type="number" min="1000" max="9999" step="1" value={to} placeholder={years.length ? String(Math.max(...years)) : '未知'} onChange={event => setTo(event.target.value)} aria-invalid={invalidRange} /></label>
+          <label className="rt-graph-check"><input type="checkbox" checked={includeUnknown} onChange={event => setIncludeUnknown(event.target.checked)} />含未知年份 {unknownCount}</label>
+          <button type="button" className="text-button" onClick={resetFilters}>重置</button>
         </div>
-        <p className="rt-graph-help">年份取自发表元数据。未知或冲突年份单独标记；保留时不将其视为落在所选年份区间。默认核心为当前语料 PageRank 最高节点，一跳包含引用与被引邻居。</p>
-        {invalidRange && <p role="alert" className="rt-graph-inline-error">请输入有效的四位年份，且起始年份不晚于结束年份。</p>}
+        
+        {invalidRange && <p role="alert" className="rt-graph-inline-error">年份无效</p>}
         <details className="rt-graph-path-controls">
-          <summary>查找有向引用路径</summary>
-          <p className="rt-graph-help">引用方 → 被引方。按引用步数在完整真实边集合中本地查找最短路径。</p>
+          <summary>引用路径</summary>
+          
           <form onSubmit={event => { event.preventDefault(); setPathQuery({ source, target }); setScope('path'); setSelection({ kind: 'node', id: source }); }}>
-            <label>路径起点<select aria-label="路径起点" value={source} onChange={event => setPathSource(event.target.value)}>{nodes.map(({ node }) => <option key={node.id} value={node.id}>{node.title}</option>)}</select></label>
+            <label>起点<select aria-label="路径起点" value={source} onChange={event => setPathSource(event.target.value)}>{nodes.map(({ node }) => <option key={node.id} value={node.id}>{node.title}</option>)}</select></label>
             <span aria-hidden="true">→</span>
-            <label>路径终点<select aria-label="路径终点" value={target} onChange={event => setPathTarget(event.target.value)}>{nodes.map(({ node }) => <option key={node.id} value={node.id}>{node.title}</option>)}</select></label>
-            <button type="submit" className="small-button">查找并显示路径</button>
+            <label>终点<select aria-label="路径终点" value={target} onChange={event => setPathTarget(event.target.value)}>{nodes.map(({ node }) => <option key={node.id} value={node.id}>{node.title}</option>)}</select></label>
+            <button type="submit" className="small-button">查找</button>
           </form>
           {pathQuery && <div className="rt-graph-path-result" role="status">
-            {path ? <><p>有向最短路径 · {path.edges.length} 次引用{path.edges.length === 0 ? '（起点与终点相同）' : ''}</p>
+            {path ? <><p>{path.edges.length} 跳</p>
               <p>{path.nodes.map(nodeId => nodeById.get(nodeId)?.node.title ?? nodeId).join(' → ')}</p>
-              {scope !== 'path' && <button type="button" className="text-button" onClick={() => setScope('path')}>重新显示此路径</button>}
-            </> : <p>从「{nodeById.get(pathQuery.source)?.node.title ?? pathQuery.source}」到「{nodeById.get(pathQuery.target)?.node.title ?? pathQuery.target}」未找到有向引用路径。当前真实边集合缺少这条路径的证据。</p>}
+              {scope !== 'path' && <button type="button" className="text-button" onClick={() => setScope('path')}>显示</button>}
+            </> : <p>无路径</p>}
           </div>}
         </details>
       </section>
       <div className="rt-graph-view-status" role="status" aria-live="polite">
-        <strong>{scope === 'path' ? '有向路径' : scope === 'all' ? '全部文献' : '核心一跳'}</strong>
-        <span>显示 {visible.nodes.length} / {nodes.length} 篇文献 · {visible.citations.length} / {citations.length} 条引用</span>
+        <strong>{scope === 'path' ? '路径' : scope === 'all' ? '全部' : '一跳'}</strong>
+        <span>{visible.nodes.length} / {nodes.length} 篇 · {visible.citations.length} / {citations.length} 引用</span>
       </div>
-      {scope === 'path' && <p className="rt-graph-notice">路径视图使用完整真实边集合，暂不应用标题、年份与一跳筛选。切回「核心一跳」或「全部文献」可恢复筛选。</p>}
-      {scope === 'neighborhood' && hiddenCore && <p className="rt-graph-notice">核心节点被当前筛选隐藏；下方显示其满足筛选条件的一跳邻居。</p>}
-      {(graph.edges.length - citations.length) > 0 && <p className="rt-graph-notice">{graph.edges.length - citations.length} 条引用缺少可用端点，未绘制或参与路径计算。</p>}
+      
+      {scope === 'neighborhood' && hiddenCore && <p className="rt-graph-notice">核心已被筛选隐藏</p>}
+      {(graph.edges.length - citations.length) > 0 && <p className="rt-graph-notice">{graph.edges.length - citations.length} 条引用无端点</p>}
       <div className="rt-graph-workspace">
         <section className="rt-graph-stage" aria-label="图谱与文献列表">
           <GraphCanvas nodes={visible.nodes} citations={visible.citations} coreId={core?.node.id ?? ''} selection={selected} isPath={scope === 'path'} onSelect={setSelection} />
-          {!visible.nodes.length && <div className="rt-graph-empty" role="status">{scope === 'path' ? '当前查询没有可绘制的路径。' : '当前筛选没有匹配文献。'}<button type="button" className="text-button" onClick={resetFilters}>恢复核心一跳</button></div>}
-          <details className="rt-graph-node-list" open>
-            <summary>当前视图文献（{visible.nodes.length}）· 支持键盘选择</summary>
+          {!visible.nodes.length && <div className="rt-graph-empty" role="status">{scope === 'path' ? '无路径' : '无匹配'}<button type="button" className="text-button" onClick={resetFilters}>恢复核心一跳</button></div>}
+          <details className="rt-graph-node-list">
+            <summary>文献 {visible.nodes.length}</summary>
             <ul>{visible.nodes.map(({ node, publication: published }) => <li key={node.id}>
               <button type="button" aria-pressed={selected?.kind === 'node' && selected.id === node.id} onClick={() => setSelection({ kind: 'node', id: node.id })}>
                 <span>{node.id === core?.node.id && <span className="rt-graph-core-tag">核心</span>}{node.title}</span><small>{published.label}</small>
@@ -262,29 +264,29 @@ export function GraphView({ graph, versions, loading, error, onReload, onEvidenc
           </details>
         </section>
         <aside className="rt-graph-inspector" aria-label="节点与引用详情">
-          <h2>证据详情</h2>
+          <h2>详情</h2>
           {selectedNode && <section aria-label="文献详情">
-            <p className="rt-graph-eyebrow">{selectedNode.node.id === core?.node.id ? '核心节点' : '文献节点'}</p>
+            <p className="rt-graph-eyebrow">{selectedNode.node.id === core?.node.id ? '核心' : '文献'}</p>
             <h3>{selectedNode.node.title}</h3>
-            <div className="rt-graph-role"><strong>{String(record(selectedNode.node).role_label ?? '角色尚未计算')}</strong><p>{String(record(selectedNode.node).role_reason ?? '请重建图谱读取角色规则。')}</p><small>出度 {String(record(selectedNode.node).outdegree ?? '未知')} · 总度 {String(record(selectedNode.node).degree ?? '未知')} · 有向介数 {rank(Number(record(selectedNode.node).betweenness))}</small></div>
+            <div className="rt-graph-role"><strong title={String(record(selectedNode.node).role_reason ?? '')}>{String(record(selectedNode.node).role_label ?? '未计算')}</strong><small>出度 {String(record(selectedNode.node).outdegree ?? '未知')} · 总度 {String(record(selectedNode.node).degree ?? '未知')} · 有向介数 {rank(Number(record(selectedNode.node).betweenness))}</small></div>
             <dl className="rt-graph-facts"><div><dt>发表年份</dt><dd>{selectedNode.publication.label}</dd></div><div><dt>年份依据</dt><dd>{selectedNode.publication.source}</dd></div><div><dt>局部 PageRank</dt><dd>{rank(selectedNode.node.rank)}</dd></div><div><dt>局部入度</dt><dd>{selectedNode.node.indegree}</dd></div></dl>
-            <button type="button" className="small-button" onClick={() => chooseCore(selectedNode.node.id)}>以此为核心查看一跳</button>
-            <div className="rt-graph-versions">{selectedNode.versions.length ? selectedNode.versions.map(version => <button key={version.id} type="button" className="text-button" onClick={() => onVersion(version.id)}><BookOpen size={14} />阅读 {version.label}<span className="rt-graph-id">{version.id}</span></button>) : <p className="rt-graph-help">当前未加载可阅读的本地版本。可通过真实引用条目核对关系。</p>}</div>
-            <h3 className="rt-graph-subheading">关联引用（完整图）</h3>
+            <button type="button" className="small-button" onClick={() => chooseCore(selectedNode.node.id)}>设为核心</button>
+            <div className="rt-graph-versions">{selectedNode.versions.length ? selectedNode.versions.map(version => <button key={version.id} type="button" className="text-button" onClick={() => onVersion(version.id)}><BookOpen size={14} />阅读 {version.label}</button>) : <p className="rt-graph-help">无本地版本</p>}</div>
+            <h3 className="rt-graph-subheading">关联引用</h3>
             <CitationList citations={citations.filter(({ edge }) => edge.source === selectedNode.node.id || edge.target === selectedNode.node.id)} nodeById={nodeById} selectedId={selectedEdge?.id} onSelect={citationId => setSelection({ kind: 'edge', id: citationId })} />
           </section>}
           {selectedEdge && <CitationDetail citation={selectedEdge} nodeById={nodeById} onEvidence={onEvidence} onVersion={onVersion} onNode={nodeId => setSelection({ kind: 'node', id: nodeId })} />}
           <details className="rt-graph-edge-list" open={scope === 'path' ? true : undefined}>
-            <summary>当前视图引用（{visible.citations.length}）</summary>
+            <summary>引用 {visible.citations.length}</summary>
             <CitationList citations={visible.citations} nodeById={nodeById} selectedId={selectedEdge?.id} onSelect={citationId => setSelection({ kind: 'edge', id: citationId })} />
           </details>
-          <details className="rt-graph-role-rules"><summary>局部角色划分规则</summary><p>基石和桥梁均为当前引用集合中的候选；入度为零不证明工作价值低，引用不等同方法继承。</p><pre>{JSON.stringify(record(graph).role_rules ?? { notice: '旧图谱结果，请重新计算' }, null, 2)}</pre></details>
-          <details className="rt-graph-scope-details"><summary>后端语料范围</summary><pre>{typeof graph.scope === 'string' ? graph.scope : JSON.stringify(graph.scope, null, 2)}</pre></details>
+          <details className="rt-graph-role-rules"><summary>角色规则</summary><pre>{JSON.stringify(record(graph).role_rules ?? { notice: '旧图谱结果，请重新计算' }, null, 2)}</pre></details>
+          <details className="rt-graph-scope-details"><summary>语料范围</summary><pre>{typeof graph.scope === 'string' ? graph.scope : JSON.stringify(graph.scope, null, 2)}</pre></details>
         </aside>
       </div>
     </>}
-    {graph && !nodes.length && !loading && <Empty title="图谱从真实文献开始" icon={<Network size={38} />}><p>导入论文后，从真实参考文献条目建立关系。主题相似不会自动连边。</p></Empty>}
-    {!graph && !loading && !error && <p id={`${id}-empty`}>尚未取得图谱数据。</p>}
+    {graph && !nodes.length && !loading && <Empty title="暂无图谱" icon={<Network size={38} />} />}
+    {!graph && !loading && !error && <p id={`${id}-empty`}>暂无数据</p>}
   </div>;
 }
 
@@ -294,9 +296,9 @@ function CitationList({ citations, nodeById, selectedId, onSelect }: {
   return citations.length ? <ul className="rt-graph-citation-list">{citations.map(({ id, edge }) => <li key={id}>
     <button type="button" aria-pressed={selectedId === id} onClick={() => onSelect(id)}>
       <span>{nodeById.get(edge.source)?.node.title} <b aria-label="引用">→</b> {nodeById.get(edge.target)?.node.title}</span>
-      <small>{edge.version_id !== null && edge.page_index !== null ? `来源版本 ${edge.version_id} · 第 ${edge.page_index + 1} 页` : '登记引用元数据 · 无页内定位'}</small>
+      <small>{edge.version_id !== null && edge.page_index !== null ? `第 ${edge.page_index + 1} 页` : '无页内定位'}</small>
     </button>
-  </li>)}</ul> : <p className="rt-graph-help">当前集合未记录引用边。</p>;
+  </li>)}</ul> : <p className="rt-graph-help">暂无引用</p>;
 }
 
 function CitationDetail({ citation, nodeById, onEvidence, onVersion, onNode }: {
@@ -308,26 +310,26 @@ function CitationDetail({ citation, nodeById, onEvidence, onVersion, onNode }: {
   const url = sourceUrl(edge.metadata_source_url);
   const method = record(edge).method;
   return <section className="rt-graph-citation-detail" aria-label="原始引用详情">
-    <p className="rt-graph-eyebrow">有向引用 · 引用方 → 被引方</p>
+    <p className="rt-graph-eyebrow">引用</p>
     <div className="rt-graph-direction"><button type="button" className="text-button" onClick={() => onNode(edge.source)}>{nodeById.get(edge.source)?.node.title}</button><span aria-label="引用">→</span><button type="button" className="text-button" onClick={() => onNode(edge.target)}>{nodeById.get(edge.target)?.node.title}</button></div>
-    <h3>原始引用条目</h3><blockquote>{edge.text || '原始条目文本缺失'}</blockquote>
-    <dl className="rt-graph-facts"><div><dt>引用 ID</dt><dd>{edge.ref_id}</dd></div><div><dt>版本</dt><dd>{edge.version_id ?? '未提供全文版本'}</dd></div><div><dt>物理页码</dt><dd>{hasPage ? `第 ${edge.page_index! + 1} 页（索引 ${edge.page_index}）` : '无页内定位'}</dd></div><div><dt>原文块</dt><dd>{edge.block_id ?? '未提供 block ID'}</dd></div><div><dt>匹配方法</dt><dd>{typeof method === 'string' ? method : '后端未提供'}</dd></div><div><dt>证据状态</dt><dd>{edge.status ?? '状态未提供，需核对原始条目'}</dd></div></dl>
+    <h3>原始条目</h3><blockquote>{edge.text || '原始条目文本缺失'}</blockquote>
+    <dl className="rt-graph-facts"><div><dt>引用 ID</dt><dd>{edge.ref_id}</dd></div><div><dt>页码</dt><dd>{hasPage ? `第 ${edge.page_index! + 1} 页` : '无'}</dd></div><div><dt>匹配方法</dt><dd>{typeof method === 'string' ? method : '—'}</dd></div><div><dt>证据状态</dt><dd>{edge.status ?? '待核对'}</dd></div></dl>
     {located ? <button type="button" className="small-button" onClick={() => onEvidence({ version_id: edge.version_id!, page_index: edge.page_index!, block_id: edge.block_id!, bbox: [], quote: edge.text, status: edge.status ?? '原始参考文献条目' })}><BookOpen size={14} />定位原始条目 · 第 {edge.page_index! + 1} 页</button>
-      : <><p className="rt-graph-help">缺少完整的 version / page / block 定位信息，无法精确跳到原文块。</p>{edge.version_id && <button type="button" className="text-button" onClick={() => onVersion(edge.version_id!)}>阅读来源版本</button>}</>}
-    {url && <a className="text-button" href={url} target="_blank" rel="noopener noreferrer">核对登记引用来源 ↗</a>}
+      : <><p className="rt-graph-help">无原文定位</p>{edge.version_id && <button type="button" className="text-button" onClick={() => onVersion(edge.version_id!)}>阅读来源版本</button>}</>}
+    {url && <a className="text-button" href={url} target="_blank" rel="noopener noreferrer">来源 ↗</a>}
   </section>;
 }
 
 // Canvas has an equivalent native-button node/edge list above, because Cytoscape
 // canvas elements themselves do not expose accessible DOM nodes.
 const styles: StylesheetStyle[] = [
-  { selector: 'node', style: { width: 38, height: 38, 'background-color': '#315ebd', 'border-width': 2, 'border-color': '#fff', label: 'data(label)', 'font-size': 11, color: '#233b56', 'text-valign': 'bottom', 'text-margin-y': 9, 'text-wrap': 'wrap', 'text-max-width': '148px', 'text-background-color': '#fcfdff', 'text-background-opacity': 0.9, 'text-background-padding': '3px' } },
-  { selector: 'node.unknown-year', style: { 'border-style': 'dashed', 'border-color': '#7b889b', 'border-width': 3 } },
-  { selector: 'node.core', style: { 'background-color': '#087f8c', width: 46, height: 46, 'border-color': '#bce3e4', 'border-width': 5 } },
-  { selector: 'edge', style: { width: 1.8, 'curve-style': 'bezier', 'line-color': '#8ea3bc', 'target-arrow-color': '#8ea3bc', 'target-arrow-shape': 'triangle', 'arrow-scale': 1.2, 'source-arrow-shape': 'none' } },
-  { selector: 'edge.path', style: { width: 3, 'line-color': '#7451b8', 'target-arrow-color': '#7451b8', label: '引用', 'font-size': 10, 'text-rotation': 'autorotate', 'text-background-color': '#fff', 'text-background-opacity': 1, 'text-background-padding': '3px', color: '#62429f' } },
-  { selector: 'node.is-selected', style: { 'border-width': 5, 'border-color': '#c57913' } },
-  { selector: 'edge.is-selected', style: { width: 4, 'line-color': '#c57913', 'target-arrow-color': '#c57913', 'z-index': 10 } },
+  { selector: 'node', style: { width: 24, height: 24, 'background-color': '#0f1012', 'border-width': 2, 'border-color': '#fff', label: 'data(label)', 'font-size': 11, color: '#3c3f45', 'text-valign': 'bottom', 'text-margin-y': 9, 'text-wrap': 'wrap', 'text-max-width': '148px', 'text-background-color': '#ffffff', 'text-background-opacity': 0.9, 'text-background-padding': '3px' } },
+  { selector: 'node.unknown-year', style: { 'background-color': '#ffffff', 'border-color': '#8d9097', 'border-width': 2 } },
+  { selector: 'node.core', style: { 'background-color': '#c9f23a', width: 38, height: 38, 'border-color': '#0f1012', 'border-width': 2 } },
+  { selector: 'edge', style: { width: 1.2, 'curve-style': 'bezier', 'line-color': '#c6c6be', 'target-arrow-color': '#a7a9ae', 'target-arrow-shape': 'triangle', 'arrow-scale': 1.2, 'source-arrow-shape': 'none' } },
+  { selector: 'edge.path', style: { width: 3, 'line-color': '#0f1012', 'target-arrow-color': '#0f1012', label: '引用', 'font-size': 10, 'text-rotation': 'autorotate', 'text-background-color': '#fff', 'text-background-opacity': 1, 'text-background-padding': '3px', color: '#62429f' } },
+  { selector: 'node.is-selected', style: { 'border-width': 5, 'border-color': '#6f8f00' } },
+  { selector: 'edge.is-selected', style: { width: 4, 'line-color': '#6f8f00', 'target-arrow-color': '#6f8f00', 'z-index': 10 } },
 ];
 
 function GraphCanvas({ nodes, citations, coreId, selection, isPath, onSelect }: {
@@ -342,7 +344,7 @@ function GraphCanvas({ nodes, citations, coreId, selection, isPath, onSelect }: 
   const [error, setError] = useState('');
   const [exporting, setExporting] = useState(false);
   const elements = useMemo<ElementDefinition[]>(() => [
-    ...nodes.map(({ node, publication: published }) => ({ data: { id: `work:${node.id}`, workId: node.id, label: `${node.title.length > 38 ? node.title.slice(0, 38) + '…' : node.title}\n${published.label}` }, classes: [node.id === coreId ? 'core' : '', published.year === null ? 'unknown-year' : ''].join(' ') })),
+    ...nodes.map(({ node, publication: published }) => ({ data: { id: `work:${node.id}`, workId: node.id, label: `${node.title.length > 38 ? node.title.slice(0, 38) + '…' : node.title}${published.year === null ? '' : `\n${published.year}`}` }, classes: [node.id === coreId ? 'core' : '', published.year === null ? 'unknown-year' : ''].join(' ') })),
     ...citations.map(({ id: edgeId, edge }) => ({ data: { id: edgeId, source: `work:${edge.source}`, target: `work:${edge.target}` }, classes: isPath ? 'path' : '' })),
   ], [nodes, citations, coreId, isPath]);
 
@@ -397,7 +399,7 @@ function GraphCanvas({ nodes, citations, coreId, selection, isPath, onSelect }: 
     if (!cy.current || !nodes.length) return;
     setExporting(true); setError('');
     try {
-      const blob = await cy.current.png({ output: 'blob-promise', full: true, bg: '#fcfdff', maxWidth: 2400, maxHeight: 1800 });
+      const blob = await cy.current.png({ output: 'blob-promise', full: true, bg: '#ffffff', maxWidth: 2400, maxHeight: 1800 });
       if (downloadUrl.current) URL.revokeObjectURL(downloadUrl.current);
       const url = URL.createObjectURL(blob);
       downloadUrl.current = url;
@@ -409,12 +411,12 @@ function GraphCanvas({ nodes, citations, coreId, selection, isPath, onSelect }: 
 
   return <>
     <div className="rt-graph-toolbar" role="group" aria-label="图谱视图操作">
-      <span className="rt-graph-legend"><i className="rt-graph-dot" />核心 <i className="rt-graph-dot rt-graph-dot-paper" />文献 <span>虚线边框：年份未知</span><span>箭头：引用方 → 被引方</span></span>
+      <span className="rt-graph-legend"><i className="rt-graph-dot" />核心 <i className="rt-graph-dot rt-graph-dot-paper" />文献 <span>空心 未知年份</span><span>→ 引用</span></span>
       <div className="rt-graph-tools"><button type="button" className="small-button" aria-label="缩小图谱" onClick={() => zoom(0.8)}>−</button><button type="button" className="small-button" aria-label="放大图谱" onClick={() => zoom(1.25)}>＋</button><button type="button" className="small-button" onClick={fit}>适应画布</button><button type="button" className="small-button" disabled={!nodes.length || exporting} onClick={() => void exportPng()}><Download size={14} />{exporting ? '导出中…' : '导出 PNG'}</button></div>
     </div>
     {error && <ErrorBox error={error} />}
     {/* Refresh coordinates before hit testing when a scroll moved the canvas. */}
     <div className="rt-graph-canvas" ref={container} role="region" aria-label="交互引用图" aria-describedby={`${id}-help`} tabIndex={0} onKeyDown={keyboard} onPointerDownCapture={() => cy.current?.resize()} />
-    <p id={`${id}-help`} className="rt-graph-keyboard-help">拖动平移，滚轮或双指缩放。键盘：方向键平移，+ / − 缩放，0 适应画布。Tab 可选择下方文献与右侧引用；Enter / 空格打开详情。</p>
+    <p id={`${id}-help`} className="sr-only">拖动平移，滚轮或双指缩放。键盘：方向键平移，+ / − 缩放，0 适应画布。Tab 可选择下方文献与右侧引用；Enter / 空格打开详情。</p>
   </>;
 }

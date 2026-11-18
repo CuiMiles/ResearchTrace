@@ -30,7 +30,7 @@ type Language = 'zh-Hans' | 'en';
 type Selection = PdfSelection & { parse_id?: string };
 
 const ACTIVE = ['queued', 'running', 'waiting_children', 'waiting_batch'];
-const QUICK_QUESTIONS = ['这篇论文主要解决什么问题，贡献是什么？', '实验用了哪些数据集、指标和训练配置？', '方法有哪些局限或未来工作？'];
+const QUICK_QUESTIONS = [['核心贡献', '这篇论文主要解决什么问题，贡献是什么？'], ['实验设置', '实验用了哪些数据集、指标和训练配置？'], ['局限', '方法有哪些局限或未来工作？']];
 
 function stored(name: string, fallback: string) {
   try { return localStorage.getItem(name) ?? fallback; } catch { return fallback; }
@@ -43,8 +43,8 @@ const narrow = () => window.matchMedia('(max-width: 900px)').matches;
 
 export function Reader(props: Props) {
   if (!props.version) {
-    return <Empty title="打开一篇论文开始阅读" icon={<FileText size={42} strokeWidth={1.2} />}>
-      <p>导入 PDF 后即可阅读原文、划词翻译，并向 AI 提问。</p>
+    return <Empty title="选择论文" icon={<FileText size={42} strokeWidth={1.2} />}>
+      
       <button className="primary-button" onClick={props.startUpload}>导入 PDF</button>
     </Empty>;
   }
@@ -407,7 +407,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
       <div className="side-body">
         {leftTab === 'outline' && (outlineEditing
           ? <div className="outline-editor">
-            <p>修正标题或删除误识别的条目，原文位置不会改变。</p>
+            
             {outlineDraft.map((h, i) => <div className="outline-edit-row" key={i}>
               <input aria-label={`目录标题 ${i + 1}`} value={h.title} onChange={e => setOutlineDraft(items => items.map((item, j) => j === i ? { ...item, title: e.target.value } : item))} />
               <span>p.{h.page_index + 1}</span>
@@ -423,7 +423,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
             {outline.length
               ? <nav className="outline-list">{outline.map((h, i) => <button key={i} className={`outline-item level-${Math.min(4, h.level ?? 1)} ${i === currentSection ? 'selected' : ''}`} aria-current={i === currentSection ? 'location' : undefined} onClick={() => goToHeading(h)}>
                 <span>{h.title}</span><small>{h.page_index + 1}</small></button>)}</nav>
-              : <p className="side-empty">{parsing ? '解析完成后会在这里生成目录。' : '没有识别到章节标题，可以直接滚动阅读或搜索原文。'}</p>}
+              : <p className="side-empty">{parsing ? '解析中' : '无目录'}</p>}
             {!historical && version.page_count > 0 && !parsing && <button className="text-button side-foot" onClick={() => { setOutlineDraft(outline.map(h => ({ ...h }))); setOutlineEditing(true); }}>编辑目录</button>}
           </>)}
         {leftTab === 'references' && <>
@@ -432,7 +432,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
           {references.length
             ? references.map(r => <button className="reference-row" key={r.id} onClick={() => { setReturn(pageIndex); navigate(r.page_index, blocks.find(b => b.id === r.block_id)); }}>
               <strong>{r.marker ?? '·'}</strong><span>{r.text}</span></button>)
-            : <p className="side-empty">{parsing ? '解析完成后会列出参考文献。' : '没有识别到参考文献列表。'}</p>}
+            : <p className="side-empty">{parsing ? '解析中' : '无参考文献'}</p>}
           <ReferenceTools key={`${version.id}:${parseId ?? ''}`} versionId={version.id} parseId={historical ? parseId : undefined} onEvidence={onEvidence} onImported={refresh} />
         </>}
         {leftTab === 'card' && <>
@@ -448,8 +448,8 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
           <label className="search-field"><Search size={15} /><input aria-label="原文搜索" autoFocus value={query} onChange={e => setQuery(e.target.value)} placeholder="搜索论文原文" /></label>
           {searching && <p className="side-empty"><Busy>搜索中</Busy></p>}
           {searchResults.map(b => <button className="text-hit" key={b.id} onClick={() => navigate(b.page_index, b)}><small>第 {b.page_index + 1} 页</small>{b.text.slice(0, 180)}</button>)}
-          {query && !searching && !searchResults.length && <p className="side-empty">没有找到匹配的原文。</p>}
-          {!query && <p className="side-empty">输入关键词，在全文中查找并跳转。</p>}
+          {query && !searching && !searchResults.length && <p className="side-empty">无匹配</p>}
+          
         </div>}
       </div>
     </aside>
@@ -481,7 +481,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
           onClick={() => showAssistant(narrow() ? !mobileAsk : !assistantOpen)}><Sparkles size={15} /><span>AI 助手</span></button>
       </div>
       {(historical || error || showLocated || translationRuns.error) && <div className="reader-notices">
-        {historical && <div className="reader-note">正在查看较早的解析结果（只读）。<button className="text-button" onClick={() => setSelectedParse('')}>回到最新</button></div>}
+        {historical && <div className="reader-note">历史解析 · 只读<button className="text-button" onClick={() => setSelectedParse('')}>回到最新</button></div>}
         {error && <ErrorBox error={error} onClose={() => setError('')} />}
         {translationRuns.error && <ErrorBox error={translationRuns.error} onClose={translationRuns.clearError} />}
         {showLocated && <div className="reader-note located"><span className="teal-dot" />已定位到第 {highlight!.page_index + 1} 页<span className="truncate">{highlight!.quote.slice(0, 90)}</span>
@@ -498,7 +498,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
         </div>
         {mode === 'parallel' && <div className="split-handle" role="separator" aria-orientation="vertical" tabIndex={0}
           aria-label="调整原文与译文的宽度" aria-valuemin={25} aria-valuemax={75} aria-valuenow={Math.round(split * 100)}
-          title="拖动调整原文与译文宽度；双击恢复各占一半" onPointerDown={dragSplit} onKeyDown={keySplit}
+          title="拖动调整 · 双击复位" onPointerDown={dragSplit} onKeyDown={keySplit}
           onDoubleClick={() => setSplitAndStore(0.5)}><span /></div>}
         {mode === 'parallel' && <div className="reader-translation">
           <div className="translation-head">
@@ -512,7 +512,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
               onClick={() => void translateBlocks(undefined, [-1])}>{translationRuns.pages.has(-1) ? <Busy>全文翻译中</Busy> : '翻译全文'}</button>
             {!historical && <a className="icon-button" aria-label="导出译文 Markdown" title="导出译文" href={endpoint(`/translations/${version.id}/export?format=md&${translationQuery}`)} download><Download size={15} /></a>}
           </div>
-          {!canModel && <p className="translation-hint">翻译服务暂未配置，下面先显示原文；配置后可逐页或整篇翻译。</p>}
+          {!canModel && <p className="translation-hint">翻译未配置</p>}
           <TranslationPane ref={paneRef} versionId={version.id} parseId={parseId} pdf={doc.id === version.id ? doc.pdf : null}
             pageCount={pageCount} initialPage={pageIndex} translations={translationMap} targetLanguage={targetLanguage} focusBlock={focusBlock}
             canTranslate={canModel && !historical} translatingPages={translationRuns.pages}
@@ -538,20 +538,20 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
       <div className="qa-scroll">
         {runId ? <RunDetail runId={runId} onEvidence={onEvidence} onUpdate={() => { loadTranslations(); refresh(); }} />
           : <div className="qa-intro">
-            <h3>向这篇论文提问</h3>
-            <p>回答会标出原文出处，点击即可在原文中定位核对；原文中找不到的内容会直接说明。</p>
-            <div className="quick-questions">{QUICK_QUESTIONS.map(q => <button key={q} disabled={historical || !canModel || submitting || version.parsed_pages === 0} onClick={() => void ask(q)}>{q}</button>)}</div>
-            <p className="qa-tip">也可以在原文中选中一段文字，直接翻译、解释或提问。</p>
+            <h3>提问</h3>
+            
+            <div className="quick-questions">{QUICK_QUESTIONS.map(([label, q]) => <button key={label} title={q} disabled={historical || !canModel || submitting || version.parsed_pages === 0} onClick={() => void ask(q)}>{label}</button>)}</div>
+            
           </div>}
       </div>
       <form className="question-box" onSubmit={e => { e.preventDefault(); void ask(); }}>
         <label htmlFor="question" className="visually-hidden">向当前论文提问</label>
         {questionSelection && <div className="question-scope">针对选中文字提问<button type="button" className="icon-button" aria-label="取消针对选段" onClick={() => setQuestionSelection(null)}><X size={12} /></button></div>}
         <textarea ref={questionInput} maxLength={questionSelection ? 900 : 6000} id="question" value={question} onChange={e => setQuestion(e.target.value)}
-          placeholder={canModel ? '问点什么，比如：作者如何设置学习率？' : '问答服务暂未配置'} rows={3}
+          placeholder={canModel ? '问这篇论文' : 'AI 未配置'} rows={3}
           onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); void ask(); } }} />
         <div className="question-foot">
-          <small>Ctrl + Enter 发送</small>
+          
           <button className="primary-button icon-button" type="submit" disabled={historical || !canModel || !question.trim() || submitting || version.parsed_pages === 0} aria-label="发送问题">{submitting ? <Busy /> : <Send size={16} />}</button>
         </div>
       </form>

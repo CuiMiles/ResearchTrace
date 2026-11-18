@@ -22,7 +22,7 @@ export function useParseSnapshots(versionId?:string) {
    setLoading(true);
    try {
     const rows=await api<ParseSnapshot[]>(`/documents/${versionId}/parses`);
-    if(!Array.isArray(rows)||rows.some(s=>typeof s.id!=='string'||typeof s.status!=='string'))throw new Error('解析快照响应格式不符，暂不能选择或提交解析。');
+    if(!Array.isArray(rows)||rows.some(s=>typeof s.id!=='string'||typeof s.status!=='string'))throw new Error('快照格式无效');
     if(live){setSnapshots(rows);setError('')}
    }catch(e){if(live)setError(errorMessage(e))}
    finally{if(live){setLoading(false);timer=setTimeout(()=>void load(),5000)}}
@@ -49,9 +49,9 @@ export function ParseControls({versionId,snapshots,selected,onSelect,error,loadi
   busy.current=true;setSubmitting(true);setSubmitError('');setMessage('');
   try{
    const result=await api<{id:string;run_id:string;status:string;parse_id:string}>(`/documents/${versionId}/parses`,{engine,device,idempotency_key:request.current.id});
-   if(typeof result.run_id!=='string'||typeof result.parse_id!=='string')throw new Error('解析提交响应缺少任务或快照编号，请重试同一请求确认结果。');
+   if(typeof result.run_id!=='string'||typeof result.parse_id!=='string')throw new Error('提交结果无效');
    if(currentVersion.current!==versionId)return;
-   request.current=null;setMessage('请求已提交；完成状态以快照列表为准。');reload();onSubmitted(result.run_id);
+   request.current=null;setMessage('已提交');reload();onSubmitted(result.run_id);
   }catch(e){if(currentVersion.current===versionId)setSubmitError(errorMessage(e))}
   finally{busy.current=false;setSubmitting(false)}
  }
@@ -66,11 +66,11 @@ export function ParseControls({versionId,snapshots,selected,onSelect,error,loadi
   {snapshot&&<div className="parse-snapshot-detail"><span>{statusLabel(snapshot.status)} · {snapshot.device??'设备未记录'}</span><span>已解析 {snapshot.parsed_pages??'?'} / {snapshot.page_count??'?'} 页</span><span>{date(snapshot.created)}</span>{snapshot.error&&<p role="alert">{snapshot.error}</p>}</div>}
   <button className="text-button" disabled={loading} onClick={reload}>{loading?<Busy>刷新快照</Busy>:'刷新快照'}</button>
   {error&&<ErrorBox error={`解析快照暂不可用：${error}`}/>}
-  <p className="muted">重新解析会保留旧快照和已有引用。引擎能否运行由任务实际结果确认。</p>
+  
   <div className="parse-options"><label>解析引擎<select aria-label="解析引擎" value={engine} disabled={submitting} onChange={e=>{setEngine(e.target.value as typeof engine);if(e.target.value!=='mineru')setDevice('cpu')}}><option value="native">原生解析</option><option value="paddleocr">PaddleOCR · 文字识别</option><option value="paddleocr_vl">PaddleOCR-VL-1.6 · 文档大模型</option><option value="mineru">MinerU · 版面结构</option></select></label><label>设备<select aria-label="解析设备" value={device} disabled={submitting} onChange={e=>setDevice(e.target.value as typeof device)}><option value="cpu">CPU</option><option value="gpu" disabled={engine!=='mineru'}>GPU · MinerU</option></select></label></div>
-  {device==='gpu'&&<p className="muted">GPU 需服务端配置与资源检查；提交不代表已分配显存。</p>}
+  
   <button className="small-button" disabled={submitting||Boolean(error)||loading||snapshots.some(s=>parseInProgress(s.status))} onClick={()=>void submit()}>{submitting?<Busy>提交中</Busy>:submitError?'重试同一解析请求':'创建解析快照'}</button>
-  {snapshots.some(s=>parseInProgress(s.status))&&<p className="muted">已有解析任务进行中，列表会自动刷新。</p>}
+  {snapshots.some(s=>parseInProgress(s.status))&&<p className="muted">解析中</p>}
   {message&&<p role="status">{message}</p>}{submitError&&<ErrorBox error={submitError}/>}
  </details>;
 }
