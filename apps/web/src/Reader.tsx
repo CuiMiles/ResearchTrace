@@ -225,7 +225,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
     setReturnEvidence({ parse_id: b.parse_id ?? parseId, block_id: b.id, version_id: b.version_id, page_index: b.page_index, bbox: b.bbox, quote: b.text, status: '出处已定位' });
     setLeftTab('references'); setLeftOpen(true);
     if (ref) onEvidence({ parse_id: parseId, block_id: ref.block_id, version_id: ref.version_id, page_index: ref.page_index, bbox: [], quote: ref.text, status: '参考文献条目' });
-    else setError(`没有找到引用 ${marker} 对应的参考文献条目，请在参考文献列表中核对。`);
+    else setError(`未找到引用 ${marker}`);
   }
 
   // ── panels ──────────────────────────────────────────────────────────────
@@ -413,7 +413,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
       {(siblings.length > 1 || parsing) && <div className="side-head">
         {siblings.length > 1 && <div className="side-meta"><span>版本</span>
           <div className="version-switch" role="group" aria-label="切换版本">{siblings.map(v => <button key={v.id} className={v.id === version.id ? 'active' : ''} onClick={() => setVersion(v.id)}>{v.label}</button>)}</div></div>}
-        {parsing && <div className="side-progress" role="status"><span>正在解析 {version.parsed_pages}/{version.page_count} 页，可先阅读原文</span><i style={{ width: `${version.parsed_pages / version.page_count * 100}%` }} /></div>}
+        {parsing && <div className="side-progress" role="status"><span>解析中 {version.parsed_pages}/{version.page_count}</span><i style={{ width: `${version.parsed_pages / version.page_count * 100}%` }} /></div>}
       </div>}
       <div className="side-tabs" role="tablist">
         {([['outline', '目录'], ['references', '参考文献'], ['card', '概览']] as const).map(([id, label]) =>

@@ -67,7 +67,7 @@ export function describeStep(step: Step): Line {
   const d = parseObject<Record<string, unknown>>(step.data, {});
   switch (step.event) {
     case 'queued':
-      return { icon: Clock3, tone: 'plain', title: '任务已保存，等待执行' };
+      return { icon: Clock3, tone: 'plain', title: '排队中' };
     case 'started':
       return { icon: Workflow, tone: 'plain', title: '开始执行' };
     case 'plan':
@@ -118,7 +118,7 @@ export function describeStep(step: Step): Line {
       return {
         icon: ScanSearch,
         tone: 'warn',
-        title: d.validation_rejected ? '补充检索' : `发现 ${text(d.issues)} 处证据缺口，补充检索`,
+        title: d.validation_rejected ? '补充检索' : `${text(d.issues)} 处证据缺口`,
       };
     case 'answer_gap_retrieved':
       return { icon: Database, tone: 'agent', title: `补充检索到 ${text(d.new_blocks)} 段新证据` };
@@ -141,7 +141,7 @@ export function describeStep(step: Step): Line {
         title: d.automatic_fallback ? '改由生成模型复核' : '主张待复核',
       };
     case 'quota_route_refused':
-      return { icon: TriangleAlert, tone: 'warn', title: `${text(d.model)} 额度不足，尝试下一路由`, detail: REASONS[text(d.code)] ?? text(d.code) };
+      return { icon: TriangleAlert, tone: 'warn', title: `${text(d.model)} 额度不足`, detail: REASONS[text(d.code)] ?? text(d.code) };
     case 'evidence_review_unavailable':
       return { icon: TriangleAlert, tone: 'warn', title: '主张待复核' };
     case 'agent_planning':

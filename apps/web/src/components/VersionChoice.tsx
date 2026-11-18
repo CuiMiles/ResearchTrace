@@ -209,6 +209,6 @@ function SummaryView({ summary, finished }: { summary: Summary; finished?: numbe
       <strong>{point.title}</strong><span>{point.detail}</span>
       <span className="vc-refs">{point.refs.map((ref) => <em key={ref.id} className={`vc-chip ${ref.kind}`}>{KIND[ref.kind] ?? ref.kind} · {page(ref)}</em>)}</span>
     </li>)}</ol>
-    <p className="vc-footnote">{finished ? `生成于 ${new Date(finished * 1000).toLocaleString('zh-CN', { hour12: false })}；` : ''}由模型（{summary.model ?? '未知模型'}）只依据两版之间真实的段落差异撰写，每条都标出了对应页码，可在下方逐段差异中核对；共比较 {summary.total_changes} 处差异，其中 {summary.considered_changes} 处实质改动用于总结。</p>
+    <p className="vc-footnote">{[summary.model, finished ? new Date(finished * 1000).toLocaleString('zh-CN', { hour12: false }) : '', `${summary.total_changes} 处差异`, `${summary.considered_changes} 处入选`].filter(Boolean).join(' · ')}</p>
   </div>;
 }
