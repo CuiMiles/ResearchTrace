@@ -3,9 +3,10 @@ import { Download, Play } from '../../icons';
 import './demo-player.css';
 
 const media = '/demo-media';
-const mp4 = `${media}/researchtrace-play-v3.mp4`;
-const webm = `${media}/researchtrace-play-v3.webm`;
-const download = `${media}/researchtrace-demo-academic-blue-1080p.mp4`;
+// Subtitles are burned into the picture, so every browser shows the same readable captions.
+const mp4 = `${media}/researchtrace-demo-v4-1080p.mp4`;
+const webm = `${media}/researchtrace-demo-v4-1080p.webm`;
+const download = mp4;
 
 export function DemoPlayer() {
   const player = useRef<HTMLVideoElement>(null);
@@ -83,7 +84,7 @@ export function DemoPlayer() {
     <section className="public-demo" aria-labelledby="public-demo-title">
       <header>
         <h2 id="public-demo-title">项目演示</h2>
-        <p>论文版本比较、扫描件解析与原文证据核验</p>
+        <p>版本识别 · 证据问答 · 阅读翻译 · 图谱写作</p>
       </header>
       <div className="public-demo-screen">
         <video
@@ -91,7 +92,7 @@ export function DemoPlayer() {
           controls
           playsInline
           preload="metadata"
-          poster={`${media}/researchtrace-demo-poster.jpg`}
+          poster={`${media}/researchtrace-demo-v4-poster.jpg`}
           onPlay={() => { playRequested.current = true; }}
           onPause={(event) => { if (!event.currentTarget.error) playRequested.current = false; }}
           onPlaying={() => { setStarted(true); setNotice('ready'); }}
@@ -107,7 +108,6 @@ export function DemoPlayer() {
           }}
           aria-label="ResearchTrace 参赛演示视频"
         >
-          <track kind="captions" src={`${media}/researchtrace-demo-academic-blue-zh.vtt?layout=2`} srcLang="zh-CN" label="简体中文" default />
         </video>
         {!started && (
           <button className="public-demo-play" type="button" onClick={play}>
