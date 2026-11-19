@@ -1,0 +1,120 @@
+{
+  "fixture": "mocked API, layout only, no model calls",
+  "checks": [
+    {
+      "check": "1440 answer prose shown",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 timeline folded",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 sources folded",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 citations numbered by passage",
+      "status": "PASS",
+      "detail": "['1', '2', '3', '4', '5', '3', '4']"
+    },
+    {
+      "check": "1440 live run is one line",
+      "status": "PASS",
+      "detail": "找到 6 段原文证据\n2 步 · 11 秒\n停止"
+    },
+    {
+      "check": "1440 citation opens quote",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 quote has locate",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 sources panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 checks panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 process panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "1440 no horizontal overflow",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 answer prose shown",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 timeline folded",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 sources folded",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 citations numbered by passage",
+      "status": "PASS",
+      "detail": "['1', '2', '3', '4', '5', '3', '4']"
+    },
+    {
+      "check": "390 live run is one line",
+      "status": "PASS",
+      "detail": "找到 6 段原文证据\n2 步 · 12 秒\n停止"
+    },
+    {
+      "check": "390 citation opens quote",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 quote has locate",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 sources panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 checks panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 process panel",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "390 no horizontal overflow",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "no page or console errors",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}

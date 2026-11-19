@@ -285,3 +285,22 @@ ECS现状只读核对：生成仍发Gemini，检索/重排经现有ECS回环1899
 - 全局：`tokens.css` 换成冷灰中性色板与浅色侧栏；阅读/对话页占满一屏；顶栏阅读时显示论文标题；去掉「数据持久化」和模型徽标；文献库与首页不再显示语义索引等技术状态。
 - 验证见 docs/TEST_REPORT.md 同名小节：阅读器浏览器回归 20/20、后端 640 passed/6 skipped；真实译文显示未验证（本地无密钥）。
 - 待办：有密钥的环境中用真实译文复查对照视图；视频与技术文档中的阅读器截图仍是旧界面，提交前建议重拍。
+
+
+## 2026-11-19 问答界面、划词重影、游客模式与演示视频 v2（最新）
+
+- 用户反馈：读论文划词有明显重影；问答页太乱，答案被执行链和检索 JSON 淹没。另外要求增加游客模式（免访问码，默认 Gemini 3.5 Flash Lite + Gemini embedding，进入时弹窗提醒性能下降和额度），并重录用于评审的视频。
+- 划词重影：原因是全局 `::selection` 颜色覆盖了 PDF.js 透明文字层，已修复（`apps/web/src/styles/selection.css`）。阅读器回归现在加载 theme.css 并做断言。
+- 问答：`components/AnswerView.tsx` 与 `RunPanel.tsx` 重写为对话式回答卡片，正文加引用编号，核对、来源、过程、复制和导出用图标展开，默认折叠。运行中只显示一行进度。阅读器助手面板和 `/runs/:id` 页面也显示提问。
+- 游客模式：`services/api/guest_mode.py`、`/api/v1/auth/guest`、`/api/v1/guest/status`，前端在 `features/guest/`。线上启用需要在 ECS 的 `.env` 里设置：
+  - `RT_GUEST_MODE=true`
+  - `RT_GUEST_SEED_WORKSPACE=<一个小的模板空间 id>`：建议只放少量核心论文，并已有 ready 的 Gemini 代际，否则游客只有关键词检索
+  - 额度相关的 `RT_GUEST_*` 见 `.env.example`
+  
+  游客调用计入同一项目账本，不是额外额度。到期清理只删语料副本，不删 runs 和账本。**线上尚未部署和验收**，部署后需在公网用新浏览器走一遍游客流程，并用 1–2 次真实 Flash Lite 调用做冒烟（计入账本）。
+- 视频 v2：`deliverables/ResearchTrace_演示视频_v2_1080p.mp4`（6:06，1080p，离线 MeloTTS 普通话配音，字幕烧录），另有 VTT、封面和 `video-v2-evidence.json`；旧视频保留未动。
+  - 重录：`scripts/video/record_demo.py`（录制与合成）、`slides.html`（片头和技术页）、`narration_v2.json`（讲稿与数据来源）、`retrieval_eval.csv`（由检索评测证据生成）。
+  - 回放：`scripts/replay_saved_answers.py` 把 11-18 的真实回答导入本地空间，引文按原文重新定位，找不到就中止。
+  - 视频里的问答是回放，中英对照和扫描件两段是 11-18 实拍截图，画面都有标注。
+  - 未人工试听，提交前请团队完整看一遍；如需真人配音，可替换 `audio/` 下的音频后重新合成，脚本按每行的实际时间对齐。
+- 测试：后端 666 passed、9 skipped；游客集成 8/8；阅读器 22/22；问答布局 23/23；游客流程 13/13。详见 docs/TEST_REPORT.md 同名小节。本轮模型调用 0 次。

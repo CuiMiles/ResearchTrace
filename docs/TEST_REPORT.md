@@ -317,3 +317,18 @@ ECS现状只读核对：生成仍发Gemini，检索/重排经现有ECS回环1899
 | `apps/web/scripts/extended-reader-check.py` | NOT RUN | 针对已替换的旧对照设计，见 DECISIONS |
 
 本轮模型调用 0 次；未触碰 ECS、GPU 隧道与账本。
+
+## 2026-11-19 问答界面、划词重影、游客模式与演示视频 v2
+
+| 项目 | 状态 | 证据与范围 |
+|---|---|---|
+| 后端全量 `pytest tests/unit tests/integration`（无 .env） | PASS | 666 passed、9 skipped（65.3 秒）；`ruff check services --select E9,F63,F7,F82` 通过。首轮 2 项游客测试 FAIL：内存登录限流器被其他测试的登录次数占满。已修复：先判断游客模式是否开启再限流，测试前清空限流器 |
+| 游客模式集成测试 `tests/integration/test_guest_mode.py` | PASS | 8/8：默认关闭；隔离种子只含 Gemini 代际；所有角色只走游客链，Hydrogen 在 reserve 内被拒；单游客与全体游客日上限（失败请求同样计数）；按客户端限次；上传上限只算自己上传的；游客检索不触达本地 GPU；到期清理保留 runs 与账本 |
+| 阅读器回归 `tests/browser/reader_selection.py`（现加载 theme.css） | PASS | 22/22，新增「选中文字在 canvas 上保持透明」（计算样式 `rgba(0, 0, 0, 0)`）。对照：修复前同样规则得到 `rgb(15, 16, 18)`，即重影来源。`evidence/ui-20261119/reader-selection.json`、`selection-no-ghost.png` |
+| 问答布局 `tests/browser/chat_answer_layout.py`（模拟 API，仅布局） | PASS | 1440/390 宽度共 23 项：正文主张 5 条；执行记录、来源、核对默认折叠；按段落去重编号；运行中只显示一行；引用编号打开原文与「在原文中定位」；三个面板可展开；无横向溢出、无页面错误。`evidence/ui-20261119/chat-answer-layout.json` |
+| 游客流程（本机 API + 生产构建，真实 PDF 模板） | PASS | 13/13：登录页入口、弹窗内容（Flash Lite / gemini-embedding-001 / 剩余 20/20）、顶栏剩余次数、种子文献数、刷新不重复弹窗、无溢出、无页面错误。额度用尽：直接写入 20 条本地测试账本后弹出「今日游客额度已用完」，顶栏变警示色，确认后不再重复。首轮因 Vite 开发代理改写 Host 被跨域写保护拦下（开发代理限制，生产同源不受影响），改用生产构建。`evidence/ui-20261119/guest-flow.json` |
+| 真实模型回答在新界面中的效果 | NOT RUN（实时） | 本机 RT_PROVIDER_MODE=disabled，0 次模型调用；新界面只用 11-18 的真实保存回答回放检查过 |
+| 演示视频 v2 | PASS（技术规格） | `deliverables/ResearchTrace_演示视频_v2_1080p.mp4`：6 分 06 秒，1920×1080 H.264 30fps，AAC 48kHz，−16.0 LUFS，字幕烧录并另附 VTT。`deliverables/video-v2-evidence.json` 记录每个场景与数据来源 |
+| 演示视频人工试听与团队审阅 | NOT RUN | 容器内无法试听：发音、停顿只按词典覆盖检查，没有人工听过 |
+
+本轮模型调用 0 次，provider 请求 0 次。未触碰 ECS、GPU 与额度账本。

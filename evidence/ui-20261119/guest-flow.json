@@ -1,0 +1,79 @@
+{
+ "environment": "local API + production build, RT_PROVIDER_MODE=disabled, guest template = local demo workspace (real PDFs)",
+ "model_calls": 0,
+ "flow_checks": [
+  {
+   "check": "1440 login offers guest entrance",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "1440 notice explains light model and quota",
+   "status": "PASS",
+   "detail": "你正在使用游客模式\n\n为控制公共额度，游客模式使用轻量配置，回答质量、速度和稳定性会低于评审模式。\n\n生成模型\ngemini-3.5-flash-lite\n评审模式使用更强的分析与复核模型\n语义检索\ngemini-embedding-001 + 关键词\n不使用本地 GPU 向量检索与重排\n今日额度\n剩余 20 / 20 次 AI 调用\n全体游客另有共享上限，今日共享剩余 260 次\n游客空间\n独立"
+  },
+  {
+   "check": "1440 chip shows remaining calls",
+   "status": "PASS",
+   "detail": "游客模式 · 剩余 20 次"
+  },
+  {
+   "check": "1440 guest sees seeded papers",
+   "status": "PASS",
+   "detail": "23 of 23"
+  },
+  {
+   "check": "1440 notice not repeated after reload",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "1440 no horizontal overflow",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "390 login offers guest entrance",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "390 notice explains light model and quota",
+   "status": "PASS",
+   "detail": "你正在使用游客模式\n\n为控制公共额度，游客模式使用轻量配置，回答质量、速度和稳定性会低于评审模式。\n\n生成模型\ngemini-3.5-flash-lite\n评审模式使用更强的分析与复核模型\n语义检索\ngemini-embedding-001 + 关键词\n不使用本地 GPU 向量检索与重排\n今日额度\n剩余 20 / 20 次 AI 调用\n全体游客另有共享上限，今日共享剩余 260 次\n游客空间\n独立"
+  },
+  {
+   "check": "390 chip shows remaining calls",
+   "status": "PASS",
+   "detail": "游客模式 · 剩余 20 次"
+  },
+  {
+   "check": "390 guest sees seeded papers",
+   "status": "PASS",
+   "detail": "23 of 23"
+  },
+  {
+   "check": "390 notice not repeated after reload",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "390 no horizontal overflow",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "no page errors",
+   "status": "PASS",
+   "detail": ""
+  }
+ ],
+ "exhausted_quota": {
+  "dialog_shown": true,
+  "dialog_says_0_of_20": true,
+  "chip_class": "guest-chip low",
+  "not_repeated_after_ack": true,
+  "method": "20 ledger rows written directly to the local test DB for that guest run (no provider request)"
+ },
+ "first_run_note": "an earlier run expected 2 seeded papers (template had 2); after the template grew to 23 the expectation now reads the template count"
+}
