@@ -7,6 +7,7 @@
 - v38 上线后游客登录全部返回 500：评委空间里录制时删掉的 v1 仍留着块与解析的关联，复制时撞了唯一约束。v39 修复并补了回归测试。
 - 演示视频 v3（网页文件名为 v4）：7 分 16 秒，1080p，用评委账号在公网实拍，含一次现场提问（等待回答的时间已剪掉，画面标注「快进」）。配音为 MiniMax `speech-2.8-hd`「青年大学生」，13 次合成，每次 2–6 句，按返回的逐句时间戳对齐字幕和画面。字幕烧录进画面，网页直接播放烧录版。成片在 `deliverables/ResearchTrace_实际界面演示_1080p.mp4`，复现脚本在 `scripts/video/*_v3.py`。
 - 当天 Hydrogen 3 次、3.6 Flash 4 次请求在提供方失败（不是额度用完），问答自动降级到 Flash Lite，视频里的现场回答也是 Flash Lite 生成的。如果评审期间仍然失败，评委的新回答也会是 Flash Lite。
+- 清理时误删了 ECS `/opt/researchtrace/data/tts/` 下上一轮会话留下的 `align-contest-demo.py`、`synthesize-contest-demo.py`、`segmented-demo/` 和 `segmented-demo.tar.gz`（与本轮配音试验文件同目录，没有备份）。仓库里有同类脚本 `scripts/synthesize_demo.py`、`scripts/assemble_demo.py`，不保证与被删版本一致；那段分段音频没有用于任何交付物。
 - 待人工：完整听一遍配音；确认作品介绍里的「未发表、未获奖」；用 Windows Chrome/Edge 播放一次新视频；上传完整作品压缩包。
 
 ## 2026-11-19 演示字幕
