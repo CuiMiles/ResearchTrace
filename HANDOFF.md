@@ -1,5 +1,14 @@
 # ResearchTrace handoff
 
+## 2026-11-19 游客上线与演示视频 v3（最新）
+
+- 公网：API `researchtrace:completion-v40-video`，两个 Worker `completion-v39-seedfix`。发布目录 `/opt/researchtrace/releases/completion-v40-video-20261119`，可回滚到 v39（API）或 v38。v38 上线前做了 SQLite 在线备份 `/opt/researchtrace/data/backup-before-v38.sqlite`（约 2.4 GB），环境文件备份 `private/runtime.env.before-v38`，nginx 片段备份 `private/nginx-demo-before-v40.conf`，首次上传的 v4 媒体在 `private/demo-v4-first/`。
+- 游客：`RT_GUEST_MODE=true`，种子空间为评委空间，只复制 Gemini 768 维索引。`RT_GUEST_SHOWCASE=true` 时，评委空间里已完成的问答、智能体、写作、修订总结和译文会作为已保存历史复制给每位游客（不复制额度账本）。游客的新请求只走 `gemini-3.5-flash-lite`，每人每天 20 次，全体游客每天 150 次。
+- v38 上线后游客登录全部返回 500：评委空间里录制时删掉的 v1 仍留着块与解析的关联，复制时撞了唯一约束。v39 修复并补了回归测试。
+- 演示视频 v3（网页文件名为 v4）：7 分 16 秒，1080p，用评委账号在公网实拍，含一次现场提问（等待回答的时间已剪掉，画面标注「快进」）。配音为 MiniMax `speech-2.8-hd`「青年大学生」，13 次合成，每次 2–6 句，按返回的逐句时间戳对齐字幕和画面。字幕烧录进画面，网页直接播放烧录版。成片在 `deliverables/ResearchTrace_实际界面演示_1080p.mp4`，复现脚本在 `scripts/video/*_v3.py`。
+- 当天 Hydrogen 3 次、3.6 Flash 4 次请求在提供方失败（不是额度用完），问答自动降级到 Flash Lite，视频里的现场回答也是 Flash Lite 生成的。如果评审期间仍然失败，评委的新回答也会是 Flash Lite。
+- 待人工：完整听一遍配音；确认作品介绍里的「未发表、未获奖」；用 Windows Chrome/Edge 播放一次新视频；上传完整作品压缩包。
+
 ## 2026-11-19 演示字幕
 
 公网首页正在使用 `researchtrace:completion-v37-caption-layout`。网页字幕采用亮蓝字与深蓝底，长句分两行并避开控制栏。下载版与仓库内的正式 MP4 将蓝字烧录到画面。51 条字幕的原有时间段与配音已比对。复现命令见 [演示发布](docs/DEMO_RELEASE.md)，验收见 [测试报告](docs/TEST_REPORT.md)。

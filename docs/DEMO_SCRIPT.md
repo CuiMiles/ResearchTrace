@@ -1,5 +1,7 @@
 # 8 分钟演示视频：操作与讲稿
 
+> 最新讲稿是 [narration_v3.json](../scripts/video/narration_v3.json)，即视频 v3 的旁白；下面的分步说明仍适用于现场演示。
+
 以下为录制计划。已发布成片、实际用量和构建方法见 [参赛演示](DEMO_RELEASE.md)。
 
 录制地址：https://researchtrace.sluna.xyz （线上版本 v32），使用评委账号登录，访问码不要出镜。

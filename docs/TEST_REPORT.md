@@ -1,5 +1,24 @@
 # Ubuntu24 验收报告
 
+## 2026-11-19 游客上线与演示视频 v3（公网 v38–v40）
+
+| 项目 | 状态 | 证据与范围 |
+|---|---|---|
+| 后端全量 `rt-test` | PASS | 669 passed、8 skipped；前端构建通过 |
+| 游客集成 `tests/integration/test_guest_mode.py` | PASS | 10/10，新增「已保存历史复制，账本不变，到期清除」和「模板里已删除的版本不被复制」 |
+| v38 公网游客登录 | FAIL → 已修复 | `POST /api/v1/auth/guest` 返回 500（`UNIQUE block_parses.block_id`）。v39 修复后复测 PASS |
+| v39 公网游客流程 | PASS | 10 篇论文、28 条已保存运行、6 个对话；点引用回到原文高亮；右上角剩余 20 次 |
+| 游客现场提问 | PASS | 12 秒出答案，2 条主张带引用；执行过程只出现 `gemini-3.5-flash-lite`；剩余 20 → 17 |
+| 评委登录与文献库 | PASS | 10 篇；两次录制上传的 v1 均已删除，版本 ID 与录制前一致 |
+| 视频文件 | PASS | MP4：H.264 High 1920×1080 30fps，AAC 48 kHz，435.7 秒，45 MB，moov 前置，全片解码无错。WebM：VP8/Opus，全片解码无错 |
+| 字幕与画面 | PASS | 52 句字幕，每句中点抽帧人工检查：字幕不被界面遮挡，提问场景字幕避开输入框和进度条 |
+| 公网首页播放 | PASS | 1440 与 390 宽度：选中 MP4，时长 435.7 秒，跳到 200 秒成功，无页面错误，无横向溢出；连续播放 25 秒进度正常。MP4、WebM 范围请求均为 206 |
+| 视频数字复算 | PASS | Hit@1 20.0%→72.0%、Hit@20 70.7%→100%（75 题）；核心 45 题向量 Hit@5 Nemotron 43/45、Qwen3 40/45 |
+| 配音人工试听 | NOT RUN | 无法在本环境试听 |
+| Windows Chrome/Edge 播放 v4 | NOT RUN | 仅在 Chromium 中验证 |
+
+API 用量：MiniMax 14 次请求，13 次成功，1 次在 node01 代理处失败，计费字符 3872。Gemini 账本（太平洋日 11-19）：评委空间 Flash Lite 5 成功 1 失败、3.6 Flash 3 失败 1 未知、Hydrogen 1 成功 3 失败、Decision 1 2 成功；游客 Flash Lite 3 成功；embedding 5 成功。另有 6 次一次性容器直连请求未进入账本：1 次 3.8 Flash TTS（成功，未采用）、2 次 Flash Lite 转写（成功）、3 次转写请求返回 503。证据：`evidence/demo-release-20261119/walkthrough-v3.json`。
+
 ## 2026-11-19 蓝色演示字幕（公网 v37）
 
 - **PASS** · 前端 TypeScript/Vite 构建。Windows Chrome 157、Edge 157、Chromium 1440 和 390 像素宽度的新会话分别播放、暂停检查三处画面、跳至 210 秒继续。四种场景均载入 51 条字幕。见 [公网验收](../evidence/demo-release-20261118/blue-captions-browsers.json)。
