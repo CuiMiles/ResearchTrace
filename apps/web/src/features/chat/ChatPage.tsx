@@ -6,7 +6,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { FileText, MessagesSquare, Plus, Send, X } from '../../icons';
+import { BrandMark, FileText, Plus, Send, X } from '../../icons';
 import { api, date, errorMessage, key, shownVersion } from '../../api';
 import { useWorkspace } from '../../app/workspace';
 import { useModelConfig } from '../../ModelConfig';
@@ -174,16 +174,20 @@ export function ChatPage() {
               </div>
             )}
             {turns.map((run) => (
-              <div key={run.id} style={{ display: 'grid', gap: 10 }}>
+              <div key={run.id} className="chat-turn">
                 <div className="turn-question">{String((run.payload as { question?: string }).question ?? '')}</div>
-                <div className="card turn-answer">
+                <article className="turn-answer" aria-label="回答">
+                  <header className="turn-answer-head">
+                    <BrandMark size={20} />
+                    <span>ResearchTrace</span>
+                  </header>
                   <RunDetail
                     runId={run.id}
                     onEvidence={(e) => void ws.openEvidence(e)}
                     onUpdate={() => void loadThreads()}
                     versionLabel={labelOf}
                   />
-                </div>
+                </article>
               </div>
             ))}
           </div>
@@ -219,7 +223,7 @@ export function ChatPage() {
             aria-label="输入问题"
             value={question}
             rows={2}
-            placeholder={threadId ? '继续追问' : '提问'}
+            placeholder={threadId ? '继续追问…' : '就所选论文提问，回答会标出原文出处'}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -229,8 +233,13 @@ export function ChatPage() {
             }}
           />
           <div className="composer-row">
-            <MessagesSquare size={13} />
-            <span>{unavailable ? 'AI 未配置' : scope.length ? `${scope.length} 篇` : ''}</span>
+            <span>
+              {unavailable
+                ? 'AI 未配置'
+                : !scope.length
+                  ? '先选择要提问的论文'
+                  : 'Enter 发送 · Shift+Enter 换行'}
+            </span>
             <button className="primary-button" disabled={unavailable || !scope.length || !question.trim() || sending}>
               {sending ? <Busy /> : <Send size={15} />}
               发送

@@ -15,6 +15,7 @@ import {
   ScanSearch,
   ShieldCheck,
   Sparkles,
+  Square,
   TriangleAlert,
   Wand2,
   Workflow,
@@ -169,62 +170,115 @@ function clock(seconds: number) {
   return new Date(seconds * 1000).toLocaleTimeString('zh-CN', { hour12: false });
 }
 
-export function AgentTimeline({ steps, live }: { steps: Step[]; live: boolean }) {
-  const [open, setOpen] = useState(live);
-  const [raw, setRaw] = useState(false);
-  // Expanded while the run works; folds away once the answer is ready.
-  useEffect(() => setOpen(live), [live]);
-  const visible = steps.filter((s) => !['heartbeat'].includes(s.event));
+const visibleSteps = (steps: Step[]) => steps.filter((s) => s.event !== 'heartbeat');
+
+/** Counts for the folded “过程” label: steps, models, tools and wall time. */
+export function timelineStats(steps: Step[]) {
+  const visible = visibleSteps(steps);
   const models = new Set(
-    visible.filter((s) => s.event === 'model_request').map((s) => text(parseObject<Record<string, unknown>>(s.data, {}).model)),
+    visible
+      .filter((s) => s.event === 'model_request')
+      .map((s) => text(parseObject<Record<string, unknown>>(s.data, {}).model)),
   );
   const tools = visible.filter((s) => s.event === 'tool_finished').length;
-  const duration = visible.length > 1 ? visible[visible.length - 1].created - visible[0].created : 0;
-  const expanded = open;
+  const seconds = visible.length > 1 ? Math.round(visible[visible.length - 1].created - visible[0].created) : 0;
+  return { steps: visible.length, models: models.size, tools, seconds };
+}
+
+/** The readable step list with the raw events one click away. */
+export function TimelineRows({ steps }: { steps: Step[] }) {
+  const [raw, setRaw] = useState(false);
+  const visible = visibleSteps(steps);
+  if (!visible.length) return <p className="muted">暂无执行记录</p>;
+  return (
+    <div className="agent-timeline">
+      {visible.map((step) => {
+        const line = describeStep(step);
+        const Icon = line.icon;
+        return (
+          <div className={`timeline-row ${line.tone}`} key={step.id}>
+            <span className="timeline-icon">
+              <Icon size={13} />
+            </span>
+            <div>
+              <strong>{line.title}</strong>
+              {line.detail && <p>{line.detail}</p>}
+            </div>
+            <time>{clock(step.created)}</time>
+          </div>
+        );
+      })}
+      <button className="text-button" onClick={() => setRaw(!raw)}>
+        {raw ? '隐藏原始事件' : '查看原始事件'}
+      </button>
+      {raw && (
+        <pre className="code-block">
+          {JSON.stringify(
+            visible.map((s) => ({ event: s.event, data: parseObject(s.data, {}) })),
+            null,
+            2,
+          )}
+        </pre>
+      )}
+    </div>
+  );
+}
+
+/**
+ * While a run works: one quiet line with the latest public step. The full list
+ * stays folded unless the reader asks for it.
+ */
+export function RunProgress({ steps, status, onCancel }: { steps: Step[]; status: string; onCancel?: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [now, setNow] = useState(() => Date.now() / 1000);
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now() / 1000), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const visible = visibleSteps(steps);
+  const last = visible[visible.length - 1];
+  const title = status === 'queued' ? '排队中' : last ? describeStep(last).title : '准备中';
+  const elapsed = visible.length ? Math.max(0, Math.round(now - visible[0].created)) : 0;
+  return (
+    <section className="run-progress" aria-label="执行进度" aria-live="polite">
+      <div className="run-progress-line">
+        <span className="run-progress-pulse" aria-hidden />
+        <button className="run-progress-title" aria-expanded={open} onClick={() => setOpen(!open)}>
+          <span>{title}</span>
+          <small>
+            {visible.length} 步{elapsed ? ` · ${elapsed} 秒` : ''}
+          </small>
+          <ChevronDown size={14} className={open ? 'flipped' : ''} />
+        </button>
+        {onCancel && (
+          <button className="small-button run-progress-cancel" onClick={onCancel}>
+            <Square size={11} />
+            停止
+          </button>
+        )}
+      </div>
+      {open && <TimelineRows steps={steps} />}
+    </section>
+  );
+}
+
+/** Folded execution record (kept for callers outside the answer view). */
+export function AgentTimeline({ steps, live }: { steps: Step[]; live: boolean }) {
+  const [open, setOpen] = useState(false);
+  const stats = timelineStats(steps);
   return (
     <section aria-label="公开执行记录">
-      <button className="timeline-summary" aria-expanded={expanded} onClick={() => setOpen(!open)}>
+      <button className="timeline-summary" aria-expanded={open} onClick={() => setOpen(!open)}>
         <Workflow size={15} />
         <span>
-          {live ? '正在执行' : '执行记录'} · {visible.length} 步
-          {models.size ? ` · 模型 ${models.size} 个` : ''}
-          {tools ? ` · 工具 ${tools} 次` : ''}
-          {duration > 0 ? ` · ${Math.round(duration)} 秒` : ''}
+          {live ? '正在执行' : '执行记录'} · {stats.steps} 步
+          {stats.models ? ` · 模型 ${stats.models} 个` : ''}
+          {stats.tools ? ` · 工具 ${stats.tools} 次` : ''}
+          {stats.seconds > 0 ? ` · ${stats.seconds} 秒` : ''}
         </span>
-        <ChevronDown size={15} className={expanded ? 'flipped' : ''} />
+        <ChevronDown size={15} className={open ? 'flipped' : ''} />
       </button>
-      {expanded && (
-        <div className="agent-timeline">
-          {visible.map((step) => {
-            const line = describeStep(step);
-            const Icon = line.icon;
-            return (
-              <div className={`timeline-row ${line.tone}`} key={step.id}>
-                <span className="timeline-icon">
-                  <Icon size={13} />
-                </span>
-                <div>
-                  <strong>{line.title}</strong>
-                  {line.detail && <p>{line.detail}</p>}
-                </div>
-                <time>{clock(step.created)}</time>
-              </div>
-            );
-          })}
-          <button className="text-button" onClick={() => setRaw(!raw)}>
-            {raw ? '隐藏原始事件' : '查看原始事件'}
-          </button>
-          {raw && (
-            <pre className="code-block">
-              {JSON.stringify(
-                visible.map((s) => ({ event: s.event, data: parseObject(s.data, {}) })),
-                null,
-                2,
-              )}
-            </pre>
-          )}
-        </div>
-      )}
+      {open && <TimelineRows steps={steps} />}
     </section>
   );
 }

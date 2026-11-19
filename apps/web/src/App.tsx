@@ -386,7 +386,7 @@ function RunRoute() {
   if (!runId) return <Navigate to="/" replace />;
   return (
     <div className="page-content" style={{ maxWidth: 900 }}>
-      <RunDetail runId={runId} onEvidence={(e) => void ws.openEvidence(e)} onUpdate={() => void ws.refresh()} />
+      <RunDetail runId={runId} showQuestion onEvidence={(e) => void ws.openEvidence(e)} onUpdate={() => void ws.refresh()} />
     </div>
   );
 }

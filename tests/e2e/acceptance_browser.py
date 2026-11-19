@@ -19,8 +19,10 @@ with sync_playwright() as p:
     page.goto(base,wait_until='networkidle',timeout=120000)
     page.get_by_role('button',name='任务',exact=True).click()
     page.locator('.run-row').filter(has_text='What beta1 and beta2').first.click()
-    page.locator('.evidence-chip').first.wait_for(timeout=60000)
-    page.locator('.evidence-chip').first.click()
+    # Answers read as prose with numbered citations; a number opens its quote.
+    page.locator('.cite-mark').first.wait_for(timeout=60000)
+    page.locator('.cite-mark').first.click()
+    page.locator('.evidence-peek').get_by_role('button',name='在原文中定位').click()
     page.get_by_test_id('evidence-highlight').wait_for(timeout=30000)
     page.locator('.pdf-loading').wait_for(state='hidden',timeout=60000)
     assert page.get_by_role('spinbutton',name='页码').input_value()=='7'

@@ -4,11 +4,11 @@
  * cancel/resume at checkpoints, and the validated answer.
  */
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Clock3, MessageSquare, Play, Square, X } from './icons';
+import { CheckCircle2, Clock3, MessageSquare, Play, X } from './icons';
 import { api, date, endpoint, errorMessage, parseObject } from './api';
 import type { Evidence, Result, Run, Step } from './types';
-import { Badge, Busy, Disclosure, Empty, ErrorBox } from './ui';
-import { AgentTimeline } from './components/AgentTimeline';
+import { Badge, Busy, Empty, ErrorBox } from './ui';
+import { RunProgress, TimelineRows, timelineStats } from './components/AgentTimeline';
 import { AnswerView } from './components/AnswerView';
 import { startPolling } from './app/poll';
 
@@ -21,22 +21,26 @@ export function RunResult({ run, onEvidence }: { run: Run; onEvidence: (e: Evide
 
 function RetrievalSummary({ result }: { result: Result | null }) {
   const retrieval = parseObject<Record<string, unknown>>(result?.retrieval, {});
+  const [raw, setRaw] = useState(false);
   if (!result || !Object.keys(retrieval).length) return null;
   const blocks = Array.isArray(retrieval.blocks) ? retrieval.blocks.length : 0;
   const rewrites = Array.isArray(retrieval.rewritten_queries) ? (retrieval.rewritten_queries as string[]) : [];
   return (
-    <Disclosure title="检索范围与证据来源">
-      <div style={{ display: 'grid', gap: 6, fontSize: 13 }}>
-        <span>
-          方式：{retrieval.mode === 'hybrid' ? '关键词 + 语义混合检索' : '关键词检索'} · 送入模型的原文段落 {blocks} 段
-        </span>
-        {rewrites.length > 0 && <span>英文改写查询：{rewrites.join(' · ')}</span>}
-        
+    <div className="retrieval-summary">
+      <h4>检索范围</h4>
+      <p>
+        {retrieval.mode === 'hybrid' ? '关键词 + 语义混合检索' : '关键词检索'} · 送入模型的原文段落 {blocks} 段
+      </p>
+      {rewrites.length > 0 && <p>英文改写查询：{rewrites.join(' · ')}</p>}
+      <button className="text-button" onClick={() => setRaw(!raw)}>
+        {raw ? '隐藏检索参数' : '查看检索参数'}
+      </button>
+      {raw && (
         <pre className="code-block">
           {JSON.stringify({ retrieval: { ...retrieval, blocks: undefined }, status: result.status }, null, 2)}
         </pre>
-      </div>
-    </Disclosure>
+      )}
+    </div>
   );
 }
 
@@ -45,11 +49,14 @@ export function RunDetail({
   onEvidence,
   onUpdate,
   versionLabel,
+  showQuestion = false,
 }: {
   runId: string;
   onEvidence: (e: Evidence) => void;
   onUpdate?: () => void;
   versionLabel?: (versionId: string) => string;
+  /** Show the question as a chat bubble (hosts that do not print it themselves). */
+  showQuestion?: boolean;
 }) {
   const [run, setRun] = useState<Run | null>(null);
   const [error, setError] = useState('');
@@ -114,27 +121,41 @@ export function RunDetail({
 
   if (!run) return error ? <ErrorBox error={error} /> : <Busy>载入任务</Busy>;
   const running = activeRun(run);
+  const stats = timelineStats(steps);
+  const question = String((run.payload as { question?: unknown })?.question ?? '');
+  // A partial answer whose claims await review already says so in its
+  // verification button; a status row is only needed when work actually stopped.
+  const answered = Array.isArray(run.result?.claims) && (run.result?.claims as unknown[]).length > 0;
+  const settled = ['failed', 'cancelled', 'waiting_for_user'].includes(run.status) || (run.status === 'partial' && !answered);
+  const process = {
+    label: `过程${stats.seconds > 0 ? ` · ${stats.seconds} 秒` : stats.steps ? ` · ${stats.steps} 步` : ''}`,
+    content: (
+      <>
+        <p className="process-stats">
+          {stats.steps} 步{stats.models ? ` · 模型 ${stats.models} 个` : ''}
+          {stats.tools ? ` · 工具 ${stats.tools} 次` : ''}
+          {stats.seconds > 0 ? ` · ${stats.seconds} 秒` : ''}
+        </p>
+        <TimelineRows steps={steps} />
+        <RetrievalSummary result={run.result} />
+      </>
+    ),
+  };
   return (
     <div className="run-detail">
+      {showQuestion && question && <div className="turn-question">{question}</div>}
       {error && <ErrorBox error={error} />}
-      <div className="run-actions">
-        <Badge status={run.status} />
-        {running && (
-          <button className="small-button" onClick={() => void change('cancel')}>
-            <Square size={12} />
-            取消
-          </button>
-        )}
-        {['failed', 'cancelled', 'partial', 'waiting_for_user'].includes(run.status) && (
+      {running && <RunProgress steps={steps} status={run.status} onCancel={() => void change('cancel')} />}
+      {!running && <AnswerView run={run} onEvidence={onEvidence} versionLabel={versionLabel} process={process} />}
+      {!running && settled && (
+        <div className="run-actions settled">
+          <Badge status={run.status} />
           <button className="small-button" onClick={() => void change('resume')}>
             <Play size={12} />
-            恢复
+            {run.status === 'partial' ? '继续' : '恢复'}
           </button>
-        )}
-        {running && <Busy>{run.status === 'queued' ? '排队中' : '运行中'}</Busy>}
-      </div>
-      <AgentTimeline steps={steps} live={running} />
-      {!running && <AnswerView run={run} onEvidence={onEvidence} versionLabel={versionLabel} />}
+        </div>
+      )}
       {!running && Array.isArray(run.result?.coverage_matrix) && <section className="data-table-wrap" aria-label="后续工作条件对照">
         <h3>后续工作与条件对照</h3>
         <table><thead><tr><th>后续论文</th><th>时间与覆盖</th><th>条件、范围与全文证据</th></tr></thead><tbody>
@@ -144,7 +165,6 @@ export function RunDetail({
           </tr>)}
         </tbody></table>
       </section>}
-      {!running && <RetrievalSummary result={run.result} />}
     </div>
   );
 }

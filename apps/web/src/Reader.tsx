@@ -552,7 +552,7 @@ function ReaderWorkspace({ versions, version, setVersion, highlight, onEvidence,
         <button className="icon-button mobile-only" aria-label="关闭问答" onClick={() => setMobileAsk(false)}><X size={17} /></button>
       </div>
       <div className="qa-scroll">
-        {runId ? <RunDetail runId={runId} onEvidence={onEvidence} onUpdate={() => { loadTranslations(); refresh(); }} />
+        {runId ? <RunDetail runId={runId} showQuestion onEvidence={onEvidence} onUpdate={() => { loadTranslations(); refresh(); }} />
           : <div className="qa-intro">
             <h3>提问</h3>
             
