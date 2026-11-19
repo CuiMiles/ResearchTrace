@@ -41,16 +41,17 @@ def clone(source,target,connection=None,index_models=None,showcase=False):
         'parses':('workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,source)),
         'pages':('version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,)),
         'blocks':('workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,source)),
-        'block_parses':('block_id IN (SELECT id FROM blocks WHERE workspace=?)',(source,)),
+        # Deleted versions keep their blocks and parse links; only live ones are copied.
+        'block_parses':('block_id IN (SELECT id FROM blocks WHERE workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0))',(source,source)),
         'parse_pages':('version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,)),
         'active_parses':('version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,)),
         'refs':('workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,source)),
         'embeddings':('workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,source)),
         'index_generations':("workspace=? AND status='ready'"+model_filter,(source,*model_args)),
-        'retrieval_chunks':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+")",(source,source,*model_args)),
-        'retrieval_spans':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+"))",(source,source,*model_args)),
-        'retrieval_vectors':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+"))",(source,source,*model_args)),
-        'active_retrieval_indices':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+")",(source,source,*model_args)),
+        'retrieval_chunks':("workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0) AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+")",(source,source,source,*model_args)),
+        'retrieval_spans':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0) AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+"))",(source,source,source,*model_args)),
+        'retrieval_vectors':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0) AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+"))",(source,source,source,*model_args)),
+        'active_retrieval_indices':("workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0) AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+")",(source,source,source,*model_args)),
     }
     if showcase:
         kinds=','.join('?' for _ in SHOWCASE_KINDS)

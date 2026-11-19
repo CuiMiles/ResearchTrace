@@ -228,3 +228,26 @@ def test_guest_sees_template_answers_as_saved_history_without_ledger(seeded):
     for table in ('runs', 'claims', 'evidence', 'artifacts', 'translation_cache'):
         assert store.one(f'SELECT count(*) n FROM {table} WHERE workspace=?', (workspace,))['n'] == 0
     assert store.one("SELECT count(*) n FROM runs WHERE workspace='template'")['n'] == template_runs
+
+
+def test_deleted_template_versions_are_not_copied(seeded):
+    buf = io.BytesIO()
+    pdf = canvas.Canvas(buf)
+    pdf.drawString(30, 700, 'An earlier upload that the reviewer later deleted.')
+    pdf.save()
+    gone = documents.upload_document('template', 'old.pdf', buf.getvalue(), index_dense=False)['document']['id']
+    jobs.work_once(pool='documents')
+    idx.build('template', [seeded, gone], provider=GeminiRetrievalProvider())
+    store.execute('UPDATE versions SET deleted=1 WHERE id=?', (gone,))
+    # Reparsed versions link every block to its parse; deleted versions keep those links.
+    parse = store.one('SELECT id FROM parses WHERE version_id=?', (gone,))['id']
+    for row in store.rows('SELECT id FROM blocks WHERE version_id=?', (gone,)):
+        store.execute('INSERT OR IGNORE INTO block_parses VALUES(?,?)', (row['id'], parse))
+    assert store.one('SELECT count(*) n FROM block_parses WHERE block_id IN (SELECT id FROM blocks WHERE version_id=?)', (gone,))['n'] > 0
+    workspace, _ = guest_mode.create('client-deleted')
+    assert store.one('SELECT count(*) n FROM versions WHERE workspace=?', (workspace,))['n'] == 1
+    copied = {r['version_id'] for r in store.rows('SELECT version_id FROM retrieval_chunks WHERE workspace=?', (workspace,))}
+    live = {r['id'] for r in store.rows('SELECT id FROM versions WHERE workspace=?', (workspace,))}
+    assert copied and copied <= live
+    indexed = {r['version_id'] for r in store.rows('SELECT version_id FROM active_retrieval_indices WHERE workspace=?', (workspace,))}
+    assert indexed <= live
