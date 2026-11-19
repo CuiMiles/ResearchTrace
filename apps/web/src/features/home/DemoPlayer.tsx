@@ -119,7 +119,7 @@ export function DemoPlayer() {
       <footer>
         <span role="status">
           {notice === 'retry' ? '视频暂时未能加载，可重试或在线打开。'
-            : notice === 'press-play' ? '请点击继续播放。' : '普通话 · AI 配音 · 中文字幕 · 1080p'}
+            : notice === 'press-play' ? '请点击继续播放。' : ''}
         </span>
         {notice === 'retry' && <a href={mp4} target="_blank" rel="noreferrer">在线播放 MP4</a>}
         <a href={download} download>
