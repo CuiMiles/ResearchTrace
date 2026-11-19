@@ -178,3 +178,53 @@ def test_expired_guest_copy_is_purged_but_ledger_and_runs_stay(seeded):
     # The template corpus is untouched.
     assert store.one("SELECT count(*) n FROM blocks WHERE workspace='template'")['n'] > 0
     assert guest_mode.purge_expired(now=expires + 1) == []
+
+
+def test_guest_sees_template_answers_as_saved_history_without_ledger(seeded):
+    block_id = store.one('SELECT id FROM blocks WHERE version_id=? LIMIT 1', (seeded,))['id']
+    parse_id = store.one('SELECT id FROM parses WHERE version_id=? LIMIT 1', (seeded,))['id']
+    rid = store.uid()
+    store.execute('INSERT INTO runs(id,workspace,kind,status,payload,result,created,updated) VALUES(?,?,?,?,?,?,?,?)',
+                  (rid, 'template', 'qa', 'completed',
+                   f'{{"question": "why scale?", "version_ids": ["{seeded}"], "thread_id": "th-demo"}}',
+                   f'{{"answer": "Scaling keeps softmax gradients usable.", "citations": [{{"version_id": "{seeded}", "block_id": "{block_id}"}}]}}',
+                   time.time(), time.time()))
+    store.execute('INSERT INTO runs(id,workspace,kind,status,payload,created,updated) VALUES(?,?,?,?,?,?,?)',
+                  (store.uid(), 'template', 'qa', 'failed', '{}', time.time(), time.time()))
+    store.execute('INSERT INTO steps(run_id,event,data,created) VALUES(?,?,?,?)', (rid, 'answer', f'{{"run": "{rid}"}}', time.time()))
+    store.execute('INSERT INTO claims(id,workspace,run_id,type,text) VALUES(?,?,?,?,?)', ('claim-1', 'template', rid, 'fact', 'Scaling.'))
+    store.execute('INSERT INTO evidence(id,workspace,claim_id,version_id,block_id,page_index,quote,status) VALUES(?,?,?,?,?,?,?,?)',
+                  ('ev-1', 'template', 'claim-1', seeded, block_id, 0, 'square root of dk', 'supported'))
+    store.execute('INSERT INTO artifacts(id,workspace,run_id,kind,title,payload,created) VALUES(?,?,?,?,?,?,?)',
+                  ('art-1', 'template', rid, 'outline', 'Saved outline', '{}', time.time()))
+    store.execute('''INSERT INTO translation_cache(workspace,version_id,parse_id,block_id,source_language,target_language,
+                     glossary_version,model,actual_model,text,created) VALUES(?,?,?,?,?,?,?,?,?,?,?)''',
+                  ('template', seeded, parse_id, block_id, 'en', 'zh-Hans', 'g1', 'gemini-4-hydrogen', 'gemini-4-hydrogen', '缩放', time.time()))
+    quota_row(rid, 'gemini-4-hydrogen')
+    ledger = store.one('SELECT count(*) n FROM quota')['n']
+    template_runs = store.one("SELECT count(*) n FROM runs WHERE workspace='template'")['n']
+    with client() as http:
+        workspace = http.post('/api/v1/auth/guest').json()['workspace']
+        guest_doc = http.get('/api/v1/documents').json()[0]['id']
+        runs = store.rows('SELECT * FROM runs WHERE workspace=?', (workspace,))
+        assert len(runs) == 1 and runs[0]['id'] != rid and runs[0]['status'] == 'completed'
+        copy = runs[0]
+        assert 'showcase_copy' in copy['payload'] and guest_doc in copy['payload'] and seeded not in copy['payload']
+        assert seeded not in copy['result'] and block_id not in copy['result']
+        assert http.get(f"/api/v1/runs/{copy['id']}").status_code == 200
+        assert http.get(f'/api/v1/runs/{rid}').status_code in (403, 404)
+        evidence = store.one('SELECT * FROM evidence WHERE workspace=?', (workspace,))
+        assert evidence['version_id'] == guest_doc and evidence['quote'] == 'square root of dk'
+        claim = store.one('SELECT * FROM claims WHERE id=?', (evidence['claim_id'],))
+        assert claim['workspace'] == workspace and claim['run_id'] == copy['id']
+        assert store.one('SELECT run_id FROM artifacts WHERE workspace=?', (workspace,))['run_id'] == copy['id']
+        assert store.one('SELECT text FROM translation_cache WHERE workspace=? AND version_id=?', (workspace, guest_doc))['text'] == '缩放'
+        assert store.one('SELECT count(*) n FROM steps WHERE run_id=?', (copy['id'],))['n'] == 1
+        # Saved history is not new usage: the ledger is unchanged and the guest keeps the full allowance.
+        assert store.one('SELECT count(*) n FROM quota')['n'] == ledger
+        assert http.get('/api/v1/guest/status').json()['remaining_calls'] == 2
+    expires = store.one('SELECT expires FROM guest_workspaces WHERE workspace=?', (workspace,))['expires']
+    assert guest_mode.purge_expired(now=expires + 1) == [workspace]
+    for table in ('runs', 'claims', 'evidence', 'artifacts', 'translation_cache'):
+        assert store.one(f'SELECT count(*) n FROM {table} WHERE workspace=?', (workspace,))['n'] == 0
+    assert store.one("SELECT count(*) n FROM runs WHERE workspace='template'")['n'] == template_runs

@@ -11,6 +11,7 @@ a guest never receives an independent quota and nothing here resets counters.
 Configuration (server environment only; never accepted from a request):
   RT_GUEST_MODE=true                enable the guest entrance
   RT_GUEST_SEED_WORKSPACE=<id>      optional template workspace to copy
+  RT_GUEST_SHOWCASE=true            also copy the template's finished answers as saved history
   RT_GUEST_MODEL_CHAIN              comma list, default the batch (Flash Lite) model
   RT_GUEST_DAILY_CALLS=20           generation calls per guest workspace per day
   RT_GUEST_GLOBAL_DAILY_CALLS=300   generation calls of all guests per day
@@ -120,7 +121,8 @@ def create(client):
         if seed:
             from .models import EMBED
             from .seed_workspace import clone
-            seeded = clone(seed, workspace, c, index_models=[EMBED])['counts']['versions']
+            showcase = os.getenv('RT_GUEST_SHOWCASE', 'true').lower() == 'true'
+            seeded = clone(seed, workspace, c, index_models=[EMBED], showcase=showcase)['counts']['versions']
         c.execute('INSERT INTO guest_workspaces(workspace,created,expires,client_hash,seeded) VALUES(?,?,?,?,?)',
                   (workspace, now, expires, client_hash, seeded))
     return workspace, expires
@@ -218,7 +220,20 @@ def purge_expired(limit=3, now=None):
         for w in expired:
             blocks = "SELECT id FROM blocks WHERE workspace=?"
             chunks = "SELECT id FROM retrieval_chunks WHERE workspace=?"
+            # Saved history copied from the template carries no ledger rows; drop it whole.
+            copies = "SELECT id FROM runs WHERE workspace=? AND json_extract(payload,'$.showcase_copy') IS NOT NULL"
             for sql in (
+                f'DELETE FROM steps WHERE run_id IN ({copies})',
+                f'DELETE FROM evidence WHERE workspace=? AND claim_id IN (SELECT id FROM claims WHERE run_id IN ({copies}))',
+                f'DELETE FROM claims WHERE workspace=? AND run_id IN ({copies})',
+                f'DELETE FROM artifacts WHERE workspace=? AND (run_id IS NULL OR run_id IN ({copies}))',
+                "DELETE FROM runs WHERE workspace=? AND json_extract(payload,'$.showcase_copy') IS NOT NULL",
+            ):
+                c.execute(sql, (w,) * sql.count('?'))
+            for sql in (
+                'DELETE FROM citation_edges WHERE workspace=?',
+                'DELETE FROM document_version_choices WHERE workspace=?',
+                'DELETE FROM document_work_selections WHERE workspace=?',
                 f'DELETE FROM retrieval_vectors WHERE chunk_id IN ({chunks})',
                 f'DELETE FROM retrieval_spans WHERE chunk_id IN ({chunks})',
                 'DELETE FROM active_retrieval_indices WHERE workspace=?',
