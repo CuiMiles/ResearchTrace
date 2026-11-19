@@ -133,6 +133,11 @@ def retrieve(workspace, version_ids, question, limit=16, queries=None, allow_clo
     dense=[];dense_metadata={'status':'unindexed'};reranker=None
     notice='当前使用对称分词的关键词索引；向量覆盖尚未完成'
     selected_provider=os.getenv('RT_EMBED_PROVIDER','gemini')
+    from .guest_mode import is_guest
+    if is_guest(workspace):
+        # Guests search the compact Gemini-embedding generation copied from the
+        # guest template; the shared local GPU and reranker stay with reviewers.
+        selected_provider='gemini'
     if selected_provider in ('local','auto'):
         try:
             from .embedding_providers import LocalRetrievalProvider

@@ -105,6 +105,13 @@ def migrate():
         CREATE INDEX IF NOT EXISTS document_cards_workspace ON document_cards(workspace,version_id);
         ''')
         c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(6,?)',(time.time(),))
+        # Guest access (services/api/guest_mode.py): isolated, expiring workspaces.
+        c.executescript('''
+        CREATE TABLE IF NOT EXISTS guest_workspaces(workspace TEXT PRIMARY KEY,created REAL NOT NULL,expires REAL NOT NULL,client_hash TEXT NOT NULL,seeded INTEGER NOT NULL DEFAULT 0);
+        CREATE INDEX IF NOT EXISTS guest_workspaces_expiry ON guest_workspaces(expires);
+        CREATE INDEX IF NOT EXISTS guest_workspaces_client ON guest_workspaces(client_hash,created);
+        ''')
+        c.execute('INSERT OR IGNORE INTO schema_migrations VALUES(7,?)',(time.time(),))
     from .document_workflows import migrate_document_workflows
     migrate_document_workflows()
 

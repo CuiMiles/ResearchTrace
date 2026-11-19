@@ -59,7 +59,31 @@ def session(request:Request):
         account=one('SELECT revoked,expires FROM review_accounts WHERE workspace=?',(data['workspace'],))
         if account and (account['revoked'] or account['expires']<=time.time()):
             raise HTTPException(401,'评审入口已到期或已撤销')
+    if data['role']=='guest':
+        from .guest_mode import enabled
+        guest=one('SELECT expires FROM guest_workspaces WHERE workspace=?',(data['workspace'],))
+        if not enabled() or not guest or guest['expires']<=time.time():
+            raise HTTPException(401,'游客体验已到期；可重新进入游客模式或使用评审访问码登录')
     return data
+
+def not_guest(s=Depends(session)):
+    if s['role']=='guest':
+        raise HTTPException(403,'游客模式不提供此操作；评审请使用访问码登录')
+    return s
+
+def client_key(request:Request):
+    """The visitor address. Behind the local reverse proxy (a loopback or
+    private peer) the last X-Forwarded-For hop is the one the proxy appended."""
+    import ipaddress
+    peer=request.client.host if request.client else 'unknown'
+    try:
+        private=ipaddress.ip_address(peer).is_private
+    except ValueError:
+        private=False
+    forwarded=request.headers.get('x-forwarded-for','')
+    if private and forwarded:
+        return forwarded.split(',')[-1].strip()[:64] or peer
+    return peer
 
 def admin(s=Depends(session)):
     if s['role']!='admin':
@@ -142,10 +166,60 @@ def login(p:Login,request:Request,response:Response):
 def who(s=Depends(session)):
     return s
 
+@app.get('/api/v1/auth/guest')
+def guest_entrance():
+    """Public: whether the guest entrance is open and what it offers."""
+    from .guest_mode import GuestRefused,enabled,model_chain,settings
+    if not enabled():
+        return {'enabled':False}
+    try:
+        cfg=settings();chain=model_chain()
+    except GuestRefused:
+        return {'enabled':False}
+    from .models import EMBED
+    return {'enabled':True,'models':chain,'embedding_model':EMBED,'daily_calls':cfg['daily_calls'],
+            'hours':cfg['hours'],'max_documents':cfg['max_documents']}
+
+@app.post('/api/v1/auth/guest')
+def guest_login(request:Request,response:Response):
+    from .guest_mode import GuestRefused,create,enabled
+    if not enabled():
+        raise HTTPException(404,'游客模式未开启')
+    peer=client_key(request)
+    recent=[t for t in LOGIN_ATTEMPTS.get(peer,[]) if t>time.time()-60]
+    if len(recent)>=10:
+        raise HTTPException(429,'请求过于频繁，请稍后再试')
+    LOGIN_ATTEMPTS[peer]=recent+[time.time()]
+    try:
+        workspace,expires=create(peer)
+    except GuestRefused as e:
+        raise HTTPException(e.status,str(e))
+    token=secrets.token_urlsafe(40)
+    execute('INSERT INTO sessions VALUES(?,?,?,?)',(hashlib.sha256(token.encode()).hexdigest(),workspace,'guest',expires))
+    response.set_cookie('rt_session',token,httponly=True,samesite='strict',secure=os.getenv('RT_SECURE_COOKIE','false')=='true',
+                        max_age=max(60,int(expires-time.time())))
+    return {'workspace':workspace,'role':'guest'}
+
+@app.get('/api/v1/guest/status')
+def guest_status(s=Depends(session)):
+    from .guest_mode import GuestRefused,status
+    if s['role']!='guest':
+        return {'guest':False}
+    try:
+        return status(s['workspace']) or {'guest':False}
+    except GuestRefused as e:
+        raise HTTPException(e.status,str(e))
+
 @app.get('/api/v1/capabilities')
 def capabilities(s=Depends(session)):
     from .models import CORE,BATCH,credentials
-    return {'model_configured':any(bool(key) for _,key in credentials()) and os.getenv('RT_PROVIDER_MODE','all') not in ('embedding_only','disabled'),
+    configured=any(bool(key) for _,key in credentials()) and os.getenv('RT_PROVIDER_MODE','all') not in ('embedding_only','disabled')
+    if s['role']=='guest':
+        from .guest_mode import model_chain
+        chain=model_chain()
+        return {'model_configured':configured,'core_model':chain[0],'batch_model':chain[0],'paid_fallback':False,
+                'provider_mode':os.getenv('RT_PROVIDER_MODE','all'),'guest':True}
+    return {'model_configured':configured,
             'core_model':CORE,'batch_model':BATCH,'paid_fallback':False,'provider_mode':os.getenv('RT_PROVIDER_MODE','all')}
 
 @app.post('/api/v1/auth/logout')
@@ -169,6 +243,15 @@ def judging_readiness(s=Depends(session)):
 @app.post('/api/v1/documents')
 async def upload(files:list[UploadFile]=File(...),index_dense:bool=True,s=Depends(session)):
     from .batches import upload_batch
+    if s['role']=='guest':
+        # Guest uploads get a keyword index only; vectors would draw on the
+        # shared embedding quota. The seeded papers keep their Gemini index.
+        from .guest_mode import GuestRefused,check_upload
+        try:
+            check_upload(s['workspace'],len(files))
+        except GuestRefused as e:
+            raise HTTPException(e.status,str(e))
+        index_dense=False
     result=await upload_batch(s['workspace'],files,index_dense=index_dense)
     result['documents']=[{**version(v['id'],s['workspace']),'duplicate':v.get('duplicate',False)} for v in result['documents']]
     return result
@@ -274,7 +357,7 @@ class IndexRequest(BaseModel):
     idempotency_key:str=Field(min_length=8,max_length=150)
 
 @app.post('/api/v1/indices/runs')
-def build_index(p:IndexRequest,s=Depends(session)):
+def build_index(p:IndexRequest,s=Depends(not_guest)):
     # Ownership requires one bounded lookup, not 35 full-library index joins.
     ids=set(p.version_ids);marks=','.join('?' for _ in ids)
     found=rows('SELECT id FROM versions WHERE workspace=? AND deleted=0 AND id IN ('+marks+')',(s['workspace'],*ids))
@@ -288,7 +371,7 @@ def index_status(s=Depends(session)):
             'generations':rows('SELECT id,model_id,revision,status,expected_blocks,covered_blocks,excluded_blocks,chunk_count,vector_count,dimension,created,activated,error FROM index_generations WHERE workspace=? ORDER BY created DESC',(s['workspace'],))}
 
 @app.post('/api/v1/indices/{generation_id}/activate')
-def activate_index(generation_id:str,s=Depends(session)):
+def activate_index(generation_id:str,s=Depends(not_guest)):
     from .index_generations import activate_generation,generation_status
     activate_generation(s['workspace'],generation_id)
     return generation_status(s['workspace'],generation_id)
@@ -632,7 +715,15 @@ class Import(BaseModel):
 @app.post('/api/v1/search/import')
 async def import_paper(p:Import,s=Depends(session)):
     from .research import import_paper
-    return await asyncio.to_thread(import_paper,s['workspace'],p.paper,index_dense=p.index_dense,metadata_only=p.metadata_only)
+    index_dense=p.index_dense
+    if s['role']=='guest' and not p.metadata_only:
+        from .guest_mode import GuestRefused,check_upload
+        try:
+            check_upload(s['workspace'],1)
+        except GuestRefused as e:
+            raise HTTPException(e.status,str(e))
+        index_dense=False
+    return await asyncio.to_thread(import_paper,s['workspace'],p.paper,index_dense=index_dense,metadata_only=p.metadata_only)
 
 class Feedback(BaseModel):
     identity:str=Field(max_length=500)
@@ -649,6 +740,8 @@ class Watch(BaseModel):
 
 @app.post('/api/v1/watch-queries')
 def watch(p:Watch,s=Depends(session)):
+    if s['role']=='guest' and p.enabled:
+        raise HTTPException(403,'游客模式不提供定时追踪；可手动检查一次')
     wid=uid();execute('INSERT INTO watches(id,workspace,query,enabled,interval_hours,next_check) VALUES(?,?,?,?,?,?)',(wid,s['workspace'],p.query,int(p.enabled),p.interval_hours,time.time()+p.interval_hours*3600))
     return one('SELECT * FROM watches WHERE id=?',(wid,))
 

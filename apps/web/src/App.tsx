@@ -39,6 +39,7 @@ import { DemoPlayer } from './features/home/DemoPlayer';
 import { LibraryPage } from './features/library/LibraryPage';
 import { ChatPage } from './features/chat/ChatPage';
 import { Reader } from './Reader';
+import { GuestBanner, GuestEntry } from './features/guest/GuestMode';
 
 const ComparePage = lazy(() => import('./Research').then((m) => ({ default: m.ComparePage })));
 const SearchPage = lazy(() => import('./Research').then((m) => ({ default: m.SearchPage })));
@@ -198,10 +199,12 @@ function Shell() {
                 <span>验收</span>
               </NavLink>
             )}
-            <NavLink to="/settings" end aria-label="资源与配额" title="资源与配额">
-              <Settings2 size={20} />
-              <span>资源</span>
-            </NavLink>
+            {ws.session.role !== 'guest' && (
+              <NavLink to="/settings" end aria-label="资源与配额" title="资源与配额">
+                <Settings2 size={20} />
+                <span>资源</span>
+              </NavLink>
+            )}
             <button aria-label="退出工作区" title="退出工作区" onClick={() => void ws.logout()}>
               <LogOut size={20} />
               <span>退出</span>
@@ -209,7 +212,7 @@ function Shell() {
           </div>
         </aside>
         <div className="app-main">
-          <header className={`topbar ${readingVersion ? '' : 'plain'}`}>
+          <header className={`topbar ${readingVersion || ws.session.role === 'guest' ? '' : 'plain'}`}>
             <div className="breadcrumbs">
               <button
                 className="icon-button mobile-only"
@@ -233,6 +236,11 @@ function Shell() {
                 <strong className="truncate">{title}</strong>
               )}
             </div>
+            <GuestBanner
+              role={ws.session.role}
+              runs={ws.runs.filter((r) => !activeRun(r)).length}
+              onSignIn={() => void ws.logout()}
+            />
           </header>
           {ws.error && (
             <div className="global-message">
@@ -439,6 +447,7 @@ function Login({ onLogin, showDemo }: { onLogin: (s: Session) => void; showDemo:
           </button>
         </form>
         {error && <ErrorBox error={error} />}
+        <GuestEntry onLogin={onLogin} />
       </main>
     </div>
   );

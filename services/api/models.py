@@ -164,6 +164,10 @@ def reserve(project,model,tokens,run_id,now=None,request_units=1):
             if run['status']=='cancelled':
                 raise QuotaRefusal('任务已取消；没有发出新的模型请求', scope='global', code='cancelled')
         policy = budget_policy()
+        if run:
+            # Guest workspaces: light models only, per-guest and all-guest daily caps.
+            from .guest_mode import check_reservation
+            check_reservation(c, run['workspace'], model, now)
         try:
             daily_caps=json.loads(os.getenv('RT_MODEL_DAILY_LIMITS','{}'))
             if not isinstance(daily_caps,dict) or any(type(cap) is not int or cap<1 for cap in daily_caps.values()):
@@ -457,6 +461,10 @@ def generate(system,prompt,run_id,core=True,role=None,json_output=True,response_
     plus the models that were skipped, so the UI can label a downgrade.
     """
     chain = role_chain(role or ('deep' if core else 'light'))
+    if run_id:
+        # A guest run uses only the guest chain (default Flash Lite) for every role.
+        from .guest_mode import chain_for_run
+        chain = chain_for_run(run_id) or chain
     skipped = []
     overloaded = None  # first model that answered 503 (overloaded): one delayed retry
     retried = False

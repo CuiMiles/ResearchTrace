@@ -286,7 +286,8 @@ def review_live(run,result,blocks,version_ids,question):
     from . import models,store
     from .jobs import checkpoint,source_context
     if store.cancelled(run['id']):return result
-    if os.getenv('RT_EVIDENCE_REVIEW_PROVIDER')=='decision1':
+    from .guest_mode import is_guest
+    if os.getenv('RT_EVIDENCE_REVIEW_PROVIDER')=='decision1' and not is_guest(run['workspace']):
         try:
             from .decision_service import review
             return review(run,result,blocks,version_ids,question)

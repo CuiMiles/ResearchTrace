@@ -8,16 +8,24 @@ TABLES=('works','versions','parses','pages','blocks','block_parses','parse_pages
         'embeddings','index_generations','retrieval_chunks','retrieval_spans','retrieval_vectors','active_retrieval_indices')
 
 
-def clone(source,target,connection=None):
+def clone(source,target,connection=None,index_models=None):
+    """Copy the corpus; `index_models` limits copied vector generations to those model ids.
+
+    Guests receive only the compact cloud index (e.g. 768-d Gemini vectors),
+    never the large local 4096-d generations, so each guest space stays small.
+    """
     if source==target:raise ValueError('种子来源和目标空间必须不同')
     if connection is None:
         with store.db() as c:
             c.execute('BEGIN IMMEDIATE')
-            return clone(source,target,c)
+            return clone(source,target,c,index_models)
     c=connection
     if not c.execute('SELECT id FROM workspaces WHERE id=?',(source,)).fetchone():raise ValueError('种子工作区不存在')
     if not c.execute('SELECT id FROM workspaces WHERE id=?',(target,)).fetchone():raise ValueError('目标工作区不存在')
     if c.execute('SELECT 1 FROM versions WHERE workspace=?',(target,)).fetchone():raise ValueError('仅能给空白评审空间复制种子资料')
+    model_args=tuple(index_models or ())
+    if index_models is not None and not model_args:raise ValueError('需要至少一个可复制的索引模型')
+    model_filter=(' AND model_id IN ('+','.join('?' for _ in model_args)+')') if index_models is not None else ''
     # Only corpus-owned rows; never copy sessions, invitation codes, quota,
     # tasks, answers or private historical notes into another identity.
     queries={
@@ -30,12 +38,16 @@ def clone(source,target,connection=None):
         'active_parses':('version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,)),
         'refs':('workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,source)),
         'embeddings':('workspace=? AND version_id IN (SELECT id FROM versions WHERE workspace=? AND deleted=0)',(source,source)),
-        'index_generations':("workspace=? AND status='ready'",(source,)),
-        'retrieval_chunks':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready')",(source,source)),
-        'retrieval_spans':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'))",(source,source)),
-        'retrieval_vectors':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'))",(source,source)),
-        'active_retrieval_indices':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready')",(source,source)),
+        'index_generations':("workspace=? AND status='ready'"+model_filter,(source,*model_args)),
+        'retrieval_chunks':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+")",(source,source,*model_args)),
+        'retrieval_spans':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+"))",(source,source,*model_args)),
+        'retrieval_vectors':("chunk_id IN (SELECT id FROM retrieval_chunks WHERE workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+"))",(source,source,*model_args)),
+        'active_retrieval_indices':("workspace=? AND generation_id IN (SELECT id FROM index_generations WHERE workspace=? AND status='ready'"+model_filter+")",(source,source,*model_args)),
     }
+    if index_models is not None:
+        # The legacy per-block embedding table follows the same model filter.
+        where,args=queries['embeddings']
+        queries['embeddings']=(where+' AND model IN ('+','.join('?' for _ in model_args)+')',(*args,*model_args))
     # Vector BLOBs can exceed the API's entire memory allowance. IDs and source
     # mappings are small; copy both vector stores with a bounded cursor instead
     # of retaining every BLOB in a Python list at once.
@@ -81,5 +93,6 @@ def clone(source,target,connection=None):
             count+=1
         counts[table]=count
     return {'source_workspace':source,'target_workspace':target,'counts':counts,'provider_calls':0,
+            'index_models':list(model_args) if index_models is not None else 'all',
             'vectors_recomputed':False,'isolated_ids':True,'historical_answers_copied':False,
             'vector_copy_batch':64}

@@ -363,6 +363,8 @@ def queue_classification(analysis_id: str, p: ClassifyReferences, s=Depends(auth
 
 @router.post('/reference-analyses/{analysis_id}/downloads')
 def queue_download(analysis_id: str, p: DownloadReferences, s=Depends(auth)):
+    if s['role'] == 'guest':
+        raise HTTPException(403, '游客模式不提供参考文献批量下载；评审请使用访问码登录')
     report = analysis_report(s['workspace'], analysis_id)
     payload = p.model_dump(exclude={'idempotency_key'}) | {'analysis_id': analysis_id}
     # Main queue owns admission and idempotency; we never bypass its limits.

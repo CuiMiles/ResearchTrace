@@ -30,7 +30,8 @@ def collect(run):
     state=snap.get('agent_loop',{'rounds':[],'observations':[],'plan_calls':0,'complete':False})
     context=ToolContext(workspace=w,run_id=rid)
     task_route=None
-    if __import__('os').getenv('RT_DECISION_ENABLED','false').lower()=='true':
+    from .guest_mode import is_guest
+    if __import__('os').getenv('RT_DECISION_ENABLED','false').lower()=='true' and not is_guest(w):
         from .decision_service import route
         task_route=route(run)
         state['task_route']=task_route
