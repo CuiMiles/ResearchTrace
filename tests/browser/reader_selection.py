@@ -39,7 +39,7 @@ HARNESS = """import React,{useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {Reader} from './src/Reader';
 import {ModelConfig} from './src/ModelConfig';
-import './src/styles/tokens.css'; import './src/styles/app.css';
+import './src/styles/tokens.css'; import './src/styles/app.css'; import './src/styles/theme.css';
 const versions=VERSIONS;
 function Fixture(){const[id,setId]=useState('v1');const[run,setRun]=useState<string|null>(null);const[shown,setShown]=useState(true);return <ModelConfig.Provider value={{model_configured:true,core_model:'FIXTURE_NO_API',batch_model:'FIXTURE_NO_API',paid_fallback:false}}><div style={{height:40,display:'flex',gap:8}}>{versions.map(v=><button key={v.id} onClick={()=>setId(v.id)} data-fixture-version={v.id}>{v.id}</button>)}<button onClick={()=>setShown(x=>!x)} data-fixture-toggle>mount/unmount</button></div><div style={{height:'calc(100vh - 40px)'}}>{shown&&<Reader versions={versions} version={versions.find(v=>v.id===id)!} setVersion={setId} highlight={null} onEvidence={()=>{}} runId={run} setRunId={setRun} refresh={()=>{}} startUpload={()=>{}}/>}</div></ModelConfig.Provider>}
 createRoot(document.getElementById('root')!).render(<React.StrictMode><Fixture/></React.StrictMode>);
@@ -340,6 +340,14 @@ def main():
                 page.get_by_role("region", name="选段操作").wait_for()
                 assert selected == "Attention Is All You Need"
                 checks.append("real PDF text selection opens floating selection card")
+                # The app's global ::selection colour must not paint the
+                # invisible text layer over the canvas (seen as doubled glyphs).
+                selected_color = page.locator('.pdf-page[data-page-index="0"] .textLayer span').filter(
+                    has_text="Attention Is All You Need").first.evaluate(
+                    "el=>getComputedStyle(el,'::selection').color")
+                assert selected_color in ("rgba(0, 0, 0, 0)", "transparent"), selected_color
+                page.screenshot(path=OUTPUT / "selection-no-ghost.png")
+                checks.append(f"selected PDF text stays transparent over canvas ({selected_color})")
                 # The card floats next to the selection inside the PDF viewport
                 # and never covers the selected glyphs themselves.
                 bar = page.get_by_role("region", name="选段操作").bounding_box()

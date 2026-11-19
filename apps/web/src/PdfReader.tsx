@@ -372,6 +372,10 @@ function PdfPage({ pdf, index, scale, rotation, active, width, height, onStatus,
     text.setAttribute('aria-label', `第 ${index + 1} 页原文，可选择文字进行翻译、解释或提问`);
     canvas.setAttribute('aria-label', `第 ${index + 1} 页`);
     root.replaceChildren(canvas, text);
+    const selecting = () => text.classList.add('selecting');
+    const settled = () => text.classList.remove('selecting');
+    text.addEventListener('pointerdown', selecting);
+    window.addEventListener('pointerup', settled);
     onStatus(index, 'loading');
     void (async () => {
       const page = await pdf.getPage(index + 1);
@@ -392,6 +396,12 @@ function PdfPage({ pdf, index, scale, rotation, active, width, height, onStatus,
         if (hasText) {
           textLayer = new TextLayer({ textContentSource: content, container: text, viewport });
           await textLayer.render();
+          if (disposed) return false;
+          // As in PDF.js's viewer: a drag past the last glyph lands here instead
+          // of selecting (and flashing) the whole layer.
+          const end = window.document.createElement('div');
+          end.className = 'endOfContent';
+          text.append(end);
         }
         return hasText;
       })();
@@ -400,7 +410,11 @@ function PdfPage({ pdf, index, scale, rotation, active, width, height, onStatus,
     })().catch(e => {
       if (!disposed) { console.warn(`PDF page ${index + 1}: ${errorMessage(e)}`); onStatus(index, 'error'); }
     });
-    return () => { disposed = true; render?.cancel(); textLayer?.cancel(); canvas.remove(); text.remove(); };
+    return () => {
+      disposed = true; render?.cancel(); textLayer?.cancel();
+      text.removeEventListener('pointerdown', selecting); window.removeEventListener('pointerup', settled);
+      canvas.remove(); text.remove();
+    };
   }, [pdf, index, scale, rotation, active, onStatus, onSize]);
   return <div className="pdf-page pdf-sheet" data-page-index={index} style={{ width, height }}>
     <div ref={surface} className="pdf-page-surface" />
