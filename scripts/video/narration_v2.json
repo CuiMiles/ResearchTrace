@@ -1,0 +1,296 @@
+{
+ "title": "研证 ResearchTrace 演示视频 v2（2026-11-19）",
+ "sources": {
+  "retrieval": "evidence/review-upgrade/retrieval-keyword-all.json + retrieval-nemotron-all-rerank.json：75 道有答案题，首位命中 15→54（20.0%→72.0%），前20命中 53→75（70.7%→100%）；independent_human_gold_review=NOT RUN",
+  "graph": "POST /api/v1/graphs（本地演示空间）：22 个节点（21 篇论文 + 1 本教材；v1/v7 合并为同一作品），70 条引用边",
+  "local_index": "HANDOFF.md 2026-11-17 全量本地代：23185/23185 向量，39 份文献，Nemotron 4096 维",
+  "tests": "本会话 pytest tests/unit tests/integration：666 passed, 9 skipped",
+  "answers": "evidence/recording-ready-20261118/production-runs.json：qa-scale（gemini-4-hydrogen，Decision 1 复核），qa-heads / qa-adam（gemini-3.5-flash-lite），经 scripts/replay_saved_answers.py 回放",
+  "stills": "evidence/recording-ready-20261118/v7-formula-bilingual.png、scan-page4-bilingual.png（2026-11-18 公网实拍）",
+  "review_mode": "docs/DECISIONS.md 2026-11-18：评审期改为 API 模式，在线检索 Gemini 向量 + BM25，GPU 停止"
+ },
+ "scenes": [
+  {
+   "id": "cover",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "各位评委老师好，下面汇报研证 ResearchTrace——一个面向科研人员的论文助手。",
+     "say": "各位评委老师好，下面汇报研证 Research Trace，一个面向科研人员的论文助手。"
+    },
+    {
+     "sub": "我们想解决一个核心问题：大模型回答论文问题时，结论能不能回到原文核查？"
+    }
+   ]
+  },
+  {
+   "id": "overview",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "研证覆盖赛题要求的六类功能：文献管理与解析、知识问答、阅读翻译、检索推荐、图谱综述，以及写作与绘图。"
+    },
+    {
+     "sub": "它们共享同一条证据链：每条结论都绑定论文版本、页码和原文片段，查不到就明确标注证据不足。"
+    }
+   ]
+  },
+  {
+   "id": "guest",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "评委可以使用评审访问码，进入完整功能的独立评审空间。",
+     "act": "login_page"
+    },
+    {
+     "sub": "这一版新增了游客模式：不输入访问码，也能一键进入体验。",
+     "act": "guest_click"
+    },
+    {
+     "sub": "进入时会弹窗说明：游客使用 Gemini 3.5 Flash Lite 和 Gemini 向量检索，效果和速度低于评审模式。",
+     "say": "进入时会弹窗说明：游客使用 Gemini 三点五 Flash Lite 和 Gemini 向量检索，效果和速度低于评审模式。",
+     "act": "guest_dialog_point"
+    },
+    {
+     "sub": "每位游客拥有独立空间，每日调用有上限，失败的请求同样计数，用完会再次提醒。",
+     "act": "guest_dialog_quota"
+    },
+    {
+     "sub": "右上角始终显示剩余次数，既方便试用，也保护了共享额度。",
+     "act": "guest_chip"
+    }
+   ]
+  },
+  {
+   "id": "library",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "回到评审空间。文献库中是赛题资料包里的二十二份论文 PDF 和一本五百四十一页的教材，全部在本机实际解析。",
+     "act": "library_open"
+    },
+    {
+     "sub": "系统按内容去重，并从首页识别 arXiv 编号与版本：Transformer 的第一版和第七版被归为同一作品，旧版本会被标出。",
+     "say": "系统按内容去重，并从首页识别 archive 编号与版本：Transformer 的第一版和第七版被归为同一作品，旧版本会被标出。",
+     "act": "library_scroll"
+    },
+    {
+     "sub": "选中这两个版本做逐段比较：一百二十一段有修改，三段为新增，历史引用仍然指向原来的版本。",
+     "act": "compare_versions"
+    }
+   ]
+  },
+  {
+   "id": "reader",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "阅读器保留 PDF 原版式，可以连续滚动；左侧是自动提取的分级目录。",
+     "say": "阅读器保留 P D F 原版式，可以连续滚动；左侧是自动提取的分级目录。",
+     "act": "reader_open"
+    },
+    {
+     "sub": "点击目录，直接跳到“缩放点积注意力”这一节。",
+     "act": "reader_outline"
+    },
+    {
+     "sub": "选中一段原文，可以翻译、解释，或带着选区提问；这一版也修复了划词时文字重影的问题。",
+     "act": "reader_select"
+    },
+    {
+     "sub": "正文里的引用编号和文末参考文献可以双向跳转。",
+     "act": "reader_refs"
+    }
+   ]
+  },
+  {
+   "id": "bilingual",
+   "kind": "still",
+   "image": "evidence/recording-ready-20261118/v7-formula-bilingual.png",
+   "label": "2026-11-18 公网实拍 · 中英对照（真实译文）",
+   "lines": [
+    {
+     "sub": "中英对照视图按段落对齐译文，公式保持数学排版，图表从原文裁切保留。这是十一月十八日在公网环境的实拍画面。"
+    }
+   ]
+  },
+  {
+   "id": "scan",
+   "kind": "still",
+   "image": "evidence/recording-ready-20261118/scan-page4-bilingual.png",
+   "label": "2026-11-18 公网实拍 · 纯图片扫描件识别与对照",
+   "lines": [
+    {
+     "sub": "对没有文字层的扫描件，系统调用 MinerU 识别版面、公式和表格，识别结果同样可以检索、翻译和引用定位。",
+     "say": "对没有文字层的扫描件，系统调用 Miner U 识别版面、公式和表格，识别结果同样可以检索、翻译和引用定位。"
+    }
+   ]
+  },
+  {
+   "id": "book",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "五百四十一页的教材同样可以流畅阅读：阅读器只渲染视口附近的页面。",
+     "act": "book_open"
+    },
+    {
+     "sub": "点击目录跳到对应章节，也可以直接输入页码跳到第三百页。",
+     "act": "book_jump"
+    }
+   ]
+  },
+  {
+   "id": "chat",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "接下来是核心的证据问答。这里回放的是十一月十八日在公网实际执行并保存的三个问题。",
+     "act": "chat_open"
+    },
+    {
+     "sub": "回答像普通对话一样简洁：正文在前，每句话后面的小编号，就是它引用的原文段落。",
+     "act": "chat_point"
+    },
+    {
+     "sub": "点开编号，可以看到逐字引用的原文和所在页码。",
+     "act": "chat_cite"
+    },
+    {
+     "sub": "一键回到 PDF 原文，对应段落会被高亮。",
+     "say": "一键回到 P D F 原文，对应段落会被高亮。",
+     "act": "chat_locate"
+    },
+    {
+     "sub": "核对面板列出每条主张的复核结果：程序先校验引文、版本和数值，再由独立的 Decision 1 模型判断证据是否支持。",
+     "say": "核对面板列出每条主张的复核结果：程序先校验引文、版本和数值，再由独立的 Decision 一 模型判断证据是否支持。",
+     "act": "chat_checks"
+    },
+    {
+     "sub": "模型自己的推断会单独标出，不与原文事实混在一起；执行过程、检索范围和导出都折叠在图标里。",
+     "act": "chat_sources"
+    },
+    {
+     "sub": "同一篇论文的另外两个问题由 Flash Lite 回答，同样逐句给出出处。",
+     "act": "chat_scroll"
+    }
+   ]
+  },
+  {
+   "id": "graph",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "在引用图谱中，二十一篇论文和一本教材之间的七十条引用，全部来自参考文献条目的真实匹配。",
+     "act": "graph_open"
+    },
+    {
+     "sub": "以 Transformer 为核心，可以看到后续论文如何引用它；每条边都能追溯到原文页码。",
+     "act": "graph_core"
+    },
+    {
+     "sub": "系统用局部 PageRank 和入度区分核心与边缘节点，并在此基础上生成带出处的综述。",
+     "say": "系统用局部 Page Rank 和入度区分核心与边缘节点，并在此基础上生成带出处的综述。",
+     "act": "graph_all"
+    },
+    {
+     "sub": "Future Work 核查会检索后续论文全文，按发表时间和实验条件区分已覆盖、部分覆盖和证据不足。",
+     "act": "graph_future"
+    }
+   ]
+  },
+  {
+   "id": "studio",
+   "kind": "app",
+   "lines": [
+    {
+     "sub": "写作工坊可以根据研究设想生成论文框架，参考文献只从真实记录中选取。",
+     "act": "studio_open"
+    },
+    {
+     "sub": "上传 CSV，程序计算统计量，生成图表和有数据依据的图注；这份数据就是我们检索评测的真实结果。",
+     "say": "上传 C S V，程序计算统计量，生成图表和有数据依据的图注；这份数据就是我们检索评测的真实结果。",
+     "act": "studio_chart"
+    },
+    {
+     "sub": "架构图以 Mermaid 等可编辑代码输出，修改代码即可更新预览。",
+     "act": "studio_diagram"
+    }
+   ]
+  },
+  {
+   "id": "architecture",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "下面介绍 AI 技术方案。解析层结合 PDF 原生文字层、OCR 和版面识别，输出带坐标的段落、公式、表格和参考文献。",
+     "say": "下面介绍 AI 技术方案。解析层结合 P D F 原生文字层、O C R 和版面识别，输出带坐标的段落、公式、表格和参考文献。"
+    },
+    {
+     "sub": "检索层把关键词 BM25 和向量检索用 RRF 融合，使用本地模型时还会经重排模型排序；中文问题会先改写成英文检索词。",
+     "say": "检索层把关键词 B M 二十五和向量检索用 R R F 融合，使用本地模型时还会经重排模型排序；中文问题会先改写成英文检索词。"
+    },
+    {
+     "sub": "智能体只能调用白名单工具，每一步都写入可回放的执行记录，可以取消，也能从检查点恢复。"
+    },
+    {
+     "sub": "生成后，程序逐条校验引文是否逐字存在、数值和单位是否一致；未获支持的结论不会以已核对的形式发布。"
+    }
+   ]
+  },
+  {
+   "id": "models",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "本地部署方面，我们在 GPU 服务器上部署并评测了 Nemotron 3.5 八十亿参数的嵌入和重排模型。",
+     "say": "本地部署方面，我们在 G P U 服务器上部署并评测了 Nemo tron 三点五 八十亿参数的嵌入和重排模型。"
+    },
+    {
+     "sub": "为三十九份文献构建了两万三千一百八十五条、四千零九十六维的向量索引。"
+    }
+   ]
+  },
+  {
+   "id": "metrics",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "在七十五道有答案的检索题上，加入语义召回和重排后，首位命中率从百分之二十提升到百分之七十二。"
+    },
+    {
+     "sub": "前二十位命中率从百分之七十点七提升到百分之百。这项指标衡量证据召回，金标的独立人工审查尚未完成。"
+    }
+   ]
+  },
+  {
+   "id": "engineering",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "工程方面，后端六百六十六项自动化测试全部通过，耗时任务持久化，可取消、可恢复。"
+    },
+    {
+     "sub": "配额使用事务化账本，失败和超时的请求同样计数；文献下载阻断内网地址，上传内容一律视为不可信数据。"
+    },
+    {
+     "sub": "公网服务部署在两核两 GB 的云主机上；评审期间在线检索使用 Gemini 向量与关键词，GPU 节点可以通过隧道接入。",
+     "say": "公网服务部署在两核两 G B 的云主机上；评审期间在线检索使用 Gemini 向量与关键词，G P U 节点可以通过隧道接入。"
+    }
+   ]
+  },
+  {
+   "id": "close",
+   "kind": "slide",
+   "lines": [
+    {
+     "sub": "研证把论文版本、页码和证据放在同一条工作流里，让科研人员可以核查模型给出的每一条结论。"
+    },
+    {
+     "sub": "我的汇报到这里，谢谢各位老师。"
+    }
+   ]
+  }
+ ]
+}

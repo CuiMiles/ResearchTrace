@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>ResearchTrace slides</title>
+<style>
+  :root {
+    --bg: #0b0c0e; --panel: #15171b; --panel-2: #1d2026; --line: #2a2e35; --ink: #f4f5f2; --ink-2: #b9bcc3;
+    --muted: #7d828c; --accent: #c9f23a; --accent-2: #9fc21a; --ok: #3ccf91; --warn: #f3b33d;
+    --font: "Inter", "PingFang SC", "Noto Sans CJK SC", "WenQuanYi Zen Hei", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  #__rt_cursor { display: none !important; }  /* the recorder's pointer is for app scenes only */
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--font); }
+  .scene { position: absolute; inset: 0; display: none; padding: 96px 128px; }
+  .scene.on { display: block; }
+  #overview.on, #architecture.on, #models.on, #metrics.on, #engineering.on { display: flex; flex-direction: column; justify-content: center; padding-bottom: 120px; }
+  .grid-bg { position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse at 70% 40%, black 30%, transparent 75%); }
+  .kicker { color: var(--accent); font-size: 26px; font-weight: 700; letter-spacing: .12em; }
+  h1 { font-size: 72px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
+  h2 { font-size: 56px; line-height: 1.2; font-weight: 800; margin-top: 18px; }
+  .sub { color: var(--ink-2); font-size: 30px; line-height: 1.6; margin-top: 22px; }
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .mark { display: inline-grid; place-items: center; width: 132px; height: 132px; border-radius: 28px; background: var(--accent); }
+  .mark svg { width: 92px; height: 92px; }
+  .footer { position: absolute; left: 128px; right: 128px; bottom: 150px; display: flex; justify-content: space-between; color: var(--muted); font-size: 24px; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); font-size: 24px; background: rgba(255,255,255,.02); }
+  .chip b { color: var(--accent); }
+
+  /* cover */
+  #cover .wrap { position: relative; display: grid; grid-template-columns: 1fr 640px; gap: 80px; align-items: center; height: 100%; }
+  #cover h1 { font-size: 124px; margin-top: 36px; }
+  #cover .en { font-size: 44px; color: var(--ink-2); font-weight: 600; margin-top: 8px; letter-spacing: .02em; }
+  #cover .tag { font-size: 40px; margin-top: 44px; line-height: 1.5; }
+  #cover .tag em { font-style: normal; color: var(--accent); }
+  .paper { position: relative; height: 760px; }
+  .paper .sheet { position: absolute; left: 40px; top: 40px; width: 430px; height: 580px; border-radius: 10px; background: #f6f6f2; box-shadow: 0 30px 80px rgba(0,0,0,.5); padding: 48px 40px; }
+  .paper .sheet i { display: block; height: 10px; margin: 18px 0; border-radius: 3px; background: #d7d8d1; }
+  .paper .sheet i.t { height: 18px; width: 70%; background: #141518; margin-bottom: 30px; }
+  .paper .sheet i.hl { background: var(--accent); height: 16px; box-shadow: 0 0 0 4px rgba(201,242,58,.25); }
+  .paper .card { position: absolute; right: 0; bottom: 30px; width: 420px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); padding: 28px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  .paper .card p { font-size: 22px; color: var(--ink-2); line-height: 1.6; }
+  .paper .card .n { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; background: var(--accent); color: #111; font-weight: 800; font-size: 17px; margin-left: 6px; vertical-align: 2px; }
+  .paper svg.link { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* overview */
+  .modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; }
+  .module { position: relative; padding: 34px 36px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); min-height: 210px; }
+  .module .n { color: var(--accent); font-size: 22px; font-weight: 800; letter-spacing: .1em; }
+  .module h3 { font-size: 36px; margin-top: 14px; }
+  .module p { color: var(--ink-2); font-size: 23px; line-height: 1.55; margin-top: 12px; }
+  .chain { display: flex; align-items: center; gap: 18px; margin-top: 44px; padding: 26px 34px; border-radius: 18px; border: 1px solid rgba(201,242,58,.45); background: linear-gradient(90deg, rgba(201,242,58,.12), rgba(201,242,58,.02)); font-size: 30px; font-weight: 700; }
+  .chain span.arrow { color: var(--accent); }
+  .chain .note { margin-left: auto; color: var(--ink-2); font-size: 24px; font-weight: 500; }
+
+  /* architecture */
+  .pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 64px; }
+  .stage { position: relative; padding: 32px 30px 30px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); min-height: 400px; }
+  .stage.lit { border-color: rgba(201,242,58,.6); box-shadow: 0 0 0 1px rgba(201,242,58,.3), 0 20px 60px rgba(201,242,58,.08); }
+  .stage .n { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 14px; background: var(--panel-2); color: var(--accent); font-weight: 800; font-size: 26px; }
+  .stage.lit .n { background: var(--accent); color: #111; }
+  .stage h3 { font-size: 34px; margin-top: 22px; }
+  .stage ul { list-style: none; margin-top: 18px; display: grid; gap: 12px; }
+  .stage li { color: var(--ink-2); font-size: 22px; line-height: 1.45; padding-left: 20px; position: relative; }
+  .stage li::before { content: ''; position: absolute; left: 0; top: 13px; width: 8px; height: 8px; border-radius: 2px; background: var(--accent-2); }
+  .stage::after { content: '→'; position: absolute; right: -20px; top: 40px; color: var(--muted); font-size: 30px; }
+  .stage:last-child::after { content: none; }
+
+  /* models + metrics */
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 64px; }
+  .stat { padding: 44px 48px; border-radius: 20px; background: var(--panel); border: 1px solid var(--line); }
+  .stat .big { font-size: 96px; font-weight: 800; color: var(--accent); letter-spacing: -.02em; }
+  .stat .big small { font-size: 40px; color: var(--ink); margin-left: 8px; }
+  .stat p { font-size: 28px; color: var(--ink-2); margin-top: 12px; line-height: 1.5; }
+  .bars { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 56px; }
+  .group h3 { font-size: 34px; margin-bottom: 26px; }
+  .bar { display: grid; grid-template-columns: 260px 1fr 140px; align-items: center; gap: 20px; margin: 22px 0; font-size: 26px; color: var(--ink-2); }
+  .bar .track { height: 46px; border-radius: 10px; background: var(--panel-2); overflow: hidden; }
+  .bar .fill { height: 100%; width: 0; border-radius: 10px; background: #5d636d; transition: width 1.4s cubic-bezier(.2,.7,.2,1); }
+  .bar.best .fill { background: var(--accent); }
+  .bar .v { font-size: 34px; font-weight: 800; color: var(--ink); text-align: right; }
+  .bar.best .v { color: var(--accent); }
+  .foot { margin-top: 36px; color: var(--muted); font-size: 22px; line-height: 1.6; }
+
+  /* engineering */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 56px; }
+  .ecard { padding: 34px 36px; border-radius: 18px; background: var(--panel); border: 1px solid var(--line); min-height: 230px; }
+  .ecard .big { font-size: 64px; font-weight: 800; color: var(--accent); }
+  .ecard h3 { font-size: 32px; margin-top: 8px; }
+  .ecard p { color: var(--ink-2); font-size: 22px; line-height: 1.55; margin-top: 10px; }
+
+  /* still */
+  #still { padding: 56px 96px; }
+  #still .frame { position: absolute; left: 96px; right: 96px; top: 120px; bottom: 56px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 90px rgba(0,0,0,.6); background: #fff; }
+  #still img { width: 100%; height: 100%; object-fit: cover; object-position: top left; transform-origin: 60% 40%; animation: kb 22s linear forwards; }
+  @keyframes kb { from { transform: scale(1); } to { transform: scale(1.08); } }
+  #still .label { position: absolute; left: 96px; top: 52px; }
+
+  /* close */
+  #close .center { display: grid; justify-items: center; align-content: center; height: 100%; text-align: center; }
+  #close h1 { font-size: 64px; margin-top: 48px; line-height: 1.4; }
+  #close .thanks { font-size: 44px; color: var(--accent); margin-top: 48px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<section class="scene" id="cover"><div class="wrap">
+  <div>
+    <div class="mark reveal" data-step="0"><svg viewBox="0 0 32 32"><path d="M12 8H8v16h4M20 8h4v16h-4" fill="none" stroke="#0b0c0e" stroke-width="2.6"/><rect x="13.6" y="13.6" width="4.8" height="4.8" fill="#0b0c0e"/></svg></div>
+    <h1 class="reveal" data-step="0">研证</h1>
+    <div class="en reveal" data-step="0">ResearchTrace · 科研小助手 Agent</div>
+    <div class="tag reveal" data-step="1">让论文问答的每一条结论，<br><em>都能回到原文核查。</em></div>
+  </div>
+  <div class="paper reveal" data-step="0">
+    <div class="sheet"><i class="t"></i><i></i><i style="width:80%"></i><i></i><i style="width:60%"></i><i class="hl"></i><i></i><i style="width:75%"></i><i></i><i style="width:55%"></i></div>
+    <svg class="link" viewBox="0 0 640 760"><path d="M470 330 C 560 330, 540 520, 600 560" stroke="#c9f23a" stroke-width="3" stroke-dasharray="8 8" fill="none"/></svg>
+    <div class="card"><p>作者推测，当 d<sub>k</sub> 较大时，点积的量级会增大……<span class="n">1</span></p><p style="margin-top:12px;color:#7d828c;font-size:18px">Attention Is All You Need · v7 · 第 4 页</p></div>
+  </div>
+</div>
+<div class="footer"><span>传智杯 AI 大模型创新应用挑战赛 · 科研小助手 Agent 方向</span><span>researchtrace.sluna.xyz</span></div>
+</section>
+
+<section class="scene" id="overview">
+  <div class="kicker reveal" data-step="0">六类功能 · 一条证据链</div>
+  <div class="modules">
+    <div class="module reveal" data-step="0"><div class="n">01</div><h3>文献管理与解析</h3><p>批量导入、内容去重、版本识别；原生 / 扫描 PDF 与长书</p></div>
+    <div class="module reveal" data-step="0"><div class="n">02</div><h3>知识问答</h3><p>单篇与多篇问答，逐句绑定原文证据与页码</p></div>
+    <div class="module reveal" data-step="0"><div class="n">03</div><h3>阅读与翻译</h3><p>保留原版式，目录与引用跳转，中英逐段对照</p></div>
+    <div class="module reveal" data-step="0"><div class="n">04</div><h3>检索与推荐</h3><p>arXiv / Crossref 查找入库，定期推荐与反馈</p></div>
+    <div class="module reveal" data-step="0"><div class="n">05</div><h3>图谱与综述</h3><p>真实引用构图，核心节点，Future Work 核查</p></div>
+    <div class="module reveal" data-step="0"><div class="n">06</div><h3>写作与绘图</h3><p>论文框架、可编辑结构图、CSV 图表与图注</p></div>
+  </div>
+  <div class="chain reveal" data-step="1">论文版本 <span class="arrow">→</span> 页码 <span class="arrow">→</span> 原文片段 <span class="arrow">→</span> 独立复核 <span class="note">查不到就标注“证据不足”</span></div>
+</section>
+
+<section class="scene" id="architecture">
+  <div class="kicker reveal" data-step="0">AI 技术方案</div>
+  <div class="pipe">
+    <div class="stage reveal" data-step="0" data-lit="0"><div class="n">1</div><h3>文档智能解析</h3><ul><li>PDF 原生文字层 + OCR</li><li>版面、公式、表格、图表</li><li>分级目录与参考文献</li><li>每段带页码与坐标</li></ul></div>
+    <div class="stage reveal" data-step="1" data-lit="1"><div class="n">2</div><h3>高级 RAG</h3><ul><li>BM25 关键词 + 向量检索</li><li>RRF 融合（本地模式含重排）</li><li>中文问题改写为英文检索</li><li>版本感知、可跨多篇</li></ul></div>
+    <div class="stage reveal" data-step="2" data-lit="2"><div class="n">3</div><h3>智能体编排</h3><ul><li>白名单工具调用</li><li>公开执行记录可回放</li><li>持久任务，可取消与恢复</li><li>按项目核算的额度账本</li></ul></div>
+    <div class="stage reveal" data-step="3" data-lit="3"><div class="n">4</div><h3>证据校验与复核</h3><ul><li>引文逐字存在于原文</li><li>数值、单位、版本一致</li><li>Decision 1 独立复核</li><li>未获支持不发布为“已核对”</li></ul></div>
+  </div>
+</section>
+
+<section class="scene" id="models">
+  <div class="kicker reveal" data-step="0">本地模型部署</div>
+  <h2 class="reveal" data-step="0">检索层可部署在自有 GPU 节点</h2>
+  <div class="stats">
+    <div class="stat reveal" data-step="0"><div class="big">8B<small>× 2</small></div><p>Nemotron 3.5 Embed + Rerank<br>BF16 推理 · 多卡部署 · 每卡保留显存余量</p></div>
+    <div class="stat reveal" data-step="1"><div class="big">23,185<small>条向量</small></div><p>39 份文献 · 4096 维 · 原子激活的索引代际<br>评审期在线检索使用独立的 Gemini 向量代际</p></div>
+  </div>
+</section>
+
+<section class="scene" id="metrics">
+  <div class="kicker reveal" data-step="0">检索评测 · 75 道有答案题</div>
+  <div class="bars">
+    <div class="group reveal" data-step="0"><h3>首位命中率</h3>
+      <div class="bar"><span>关键词 BM25</span><div class="track"><div class="fill" data-w="20.0"></div></div><span class="v">20.0%</span></div>
+      <div class="bar"><span>+ 向量 RRF</span><div class="track"><div class="fill" data-w="36.0"></div></div><span class="v">36.0%</span></div>
+      <div class="bar best"><span>+ 重排</span><div class="track"><div class="fill" data-w="72.0"></div></div><span class="v">72.0%</span></div>
+    </div>
+    <div class="group reveal" data-step="1"><h3>前 20 位命中率</h3>
+      <div class="bar"><span>关键词 BM25</span><div class="track"><div class="fill" data-w="70.7"></div></div><span class="v">70.7%</span></div>
+      <div class="bar"><span>+ 向量 RRF</span><div class="track"><div class="fill" data-w="94.7"></div></div><span class="v">94.7%</span></div>
+      <div class="bar best"><span>+ 重排</span><div class="track"><div class="fill" data-w="100"></div></div><span class="v">100%</span></div>
+    </div>
+  </div>
+  <p class="foot reveal" data-step="1">数据：evidence/review-upgrade/retrieval-nemotron-all-rerank.json（核心 45 / 拓展 30，含中英改写）。衡量证据召回，不是回答准确率；金标独立人工审查尚未完成。</p>
+</section>
+
+<section class="scene" id="engineering">
+  <div class="kicker reveal" data-step="0">工程质量与部署</div>
+  <div class="cards">
+    <div class="ecard reveal" data-step="0"><div class="big">666</div><h3>项后端测试通过</h3><p>单元 + 集成；另有阅读器与问答界面的浏览器回归</p></div>
+    <div class="ecard reveal" data-step="0"><div class="big">续跑</div><h3>持久任务</h3><p>检查点续跑、可取消可恢复，已发送未知的请求不盲目重发</p></div>
+    <div class="ecard reveal" data-step="1"><div class="big">账本</div><h3>事务化额度</h3><p>按项目核算，失败与超时同样计数；付费兜底默认关闭</p></div>
+    <div class="ecard reveal" data-step="1"><div class="big">安全</div><h3>不可信输入</h3><p>下载阻断内网与云元数据地址；上传内容不作为指令；渲染消毒</p></div>
+    <div class="ecard reveal" data-step="2"><div class="big">2C2G</div><h3>公网云主机</h3><p>HTTPS 公网服务；评审期检索用 Gemini 向量 + BM25，GPU 节点可经隧道接入</p></div>
+    <div class="ecard reveal" data-step="2"><div class="big">游客</div><h3>独立空间 + 额度上限</h3><p>轻量模型与 Gemini 向量；每日与全站上限，到期自动清理</p></div>
+  </div>
+</section>
+
+<section class="scene" id="still">
+  <div class="label reveal in"><span class="chip" id="still-label"></span></div>
+  <div class="frame"><img id="still-img" alt=""></div>
+</section>
+
+<section class="scene" id="close"><div class="center">
+  <div class="mark reveal" data-step="0"><svg viewBox="0 0 32 32"><path d="M12 8H8v16h4M20 8h4v16h-4" fill="none" stroke="#0b0c0e" stroke-width="2.6"/><rect x="13.6" y="13.6" width="4.8" height="4.8" fill="#0b0c0e"/></svg></div>
+  <h1 class="reveal" data-step="0">把论文版本、页码和证据<br>放在同一条工作流里</h1>
+  <div class="thanks reveal" data-step="1">谢谢各位老师</div>
+  <div class="chip reveal" data-step="1" style="margin-top:40px">在线体验 <b>researchtrace.sluna.xyz</b> · 支持游客模式</div>
+</div></section>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get('scene') || 'cover';
+  const scene = document.getElementById(id);
+  scene.classList.add('on');
+  if (id === 'still') {
+    document.getElementById('still-img').src = params.get('img');
+    document.getElementById('still-label').textContent = params.get('label') || '';
+  }
+  window.step = (n) => {
+    scene.querySelectorAll(`.reveal[data-step="${n}"]`).forEach((el, i) => setTimeout(() => el.classList.add('in'), i * 120));
+    scene.querySelectorAll('.stage').forEach((el) => el.classList.toggle('lit', el.dataset.lit === String(n)));
+    if (id === 'metrics') scene.querySelectorAll(`.reveal[data-step="${n}"] .fill`).forEach((el, i) => setTimeout(() => { el.style.width = el.dataset.w + '%'; }, 300 + i * 220));
+  };
+</script>
+</body>
+</html>

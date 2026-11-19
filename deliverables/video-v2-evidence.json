@@ -1,0 +1,143 @@
+{
+ "status": "PASS",
+ "file": "ResearchTrace_演示视频_v2_1080p.mp4",
+ "sha256": "20160745f3f1a8922734e950acfce3abcf64c17e3a6ff961a62ea6bf5cd324dd",
+ "bytes": 48814453,
+ "duration_seconds": 366.27,
+ "video": {
+  "codec_name": "h264",
+  "width": 1920,
+  "height": 1080,
+  "r_frame_rate": "30/1"
+ },
+ "audio": {
+  "codec_name": "aac",
+  "sample_rate": "48000",
+  "r_frame_rate": "0/0"
+ },
+ "loudness_integrated_lufs": -16.0,
+ "subtitles": "burned in + ResearchTrace_演示视频_v2_字幕.vtt",
+ "narration": "offline TTS: sherpa-onnx 2.0.2 (Apache-2.0) + MeloTTS zh_en (MIT, MyShell.ai), converted model vits-melo-tts-zh_en; synthesized locally",
+ "capture": "Chromium 1920x1080 CDP screencast of the local app (production build) driven by scripts/video/record_demo.py",
+ "app_data": "22 bundled corpus PDFs + 541-page textbook parsed locally in this session; RT_PROVIDER_MODE=disabled",
+ "saved_answers": "3 real 2026-11-18 public runs replayed by scripts/replay_saved_answers.py (quotes re-located in local parse); narrated as saved, not live",
+ "stills": "2 real 2026-11-18 public captures, labelled on screen",
+ "live_model_calls": 0,
+ "provider_calls": 0,
+ "sources": {
+  "retrieval": "evidence/review-upgrade/retrieval-keyword-all.json + retrieval-nemotron-all-rerank.json：75 道有答案题，首位命中 15→54（20.0%→72.0%），前20命中 53→75（70.7%→100%）；independent_human_gold_review=NOT RUN",
+  "graph": "POST /api/v1/graphs（本地演示空间）：22 个节点（21 篇论文 + 1 本教材；v1/v7 合并为同一作品），70 条引用边",
+  "local_index": "HANDOFF.md 2026-11-17 全量本地代：23185/23185 向量，39 份文献，Nemotron 4096 维",
+  "tests": "本会话 pytest tests/unit tests/integration：666 passed, 9 skipped",
+  "answers": "evidence/recording-ready-20261118/production-runs.json：qa-scale（gemini-4-hydrogen，Decision 1 复核），qa-heads / qa-adam（gemini-3.5-flash-lite），经 scripts/replay_saved_answers.py 回放",
+  "stills": "evidence/recording-ready-20261118/v7-formula-bilingual.png、scan-page4-bilingual.png（2026-11-18 公网实拍）",
+  "review_mode": "docs/DECISIONS.md 2026-11-18：评审期改为 API 模式，在线检索 Gemini 向量 + BM25，GPU 停止"
+ },
+ "scenes": [
+  {
+   "scene": "cover",
+   "kind": "slide",
+   "seconds": 14.13,
+   "frames_captured": 95
+  },
+  {
+   "scene": "overview",
+   "kind": "slide",
+   "seconds": 18.13,
+   "frames_captured": 130
+  },
+  {
+   "scene": "guest",
+   "kind": "app",
+   "seconds": 31.54,
+   "frames_captured": 762
+  },
+  {
+   "scene": "library",
+   "kind": "app",
+   "seconds": 27.37,
+   "frames_captured": 448
+  },
+  {
+   "scene": "reader",
+   "kind": "app",
+   "seconds": 26.15,
+   "frames_captured": 577
+  },
+  {
+   "scene": "bilingual",
+   "kind": "still",
+   "seconds": 11.09,
+   "frames_captured": 479,
+   "image": "evidence/recording-ready-20261118/v7-formula-bilingual.png",
+   "label": "2026-11-18 公网实拍 · 中英对照（真实译文）"
+  },
+  {
+   "scene": "scan",
+   "kind": "still",
+   "seconds": 10.15,
+   "frames_captured": 417,
+   "image": "evidence/recording-ready-20261118/scan-page4-bilingual.png",
+   "label": "2026-11-18 公网实拍 · 纯图片扫描件识别与对照"
+  },
+  {
+   "scene": "book",
+   "kind": "app",
+   "seconds": 14.61,
+   "frames_captured": 249
+  },
+  {
+   "scene": "chat",
+   "kind": "app",
+   "seconds": 46.51,
+   "frames_captured": 1032
+  },
+  {
+   "scene": "graph",
+   "kind": "app",
+   "seconds": 30.57,
+   "frames_captured": 453
+  },
+  {
+   "scene": "studio",
+   "kind": "app",
+   "seconds": 23.82,
+   "frames_captured": 686
+  },
+  {
+   "scene": "architecture",
+   "kind": "slide",
+   "seconds": 37.7,
+   "frames_captured": 175
+  },
+  {
+   "scene": "models",
+   "kind": "slide",
+   "seconds": 15.77,
+   "frames_captured": 101
+  },
+  {
+   "scene": "metrics",
+   "kind": "slide",
+   "seconds": 18.8,
+   "frames_captured": 255
+  },
+  {
+   "scene": "engineering",
+   "kind": "slide",
+   "seconds": 27.48,
+   "frames_captured": 159
+  },
+  {
+   "scene": "close",
+   "kind": "slide",
+   "seconds": 12.34,
+   "frames_captured": 103
+  }
+ ],
+ "not_verified": [
+  "human listening review of pronunciation",
+  "formal content review by the team"
+ ],
+ "tts_text_normalisation": "full-width semicolons read as commas, quotation marks dropped (the TTS lexicon ignores them)"
+}
